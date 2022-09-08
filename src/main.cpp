@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Console.h"
+#include "Pointers.h"
 
 void MainLoop()
 {
@@ -7,8 +8,12 @@ void MainLoop()
 	{
 		Console::Create();
 
+		Pointers::Scan();
+
 		std::cout << "Base address: " << LOG_HEX(g_base_address) << "\n";
-		std::cout << "Press END to eject.\n";
+		std::cout << "SwapChain: " << LOG_HEX(Pointers::SwapChain) << "\n";
+		std::cout << "SwapChain Present: " << LOG_HEX(Pointers::SwapChainPresent) << "\n";
+		std::cout << "Command Queue: " << LOG_HEX(Pointers::CommandQueue) << "\n";
 
 		while (g_running)
 		{
