@@ -1,0 +1,6 @@
+[submodule "lib/ImGui"]
+	path = lib/ImGui
+	url = git@github.com:ocornut/imgui.git
+[submodule "lib/MinHook"]
+	path = lib/MinHook
+	url = git@github.com:TsudaKageyu/minhook.git
