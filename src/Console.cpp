@@ -5,7 +5,7 @@ namespace Console
 {
 	static FILE* f;
 
-	void Console::Create()
+	void Create()
 	{
 		AllocConsole();
 		freopen_s(&f, "CONOUT$", "w", stdout);
@@ -18,7 +18,7 @@ namespace Console
 		);
 	}
 
-	void Console::Destroy()
+	void Destroy()
 	{
 		if (f)
 			fclose(f);

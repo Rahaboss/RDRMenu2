@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Console.h"
 #include "Pointers.h"
+#include "Hooking.h"
 
 void MainLoop()
 {
@@ -8,12 +9,20 @@ void MainLoop()
 	{
 		Console::Create();
 
+		std::cout << "Scanning for pointers.\n";
 		Pointers::Scan();
 
-		std::cout << "Base address: " << LOG_HEX(g_base_address) << "\n";
-		std::cout << "SwapChain: " << LOG_HEX(Pointers::SwapChain) << "\n";
-		std::cout << "SwapChain Present: " << LOG_HEX(Pointers::SwapChainPresent) << "\n";
-		std::cout << "Command Queue: " << LOG_HEX(Pointers::CommandQueue) << "\n";
+		std::cout << "Creating hooks.\n";
+		Hooking::Create();
+
+		std::cout << "Enabling hooks.\n";
+		Hooking::Enable();
+
+		//std::cout << "Base address: " << LOG_HEX(g_base_address) << "\n";
+		//std::cout << "SwapChain: " << LOG_HEX(Pointers::SwapChain) << "\n";
+		//std::cout << "SwapChain Present: " << LOG_HEX(Pointers::SwapChainPresent) << "\n";
+		//std::cout << "Command Queue: " << LOG_HEX(Pointers::CommandQueue) << "\n";
+		//std::cout << "Thread Collection: " << LOG_HEX(Pointers::ThreadCollection) << "\n";
 
 		while (g_running)
 		{
@@ -21,6 +30,12 @@ void MainLoop()
 				g_running = false;
 			std::this_thread::sleep_for(25ms);
 		}
+
+		std::cout << "Disabling hooks.\n";
+		Hooking::Disable();
+
+		std::cout << "Destroying hooks.\n";
+		Hooking::Destroy();
 
 		Console::Destroy();
 	}
