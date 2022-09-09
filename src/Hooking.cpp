@@ -2,6 +2,7 @@
 #include "Hooking.h"
 #include "Pointers.h"
 #include "Console.h"
+#include "Features.h"
 
 namespace Hooking
 {
@@ -43,16 +44,9 @@ namespace Hooking
 		{
 			if (g_running)
 			{
-				for (uint16_t i = 0; i < this_->m_pCount; i++)
-				{
-					auto thread = this_->m_pData[i];
-					if (thread && thread->m_ThreadID && thread->m_ScriptHash == 669725655u)
-					{
-						std::cout << "Found main in thread list at " << LOG_HEX(thread) << ".\n";
-						break;
-					}
-				}
-
+				constexpr joaat_t main_hash = RAGE_JOAAT("main");
+				Features::ExecuteAsThread(main_hash, Features::OnTick);
+				
 				return RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 			}
 		}

@@ -24,5 +24,6 @@ namespace Pointers
 		RunScriptThreads = Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? EB 0B 8B 0D").Add(8).Rip().Get<decltype(RunScriptThreads)>();
 		//ThreadCollection2 = Signature("48 8B 05 ? ? ? ? 49 89 0C").Add(3).Rip().Get<decltype(ThreadCollection2)>();
 		//RunScriptThreads2 = Signature("73 34 48 8B 05 ? ? ? ? 8B CF 48 8B 0C").Sub(0x3D).Get<decltype(RunScriptThreads2)>();
+		ActiveThread = Signature("41 C6 04 06 01 48 8D 45 08 48 89 44 24 20 E8").Add(34).Rip().Get<decltype(ActiveThread)>();
 	}
 }
