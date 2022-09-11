@@ -37,4 +37,4 @@ using namespace std::literals::string_view_literals;
 #define LOG_HEX(v) std::hex << std::uppercase << (uintptr_t)v << std::dec << std::nouppercase
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
-#define LOG_EXCEPTION() printf("Caught exception in:\n\tFile %s:%d\n\tFunction %s\n", __FILE__, __LINE__, __FUNCTION__)
+#define LOG_EXCEPTION() std::cout << "Caught exception in:\n\tFile " << __FILE__ << ':' << __LINE__ << "\n\tFunction " << __FUNCTION__ << '\n';

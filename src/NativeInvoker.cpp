@@ -51,6 +51,6 @@ void NativeContext::EndCall(const uint64_t& hash)
 	}
 	else
 	{
-		printf("Failed to find native 0x%llX!\n", hash);
+		std::cout << "Failed to find native " << LOG_HEX(hash) << "!\n";
 	}
 }

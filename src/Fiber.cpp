@@ -41,9 +41,7 @@ void ScriptThreadTick()
 {
 	if (!init)
 	{
-		if (IsThreadAFiber())
-			GetCurrentFiber();
-		else
+		if (!IsThreadAFiber())
 			ConvertThreadToFiber(NULL);
 		Features::Setup();
 		init = true;
@@ -55,6 +53,6 @@ void ScriptThreadTick()
 		{
 			fiber->Tick();
 		}
-		EXCEPT{ LOG_EXCEPTION(); std::cout << "Exception in Fiber Tick: " << fiber << "\n"; }
+		EXCEPT{ LOG_EXCEPTION(); std::cout << "Exception in Fiber Tick: " << fiber << '\n'; }
 	}
 }

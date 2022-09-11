@@ -28,8 +28,6 @@ void MainLoop()
 		std::cout << "Enabling hooks.\n";
 		Hooking::Enable();
 
-		std::cout << "Thread Collection: " << LOG_HEX(Pointers::ThreadCollection) << "\n";
-
 		while (g_running)
 		{
 			if (GetAsyncKeyState(VK_END))
