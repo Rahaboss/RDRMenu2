@@ -18,11 +18,7 @@ void MainLoop()
 		std::cout << "Enabling hooks.\n";
 		Hooking::Enable();
 
-		//std::cout << "Base address: " << LOG_HEX(g_base_address) << "\n";
-		//std::cout << "SwapChain: " << LOG_HEX(Pointers::SwapChain) << "\n";
-		//std::cout << "SwapChain Present: " << LOG_HEX(Pointers::SwapChainPresent) << "\n";
-		//std::cout << "Command Queue: " << LOG_HEX(Pointers::CommandQueue) << "\n";
-		//std::cout << "Thread Collection: " << LOG_HEX(Pointers::ThreadCollection) << "\n";
+		std::cout << "Thread Collection: " << LOG_HEX(Pointers::ThreadCollection) << "\n";
 
 		while (g_running)
 		{

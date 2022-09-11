@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "DetourHook.h"
-#include "rage.h"
+#include "rage/scrThread.h"
 
 namespace Hooking
 {

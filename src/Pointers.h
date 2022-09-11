@@ -1,8 +1,8 @@
 #pragma once
 
 #include "pch.h"
-#include "rage.h"
-#include "NativeInvoker.h"
+#include "rage/scrThread.h"
+#include "rage/scrNativeCallContext.h"
 
 typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain1*, UINT, UINT);
 
@@ -19,5 +19,5 @@ namespace Pointers
 	inline void* RunScriptThreads{};
 	inline void* RunScriptThreads2{};
 	inline scrThread** ActiveThread{};
-	inline scrNativeHandler(*GetNativeHandler)(uint64_t hash);
+	inline GetNativeHandler_t GetNativeHandler;
 }

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Features.h"
 #include "Pointers.h"
-#include "natives.h"
+#include "rage/natives.h"
 
 namespace Features
 {
@@ -29,10 +29,10 @@ namespace Features
 				*Pointers::ActiveThread = og_thread;
 				return;
 			}
-
-			std::cout << "Couldn't execute as thread!\n";
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+
+		std::cout << "Couldn't execute as thread!\n";
 	}
 
 	void OnTick()
