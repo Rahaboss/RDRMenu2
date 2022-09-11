@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Features.h"
 #include "Pointers.h"
+#include "Fiber.h"
+#include "JobQueue.h"
 #include "rage/natives.h"
 
 namespace Features
@@ -35,6 +37,10 @@ namespace Features
 		std::cout << "Couldn't execute as thread!\n";
 	}
 
+	void Setup()
+	{
+	}
+
 	void OnTick()
 	{
 		TRY
@@ -45,9 +51,22 @@ namespace Features
 				std::cout << "RAGE_JOAAT(\"main\"): " << RAGE_JOAAT("main") << "\n";
 				std::cout << "SCRIPTS::GET_HASH_OF_THIS_SCRIPT_NAME handler: " << Pointers::GetNativeHandler(0xBC2C927F5C264960) << "\n";
 				std::cout << "Player name: " << PLAYER::GET_PLAYER_NAME(0) << "\n";
+
+				[]() {
+					QUEUE_JOB()
+					{
+						std::cout << "Hash of current script in job queue: " << SCRIPTS::GET_HASH_OF_THIS_SCRIPT_NAME() << "\n";
+					}
+					END_JOB
+				}();
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	void RunJobQueue()
+	{
+		g_JobQueue.Run();
 	}
 
 	int FpsTick()
@@ -68,5 +87,10 @@ namespace Features
 		}
 
 		return result;
+	}
+
+	void YieldThread()
+	{
+		Fiber::GetCurrent()->YieldThread();
 	}
 }

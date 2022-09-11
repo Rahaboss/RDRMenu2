@@ -3,6 +3,7 @@
 #include "Pointers.h"
 #include "Console.h"
 #include "Features.h"
+#include "Fiber.h"
 
 namespace Hooking
 {
@@ -45,7 +46,7 @@ namespace Hooking
 			if (g_running)
 			{
 				constexpr joaat_t main_hash = RAGE_JOAAT("main");
-				Features::ExecuteAsThread(main_hash, Features::OnTick);
+				Features::ExecuteAsThread(main_hash, ScriptThreadTick);
 				
 				return RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 			}

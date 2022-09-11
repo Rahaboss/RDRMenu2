@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Console.h"
 #include "Pointers.h"
+#include "Features.h"
+#include "Fiber.h"
 #include "Hooking.h"
 
 void MainLoop()
@@ -11,6 +13,14 @@ void MainLoop()
 
 		std::cout << "Scanning for pointers.\n";
 		Pointers::Scan();
+
+		std::cout << "Creating main fiber.\n";
+		Fiber MainFiber(Features::OnTick);
+		g_FiberCollection.push_back(&MainFiber);
+
+		std::cout << "Creating job queue fiber.\n";
+		Fiber JobQueueFiber(Features::RunJobQueue);
+		g_FiberCollection.push_back(&JobQueueFiber);
 
 		std::cout << "Creating hooks.\n";
 		Hooking::Create();
@@ -33,6 +43,11 @@ void MainLoop()
 		std::cout << "Destroying hooks.\n";
 		Hooking::Destroy();
 
+		std::cout << "Destroying main fiber.\n";
+		MainFiber.Destroy();
+
+		std::cout << "Destroying console.\n";
+		std::this_thread::sleep_for(500ms);
 		Console::Destroy();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }

@@ -8,6 +8,8 @@
 #include <atomic>
 #include <chrono>
 #include <thread>
+#include <queue>
+#include <functional>
 
 // Windows
 #include <Windows.h>
