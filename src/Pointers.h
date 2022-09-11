@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "rage.h"
+#include "NativeInvoker.h"
 
 typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain1*, UINT, UINT);
 
@@ -18,4 +19,5 @@ namespace Pointers
 	inline void* RunScriptThreads{};
 	inline void* RunScriptThreads2{};
 	inline scrThread** ActiveThread{};
+	inline scrNativeHandler(*GetNativeHandler)(uint64_t hash);
 }

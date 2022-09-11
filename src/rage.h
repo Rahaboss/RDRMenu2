@@ -29,13 +29,22 @@ inline constexpr joaat_t joaat_constexpr(const char* str)
 
 #define RAGE_JOAAT joaat_constexpr
 
+enum eThreadState
+{
+	ThreadStateIdle,
+	ThreadStateRunning,
+	ThreadStateKilled,
+	ThreadState3,
+	ThreadState4, // Sets opsToExecute to 1100000, and state to Idle in CallNative
+};
+
 class scrThread
 {
 public:
-	virtual ~scrThread() = 0;  //0x0000
+	virtual ~scrThread() = 0; //0x0000
 	uint32_t m_ThreadID; //0x0008
 	joaat_t m_ScriptHash; //0x000C
-	uint32_t m_State; //0x0010
+	eThreadState m_State; //0x0010
 private:
 	uint32_t m_InstructionPtr; //0x0014
 	char pad_0018[1720]; //0x0018
