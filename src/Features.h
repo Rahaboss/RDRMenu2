@@ -35,4 +35,7 @@ namespace Features
 	void SpawnVehicle(const Hash& model, const bool& warp_into = true);
 	void SetSnowType(eSnowCoverageType type);
 	void NoSliding();
+	//void SpawnLegendaryAnimal(const Hash& model_hash, const Hash& legendary_hash, const Hash& outfit_hash);
+	void UnlockSPPreorderBonus();
+	void RestorePlayerCores();
 }

@@ -35,8 +35,6 @@ namespace Features
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-
-		std::cout << "Couldn't execute as thread!\n";
 	}
 
 	void Setup()
@@ -46,6 +44,7 @@ namespace Features
 		//std::cout << "Player name: " << PLAYER::GET_PLAYER_NAME(0) << '\n';
 		//SetSnowType(XmasSecondary);
 		//PrintNativeHandlerAddress(0x201C319797BDA603);
+		//UnlockSPPreorderBonus();
 		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << '\n';
 	}
 
@@ -61,12 +60,13 @@ namespace Features
 
 			if (GetAsyncKeyState(VK_NEXT) & 1)
 			{
-				//GiveAllWeapons();
-				//GiveAllAmmo();
+				GiveAllWeapons();
+				GiveAllAmmo();
+				RevealMap();
+				RestorePlayerCores();
 				ClearWanted();
 				GiveGoldCores(g_LocalPlayer.m_Entity);
 				GiveGoldCores(g_LocalPlayer.m_Mount);
-				//RevealMap();
 				AddMoney(100000);
 			}
 
@@ -87,7 +87,11 @@ namespace Features
 				Teleport(1424.31f, -7325.1f, 81.4575f);
 
 			if (GetAsyncKeyState(VK_F12) & 1)
-				Teleport(Vector3(0, 0, 0));
+			{
+				// Teleport(-2798.41f, -4262.28f, -17.5096f); // Mexico tunnel
+				// Teleport(-2134.6f, -3430.15f, 33.6615f); // Mexico Nuevo Paraiso
+				// SpawnLegendaryAnimal(RAGE_JOAAT("A_C_PANTHER_01"), RAGE_JOAAT("PANTHER_LEGENDARY"), 0x42CD3A6B);
+			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -355,9 +359,60 @@ namespace Features
 
 	void NoSliding()
 	{
-		// 204 = set ped can run into steep slope
-		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, 204, TRUE);
+		// PCF_0x435F091E = set ped can run into steep slope
+		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, PCF_0x435F091E, TRUE);
 		if (g_LocalPlayer.m_Mount)
-			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, 204, TRUE);
+			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, PCF_0x435F091E, TRUE);
+	}
+	
+	//void SpawnLegendaryAnimal(const Hash& model_hash, const Hash& legendary_hash, const Hash& outfit_hash)
+	//{
+	//	if (!RequestModel(model_hash) /*|| !RequestModel(legendary_hash)*/)
+	//		return;
+	//
+	//	int outfit = PED::_REQUEST_METAPED_OUTFIT(legendary_hash, outfit_hash);
+	//	if (!PED::_IS_METAPED_OUTFIT_REQUEST_VALID(outfit))
+	//		return;
+	//
+	//	Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+	//	Ped animal = PED::CREATE_PED(model_hash, pos.x, pos.y, pos.z, 0, 1, 1, 0, 0);
+	//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(animal, 1);
+	//	FLOCK::_SET_ANIMAL_RARITY(animal, 2);
+	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableHeadGore, TRUE);
+	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableLimbGore, TRUE);
+	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_0x71A55282, TRUE);
+	//
+	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableMelee, TRUE);
+	//	
+	//	ENTITY::SET_ENTITY_HEALTH(animal, 0, g_LocalPlayer.m_Entity);
+	//	
+	//	EVENT::SET_DECISION_MAKER(animal, RAGE_JOAAT("EMTPY"));
+	//
+	//	if (model_hash == RAGE_JOAAT("A_C_ALLIGATOR_02"))
+	//	{
+	//		PED::_SET_RANDOM_OUTFIT_VARIATION(animal, 1);
+	//	}
+	//	else
+	//	{
+	//		PED::_EQUIP_META_PED_OUTFIT(animal, legendary_hash);
+	//		PED::_UPDATE_PED_VARIATION(animal, 0, 1, 1, 1, 0);
+	//	}
+	//}
+
+	void UnlockSPPreorderBonus()
+	{
+		constexpr Hash unlock_hash = RAGE_JOAAT("SP_GAME_CONTENT_PRE_ORDER");
+		UNLOCK::UNLOCK_SET_UNLOCKED(unlock_hash, TRUE);
+	}
+
+	void RestorePlayerCores()
+	{
+		for (int i = 0; i < 3; i++)
+			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Entity, i, 100);
+
+		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Entity, FALSE), FALSE);
+		PLAYER::RESTORE_PLAYER_STAMINA(g_LocalPlayer.m_Index, 100.0);
+		PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
+		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
 	}
 }
