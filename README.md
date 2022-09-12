@@ -1,5 +1,5 @@
-# DLLTemplate
-A template made for DLL injection.
+# RDRMenu2
+A trainer for Red Dead Redemption 2.
 
 ## Building this project
 You will need:
@@ -7,8 +7,8 @@ You will need:
 * Git
 
 ```
-git clone --recurse-submodules git@github.com:Rahaboss/DLLTemplate.git
-cd DLLTemplate
+git clone --recurse-submodules git@github.com:Rahaboss/RDRMenu2.git
+cd RDRMenu2
 GenerateProjects.bat
 ```
 
