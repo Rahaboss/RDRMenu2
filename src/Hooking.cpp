@@ -4,6 +4,7 @@
 #include "Console.h"
 #include "Features.h"
 #include "Fiber.h"
+#include "PlayerInfo.h"
 
 namespace Hooking
 {
@@ -14,10 +15,14 @@ namespace Hooking
 		assert(MH_Initialize() == MH_OK);
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 		//RunScriptThreads2.Create(Pointers::RunScriptThreads2, RunScriptThreadsHook2);
+		ShootBullet.Create(g_NativeContext.GetHandler(0x867654CBC7606F2C), ShootBulletHook);
+		IsEntityInArea.Create(g_NativeContext.GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
 	}
 
 	void Destroy()
 	{
+		IsEntityInArea.Destroy();
+		ShootBullet.Destroy();
 		//RunScriptThreads2.Destroy();
 		RunScriptThreads.Destroy();
 		assert(MH_Uninitialize() == MH_OK);
@@ -71,4 +76,31 @@ namespace Hooking
 	//
 	//	return false;
 	//}
+
+	void ShootBulletHook(scrNativeCallContext* ctx)
+	{
+		TRY
+		{
+			if (Features::EnableNoSnipers && *(uint32_t*)(&ctx->m_Args[8]) == WEAPON_SNIPERRIFLE_CARCANO)
+				return;
+		
+			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	BOOL IsEntityInAreaHook(scrNativeCallContext* ctx)
+	{
+		TRY
+		{
+			if (Features::EnableNoSnipers && *(Entity*)(&ctx->m_Args[0]) == g_LocalPlayer.m_Entity)
+			{
+				if (*(float*)(&ctx->m_Args[1]) == 1502.698f) // 1502.698f 0x44BBD654
+					return FALSE;
+			}
+
+			return IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
 }

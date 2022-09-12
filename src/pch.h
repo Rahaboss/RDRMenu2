@@ -3,6 +3,7 @@
 // C++ standard library
 #include <iostream>
 #include <string_view>
+#include <array>
 #include <vector>
 #include <cassert>
 #include <atomic>

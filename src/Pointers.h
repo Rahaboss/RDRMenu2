@@ -19,5 +19,6 @@ namespace Pointers
 	inline void* RunScriptThreads{};
 	inline void* RunScriptThreads2{};
 	inline scrThread** ActiveThread{};
-	inline GetNativeHandler_t GetNativeHandler;
+	inline GetNativeHandler_t GetNativeHandler{};
+	inline class CPed* (*GetPlayerPed)(Player){};
 }

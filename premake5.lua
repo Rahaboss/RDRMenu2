@@ -1,4 +1,4 @@
-workspace "RDRMenu3"
+workspace "RDRMenu2"
 	architecture "x86_64" -- x86 for 32-bit
 	configurations {
 		"Debug", -- Regular debug build
@@ -12,7 +12,7 @@ workspace "RDRMenu3"
 	}
 
 	-- Locations
-	startproject "RDRMenu3"
+	startproject "RDRMenu2"
 	targetdir "bin/%{cfg.buildcfg}/%{prj.name}"
 	objdir "bin/%{cfg.buildcfg}/%{prj.name}"
 
@@ -37,7 +37,7 @@ workspace "RDRMenu3"
 			"LinkTimeOptimization"
 		}
 
-	project "RDRMenu3"
+	project "RDRMenu2"
 		kind "SharedLib" -- .dll
 		language "C++"
 		cppdialect "C++17"

@@ -27,9 +27,9 @@ public:
 		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
 	}
 
-private:
 	scrNativeHandler GetHandler(const uint64_t& hash);
 
+private:
 	void FixVectors();
 
 public:
