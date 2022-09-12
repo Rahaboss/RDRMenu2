@@ -81,7 +81,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoSnipers && *(uint32_t*)(&ctx->m_Args[8]) == WEAPON_SNIPERRIFLE_CARCANO)
+			if (Features::EnableNoSnipers && *(Hash*)(&ctx->m_Args[8]) == WEAPON_SNIPERRIFLE_CARCANO)
 				return;
 		
 			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
@@ -93,14 +93,17 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoSnipers && *(Entity*)(&ctx->m_Args[0]) == g_LocalPlayer.m_Entity)
+			if (Features::EnableNoSnipers && *(Entity*)(&ctx->m_Args[0]) == g_LocalPlayer.m_Entity &&
+				*(uint32_t*)(&ctx->m_Args[1]) == 0x44BBD654) // 1502.69775391f
 			{
-				if (*(float*)(&ctx->m_Args[1]) == 1502.698f) // 1502.698f 0x44BBD654
-					return FALSE;
+				*(BOOL*)ctx->m_ReturnValue = FALSE; // spoof return value
+				return FALSE;
 			}
 
 			return IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+
+		return FALSE;
 	}
 }

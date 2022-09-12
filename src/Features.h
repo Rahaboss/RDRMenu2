@@ -33,4 +33,6 @@ namespace Features
 	bool RequestModel(const Hash& model);
 	void SpawnPed(const Hash& model);
 	void SpawnVehicle(const Hash& model, const bool& warp_into = true);
+	void SetSnowType(eSnowCoverageType type);
+	void NoSliding();
 }

@@ -16,8 +16,12 @@ namespace Hooking
 	bool RunScriptThreadsHook(pgPtrCollection* this_, uint32_t ops);
 	//inline DetourHook RunScriptThreads2;
 	//bool RunScriptThreadsHook2(uint32_t ops);
+
+	// No Snipers: New Austin
 	inline DetourHook ShootBullet;
 	void ShootBulletHook(scrNativeCallContext* ctx);
+
+	// No Snipers: Guarma
 	inline DetourHook IsEntityInArea;
 	BOOL IsEntityInAreaHook(scrNativeCallContext* ctx);
 }

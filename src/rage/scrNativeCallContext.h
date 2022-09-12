@@ -7,6 +7,13 @@ class scrVector
 {
 public:
 	__declspec(align(8)) float x, y, z;
+
+	scrVector() = default;
+
+	scrVector(const float& _x, const float& _y, const float& _z) :
+		x(_x), y(_y), z(_z)
+	{
+	}
 }; //Size: 0x0018
 static_assert(sizeof(scrVector) == 24);
 
@@ -56,6 +63,26 @@ typedef scrVector Vector3;
 
 typedef void (*scrNativeHandler)(scrNativeCallContext*);
 typedef scrNativeHandler(*GetNativeHandler_t)(uint64_t);
+
+inline std::ostream& operator<<(std::ostream& out, const scrVector& vec)
+{
+	if (vec.x)
+		out << vec.x << 'f';
+	else
+		out << "0.0f";
+	out << ", ";
+	if (vec.y)
+		out << vec.y << 'f';
+	else
+		out << "0.0f";
+	out << ", ";
+	if (vec.z)
+		out << vec.z << 'f';
+	else
+		out << "0.0f";
+
+	return out;
+}
 
 enum ePedAttribute
 {
@@ -519,4 +546,12 @@ enum eVehicleModel : Hash
 	WAGONWORK01X = RAGE_JOAAT("WAGONWORK01X"),
 	WINTERSTEAMER = RAGE_JOAAT("WINTERSTEAMER"),
 	WINTERCOALCAR = RAGE_JOAAT("WINTERCOALCAR"),
+};
+
+enum eSnowCoverageType
+{
+	Primary,
+	Secondary,
+	Xmas,
+	XmasSecondary // since b1232
 };

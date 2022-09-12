@@ -44,7 +44,9 @@ namespace Features
 		//std::cout << "Thread Collection: " << LOG_HEX(Pointers::ThreadCollection) << '\n';
 		//std::cout << "Hash of current script: " << SCRIPTS::GET_HASH_OF_THIS_SCRIPT_NAME() << '\n';
 		//std::cout << "Player name: " << PLAYER::GET_PLAYER_NAME(0) << '\n';
-		PrintNativeHandlerAddress(0x201C319797BDA603);
+		//SetSnowType(XmasSecondary);
+		//PrintNativeHandlerAddress(0x201C319797BDA603);
+		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << '\n';
 	}
 
 	void OnTick()
@@ -52,6 +54,7 @@ namespace Features
 		TRY
 		{
 			GetLocalPlayerInfo();
+			//NoSliding();
 			
 			if (GetAsyncKeyState(VK_PRIOR) & 1)
 				TeleportToWaypoint();
@@ -72,6 +75,19 @@ namespace Features
 				EnableNoSnipers = !EnableNoSnipers;
 				std::cout << "No snipers: " << (EnableNoSnipers ? "enabled" : "disabled") << '\n';
 			}
+
+			if (GetAsyncKeyState(VK_F9) & 1)
+				ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, FALSE);
+
+			if (GetAsyncKeyState(VK_F10) & 1)
+				ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, TRUE);
+
+			// tp to guarma
+			if (GetAsyncKeyState(VK_F11) & 1)
+				Teleport(1424.31f, -7325.1f, 81.4575f);
+
+			if (GetAsyncKeyState(VK_F12) & 1)
+				Teleport(Vector3(0, 0, 0));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -330,5 +346,18 @@ namespace Features
 
 		ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&veh);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+	}
+
+	void SetSnowType(eSnowCoverageType type)
+	{
+		GRAPHICS::_SET_SNOW_COVERAGE_TYPE(type);
+	}
+
+	void NoSliding()
+	{
+		// 204 = set ped can run into steep slope
+		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, 204, TRUE);
+		if (g_LocalPlayer.m_Mount)
+			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, 204, TRUE);
 	}
 }
