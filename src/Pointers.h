@@ -21,4 +21,6 @@ namespace Pointers
 	inline scrThread** ActiveThread{};
 	inline GetNativeHandler_t GetNativeHandler{};
 	inline class CPed* (*GetPlayerPed)(Player){};
+	inline void* DebuggerCheck1{};
+	inline void* DebuggerCheck2{};
 }

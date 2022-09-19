@@ -43,9 +43,11 @@ namespace Features
 		//std::cout << "Hash of current script: " << SCRIPTS::GET_HASH_OF_THIS_SCRIPT_NAME() << '\n';
 		//std::cout << "Player name: " << PLAYER::GET_PLAYER_NAME(0) << '\n';
 		//SetSnowType(XmasSecondary);
-		//PrintNativeHandlerAddress(0x201C319797BDA603);
 		//UnlockSPPreorderBonus();
+		PrintNativeHandlerAddress(0x29B30D07C3F7873B);
+		constexpr Hash x = RAGE_JOAAT("BLIP_STYLE_OBJECTIVE");
 		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << '\n';
+		std::cout << "RDR2.exe: " << LOG_HEX(g_base_address) << '\n';
 	}
 
 	void OnTick()

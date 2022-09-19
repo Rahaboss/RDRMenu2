@@ -14,6 +14,7 @@ namespace Hooking
 
 	inline DetourHook RunScriptThreads;
 	bool RunScriptThreadsHook(pgPtrCollection* this_, uint32_t ops);
+
 	//inline DetourHook RunScriptThreads2;
 	//bool RunScriptThreadsHook2(uint32_t ops);
 
@@ -24,4 +25,13 @@ namespace Hooking
 	// No Snipers: Guarma
 	inline DetourHook IsEntityInArea;
 	BOOL IsEntityInAreaHook(scrNativeCallContext* ctx);
+
+	inline DetourHook DebuggerCheck1;
+	void DebuggerCheck1Hook(uint32_t a1);
+
+	inline DetourHook DebuggerCheck2;
+	void DebuggerCheck2Hook(int32_t a1, int32_t a2, int32_t a3);
+
+	inline DetourHook IsDebuggerPresent;
+	BOOL WINAPI IsDebuggerPresentHook();
 }

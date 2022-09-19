@@ -11,21 +11,15 @@ void MainLoop()
 	{
 		Console::Create();
 
-		std::cout << "Scanning for pointers.\n";
 		Pointers::Scan();
 
-		std::cout << "Creating main fiber.\n";
 		Fiber MainFiber(Features::OnTick);
 		g_FiberCollection.push_back(&MainFiber);
 
-		std::cout << "Creating job queue fiber.\n";
 		Fiber JobQueueFiber(Features::RunJobQueue);
 		g_FiberCollection.push_back(&JobQueueFiber);
 
-		std::cout << "Creating hooks.\n";
 		Hooking::Create();
-
-		std::cout << "Enabling hooks.\n";
 		Hooking::Enable();
 
 		while (g_running)
@@ -35,17 +29,11 @@ void MainLoop()
 			std::this_thread::sleep_for(25ms);
 		}
 
-		std::cout << "Disabling hooks.\n";
 		Hooking::Disable();
-
-		std::cout << "Destroying hooks.\n";
 		Hooking::Destroy();
 
-		std::cout << "Destroying main fiber.\n";
 		MainFiber.Destroy();
 
-		std::cout << "Destroying console.\n";
-		std::this_thread::sleep_for(500ms);
 		Console::Destroy();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }

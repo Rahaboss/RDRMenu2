@@ -12,15 +12,24 @@ namespace Hooking
 
 	void Create()
 	{
+		std::cout << "Creating hooks.\n";
 		assert(MH_Initialize() == MH_OK);
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 		//RunScriptThreads2.Create(Pointers::RunScriptThreads2, RunScriptThreadsHook2);
 		ShootBullet.Create(g_NativeContext.GetHandler(0x867654CBC7606F2C), ShootBulletHook);
 		IsEntityInArea.Create(g_NativeContext.GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
+		DebuggerCheck1.Create(Pointers::DebuggerCheck1, DebuggerCheck1Hook);
+		//DebuggerCheck2.Create(Pointers::DebuggerCheck2, DebuggerCheck2Hook);
+		if (HMODULE mod = GetModuleHandle(L"kernel32.dll"))
+			IsDebuggerPresent.Create(GetProcAddress(mod, "IsDebuggerPresent"), IsDebuggerPresentHook);
 	}
 
 	void Destroy()
 	{
+		std::cout << "Destroying hooks.\n";
+		IsDebuggerPresent.Destroy();
+		//DebuggerCheck2.Destroy();
+		DebuggerCheck1.Destroy();
 		IsEntityInArea.Destroy();
 		ShootBullet.Destroy();
 		//RunScriptThreads2.Destroy();
@@ -30,6 +39,7 @@ namespace Hooking
 
 	void Enable()
 	{
+		std::cout << "Enabling hooks.\n";
 		if (Enabled)
 			return;
 		assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
@@ -38,6 +48,7 @@ namespace Hooking
 
 	void Disable()
 	{
+		std::cout << "Disabling hooks.\n";
 		if (!Enabled)
 			return;
 		assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
@@ -104,6 +115,24 @@ namespace Hooking
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
+		return FALSE;
+	}
+
+	void DebuggerCheck1Hook(uint32_t a1)
+	{
+		std::cout << "DebuggerCheck1Hook(" << a1 << ")\n";
+		return;
+	}
+
+	void DebuggerCheck2Hook(int32_t a1, int32_t a2, int32_t a3)
+	{
+		std::cout << "DebuggerCheck2Hook(" << a1 << ", " << a2 << ", " << a3 << ")\n";
+		return;
+	}
+
+	BOOL WINAPI IsDebuggerPresentHook()
+	{
+		std::cout << __FUNCTION__ << "()\n";
 		return FALSE;
 	}
 }

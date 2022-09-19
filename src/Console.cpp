@@ -9,17 +9,20 @@ namespace Console
 	{
 		AllocConsole();
 		freopen_s(&f, "CONOUT$", "w", stdout);
-		SetConsoleTitle(L"RDRMenu3 - "
+		SetConsoleTitle(L"RDRMenu2 - "
 	#ifdef _DEBUG
 			"Debug"
 	#else
 			"Release"
 	#endif
 		);
+		std::cout << "Created console.\n";
 	}
 
 	void Destroy()
 	{
+		std::cout << "Destroying console.\n";
+		std::this_thread::sleep_for(500ms);
 		if (f)
 			fclose(f);
 		FreeConsole();
