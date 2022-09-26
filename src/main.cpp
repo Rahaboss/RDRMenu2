@@ -22,10 +22,10 @@ void MainLoop()
 		Hooking::Create();
 		Hooking::Enable();
 
-		while (g_running)
+		while (g_Running)
 		{
 			if (GetAsyncKeyState(VK_END))
-				g_running = false;
+				g_Running = false;
 			std::this_thread::sleep_for(25ms);
 		}
 
@@ -45,18 +45,18 @@ BOOL WINAPI DllMain(HMODULE hmodule, DWORD reason, LPVOID)
 	{
 		DisableThreadLibraryCalls(hmodule);
 		
-		g_hmodule = hmodule;
-		g_game_module = GetModuleHandle(NULL);
-		g_base_address = reinterpret_cast<uintptr_t>(g_game_module);
-		g_main_thread = CreateThread(NULL, 0, [](LPVOID) -> DWORD
+		g_Module = hmodule;
+		g_GameModule = GetModuleHandle(NULL);
+		g_BaseAddress = reinterpret_cast<uintptr_t>(g_GameModule);
+		g_MainThread = CreateThread(NULL, 0, [](LPVOID) -> DWORD
 			{
 				MainLoop();
-				CloseHandle(g_main_thread);
-				FreeLibraryAndExitThread(g_hmodule, 0);
+				CloseHandle(g_MainThread);
+				FreeLibraryAndExitThread(g_Module, 0);
 			},
 			NULL, 0, NULL);
 
-		if (!g_main_thread)
+		if (!g_MainThread)
 			return FALSE;
 	}
 

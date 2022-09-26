@@ -6,7 +6,7 @@
 
 namespace Features
 {
-	inline bool EnableNoSnipers = true;
+	inline bool EnableNoSnipers = true, EnableNoReload = true, EnableNoSliding = true;
 
 	void ExecuteAsThread(joaat_t script_hash, void (*function)());
 	void Setup();
@@ -38,4 +38,9 @@ namespace Features
 	//void SpawnLegendaryAnimal(const Hash& model_hash, const Hash& legendary_hash, const Hash& outfit_hash);
 	void UnlockSPPreorderBonus();
 	void RestorePlayerCores();
+	std::string_view GetModelName(const Hash& hash);
+	void GiveLeftHandWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
+	void GiveRightHandWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
+	void GiveBackWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
+	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
 }

@@ -105,10 +105,10 @@ Signature& Signature::Scan()
 
 	// Get information about process
 	MODULEINFO module_info;
-	GetModuleInformation(GetCurrentProcess(), g_game_module, &module_info, sizeof(MODULEINFO));
+	GetModuleInformation(GetCurrentProcess(), g_GameModule, &module_info, sizeof(MODULEINFO));
 	MEMORY_BASIC_INFORMATION mbi;
 
-	const auto begin = g_base_address; // Begin location of scan (base address)
+	const auto begin = g_BaseAddress; // Begin location of scan (base address)
 	const auto size = module_info.SizeOfImage; // Total size of process (area to be scanned)
 
 	// Loop through memory regions

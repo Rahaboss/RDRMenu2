@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "rage/scrThread.h"
 #include "rage/scrNativeCallContext.h"
+#include "rage/CPed.h"
 
 typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain1*, UINT, UINT);
 
@@ -20,7 +21,8 @@ namespace Pointers
 	inline void* RunScriptThreads2{};
 	inline scrThread** ActiveThread{};
 	inline GetNativeHandler_t GetNativeHandler{};
-	inline class CPed* (*GetPlayerPed)(Player){};
+	inline CPed* (*GetPlayerPed)(Player){};
 	inline void* DebuggerCheck1{};
 	inline void* DebuggerCheck2{};
+	inline void* DecreaseAmmo{};
 }

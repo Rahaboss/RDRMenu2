@@ -45,9 +45,10 @@ namespace Features
 		//SetSnowType(XmasSecondary);
 		//UnlockSPPreorderBonus();
 		PrintNativeHandlerAddress(0x29B30D07C3F7873B);
-		constexpr Hash x = RAGE_JOAAT("BLIP_STYLE_OBJECTIVE");
-		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << '\n';
-		std::cout << "RDR2.exe: " << LOG_HEX(g_base_address) << '\n';
+		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
+		std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
+		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << ".\n";
+		std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
 	}
 
 	void OnTick()
@@ -55,34 +56,49 @@ namespace Features
 		TRY
 		{
 			GetLocalPlayerInfo();
-			//NoSliding();
+			NoSliding();
 			
-			if (GetAsyncKeyState(VK_PRIOR) & 1)
+			if (GetAsyncKeyState(VK_PRIOR /*Page Up*/) & 1)
 				TeleportToWaypoint();
 
-			if (GetAsyncKeyState(VK_NEXT) & 1)
+			if (GetAsyncKeyState(VK_NEXT /*Page Down*/) & 1)
 			{
-				GiveAllWeapons();
-				GiveAllAmmo();
-				RevealMap();
+				//GiveAllWeapons();
+				//GiveAllAmmo();
+				//RevealMap();
 				RestorePlayerCores();
 				ClearWanted();
-				GiveGoldCores(g_LocalPlayer.m_Entity);
-				GiveGoldCores(g_LocalPlayer.m_Mount);
-				AddMoney(100000);
+				//GiveGoldCores(g_LocalPlayer.m_Entity);
+				//GiveGoldCores(g_LocalPlayer.m_Mount);
+				//AddMoney(100000);
+
+				GiveLeftHandWeapon(WEAPON_PISTOL_M1899);
+				GiveRightHandWeapon(WEAPON_PISTOL_M1899);
+				GiveBackWeapon(WEAPON_SNIPERRIFLE_CARCANO);
+				GiveShoulderWeapon(WEAPON_REPEATER_HENRY);
 			}
 
 			if (GetAsyncKeyState(VK_DELETE) & 1)
 			{
-				EnableNoSnipers = !EnableNoSnipers;
-				std::cout << "No snipers: " << (EnableNoSnipers ? "enabled" : "disabled") << '\n';
+				for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
+				{
+					Hash out;
+					WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &out, 0, i, 0);
+					std::cout << "Weapon at point " << i << " is " << out << " (" << HUD::GET_STRING_FROM_HASH_KEY(out) << ")\n";
+				}
 			}
 
 			if (GetAsyncKeyState(VK_F9) & 1)
-				ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, FALSE);
+			{
+				Ped playerPed = PLAYER::PLAYER_PED_ID();
+				Hash unarmed = WEAPON_UNARMED;
+				Hash cur;
+				if (WEAPON::GET_CURRENT_PED_WEAPON(playerPed, &cur, 0, 0, 0) && WEAPON::IS_WEAPON_VALID(cur) && cur != unarmed)
+					WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(playerPed, cur, 0.0, 0.0, 0.0, 1);
+			}
 
-			if (GetAsyncKeyState(VK_F10) & 1)
-				ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, TRUE);
+			//if (GetAsyncKeyState(VK_F10) & 1)
+			//	ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, TRUE);
 
 			// tp to guarma
 			if (GetAsyncKeyState(VK_F11) & 1)
@@ -90,6 +106,13 @@ namespace Features
 
 			if (GetAsyncKeyState(VK_F12) & 1)
 			{
+				EnableNoSnipers = !EnableNoSnipers;
+				std::cout << "No snipers: " << (EnableNoSnipers ? "enabled" : "disabled") << '\n';
+				EnableNoReload = !EnableNoReload;
+				std::cout << "No reload: " << (EnableNoReload ? "enabled" : "disabled") << '\n';
+				EnableNoSliding = !EnableNoSliding;
+				std::cout << "No sliding: " << (EnableNoSliding ? "enabled" : "disabled") << '\n';
+
 				// Teleport(-2798.41f, -4262.28f, -17.5096f); // Mexico tunnel
 				// Teleport(-2134.6f, -3430.15f, 33.6615f); // Mexico Nuevo Paraiso
 				// SpawnLegendaryAnimal(RAGE_JOAAT("A_C_PANTHER_01"), RAGE_JOAAT("PANTHER_LEGENDARY"), 0x42CD3A6B);
@@ -136,6 +159,7 @@ namespace Features
 			g_LocalPlayer.m_Entity = PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(g_LocalPlayer.m_Index);
 			g_LocalPlayer.m_Mount = PED::GET_MOUNT(g_LocalPlayer.m_Entity);
 			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, FALSE);
+			g_LocalPlayer.m_Ped = Pointers::GetPlayerPed(g_LocalPlayer.m_Index);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -273,8 +297,8 @@ namespace Features
 		TRY
 		{
 			auto addr = (uintptr_t)g_NativeContext.GetHandler(hash);
-			auto off = addr - g_base_address;
-			std::cout << LOG_HEX(hash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" << LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ")\n";
+			auto off = addr - g_BaseAddress;
+			std::cout << LOG_HEX(hash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" << LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -361,6 +385,9 @@ namespace Features
 
 	void NoSliding()
 	{
+		if (!EnableNoSliding)
+			return;
+
 		// PCF_0x435F091E = set ped can run into steep slope
 		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, PCF_0x435F091E, TRUE);
 		if (g_LocalPlayer.m_Mount)
@@ -416,5 +443,42 @@ namespace Features
 		PLAYER::RESTORE_PLAYER_STAMINA(g_LocalPlayer.m_Index, 100.0);
 		PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
 		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
+	}
+	
+	std::string_view GetModelName(const Hash& hash)
+	{
+		TRY
+		{
+			auto it = g_ModelNameList.find(hash);
+			if (it != g_ModelNameList.end())
+				return it->second;
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return "Unknown"sv;
+	}
+
+	void GiveLeftHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	{
+		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
+			WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+	}
+
+	void GiveRightHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	{
+		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
+			WEAPON_ATTACH_POINT_HAND_SECONDARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+	}
+
+	void GiveBackWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	{
+		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
+			WEAPON_ATTACH_POINT_RIFLE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+	}
+
+	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	{
+		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
+			WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
 	}
 }

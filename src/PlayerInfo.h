@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "rage/natives.h"
+#include "rage/CPed.h"
 
 struct PlayerInfo
 {
@@ -9,4 +10,5 @@ struct PlayerInfo
 	Ped m_Entity;
 	Ped m_Mount;
 	Vehicle m_Vehicle;
+	CPed* m_Ped;
 } inline g_LocalPlayer;

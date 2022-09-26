@@ -4,6 +4,7 @@
 #include "DetourHook.h"
 #include "rage/scrThread.h"
 #include "rage/scrNativeCallContext.h"
+#include "rage/CPed.h"
 
 namespace Hooking
 {
@@ -34,4 +35,10 @@ namespace Hooking
 
 	inline DetourHook IsDebuggerPresent;
 	BOOL WINAPI IsDebuggerPresentHook();
+
+	inline DetourHook DecreaseAmmo;
+	void DecreaseAmmoHook(uint64_t this_, CPed* a2, uint64_t a3, uint32_t a4);
+
+	inline DetourHook CreatePed;
+	Ped CreatePedHook(scrNativeCallContext* ctx);
 }
