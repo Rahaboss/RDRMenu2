@@ -45,6 +45,7 @@ namespace Features
 		//SetSnowType(XmasSecondary);
 		//UnlockSPPreorderBonus();
 		PrintNativeHandlerAddress(0x29B30D07C3F7873B);
+		PrintNativeHandlerAddress(0xAF35D0D2583051B0);
 		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
 		std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
 		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << ".\n";
@@ -67,6 +68,7 @@ namespace Features
 				//GiveAllAmmo();
 				//RevealMap();
 				RestorePlayerCores();
+				RestoreHorseCores();
 				ClearWanted();
 				//GiveGoldCores(g_LocalPlayer.m_Entity);
 				//GiveGoldCores(g_LocalPlayer.m_Mount);
@@ -80,12 +82,22 @@ namespace Features
 
 			if (GetAsyncKeyState(VK_DELETE) & 1)
 			{
-				for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
-				{
-					Hash out;
-					WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &out, 0, i, 0);
-					std::cout << "Weapon at point " << i << " is " << out << " (" << HUD::GET_STRING_FROM_HASH_KEY(out) << ")\n";
-				}
+				//for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
+				//{
+				//	Hash out;
+				//	WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &out, 0, i, 0);
+				//	std::cout << "Weapon at point " << i << " is " << out << " (" << HUD::GET_STRING_FROM_HASH_KEY(out) << ")\n";
+				//}
+
+				// U_M_M_CIRCUSWAGON_01 - 2 head skeleton
+				// RE_RALLYDISPUTE_MALES_01 - KKK
+				// RE_RALLYSETUP_MALES_01 - KKK
+				// RE_RALLY_MALES_01 - KKK leader
+				// U_F_M_RhdNudeWoman_01 - xd
+				// RE_NAKEDSWIMMER_MALES_01 - xd vol2
+				// CS_crackpotRobot - robot
+				constexpr Hash Model = RAGE_JOAAT("CS_AgnesDowd");
+				Ped ped = SpawnPed(Model);
 			}
 
 			if (GetAsyncKeyState(VK_F9) & 1)
@@ -325,9 +337,13 @@ namespace Features
 	bool RequestModel(const Hash& model)
 	{
 		if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
+		{
+			std::cout << __FUNCTION__ << ": " << LOG_HEX(model) << " is not a valid model hash!\n";
 			return false;
+		}
 
-		for (int i = 0; i < 10; i++)
+		constexpr int MaxRequests = 100;
+		for (int i = 0; i < MaxRequests; i++)
 		{
 			STREAMING::REQUEST_MODEL(model, FALSE);
 			YieldThread();
@@ -338,35 +354,51 @@ namespace Features
 		return false;
 	}
 
-	void SpawnPed(const Hash& model)
+	Ped SpawnPed(const Hash& model)
 	{
 		if (!RequestModel(model))
 		{
-			std::cout << "Couldn't spawn ped " << model << '\n';
-			return;
+			std::cout << __FUNCTION__ << ": Couldn't spawn ped " << LOG_HEX(model) << '\n';
+			return 0;
 		}
 
 		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
 		Ped ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z, static_cast<float>(rand() % 360), 0, 0, 0, 0);
+		
+		if (!ped)
+		{
+			std::cout << __FUNCTION__ << ": Couldn't spawn ped " << LOG_HEX(model) << '\n';
+			return ped;
+		}
+
 		YieldThread();
 
 		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, TRUE);
 
 		ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&ped);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+
+		return ped;
 	}
 
-	void SpawnVehicle(const Hash& model, const bool& warp_into)
+	Vehicle SpawnVehicle(const Hash& model, const bool& warp_into)
 	{
 		if (!RequestModel(model))
 		{
-			std::cout << "Couldn't spawn vehicle " << model << '\n';
-			return;
+			std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << LOG_HEX(model) << "!\n";
+			return 0;
 		}
 
 		Vector3 coords = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
 		Vehicle veh = VEHICLE::CREATE_VEHICLE(model, coords.x, coords.y, coords.z,
 			ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), FALSE, FALSE, FALSE, FALSE);
+
+		if (!veh)
+		{
+			std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << LOG_HEX(model) << "!\n";
+			return veh;
+		}
+
 		YieldThread();
 
 		DECORATOR::DECOR_SET_BOOL(veh, "wagon_block_honor", TRUE);
@@ -376,6 +408,8 @@ namespace Features
 
 		ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&veh);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+
+		return veh;
 	}
 
 	void SetSnowType(eSnowCoverageType type)
@@ -444,13 +478,38 @@ namespace Features
 		PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
 		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
 	}
-	
-	std::string_view GetModelName(const Hash& hash)
+
+	void RestoreHorseCores()
+	{
+		if (!g_LocalPlayer.m_Mount)
+			return;
+
+		for (int i = 0; i < 3; i++)
+			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
+
+		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, FALSE), FALSE);
+		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
+	}
+
+	std::string_view GetPedModelName(const Hash& hash)
 	{
 		TRY
 		{
-			auto it = g_ModelNameList.find(hash);
-			if (it != g_ModelNameList.end())
+			auto it = g_PedModelNameList.find(hash);
+			if (it != g_PedModelNameList.end())
+				return it->second;
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return "Unknown"sv;
+	}
+
+	std::string_view GetVehicleModelName(const Hash& hash)
+	{
+		TRY
+		{
+			auto it = g_VehicleModelNameList.find(hash);
+			if (it != g_VehicleModelNameList.end())
 				return it->second;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -460,24 +519,48 @@ namespace Features
 
 	void GiveLeftHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
 	{
+		if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
+		{
+			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not one handed!\n";
+			return;
+		}
+
 		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
 			WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
 	}
 
 	void GiveRightHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
 	{
+		if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
+		{
+			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not one handed!\n";
+			return;
+		}
+
 		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
 			WEAPON_ATTACH_POINT_HAND_SECONDARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
 	}
 
 	void GiveBackWeapon(const Hash& WeaponHash, const int& AmmoAmount)
 	{
+		if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
+		{
+			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not two handed!\n";
+			return;
+		}
+
 		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
 			WEAPON_ATTACH_POINT_RIFLE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
 	}
 
 	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount)
 	{
+		if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
+		{
+			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not two handed!\n";
+			return;
+		}
+
 		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
 			WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
 	}

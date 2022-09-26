@@ -41,4 +41,7 @@ namespace Hooking
 
 	inline DetourHook CreatePed;
 	Ped CreatePedHook(scrNativeCallContext* ctx);
+
+	inline DetourHook CreateVehicle;
+	Vehicle CreateVehicleHook(scrNativeCallContext* ctx);
 }

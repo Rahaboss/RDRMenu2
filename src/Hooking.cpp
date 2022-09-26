@@ -24,11 +24,14 @@ namespace Hooking
 			IsDebuggerPresent.Create(GetProcAddress(mod, "IsDebuggerPresent"), IsDebuggerPresentHook);
 		DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
 		CreatePed.Create(g_NativeContext.GetHandler(0xD49F9B0955C367DE), CreatePedHook);
+		CreateVehicle.Create(g_NativeContext.GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
 	}
 
 	void Destroy()
 	{
 		std::cout << "Destroying hooks.\n";
+		CreateVehicle.Destroy();
+		CreatePed.Destroy();
 		DecreaseAmmo.Destroy();
 		IsDebuggerPresent.Destroy();
 		//DebuggerCheck2.Destroy();
@@ -153,7 +156,7 @@ namespace Hooking
 
 	Ped CreatePedHook(scrNativeCallContext* ctx)
 	{
-		Ped result;// = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
+		Ped result = 0;
 
 		TRY
 		{
@@ -165,7 +168,36 @@ namespace Hooking
 				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 				Ped id = *(Ped*)(ctx->m_ReturnValue);
 
-				std::cout << "Creating ped: " << Features::GetModelName(model) << " (" << LOG_HEX(model)
+				if (PED::IS_PED_HUMAN(id))
+					std::cout << "Creating human ";
+				else
+					std::cout << "Creating ped ";
+
+				std::cout << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
+					<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+	
+	Vehicle CreateVehicleHook(scrNativeCallContext* ctx)
+	{
+		Vehicle result = 0;
+
+		TRY
+		{
+			if (ctx)
+			{
+				// Vehicle CREATE_VEHICLE(Hash modelHash, float x, float y, float z, float heading, BOOL isNetwork, BOOL bScriptHostVeh, BOOL bDontAutoCreateDraftAnimals, BOOL p8)
+				Hash model = *(Hash*)(&(ctx->m_Args[0]));
+				Vector3 pos = *(Vector3*)(&(ctx->m_Args[1]));
+
+				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
+				Vehicle id = *(Vehicle*)(ctx->m_ReturnValue);
+
+				std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
 					<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
 			}
 		}
