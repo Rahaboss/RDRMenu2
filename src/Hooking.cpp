@@ -14,14 +14,17 @@ namespace Hooking
 	{
 		std::cout << "Creating hooks.\n";
 		assert(MH_Initialize() == MH_OK);
+
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 		//RunScriptThreads2.Create(Pointers::RunScriptThreads2, RunScriptThreadsHook2);
 		ShootBullet.Create(g_NativeContext.GetHandler(0x867654CBC7606F2C), ShootBulletHook);
 		IsEntityInArea.Create(g_NativeContext.GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
+#if ENABLE_ANTI_ANTI_DEBUG
 		DebuggerCheck1.Create(Pointers::DebuggerCheck1, DebuggerCheck1Hook);
 		//DebuggerCheck2.Create(Pointers::DebuggerCheck2, DebuggerCheck2Hook);
 		if (HMODULE mod = GetModuleHandle(L"kernel32.dll"))
 			IsDebuggerPresent.Create(GetProcAddress(mod, "IsDebuggerPresent"), IsDebuggerPresentHook);
+#endif
 		DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
 		CreatePed.Create(g_NativeContext.GetHandler(0xD49F9B0955C367DE), CreatePedHook);
 		CreateVehicle.Create(g_NativeContext.GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
@@ -30,16 +33,20 @@ namespace Hooking
 	void Destroy()
 	{
 		std::cout << "Destroying hooks.\n";
+
 		CreateVehicle.Destroy();
 		CreatePed.Destroy();
 		DecreaseAmmo.Destroy();
+#if ENABLE_ANTI_ANTI_DEBUG
 		IsDebuggerPresent.Destroy();
 		//DebuggerCheck2.Destroy();
 		DebuggerCheck1.Destroy();
+#endif
 		IsEntityInArea.Destroy();
 		ShootBullet.Destroy();
 		//RunScriptThreads2.Destroy();
 		RunScriptThreads.Destroy();
+
 		assert(MH_Uninitialize() == MH_OK);
 	}
 
@@ -124,6 +131,7 @@ namespace Hooking
 		return FALSE;
 	}
 
+#if ENABLE_ANTI_ANTI_DEBUG
 	void DebuggerCheck1Hook(uint32_t a1)
 	{
 		std::cout << __FUNCTION__"(" << a1 << ")\n";
@@ -141,6 +149,7 @@ namespace Hooking
 		std::cout << __FUNCTION__"()\n";
 		return FALSE;
 	}
+#endif
 
 	void DecreaseAmmoHook(uint64_t a1, CPed* a2, uint64_t a3, uint32_t a4)
 	{
@@ -160,7 +169,11 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx)
+			if (!Features::EnableHumanSpawnLogging && !Features::EnablePedSpawnLogging)
+			{
+				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
+			}
+			else if (ctx)
 			{
 				Hash model = *(Hash*)(&(ctx->m_Args[0]));
 				Vector3 pos = *(Vector3*)(&(ctx->m_Args[1]));
@@ -169,12 +182,18 @@ namespace Hooking
 				Ped id = *(Ped*)(ctx->m_ReturnValue);
 
 				if (PED::IS_PED_HUMAN(id))
-					std::cout << "Creating human ";
-				else
-					std::cout << "Creating ped ";
-
-				std::cout << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
-					<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+				{
+					if (Features::EnableHumanSpawnLogging)
+					{
+						std::cout << "Creating human " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
+							<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+					}
+				}
+				else if (Features::EnablePedSpawnLogging)
+				{
+					std::cout << "Creating ped " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
+						<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+				}
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -188,9 +207,8 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx)
+			if (Features::EnableVehicleSpawnLogging && ctx)
 			{
-				// Vehicle CREATE_VEHICLE(Hash modelHash, float x, float y, float z, float heading, BOOL isNetwork, BOOL bScriptHostVeh, BOOL bDontAutoCreateDraftAnimals, BOOL p8)
 				Hash model = *(Hash*)(&(ctx->m_Args[0]));
 				Vector3 pos = *(Vector3*)(&(ctx->m_Args[1]));
 
@@ -199,6 +217,10 @@ namespace Hooking
 
 				std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
 					<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+			}
+			else
+			{
+				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

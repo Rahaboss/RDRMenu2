@@ -3,10 +3,12 @@
 #include "pch.h"
 #include "rage/joaat.h"
 #include "rage/natives.h"
+#include "rage/enums.h"
 
 namespace Features
 {
-	inline bool EnableNoSnipers = true, EnableNoReload = true, EnableNoSliding = true;
+	inline bool EnableNoSnipers = true, EnableNoReload = true, EnableNoSliding = true,
+		EnablePedSpawnLogging = false, EnableHumanSpawnLogging = false, EnableVehicleSpawnLogging = false;
 
 	void ExecuteAsThread(joaat_t script_hash, void (*function)());
 	void Setup();

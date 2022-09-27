@@ -44,12 +44,14 @@ namespace Features
 		//std::cout << "Player name: " << PLAYER::GET_PLAYER_NAME(0) << '\n';
 		//SetSnowType(XmasSecondary);
 		//UnlockSPPreorderBonus();
-		PrintNativeHandlerAddress(0x29B30D07C3F7873B);
-		PrintNativeHandlerAddress(0xAF35D0D2583051B0);
-		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
-		std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
+		//PrintNativeHandlerAddress(0x214651FB1DFEBA89);
+		//PrintNativeHandlerAddress(0xAF35D0D2583051B0);
+		//PrintNativeHandlerAddress(0xB980061DA992779D);
+		//std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
+		//std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
 		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << ".\n";
-		std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
+		std::cout << "Ped Index: " << LOG_HEX(PLAYER::PLAYER_PED_ID()) << ".\n";
+		//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
 	}
 
 	void OnTick()
@@ -93,11 +95,10 @@ namespace Features
 				// RE_RALLYDISPUTE_MALES_01 - KKK
 				// RE_RALLYSETUP_MALES_01 - KKK
 				// RE_RALLY_MALES_01 - KKK leader
-				// U_F_M_RhdNudeWoman_01 - xd
+				// U_F_M_RHDNUDEWOMAN_01 - xd
 				// RE_NAKEDSWIMMER_MALES_01 - xd vol2
-				// CS_crackpotRobot - robot
-				constexpr Hash Model = RAGE_JOAAT("CS_AgnesDowd");
-				Ped ped = SpawnPed(Model);
+				// CS_CRACKPOTROBOT - robot
+				Ped ped = SpawnPed(U_F_M_RHDNUDEWOMAN_01);
 			}
 
 			if (GetAsyncKeyState(VK_F9) & 1)
@@ -430,7 +431,7 @@ namespace Features
 	
 	//void SpawnLegendaryAnimal(const Hash& model_hash, const Hash& legendary_hash, const Hash& outfit_hash)
 	//{
-	//	if (!RequestModel(model_hash) /*|| !RequestModel(legendary_hash)*/)
+	//	if (!RequestModel(model_hash))
 	//		return;
 	//
 	//	int outfit = PED::_REQUEST_METAPED_OUTFIT(legendary_hash, outfit_hash);
@@ -493,6 +494,7 @@ namespace Features
 
 	std::string_view GetPedModelName(const Hash& hash)
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		TRY
 		{
 			auto it = g_PedModelNameList.find(hash);
@@ -500,12 +502,14 @@ namespace Features
 				return it->second;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+#endif 
 
 		return "Unknown"sv;
 	}
 
 	std::string_view GetVehicleModelName(const Hash& hash)
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		TRY
 		{
 			auto it = g_VehicleModelNameList.find(hash);
@@ -513,6 +517,7 @@ namespace Features
 				return it->second;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+#endif 
 
 		return "Unknown"sv;
 	}

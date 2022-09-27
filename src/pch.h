@@ -36,7 +36,12 @@ inline std::atomic_bool g_Running = true; // Set to false to eject
 using namespace std::chrono_literals;
 using namespace std::literals::string_view_literals;
 
+// Shortcut Macros
 #define LOG_HEX(v) std::hex << std::uppercase << "0x" << (uintptr_t)v << std::dec << std::nouppercase
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
 #define LOG_EXCEPTION() std::cout << "Caught exception in:\n\tFile " << __FILE__ << ':' << __LINE__ << "\n\tFunction " << __FUNCTION__ << '\n';
+
+// Toggles
+#define ENABLE_LARGE_STACK_ITEMS 0 // e.g. g_PedModelNameList
+#define ENABLE_ANTI_ANTI_DEBUG 0

@@ -27,6 +27,7 @@ namespace Hooking
 	inline DetourHook IsEntityInArea;
 	BOOL IsEntityInAreaHook(scrNativeCallContext* ctx);
 
+#if ENABLE_ANTI_ANTI_DEBUG
 	inline DetourHook DebuggerCheck1;
 	void DebuggerCheck1Hook(uint32_t a1);
 
@@ -35,6 +36,7 @@ namespace Hooking
 
 	inline DetourHook IsDebuggerPresent;
 	BOOL WINAPI IsDebuggerPresentHook();
+#endif
 
 	inline DetourHook DecreaseAmmo;
 	void DecreaseAmmoHook(uint64_t this_, CPed* a2, uint64_t a3, uint32_t a4);
