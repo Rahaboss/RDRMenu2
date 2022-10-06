@@ -31,5 +31,10 @@ namespace Pointers
 		DebuggerCheck1 = Signature("E8 ? ? ? ? CC 48 83 EC 18").Add(1).Rip().Get<decltype(DebuggerCheck1)>();
 		DebuggerCheck2 = Signature("E8 ? ? ? ? FF 15 ? ? ? ? 48 8B C8 BA ? ? ? ? 48 83 C4 28").Add(1).Rip().Get<decltype(DebuggerCheck2)>();
 		DecreaseAmmo = Signature("0F 57 DB 0F 57 D2 8B").Sub(0x3D).Get<decltype(DecreaseAmmo)>();
+		PedFactoryBase = Signature((uintptr_t)GetPlayerPed).Add(0x3D).Rip().Get<decltype(PedFactoryBase)>();
+		PedFactoryHash = Signature((uintptr_t)GetPlayerPed).Add(0x44).Rip().Get<decltype(PedFactoryHash)>();
+		uintptr_t GetBlipAddress = Signature("E8 ? ? ? ? 49 3B C7 74 4B").Add(1).Rip().GetRaw();
+		BlipBase = Signature(GetBlipAddress).Add(0x1E).Rip().Get<decltype(BlipBase)>();
+		BlipHash = Signature(GetBlipAddress).Add(0x25).Rip().Get<decltype(BlipHash)>();
 	}
 }

@@ -22,9 +22,10 @@ namespace Features
 	void Teleport(const float& x, const float& y, const float& z);
 	void Teleport(const Vector3& pos);
 	void TeleportToWaypoint();
+	void GiveGoldCores(const Ped& ped);
 	void GiveWeapon(const Hash& weapon_hash);
 	void GiveAllWeapons();
-	void GiveGoldCores(const Ped& ped);
+	void GiveAmmo(const Hash& ammo_hash);
 	void GiveAllAmmo();
 	void ClearWanted();
 	void RevealMap();
@@ -47,4 +48,6 @@ namespace Features
 	void GiveRightHandWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
 	void GiveBackWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
 	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
+	CPedFactory* GetPedFactory();
+	void* GetBlipCollection();
 }

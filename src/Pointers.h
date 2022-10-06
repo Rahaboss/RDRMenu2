@@ -25,4 +25,8 @@ namespace Pointers
 	inline void* DebuggerCheck1{};
 	inline void* DebuggerCheck2{};
 	inline void* DecreaseAmmo{};
+	inline uint64_t* PedFactoryBase{};
+	inline uint64_t* PedFactoryHash{};
+	inline uint64_t* BlipBase{};
+	inline uint64_t* BlipHash{};
 }

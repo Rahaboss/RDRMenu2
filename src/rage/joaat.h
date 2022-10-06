@@ -9,7 +9,7 @@ constexpr char joaat_to_lower(char c)
 	return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;
 }
 
-constexpr joaat_t joaat_constexpr(const char* str)
+constexpr joaat_t joaat(const char* str)
 {
 	joaat_t hash = 0;
 
@@ -27,4 +27,4 @@ constexpr joaat_t joaat_constexpr(const char* str)
 	return hash;
 }
 
-#define RAGE_JOAAT joaat_constexpr
+#define RAGE_JOAAT joaat

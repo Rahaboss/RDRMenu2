@@ -47,11 +47,14 @@ namespace Features
 		//PrintNativeHandlerAddress(0x214651FB1DFEBA89);
 		//PrintNativeHandlerAddress(0xAF35D0D2583051B0);
 		//PrintNativeHandlerAddress(0xB980061DA992779D);
-		//std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
-		//std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
-		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << ".\n";
+		PrintNativeHandlerAddress(0xFD340785ADF8CFB7);
+		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
+		std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
+		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << " (vtbl: " << LOG_HEX(*(void**)Pointers::GetPlayerPed(0)) << ").\n";
 		std::cout << "Ped Index: " << LOG_HEX(PLAYER::PLAYER_PED_ID()) << ".\n";
 		//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
+		std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
+		std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
 	}
 
 	void OnTick()
@@ -98,11 +101,14 @@ namespace Features
 				// U_F_M_RHDNUDEWOMAN_01 - xd
 				// RE_NAKEDSWIMMER_MALES_01 - xd vol2
 				// CS_CRACKPOTROBOT - robot
-				Ped ped = SpawnPed(U_F_M_RHDNUDEWOMAN_01);
+				//Ped ped = SpawnPed(U_F_M_RHDNUDEWOMAN_01);
+				GiveAllWeapons();
+				GiveAllAmmo();
 			}
 
 			if (GetAsyncKeyState(VK_F9) & 1)
 			{
+				// Drop current weapon
 				Ped playerPed = PLAYER::PLAYER_PED_ID();
 				Hash unarmed = WEAPON_UNARMED;
 				Hash cur;
@@ -277,7 +283,8 @@ namespace Features
 
 	void GiveWeapon(const Hash& weapon_hash)
 	{
-		WEAPON::GIVE_DELAYED_WEAPON_TO_PED(g_LocalPlayer.m_Entity, weapon_hash, 9999, TRUE, ADD_REASON_DEFAULT);
+		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, weapon_hash, 9999, TRUE, FALSE, WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE,
+			0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
 	}
 
 	void GiveAllWeapons()
@@ -286,10 +293,15 @@ namespace Features
 			GiveWeapon(w);
 	}
 
+	void GiveAmmo(const Hash& ammo_hash)
+	{
+		WEAPON::_ADD_AMMO_TO_PED_BY_TYPE(g_LocalPlayer.m_Entity, ammo_hash, 9999, ADD_REASON_DEFAULT);
+	}
+
 	void GiveAllAmmo()
 	{
 		for (const auto& a : g_AmmoList)
-			WEAPON::_ADD_AMMO_TO_PED_BY_TYPE(g_LocalPlayer.m_Entity, a, 9999, ADD_REASON_DEFAULT);
+			GiveAmmo(a);
 	}
 
 	void ClearWanted()
@@ -568,5 +580,17 @@ namespace Features
 
 		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
 			WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+	}
+	
+	CPedFactory* GetPedFactory()
+	{
+		uint64_t x = _rotl64(*Pointers::PedFactoryBase, 27);
+		return reinterpret_cast<CPedFactory*>(~_rotl64(_rotl64(x ^ *Pointers::PedFactoryHash, 32), (x & 0x1F) + 1));
+	}
+	
+	void* GetBlipCollection()
+	{
+		uint64_t x = _rotl64(*Pointers::BlipBase, 29);
+		return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ *Pointers::BlipHash, 32), (x & 0x1F) + 5));
 	}
 }

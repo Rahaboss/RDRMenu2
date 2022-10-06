@@ -41,6 +41,8 @@ using namespace std::literals::string_view_literals;
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
 #define LOG_EXCEPTION() std::cout << "Caught exception in:\n\tFile " << __FILE__ << ':' << __LINE__ << "\n\tFunction " << __FUNCTION__ << '\n';
+#define __ROL8__ _rotl64
+#define __ROR8__ _rotr64
 
 // Toggles
 #define ENABLE_LARGE_STACK_ITEMS 0 // e.g. g_PedModelNameList
