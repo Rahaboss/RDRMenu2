@@ -24,7 +24,7 @@ void MainLoop()
 
 		while (g_Running)
 		{
-			if (GetAsyncKeyState(VK_END))
+			if (Features::IsKeyHeld(VK_END))
 				g_Running = false;
 			std::this_thread::sleep_for(25ms);
 		}

@@ -8,7 +8,8 @@
 namespace Features
 {
 	inline bool EnableNoSnipers = true, EnableNoReload = true, EnableNoSliding = true,
-		EnablePedSpawnLogging = false, EnableHumanSpawnLogging = false, EnableVehicleSpawnLogging = false;
+		EnablePedSpawnLogging = false, EnableHumanSpawnLogging = false, EnableVehicleSpawnLogging = false,
+		EnableAddInventoryItemLogging = false;
 
 	void ExecuteAsThread(joaat_t script_hash, void (*function)());
 	void Setup();
@@ -27,6 +28,8 @@ namespace Features
 	void GiveAllWeapons();
 	void GiveAmmo(const Hash& ammo_hash);
 	void GiveAllAmmo();
+	void GiveAllDualWieldWeapons();
+	void DropCurrentWeapon();
 	void ClearWanted();
 	void RevealMap();
 	void PrintNativeHandlerAddress(const uint64_t& hash);
@@ -50,4 +53,8 @@ namespace Features
 	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount = 9999);
 	CPedFactory* GetPedFactory();
 	void* GetBlipCollection();
+	void GiveCivilWarHat();
+	void TeleportThroughDoor();
+	bool IsKeyHeld(DWORD vKey);
+	bool IsKeyClicked(DWORD vKey);
 }

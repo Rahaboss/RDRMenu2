@@ -34,6 +34,18 @@ public:
 	scrVector* m_OutVectors[4]; //0x0020
 	scrVec3N m_InVectors[4]; //0x0040
 	uint8_t pad[96]; //0x0080
+
+	template<typename T>
+	T GetArg(size_t Index)
+	{
+		return *(T*)(&(m_Args[Index]));
+	}
+
+	template<typename T>
+	T GetRet()
+	{
+		return *(T*)(m_ReturnValue);
+	}
 }; //Size: 0x00E0
 static_assert(sizeof(scrNativeCallContext) == 0xE0);
 

@@ -55,6 +55,8 @@ namespace Features
 		//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
 		std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
 		std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
+
+		//std::cout << INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID() << "\n";
 	}
 
 	void OnTick()
@@ -64,77 +66,88 @@ namespace Features
 			GetLocalPlayerInfo();
 			NoSliding();
 			
-			if (GetAsyncKeyState(VK_PRIOR /*Page Up*/) & 1)
-				TeleportToWaypoint();
-
-			if (GetAsyncKeyState(VK_NEXT /*Page Down*/) & 1)
+			if (IsKeyHeld(VK_LSHIFT))
 			{
-				//GiveAllWeapons();
-				//GiveAllAmmo();
-				//RevealMap();
-				RestorePlayerCores();
-				RestoreHorseCores();
-				ClearWanted();
-				//GiveGoldCores(g_LocalPlayer.m_Entity);
-				//GiveGoldCores(g_LocalPlayer.m_Mount);
-				//AddMoney(100000);
+				if (IsKeyClicked(VK_PRIOR /*Page Up*/))
+					TeleportThroughDoor();
 
-				GiveLeftHandWeapon(WEAPON_PISTOL_M1899);
-				GiveRightHandWeapon(WEAPON_PISTOL_M1899);
-				GiveBackWeapon(WEAPON_SNIPERRIFLE_CARCANO);
-				GiveShoulderWeapon(WEAPON_REPEATER_HENRY);
+				if (IsKeyClicked(VK_NEXT /*Page Down*/))
+					RevealMap();
 			}
-
-			if (GetAsyncKeyState(VK_DELETE) & 1)
+			else
 			{
-				//for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
-				//{
-				//	Hash out;
-				//	WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &out, 0, i, 0);
-				//	std::cout << "Weapon at point " << i << " is " << out << " (" << HUD::GET_STRING_FROM_HASH_KEY(out) << ")\n";
-				//}
+				if (IsKeyClicked(VK_PRIOR /*Page Up*/))
+					TeleportToWaypoint();
 
-				// U_M_M_CIRCUSWAGON_01 - 2 head skeleton
-				// RE_RALLYDISPUTE_MALES_01 - KKK
-				// RE_RALLYSETUP_MALES_01 - KKK
-				// RE_RALLY_MALES_01 - KKK leader
-				// U_F_M_RHDNUDEWOMAN_01 - xd
-				// RE_NAKEDSWIMMER_MALES_01 - xd vol2
-				// CS_CRACKPOTROBOT - robot
-				//Ped ped = SpawnPed(U_F_M_RHDNUDEWOMAN_01);
-				GiveAllWeapons();
-				GiveAllAmmo();
-			}
+				if (IsKeyClicked(VK_NEXT /*Page Down*/))
+				{
+					//GiveAllWeapons();
+					//GiveAllAmmo();
+					//RestorePlayerCores();
+					//RestoreHorseCores();
+					//ClearWanted();
+					//GiveGoldCores(g_LocalPlayer.m_Entity);
+					//GiveGoldCores(g_LocalPlayer.m_Mount);
+					//AddMoney(100000);
+					//GiveLeftHandWeapon(WEAPON_PISTOL_M1899);
+					//GiveRightHandWeapon(WEAPON_PISTOL_M1899);
+					//GiveBackWeapon(WEAPON_SNIPERRIFLE_CARCANO);
+					//GiveShoulderWeapon(WEAPON_REPEATER_HENRY);
+					//GiveCivilWarHat();
+				}
 
-			if (GetAsyncKeyState(VK_F9) & 1)
-			{
-				// Drop current weapon
-				Ped playerPed = PLAYER::PLAYER_PED_ID();
-				Hash unarmed = WEAPON_UNARMED;
-				Hash cur;
-				if (WEAPON::GET_CURRENT_PED_WEAPON(playerPed, &cur, 0, 0, 0) && WEAPON::IS_WEAPON_VALID(cur) && cur != unarmed)
-					WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(playerPed, cur, 0.0, 0.0, 0.0, 1);
-			}
+				if (IsKeyClicked(VK_DELETE))
+				{
+					//for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
+					//{
+					//	Hash out;
+					//	WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &out, 0, i, 0);
+					//	std::cout << "Weapon at point " << i << " is " << out << " (" << HUD::GET_STRING_FROM_HASH_KEY(out) << ")\n";
+					//}
 
-			//if (GetAsyncKeyState(VK_F10) & 1)
-			//	ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, TRUE);
+					// U_M_M_CIRCUSWAGON_01 - 2 head skeleton
+					// RE_RALLYDISPUTE_MALES_01 - KKK
+					// RE_RALLYSETUP_MALES_01 - KKK
+					// RE_RALLY_MALES_01 - KKK leader
+					// U_F_M_RHDNUDEWOMAN_01 - xd
+					// RE_NAKEDSWIMMER_MALES_01 - xd vol2
+					// CS_CRACKPOTROBOT - robot
+					//Ped ped = SpawnPed(U_F_M_RHDNUDEWOMAN_01);
+					GiveAllWeapons();
+					GiveAllAmmo();
+					//GiveAllDualWieldWeapons();
+					GiveBackWeapon(WEAPON_SNIPERRIFLE_CARCANO);
+					GiveShoulderWeapon(WEAPON_REPEATER_WINCHESTER);
+					GiveLeftHandWeapon(WEAPON_PISTOL_VOLCANIC);
+					GiveRightHandWeapon(WEAPON_REVOLVER_LEMAT);
+				}
 
-			// tp to guarma
-			if (GetAsyncKeyState(VK_F11) & 1)
-				Teleport(1424.31f, -7325.1f, 81.4575f);
+				if (IsKeyClicked(VK_F9))
+				{
+					DropCurrentWeapon();
+					//SetMoney(10000000);
+				}
 
-			if (GetAsyncKeyState(VK_F12) & 1)
-			{
-				EnableNoSnipers = !EnableNoSnipers;
-				std::cout << "No snipers: " << (EnableNoSnipers ? "enabled" : "disabled") << '\n';
-				EnableNoReload = !EnableNoReload;
-				std::cout << "No reload: " << (EnableNoReload ? "enabled" : "disabled") << '\n';
-				EnableNoSliding = !EnableNoSliding;
-				std::cout << "No sliding: " << (EnableNoSliding ? "enabled" : "disabled") << '\n';
+				//if (IsKeyClicked(VK_F10))
+				//	ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, TRUE);
 
-				// Teleport(-2798.41f, -4262.28f, -17.5096f); // Mexico tunnel
-				// Teleport(-2134.6f, -3430.15f, 33.6615f); // Mexico Nuevo Paraiso
-				// SpawnLegendaryAnimal(RAGE_JOAAT("A_C_PANTHER_01"), RAGE_JOAAT("PANTHER_LEGENDARY"), 0x42CD3A6B);
+				// tp to guarma
+				if (IsKeyClicked(VK_F11))
+					Teleport(1424.31f, -7325.1f, 81.4575f);
+
+				if (IsKeyClicked(VK_F12))
+				{
+					EnableNoSnipers = !EnableNoSnipers;
+					std::cout << "No snipers: " << (EnableNoSnipers ? "enabled" : "disabled") << '\n';
+					EnableNoReload = !EnableNoReload;
+					std::cout << "No reload: " << (EnableNoReload ? "enabled" : "disabled") << '\n';
+					EnableNoSliding = !EnableNoSliding;
+					std::cout << "No sliding: " << (EnableNoSliding ? "enabled" : "disabled") << '\n';
+
+					// Teleport(-2798.41f, -4262.28f, -17.5096f); // Mexico tunnel
+					// Teleport(-2134.6f, -3430.15f, 33.6615f); // Mexico Nuevo Paraiso
+					// SpawnLegendaryAnimal(RAGE_JOAAT("A_C_PANTHER_01"), RAGE_JOAAT("PANTHER_LEGENDARY"), 0x42CD3A6B);
+				}
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -302,6 +315,19 @@ namespace Features
 	{
 		for (const auto& a : g_AmmoList)
 			GiveAmmo(a);
+	}
+
+	void GiveAllDualWieldWeapons()
+	{
+		for (const auto& a : g_DualWieldWeaponList)
+			GiveAmmo(a);
+	}
+
+	void DropCurrentWeapon()
+	{
+		Hash cur;
+		if (WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &cur, 0, 0, 0) && WEAPON::IS_WEAPON_VALID(cur) && cur != WEAPON_UNARMED)
+			WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(g_LocalPlayer.m_Entity, cur, 0.0, 0.0, 0.0, 1);
 	}
 
 	void ClearWanted()
@@ -592,5 +618,40 @@ namespace Features
 	{
 		uint64_t x = _rotl64(*Pointers::BlipBase, 29);
 		return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ *Pointers::BlipHash, 32), (x & 0x1F) + 5));
+	}
+	
+	void GiveCivilWarHat()
+	{
+		int guid1[5*2];
+		int guid2[4*2];
+
+		guid1[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
+		guid1[1 * 2] = 0;
+		guid1[2 * 2] = -1678926914;
+		guid1[3 * 2] = -1554986044;
+		guid1[4 * 2] = 0;
+
+		guid2[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
+		guid2[1 * 2] = 0;
+		guid2[2 * 2] = -1678926914;
+		guid2[3 * 2] = 2122960569;
+
+		INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, guid1, guid2, 2772348781, 2884296223, 1, ADD_REASON_DEFAULT);
+		//INVENTORY::_INVENTORY_ARE_LOCAL_CHANGES_ALLOWED(1);
+	}
+	
+	void TeleportThroughDoor()
+	{
+		Teleport(ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3));
+	}
+
+	bool IsKeyHeld(DWORD vKey)
+	{
+		return GetAsyncKeyState(vKey) & static_cast<SHORT>(1 << 15);
+	}
+
+	bool IsKeyClicked(DWORD vKey)
+	{
+		return GetAsyncKeyState(vKey) & static_cast<SHORT>(1);
 	}
 }

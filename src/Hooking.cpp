@@ -28,12 +28,14 @@ namespace Hooking
 		DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
 		CreatePed.Create(g_NativeContext.GetHandler(0xD49F9B0955C367DE), CreatePedHook);
 		CreateVehicle.Create(g_NativeContext.GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
+		InventoryAddItem.Create(g_NativeContext.GetHandler(0xCB5D11F9508A928D), InventoryAddItemHook);
 	}
 
 	void Destroy()
 	{
 		std::cout << "Destroying hooks.\n";
 
+		InventoryAddItem.Destroy();
 		CreateVehicle.Destroy();
 		CreatePed.Destroy();
 		DecreaseAmmo.Destroy();
@@ -221,6 +223,47 @@ namespace Hooking
 			else
 			{
 				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
+			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+	
+	BOOL InventoryAddItemHook(scrNativeCallContext* ctx)
+	{
+		BOOL result = 0;
+
+		TRY
+		{
+			if (ctx && Features::EnableAddInventoryItemLogging)
+			{
+				int inventoryId = ctx->GetArg<int>(0);
+				Any* guid1 = ctx->GetArg<Any*>(1);
+				Any* guid2 = ctx->GetArg<Any*>(2);
+				Hash item = ctx->GetArg<Hash>(3);
+				Hash inventoryItemSlot = ctx->GetArg<Hash>(4);
+				int p5 = ctx->GetArg<int>(5);
+				Hash addReason = ctx->GetArg<Hash>(6);
+
+				result = Hooking::InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+				BOOL ret = ctx->GetRet<BOOL>();
+
+				std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid1 << ", " << guid2 << ", " << item << ", "
+					<< inventoryItemSlot << ", " << p5 << ", " << addReason << ")\n";
+				std::cout << "\tReturned " << ret << "\n\n";
+
+				std::cout << "\tguid1:\n";
+				for (int i = 0; i < 5; i++)
+					std::cout << "\t" << ((int*)guid1)[i * 2] << "\n";
+
+				std::cout << "\n\tguid2:\n";
+				for (int i = 0; i < 4; i++)
+					std::cout << "\t" << ((int*)guid2)[i * 2] << "\n";
+			}
+			else
+			{
+				result = Hooking::InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

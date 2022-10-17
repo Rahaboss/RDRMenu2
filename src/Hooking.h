@@ -46,4 +46,7 @@ namespace Hooking
 
 	inline DetourHook CreateVehicle;
 	Vehicle CreateVehicleHook(scrNativeCallContext* ctx);
+
+	inline DetourHook InventoryAddItem;
+	BOOL InventoryAddItemHook(scrNativeCallContext* ctx);
 }
