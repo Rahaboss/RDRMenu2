@@ -5,11 +5,15 @@
 #include "rage/natives.h"
 #include "rage/enums.h"
 
+#define TOGGLE_AND_LOG_BOOL(v) v = !v;\
+std::cout << #v": " << (v ? "enabled" : "disabled") << '\n';
+
 namespace Features
 {
+	// To be used with TOGGLE_AND_LOG_BOOL
 	inline bool EnableNoSnipers = true, EnableNoReload = true, EnableNoSliding = true,
 		EnablePedSpawnLogging = false, EnableHumanSpawnLogging = false, EnableVehicleSpawnLogging = false,
-		EnableAddInventoryItemLogging = false;
+		EnableAddInventoryItemLogging = true;
 
 	void ExecuteAsThread(joaat_t script_hash, void (*function)());
 	void Setup();
@@ -57,4 +61,12 @@ namespace Features
 	void TeleportThroughDoor();
 	bool IsKeyHeld(DWORD vKey);
 	bool IsKeyClicked(DWORD vKey);
+	void GiveAgedPirateRum(); // Stamina XP
+	void GiveGinsengElixir(); // Health XP
+	void GiveValerianRoot(); // Dead Eye XP
+	// Seems to work on consumables but not clothing
+	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot = 1084182731, int InventoryID = 1, Hash AddReason = ADD_REASON_DEFAULT);
+	void GiveInventoryItem(Hash ItemHash, int Amount);
+	Hash GetInventoryItemType(Hash ItemHash);
+	Hash GetInventorySlot(Hash ItemHash);
 }

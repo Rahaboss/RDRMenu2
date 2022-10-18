@@ -49,4 +49,7 @@ namespace Hooking
 
 	inline DetourHook InventoryAddItem;
 	BOOL InventoryAddItemHook(scrNativeCallContext* ctx);
+
+	inline DetourHook GetGUIDFromItemID;
+	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx);
 }

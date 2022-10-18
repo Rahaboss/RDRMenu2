@@ -36,5 +36,7 @@ namespace Pointers
 		uintptr_t GetBlipAddress = Signature("E8 ? ? ? ? 49 3B C7 74 4B").Add(1).Rip().GetRaw();
 		BlipBase = Signature(GetBlipAddress).Add(0x1E).Rip().Get<decltype(BlipBase)>();
 		BlipHash = Signature(GetBlipAddress).Add(0x25).Rip().Get<decltype(BlipHash)>();
+		sub_7FF73D8C1638 = Signature("E8 ? ? ? ? 44 8A 46 16").Add(1).Rip().Get<decltype(sub_7FF73D8C1638)>();
+		GetEntityPed = Signature("E8 ? ? ? ? 44 0F B6 C5").Add(1).Rip().Get<decltype(GetEntityPed)>();
 	}
 }

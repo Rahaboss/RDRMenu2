@@ -29,12 +29,14 @@ namespace Hooking
 		CreatePed.Create(g_NativeContext.GetHandler(0xD49F9B0955C367DE), CreatePedHook);
 		CreateVehicle.Create(g_NativeContext.GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
 		InventoryAddItem.Create(g_NativeContext.GetHandler(0xCB5D11F9508A928D), InventoryAddItemHook);
+		GetGUIDFromItemID.Create(g_NativeContext.GetHandler(0x886DFD3E185C8A89), GetGUIDFromItemIDHook);
 	}
 
 	void Destroy()
 	{
 		std::cout << "Destroying hooks.\n";
 
+		GetGUIDFromItemID.Destroy();
 		InventoryAddItem.Destroy();
 		CreateVehicle.Destroy();
 		CreatePed.Destroy();
@@ -254,16 +256,55 @@ namespace Hooking
 				std::cout << "\tReturned " << ret << "\n\n";
 
 				std::cout << "\tguid1:\n";
-				for (int i = 0; i < 5; i++)
+				for (int i = 0; i < 4; i++)
 					std::cout << "\t" << ((int*)guid1)[i * 2] << "\n";
 
 				std::cout << "\n\tguid2:\n";
-				for (int i = 0; i < 4; i++)
+				for (int i = 0; i < 5; i++)
 					std::cout << "\t" << ((int*)guid2)[i * 2] << "\n";
 			}
 			else
 			{
 				result = Hooking::InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+	
+	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx)
+	{
+		BOOL result = 0;
+
+		TRY
+		{
+			if (ctx && Features::EnableAddInventoryItemLogging && ctx->GetArg<int>(0) == RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"))
+			{
+				int inventoryId = ctx->GetArg<int>(0);
+				Any* guid = ctx->GetArg<Any*>(1);
+				Hash p2 = ctx->GetArg<Hash>(2);
+				Hash slotId = ctx->GetArg<Hash>(3);
+				Any* outGuid = ctx->GetArg<Any*>(4);
+
+				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
+				BOOL ret = ctx->GetRet<BOOL>();
+
+				std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid << ", " << p2 << ", " << slotId << ", "
+					<< outGuid << ")\n";
+				std::cout << "\tReturned " << ret << "\n\n";
+
+				std::cout << "\tguid:\n";
+				for (int i = 0; i < 5; i++)
+					std::cout << "\t" << ((int*)guid)[i * 2] << "\n";
+
+				std::cout << "\n\toutGuid:\n";
+				for (int i = 0; i < 5; i++)
+					std::cout << "\t" << ((int*)outGuid)[i * 2] << "\n";
+			}
+			else
+			{
+				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

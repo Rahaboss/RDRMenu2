@@ -150,7 +150,7 @@ Signature& Signature::Sub(const ptrdiff_t& n)
 
 Signature& Signature::Rip()
 {
-	return Add(*reinterpret_cast<uint32_t*>(m_result)).Add(4);
+	return Add(*reinterpret_cast<int32_t*>(m_result)).Add(4);
 }
 
 uintptr_t Signature::GetRaw()

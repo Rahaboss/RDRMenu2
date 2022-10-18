@@ -29,4 +29,6 @@ namespace Pointers
 	inline uint64_t* PedFactoryHash{};
 	inline uint64_t* BlipBase{};
 	inline uint64_t* BlipHash{};
+	inline void* sub_7FF73D8C1638{};
+	inline CPed* (*GetEntityPed)(Entity){};
 }

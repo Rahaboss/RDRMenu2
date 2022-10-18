@@ -47,7 +47,7 @@ namespace Features
 		//PrintNativeHandlerAddress(0x214651FB1DFEBA89);
 		//PrintNativeHandlerAddress(0xAF35D0D2583051B0);
 		//PrintNativeHandlerAddress(0xB980061DA992779D);
-		PrintNativeHandlerAddress(0xFD340785ADF8CFB7);
+		PrintNativeHandlerAddress(0xA5C38736C426FCB8);
 		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
 		std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
 		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << " (vtbl: " << LOG_HEX(*(void**)Pointers::GetPlayerPed(0)) << ").\n";
@@ -55,10 +55,9 @@ namespace Features
 		//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
 		std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
 		std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
-
-		//std::cout << INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID() << "\n";
 	}
 
+	static bool Godmode = false;
 	void OnTick()
 	{
 		TRY
@@ -68,24 +67,52 @@ namespace Features
 			
 			if (IsKeyHeld(VK_LSHIFT))
 			{
+				// Shift + Page Up: TP through door
 				if (IsKeyClicked(VK_PRIOR /*Page Up*/))
+				{
 					TeleportThroughDoor();
+				}
 
+				// Shift + Page Down: Reveal map
 				if (IsKeyClicked(VK_NEXT /*Page Down*/))
+				{
 					RevealMap();
+				}
+
+				// Shift + Delete: Toggle godmode
+				if (IsKeyClicked(VK_DELETE))
+				{
+					Godmode = !Godmode;
+					std::cout << "Godmode: " << (Godmode ? "enabled" : "disabled") << "\n";
+					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, (BOOL)Godmode);
+				}
+
+				// Shift + F9: Give core XP items
+				if (IsKeyClicked(VK_F9))
+				{
+					//GiveAgedPirateRum();
+					//GiveGinsengElixir();
+					//GiveValerianRoot();
+					//GiveSingleInventoryItem(CONSUMABLE_HAYCUBE);
+					GiveCivilWarHat();
+				}
 			}
 			else
 			{
+				// Page Up: TP to waypoint
 				if (IsKeyClicked(VK_PRIOR /*Page Up*/))
+				{
 					TeleportToWaypoint();
+				}
 
+				// Page Down: Clear wanted, restore cores
 				if (IsKeyClicked(VK_NEXT /*Page Down*/))
 				{
 					//GiveAllWeapons();
 					//GiveAllAmmo();
-					//RestorePlayerCores();
+					RestorePlayerCores();
 					//RestoreHorseCores();
-					//ClearWanted();
+					ClearWanted();
 					//GiveGoldCores(g_LocalPlayer.m_Entity);
 					//GiveGoldCores(g_LocalPlayer.m_Mount);
 					//AddMoney(100000);
@@ -96,6 +123,7 @@ namespace Features
 					//GiveCivilWarHat();
 				}
 
+				// Delete: Give weapons
 				if (IsKeyClicked(VK_DELETE))
 				{
 					//for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
@@ -122,27 +150,26 @@ namespace Features
 					GiveRightHandWeapon(WEAPON_REVOLVER_LEMAT);
 				}
 
+				// F9: Drop current weapon
 				if (IsKeyClicked(VK_F9))
 				{
 					DropCurrentWeapon();
 					//SetMoney(10000000);
 				}
 
-				//if (IsKeyClicked(VK_F10))
-				//	ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, TRUE);
-
-				// tp to guarma
+				// F11: TP to guarma
 				if (IsKeyClicked(VK_F11))
+				{
 					Teleport(1424.31f, -7325.1f, 81.4575f);
+				}
 
+				// F12: Toggle no snipers, no reload, no sliding
 				if (IsKeyClicked(VK_F12))
 				{
-					EnableNoSnipers = !EnableNoSnipers;
-					std::cout << "No snipers: " << (EnableNoSnipers ? "enabled" : "disabled") << '\n';
-					EnableNoReload = !EnableNoReload;
-					std::cout << "No reload: " << (EnableNoReload ? "enabled" : "disabled") << '\n';
-					EnableNoSliding = !EnableNoSliding;
-					std::cout << "No sliding: " << (EnableNoSliding ? "enabled" : "disabled") << '\n';
+					TOGGLE_AND_LOG_BOOL(EnableNoSnipers);
+					TOGGLE_AND_LOG_BOOL(EnableNoReload);
+					TOGGLE_AND_LOG_BOOL(EnableNoSliding);
+					TOGGLE_AND_LOG_BOOL(EnableAddInventoryItemLogging);
 
 					// Teleport(-2798.41f, -4262.28f, -17.5096f); // Mexico tunnel
 					// Teleport(-2134.6f, -3430.15f, 33.6615f); // Mexico Nuevo Paraiso
@@ -622,22 +649,69 @@ namespace Features
 	
 	void GiveCivilWarHat()
 	{
-		int guid1[5*2];
-		int guid2[4*2];
-
-		guid1[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
-		guid1[1 * 2] = 0;
-		guid1[2 * 2] = -1678926914;
-		guid1[3 * 2] = -1554986044;
-		guid1[4 * 2] = 0;
-
-		guid2[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
-		guid2[1 * 2] = 0;
-		guid2[2 * 2] = -1678926914;
-		guid2[3 * 2] = 2122960569;
-
-		INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, guid1, guid2, 2772348781, 2884296223, 1, ADD_REASON_DEFAULT);
+		//int guid1[5*2];
+		//int guid2[4*2];
+		//
+		//guid1[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
+		//guid1[1 * 2] = 0;
+		//guid1[2 * 2] = -1678926914;
+		//guid1[3 * 2] = -1554986044;
+		//guid1[4 * 2] = 0;
+		//
+		//guid2[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
+		//guid2[1 * 2] = 0;
+		//guid2[2 * 2] = -1678926914;
+		//guid2[3 * 2] = 2122960569;
+		//
+		//INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, guid1, guid2, 2772348781, 2884296223, 1, ADD_REASON_DEFAULT);
 		//INVENTORY::_INVENTORY_ARE_LOCAL_CHANGES_ALLOWED(1);
+
+		constexpr Hash ItemHash = 2134589549;// RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+		const Hash ItemSlot = 2884296223;
+		//const int ItemSlot2 = 2884296223; //-1410671073
+		if (!INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, ItemSlot))
+		{
+			std::cout << "CLOTHING_SP_CIVIL_WAR_HAT_000_1 error\n";
+		}
+
+		GiveSingleInventoryItem(ItemHash, ItemSlot, 1, ADD_REASON_DEFAULT);
+		
+		//INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, 0, 0, 2435553656, 2884296223, 1, 752097756);
+		/*
+		Real
+		_INVENTORY_ADD_ITEM_WITH_GUID(1, 00000093126FFA00, 00000093126FF9D8, 2772348781, 2884296223, 1, 752097756)
+			Returned 0
+
+			guid1:
+			0
+			0
+			0
+			0
+
+			guid2:
+			-2147483648
+			0
+			-491496727
+			-1156075982
+			-1410671073
+		
+		Expected
+		_INVENTORY_ADD_ITEM_WITH_GUID(1, 000001D00A449940, 000001D00A449918, 2772348781, 2884296223, 1, 752097756)
+			Returned 1
+
+			guid1:
+			-2147483648
+			0
+			-1678926914
+			115975676 / 390940990
+
+			guid2:
+			-2147483648
+			0
+			-491496727
+			-1156075972
+			-1410671073
+		*/
 	}
 	
 	void TeleportThroughDoor()
@@ -653,5 +727,146 @@ namespace Features
 	bool IsKeyClicked(DWORD vKey)
 	{
 		return GetAsyncKeyState(vKey) & static_cast<SHORT>(1);
+	}
+	
+	void GiveAgedPirateRum()
+	{
+		TRY
+		{
+			GiveSingleInventoryItem(CONSUMABLE_AGED_PIRATE_RUM, 1084182731, 1, ADD_REASON_DEFAULT);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+	
+	void GiveGinsengElixir()
+	{
+		TRY
+		{
+			GiveSingleInventoryItem(CONSUMABLE_GINSENG_ELIXIER, 1084182731, 1, ADD_REASON_DEFAULT);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+	
+	void GiveValerianRoot()
+	{
+		TRY
+		{
+			GiveSingleInventoryItem(CONSUMABLE_VALERIAN_ROOT, 1084182731, 1, ADD_REASON_DEFAULT);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+	
+	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot, int InventoryID, Hash AddReason)
+	{
+		Any guid1[4 * 2]; memset(guid1, 0, sizeof(guid1));
+		Any guid2[5 * 2]; memset(guid2, 0, sizeof(guid2));
+		Any dummy[5 * 2]; memset(dummy, 0, sizeof(dummy));
+
+		//TRY
+		//{
+		//	ItemSlot = GetInventorySlot(ItemHash);
+		//}
+		//EXCEPT{ LOG_EXCEPTION(); }
+		//
+		//TRY
+		//{
+		//	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
+		//	{
+		//		std::cout << __FUNCTION__ << ": couldn't get guid2\n";
+		//		return;
+		//	}
+		//	guid2[4 * 2] = ItemSlot;
+		//}
+		//EXCEPT{ LOG_EXCEPTION(); }
+		//
+		//TRY
+		//{
+		//	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
+		//	{
+		//		std::cout << __FUNCTION__ << ": couldn't get guid1\n";
+		//		return;
+		//	}
+		//}
+		//EXCEPT{ LOG_EXCEPTION(); }
+		//
+		//TRY
+		//{
+		//	if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
+		//	{
+		//		std::cout << __FUNCTION__ << ": couldn't add item\n";
+		//		return;
+		//	}
+		//}
+		//EXCEPT{ LOG_EXCEPTION(); }
+
+		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
+		{
+			std::cout << __FUNCTION__ << ": couldn't get guid2\n";
+			return;
+		}
+		guid2[4 * 2] = ItemSlot;
+
+		// Could return false but still work
+		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
+		{
+			std::cout << __FUNCTION__ << ": couldn't get guid1\n";
+			//return;
+		}
+
+		if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
+		{
+			std::cout << __FUNCTION__ << ": couldn't add item\n";
+			return;
+		}
+	}
+	
+	void GiveInventoryItem(Hash ItemHash, int Amount)
+	{
+		for (int i = 0; i < Amount; i++)
+			GiveSingleInventoryItem(ItemHash);
+	}
+	
+	Hash GetInventoryItemType(Hash ItemHash)
+	{
+		TRY
+		{
+			Any ItemInfo[3 * 2]; memset(ItemInfo, 0, sizeof(ItemInfo));
+			if (!ITEMDATABASE::ITEMDATABASE_FILLOUT_ITEM_INFO(ItemHash, ItemInfo))
+				return 0;
+			return static_cast<Hash>(ItemInfo[2 * 2]);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return 0;
+	}
+	
+	Hash GetInventorySlot(Hash ItemHash)
+	{
+		Hash ItemSlot = 0;
+
+		TRY
+		{
+			switch (GetInventoryItemType(ItemHash))
+			{
+			case RAGE_JOAAT("CLOTHING"):
+			case RAGE_JOAAT("WEAPON"):
+			case RAGE_JOAAT("HORSE"):
+			case RAGE_JOAAT("EMOTE"):
+			case RAGE_JOAAT("UPGRADE"):
+			default:
+				if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1084182731))
+					ItemSlot = 1084182731;
+				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1034665895))
+					ItemSlot = 1034665895;
+				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, -833319691))
+					ItemSlot = -833319691;
+				else
+					ItemSlot = INVENTORY::_GET_DEFAULT_ITEM_SLOT_INFO(ItemHash, RAGE_JOAAT("CHARACTER"));
+				break;
+			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return ItemSlot;
 	}
 }
