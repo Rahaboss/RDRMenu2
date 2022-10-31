@@ -102,6 +102,21 @@ constexpr inline std::array g_DualWieldWeaponList{
 	WEAPON_SHOTGUN_SAWEDOFF, // Sawed-Off Shotgun
 };
 
+constexpr inline std::array g_DualWieldWeaponPickupList{
+	PICKUP_WEAPON_REVOLVER_CATTLEMAN, // Cattleman Revolver
+	PICKUP_WEAPON_REVOLVER_CATTLEMAN_JOHN, // John's Cattleman Revolver
+	PICKUP_WEAPON_REVOLVER_DOUBLEACTION, // Double-Action Revolver
+	PICKUP_WEAPON_REVOLVER_DOUBLEACTION_EXOTIC, // Algernon's Revolver
+	PICKUP_WEAPON_REVOLVER_SCHOFIELD, // Schofield Revolver
+	PICKUP_WEAPON_REVOLVER_LEMAT, // LeMat Revolver
+	PICKUP_WEAPON_PISTOL_VOLCANIC, // Volcanic Pistol
+	PICKUP_WEAPON_PISTOL_SEMIAUTO, // Semi-Automatic Pistol
+	PICKUP_WEAPON_PISTOL_MAUSER, // Mauser Pistol
+	PICKUP_WEAPON_PISTOL_MAUSER_DRUNK, // Midnight's Pistol
+	PICKUP_WEAPON_PISTOL_M1899, // M1899 Pistol
+	PICKUP_WEAPON_SHOTGUN_SAWEDOFF, // Sawed-Off Shotgun
+};
+
 constexpr inline std::array g_AmmoList{
 	AMMO_22,
 	AMMO_22_TRANQUILIZER,

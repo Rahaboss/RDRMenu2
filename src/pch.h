@@ -2,6 +2,7 @@
 
 // C++ standard library
 #include <iostream>
+#include <string>
 #include <string_view>
 #include <array>
 #include <vector>

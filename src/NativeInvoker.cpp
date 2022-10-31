@@ -47,7 +47,11 @@ void NativeContext::EndCall(const uint64_t& hash)
 			Handler(GetContext());
 			FixVectors();
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		EXCEPT
+		{
+			LOG_EXCEPTION();
+			std::cout << "Caught exception in native " << LOG_HEX(hash) << "!\n";
+		}
 	}
 	else
 	{

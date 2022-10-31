@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Features.h"
 #include "Pointers.h"
 #include "Fiber.h"
@@ -6,6 +6,7 @@
 #include "rage/natives.h"
 #include "PlayerInfo.h"
 #include "rage/lists.h"
+#include "menu/Menu.h"
 
 namespace Features
 {
@@ -47,7 +48,7 @@ namespace Features
 		//PrintNativeHandlerAddress(0x214651FB1DFEBA89);
 		//PrintNativeHandlerAddress(0xAF35D0D2583051B0);
 		//PrintNativeHandlerAddress(0xB980061DA992779D);
-		PrintNativeHandlerAddress(0xA5C38736C426FCB8);
+		PrintNativeHandlerAddress(0xFA925AC00EB830B9);
 		std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
 		std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
 		std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << " (vtbl: " << LOG_HEX(*(void**)Pointers::GetPlayerPed(0)) << ").\n";
@@ -57,14 +58,30 @@ namespace Features
 		std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
 	}
 
-	static bool Godmode = false;
 	void OnTick()
 	{
 		TRY
 		{
 			GetLocalPlayerInfo();
+			RGBTick();
+			Menu::RenderMenu();
+
 			NoSliding();
-			
+			//RenderTextOnEntity(g_LocalPlayer.m_Entity, "Player ~n~~COLOR_RED~Test \xE2\x88\x91~ws~");
+			//RenderTextOnEntity(g_LocalPlayer.m_Mount, "Mount");
+			//RenderTextOnEntity(g_LocalPlayer.m_Vehicle, "Vehicle");
+			// \xE2\x88\x91 = Rockstar
+			// \xC2\xA6		= Verified
+			// \xE2\x80\xB9 = Created
+			// \xE2\x80\xBA = Blank
+			// \xCE\xA9		= Padlock
+			//RenderText("~COLOR_SOCIAL_CLUB~\xE2\x88\x91 \\xE2\\x88\\x91\n\xC2\xA6 \\xC2\\xA6\n\xE2\x80\xB9 \\xE2\\x80\\xB9\n"
+			//	"\xE2\x80\xBA \\xE2\\x80\\xBA\n\xCE\xA9 \\xCE\\xA9", 0.0f, 0.0f);
+			//RenderText("~COLOR_RED~\xE2\x88\x91 Admin", 0.0f, 0.1f);
+
+			if (EnableGodMode)
+				SetGodmode(true);
+
 			if (IsKeyHeld(VK_LSHIFT))
 			{
 				// Shift + Page Up: TP through door
@@ -82,9 +99,9 @@ namespace Features
 				// Shift + Delete: Toggle godmode
 				if (IsKeyClicked(VK_DELETE))
 				{
-					Godmode = !Godmode;
-					std::cout << "Godmode: " << (Godmode ? "enabled" : "disabled") << "\n";
-					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, (BOOL)Godmode);
+					TOGGLE_AND_LOG_BOOL(EnableGodMode);
+					if (!EnableGodMode)
+						SetGodmode(false);
 				}
 
 				// Shift + F9: Give core XP items
@@ -95,6 +112,25 @@ namespace Features
 					//GiveValerianRoot();
 					//GiveSingleInventoryItem(CONSUMABLE_HAYCUBE);
 					GiveCivilWarHat();
+				}
+
+				// Shift + F11: Spawn enemy for good honor
+				if (IsKeyClicked(VK_F11))
+				{
+					SpawnGoodHonorEnemy();
+					//SpawnBadHonorEnemy();
+				}
+
+				// Shift + F12: Give weapons
+				if (IsKeyClicked(VK_F12))
+				{
+					GiveAllWeapons();
+					GiveAllDualWieldWeapons();
+					GiveAllAmmo();
+					//GiveBackWeapon(WEAPON_SNIPERRIFLE_CARCANO);
+					//GiveShoulderWeapon(WEAPON_REPEATER_WINCHESTER);
+					//GiveLeftHandWeapon(WEAPON_PISTOL_VOLCANIC);
+					//GiveRightHandWeapon(WEAPON_REVOLVER_LEMAT);
 				}
 			}
 			else
@@ -108,11 +144,9 @@ namespace Features
 				// Page Down: Clear wanted, restore cores
 				if (IsKeyClicked(VK_NEXT /*Page Down*/))
 				{
-					//GiveAllWeapons();
-					//GiveAllAmmo();
-					RestorePlayerCores();
-					//RestoreHorseCores();
 					ClearWanted();
+					RestorePlayerCores();
+					RestoreHorseCores();
 					//GiveGoldCores(g_LocalPlayer.m_Entity);
 					//GiveGoldCores(g_LocalPlayer.m_Mount);
 					//AddMoney(100000);
@@ -123,16 +157,9 @@ namespace Features
 					//GiveCivilWarHat();
 				}
 
-				// Delete: Give weapons
+				// Delete: Spawn turret
 				if (IsKeyClicked(VK_DELETE))
 				{
-					//for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
-					//{
-					//	Hash out;
-					//	WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &out, 0, i, 0);
-					//	std::cout << "Weapon at point " << i << " is " << out << " (" << HUD::GET_STRING_FROM_HASH_KEY(out) << ")\n";
-					//}
-
 					// U_M_M_CIRCUSWAGON_01 - 2 head skeleton
 					// RE_RALLYDISPUTE_MALES_01 - KKK
 					// RE_RALLYSETUP_MALES_01 - KKK
@@ -140,14 +167,23 @@ namespace Features
 					// U_F_M_RHDNUDEWOMAN_01 - xd
 					// RE_NAKEDSWIMMER_MALES_01 - xd vol2
 					// CS_CRACKPOTROBOT - robot
-					//Ped ped = SpawnPed(U_F_M_RHDNUDEWOMAN_01);
-					GiveAllWeapons();
-					GiveAllAmmo();
-					//GiveAllDualWieldWeapons();
-					GiveBackWeapon(WEAPON_SNIPERRIFLE_CARCANO);
-					GiveShoulderWeapon(WEAPON_REPEATER_WINCHESTER);
-					GiveLeftHandWeapon(WEAPON_PISTOL_VOLCANIC);
-					GiveRightHandWeapon(WEAPON_REVOLVER_LEMAT);
+					Ped ped = SpawnPed(RAGE_JOAAT("S_M_Y_Army_01"));
+					
+					// BREACH_CANNON
+					// GATLING_GUN
+					// GATLINGMAXIM02
+					// HOTCHKISS_CANNON
+					//Vehicle veh = SpawnVehicle(GATLING_GUN);
+
+					//Cam c = CAM::GET_RENDERING_CAM();
+					//Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, 1, 1);
+					//CAM::SET_CAM_COORD(c, pos.x, pos.y, pos.z);
+				}
+
+				// F8: Give money
+				if (IsKeyClicked(VK_F8))
+				{
+					SetMoney(10000000);
 				}
 
 				// F9: Drop current weapon
@@ -210,663 +246,19 @@ namespace Features
 		Fiber::GetCurrent()->YieldThread();
 	}
 
-	void GetLocalPlayerInfo()
+	static int iC = 1, dC = 0;
+	void RGBTick()
 	{
-		TRY
+		if (g_rgb[iC] == 255)
 		{
-			g_LocalPlayer.m_Index = PLAYER::PLAYER_ID();
-			g_LocalPlayer.m_Entity = PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(g_LocalPlayer.m_Index);
-			g_LocalPlayer.m_Mount = PED::GET_MOUNT(g_LocalPlayer.m_Entity);
-			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, FALSE);
-			g_LocalPlayer.m_Ped = Pointers::GetPlayerPed(g_LocalPlayer.m_Index);
+			iC++;
+			dC++;
+			if (iC == 3)
+				iC = 0;
+			else if (dC == 3)
+				dC = 0;
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-
-	Entity GetMountOrVehicle()
-	{
-		if (g_LocalPlayer.m_Mount)
-			return g_LocalPlayer.m_Mount;
-		return g_LocalPlayer.m_Vehicle;
-	}
-
-	Entity GetMainEntity()
-	{
-		if (auto e = GetMountOrVehicle())
-			return e;
-		return g_LocalPlayer.m_Entity;
-	}
-
-	void Teleport(const float& x, const float& y, const float& z)
-	{
-		ENTITY::SET_ENTITY_COORDS(GetMainEntity(), x, y, z, FALSE, FALSE, FALSE, FALSE);
-	}
-
-	void Teleport(const Vector3& pos)
-	{
-		Teleport(pos.x, pos.y, pos.z);
-	}
-
-	void TeleportToWaypoint()
-	{
-		TRY
-		{
-			Vector3 coords{};
-			bool found = false, playerBlip = false;
-			if (MAP::IS_WAYPOINT_ACTIVE())
-			{
-				coords = MAP::_GET_WAYPOINT_COORDS();
-				found = true;
-				playerBlip = true;
-			}
-#if 0
-			else
-			{
-				//for (int i = 0; i < 3; i++)
-				{
-					Blip blip = 0;// MAP::GET_FIRST_BLIP_INFO_ID(i);
-					if (MAP::DOES_BLIP_EXIST(blip))
-					{
-						coords = MAP::GET_BLIP_COORDS(blip);
-						found = true;
-						//break;
-					}
-				}
-			}
-#endif
-
-			if (!found)
-			{
-				std::cout << "Waypoint not active!\n";
-				return;
-			}
-			
-			if (playerBlip)
-			{
-				float groundZ;
-				bool useGroundZ;
-				for (int i = 0; i < 100; i++)
-				{
-					float testZ = (i * 10.f) - 100.f;
-
-					Teleport(coords.x, coords.y, testZ);
-					if (i % 5 == 0)
-						YieldThread();
-
-					useGroundZ = MISC::GET_GROUND_Z_FOR_3D_COORD(coords.x, coords.y, testZ, &groundZ, false);
-					if (useGroundZ)
-						break;
-				}
-
-				coords.z = (useGroundZ ? groundZ : ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE).z);
-			}
-
-			Teleport(coords);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-
-	void GiveGoldCores(const Ped& ped)
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			constexpr float overpower_duration = 1000.f; // seconds
-			constexpr int core_value = 100; // 0 - 100
-			constexpr BOOL sound = FALSE;
-
-			ATTRIBUTE::DISABLE_ATTRIBUTE_OVERPOWER(ped, i);
-			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(ped, i, core_value);
-			ATTRIBUTE::_ENABLE_ATTRIBUTE_CORE_OVERPOWER(ped, i, overpower_duration, sound);
-			ATTRIBUTE::ENABLE_ATTRIBUTE_OVERPOWER(ped, i, overpower_duration, sound);
-		}
-	}
-
-	void GiveWeapon(const Hash& weapon_hash)
-	{
-		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, weapon_hash, 9999, TRUE, FALSE, WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE,
-			0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
-	}
-
-	void GiveAllWeapons()
-	{
-		for (const auto& w : g_WeaponList)
-			GiveWeapon(w);
-	}
-
-	void GiveAmmo(const Hash& ammo_hash)
-	{
-		WEAPON::_ADD_AMMO_TO_PED_BY_TYPE(g_LocalPlayer.m_Entity, ammo_hash, 9999, ADD_REASON_DEFAULT);
-	}
-
-	void GiveAllAmmo()
-	{
-		for (const auto& a : g_AmmoList)
-			GiveAmmo(a);
-	}
-
-	void GiveAllDualWieldWeapons()
-	{
-		for (const auto& a : g_DualWieldWeaponList)
-			GiveAmmo(a);
-	}
-
-	void DropCurrentWeapon()
-	{
-		Hash cur;
-		if (WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &cur, 0, 0, 0) && WEAPON::IS_WEAPON_VALID(cur) && cur != WEAPON_UNARMED)
-			WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(g_LocalPlayer.m_Entity, cur, 0.0, 0.0, 0.0, 1);
-	}
-
-	void ClearWanted()
-	{
-		LAW::SET_BOUNTY(g_LocalPlayer.m_Index, 0);
-		LAW::_SET_BOUNTY_HUNTER_PURSUIT_CLEARED();
-		LAW::SET_WANTED_SCORE(g_LocalPlayer.m_Index, 0);
-	}
-
-	void RevealMap()
-	{
-		MAP::SET_MINIMAP_HIDE_FOW(TRUE);
-		MAP::_REVEAL_MINIMAP_FOW(0);
-	}
-
-	void PrintNativeHandlerAddress(const uint64_t& hash)
-	{
-		TRY
-		{
-			auto addr = (uintptr_t)g_NativeContext.GetHandler(hash);
-			auto off = addr - g_BaseAddress;
-			std::cout << LOG_HEX(hash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" << LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-	
-	void AddMoney(const int& amount_cents)
-	{
-		MONEY::_MONEY_INCREMENT_CASH_BALANCE(amount_cents, ADD_REASON_DEFAULT);
-	}
-	
-	void RemoveMoney(const int& amount_cents)
-	{
-		MONEY::_MONEY_DECREMENT_CASH_BALANCE(amount_cents);
-	}
-	
-	void SetMoney(const int& amount_cents)
-	{
-		int amount = amount_cents - MONEY::_MONEY_GET_CASH_BALANCE();
-		if (amount > 0)
-			AddMoney(amount);
-		else if (amount < 0)
-			RemoveMoney(amount);
-	}
-
-	bool RequestModel(const Hash& model)
-	{
-		if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
-		{
-			std::cout << __FUNCTION__ << ": " << LOG_HEX(model) << " is not a valid model hash!\n";
-			return false;
-		}
-
-		constexpr int MaxRequests = 100;
-		for (int i = 0; i < MaxRequests; i++)
-		{
-			STREAMING::REQUEST_MODEL(model, FALSE);
-			YieldThread();
-			if (STREAMING::HAS_MODEL_LOADED(model))
-				return true;
-		}
-
-		return false;
-	}
-
-	Ped SpawnPed(const Hash& model)
-	{
-		if (!RequestModel(model))
-		{
-			std::cout << __FUNCTION__ << ": Couldn't spawn ped " << LOG_HEX(model) << '\n';
-			return 0;
-		}
-
-		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
-		Ped ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z, static_cast<float>(rand() % 360), 0, 0, 0, 0);
-		
-		if (!ped)
-		{
-			std::cout << __FUNCTION__ << ": Couldn't spawn ped " << LOG_HEX(model) << '\n';
-			return ped;
-		}
-
-		YieldThread();
-
-		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, TRUE);
-
-		ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&ped);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
-
-		return ped;
-	}
-
-	Vehicle SpawnVehicle(const Hash& model, const bool& warp_into)
-	{
-		if (!RequestModel(model))
-		{
-			std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << LOG_HEX(model) << "!\n";
-			return 0;
-		}
-
-		Vector3 coords = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
-		Vehicle veh = VEHICLE::CREATE_VEHICLE(model, coords.x, coords.y, coords.z,
-			ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), FALSE, FALSE, FALSE, FALSE);
-
-		if (!veh)
-		{
-			std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << LOG_HEX(model) << "!\n";
-			return veh;
-		}
-
-		YieldThread();
-
-		DECORATOR::DECOR_SET_BOOL(veh, "wagon_block_honor", TRUE);
-		VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(veh, 0);
-		if (warp_into)
-			PED::SET_PED_INTO_VEHICLE(g_LocalPlayer.m_Entity, veh, -1);
-
-		ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&veh);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
-
-		return veh;
-	}
-
-	void SetSnowType(eSnowCoverageType type)
-	{
-		GRAPHICS::_SET_SNOW_COVERAGE_TYPE(type);
-	}
-
-	void NoSliding()
-	{
-		if (!EnableNoSliding)
-			return;
-
-		// PCF_0x435F091E = set ped can run into steep slope
-		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, PCF_0x435F091E, TRUE);
-		if (g_LocalPlayer.m_Mount)
-			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, PCF_0x435F091E, TRUE);
-	}
-	
-	//void SpawnLegendaryAnimal(const Hash& model_hash, const Hash& legendary_hash, const Hash& outfit_hash)
-	//{
-	//	if (!RequestModel(model_hash))
-	//		return;
-	//
-	//	int outfit = PED::_REQUEST_METAPED_OUTFIT(legendary_hash, outfit_hash);
-	//	if (!PED::_IS_METAPED_OUTFIT_REQUEST_VALID(outfit))
-	//		return;
-	//
-	//	Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
-	//	Ped animal = PED::CREATE_PED(model_hash, pos.x, pos.y, pos.z, 0, 1, 1, 0, 0);
-	//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(animal, 1);
-	//	FLOCK::_SET_ANIMAL_RARITY(animal, 2);
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableHeadGore, TRUE);
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableLimbGore, TRUE);
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_0x71A55282, TRUE);
-	//
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableMelee, TRUE);
-	//	
-	//	ENTITY::SET_ENTITY_HEALTH(animal, 0, g_LocalPlayer.m_Entity);
-	//	
-	//	EVENT::SET_DECISION_MAKER(animal, RAGE_JOAAT("EMTPY"));
-	//
-	//	if (model_hash == RAGE_JOAAT("A_C_ALLIGATOR_02"))
-	//	{
-	//		PED::_SET_RANDOM_OUTFIT_VARIATION(animal, 1);
-	//	}
-	//	else
-	//	{
-	//		PED::_EQUIP_META_PED_OUTFIT(animal, legendary_hash);
-	//		PED::_UPDATE_PED_VARIATION(animal, 0, 1, 1, 1, 0);
-	//	}
-	//}
-
-	void UnlockSPPreorderBonus()
-	{
-		constexpr Hash unlock_hash = RAGE_JOAAT("SP_GAME_CONTENT_PRE_ORDER");
-		UNLOCK::UNLOCK_SET_UNLOCKED(unlock_hash, TRUE);
-	}
-
-	void RestorePlayerCores()
-	{
-		for (int i = 0; i < 3; i++)
-			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Entity, i, 100);
-
-		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Entity, FALSE), FALSE);
-		PLAYER::RESTORE_PLAYER_STAMINA(g_LocalPlayer.m_Index, 100.0);
-		PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
-		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
-	}
-
-	void RestoreHorseCores()
-	{
-		if (!g_LocalPlayer.m_Mount)
-			return;
-
-		for (int i = 0; i < 3; i++)
-			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
-
-		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, FALSE), FALSE);
-		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
-	}
-
-	std::string_view GetPedModelName(const Hash& hash)
-	{
-#if ENABLE_LARGE_STACK_ITEMS
-		TRY
-		{
-			auto it = g_PedModelNameList.find(hash);
-			if (it != g_PedModelNameList.end())
-				return it->second;
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-#endif 
-
-		return "Unknown"sv;
-	}
-
-	std::string_view GetVehicleModelName(const Hash& hash)
-	{
-#if ENABLE_LARGE_STACK_ITEMS
-		TRY
-		{
-			auto it = g_VehicleModelNameList.find(hash);
-			if (it != g_VehicleModelNameList.end())
-				return it->second;
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-#endif 
-
-		return "Unknown"sv;
-	}
-
-	void GiveLeftHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
-	{
-		if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
-		{
-			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not one handed!\n";
-			return;
-		}
-
-		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-			WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
-	}
-
-	void GiveRightHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
-	{
-		if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
-		{
-			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not one handed!\n";
-			return;
-		}
-
-		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-			WEAPON_ATTACH_POINT_HAND_SECONDARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
-	}
-
-	void GiveBackWeapon(const Hash& WeaponHash, const int& AmmoAmount)
-	{
-		if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
-		{
-			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not two handed!\n";
-			return;
-		}
-
-		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-			WEAPON_ATTACH_POINT_RIFLE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
-	}
-
-	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount)
-	{
-		if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
-		{
-			std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not two handed!\n";
-			return;
-		}
-
-		WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-			WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
-	}
-	
-	CPedFactory* GetPedFactory()
-	{
-		uint64_t x = _rotl64(*Pointers::PedFactoryBase, 27);
-		return reinterpret_cast<CPedFactory*>(~_rotl64(_rotl64(x ^ *Pointers::PedFactoryHash, 32), (x & 0x1F) + 1));
-	}
-	
-	void* GetBlipCollection()
-	{
-		uint64_t x = _rotl64(*Pointers::BlipBase, 29);
-		return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ *Pointers::BlipHash, 32), (x & 0x1F) + 5));
-	}
-	
-	void GiveCivilWarHat()
-	{
-		//int guid1[5*2];
-		//int guid2[4*2];
-		//
-		//guid1[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
-		//guid1[1 * 2] = 0;
-		//guid1[2 * 2] = -1678926914;
-		//guid1[3 * 2] = -1554986044;
-		//guid1[4 * 2] = 0;
-		//
-		//guid2[0 * 2] = 0x80000000i32; // -2147483648 (fix warning)
-		//guid2[1 * 2] = 0;
-		//guid2[2 * 2] = -1678926914;
-		//guid2[3 * 2] = 2122960569;
-		//
-		//INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, guid1, guid2, 2772348781, 2884296223, 1, ADD_REASON_DEFAULT);
-		//INVENTORY::_INVENTORY_ARE_LOCAL_CHANGES_ALLOWED(1);
-
-		constexpr Hash ItemHash = 2134589549;// RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
-		const Hash ItemSlot = 2884296223;
-		//const int ItemSlot2 = 2884296223; //-1410671073
-		if (!INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, ItemSlot))
-		{
-			std::cout << "CLOTHING_SP_CIVIL_WAR_HAT_000_1 error\n";
-		}
-
-		GiveSingleInventoryItem(ItemHash, ItemSlot, 1, ADD_REASON_DEFAULT);
-		
-		//INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, 0, 0, 2435553656, 2884296223, 1, 752097756);
-		/*
-		Real
-		_INVENTORY_ADD_ITEM_WITH_GUID(1, 00000093126FFA00, 00000093126FF9D8, 2772348781, 2884296223, 1, 752097756)
-			Returned 0
-
-			guid1:
-			0
-			0
-			0
-			0
-
-			guid2:
-			-2147483648
-			0
-			-491496727
-			-1156075982
-			-1410671073
-		
-		Expected
-		_INVENTORY_ADD_ITEM_WITH_GUID(1, 000001D00A449940, 000001D00A449918, 2772348781, 2884296223, 1, 752097756)
-			Returned 1
-
-			guid1:
-			-2147483648
-			0
-			-1678926914
-			115975676 / 390940990
-
-			guid2:
-			-2147483648
-			0
-			-491496727
-			-1156075972
-			-1410671073
-		*/
-	}
-	
-	void TeleportThroughDoor()
-	{
-		Teleport(ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3));
-	}
-
-	bool IsKeyHeld(DWORD vKey)
-	{
-		return GetAsyncKeyState(vKey) & static_cast<SHORT>(1 << 15);
-	}
-
-	bool IsKeyClicked(DWORD vKey)
-	{
-		return GetAsyncKeyState(vKey) & static_cast<SHORT>(1);
-	}
-	
-	void GiveAgedPirateRum()
-	{
-		TRY
-		{
-			GiveSingleInventoryItem(CONSUMABLE_AGED_PIRATE_RUM, 1084182731, 1, ADD_REASON_DEFAULT);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-	
-	void GiveGinsengElixir()
-	{
-		TRY
-		{
-			GiveSingleInventoryItem(CONSUMABLE_GINSENG_ELIXIER, 1084182731, 1, ADD_REASON_DEFAULT);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-	
-	void GiveValerianRoot()
-	{
-		TRY
-		{
-			GiveSingleInventoryItem(CONSUMABLE_VALERIAN_ROOT, 1084182731, 1, ADD_REASON_DEFAULT);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-	
-	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot, int InventoryID, Hash AddReason)
-	{
-		Any guid1[4 * 2]; memset(guid1, 0, sizeof(guid1));
-		Any guid2[5 * 2]; memset(guid2, 0, sizeof(guid2));
-		Any dummy[5 * 2]; memset(dummy, 0, sizeof(dummy));
-
-		//TRY
-		//{
-		//	ItemSlot = GetInventorySlot(ItemHash);
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-		//
-		//TRY
-		//{
-		//	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
-		//	{
-		//		std::cout << __FUNCTION__ << ": couldn't get guid2\n";
-		//		return;
-		//	}
-		//	guid2[4 * 2] = ItemSlot;
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-		//
-		//TRY
-		//{
-		//	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
-		//	{
-		//		std::cout << __FUNCTION__ << ": couldn't get guid1\n";
-		//		return;
-		//	}
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-		//
-		//TRY
-		//{
-		//	if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
-		//	{
-		//		std::cout << __FUNCTION__ << ": couldn't add item\n";
-		//		return;
-		//	}
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-
-		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
-		{
-			std::cout << __FUNCTION__ << ": couldn't get guid2\n";
-			return;
-		}
-		guid2[4 * 2] = ItemSlot;
-
-		// Could return false but still work
-		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
-		{
-			std::cout << __FUNCTION__ << ": couldn't get guid1\n";
-			//return;
-		}
-
-		if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
-		{
-			std::cout << __FUNCTION__ << ": couldn't add item\n";
-			return;
-		}
-	}
-	
-	void GiveInventoryItem(Hash ItemHash, int Amount)
-	{
-		for (int i = 0; i < Amount; i++)
-			GiveSingleInventoryItem(ItemHash);
-	}
-	
-	Hash GetInventoryItemType(Hash ItemHash)
-	{
-		TRY
-		{
-			Any ItemInfo[3 * 2]; memset(ItemInfo, 0, sizeof(ItemInfo));
-			if (!ITEMDATABASE::ITEMDATABASE_FILLOUT_ITEM_INFO(ItemHash, ItemInfo))
-				return 0;
-			return static_cast<Hash>(ItemInfo[2 * 2]);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-
-		return 0;
-	}
-	
-	Hash GetInventorySlot(Hash ItemHash)
-	{
-		Hash ItemSlot = 0;
-
-		TRY
-		{
-			switch (GetInventoryItemType(ItemHash))
-			{
-			case RAGE_JOAAT("CLOTHING"):
-			case RAGE_JOAAT("WEAPON"):
-			case RAGE_JOAAT("HORSE"):
-			case RAGE_JOAAT("EMOTE"):
-			case RAGE_JOAAT("UPGRADE"):
-			default:
-				if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1084182731))
-					ItemSlot = 1084182731;
-				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1034665895))
-					ItemSlot = 1034665895;
-				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, -833319691))
-					ItemSlot = -833319691;
-				else
-					ItemSlot = INVENTORY::_GET_DEFAULT_ITEM_SLOT_INFO(ItemHash, RAGE_JOAAT("CHARACTER"));
-				break;
-			}
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-
-		return ItemSlot;
+		g_rgb[iC]++;
+		g_rgb[dC]--;
 	}
 }
