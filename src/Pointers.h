@@ -5,7 +5,7 @@
 #include "rage/scrNativeCallContext.h"
 #include "rage/CPed.h"
 
-typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain1*, UINT, UINT);
+typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain3*, UINT, UINT);
 
 namespace Pointers
 {
@@ -13,7 +13,7 @@ namespace Pointers
 
 	inline bool* IsSessionStarted{};
 	inline int* FrameCount{};
-	inline IDXGISwapChain1** SwapChain{};
+	inline IDXGISwapChain3** SwapChain{};
 	inline SwapChainPresent_t SwapChainPresent{};
 	inline ID3D12CommandQueue** CommandQueue{};
 	inline pgPtrCollection* ThreadCollection{};

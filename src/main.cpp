@@ -4,6 +4,7 @@
 #include "Features.h"
 #include "Fiber.h"
 #include "Hooking.h"
+#include "Renderer.h"
 
 void MainLoop()
 {
@@ -20,6 +21,9 @@ void MainLoop()
 		g_FiberCollection.push_back(&JobQueueFiber);
 
 		Hooking::Create();
+
+		Renderer::Create();
+		
 		Hooking::Enable();
 
 		while (g_Running)
@@ -30,6 +34,9 @@ void MainLoop()
 		}
 
 		Hooking::Disable();
+
+		Renderer::Destroy();
+		
 		Hooking::Destroy();
 
 		MainFiber.Destroy();

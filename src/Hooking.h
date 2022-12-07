@@ -52,4 +52,7 @@ namespace Hooking
 
 	inline DetourHook GetGUIDFromItemID;
 	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx);
+
+	inline DetourHook SwapChainPresent;
+	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags);
 }

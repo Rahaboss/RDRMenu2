@@ -4,15 +4,6 @@
 
 namespace Pointers
 {
-	SwapChainPresent_t GetSwapChainPresent(IDXGISwapChain1** sc)
-	{
-		// vtbl** -> vtbl* -> present
-		if (sc; void* p = *(void**)sc)
-			if (p = *(void**)p)
-				return ((SwapChainPresent_t*)p)[8];
-		return 0;
-	}
-
 	void Scan()
 	{
 		std::cout << "Scanning for pointers.\n";

@@ -5,6 +5,7 @@
 #include "Features.h"
 #include "Fiber.h"
 #include "PlayerInfo.h"
+#include "Renderer.h"
 
 namespace Hooking
 {
@@ -306,6 +307,22 @@ namespace Hooking
 			{
 				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+
+	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags)
+	{
+		HRESULT result = 0;
+		
+		TRY
+		{
+			if (SwapChain)
+				Renderer::Present(SwapChain);
+
+			result = Hooking::SwapChainPresent.GetOriginal<decltype(&SwapChainPresentHook)>()(SwapChain, SyncInterval, Flags);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
