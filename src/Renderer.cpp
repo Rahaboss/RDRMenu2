@@ -3,6 +3,7 @@
 #include "Signature.h"
 #include "Pointers.h"
 #include "Hooking.h"
+#include "menu/Menu.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -48,14 +49,23 @@ namespace Renderer
 		if (!Setup)
 			return;
 
-		SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)_WndProc);
+		DestroyImGui();
 
 		Hooking::SwapChainPresent.Destroy();
 	}
 	
-	LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+	LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		if (uMsg == WM_KEYUP && wParam == VK_INSERT)
+		{
+			// Persist and restore the cursor position between menu instances.
+			static POINT cursor_coords{};
+			if (MenuOpen)
+				GetCursorPos(&cursor_coords);
+			else if (cursor_coords.x + cursor_coords.y != 0)
+				SetCursorPos(cursor_coords.x, cursor_coords.y);
+		
 			MenuOpen = !MenuOpen;
+		}
 
 		if (MenuOpen) {
 			ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
@@ -139,22 +149,16 @@ namespace Renderer
 
 	void DestroyImGui()
 	{
+		SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)_WndProc);
 
+		// Don't call ImGui shutdown functions!
 	}
 
 	void Present()
 	{
 		NewFrame();
 		
-		if (MenuOpen)
-		{
-			ImGui::ShowDemoWindow();
-
-			ImGui::Begin("Test Window");
-			if (ImGui::Button("Exit"))
-				g_Running = false;
-			ImGui::End();
-		}
+		Menu::RenderMenu();
 		
 		EndFrame();
 	}

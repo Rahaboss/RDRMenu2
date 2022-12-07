@@ -2,9 +2,12 @@
 #include "Menu.h"
 #include "Features.h"
 #include "PlayerInfo.h"
+#include "Renderer.h"
+#include "JobQueue.h"
 
 namespace Menu
 {
+#if 0
 	static bool MenuOpen = true, SelectClicked = false;
 	static float Scale = 0.5f;
 	static int CurrentRenderedItem = 0, SelectedItem = 0, MaxItems = 1;
@@ -240,4 +243,191 @@ namespace Menu
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
+#else
+	void RenderMenu()
+	{
+		if (Renderer::MenuOpen)
+		{
+			ImGui::ShowDemoWindow();
+
+			ImGui::Begin("Test Window", &Renderer::MenuOpen);
+			if (ImGui::Button("Exit"))
+				g_Running = false;
+
+			if (ImGui::Button("Reveal Map"))
+			{
+				QUEUE_JOB()
+				{
+					Features::RevealMap();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Give Core XP Items"))
+			{
+				QUEUE_JOB()
+				{
+					Features::GiveAgedPirateRum();
+					Features::GiveGinsengElixir();
+					Features::GiveValerianRoot();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Spawn Good Honor Enemy"))
+			{
+				QUEUE_JOB()
+				{
+					Features::SpawnGoodHonorEnemy();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Give Weapons"))
+			{
+				QUEUE_JOB()
+				{
+					Features::GiveAllWeapons();
+					Features::GiveAllDualWieldWeapons();
+					Features::GiveAllAmmo();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Clear Wanted"))
+			{
+				QUEUE_JOB()
+				{
+					Features::ClearWanted();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Restore Cores"))
+			{
+				QUEUE_JOB()
+				{
+					Features::RestorePlayerCores();
+					Features::RestoreHorseCores();
+				}
+				END_JOB()
+			}
+
+			//if (RenderButton("Spawn Turret"))
+			//	Features::SpawnVehicle(GATLING_GUN);
+			//
+			//if (RenderButton("Give $100,000"))
+			//	Features::SetMoney(10000000);
+
+			if (ImGui::Button("Give Cleaver"))
+			{
+				QUEUE_JOB()
+				{
+					Features::GiveWeapon(WEAPON_MELEE_CLEAVER);
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Spawn Charles"))
+			{
+				QUEUE_JOB()
+				{
+					constexpr Hash model = CS_CHARLESSMITH;
+					Ped ped = Features::SpawnPed(model);
+					Features::EndSpawnPed(model, ped);
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Drop Current Weapon"))
+			{
+				QUEUE_JOB()
+				{
+					Features::DropCurrentWeapon();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("TP To Waypoint"))
+			{
+				QUEUE_JOB()
+				{
+					Features::TeleportToWaypoint();
+				}
+				END_JOB()
+			}
+
+			ImGui::PushButtonRepeat(true);
+			if (ImGui::Button("TP Through Door"))
+			{
+				QUEUE_JOB()
+				{
+					Features::TeleportThroughDoor();
+				}
+				END_JOB()
+			}
+			ImGui::PopButtonRepeat();
+
+			if (ImGui::Button("TP To Guarma"))
+			{
+				QUEUE_JOB()
+				{
+					Features::Teleport(1424.31f, -7325.1f, 81.4575f);
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("TP To Mainland"))
+			{
+				QUEUE_JOB()
+				{
+					Features::Teleport(74.4952f, 40.1398f, 101.401f);
+					//if (g_LocalPlayer.m_Mount)
+					//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(g_LocalPlayer.m_Mount, TRUE);
+					//else
+					//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(g_LocalPlayer.m_Entity, TRUE);
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Print Coords"))
+			{
+				QUEUE_JOB()
+				{
+					std::cout << ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+				}
+				END_JOB()
+			}
+
+			ImGui::Checkbox("EnableNoSnipers", &Features::EnableNoSnipers);
+			ImGui::Checkbox("EnableNoReload", &Features::EnableNoReload);
+			ImGui::Checkbox("EnableNoSliding", &Features::EnableNoSliding);
+			ImGui::Checkbox("EnablePedSpawnLogging", &Features::EnablePedSpawnLogging);
+			ImGui::Checkbox("EnableHumanSpawnLogging", &Features::EnableHumanSpawnLogging);
+			ImGui::Checkbox("EnableVehicleSpawnLogging", &Features::EnableVehicleSpawnLogging);
+			ImGui::Checkbox("EnableAddInventoryItemLogging", &Features::EnableAddInventoryItemLogging);
+			ImGui::Checkbox("EnableGodMode", &Features::EnableGodMode);
+
+			//if (RenderToggle("Enable Godmode", Features::EnableGodMode) && !Features::EnableGodMode)
+			//	Features::SetGodmode(false);
+			//
+			//RenderToggle("Enable Infinite Ammo", Features::EnableNoReload);
+			//
+			//RenderToggle("Enable No Snipers", Features::EnableNoSnipers);
+			//
+			//RenderToggle("Enable No Sliding", Features::EnableNoSliding);
+			//
+			//RenderToggle("Enable AddInventoryItem Logging", Features::EnableAddInventoryItemLogging);
+			//
+			//if (RenderButton("Print Mount Attributes", g_LocalPlayer.m_Mount == 0))
+			//	Features::PrintPedAttributes(g_LocalPlayer.m_Mount);
+			//
+			//if (RenderButton("Eject Menu"))
+			//	g_Running = false;
+
+
+			ImGui::End();
+		}
+	}
+#endif
 }

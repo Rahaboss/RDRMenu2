@@ -315,7 +315,7 @@ namespace Hooking
 
 	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags)
 	{
-		HRESULT result = 0;
+		HRESULT result = S_FALSE;
 		
 		TRY
 		{
