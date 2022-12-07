@@ -12,7 +12,8 @@ namespace Renderer
 	void NewFrame();
 	void EndFrame();
 	
-	inline bool MenuOpen = true;
+	// Must be false on inject, otherwise breaks input
+	inline bool MenuOpen = false;
 
 	struct _FrameContext
 	{

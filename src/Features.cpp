@@ -67,8 +67,8 @@ namespace Features
 	{
 		TRY
 		{
-			//if (Renderer::MenuOpen)
-			//	PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
+			if (Renderer::MenuOpen)
+				PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 
 			GetLocalPlayerInfo();
 			RGBTick();
