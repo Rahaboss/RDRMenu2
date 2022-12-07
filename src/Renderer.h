@@ -8,7 +8,11 @@ namespace Renderer
 	void Destroy();
 	void SetupImGui();
 	void DestroyImGui();
-	void Present(IDXGISwapChain3* SwapChain);
+	void Present();
+	void NewFrame();
+	void EndFrame();
+	
+	inline bool MenuOpen = true;
 
 	struct _FrameContext
 	{

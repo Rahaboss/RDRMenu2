@@ -7,6 +7,7 @@
 #include "PlayerInfo.h"
 #include "rage/lists.h"
 #include "menu/Menu.h"
+#include "Renderer.h"
 
 namespace Features
 {
@@ -66,9 +67,12 @@ namespace Features
 	{
 		TRY
 		{
+			//if (Renderer::MenuOpen)
+			//	PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
+
 			GetLocalPlayerInfo();
 			RGBTick();
-			Menu::RenderMenu();
+			//Menu::RenderMenu();
 
 			NoSliding();
 			//RenderTextOnEntity(g_LocalPlayer.m_Entity, "Player ~n~~COLOR_RED~Test \xE2\x88\x91~ws~");

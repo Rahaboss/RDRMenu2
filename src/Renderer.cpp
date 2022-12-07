@@ -8,7 +8,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Renderer
 {
-	static bool Setup = false, MenuOpen = false;
+	static bool Setup = false;
 
 	SwapChainPresent_t GetSwapChainPresent(IDXGISwapChain3** sc)
 	{
@@ -37,9 +37,6 @@ namespace Renderer
 
 		Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent, Hooking::SwapChainPresentHook);
 		
-		Hwnd = FindWindow(L"sgaWindow", NULL);
-
-		//if (!ImGuiInitialized)
 		SetupImGui();
 
 		Setup = true;
@@ -68,79 +65,76 @@ namespace Renderer
 		return CallWindowProc(_WndProc, hwnd, uMsg, wParam, lParam);
 	}
 
-	static bool ImGuiInitialized = false;
 	void SetupImGui()
 	{
+		Hwnd = FindWindow(L"sgaWindow", NULL);
+
 		IDXGISwapChain3* SwapChain = *Pointers::SwapChain;
 
-		if (SUCCEEDED(SwapChain->GetDevice(IID_PPV_ARGS(&Device)))) {
-			ImGui::CreateContext();
+		if (FAILED(SwapChain->GetDevice(IID_PPV_ARGS(&Device))))
+			return;
 
-			ImGuiIO& io = ImGui::GetIO();
-			io.WantCaptureMouse || io.WantTextInput || io.WantCaptureKeyboard;
-			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		DXGI_SWAP_CHAIN_DESC Desc;
+		SwapChain->GetDesc(&Desc);
+		Desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+		Desc.OutputWindow = Hwnd;
+		Desc.Windowed = ((GetWindowLongPtr(Hwnd, GWL_STYLE) & WS_POPUP) != 0) ? false : true;
 
-			DXGI_SWAP_CHAIN_DESC Desc;
-			SwapChain->GetDesc(&Desc);
-			Desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-			Desc.OutputWindow = Hwnd;
-			Desc.Windowed = ((GetWindowLongPtr(Hwnd, GWL_STYLE) & WS_POPUP) != 0) ? false : true;
+		BuffersCounts = Desc.BufferCount;
+		FrameContext = new _FrameContext[BuffersCounts];
 
-			BuffersCounts = Desc.BufferCount;
-			FrameContext = new _FrameContext[BuffersCounts];
+		D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender = {};
+		DescriptorImGuiRender.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		DescriptorImGuiRender.NumDescriptors = BuffersCounts;
+		DescriptorImGuiRender.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 
-			D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender = {};
-			DescriptorImGuiRender.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-			DescriptorImGuiRender.NumDescriptors = BuffersCounts;
-			DescriptorImGuiRender.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+		if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender, IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
+			return;
 
-			if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender, IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
-				return;
+		ID3D12CommandAllocator* Allocator;
+		if (FAILED(Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&Allocator))))
+			return;
 
-			ID3D12CommandAllocator* Allocator;
-			if (FAILED(Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&Allocator))))
-				return;
+		for (size_t i = 0; i < BuffersCounts; i++)
+			FrameContext[i].CommandAllocator = Allocator;
 
-			for (size_t i = 0; i < BuffersCounts; i++)
-				FrameContext[i].CommandAllocator = Allocator;
+		if (FAILED(Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, Allocator, NULL, IID_PPV_ARGS(&CommandList)))
+			|| FAILED(CommandList->Close()))
+			return;
 
-			if (FAILED(Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, Allocator, NULL, IID_PPV_ARGS(&CommandList)))
-				|| FAILED(CommandList->Close()))
-				return;
+		D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers;
+		DescriptorBackBuffers.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		DescriptorBackBuffers.NumDescriptors = BuffersCounts;
+		DescriptorBackBuffers.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		DescriptorBackBuffers.NodeMask = 1;
 
-			D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers;
-			DescriptorBackBuffers.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-			DescriptorBackBuffers.NumDescriptors = BuffersCounts;
-			DescriptorBackBuffers.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-			DescriptorBackBuffers.NodeMask = 1;
+		if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers, IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
+			return;
 
-			if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers, IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
-				return;
+		const UINT RTVDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle = DescriptorHeapBackBuffers->GetCPUDescriptorHandleForHeapStart();
 
-			const UINT RTVDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-			D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle = DescriptorHeapBackBuffers->GetCPUDescriptorHandleForHeapStart();
-
-			for (UINT i = 0; i < BuffersCounts; i++)
-			{
-				ID3D12Resource* pBackBuffer = nullptr;
-				FrameContext[i].DescriptorHandle = RTVHandle;
-				SwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
-				Device->CreateRenderTargetView(pBackBuffer, NULL, RTVHandle);
-				FrameContext[i].Resource = pBackBuffer;
-				RTVHandle.ptr += RTVDescriptorSize;
-			}
-
-			ImGui_ImplWin32_Init(Hwnd);
-			ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
-				DescriptorHeapImGuiRender,
-				DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
-				DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
-			ImGui_ImplDX12_CreateDeviceObjects();
-			io.ImeWindowHandle = Hwnd;
-			_WndProc = (WNDPROC)SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+		for (UINT i = 0; i < BuffersCounts; i++)
+		{
+			ID3D12Resource* pBackBuffer = nullptr;
+			FrameContext[i].DescriptorHandle = RTVHandle;
+			SwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
+			Device->CreateRenderTargetView(pBackBuffer, NULL, RTVHandle);
+			FrameContext[i].Resource = pBackBuffer;
+			RTVHandle.ptr += RTVDescriptorSize;
 		}
 
-		ImGuiInitialized = true;
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui::StyleColorsDark();
+
+		ImGui_ImplWin32_Init(Hwnd);
+		ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
+			DescriptorHeapImGuiRender,
+			DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
+			DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
+		ImGui_ImplDX12_CreateDeviceObjects();
+		_WndProc = (WNDPROC)SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 	}
 
 	void DestroyImGui()
@@ -148,32 +142,34 @@ namespace Renderer
 
 	}
 
-	static int fc = 1;
-	void Present(IDXGISwapChain3* SwapChain)
+	void Present()
 	{
-		if (!Setup)
-			return;
-
-		if (++fc % 10 == 0)
+		NewFrame();
+		
+		if (MenuOpen)
 		{
-			std::cout << "SwapChain Present: " << LOG_HEX(SwapChain) << "\n";
-			fc = 1;
+			ImGui::ShowDemoWindow();
+
+			ImGui::Begin("Test Window");
+			if (ImGui::Button("Exit"))
+				g_Running = false;
+			ImGui::End();
 		}
-
-		if (GetAsyncKeyState(VK_INSERT) & 1)
-			MenuOpen = !MenuOpen;
-
+		
+		EndFrame();
+	}
+	
+	void NewFrame()
+	{
 		ImGui_ImplDX12_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 		ImGui::GetIO().MouseDrawCursor = MenuOpen;
-		
-		if (MenuOpen)
-			ImGui::ShowDemoWindow();
-		
-		ImGui::EndFrame();
+	}
 
-		_FrameContext& CurrentFrameContext = FrameContext[SwapChain->GetCurrentBackBufferIndex()];
+	void EndFrame()
+	{
+		_FrameContext& CurrentFrameContext = FrameContext[(*Pointers::SwapChain)->GetCurrentBackBufferIndex()];
 		CurrentFrameContext.CommandAllocator->Reset();
 
 		D3D12_RESOURCE_BARRIER Barrier;
