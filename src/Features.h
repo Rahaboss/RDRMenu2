@@ -12,14 +12,14 @@ namespace Features
 {
 	// To be used with TOGGLE_AND_LOG_BOOL
 	inline bool
-		EnableNoSnipers = true,
-		EnableNoReload = true,
-		EnableNoSliding = true,
+		EnableNoSnipers = false,
+		EnableNoReload = false,
+		EnableNoSliding = false,
 		EnablePedSpawnLogging = false,
 		EnableHumanSpawnLogging = false,
 		EnableVehicleSpawnLogging = false,
 		EnableAddInventoryItemLogging = false,
-		EnableGodMode = true;
+		EnableGodMode = false;
 	inline uint8_t g_rgb[3]{ 255, 0, 0 };
 
 
@@ -49,16 +49,20 @@ namespace Features
 	/// PLAYER
 	void AddMoney(const int& amount_cents);
 	void ClearWanted();
+	void FixAttributes(Ped ped);
+	void FixHorseAttributes(Ped ped);
 	void GetLocalPlayerInfo();
 	Entity GetMainEntity();
 	Entity GetMountOrVehicle();
 	void GiveGoldCores(const Ped& ped);
 	void NoSliding();
-	void SetGodmode(bool Toggle);
-	void SetMoney(const int& amount_cents);
+	void PrintPedAttributes(Ped ped);
 	void RemoveMoney(const int& amount_cents);
 	void RestoreHorseCores();
 	void RestorePlayerCores();
+	void SetGodmode(bool Toggle);
+	void SetMaxAttributeValue(Ped ped, int attr);
+	void SetMoney(const int& amount_cents);
 	void SpawnBadHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
 	void SpawnGoodHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
 	void Teleport(const float& x, const float& y, const float& z);
@@ -74,6 +78,7 @@ namespace Features
 
 
 	/// SPAWNING
+	void EndSpawnPed(Hash Model, Ped Handle);
 	std::string_view GetPedModelName(const Hash& hash);
 	std::string_view GetVehicleModelName(const Hash& hash);
 	bool RequestModel(const Hash& model);

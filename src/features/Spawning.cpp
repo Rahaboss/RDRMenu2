@@ -2,9 +2,16 @@
 #include "Features.h"
 #include "PlayerInfo.h"
 #include "JobQueue.h"
+#include "rage/lists.h"
 
 namespace Features
 {
+	void EndSpawnPed(Hash Model, Ped Handle)
+	{
+		ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&Handle);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
+	}
+
 	std::string_view GetPedModelName(const Hash& hash)
 	{
 #if ENABLE_LARGE_STACK_ITEMS
@@ -117,17 +124,6 @@ namespace Features
 			YieldThread();
 
 			PED::_SET_RANDOM_OUTFIT_VARIATION(ped, TRUE);
-
-			// Will run after this thread so other properties can be applied
-			[](Ped a, Hash b) {
-				QUEUE_JOB(&)
-				{
-					if (a)
-						ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&a);
-					STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(b);
-				}
-				END_JOB();
-			}(ped, model);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 

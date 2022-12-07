@@ -16,6 +16,37 @@ namespace Features
 		LAW::SET_WANTED_SCORE(g_LocalPlayer.m_Index, 0);
 	}
 
+	void FixAttributes(Ped ped)
+	{
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, PA_HEALTH));
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, PA_STAMINA));
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, PA_SPECIALABILITY));
+
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_DIRTINESS, 0);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_DIRTINESSHAT, 0);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_DIRTINESSSKIN, 0);
+
+		constexpr int x = 100;
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_HUNGER, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_FATIGUED, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_INEBRIATED, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_POISONED, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_BODYHEAT, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_BODYWEIGHT, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_OVERFED, x);
+		ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, SA_SICKNESS, x);
+	}
+
+	void FixHorseAttributes(Ped ped)
+	{
+		SetMaxAttributeValue(ped, PA_COURAGE);
+		SetMaxAttributeValue(ped, PA_AGILITY);
+		SetMaxAttributeValue(ped, PA_SPEED);
+		SetMaxAttributeValue(ped, PA_ACCELERATION);
+		SetMaxAttributeValue(ped, PA_BONDING);
+		PED::_SET_MOUNT_BONDING_LEVEL(ped, 4);
+	}
+
 	void GetLocalPlayerInfo()
 	{
 		TRY
@@ -69,19 +100,40 @@ namespace Features
 			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, PCF_0x435F091E, TRUE);
 	}
 
-	void SetGodmode(bool Toggle)
+	void PrintPedAttributes(Ped ped)
 	{
-		if (g_LocalPlayer.m_Entity)
-			ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, static_cast<BOOL>(Toggle));
-	}
-
-	void SetMoney(const int& amount_cents)
-	{
-		int amount = amount_cents - MONEY::_MONEY_GET_CASH_BALANCE();
-		if (amount > 0)
-			AddMoney(amount);
-		else if (amount < 0)
-			RemoveMoney(amount);
+		constexpr const char* AttributeNames[]{
+			"PA_HEALTH", "PA_STAMINA", "PA_SPECIALABILITY", "PA_COURAGE", "PA_AGILITY", "PA_SPEED",
+			"PA_ACCELERATION", "PA_BONDING", "SA_HUNGER", "SA_FATIGUED", "SA_INEBRIATED", "SA_POISONED",
+			"SA_BODYHEAT", "SA_BODYWEIGHT", "SA_OVERFED", "SA_SICKNESS", "SA_DIRTINESS", "SA_DIRTINESSHAT",
+			"MTR_STRENGTH", "MTR_GRIT", "MTR_INSTINCT", "PA_UNRULINESS", "SA_DIRTINESSSKIN",
+		};
+		static_assert(ARRAYSIZE(AttributeNames) == MAX_ATTRIBUTES);
+			
+		TRY
+		{
+			//const Ped ped = g_LocalPlayer.m_Entity;
+			if (!ped)
+				return;
+			
+			//std::cout << "Attr,Rank,BaseRank,BonusRank,MaxRank,DefaultRank,DefaultMaxRank,Points,MaxPoints\n";
+			for (int i = 0; i < MAX_ATTRIBUTES; i++)
+			{
+				auto Attr = AttributeNames[i];
+				auto Rank = ATTRIBUTE::GET_ATTRIBUTE_RANK(ped, i);
+				auto BaseRank = ATTRIBUTE::GET_ATTRIBUTE_BASE_RANK(ped, i);
+				auto BonusRank = ATTRIBUTE::GET_ATTRIBUTE_BONUS_RANK(ped, i);
+				auto MaxRank = ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(ped, i);
+				auto DefaultRank = ATTRIBUTE::GET_DEFAULT_ATTRIBUTE_RANK(ped, i);
+				auto DefaultMaxRank = ATTRIBUTE::GET_DEFAULT_MAX_ATTRIBUTE_RANK(ped, i);
+				auto Points = ATTRIBUTE::GET_ATTRIBUTE_POINTS(ped, i);
+				auto MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
+				//std::cout << Attr << ',' << Rank << ',' << BaseRank << ',' << BonusRank << ',' << MaxRank << ','
+				//	<< DefaultRank << ',' << DefaultMaxRank << ',' << Points << ',' << MaxPoints << '\n';
+				std::cout << Attr << " (" << Points << "/" << MaxPoints << ")\n";
+			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
 	void RemoveMoney(const int& amount_cents)
@@ -112,6 +164,30 @@ namespace Features
 		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
 	}
 
+	void SetGodmode(bool Toggle)
+	{
+		if (g_LocalPlayer.m_Entity)
+			ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, static_cast<BOOL>(Toggle));
+	}
+
+	void SetMaxAttributeValue(Ped ped, int attr)
+	{
+		TRY
+		{
+			ATTRIBUTE::SET_ATTRIBUTE_POINTS(ped, attr, ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, attr));
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	void SetMoney(const int& amount_cents)
+	{
+		int amount = amount_cents - MONEY::_MONEY_GET_CASH_BALANCE();
+		if (amount > 0)
+			AddMoney(amount);
+		else if (amount < 0)
+			RemoveMoney(amount);
+	}
+
 	void SpawnBadHonorEnemy(Hash Model)
 	{
 		TRY
@@ -119,6 +195,7 @@ namespace Features
 			Ped ped = SpawnPed(Model);
 			DECORATOR::DECOR_SET_INT(ped, "honor_override", 9999);
 			TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
+			EndSpawnPed(Model, ped);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -130,6 +207,7 @@ namespace Features
 			Ped ped = SpawnPed(Model);
 			DECORATOR::DECOR_SET_INT(ped, "honor_override", -9999);
 			TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
+			EndSpawnPed(Model, ped);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

@@ -33,6 +33,8 @@ private:
 	void FixVectors();
 
 public:
+	void PrintNativeStackInfo(uint64_t Hash, void* Handler);
+
 	void EndCall(const uint64_t& hash);
 
 	template <typename T>
