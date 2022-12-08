@@ -319,7 +319,8 @@ namespace Hooking
 		
 		TRY
 		{
-			Renderer::Present();
+			if (g_Running)
+				Renderer::Present();
 
 			result = Hooking::SwapChainPresent.GetOriginal<decltype(&SwapChainPresentHook)>()(SwapChain, SyncInterval, Flags);
 		}

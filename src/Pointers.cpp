@@ -4,6 +4,19 @@
 
 namespace Pointers
 {
+	SwapChainPresent_t GetSwapChainPresent(IDXGISwapChain3** sc)
+	{
+		TRY
+		{
+			// vtbl** -> vtbl* -> present
+			if (sc; void* p = *(void**)sc)
+				if (p = *(void**)p)
+					return ((SwapChainPresent_t*)p)[8];
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		return 0;
+	}
+
 	void Scan()
 	{
 		std::cout << "Scanning for pointers.\n";
@@ -29,5 +42,13 @@ namespace Pointers
 		BlipHash = Signature(GetBlipAddress).Add(0x25).Rip().Get<decltype(BlipHash)>();
 		sub_7FF73D8C1638 = Signature("E8 ? ? ? ? 44 8A 46 16").Add(1).Rip().Get<decltype(sub_7FF73D8C1638)>();
 		GetEntityPed = Signature("E8 ? ? ? ? 44 0F B6 C5").Add(1).Rip().Get<decltype(GetEntityPed)>();
+
+
+
+		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();
+
+		Pointers::SwapChainPresent = GetSwapChainPresent(Pointers::SwapChain);
+
+		Pointers::CommandQueue = Signature("4C 8D 0D ? ? ? ? 4C 89 65 B8").Add(3).Rip().Get<decltype(Pointers::CommandQueue)>();
 	}
 }

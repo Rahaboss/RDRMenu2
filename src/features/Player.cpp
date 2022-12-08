@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Features.h"
 #include "PlayerInfo.h"
+#include "JobQueue.h"
 
 namespace Features
 {
@@ -220,6 +221,21 @@ namespace Features
 	void Teleport(const Vector3& pos)
 	{
 		Teleport(pos.x, pos.y, pos.z);
+	}
+
+	void TeleportOnGround(const float& x, const float& y, const float& z)
+	{
+		QUEUE_JOB(=)
+		{
+			Teleport(x, y, z);
+			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), TRUE);
+		}
+		END_JOB()
+	}
+
+	void TeleportOnGround(const Vector3& pos)
+	{
+		TeleportOnGround(pos.x, pos.y, pos.z);
 	}
 
 	void TeleportThroughDoor()

@@ -6,12 +6,11 @@ namespace Renderer
 {
 	void Create();
 	void Destroy();
-	void SetupImGui();
-	void DestroyImGui();
 	void Present();
 	void NewFrame();
 	void EndFrame();
-	
+	LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 	// Must be false on inject, otherwise breaks input
 	inline bool MenuOpen = false;
 
@@ -22,6 +21,8 @@ namespace Renderer
 		D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHandle;
 	};
 
+	inline IDXGISwapChain3* SwapChain;
+	inline ID3D12CommandQueue* CommandQueue;
 	inline ID3D12Device* Device;
 	inline HWND Hwnd;
 	inline UINT BuffersCounts;
@@ -29,5 +30,5 @@ namespace Renderer
 	inline ID3D12DescriptorHeap* DescriptorHeapImGuiRender;
 	inline ID3D12GraphicsCommandList* CommandList;
 	inline ID3D12DescriptorHeap* DescriptorHeapBackBuffers;
-	inline WNDPROC _WndProc;
+	inline LONG_PTR _WndProc;
 }

@@ -370,24 +370,12 @@ namespace Menu
 
 			if (ImGui::Button("TP To Guarma"))
 			{
-				QUEUE_JOB()
-				{
-					Features::Teleport(1424.31f, -7325.1f, 81.4575f);
-				}
-				END_JOB()
+				Features::TeleportOnGround(1424.31f, -7325.1f, 81.4575f);
 			}
 
 			if (ImGui::Button("TP To Mainland"))
 			{
-				QUEUE_JOB()
-				{
-					Features::Teleport(74.4952f, 40.1398f, 101.401f);
-					//if (g_LocalPlayer.m_Mount)
-					//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(g_LocalPlayer.m_Mount, TRUE);
-					//else
-					//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(g_LocalPlayer.m_Entity, TRUE);
-				}
-				END_JOB()
+				Features::TeleportOnGround(74.4952f, 40.1398f, 101.401f);
 			}
 
 			if (ImGui::Button("Print Coords"))
