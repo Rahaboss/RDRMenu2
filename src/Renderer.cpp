@@ -205,7 +205,7 @@ namespace Renderer
 
 			ImGuiIO& io = ImGui::GetIO();
 			io.IniFilename = IniPath.c_str();
-			io.Fonts->AddFontDefault();
+			DefaultFont = io.Fonts->AddFontDefault();
 
 			ImFontConfig FontCfg{};
 			FontCfg.FontDataOwnedByAtlas = false;
@@ -215,7 +215,7 @@ namespace Renderer
 			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 24.0f, &FontCfg);
 
 			strcpy_s(FontCfg.Name, "Chalet London 1960");
-			io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+			ChaletFont = io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
 		}
 
 		ImGui_ImplWin32_Init(Hwnd);

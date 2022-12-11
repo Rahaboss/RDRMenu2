@@ -128,8 +128,11 @@ namespace Menu
 	void RenderMenu();
 	void RenderPlayerTab();
 	void RenderWeaponTab();
+	void RenderInventoryTab();
 	void RenderWorldTab();
 	void RenderDebugTab();
+	void RenderLoggerTab();
+	void RenderMemoryTab();
 
 	// Submenus
 	void RenderTeleportMenu();

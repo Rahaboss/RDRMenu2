@@ -17,7 +17,7 @@ workspace "RDRMenu2"
 	objdir "bin/%{cfg.buildcfg}/%{prj.name}"
 
 	-- Optimizations
-	vectorextensions "AVX2"
+	vectorextensions "SSE4.2"
 	floatingpoint "Fast"
 	staticruntime "Off" -- Sets Run-Time Library to MultiThreadedDLL
 	flags {

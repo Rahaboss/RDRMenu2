@@ -33,4 +33,7 @@ namespace Renderer
 	inline ID3D12GraphicsCommandList* CommandList;
 	inline ID3D12DescriptorHeap* DescriptorHeapBackBuffers;
 	inline WNDPROC _WndProc;
+
+	inline ImFont* DefaultFont;
+	inline ImFont* ChaletFont;
 }

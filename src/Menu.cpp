@@ -5,34 +5,38 @@
 #include "Renderer.h"
 #include "JobQueue.h"
 #include "rage/lists.h"
+#include "PlayerInfo.h"
 
 namespace Menu
 {
 	void RenderMenu()
 	{
-		ImGui::SetNextWindowSize(ImVec2(600, 500), ImGuiCond_Always);
-		if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen, ImGuiWindowFlags_NoResize))
+		TRY
 		{
-			ImGui::BeginTabBar("tab_bar");
-			TRY
+			ImGui::SetNextWindowSize(ImVec2(600, 500), ImGuiCond_Always);
+			if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen, ImGuiWindowFlags_NoResize))
 			{
+				ImGui::BeginTabBar("tab_bar");
 				RenderPlayerTab();
 				RenderWeaponTab();
+				RenderInventoryTab();
 				RenderWorldTab();
 				RenderDebugTab();
+				RenderLoggerTab();
+				RenderMemoryTab();
+				if (ImGui::BeginTabItem("Exit"))
+				{
+					g_Running = false;
+					ImGui::EndTabItem();
+				}
+				ImGui::EndTabBar();
 			}
-			EXCEPT{ LOG_EXCEPTION(); }
-			if (ImGui::BeginTabItem("Exit"))
-			{
-				g_Running = false;
-				ImGui::EndTabItem();
-			}
-			ImGui::EndTabBar();
-		}
-		ImGui::End();
+			ImGui::End();
 
-		if (EnableDemoWindow)
-			ImGui::ShowDemoWindow(&EnableDemoWindow);
+			if (EnableDemoWindow)
+				ImGui::ShowDemoWindow(&EnableDemoWindow);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
 	void RenderPlayerTab()
@@ -81,15 +85,6 @@ namespace Menu
 				END_JOB()
 			}
 
-			if (ImGui::Button("Spawn Good Honor Enemy"))
-			{
-				QUEUE_JOB()
-				{
-					Features::SpawnGoodHonorEnemy();
-				}
-				END_JOB()
-			}
-
 			if (ImGui::Button("Spawn Charles"))
 			{
 				QUEUE_JOB()
@@ -124,6 +119,24 @@ namespace Menu
 				END_JOB()
 			}
 			ImGui::PopButtonRepeat();
+
+			if (ImGui::Button("Spawn Good Honor Enemy"))
+			{
+				QUEUE_JOB()
+				{
+					Features::SpawnGoodHonorEnemy();
+				}
+				END_JOB()
+			}
+
+			if (ImGui::Button("Spawn Bad Honor Enemy"))
+			{
+				QUEUE_JOB()
+				{
+					Features::SpawnBadHonorEnemy();
+				}
+				END_JOB()
+			}
 
 			ImGui::EndGroup();
 			ImGui::Separator();
@@ -247,6 +260,45 @@ namespace Menu
 		}
 	}
 
+	void RenderInventoryTab()
+	{
+		if (ImGui::BeginTabItem("Inventory"))
+		{
+			ImGui::BeginChild("inventory_child", ImVec2(0, 0));
+
+			ImGui::Text("Give Inventory Items");
+			ImGui::BeginChild("item_menu", ImVec2(0, 200));
+			if (ImGui::Selectable("Aged Pirate Rum"))
+			{
+				QUEUE_JOB()
+				{
+					Features::GiveAgedPirateRum();
+				}
+				END_JOB()
+			}
+			if (ImGui::Selectable("Ginseng Elixir"))
+			{
+				QUEUE_JOB()
+				{
+					Features::GiveGinsengElixir();
+				}
+				END_JOB()
+			}
+			if (ImGui::Selectable("Valerian Root"))
+			{
+				QUEUE_JOB()
+				{
+					Features::GiveValerianRoot();
+				}
+				END_JOB()
+			}
+			ImGui::EndChild();
+
+			ImGui::EndChild();
+			ImGui::EndTabItem();
+		}
+	}
+
 	void RenderWorldTab()
 	{
 		if (ImGui::BeginTabItem("World"))
@@ -288,16 +340,90 @@ namespace Menu
 
 			ImGui::Separator();
 
+			ImGui::Text("Rockstar: \xE2\x88\x91");
+			ImGui::Text("Rockstar Verified: \xC2\xA6");
+			ImGui::Text("Rockstar Created: \xE2\x80\xB9");
+			ImGui::Text("Rockstar Blank: \xE2\x80\xBA");
+			ImGui::Text("Padlock: \xCE\xA9");
+
+			ImGui::Separator();
+
 			ImGui::Checkbox("Log Ped Spawning", &Features::EnablePedSpawnLogging);
 			ImGui::Checkbox("Log Human Spawning", &Features::EnableHumanSpawnLogging);
 			ImGui::Checkbox("Log Vehicle Spawning", &Features::EnableVehicleSpawnLogging);
 			ImGui::Checkbox("Log Added Inventory Items", &Features::EnableAddInventoryItemLogging);
 			ImGui::Checkbox("Enable ImGui Demo Window", &EnableDemoWindow);
 
-			ImGui::Separator();
+			ImGui::EndChild();
+			ImGui::EndTabItem();
+		}
+	}
 
-			ImGui::Text("Logger");
+	void RenderLoggerTab()
+	{
+		if (ImGui::BeginTabItem("Logger"))
+		{
+			ImGui::BeginChild("logger_child", ImVec2(0, 0));
+
 			Logger.Draw();
+
+			ImGui::EndChild();
+			ImGui::EndTabItem();
+		}
+	}
+
+	void RenderMemoryTab()
+	{
+		if (ImGui::BeginTabItem("Memory"))
+		{
+			ImGui::BeginChild("memory_child", ImVec2(0, 0));
+
+			uint32_t MemorySize = 0x1000;
+			if (uint8_t* MemoryLocation = (uint8_t*)g_LocalPlayer.m_Ped)
+			{
+				ImGui::PushFont(Renderer::DefaultFont);
+
+				for (uint32_t i = 0; i < MemorySize; i += 16)
+				{
+					ImGui::Text("%04X ", i);
+					for (uint32_t j = 0; j < 16; j++)
+					{
+						if (j == 8)
+						{
+							ImGui::SameLine();
+							ImGui::Text("");
+						}
+
+						ImGui::SameLine();
+						uint8_t Byte = MemoryLocation[i + j];
+						if (Byte)
+							ImGui::Text("%02X", Byte);
+						else
+							ImGui::TextDisabled("%02X", Byte);
+					}
+
+					ImGui::SameLine();
+					ImGui::Text("");
+
+					for (uint32_t j = 0; j < 16; j++)
+					{
+						if (j == 8)
+						{
+							ImGui::SameLine();
+							ImGui::Text("");
+						}
+
+						ImGui::SameLine();
+						uint8_t Byte = MemoryLocation[i + j];
+						if (Byte < 32 || Byte > 126)
+							ImGui::TextDisabled(".");
+						else
+							ImGui::Text("%c", Byte);
+					}
+				}
+
+				ImGui::PopFont();
+			}
 
 			ImGui::EndChild();
 			ImGui::EndTabItem();
@@ -334,8 +460,14 @@ namespace Menu
 			Features::TeleportOnGround(-1360.84f, 2394.43f, 307.056f);
 		if (ImGui::Selectable("Cornwall Kerosene & Tar"))
 			Features::TeleportOnGround(426.267f, 696.999f, 116.203f);
+		if (ImGui::Selectable("El Presidio"))
+			Features::TeleportOnGround(-2124.65f, -3403.09f, 33.3966f);
 		if (ImGui::Selectable("Emerald Ranch"))
 			Features::TeleportOnGround(1363.91f, 306.949f, 87.6744f);
+		if (ImGui::Selectable("Fort Mercer"))
+			Features::TeleportOnGround(-4159.31f, -3381.23f, 39.757f);
+		if (ImGui::Selectable("Fort Wallace"))
+			Features::TeleportOnGround(378.58f, 1442.0f, 177.215f);
 		if (ImGui::Selectable("Guarma (Chapter 5)"))
 			Features::TeleportOnGround(1424.31f, -7325.1f, 81.4575f);
 		if (ImGui::Selectable("Horseshoe Overlook (Chapter 2)"))
@@ -356,6 +488,8 @@ namespace Menu
 			Features::TeleportOnGround(2376.26f, -1139.36f, 46.8324f);
 		if (ImGui::Selectable("Shady Belle (Chapter 4)"))
 			Features::TeleportOnGround(1840.26f, -1821.53f, 44.408f);
+		if (ImGui::Selectable("Sisika Penitentiary"))
+			Features::TeleportOnGround(3337.95f, -627.499f, 44.0809f);
 		if (ImGui::Selectable("Strawberry"))
 			Features::TeleportOnGround(-1738.43f, -409.492f, 155.592f);
 		if (ImGui::Selectable("Thieves Landing"))
