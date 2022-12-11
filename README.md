@@ -16,11 +16,11 @@ GenerateProjects.bat
 In Visual Studio, right click on the project in the Solution Explorer. Click on Properties > Debugging. Set "Command" to the .exe path. Set "Attach" to Yes. Set your breakpoints, start the debugger and inject.
 
 ## Features
-✔ Signature scanning
-✔ Detour hooks
-✔ Native invoker
-✔ Job queue 
-❌ JSON file support (settings file for example)
-❌ YSC script global access
-✔ D3D12 ImGui renderer
-❌ Vulkan ImGui renderer
+* ✔ Signature scanning
+* ✔ Detour hooks
+* ✔ Native invoker
+* ✔ Job queue
+* ❌ JSON file support (settings file for example)
+* ❌ YSC script global access
+* ✔ D3D12 ImGui renderer
+* ❌ Vulkan ImGui renderer
