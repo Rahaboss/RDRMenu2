@@ -81,6 +81,7 @@ namespace Features
 
 	/// SPAWNING
 	void EndSpawnPed(Hash Model, Ped Handle);
+	void EndSpawnVehicle(Hash model, Vehicle Handle);
 	std::string_view GetPedModelName(const Hash& hash);
 	std::string_view GetVehicleModelName(const Hash& hash);
 	bool RequestModel(const Hash& model);

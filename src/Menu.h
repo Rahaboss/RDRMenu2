@@ -130,6 +130,7 @@ namespace Menu
 	void RenderWeaponTab();
 	void RenderInventoryTab();
 	void RenderWorldTab();
+	void RenderSpawningTab();
 	void RenderDebugTab();
 	void RenderLoggerTab();
 	void RenderMemoryTab();

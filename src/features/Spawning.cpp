@@ -12,6 +12,12 @@ namespace Features
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 	}
 
+	void EndSpawnVehicle(Hash model, Vehicle Handle)
+	{
+		ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&Handle);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+	}
+
 	std::string_view GetPedModelName(const Hash& hash)
 	{
 #if ENABLE_LARGE_STACK_ITEMS

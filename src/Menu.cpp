@@ -13,7 +13,7 @@ namespace Menu
 	{
 		TRY
 		{
-			ImGui::SetNextWindowSize(ImVec2(600, 500), ImGuiCond_Always);
+			ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_Always);
 			if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen, ImGuiWindowFlags_NoResize))
 			{
 				ImGui::BeginTabBar("tab_bar");
@@ -21,6 +21,7 @@ namespace Menu
 				RenderWeaponTab();
 				RenderInventoryTab();
 				RenderWorldTab();
+				RenderSpawningTab();
 				RenderDebugTab();
 				RenderLoggerTab();
 				RenderMemoryTab();
@@ -204,7 +205,8 @@ namespace Menu
 			{
 				QUEUE_JOB()
 				{
-					Features::SpawnVehicle(GATLING_GUN);
+					Vehicle veh = Features::SpawnVehicle(GATLING_GUN);
+					Features::EndSpawnVehicle(GATLING_GUN, veh);
 				}
 				END_JOB()
 			}
@@ -317,6 +319,66 @@ namespace Menu
 			ImGui::Separator();
 
 			ImGui::Checkbox("No Snipers", &Features::EnableNoSnipers);
+
+			ImGui::EndChild();
+			ImGui::EndTabItem();
+		}
+	}
+
+	void RenderSpawningTab()
+	{
+		if (ImGui::BeginTabItem("Spawning"))
+		{
+			ImGui::BeginChild("spawning_child", ImVec2(0, 0));
+
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Spawn Ped");
+			ImGui::SameLine();
+			static char PedBuffer[200];
+			ImGui::PushItemWidth(250.0f);
+			ImGui::InputText("###filter_ped", PedBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
+			ImGui::BeginChild("ped_menu", ImVec2(0, 200));
+			for (const auto& it : g_PedMenuList)
+			{
+				if (it.first.find(PedBuffer) == std::string::npos)
+					continue;
+
+				if (ImGui::Selectable(it.first.c_str()))
+				{
+					QUEUE_JOB(&it)
+					{
+						Ped ped = Features::SpawnPed(it.second);
+						Features::EndSpawnPed(it.second, ped);
+					}
+					END_JOB()
+				}
+			}
+			ImGui::EndChild();
+			ImGui::Separator();
+
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Spawn Vehicle");
+			ImGui::SameLine();
+			static char VehBuffer[200];
+			ImGui::PushItemWidth(250.0f);
+			ImGui::InputText("###filter_veh", VehBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
+			ImGui::BeginChild("vehicle_menu", ImVec2(0, 200));
+			for (const auto& it : g_PedVehicleList)
+			{
+				if (it.first.find(VehBuffer) == std::string::npos)
+					continue;
+
+				if (ImGui::Selectable(it.first.c_str()))
+				{
+					QUEUE_JOB(&it)
+					{
+						Vehicle veh = Features::SpawnVehicle(it.second);
+						Features::EndSpawnVehicle(it.second, veh);
+					}
+					END_JOB()
+				}
+			}
+			ImGui::EndChild();
 
 			ImGui::EndChild();
 			ImGui::EndTabItem();
