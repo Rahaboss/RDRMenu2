@@ -51,14 +51,14 @@ namespace Features
 			//PrintNativeHandlerAddress(0x214651FB1DFEBA89);
 			//PrintNativeHandlerAddress(0xAF35D0D2583051B0);
 			//PrintNativeHandlerAddress(0xB980061DA992779D);
-			PrintNativeHandlerAddress(0xFA925AC00EB830B9);
-			std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
-			std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
-			std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << " (vtbl: " << LOG_HEX(*(void**)Pointers::GetPlayerPed(0)) << ").\n";
-			std::cout << "Ped Index: " << LOG_HEX(PLAYER::PLAYER_PED_ID()) << ".\n";
+			//PrintNativeHandlerAddress(0xFA925AC00EB830B9);
+			//std::cout << "Coords: " << ENTITY::GET_ENTITY_COORDS(PLAYER::PLAYER_PED_ID(), 0, TRUE) << ".\n";
+			//std::cout << "RDR2.exe: " << LOG_HEX(g_BaseAddress) << ".\n";
+			//std::cout << "CPed: " << LOG_HEX(Pointers::GetPlayerPed(0)) << " (vtbl: " << LOG_HEX(*(void**)Pointers::GetPlayerPed(0)) << ").\n";
+			//std::cout << "Ped Index: " << LOG_HEX(PLAYER::PLAYER_PED_ID()) << ".\n";
 			//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
-			std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
-			std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
+			//std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
+			//std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

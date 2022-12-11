@@ -48,5 +48,5 @@ using namespace std::literals::string_view_literals;
 #define __ROR8__ _rotr64
 
 // Toggles
-#define ENABLE_LARGE_STACK_ITEMS 0 // e.g. g_PedModelNameList
+#define ENABLE_LARGE_STACK_ITEMS 1 // e.g. g_PedModelNameList
 #define ENABLE_ANTI_ANTI_DEBUG 0

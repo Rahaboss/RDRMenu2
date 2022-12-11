@@ -6,6 +6,7 @@
 #include "Fiber.h"
 #include "PlayerInfo.h"
 #include "Renderer.h"
+#include "Menu.h"
 
 namespace Hooking
 {
@@ -191,14 +192,20 @@ namespace Hooking
 				{
 					if (Features::EnableHumanSpawnLogging)
 					{
-						std::cout << "Creating human " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
-							<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+						//std::cout << "Creating human " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
+						//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+
+						Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
+							pos.x, pos.y, pos.z);
 					}
 				}
 				else if (Features::EnablePedSpawnLogging)
 				{
-					std::cout << "Creating ped " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
-						<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+					//std::cout << "Creating ped " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
+					//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+
+					Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
+						pos.x, pos.y, pos.z);
 				}
 			}
 		}
@@ -221,8 +228,11 @@ namespace Hooking
 				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 				Vehicle id = ctx->GetRet<Vehicle>();
 
-				std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
-					<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+				//std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
+				//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
+
+				Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
+					pos.x, pos.y, pos.z);
 			}
 			else
 			{
