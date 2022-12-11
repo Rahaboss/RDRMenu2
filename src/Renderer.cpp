@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Renderer.h"
-#include "Signature.h"
 #include "Pointers.h"
 #include "Hooking.h"
 #include "menu/Menu.h"
@@ -28,7 +27,8 @@ namespace Renderer
 			if (!Pointers::CommandQueue || !(*Pointers::CommandQueue))
 				return;
 
-			Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent, Hooking::SwapChainPresentHook);
+			Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent,
+				Hooking::SwapChainPresentHook);
 		
 			Hwnd = FindWindow(L"sgaWindow", NULL);
 
@@ -44,26 +44,35 @@ namespace Renderer
 			BuffersCounts = Desc.BufferCount;
 			FrameContext = new _FrameContext[BuffersCounts];
 
-			const D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender{ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, BuffersCounts,
-				D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, 0 };
+			const D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender{
+				D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, BuffersCounts,
+				D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, 0
+			};
 
-			if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender, IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
+			if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender,
+				IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
 				return;
 
 			ID3D12CommandAllocator* Allocator;
-			if (FAILED(Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&Allocator))))
+			if (FAILED(Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
+				IID_PPV_ARGS(&Allocator))))
 				return;
 
 			for (size_t i = 0; i < BuffersCounts; i++)
 				FrameContext[i].CommandAllocator = Allocator;
 
-			if (FAILED(Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, Allocator, NULL, IID_PPV_ARGS(&CommandList)))
+			if (FAILED(Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT,
+				Allocator, NULL, IID_PPV_ARGS(&CommandList)))
 				|| FAILED(CommandList->Close()))
 				return;
 
-			const D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers{ D3D12_DESCRIPTOR_HEAP_TYPE_RTV, BuffersCounts, D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1 };
+			const D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers{
+				D3D12_DESCRIPTOR_HEAP_TYPE_RTV, BuffersCounts,
+				D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1
+			};
 
-			if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers, IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
+			if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers,
+				IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
 				return;
 
 			const UINT RTVDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
@@ -89,7 +98,8 @@ namespace Renderer
 				DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
 				DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
 			ImGui_ImplDX12_CreateDeviceObjects();
-			_WndProc = SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+			_WndProc = SetWindowLongPtr(Hwnd, GWLP_WNDPROC,
+				reinterpret_cast<LONG_PTR>(WndProc));
 
 			Setup = true;
 		}

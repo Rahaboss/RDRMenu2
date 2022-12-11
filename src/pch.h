@@ -23,7 +23,7 @@
 // Third-party libraries
 #include <Minhook.h>
 #include <imgui.h>
-//#include <imgui_impl_vulkan.h>
+//#include <imgui_impl_vulkan.h> // Maybe one day
 #include <imgui_impl_dx12.h>
 #include <imgui_impl_win32.h>
 
@@ -34,6 +34,7 @@ inline uintptr_t g_BaseAddress; // Game base address
 inline HANDLE g_MainThread; // Main thread handle (must be closed before exiting)
 inline std::atomic_bool g_Running = true; // Set to false to eject
 
+// Enable literal macros
 using namespace std::chrono_literals;
 using namespace std::literals::string_view_literals;
 

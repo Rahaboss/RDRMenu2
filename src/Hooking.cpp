@@ -96,7 +96,8 @@ namespace Hooking
 	//	{
 	//		if (g_running)
 	//		{
-	//			std::cout << __FUNCTION__"(" << ops << ")\n";
+	//			constexpr joaat_t main_hash = RAGE_JOAAT("main");
+	//			Features::ExecuteAsThread(main_hash, ScriptThreadTick);
 	//		
 	//			return RunScriptThreads2.GetOriginal<decltype(&RunScriptThreadsHook2)>()(ops);
 	//		}
@@ -110,9 +111,9 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoSnipers && *(Hash*)(&ctx->m_Args[8]) == WEAPON_SNIPERRIFLE_CARCANO)
+			if (Features::EnableNoSnipers && ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
 				return;
-		
+			
 			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -122,8 +123,8 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoSnipers && *(Entity*)(&ctx->m_Args[0]) == g_LocalPlayer.m_Entity &&
-				*(uint32_t*)(&ctx->m_Args[1]) == 0x44BBD654) // 1502.69775391f
+			if (Features::EnableNoSnipers && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
+				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
 				*(BOOL*)ctx->m_ReturnValue = FALSE; // spoof return value
 				return FALSE;
@@ -180,11 +181,11 @@ namespace Hooking
 			}
 			else if (ctx)
 			{
-				Hash model = *(Hash*)(&(ctx->m_Args[0]));
-				Vector3 pos = *(Vector3*)(&(ctx->m_Args[1]));
+				Hash model = ctx->GetArg<Hash>(0);
+				Vector3 pos = ctx->GetArg<Vector3>(1);
 
 				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
-				Ped id = *(Ped*)(ctx->m_ReturnValue);
+				Ped id = ctx->GetRet<Ped>();
 
 				if (PED::IS_PED_HUMAN(id))
 				{
@@ -214,11 +215,11 @@ namespace Hooking
 		{
 			if (Features::EnableVehicleSpawnLogging && ctx)
 			{
-				Hash model = *(Hash*)(&(ctx->m_Args[0]));
-				Vector3 pos = *(Vector3*)(&(ctx->m_Args[1]));
+				Hash model = ctx->GetArg<Hash>(0);
+				Vector3 pos = ctx->GetArg<Vector3>(1);
 
 				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
-				Vehicle id = *(Vehicle*)(ctx->m_ReturnValue);
+				Vehicle id = ctx->GetRet<Vehicle>();
 
 				std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
 					<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";

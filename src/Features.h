@@ -6,7 +6,7 @@
 #include "rage/enums.h"
 
 #define TOGGLE_AND_LOG_BOOL(v) v = !v;\
-std::cout << #v": " << (v ? "enabled" : "disabled") << '\n';
+std::cout << #v << ": " << (v ? "enabled" : "disabled") << '\n';
 
 namespace Features
 {
