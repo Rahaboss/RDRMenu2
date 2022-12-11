@@ -13,7 +13,7 @@ namespace Features
 	// To be used with TOGGLE_AND_LOG_BOOL
 	inline bool
 		EnableNoSnipers = true,
-		EnableNoReload = false,
+		EnableInfiniteAmmo = true,
 		EnableNoSliding = true,
 		EnablePedSpawnLogging = false,
 		EnableHumanSpawnLogging = false,

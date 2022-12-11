@@ -13,6 +13,7 @@
 #include <queue>
 #include <functional>
 #include <map>
+#include <filesystem>
 
 // Windows
 #include <Windows.h>

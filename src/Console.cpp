@@ -22,7 +22,6 @@ namespace Console
 	void Destroy()
 	{
 		std::cout << "Destroying console.\n";
-		std::this_thread::sleep_for(500ms);
 		if (f)
 			fclose(f);
 		FreeConsole();

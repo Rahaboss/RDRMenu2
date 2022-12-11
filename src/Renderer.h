@@ -9,6 +9,8 @@ namespace Renderer
 	void Present();
 	void NewFrame();
 	void EndFrame();
+	void SetupD3D12();
+	void SetupImGui();
 	LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// Must be false on inject, otherwise breaks input
@@ -30,5 +32,5 @@ namespace Renderer
 	inline ID3D12DescriptorHeap* DescriptorHeapImGuiRender;
 	inline ID3D12GraphicsCommandList* CommandList;
 	inline ID3D12DescriptorHeap* DescriptorHeapBackBuffers;
-	inline LONG_PTR _WndProc;
+	inline WNDPROC _WndProc;
 }

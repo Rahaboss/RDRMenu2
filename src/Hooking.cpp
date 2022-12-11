@@ -161,7 +161,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoReload && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
+			if (Features::EnableInfiniteAmmo && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
 				return;
 
 			Hooking::DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);

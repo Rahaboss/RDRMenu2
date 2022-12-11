@@ -2,7 +2,8 @@
 #include "Renderer.h"
 #include "Pointers.h"
 #include "Hooking.h"
-#include "menu/Menu.h"
+#include "Menu.h"
+#include "Fonts.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -30,76 +31,8 @@ namespace Renderer
 			Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent,
 				Hooking::SwapChainPresentHook);
 		
-			Hwnd = FindWindow(L"sgaWindow", NULL);
-
-			if (FAILED(SwapChain->GetDevice(IID_PPV_ARGS(&Device))))
-				return;
-
-			DXGI_SWAP_CHAIN_DESC Desc;
-			SwapChain->GetDesc(&Desc);
-			Desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-			Desc.OutputWindow = Hwnd;
-			Desc.Windowed = !(GetWindowLongPtr(Hwnd, GWL_STYLE) & WS_POPUP);
-
-			BuffersCounts = Desc.BufferCount;
-			FrameContext = new _FrameContext[BuffersCounts];
-
-			const D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender{
-				D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, BuffersCounts,
-				D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, 0
-			};
-
-			if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender,
-				IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
-				return;
-
-			ID3D12CommandAllocator* Allocator;
-			if (FAILED(Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
-				IID_PPV_ARGS(&Allocator))))
-				return;
-
-			for (size_t i = 0; i < BuffersCounts; i++)
-				FrameContext[i].CommandAllocator = Allocator;
-
-			if (FAILED(Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT,
-				Allocator, NULL, IID_PPV_ARGS(&CommandList)))
-				|| FAILED(CommandList->Close()))
-				return;
-
-			const D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers{
-				D3D12_DESCRIPTOR_HEAP_TYPE_RTV, BuffersCounts,
-				D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1
-			};
-
-			if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers,
-				IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
-				return;
-
-			const UINT RTVDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-			D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle = DescriptorHeapBackBuffers->GetCPUDescriptorHandleForHeapStart();
-
-			for (UINT i = 0; i < BuffersCounts; i++)
-			{
-				ID3D12Resource* pBackBuffer = nullptr;
-				FrameContext[i].DescriptorHandle = RTVHandle;
-				SwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
-				Device->CreateRenderTargetView(pBackBuffer, NULL, RTVHandle);
-				FrameContext[i].Resource = pBackBuffer;
-				RTVHandle.ptr += RTVDescriptorSize;
-			}
-
-			IMGUI_CHECKVERSION();
-			ImGui::CreateContext();
-			ImGui::StyleColorsDark();
-
-			ImGui_ImplWin32_Init(Hwnd);
-			ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
-				DescriptorHeapImGuiRender,
-				DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
-				DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
-			ImGui_ImplDX12_CreateDeviceObjects();
-			_WndProc = SetWindowLongPtr(Hwnd, GWLP_WNDPROC,
-				reinterpret_cast<LONG_PTR>(WndProc));
+			SetupD3D12();
+			SetupImGui();
 
 			Setup = true;
 		}
@@ -115,7 +48,7 @@ namespace Renderer
 				return;
 
 			// Don't call ImGui shutdown functions!
-			SetWindowLongPtr(Hwnd, GWLP_WNDPROC, _WndProc);
+			SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)_WndProc);
 
 			Hooking::SwapChainPresent.Destroy();
 		}
@@ -128,7 +61,8 @@ namespace Renderer
 		{
 			NewFrame();
 		
-			Menu::RenderMenu();
+			if (Renderer::MenuOpen)
+				Menu::RenderMenu();
 		
 			EndFrame();
 		}
@@ -177,6 +111,120 @@ namespace Renderer
 			CommandQueue->ExecuteCommandLists(1, reinterpret_cast<ID3D12CommandList* const*>(&CommandList));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	void SetupD3D12()
+	{
+		Hwnd = FindWindow(L"sgaWindow", NULL);
+
+		if (FAILED(SwapChain->GetDevice(IID_PPV_ARGS(&Device))))
+			return;
+
+		DXGI_SWAP_CHAIN_DESC Desc;
+		SwapChain->GetDesc(&Desc);
+		Desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+		Desc.OutputWindow = Hwnd;
+		Desc.Windowed = !(GetWindowLongPtr(Hwnd, GWL_STYLE) & WS_POPUP);
+
+		BuffersCounts = Desc.BufferCount;
+		FrameContext = new _FrameContext[BuffersCounts];
+
+		const D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender{
+			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, BuffersCounts,
+			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, 0
+		};
+
+		if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender,
+			IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
+			return;
+
+		ID3D12CommandAllocator* Allocator;
+		if (FAILED(Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
+			IID_PPV_ARGS(&Allocator))))
+			return;
+
+		for (size_t i = 0; i < BuffersCounts; i++)
+			FrameContext[i].CommandAllocator = Allocator;
+
+		if (FAILED(Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT,
+			Allocator, NULL, IID_PPV_ARGS(&CommandList)))
+			|| FAILED(CommandList->Close()))
+			return;
+
+		const D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers{
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV, BuffersCounts,
+			D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1
+		};
+
+		if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers,
+			IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
+			return;
+
+		const UINT RTVDescriptorSize = Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle = DescriptorHeapBackBuffers->GetCPUDescriptorHandleForHeapStart();
+
+		for (UINT i = 0; i < BuffersCounts; i++)
+		{
+			FrameContext[i].DescriptorHandle = RTVHandle;
+			ID3D12Resource* pBackBuffer;
+			SwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer));
+			Device->CreateRenderTargetView(pBackBuffer, NULL, RTVHandle);
+			FrameContext[i].Resource = pBackBuffer;
+			RTVHandle.ptr += RTVDescriptorSize;
+		}
+	}
+
+	void SetupImGui()
+	{
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui::StyleColorsDark();
+
+		char* Buffer = nullptr;
+		size_t BufferCount = 0;
+		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
+		if (Buffer)
+		{
+			std::filesystem::path Path(Buffer);
+			delete Buffer;
+
+			Path.append("RDRMenu2");
+
+			if (!std::filesystem::exists(Path))
+			{
+				std::filesystem::create_directory(Path);
+			}
+			else if (!std::filesystem::is_directory(Path))
+			{
+				std::filesystem::remove(Path);
+				std::filesystem::create_directory(Path);
+			}
+
+			Path.append("imgui.ini");
+			static std::string IniPath(Path.string());
+
+			ImGuiIO& io = ImGui::GetIO();
+			io.IniFilename = IniPath.c_str();
+			io.Fonts->AddFontDefault();
+
+			ImFontConfig FontCfg{};
+			FontCfg.FontDataOwnedByAtlas = false;
+
+			// Main font
+			strcpy_s(FontCfg.Name, "Redemption");
+			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 24.0f, &FontCfg);
+
+			strcpy_s(FontCfg.Name, "Chalet London 1960");
+			io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+		}
+
+		ImGui_ImplWin32_Init(Hwnd);
+		ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
+			DescriptorHeapImGuiRender,
+			DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
+			DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
+		ImGui_ImplDX12_CreateDeviceObjects();
+		_WndProc = (WNDPROC)SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 	}
 
 	static POINT CursorCoords{};

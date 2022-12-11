@@ -147,7 +147,7 @@ namespace Features
 		if (!g_LocalPlayer.m_Mount)
 			return;
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
 
 		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, FALSE), FALSE);
