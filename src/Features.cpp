@@ -72,7 +72,6 @@ namespace Features
 
 			GetLocalPlayerInfo();
 			RGBTick();
-			//Menu::RenderMenu();
 
 			NoSliding();
 			//RenderTextOnEntity(g_LocalPlayer.m_Entity, "Player ~n~~COLOR_RED~Test \xE2\x88\x91~ws~");
@@ -89,6 +88,9 @@ namespace Features
 
 			if (EnableGodMode)
 				SetGodmode(true);
+
+			if (EnableSuperJump)
+				MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

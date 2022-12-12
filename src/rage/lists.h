@@ -1559,6 +1559,7 @@ const inline std::map<Hash, std::string_view> g_PedModelNameList{
 	{ U_M_Y_HTLWORKER_02, "U_M_Y_HTLWORKER_02"sv },
 	{ U_M_Y_SHACKSTARVINGKID_01, "U_M_Y_SHACKSTARVINGKID_01"sv },
 };
+#endif
 
 const inline std::map<Hash, std::string_view> g_VehicleModelNameList{
 	{ ARMOREDCAR01X, "ARMOREDCAR01X"sv },
@@ -1664,7 +1665,6 @@ const inline std::map<Hash, std::string_view> g_VehicleModelNameList{
 	{ WINTERCOALCAR, "WINTERCOALCAR"sv },
 	{ WINTERSTEAMER, "WINTERSTEAMER"sv },
 };
-#endif
 
 const inline std::map<std::string, Hash> g_WeaponMenuList{
 	{ "Algernon's Revolver", WEAPON_REVOLVER_DOUBLEACTION_EXOTIC },
@@ -1734,6 +1734,7 @@ const inline std::map<std::string, Hash> g_WeaponMenuList{
 	//{ "Tomahawk - Homing", AMMO_TOMAHAWK_HOMING },
 };
 
+#if ENABLE_LARGE_STACK_ITEMS
 const inline std::map<std::string, Hash> g_PedMenuList{
 	{ "A_C_ALLIGATOR_01", A_C_ALLIGATOR_01 },
 	{ "A_C_ALLIGATOR_02", A_C_ALLIGATOR_02 },
@@ -3117,6 +3118,7 @@ const inline std::map<std::string, Hash> g_PedMenuList{
 	{ "U_M_Y_HTLWORKER_02", U_M_Y_HTLWORKER_02 },
 	{ "U_M_Y_SHACKSTARVINGKID_01", U_M_Y_SHACKSTARVINGKID_01 },
 };
+#endif
 
 const inline std::map<std::string, Hash> g_PedVehicleList{
 	{ "ARMOREDCAR01X", ARMOREDCAR01X },
@@ -3221,4 +3223,79 @@ const inline std::map<std::string, Hash> g_PedVehicleList{
 	{ "WAGONWORK01X", WAGONWORK01X },
 	{ "WINTERCOALCAR", WINTERCOALCAR },
 	{ "WINTERSTEAMER", WINTERSTEAMER },
+};
+
+const inline std::map<std::string, Hash> g_WeatherTypeList{
+	{ "BLIZZARD", BLIZZARD },
+	{ "CLOUDS", CLOUDS },
+	{ "DRIZZLE", DRIZZLE },
+	{ "FOG", FOG },
+	{ "GROUNDBLIZZARD", GROUNDBLIZZARD },
+	{ "HAIL", HAIL },
+	{ "HIGHPRESSURE", HIGHPRESSURE },
+	{ "HURRICANE", HURRICANE },
+	{ "MISTY", MISTY },
+	{ "OVERCAST", OVERCAST },
+	{ "OVERCASTDARK", OVERCASTDARK },
+	{ "RAIN", RAIN },
+	{ "SANDSTORM", SANDSTORM },
+	{ "SHOWER", SHOWER },
+	{ "SLEET", SLEET },
+	{ "SNOW", SNOW },
+	{ "SNOWLIGHT", SNOWLIGHT },
+	{ "SUNNY", SUNNY },
+	{ "THUNDER", THUNDER },
+	{ "THUNDERSTORM", THUNDERSTORM },
+	{ "WHITEOUT", WHITEOUT },
+	{ "SNOWCLEARING", SNOWCLEARING },
+};
+
+const inline std::map<std::string, int> g_SnowTypeList{
+	{ "Disabled", Primary },
+	{ "Xmas", Xmas },
+	{ "XmasSecondary", XmasSecondary },
+};
+
+const inline std::map<std::string, Vector3> g_TeleportList{
+	{ "Aberdeen Pig Farm", Vector3(1815.1f, -115.187f, 56.7297f) },
+	{ "Adler Ranch", Vector3(-567.54f, 2682.85f, 319.871f) },
+	{ "Annesburg", Vector3(2921.04f, 1294.39f, 44.639f) },
+	{ "Armadillo", Vector3(-3627.98f, -2591.47f, -13.9677f) },
+	{ "Beaver Hollow (Chapter 6)", Vector3(2377.05f, 1309.92f, 108.714f) },
+	{ "Beecher's Hope (Epilogue Part 2)", Vector3(-1648.99f, -1416.1f, 83.4074f) },
+	{ "Benedict Point", Vector3(-5264.47f, -3416.71f, -21.8179f) },
+	{ "Blackwater", Vector3(-799.675f, -1261.2f, 43.8076f) },
+	{ "Braithwaite Manor", Vector3(1013.0f, -1657.04f, 47.2939f) },
+	{ "Butcher Creek", Vector3(2508.95f, 807.195f, 72.7694f) },
+	{ "Caliga Hall", Vector3(1693.79f, -1390.27f, 44.2264f) },
+	{ "Clemens Point (Chapter 3)", Vector3(685.991f, -1188.57f, 46.4375f) },
+	{ "Colter (Chapter 1)", Vector3(-1360.84f, 2394.43f, 307.056f) },
+	{ "Cornwall Kerosene & Tar", Vector3(426.267f, 696.999f, 116.203f) },
+	{ "El Presidio (Mexico)", Vector3(-2124.65f, -3403.09f, 33.3966f) },
+	{ "Emerald Ranch", Vector3(1363.91f, 306.949f, 87.6744f) },
+	{ "Escalera (Mexico)", Vector3(-5798.68f, -4443.82f, 9.3957f) },
+	{ "Fort Mercer", Vector3(-4159.31f, -3381.23f, 39.757f) },
+	{ "Fort Riggs", Vector3(-1580.44f, -898.117f, 84.8253f) },
+	{ "Fort Wallace", Vector3(378.58f, 1442.0f, 177.215f) },
+	{ "Guarma (Chapter 5)", Vector3(1424.31f, -7325.1f, 81.4575f) },
+	{ "Horseshoe Overlook (Chapter 2)", Vector3(-79.4716f, -4.14132f, 94.9357f) },
+	{ "Lagras", Vector3(2112.28f, -650.864f, 42.4284f) },
+	{ "Lakay (Chapter 5)", Vector3(2302.03f, -751.615f, 41.9054f) },
+	{ "Lemoyne National Bank", Vector3(2642.93f, -1289.63f, 52.2517f) },
+	{ "MacFarlane's Ranch", Vector3(-2302.04f, -2448.72f, 62.3551f) },
+	{ "Manzanita Trading Post", Vector3(-1964.7f, -1583.59f, 116.383f) },
+	{ "Mexico Tunnel", Vector3(-2774.18f, -4232.66f, -16.0693f) },
+	{ "Mount Hagen", Vector3(-1503.69f, 1242.81f, 313.561f) },
+	{ "Mysterious Hill Home (Hobbit House)", Vector3(748.603f, 1837.05f, 239.54f) },
+	{ "Pronghorn Ranch (Epilogue Part 1)", Vector3(-2567.1f, 459.28f, 145.776f) },
+	{ "Rhodes", Vector3(1305.83f, -1298.29f, 76.5653f) },
+	{ "Saint Denis", Vector3(2376.26f, -1139.36f, 46.8324f) },
+	{ "Shady Belle (Chapter 4)", Vector3(1840.26f, -1821.53f, 44.408f) },
+	{ "Sisika Penitentiary", Vector3(3337.95f, -627.499f, 44.0809f) },
+	{ "Strawberry", Vector3(-1738.43f, -409.492f, 155.592f) },
+	{ "Thieves Landing", Vector3(-1465.19f, -2336.58f, 43.2596f) },
+	{ "Tumbleweed", Vector3(-5415.37f, -2938.96f, 1.3023f) },
+	{ "Valentine", Vector3(-332.713f, 785.198f, 116.385f) },
+	{ "Van Horn Trading Post", Vector3(2961.2f, 498.593f, 46.1982f) },
+	{ "Wapiti Indian Reservation", Vector3(475.954f, 2183.3f, 244.565f) },
 };

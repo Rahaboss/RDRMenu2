@@ -31,4 +31,5 @@ namespace Pointers
 	inline uint64_t* BlipHash{};
 	inline void* sub_7FF73D8C1638{};
 	inline CPed* (*GetEntityPed)(Entity){};
+	inline void* (*GetEntityAddress)(Entity){};
 }

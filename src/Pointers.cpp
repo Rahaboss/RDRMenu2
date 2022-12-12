@@ -39,6 +39,7 @@ namespace Pointers
 		BlipHash = Signature(GetBlipAddress).Add(0x25).Rip().Get<decltype(BlipHash)>();
 		sub_7FF73D8C1638 = Signature("E8 ? ? ? ? 44 8A 46 16").Add(1).Rip().Get<decltype(sub_7FF73D8C1638)>();
 		GetEntityPed = Signature("E8 ? ? ? ? 44 0F B6 C5").Add(1).Rip().Get<decltype(GetEntityPed)>();
+		GetEntityAddress = Signature("E8 ? ? ? ? 45 8D 47 04").Add(1).Rip().Get<decltype(GetEntityAddress)>();
 
 		// D3D12 Renderer Stuff
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();

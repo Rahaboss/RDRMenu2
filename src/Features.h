@@ -19,7 +19,8 @@ namespace Features
 		EnableHumanSpawnLogging = false,
 		EnableVehicleSpawnLogging = false,
 		EnableAddInventoryItemLogging = false,
-		EnableGodMode = false;
+		EnableGodMode = true,
+		EnableSuperJump = false;
 	inline uint8_t g_rgb[3]{ 255, 0, 0 };
 
 
@@ -106,7 +107,8 @@ namespace Features
 
 	/// WEAPONS
 	void RevealMap();
-	void SetSnowType(eSnowCoverageType type);
+	void SetClockTime(int h = 12, int m = 0, int s = 0);
+	void SetSnowType(int type);
 
 
 	/// MISC

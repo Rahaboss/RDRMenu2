@@ -291,7 +291,8 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx && Features::EnableAddInventoryItemLogging && ctx->GetArg<int>(0) == RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"))
+			constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+			if (ctx && Features::EnableAddInventoryItemLogging && ctx->GetArg<int>(0) == CLOTHING_SP_CIVIL_WAR_HAT_000_1)
 			{
 				int inventoryId = ctx->GetArg<int>(0);
 				Any* guid = ctx->GetArg<Any*>(1);
@@ -302,17 +303,26 @@ namespace Hooking
 				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 				BOOL ret = ctx->GetRet<BOOL>();
 
-				std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid << ", " << p2 << ", " << slotId << ", "
-					<< outGuid << ")\n";
-				std::cout << "\tReturned " << ret << "\n\n";
-
-				std::cout << "\tguid:\n";
+				Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
+				Menu::Logger.AddLog("\tReturned %d\n\n", ret);
+				Menu::Logger.AddLog("\tguid:\n");
 				for (int i = 0; i < 5; i++)
-					std::cout << "\t" << ((int*)guid)[i * 2] << "\n";
-
-				std::cout << "\n\toutGuid:\n";
+					Menu::Logger.AddLog("\t%d\n", ((int*)guid)[i * 2]);
+				Menu::Logger.AddLog("\toutGuid:\n");
 				for (int i = 0; i < 5; i++)
-					std::cout << "\t" << ((int*)outGuid)[i * 2] << "\n";
+					Menu::Logger.AddLog("\t%d\n", ((int*)outGuid)[i * 2]);
+
+				//std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid << ", " << p2 << ", " << slotId << ", "
+				//	<< outGuid << ")\n";
+				//std::cout << "\tReturned " << ret << "\n\n";
+				//
+				//std::cout << "\tguid:\n";
+				//for (int i = 0; i < 5; i++)
+				//	std::cout << "\t" << ((int*)guid)[i * 2] << "\n";
+				//
+				//std::cout << "\n\toutGuid:\n";
+				//for (int i = 0; i < 5; i++)
+				//	std::cout << "\t" << ((int*)outGuid)[i * 2] << "\n";
 			}
 			else
 			{
