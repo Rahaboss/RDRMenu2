@@ -92,9 +92,6 @@ namespace Features
 
 	void NoSliding()
 	{
-		if (!EnableNoSliding)
-			return;
-
 		// PCF_0x435F091E = set ped can run into steep slope
 		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, PCF_0x435F091E, TRUE);
 		if (g_LocalPlayer.m_Mount)

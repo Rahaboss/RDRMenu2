@@ -75,28 +75,6 @@ namespace Menu
 				END_JOB()
 			}
 
-			if (ImGui::Button("Give Core XP Items"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveAgedPirateRum();
-					Features::GiveGinsengElixir();
-					Features::GiveValerianRoot();
-				}
-				END_JOB()
-			}
-
-			if (ImGui::Button("Spawn Charles"))
-			{
-				QUEUE_JOB()
-				{
-					constexpr Hash model = CS_CHARLESSMITH;
-					Ped ped = Features::SpawnPed(model);
-					Features::EndSpawnPed(model, ped);
-				}
-				END_JOB()
-			}
-
 			ImGui::EndGroup();
 			ImGui::SameLine();
 			ImGui::BeginGroup();
@@ -133,6 +111,10 @@ namespace Menu
 				}
 				END_JOB()
 			}
+
+			ImGui::EndGroup();
+			ImGui::SameLine();
+			ImGui::BeginGroup();
 
 			if (ImGui::Button("Spawn Good Honor Enemy"))
 			{
@@ -188,32 +170,19 @@ namespace Menu
 		{
 			ImGui::BeginChild("weapon_child", ImVec2(0, 0));
 
+			ImGui::BeginGroup();
 			if (ImGui::Button("Give Weapons"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveAllWeapons();
-				}
-				END_JOB()
-			}
+				Features::GiveAllWeapons();
 
 			if (ImGui::Button("Give Dual Wield Weapons"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveAllDualWieldWeapons();
-				}
-				END_JOB()
-			}
+				Features::GiveAllDualWieldWeapons();
 
 			if (ImGui::Button("Give Ammo"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveAllAmmo();
-				}
-				END_JOB()
-			}
+				Features::GiveAllAmmo();
+			
+			ImGui::EndGroup();
+			ImGui::SameLine();
+			ImGui::BeginGroup();
 
 			if (ImGui::Button("Spawn Turret"))
 			{
@@ -226,55 +195,58 @@ namespace Menu
 			}
 
 			if (ImGui::Button("Drop Current Weapon"))
-			{
-				QUEUE_JOB()
-				{
-					Features::DropCurrentWeapon();
-				}
-				END_JOB()
-			}
+				Features::DropCurrentWeapon();
 
+			ImGui::EndGroup();
 			ImGui::Separator();
+			ImGui::BeginGroup();
 
 			ImGui::Checkbox("Infinite Ammo", &Features::EnableInfiniteAmmo);
-
+			
+			ImGui::EndGroup();
 			ImGui::Separator();
-
-			ImGui::BeginChild("weapon_list", ImVec2(0, 200));
-
 			ImGui::BeginGroup();
+
 			ImGui::Text("Weapon List");
-			ImGui::BeginChild("weapon_list_menu", ImVec2(200, 0));
+			ImGui::BeginChild("weapon_list_menu", ImVec2(270, 0));
+
 			static Hash CurrentWeapon = WEAPON_REVOLVER_DOUBLEACTION_EXOTIC;
-			for (auto it = g_WeaponMenuList.begin(); it != g_WeaponMenuList.end(); it++)
+			for (const auto& w : g_WeaponMenuList)
 			{
-				if (ImGui::Selectable(it->first.c_str(), CurrentWeapon == it->second))
-					CurrentWeapon = it->second;
+				if (ImGui::Selectable(w.first.c_str(), CurrentWeapon == w.second))
+					CurrentWeapon = w.second;
 			}
+			
 			ImGui::EndChild();
 			ImGui::EndGroup();
 			ImGui::SameLine();
-
-			ImGui::BeginChild("weapon_menu", ImVec2(0, 0));
+			ImGui::BeginGroup();
 
 			ImGui::Text("Weapon Name: %s", HUD::GET_STRING_FROM_HASH_KEY(CurrentWeapon));
 			ImGui::Text("Weapon Hash: %X", CurrentWeapon);
-			
-			ImGui::Separator();
 
+			ImGui::Separator();
 			if (ImGui::Button("Give Weapon"))
 			{
-				QUEUE_JOB(=)
+				switch (CurrentWeapon)
 				{
+				case AMMO_MOLOTOV_VOLATILE:
+				case AMMO_DYNAMITE_VOLATILE:
+				case AMMO_THROWING_KNIVES_IMPROVED:
+				case AMMO_THROWING_KNIVES_POISON:
+				case AMMO_TOMAHAWK_IMPROVED:
+				case AMMO_TOMAHAWK_HOMING:
+					Features::GiveAmmo(CurrentWeapon);
+					break;
+				default:
 					Features::GiveWeapon(CurrentWeapon);
+					break;
 				}
-				END_JOB()
 			}
 
-			ImGui::EndChild();
+			ImGui::EndGroup();
 			ImGui::EndChild();
 
-			ImGui::EndChild();
 			ImGui::EndTabItem();
 		}
 	}
@@ -284,6 +256,19 @@ namespace Menu
 		if (ImGui::BeginTabItem("Inventory"))
 		{
 			ImGui::BeginChild("inventory_child", ImVec2(0, 0));
+
+			if (ImGui::Button("Unlock All Herbs"))
+			{
+				QUEUE_JOB()
+				{
+					Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+					for (const auto& h : g_HerbList)
+						COMPENDIUM::COMPENDIUM_HERB_PICKED(h, pos.x, pos.y, pos.z);
+				}
+				END_JOB()
+			}
+
+			ImGui::Separator();
 
 			ImGui::Text("Give Inventory Items");
 			ImGui::BeginChild("item_menu", ImVec2(0, 200));
@@ -335,8 +320,8 @@ namespace Menu
 				Features::SetClockTime(18);
 			ImGui::EndGroup();
 			ImGui::SameLine();
-			
 			ImGui::BeginGroup();
+			
 			if (ImGui::Button("Reveal Map"))
 			{
 				QUEUE_JOB()
@@ -345,13 +330,23 @@ namespace Menu
 				}
 				END_JOB()
 			}
+			
 			ImGui::EndGroup();
 			ImGui::Separator();
+			ImGui::BeginGroup();
 
 			ImGui::Checkbox("No Snipers", &Features::EnableNoSnipers);
-			ImGui::Separator();
 
+			ImGui::EndGroup();
+			ImGui::SameLine();
 			ImGui::BeginGroup();
+
+			ImGui::Checkbox("No Black Borders", &Features::EnableNoBlackBorders);
+
+			ImGui::EndGroup();
+			ImGui::Separator();
+			ImGui::BeginGroup();
+
 			ImGui::Text("Set Weather");
 			ImGui::BeginChild("weather_list_menu", ImVec2(200, 200));
 			for (const auto& w : g_WeatherTypeList)

@@ -73,7 +73,6 @@ namespace Features
 			GetLocalPlayerInfo();
 			RGBTick();
 
-			NoSliding();
 			//RenderTextOnEntity(g_LocalPlayer.m_Entity, "Player ~n~~COLOR_RED~Test \xE2\x88\x91~ws~");
 			//RenderTextOnEntity(g_LocalPlayer.m_Mount, "Mount");
 			//RenderTextOnEntity(g_LocalPlayer.m_Vehicle, "Vehicle");
@@ -86,11 +85,20 @@ namespace Features
 			//	"\xE2\x80\xBA \\xE2\\x80\\xBA\n\xCE\xA9 \\xCE\\xA9", 0.0f, 0.0f);
 			//RenderText("~COLOR_RED~\xE2\x88\x91 Admin", 0.0f, 0.1f);
 
+			if (EnableNoSliding)
+				NoSliding();
+
 			if (EnableGodMode)
 				SetGodmode(true);
 
 			if (EnableSuperJump)
 				MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
+
+			if (EnableNoBlackBorders)
+			{
+				CAM::_REQUEST_LETTER_BOX_OVERTIME(-1, -1, FALSE, 17, TRUE, FALSE);
+				CAM::_FORCE_LETTER_BOX_THIS_UPDATE();
+			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

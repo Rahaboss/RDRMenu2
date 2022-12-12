@@ -20,7 +20,8 @@ namespace Features
 		EnableVehicleSpawnLogging = false,
 		EnableAddInventoryItemLogging = false,
 		EnableGodMode = true,
-		EnableSuperJump = false;
+		EnableSuperJump = false,
+		EnableNoBlackBorders = false;
 	inline uint8_t g_rgb[3]{ 255, 0, 0 };
 
 
