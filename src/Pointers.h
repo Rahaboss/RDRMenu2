@@ -13,9 +13,6 @@ namespace Pointers
 
 	inline bool* IsSessionStarted{};
 	inline int* FrameCount{};
-	inline IDXGISwapChain3** SwapChain{};
-	inline SwapChainPresent_t SwapChainPresent{};
-	inline ID3D12CommandQueue** CommandQueue{};
 	inline pgPtrCollection* ThreadCollection{};
 	inline void* RunScriptThreads{};
 	inline void* RunScriptThreads2{};
@@ -32,4 +29,11 @@ namespace Pointers
 	inline void* sub_7FF73D8C1638{};
 	inline CPed* (*GetEntityPed)(Entity){};
 	inline void* (*GetEntityAddress)(Entity){};
+	inline uint32_t* dword_7FF74047DEB0{};
+	inline uint64_t* qword_7FF74047DEB8{};
+
+	// D3D12 Renderer Stuff
+	inline IDXGISwapChain3** SwapChain{};
+	inline SwapChainPresent_t SwapChainPresent{};
+	inline ID3D12CommandQueue** CommandQueue{};
 }

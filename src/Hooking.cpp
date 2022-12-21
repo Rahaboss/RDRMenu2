@@ -263,17 +263,38 @@ namespace Hooking
 				result = Hooking::InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
 				BOOL ret = ctx->GetRet<BOOL>();
 
-				std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid1 << ", " << guid2 << ", " << item << ", "
-					<< inventoryItemSlot << ", " << p5 << ", " << addReason << ")\n";
-				std::cout << "\tReturned " << ret << "\n\n";
+				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+				switch (inventoryId)
+				{
+				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
+				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
+				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
+				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
+				default:
+					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
+						inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
+					Menu::Logger.AddLog("\tReturned %d\n\n", ret);
+					Menu::Logger.AddLog("\tguid1:\n");
+					for (int i = 0; i < 4; i++)
+						Menu::Logger.AddLog("\t%d\n", ((int*)guid1)[i * 2]);
+					Menu::Logger.AddLog("\tguid2:\n");
+					for (int i = 0; i < 5; i++)
+						Menu::Logger.AddLog("\t%d\n", ((int*)guid2)[i * 2]);
+					break;
+				}
 
-				std::cout << "\tguid1:\n";
-				for (int i = 0; i < 4; i++)
-					std::cout << "\t" << ((int*)guid1)[i * 2] << "\n";
-
-				std::cout << "\n\tguid2:\n";
-				for (int i = 0; i < 5; i++)
-					std::cout << "\t" << ((int*)guid2)[i * 2] << "\n";
+				//std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid1 << ", " << guid2 << ", " << item << ", "
+				//	<< inventoryItemSlot << ", " << p5 << ", " << addReason << ")\n";
+				//std::cout << "\tReturned " << ret << "\n\n";
+				//
+				//std::cout << "\tguid1:\n";
+				//for (int i = 0; i < 4; i++)
+				//	std::cout << "\t" << ((int*)guid1)[i * 2] << "\n";
+				//
+				//std::cout << "\n\tguid2:\n";
+				//for (int i = 0; i < 5; i++)
+				//	std::cout << "\t" << ((int*)guid2)[i * 2] << "\n";
 			}
 			else
 			{
@@ -291,8 +312,7 @@ namespace Hooking
 
 		TRY
 		{
-			constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
-			if (ctx && Features::EnableAddInventoryItemLogging && ctx->GetArg<int>(0) == CLOTHING_SP_CIVIL_WAR_HAT_000_1)
+			if (ctx && Features::EnableAddInventoryItemLogging)
 			{
 				int inventoryId = ctx->GetArg<int>(0);
 				Any* guid = ctx->GetArg<Any*>(1);
@@ -303,26 +323,24 @@ namespace Hooking
 				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 				BOOL ret = ctx->GetRet<BOOL>();
 
-				Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
-				Menu::Logger.AddLog("\tReturned %d\n\n", ret);
-				Menu::Logger.AddLog("\tguid:\n");
-				for (int i = 0; i < 5; i++)
-					Menu::Logger.AddLog("\t%d\n", ((int*)guid)[i * 2]);
-				Menu::Logger.AddLog("\toutGuid:\n");
-				for (int i = 0; i < 5; i++)
-					Menu::Logger.AddLog("\t%d\n", ((int*)outGuid)[i * 2]);
-
-				//std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid << ", " << p2 << ", " << slotId << ", "
-				//	<< outGuid << ")\n";
-				//std::cout << "\tReturned " << ret << "\n\n";
-				//
-				//std::cout << "\tguid:\n";
-				//for (int i = 0; i < 5; i++)
-				//	std::cout << "\t" << ((int*)guid)[i * 2] << "\n";
-				//
-				//std::cout << "\n\toutGuid:\n";
-				//for (int i = 0; i < 5; i++)
-				//	std::cout << "\t" << ((int*)outGuid)[i * 2] << "\n";
+				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+				switch (inventoryId)
+				{
+				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
+				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
+				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
+				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
+					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
+					Menu::Logger.AddLog("\tReturned %d\n\n", ret);
+					Menu::Logger.AddLog("\tguid:\n");
+					for (int i = 0; i < 5; i++)
+						Menu::Logger.AddLog("\t%d\n", ((int*)guid)[i * 2]);
+					Menu::Logger.AddLog("\toutGuid:\n");
+					for (int i = 0; i < 5; i++)
+						Menu::Logger.AddLog("\t%d\n", ((int*)outGuid)[i * 2]);
+					break;
+				}
 			}
 			else
 			{

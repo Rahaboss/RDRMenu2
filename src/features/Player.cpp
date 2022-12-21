@@ -55,6 +55,7 @@ namespace Features
 			g_LocalPlayer.m_Index = PLAYER::PLAYER_ID();
 			g_LocalPlayer.m_Entity = PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(g_LocalPlayer.m_Index);
 			g_LocalPlayer.m_Mount = PED::GET_MOUNT(g_LocalPlayer.m_Entity);
+			g_LocalPlayer.m_LastMount = PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER(g_LocalPlayer.m_Index);
 			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, FALSE);
 			g_LocalPlayer.m_Ped = Pointers::GetPlayerPed(g_LocalPlayer.m_Index);
 		}
@@ -77,17 +78,24 @@ namespace Features
 
 	void GiveGoldCores(const Ped& ped)
 	{
-		for (int i = 0; i < 3; i++)
+		QUEUE_JOB(ped)
 		{
-			constexpr float overpower_duration = 1000.f; // seconds
-			constexpr int core_value = 100; // 0 - 100
-			constexpr BOOL sound = FALSE;
+			if (ped == g_LocalPlayer.m_Mount)
+				std::cout << "GiveGoldCores\n";
 
-			ATTRIBUTE::DISABLE_ATTRIBUTE_OVERPOWER(ped, i);
-			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(ped, i, core_value);
-			ATTRIBUTE::_ENABLE_ATTRIBUTE_CORE_OVERPOWER(ped, i, overpower_duration, sound);
-			ATTRIBUTE::ENABLE_ATTRIBUTE_OVERPOWER(ped, i, overpower_duration, sound);
+			for (int i = 0; i < 3; i++)
+			{
+				constexpr float Duration = 10000.0f; // seconds
+				constexpr int CoreValue = 100; // 0 - 100
+				constexpr BOOL Sound = FALSE;
+
+				ATTRIBUTE::DISABLE_ATTRIBUTE_OVERPOWER(ped, i);
+				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(ped, i, CoreValue);
+				ATTRIBUTE::_ENABLE_ATTRIBUTE_CORE_OVERPOWER(ped, i, Duration, Sound);
+				ATTRIBUTE::ENABLE_ATTRIBUTE_OVERPOWER(ped, i, Duration, Sound);
+			}
 		}
+		END_JOB()
 	}
 
 	void NoSliding()
@@ -100,6 +108,9 @@ namespace Features
 
 	void PrintPedAttributes(Ped ped)
 	{
+		if (!ped)
+			return;
+
 		constexpr const char* AttributeNames[]{
 			"PA_HEALTH", "PA_STAMINA", "PA_SPECIALABILITY", "PA_COURAGE", "PA_AGILITY", "PA_SPEED",
 			"PA_ACCELERATION", "PA_BONDING", "SA_HUNGER", "SA_FATIGUED", "SA_INEBRIATED", "SA_POISONED",
@@ -110,22 +121,18 @@ namespace Features
 			
 		TRY
 		{
-			//const Ped ped = g_LocalPlayer.m_Entity;
-			if (!ped)
-				return;
-			
 			//std::cout << "Attr,Rank,BaseRank,BonusRank,MaxRank,DefaultRank,DefaultMaxRank,Points,MaxPoints\n";
 			for (int i = 0; i < MAX_ATTRIBUTES; i++)
 			{
-				auto Attr = AttributeNames[i];
-				auto Rank = ATTRIBUTE::GET_ATTRIBUTE_RANK(ped, i);
-				auto BaseRank = ATTRIBUTE::GET_ATTRIBUTE_BASE_RANK(ped, i);
-				auto BonusRank = ATTRIBUTE::GET_ATTRIBUTE_BONUS_RANK(ped, i);
-				auto MaxRank = ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(ped, i);
-				auto DefaultRank = ATTRIBUTE::GET_DEFAULT_ATTRIBUTE_RANK(ped, i);
-				auto DefaultMaxRank = ATTRIBUTE::GET_DEFAULT_MAX_ATTRIBUTE_RANK(ped, i);
-				auto Points = ATTRIBUTE::GET_ATTRIBUTE_POINTS(ped, i);
-				auto MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
+				const char* Attr = AttributeNames[i];
+				int Rank = ATTRIBUTE::GET_ATTRIBUTE_RANK(ped, i);
+				int BaseRank = ATTRIBUTE::GET_ATTRIBUTE_BASE_RANK(ped, i);
+				int BonusRank = ATTRIBUTE::GET_ATTRIBUTE_BONUS_RANK(ped, i);
+				int MaxRank = ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(ped, i);
+				int DefaultRank = ATTRIBUTE::GET_DEFAULT_ATTRIBUTE_RANK(ped, i);
+				int DefaultMaxRank = ATTRIBUTE::GET_DEFAULT_MAX_ATTRIBUTE_RANK(ped, i);
+				int Points = ATTRIBUTE::GET_ATTRIBUTE_POINTS(ped, i);
+				int MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
 				//std::cout << Attr << ',' << Rank << ',' << BaseRank << ',' << BonusRank << ',' << MaxRank << ','
 				//	<< DefaultRank << ',' << DefaultMaxRank << ',' << Points << ',' << MaxPoints << '\n';
 				std::cout << Attr << " (" << Points << "/" << MaxPoints << ")\n";
@@ -141,25 +148,35 @@ namespace Features
 
 	void RestoreHorseCores()
 	{
-		if (!g_LocalPlayer.m_Mount)
-			return;
+		QUEUE_JOB()
+		{
+			if (!g_LocalPlayer.m_Mount)
+				return;
 
-		for (int i = 0; i < 3; i++)
-			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
+			std::cout << "RestoreHorseCores\n";
 
-		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, FALSE), FALSE);
-		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
+			for (int i = 0; i < 3; i++)
+				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
+
+			ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, FALSE), FALSE);
+			PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
+		}
+		END_JOB()
 	}
 
 	void RestorePlayerCores()
 	{
-		for (int i = 0; i < 3; i++)
-			ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Entity, i, 100);
+		QUEUE_JOB()
+		{
+			for (int i = 0; i < 3; i++)
+				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Entity, i, 100);
 
-		ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Entity, FALSE), FALSE);
-		PLAYER::RESTORE_PLAYER_STAMINA(g_LocalPlayer.m_Index, 100.0);
-		PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
-		PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
+			ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Entity, FALSE), FALSE);
+			PLAYER::RESTORE_PLAYER_STAMINA(g_LocalPlayer.m_Index, 100.0);
+			PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
+			PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
+		}
+		END_JOB()
 	}
 
 	void SetGodmode(bool Toggle)
@@ -183,7 +200,7 @@ namespace Features
 		if (amount > 0)
 			AddMoney(amount);
 		else if (amount < 0)
-			RemoveMoney(amount);
+			RemoveMoney(-amount);
 	}
 
 	void SpawnBadHonorEnemy(Hash Model)

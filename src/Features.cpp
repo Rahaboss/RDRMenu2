@@ -94,6 +94,9 @@ namespace Features
 			if (EnableSuperJump)
 				MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
 
+			if (EnableNeverWanted)
+				ClearWanted();
+
 			if (EnableNoBlackBorders)
 			{
 				CAM::_REQUEST_LETTER_BOX_OVERTIME(-1, -1, FALSE, 17, TRUE, FALSE);

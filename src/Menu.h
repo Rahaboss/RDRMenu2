@@ -136,6 +136,8 @@ namespace Menu
 	void RenderMemoryTab();
 
 	// Submenus
+	void RenderPlayerButtons();
+	void RenderPlayerCheckboxes();
 	void RenderTeleportMenu();
 
 	inline bool EnableDemoWindow = false;

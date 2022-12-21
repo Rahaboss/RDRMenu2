@@ -40,6 +40,8 @@ namespace Pointers
 		sub_7FF73D8C1638 = Signature("E8 ? ? ? ? 44 8A 46 16").Add(1).Rip().Get<decltype(sub_7FF73D8C1638)>();
 		GetEntityPed = Signature("E8 ? ? ? ? 44 0F B6 C5").Add(1).Rip().Get<decltype(GetEntityPed)>();
 		GetEntityAddress = Signature("E8 ? ? ? ? 45 8D 47 04").Add(1).Rip().Get<decltype(GetEntityAddress)>();
+		dword_7FF74047DEB0 = Signature("74 30 48 69 C8 ? ? ? ? 0F 28 CE").Sub(8).Rip().Get<decltype(dword_7FF74047DEB0)>();
+		qword_7FF74047DEB8 = Signature("74 30 48 69 C8 ? ? ? ? 0F 28 CE").Add(0xF).Rip().Get<decltype(qword_7FF74047DEB8)>();
 
 		// D3D12 Renderer Stuff
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();

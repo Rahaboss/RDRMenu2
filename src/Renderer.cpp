@@ -180,6 +180,10 @@ namespace Renderer
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 
+		ImGuiStyle& Style = ImGui::GetStyle();
+		Style.WindowRounding = Style.ChildRounding = Style.FrameRounding = Style.PopupRounding =
+			Style.ScrollbarRounding = Style.GrabRounding = Style.TabRounding = 4.0f;
+
 		char* Buffer = nullptr;
 		size_t BufferCount = 0;
 		_dupenv_s(&Buffer, &BufferCount, "APPDATA");

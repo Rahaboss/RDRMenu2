@@ -42,126 +42,128 @@ namespace Menu
 
 	void RenderPlayerTab()
 	{
-		if (ImGui::BeginTabItem("Player"))
+		if (!ImGui::BeginTabItem("Player"))
+			return;
+
+		ImGui::BeginChild("player_child", ImVec2(0, 0));
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::CollapsingHeader("Player"))
 		{
-			ImGui::BeginChild("player_child", ImVec2(0, 0));
+			RenderPlayerButtons();
+			ImGui::Separator();
+			RenderPlayerCheckboxes();
+			ImGui::Separator();
+
+			static float Money = 10000.0f;
+			ImGui::PushItemWidth(200.0f);
+			ImGui::InputFloat("Money", &Money, 0, 0, "$%.2f");
+			ImGui::SameLine();
+			if (ImGui::Button("Set###set_money"))
+			{
+				QUEUE_JOB()
+				{
+					Features::SetMoney((int)(Money * 100.f));
+				}
+				END_JOB()
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Add###add_money"))
+			{
+				QUEUE_JOB()
+				{
+					Features::AddMoney((int)(Money * 100.f));
+				}
+				END_JOB()
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Remove###remove_money"))
+			{
+				QUEUE_JOB()
+				{
+					Features::RemoveMoney((int)(Money * 100.f));
+				}
+				END_JOB()
+			}
+
+			ImGui::Separator();
+			ImGui::Text("Scale");
+			static float PlayerScale = 1.0f;
+			ImGui::PushItemWidth(300.0f);
+			if (ImGui::SliderFloat("###player_scale", &PlayerScale, 0.01f, 10.0f, "%.2f"))
+			{
+				QUEUE_JOB()
+				{
+					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, PlayerScale);
+				}
+				END_JOB()
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Reset"))
+			{
+				QUEUE_JOB()
+				{
+					PlayerScale = 1.0f;
+					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, PlayerScale);
+				}
+				END_JOB()
+			}
+		}
+		ImGui::Separator();
+
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::CollapsingHeader("Mount"))
+		{
+			const bool MountDisabled = !g_LocalPlayer.m_Mount;
+			if (MountDisabled)
+				ImGui::BeginDisabled();
 			ImGui::BeginGroup();
 
-			if (ImGui::Button("Clear Wanted"))
-			{
-				QUEUE_JOB()
-				{
-					Features::ClearWanted();
-				}
-				END_JOB()
-			}
-
-			if (ImGui::Button("Give $100,000"))
-			{
-				QUEUE_JOB()
-				{
-					Features::SetMoney(10000000);
-				}
-				END_JOB()
-			}
-
-			if (ImGui::Button("Restore Cores"))
-			{
-				QUEUE_JOB()
-				{
-					Features::RestorePlayerCores();
-					Features::RestoreHorseCores();
-				}
-				END_JOB()
-			}
+			if (ImGui::Button("Fill Cores###fill_mount"))
+				Features::RestoreHorseCores();
 
 			ImGui::EndGroup();
 			ImGui::SameLine();
 			ImGui::BeginGroup();
 
-			if (ImGui::Button("TP To Waypoint"))
-			{
-				QUEUE_JOB()
-				{
-					Features::TeleportToWaypoint();
-				}
-				END_JOB()
-			}
-
-			ImGui::PushButtonRepeat(true);
-			if (ImGui::Button("TP Through Door"))
-			{
-				QUEUE_JOB()
-				{
-					Features::TeleportThroughDoor();
-				}
-				END_JOB()
-			}
-			ImGui::PopButtonRepeat();
-
-			if (ImGui::Button("TP To Last Mount"))
-			{
-				QUEUE_JOB()
-				{
-					if (g_LocalPlayer.m_Mount)
-						return;
-
-					if (Ped mount = PED::_GET_LAST_MOUNT(g_LocalPlayer.m_Entity))
-						PED::SET_PED_ONTO_MOUNT(g_LocalPlayer.m_Entity, mount, -1, TRUE);
-				}
-				END_JOB()
-			}
-
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-
-			if (ImGui::Button("Spawn Good Honor Enemy"))
-			{
-				QUEUE_JOB()
-				{
-					Features::SpawnGoodHonorEnemy();
-				}
-				END_JOB()
-			}
-
-			if (ImGui::Button("Spawn Bad Honor Enemy"))
-			{
-				QUEUE_JOB()
-				{
-					Features::SpawnBadHonorEnemy();
-				}
-				END_JOB()
-			}
+			if (ImGui::Button("Give Gold Cores###gold_mount"))
+				Features::GiveGoldCores(g_LocalPlayer.m_Mount);
 
 			ImGui::EndGroup();
 			ImGui::Separator();
-			ImGui::BeginGroup();
 
-			if (ImGui::Checkbox("God Mode", &Features::EnableGodMode) && !Features::EnableGodMode)
+			ImGui::Text("Scale");
+			static float MountScale = 1.0f;
+			ImGui::PushItemWidth(300.0f);
+			if (ImGui::SliderFloat("###mount_scale", &MountScale, 0.01f, 10.0f, "%.2f"))
 			{
 				QUEUE_JOB()
 				{
-					Features::SetGodmode(false);
+					PED::_SET_PED_SCALE(g_LocalPlayer.m_Mount, MountScale);
 				}
 				END_JOB()
 			}
-			ImGui::Checkbox("Super Jump", &Features::EnableSuperJump);
-
-			ImGui::EndGroup();
 			ImGui::SameLine();
-			ImGui::BeginGroup();
+			if (ImGui::Button("Reset###reset_mount_scale"))
+			{
+				QUEUE_JOB()
+				{
+					MountScale = 1.0f;
+					PED::_SET_PED_SCALE(g_LocalPlayer.m_Mount, MountScale);
+				}
+				END_JOB()
+			}
 
-			ImGui::Checkbox("No Sliding", &Features::EnableNoSliding);
-			
-			ImGui::EndGroup();
-			ImGui::Separator();
+			if (MountDisabled)
+				ImGui::EndDisabled();
+		}
+		ImGui::Separator();
 
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::CollapsingHeader("Teleports"))
 			RenderTeleportMenu();
 			
-			ImGui::EndChild();
-			ImGui::EndTabItem();
-		}
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderWeaponTab()
@@ -267,36 +269,73 @@ namespace Menu
 				}
 				END_JOB()
 			}
+			ImGui::SameLine();
+			if (ImGui::Button("Give All Items"))
+			{
+				Features::GiveAllConsumables();
+				Features::GiveAllDocuments();
+				Features::GiveAllProvisions();
+				Features::GiveAllWeapons();
+				Features::GiveAllAmmo();
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Give All Consumables"))
+				Features::GiveAllConsumables();
+			ImGui::SameLine();
+			if (ImGui::Button("Give All Documents"))
+				Features::GiveAllDocuments();
+			ImGui::SameLine();
+			if (ImGui::Button("Give All Provisions"))
+				Features::GiveAllProvisions();
 
-			ImGui::Separator();
-
-			ImGui::Text("Give Inventory Items");
-			ImGui::BeginChild("item_menu", ImVec2(0, 200));
-			if (ImGui::Selectable("Aged Pirate Rum"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveAgedPirateRum();
-				}
-				END_JOB()
-			}
-			if (ImGui::Selectable("Ginseng Elixir"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveGinsengElixir();
-				}
-				END_JOB()
-			}
-			if (ImGui::Selectable("Valerian Root"))
-			{
-				QUEUE_JOB()
-				{
-					Features::GiveValerianRoot();
-				}
-				END_JOB()
-			}
-			ImGui::EndChild();
+			//ImGui::Separator();
+			//
+			//ImGui::AlignTextToFramePadding();
+			//ImGui::Text("Give Consumable Items");
+			//ImGui::SameLine();
+			//static char ConBuffer[200];
+			//ImGui::PushItemWidth(250.0f);
+			//ImGui::InputText("###filter_con", ConBuffer, 200);
+			//ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
+			//for (const auto& c : g_ConsumableList)
+			//{
+			//	if (c.first.find(ConBuffer) == std::string::npos)
+			//		continue;
+			//
+			//	if (ImGui::Selectable(c.first.c_str()))
+			//	{
+			//		QUEUE_JOB(&c)
+			//		{
+			//			Features::GiveInventoryItem(c.second, 99);
+			//		}
+			//		END_JOB()
+			//	}
+			//}
+			//ImGui::EndChild();
+			//ImGui::Separator();
+			//
+			//ImGui::AlignTextToFramePadding();
+			//ImGui::Text("Give Provision Items");
+			//ImGui::SameLine();
+			//static char ProBuffer[200];
+			//ImGui::PushItemWidth(250.0f);
+			//ImGui::InputText("###filter_pro", ProBuffer, 200);
+			//ImGui::BeginChild("provision_menu", ImVec2(0, 0));
+			//for (const auto& p : g_ProvisionList)
+			//{
+			//	if (p.first.find(ProBuffer) == std::string::npos)
+			//		continue;
+			//
+			//	if (ImGui::Selectable(p.first.c_str()))
+			//	{
+			//		QUEUE_JOB(&p)
+			//		{
+			//			Features::GiveInventoryItem(p.second, 99);
+			//		}
+			//		END_JOB()
+			//	}
+			//}
+			//ImGui::EndChild();
 
 			ImGui::EndChild();
 			ImGui::EndTabItem();
@@ -427,8 +466,8 @@ namespace Menu
 			static char VehBuffer[200];
 			ImGui::PushItemWidth(250.0f);
 			ImGui::InputText("###filter_veh", VehBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
-			ImGui::BeginChild("vehicle_menu", ImVec2(0, 200));
-			for (const auto& it : g_PedVehicleList)
+			ImGui::BeginChild("vehicle_menu");
+			for (const auto& it : g_VehicleList)
 			{
 				if (it.first.find(VehBuffer) == std::string::npos)
 					continue;
@@ -456,43 +495,40 @@ namespace Menu
 		{
 			ImGui::BeginChild("debug_child", ImVec2(0, 0));
 
-			if (ImGui::Button("Print Coords"))
-			{
-				QUEUE_JOB()
-				{
-					std::cout << ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE) << "\n";
-				}
-				END_JOB()
-			}
-			ImGui::SameLine();
-
 			// This native should be fine
 			Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+			if (ImGui::Button("Copy Coords"))
+			{
+				ImGui::LogToClipboard();
+				ImGui::LogText("%.2ff, %.2ff, %.2ff", pos.x, pos.y, pos.z);
+				ImGui::LogFinish();
+			}
+			ImGui::SameLine();
 			ImGui::Text("%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
 
-			ImGui::Separator();
-
-			ImGui::Text("Rockstar: \xE2\x88\x91");
-			ImGui::Text("Rockstar Verified: \xC2\xA6");
-			ImGui::Text("Rockstar Created: \xE2\x80\xB9");
-			ImGui::Text("Rockstar Blank: \xE2\x80\xBA");
-			ImGui::Text("Padlock: \xCE\xA9");
-			
 			ImGui::Separator();
 
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text("CPed: 0x%llX", g_LocalPlayer.m_Ped);
 			ImGui::SameLine();
-			if (ImGui::Button("Print to console"))
-				std::cout << "CPed: " << LOG_HEX(g_LocalPlayer.m_Ped) << "\n";
+			if (ImGui::Button("Copy Address"))
+			{
+				ImGui::LogToClipboard();
+				ImGui::LogText("%llX", g_LocalPlayer.m_Ped);
+				ImGui::LogFinish();
+			}
 
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text("GetEntityAddress: 0x%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
 			ImGui::SameLine();
-			if (ImGui::Button("Print to console"))
-				std::cout << "GetEntityAddress: " << LOG_HEX(Pointers::GetEntityAddress(g_LocalPlayer.m_Entity)) << "\n";
+			if (ImGui::Button("Copy Address"))
+			{
+				ImGui::LogToClipboard();
+				ImGui::LogText("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
+				ImGui::LogFinish();
+			}
 
-			uint64_t nhash = 0xA86D5F069399F44D;
+			uint64_t nhash = 0xA86D5F069399F44D; //0x25ACFC650B65C538; // 0xA86D5F069399F44D;
 			auto addr = (uintptr_t)g_NativeContext.GetHandler(nhash);
 			auto off = addr - g_BaseAddress;
 			ImGui::AlignTextToFramePadding();
@@ -502,7 +538,42 @@ namespace Menu
 			if (ImGui::Button("Print to console"))
 				std::cout << LOG_HEX(nhash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" <<
 				LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
-				
+
+			if (ImGui::Button("Copy IDA Address"))
+			{
+				ImGui::LogToClipboard();
+				ImGui::LogText("%llX", 0x7FF73CAB0000 /*imagebase in ida*/ + off);
+				ImGui::LogFinish();
+			}
+
+			ImGui::Separator();
+
+			if (ImGui::Button("Get Height"))
+			{
+				QUEUE_JOB()
+				{
+					std::cout << "Ped height: " << PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity) << "\n";
+				}
+				END_JOB();
+			}
+
+			if (ImGui::Button("Set Scale to 1"))
+			{
+				QUEUE_JOB()
+				{
+					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, 1.0f);
+				}
+				END_JOB();
+			}
+
+			if (ImGui::Button("Set Scale to 2"))
+			{
+				QUEUE_JOB()
+				{
+					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, 2.0f);
+				}
+				END_JOB();
+			}
 
 			ImGui::Separator();
 
@@ -588,16 +659,143 @@ namespace Menu
 		}
 	}
 
+	void RenderPlayerButtons()
+	{
+		ImGui::BeginGroup();
+
+		if (ImGui::Button("Clear Wanted", ImVec2(150, 0)))
+		{
+			QUEUE_JOB()
+			{
+				Features::ClearWanted();
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Fill Cores", ImVec2(150, 0)))
+			Features::RestorePlayerCores();
+
+		if (ImGui::Button("Give Gold Cores", ImVec2(150, 0)))
+			Features::GiveGoldCores(g_LocalPlayer.m_Entity);
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		if (ImGui::Button("TP To Waypoint", ImVec2(150, 0)))
+		{
+			QUEUE_JOB()
+			{
+				Features::TeleportToWaypoint();
+			}
+			END_JOB()
+		}
+
+		ImGui::PushButtonRepeat(true);
+		if (ImGui::Button("TP Through Door", ImVec2(150, 0)))
+		{
+			QUEUE_JOB()
+			{
+				Features::TeleportThroughDoor();
+			}
+			END_JOB()
+		}
+		ImGui::PopButtonRepeat();
+
+		if (g_LocalPlayer.m_Mount || !g_LocalPlayer.m_LastMount)
+		{
+			ImGui::BeginDisabled();
+			ImGui::Button("TP To Last Mount", ImVec2(150, 0));
+			ImGui::EndDisabled();
+		}
+		else
+		{
+			if (ImGui::Button("TP To Last Mount", ImVec2(150, 0)))
+			{
+				QUEUE_JOB()
+				{
+					PED::SET_PED_ONTO_MOUNT(g_LocalPlayer.m_Entity, g_LocalPlayer.m_LastMount, -1, TRUE);
+				}
+				END_JOB()
+			}
+		}
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		if (ImGui::Button("Spawn Good Honor Enemy", ImVec2(220, 0)))
+		{
+			QUEUE_JOB()
+			{
+				Features::SpawnGoodHonorEnemy();
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Spawn Bad Honor Enemy", ImVec2(220, 0)))
+		{
+			QUEUE_JOB()
+			{
+				Features::SpawnBadHonorEnemy();
+			}
+			END_JOB()
+		}
+		
+		if (ImGui::Button("Suicide", ImVec2(220, 0)))
+		{
+			QUEUE_JOB()
+			{
+				ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, 0, 0);
+			}
+			END_JOB()
+		}
+
+		ImGui::EndGroup();
+	}
+
+	void RenderPlayerCheckboxes()
+	{
+		ImGui::BeginGroup();
+		if (ImGui::Checkbox("God Mode", &Features::EnableGodMode) && !Features::EnableGodMode)
+		{
+			QUEUE_JOB()
+			{
+				Features::SetGodmode(false);
+			}
+			END_JOB()
+		}
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Never Wanted", &Features::EnableNeverWanted);
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Super Jump", &Features::EnableSuperJump);
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("No Sliding", &Features::EnableNoSliding);
+		ImGui::EndGroup();
+	}
+
 	void RenderTeleportMenu()
 	{
-		ImGui::Text("Teleports");
-
 		ImGui::BeginChild("teleport_menu", ImVec2(0, 0));
 
 		for (const auto& s : g_TeleportList)
 		{
-			if (ImGui::Selectable(s.first.c_str()))
-				Features::TeleportOnGround(s.second.x, s.second.y, s.second.z);
+			const auto& name = s.first.c_str();
+			const auto& pos = s.second;
+			if (ImGui::Selectable(name))
+				Features::TeleportOnGround(pos.x, pos.y, pos.z);
 		}
 
 		ImGui::EndChild();
