@@ -176,7 +176,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (!Features::EnableHumanSpawnLogging && !Features::EnablePedSpawnLogging)
+			if (!(g_Settings["log_human_spawning"].get_ref<bool&>()) && !(g_Settings["log_ped_spawning"].get_ref<bool&>()))
 			{
 				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 			}
@@ -190,7 +190,7 @@ namespace Hooking
 
 				if (PED::IS_PED_HUMAN(id))
 				{
-					if (Features::EnableHumanSpawnLogging)
+					if (g_Settings["log_human_spawning"].get_ref<bool&>())
 					{
 						//std::cout << "Creating human " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
 						//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
@@ -199,7 +199,7 @@ namespace Hooking
 							pos.x, pos.y, pos.z);
 					}
 				}
-				else if (Features::EnablePedSpawnLogging)
+				else if (g_Settings["log_ped_spawning"].get_ref<bool&>())
 				{
 					//std::cout << "Creating ped " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
 					//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
@@ -220,7 +220,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (Features::EnableVehicleSpawnLogging && ctx)
+			if (ctx && g_Settings["log_vehicle_spawning"].get_ref<bool&>())
 			{
 				Hash model = ctx->GetArg<Hash>(0);
 				Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -250,7 +250,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx && Features::EnableAddInventoryItemLogging)
+			if (ctx && g_Settings["log_added_inventory_items"].get_ref<bool&>())
 			{
 				int inventoryId = ctx->GetArg<int>(0);
 				Any* guid1 = ctx->GetArg<Any*>(1);
@@ -314,7 +314,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx && Features::EnableAddInventoryItemLogging)
+			if (ctx && g_Settings["log_added_inventory_items"].get_ref<bool&>())
 			{
 				int inventoryId = ctx->GetArg<int>(0);
 				Any* guid = ctx->GetArg<Any*>(1);

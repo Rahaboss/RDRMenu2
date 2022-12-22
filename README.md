@@ -20,7 +20,7 @@ In Visual Studio, right click on the project in the Solution Explorer. Click on 
 * ✔ Detour hooks
 * ✔ Native invoker
 * ✔ Job queue
-* ❌ JSON file support (settings file for example)
+* ✔ JSON file support
 * ❌ YSC script global access
 * ✔ D3D12 ImGui renderer
 * ❌ Vulkan ImGui renderer

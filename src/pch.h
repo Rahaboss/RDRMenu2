@@ -14,6 +14,7 @@
 #include <functional>
 #include <map>
 #include <filesystem>
+#include <fstream>
 
 // Windows
 #include <Windows.h>
@@ -27,6 +28,10 @@
 //#include <imgui_impl_vulkan.h> // Maybe one day
 #include <imgui_impl_dx12.h>
 #include <imgui_impl_win32.h>
+#include <json.hpp>
+
+// User headers
+#include "Settings.h"
 
 // Global variables
 inline HMODULE g_Module; // DLL handle (used to exit thread)

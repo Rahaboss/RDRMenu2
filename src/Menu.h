@@ -140,6 +140,5 @@ namespace Menu
 	void RenderPlayerCheckboxes();
 	void RenderTeleportMenu();
 
-	inline bool EnableDemoWindow = false;
 	inline ExampleAppLog Logger;
 }

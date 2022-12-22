@@ -4,3 +4,6 @@
 [submodule "lib/MinHook"]
 	path = lib/MinHook
 	url = git@github.com:TsudaKageyu/minhook.git
+[submodule "lib/json"]
+	path = lib/json
+	url = git@github.com:nlohmann/json.git

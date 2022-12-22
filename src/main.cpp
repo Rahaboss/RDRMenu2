@@ -12,6 +12,8 @@ void MainLoop()
 	{
 		Console::Create();
 
+		Settings::Create();
+
 		Pointers::Scan();
 
 		Fiber MainFiber(Features::OnTick);
@@ -40,6 +42,8 @@ void MainLoop()
 		Hooking::Destroy();
 
 		MainFiber.Destroy();
+
+		Settings::Destroy();
 
 		Console::Destroy();
 	}

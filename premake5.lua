@@ -71,12 +71,14 @@ workspace "RDRMenu2"
 			"src",
 			"lib/MinHook/include",
 			"lib/ImGui",
-			"lib/ImGui/backends"
+			"lib/ImGui/backends",
+			"lib/json/single_include/nlohmann"
 		}
 
 		disablewarnings {
 			"4838", -- Narrowing conversion
-			"26812" -- Prefer "enum class"
+			"26812", -- Prefer "enum class"
+			"26819" -- Unannotated fallthrough between switch labels
 		}
 
 	project "ImGui"

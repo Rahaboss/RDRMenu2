@@ -34,8 +34,8 @@ namespace Menu
 			}
 			ImGui::End();
 
-			if (EnableDemoWindow)
-				ImGui::ShowDemoWindow(&EnableDemoWindow);
+			if (g_Settings["enable_imgui_demo"].get_ref<bool&>())
+				ImGui::ShowDemoWindow(g_Settings["enable_imgui_demo"].get<bool*>());
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -569,11 +569,11 @@ namespace Menu
 
 			ImGui::Separator();
 
-			ImGui::Checkbox("Log Ped Spawning", &Features::EnablePedSpawnLogging);
-			ImGui::Checkbox("Log Human Spawning", &Features::EnableHumanSpawnLogging);
-			ImGui::Checkbox("Log Vehicle Spawning", &Features::EnableVehicleSpawnLogging);
-			ImGui::Checkbox("Log Added Inventory Items", &Features::EnableAddInventoryItemLogging);
-			ImGui::Checkbox("Enable ImGui Demo Window", &EnableDemoWindow);
+			ImGui::Checkbox("Log Ped Spawning", g_Settings["log_ped_spawning"].get<bool*>());
+			ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());
+			ImGui::Checkbox("Log Vehicle Spawning", g_Settings["log_vehicle_spawning"].get<bool*>());
+			ImGui::Checkbox("Log Added Inventory Items", g_Settings["log_added_inventory_items"].get<bool*>());
+			ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
 
 			ImGui::EndChild();
 			ImGui::EndTabItem();
