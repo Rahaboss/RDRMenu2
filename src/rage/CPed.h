@@ -12,6 +12,6 @@ static_assert(sizeof(CPed) == 0x8);
 class CPedFactory
 {
 public:
-	virtual ~CPedFactory() = 0;
-	CPed* m_LocalPed;
+	virtual ~CPedFactory() = 0; //0x0000
+	CPed* m_LocalPed; //0x0008
 };

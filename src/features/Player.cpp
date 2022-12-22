@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Player.h"
 #include "Features.h"
 #include "PlayerInfo.h"
 #include "JobQueue.h"
@@ -69,6 +70,11 @@ namespace Features
 		return g_LocalPlayer.m_Entity;
 	}
 
+	int GetMoney()
+	{
+		return MONEY::_MONEY_GET_CASH_BALANCE();
+	}
+
 	Entity GetMountOrVehicle()
 	{
 		if (g_LocalPlayer.m_Mount)
@@ -80,9 +86,6 @@ namespace Features
 	{
 		QUEUE_JOB(ped)
 		{
-			if (ped == g_LocalPlayer.m_Mount)
-				std::cout << "GiveGoldCores\n";
-
 			for (int i = 0; i < 3; i++)
 			{
 				constexpr float Duration = 10000.0f; // seconds
@@ -153,8 +156,6 @@ namespace Features
 			if (!g_LocalPlayer.m_Mount)
 				return;
 
-			std::cout << "RestoreHorseCores\n";
-
 			for (int i = 0; i < 3; i++)
 				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
 
@@ -196,7 +197,7 @@ namespace Features
 
 	void SetMoney(const int& amount_cents)
 	{
-		int amount = amount_cents - MONEY::_MONEY_GET_CASH_BALANCE();
+		int amount = amount_cents - GetMoney();
 		if (amount > 0)
 			AddMoney(amount);
 		else if (amount < 0)

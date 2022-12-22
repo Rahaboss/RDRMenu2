@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Debug.h"
 #include "Features.h"
 
 namespace Features

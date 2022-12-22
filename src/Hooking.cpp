@@ -266,10 +266,12 @@ namespace Hooking
 				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 				switch (inventoryId)
 				{
+#if ENABLE_LARGE_STACK_ITEMS
 				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+#endif
 				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
 				default:
 					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
@@ -326,10 +328,12 @@ namespace Hooking
 				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 				switch (inventoryId)
 				{
+#if ENABLE_LARGE_STACK_ITEMS
 				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+#endif
 				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
 					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
 					Menu::Logger.AddLog("\tReturned %d\n\n", ret);

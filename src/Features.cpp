@@ -1,13 +1,10 @@
 ﻿#include "pch.h"
 #include "Features.h"
 #include "Pointers.h"
-#include "Fiber.h"
-#include "JobQueue.h"
-#include "rage/natives.h"
-#include "PlayerInfo.h"
-#include "rage/lists.h"
-#include "Menu.h"
 #include "Renderer.h"
+#include "JobQueue.h"
+#include "Fiber.h"
+#include "PlayerInfo.h"
 
 namespace Features
 {
@@ -109,26 +106,6 @@ namespace Features
 	void RunJobQueue()
 	{
 		g_JobQueue.Run();
-	}
-
-	int FpsTick()
-	{
-		int result = 0;
-
-		static auto fc_begin = *Pointers::FrameCount;
-		static auto time_begin = GetTickCount64();
-
-		auto time_new = GetTickCount64();
-		if (time_begin + 1000 < time_new)
-		{
-			auto fc_new = *Pointers::FrameCount;
-			result = fc_new - fc_begin;
-
-			fc_begin = *Pointers::FrameCount;
-			time_begin = time_new;
-		}
-
-		return result;
 	}
 
 	void YieldThread()

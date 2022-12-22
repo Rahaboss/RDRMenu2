@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Rendering.h"
 #include "Features.h"
 
 // Features for drawing on the screen

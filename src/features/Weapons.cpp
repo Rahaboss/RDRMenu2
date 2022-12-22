@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Weapons.h"
 #include "Features.h"
 #include "PlayerInfo.h"
 #include "rage/lists.h"

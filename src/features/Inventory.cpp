@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Inventory.h"
 #include "Features.h"
 #include "JobQueue.h"
 #include "rage/lists.h"
@@ -51,31 +52,33 @@ namespace Features
 
 	void GiveAgedPirateRum()
 	{
-		TRY
-		{
-			GiveSingleInventoryItem(CONSUMABLE_AGED_PIRATE_RUM, 1084182731, 1, ADD_REASON_DEFAULT);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
+#if ENABLE_LARGE_STACK_ITEMS
+		GiveSingleInventoryItem(CONSUMABLE_AGED_PIRATE_RUM, 1084182731, 1, ADD_REASON_DEFAULT);
+#endif
 	}
 
 	void GiveAllConsumables()
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		QUEUE_JOB()
 		{
 			for (const auto& c : g_ConsumableList)
 				GiveInventoryItem(c, 99);
 		}
 		END_JOB()
+#endif
 	}
 
 	void GiveAllDocuments()
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		QUEUE_JOB()
 		{
 			for (const auto& d : g_DocumentList)
 				GiveInventoryItem(d, 99);
 		}
 		END_JOB()
+#endif
 	}
 
 	void GiveAllItemRequests()
@@ -85,6 +88,7 @@ namespace Features
 			// Abigail
 			AddMoney(500); // $5
 
+#if ENABLE_LARGE_STACK_ITEMS
 			// Jack
 			GiveInventoryItem(PROVISION_JACKS_THIMBLE); // Thimble
 
@@ -146,18 +150,21 @@ namespace Features
 			GiveInventoryItem(CONSUMABLE_PEPPERMINT);
 			GiveInventoryItem(CONSUMABLE_HAIR_GREASE);
 			GiveInventoryItem(PROVISION_ANIMAL_CARCASS_SKUNK_HIGH_QUALITY);
+#endif
 		}
 		END_JOB()
 	}
 
 	void GiveAllProvisions()
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		QUEUE_JOB()
 		{
 			for (const auto& p : g_ProvisionList)
 				GiveInventoryItem(p, 99);
 		}
 		END_JOB()
+#endif
 	}
 
 	void GiveCivilWarHat()
@@ -229,60 +236,19 @@ namespace Features
 
 	void GiveGinsengElixir()
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		TRY
 		{
 			GiveSingleInventoryItem(CONSUMABLE_GINSENG_ELIXIER, 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+#endif
 	}
 
 	void GiveInventoryItem(Hash ItemHash, int Amount)
 	{
 		for (int i = 0; i < Amount; i++)
 			GiveSingleInventoryItem(ItemHash);
-	}
-
-	void GiveMintyBigGame()
-	{
-		/*
-		_INVENTORY_ADD_ITEM_WITH_GUID(1, 0x25B39939EF8, 0x25B39939ED0, 1927429448, 1084182731, 1, 752097756)
-		Returned 1
-
-		guid1:
-		-2147483648
-		0
-		-1678926914
-		366417709
-
-		guid2:
-		-2147483648
-		0
-		-1678926914
-		2122960559
-		1084182731
-		*/
-
-		//int InventoryID = 1;
-		//Any guid1[4 * 2]; memset(guid1, 0, sizeof(guid1));
-		//Any guid2[5 * 2]; memset(guid2, 0, sizeof(guid2));
-		//Hash ItemHash = CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED;
-		//Hash ItemSlot = 1084182731;
-		//Hash AddReason = ADD_REASON_DEFAULT;
-		//
-		//guid1[0 * 2] = 0x80000000; // (-2147483648);
-		//guid1[1 * 2] = 0;
-		//guid1[2 * 2] = -1678926914;
-		//guid1[3 * 2] = 366417709;
-		//
-		//guid2[0 * 2] = 0x80000000; // (-2147483648);
-		//guid2[1 * 2] = 0;
-		//guid2[2 * 2] = -1678926914;
-		//guid2[3 * 2] = 2122960559;
-		//guid2[4 * 2] = 1084182731;
-		//
-		//INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason);
-
-		GiveInventoryItem(CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED);
 	}
 
 	// Seems to work on consumables but not clothing
@@ -292,48 +258,9 @@ namespace Features
 		Any guid2[5 * 2]; memset(guid2, 0, sizeof(guid2));
 		Any dummy[5 * 2]; memset(dummy, 0, sizeof(dummy));
 
-		//TRY
-		//{
-		//	ItemSlot = GetInventorySlot(ItemHash);
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-		//
-		//TRY
-		//{
-		//	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
-		//	{
-		//		std::cout << __FUNCTION__ << ": couldn't get guid2\n";
-		//		return;
-		//	}
-		//	guid2[4 * 2] = ItemSlot;
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-		//
-		//TRY
-		//{
-		//	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
-		//	{
-		//		std::cout << __FUNCTION__ << ": couldn't get guid1\n";
-		//		return;
-		//	}
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-		//
-		//TRY
-		//{
-		//	if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
-		//	{
-		//		std::cout << __FUNCTION__ << ": couldn't add item\n";
-		//		return;
-		//	}
-		//}
-		//EXCEPT{ LOG_EXCEPTION(); }
-
 		bool fail1 = false;
 		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
 		{
-			//std::cout << __FUNCTION__ << ": couldn't get guid2\n";
-			fail1 = true;
 			//return;
 		}
 		guid2[4 * 2] = ItemSlot;
@@ -342,33 +269,23 @@ namespace Features
 		// Could return false but still work
 		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
 		{
-			//std::cout << __FUNCTION__ << ": couldn't get guid1\n";
-			fail2 = true;
 			//return;
 		}
 
 		if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
-		{
-			//std::cout << __FUNCTION__ << ": couldn't add item\n";
 			return;
-		}
-		//else
-		//{
-		//	std::cout << "Added item " << HUD::GET_STRING_FROM_HASH_KEY(ItemHash);
-		//	if (fail1)
-		//		std::cout << " fail1";
-		//	if (fail2)
-		//		std::cout << " fail2";
-		//	std::cout << "\n";
-		//}
+
+		YieldThread();
 	}
 
 	void GiveValerianRoot()
 	{
+#if ENABLE_LARGE_STACK_ITEMS
 		TRY
 		{
 			GiveSingleInventoryItem(CONSUMABLE_VALERIAN_ROOT, 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+#endif
 	}
 }

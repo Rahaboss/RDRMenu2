@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "Menu.h"
+#include "Renderer.h"
 #include "Features.h"
 #include "PlayerInfo.h"
-#include "Renderer.h"
 #include "JobQueue.h"
-#include "rage/lists.h"
 #include "PlayerInfo.h"
+#include "rage/lists.h"
 
 namespace Menu
 {
@@ -281,7 +281,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::Button("Give All Consumables"))
 				Features::GiveAllConsumables();
-			ImGui::SameLine();
+			
 			if (ImGui::Button("Give All Documents"))
 				Features::GiveAllDocuments();
 			ImGui::SameLine();
@@ -528,7 +528,7 @@ namespace Menu
 				ImGui::LogFinish();
 			}
 
-			uint64_t nhash = 0xA86D5F069399F44D; //0x25ACFC650B65C538; // 0xA86D5F069399F44D;
+			uint64_t nhash = 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
 			auto addr = (uintptr_t)g_NativeContext.GetHandler(nhash);
 			auto off = addr - g_BaseAddress;
 			ImGui::AlignTextToFramePadding();
@@ -557,20 +557,12 @@ namespace Menu
 				END_JOB();
 			}
 
-			if (ImGui::Button("Set Scale to 1"))
+			if (ImGui::Button("Test"))
 			{
 				QUEUE_JOB()
 				{
-					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, 1.0f);
-				}
-				END_JOB();
-			}
-
-			if (ImGui::Button("Set Scale to 2"))
-			{
-				QUEUE_JOB()
-				{
-					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, 2.0f);
+					Features::RequestModel(U_F_M_RHDNUDEWOMAN_01);
+					PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, FALSE);
 				}
 				END_JOB();
 			}
