@@ -111,33 +111,30 @@ namespace Features
 	{
 		Ped ped = 0;
 		
-		TRY
+		if (!RequestModel(model))
 		{
-			if (!RequestModel(model))
-			{
-				std::cout << __FUNCTION__ << ": Couldn't spawn ped " << LOG_HEX(model) << '\n';
-				return 0;
-			}
-
-			Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
-			ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z, static_cast<float>(rand() % 360), 0, 0, 0, 0);
-
-			if (!ped)
-			{
-				std::cout << __FUNCTION__ << ": Couldn't spawn ped " << LOG_HEX(model) << '\n';
-				return ped;
-			}
-
-			YieldThread();
-
-			PED::_SET_RANDOM_OUTFIT_VARIATION(ped, TRUE);
-			PED::SET_PED_CAN_BE_TARGETTED(ped, TRUE);
-			PED::SET_PED_CAN_BE_TARGETTED_BY_PLAYER(ped, g_LocalPlayer.m_Index, TRUE);
-			ENTITY::SET_ENTITY_INVINCIBLE(ped, FALSE);
-			ENTITY::SET_ENTITY_CAN_BE_DAMAGED(ped, TRUE);
-			PED::SET_PED_MODEL_IS_SUPPRESSED(ped, FALSE);
+			std::cout << __FUNCTION__ << ": Couldn't request ped " << GetPedModelName(model) << '\n';
+			return 0;
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+
+		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+		ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z,
+			ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), FALSE, FALSE, FALSE, FALSE);
+
+		if (!ped)
+		{
+			std::cout << __FUNCTION__ << ": Couldn't spawn ped " << GetPedModelName(model) << '\n';
+			return ped;
+		}
+
+		YieldThread();
+
+		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, TRUE);
+		PED::SET_PED_CAN_BE_TARGETTED(ped, TRUE);
+		PED::SET_PED_CAN_BE_TARGETTED_BY_PLAYER(ped, g_LocalPlayer.m_Index, TRUE);
+		ENTITY::SET_ENTITY_INVINCIBLE(ped, FALSE);
+		ENTITY::SET_ENTITY_CAN_BE_DAMAGED(ped, TRUE);
+		PED::SET_PED_MODEL_IS_SUPPRESSED(ped, FALSE);
 
 		return ped;
 	}
@@ -160,11 +157,11 @@ namespace Features
 	{
 		Vehicle veh = 0;
 
-		TRY
+		//TRY
 		{
 			if (!RequestModel(model))
 			{
-				std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << LOG_HEX(model) << "!\n";
+				std::cout << __FUNCTION__ << ": Couldn't request vehicle " << GetVehicleModelName(model) << "!\n";
 				return 0;
 			}
 
@@ -174,7 +171,7 @@ namespace Features
 
 			if (!veh)
 			{
-				std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << LOG_HEX(model) << "!\n";
+				std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << GetVehicleModelName(model) << "!\n";
 				return veh;
 			}
 
@@ -188,7 +185,7 @@ namespace Features
 			ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&veh);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		//EXCEPT{ LOG_EXCEPTION(); }
 		
 		return veh;
 	}

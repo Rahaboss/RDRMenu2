@@ -20,7 +20,7 @@ namespace Features
 	{
 		TRY
 		{
-			auto addr = (uintptr_t)g_NativeContext.GetHandler(hash);
+			auto addr = (uintptr_t)NativeContext::GetHandler(hash);
 			auto off = addr - g_BaseAddress;
 			std::cout << LOG_HEX(hash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" << LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
 		}

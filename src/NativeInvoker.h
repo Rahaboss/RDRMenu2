@@ -27,7 +27,7 @@ public:
 		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
 	}
 
-	scrNativeHandler GetHandler(const uint64_t& hash);
+	static scrNativeHandler GetHandler(const uint64_t& hash);
 
 private:
 	void FixVectors();
@@ -42,15 +42,16 @@ public:
 	{
 		return *reinterpret_cast<T*>(GetContext()->m_ReturnValue);
 	}
-} inline g_NativeContext;
+};
 
 template <typename Ret, typename... Args>
 Ret invoke(const uint64_t& hash, Args&&... args)
 {
-	g_NativeContext.Reset();
-	(g_NativeContext.PushArg(std::move(args)), ...); // Parameter pack expansion
-	g_NativeContext.EndCall(hash);
+	NativeContext Context;
+	Context.Reset();
+	(Context.PushArg(std::move(args)), ...); // Parameter pack expansion
+	Context.EndCall(hash);
 
 	if constexpr (!std::is_same_v<Ret, void>)
-		return g_NativeContext.GetReturnValue<Ret>();
+		return Context.GetReturnValue<Ret>();
 }

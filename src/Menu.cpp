@@ -540,8 +540,8 @@ namespace Menu
 				ImGui::LogFinish();
 			}
 
-			uint64_t nhash = 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
-			auto addr = (uintptr_t)g_NativeContext.GetHandler(nhash);
+			uint64_t nhash = 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
+			auto addr = (uintptr_t)NativeContext::GetHandler(nhash);
 			auto off = addr - g_BaseAddress;
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text("0x%llX handler: RDR2.exe+0x%X", nhash, off);

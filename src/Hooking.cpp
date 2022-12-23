@@ -19,8 +19,8 @@ namespace Hooking
 
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 		//RunScriptThreads2.Create(Pointers::RunScriptThreads2, RunScriptThreadsHook2);
-		ShootBullet.Create(g_NativeContext.GetHandler(0x867654CBC7606F2C), ShootBulletHook);
-		IsEntityInArea.Create(g_NativeContext.GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
+		ShootBullet.Create(NativeContext::GetHandler(0x867654CBC7606F2C), ShootBulletHook);
+		IsEntityInArea.Create(NativeContext::GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
 #if ENABLE_ANTI_ANTI_DEBUG
 		DebuggerCheck1.Create(Pointers::DebuggerCheck1, DebuggerCheck1Hook);
 		//DebuggerCheck2.Create(Pointers::DebuggerCheck2, DebuggerCheck2Hook);
@@ -28,10 +28,10 @@ namespace Hooking
 			IsDebuggerPresent.Create(GetProcAddress(mod, "IsDebuggerPresent"), IsDebuggerPresentHook);
 #endif
 		DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
-		CreatePed.Create(g_NativeContext.GetHandler(0xD49F9B0955C367DE), CreatePedHook);
-		CreateVehicle.Create(g_NativeContext.GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
-		InventoryAddItem.Create(g_NativeContext.GetHandler(0xCB5D11F9508A928D), InventoryAddItemHook);
-		GetGUIDFromItemID.Create(g_NativeContext.GetHandler(0x886DFD3E185C8A89), GetGUIDFromItemIDHook);
+		CreatePed.Create(NativeContext::GetHandler(0xD49F9B0955C367DE), CreatePedHook);
+		CreateVehicle.Create(NativeContext::GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
+		InventoryAddItem.Create(NativeContext::GetHandler(0xCB5D11F9508A928D), InventoryAddItemHook);
+		GetGUIDFromItemID.Create(NativeContext::GetHandler(0x886DFD3E185C8A89), GetGUIDFromItemIDHook);
 	}
 
 	void Destroy()
@@ -82,9 +82,9 @@ namespace Hooking
 			{
 				constexpr joaat_t main_hash = RAGE_JOAAT("main");
 				Features::ExecuteAsThread(main_hash, ScriptThreadTick);
-				
-				return RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 			}
+			
+			return RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
@@ -176,11 +176,7 @@ namespace Hooking
 
 		//TRY
 		{
-			if (!(g_Settings["log_human_spawning"].get_ref<bool&>()) && !(g_Settings["log_ped_spawning"].get_ref<bool&>()))
-			{
-				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
-			}
-			else if (ctx)
+			if (ctx && (g_Settings["log_human_spawning"].get_ref<bool&>() || g_Settings["log_ped_spawning"].get_ref<bool&>()))
 			{
 				Hash model = ctx->GetArg<Hash>(0);
 				Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -191,22 +187,16 @@ namespace Hooking
 				if (PED::IS_PED_HUMAN(id))
 				{
 					if (g_Settings["log_human_spawning"].get_ref<bool&>())
-					{
-						//std::cout << "Creating human " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
-						//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
-
 						Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
 							pos.x, pos.y, pos.z);
-					}
 				}
 				else if (g_Settings["log_ped_spawning"].get_ref<bool&>())
-				{
-					//std::cout << "Creating ped " << Features::GetPedModelName(model) << " (" << LOG_HEX(model)
-					//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
-
 					Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
 						pos.x, pos.y, pos.z);
-				}
+			}
+			else
+			{
+				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 			}
 		}
 		//EXCEPT{ LOG_EXCEPTION(); }
@@ -227,9 +217,6 @@ namespace Hooking
 
 				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 				Vehicle id = ctx->GetRet<Vehicle>();
-
-				//std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
-				//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
 
 				Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, id,
 					pos.x, pos.y, pos.z);
@@ -282,18 +269,6 @@ namespace Hooking
 						Menu::Logger.AddLog("\t%d\n", ((int*)guid2)[i * 2]);
 					break;
 				}
-
-				//std::cout << "_INVENTORY_ADD_ITEM_WITH_GUID(" << inventoryId << ", " << guid1 << ", " << guid2 << ", " << item << ", "
-				//	<< inventoryItemSlot << ", " << p5 << ", " << addReason << ")\n";
-				//std::cout << "\tReturned " << ret << "\n\n";
-				//
-				//std::cout << "\tguid1:\n";
-				//for (int i = 0; i < 4; i++)
-				//	std::cout << "\t" << ((int*)guid1)[i * 2] << "\n";
-				//
-				//std::cout << "\n\tguid2:\n";
-				//for (int i = 0; i < 5; i++)
-				//	std::cout << "\t" << ((int*)guid2)[i * 2] << "\n";
 			}
 			else
 			{
