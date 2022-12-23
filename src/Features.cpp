@@ -5,6 +5,7 @@
 #include "JobQueue.h"
 #include "Fiber.h"
 #include "PlayerInfo.h"
+#include "Lists.h"
 
 namespace Features
 {
@@ -17,12 +18,12 @@ namespace Features
 
 			for (uint16_t i = 0; i < Pointers::ThreadCollection->m_pCount; i++)
 			{
-				auto thread = Pointers::ThreadCollection->m_pData[i];
+				GtaThread* thread = Pointers::ThreadCollection->m_pData[i];
 				if (!thread || !thread->m_ThreadID || thread->m_ScriptHash != script_hash)
 					continue;
 				
 				// backup and change thread
-				auto og_thread = *Pointers::ActiveThread;
+				scrThread* og_thread = *Pointers::ActiveThread;
 				*Pointers::ActiveThread = thread;
 
 				// execute
@@ -56,6 +57,8 @@ namespace Features
 			//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
 			//std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
 			//std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
+
+			Lists::Create();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

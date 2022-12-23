@@ -2,7 +2,7 @@
 #include "Weapons.h"
 #include "Features.h"
 #include "PlayerInfo.h"
-#include "rage/lists.h"
+#include "Lists.h"
 #include "JobQueue.h"
 
 // Features for managing player weapons

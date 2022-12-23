@@ -5,7 +5,7 @@
 #include "PlayerInfo.h"
 #include "JobQueue.h"
 #include "PlayerInfo.h"
-#include "rage/lists.h"
+#include "Lists.h"
 
 namespace Menu
 {
@@ -46,7 +46,7 @@ namespace Menu
 		if (!ImGui::BeginTabItem("Player"))
 			return;
 
-		ImGui::BeginChild("player_child", ImVec2(0, 0));
+		ImGui::BeginChild("player_child");
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Player"))
 		{
@@ -184,7 +184,7 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("Weapon"))
 		{
-			ImGui::BeginChild("weapon_child", ImVec2(0, 0));
+			ImGui::BeginChild("weapon_child");
 
 			ImGui::BeginGroup();
 			if (ImGui::Button("Give Weapons"))
@@ -271,7 +271,7 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("Inventory"))
 		{
-			ImGui::BeginChild("inventory_child", ImVec2(0, 0));
+			ImGui::BeginChild("inventory_child");
 
 			if (ImGui::Button("Unlock All Herbs"))
 			{
@@ -302,54 +302,54 @@ namespace Menu
 			if (ImGui::Button("Give All Provisions"))
 				Features::GiveAllProvisions();
 
-			//ImGui::Separator();
-			//
-			//ImGui::AlignTextToFramePadding();
-			//ImGui::Text("Give Consumable Items");
-			//ImGui::SameLine();
-			//static char ConBuffer[200];
-			//ImGui::PushItemWidth(250.0f);
-			//ImGui::InputText("###filter_con", ConBuffer, 200);
-			//ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
-			//for (const auto& c : g_ConsumableList)
-			//{
-			//	if (c.first.find(ConBuffer) == std::string::npos)
-			//		continue;
-			//
-			//	if (ImGui::Selectable(c.first.c_str()))
-			//	{
-			//		QUEUE_JOB(&c)
-			//		{
-			//			Features::GiveInventoryItem(c.second, 99);
-			//		}
-			//		END_JOB()
-			//	}
-			//}
-			//ImGui::EndChild();
-			//ImGui::Separator();
-			//
-			//ImGui::AlignTextToFramePadding();
-			//ImGui::Text("Give Provision Items");
-			//ImGui::SameLine();
-			//static char ProBuffer[200];
-			//ImGui::PushItemWidth(250.0f);
-			//ImGui::InputText("###filter_pro", ProBuffer, 200);
-			//ImGui::BeginChild("provision_menu", ImVec2(0, 0));
-			//for (const auto& p : g_ProvisionList)
-			//{
-			//	if (p.first.find(ProBuffer) == std::string::npos)
-			//		continue;
-			//
-			//	if (ImGui::Selectable(p.first.c_str()))
-			//	{
-			//		QUEUE_JOB(&p)
-			//		{
-			//			Features::GiveInventoryItem(p.second, 99);
-			//		}
-			//		END_JOB()
-			//	}
-			//}
-			//ImGui::EndChild();
+			ImGui::Separator();
+			
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Give Consumable Items");
+			ImGui::SameLine();
+			static char ConBuffer[200];
+			ImGui::PushItemWidth(250.0f);
+			ImGui::InputText("###filter_con", ConBuffer, 200);
+			ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
+			for (const auto& c : g_ConsumableList)
+			{
+				if (c.first.find(ConBuffer) == std::string::npos)
+					continue;
+			
+				if (ImGui::Selectable(c.first.c_str()))
+				{
+					QUEUE_JOB(&c)
+					{
+						Features::GiveInventoryItem(c.second, 99);
+					}
+					END_JOB()
+				}
+			}
+			ImGui::EndChild();
+			ImGui::Separator();
+			
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Give Provision Items");
+			ImGui::SameLine();
+			static char ProBuffer[200];
+			ImGui::PushItemWidth(250.0f);
+			ImGui::InputText("###filter_pro", ProBuffer, 200);
+			ImGui::BeginChild("provision_menu");
+			for (const auto& p : g_ProvisionList)
+			{
+				if (p.first.find(ProBuffer) == std::string::npos)
+					continue;
+			
+				if (ImGui::Selectable(p.first.c_str()))
+				{
+					QUEUE_JOB(&p)
+					{
+						Features::GiveInventoryItem(p.second, 99);
+					}
+					END_JOB()
+				}
+			}
+			ImGui::EndChild();
 
 			ImGui::EndChild();
 			ImGui::EndTabItem();
@@ -360,16 +360,16 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("World"))
 		{
-			ImGui::BeginChild("world_child", ImVec2(0, 0));
+			ImGui::BeginChild("world_child");
 			
 			ImGui::BeginGroup();
-			if (ImGui::Button("Set Time To Night"))
+			if (ImGui::Button("Set Time To Night", ImVec2(180, 0)))
 				Features::SetClockTime(0);
-			if (ImGui::Button("Set Time To Morning"))
+			if (ImGui::Button("Set Time To Morning", ImVec2(180, 0)))
 				Features::SetClockTime(6);
-			if (ImGui::Button("Set Time To Noon"))
+			if (ImGui::Button("Set Time To Noon", ImVec2(180, 0)))
 				Features::SetClockTime(12);
-			if (ImGui::Button("Set Time To Evening"))
+			if (ImGui::Button("Set Time To Evening", ImVec2(180, 0)))
 				Features::SetClockTime(18);
 			ImGui::EndGroup();
 			ImGui::SameLine();
@@ -445,9 +445,8 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("Spawning"))
 		{
-			ImGui::BeginChild("spawning_child", ImVec2(0, 0));
+			ImGui::BeginChild("spawning_child");
 
-#if ENABLE_LARGE_STACK_ITEMS
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text("Spawn Ped");
 			ImGui::SameLine();
@@ -455,7 +454,7 @@ namespace Menu
 			ImGui::PushItemWidth(250.0f);
 			ImGui::InputText("###filter_ped", PedBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
 			ImGui::BeginChild("ped_menu", ImVec2(0, 200));
-			for (const auto& it : g_PedMenuList)
+			for (const auto& it : g_PedList)
 			{
 				if (it.first.find(PedBuffer) == std::string::npos)
 					continue;
@@ -472,7 +471,6 @@ namespace Menu
 			}
 			ImGui::EndChild();
 			ImGui::Separator();
-#endif
 
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text("Spawn Vehicle");
@@ -507,7 +505,7 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("Debug"))
 		{
-			ImGui::BeginChild("debug_child", ImVec2(0, 0));
+			ImGui::BeginChild("debug_child");
 
 			// This native should be fine
 			Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
@@ -570,8 +568,9 @@ namespace Menu
 				}
 				END_JOB();
 			}
+			ImGui::SameLine();
 
-			if (ImGui::Button("Test"))
+			if (ImGui::Button("Change Player Model"))
 			{
 				QUEUE_JOB()
 				{
@@ -598,7 +597,7 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("Logger"))
 		{
-			ImGui::BeginChild("logger_child", ImVec2(0, 0));
+			ImGui::BeginChild("logger_child");
 
 			Logger.Draw();
 
@@ -611,7 +610,7 @@ namespace Menu
 	{
 		if (ImGui::BeginTabItem("Memory"))
 		{
-			ImGui::BeginChild("memory_child", ImVec2(0, 0));
+			ImGui::BeginChild("memory_child");
 
 			uint32_t MemorySize = 0x1000;
 			if (uint8_t* MemoryLocation = (uint8_t*)g_LocalPlayer.m_Ped)
@@ -794,7 +793,7 @@ namespace Menu
 
 	void RenderTeleportMenu()
 	{
-		ImGui::BeginChild("teleport_menu", ImVec2(0, 0));
+		ImGui::BeginChild("teleport_menu");
 
 		for (const auto& s : g_TeleportList)
 		{

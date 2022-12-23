@@ -2,7 +2,7 @@
 #include "Inventory.h"
 #include "Features.h"
 #include "JobQueue.h"
-#include "rage/lists.h"
+#include "Lists.h"
 
 namespace Features
 {
@@ -52,33 +52,27 @@ namespace Features
 
 	void GiveAgedPirateRum()
 	{
-#if ENABLE_LARGE_STACK_ITEMS
 		GiveSingleInventoryItem(CONSUMABLE_AGED_PIRATE_RUM, 1084182731, 1, ADD_REASON_DEFAULT);
-#endif
 	}
 
 	void GiveAllConsumables()
 	{
-#if ENABLE_LARGE_STACK_ITEMS
 		QUEUE_JOB()
 		{
 			for (const auto& c : g_ConsumableList)
-				GiveInventoryItem(c, 99);
+				GiveInventoryItem(c.second, 99);
 		}
 		END_JOB()
-#endif
 	}
 
 	void GiveAllDocuments()
 	{
-#if ENABLE_LARGE_STACK_ITEMS
 		QUEUE_JOB()
 		{
 			for (const auto& d : g_DocumentList)
-				GiveInventoryItem(d, 99);
+				GiveInventoryItem(d.second, 99);
 		}
 		END_JOB()
-#endif
 	}
 
 	void GiveAllItemRequests()
@@ -88,7 +82,6 @@ namespace Features
 			// Abigail
 			AddMoney(500); // $5
 
-#if ENABLE_LARGE_STACK_ITEMS
 			// Jack
 			GiveInventoryItem(PROVISION_JACKS_THIMBLE); // Thimble
 
@@ -150,21 +143,18 @@ namespace Features
 			GiveInventoryItem(CONSUMABLE_PEPPERMINT);
 			GiveInventoryItem(CONSUMABLE_HAIR_GREASE);
 			GiveInventoryItem(PROVISION_ANIMAL_CARCASS_SKUNK_HIGH_QUALITY);
-#endif
 		}
 		END_JOB()
 	}
 
 	void GiveAllProvisions()
 	{
-#if ENABLE_LARGE_STACK_ITEMS
 		QUEUE_JOB()
 		{
 			for (const auto& p : g_ProvisionList)
-				GiveInventoryItem(p, 99);
+				GiveInventoryItem(p.second, 99);
 		}
 		END_JOB()
-#endif
 	}
 
 	void GiveCivilWarHat()
@@ -236,13 +226,11 @@ namespace Features
 
 	void GiveGinsengElixir()
 	{
-#if ENABLE_LARGE_STACK_ITEMS
 		TRY
 		{
 			GiveSingleInventoryItem(CONSUMABLE_GINSENG_ELIXIER, 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-#endif
 	}
 
 	void GiveInventoryItem(Hash ItemHash, int Amount)
@@ -280,12 +268,10 @@ namespace Features
 
 	void GiveValerianRoot()
 	{
-#if ENABLE_LARGE_STACK_ITEMS
 		TRY
 		{
 			GiveSingleInventoryItem(CONSUMABLE_VALERIAN_ROOT, 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-#endif
 	}
 }

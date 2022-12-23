@@ -27,4 +27,22 @@ constexpr joaat_t joaat(const char* str)
 	return hash;
 }
 
+inline joaat_t joaat(const std::string& str)
+{
+	joaat_t hash = 0;
+
+	for (const char& c : str)
+	{
+		hash += joaat_to_lower(c);
+		hash += (hash << 10);
+		hash ^= (hash >> 6);
+	}
+
+	hash += (hash << 3);
+	hash ^= (hash >> 11);
+	hash += (hash << 15);
+
+	return hash;
+}
+
 #define RAGE_JOAAT joaat

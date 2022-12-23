@@ -174,7 +174,7 @@ namespace Hooking
 	{
 		Ped result = 0;
 
-		TRY
+		//TRY
 		{
 			if (!(g_Settings["log_human_spawning"].get_ref<bool&>()) && !(g_Settings["log_ped_spawning"].get_ref<bool&>()))
 			{
@@ -209,7 +209,7 @@ namespace Hooking
 				}
 			}
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		//EXCEPT{ LOG_EXCEPTION(); }
 
 		return result;
 	}
@@ -218,7 +218,7 @@ namespace Hooking
 	{
 		Vehicle result = 0;
 
-		TRY
+		//TRY
 		{
 			if (ctx && g_Settings["log_vehicle_spawning"].get_ref<bool&>())
 			{
@@ -231,7 +231,7 @@ namespace Hooking
 				//std::cout << "Creating vehicle " << Features::GetVehicleModelName(model) << " (" << LOG_HEX(model)
 				//	<< ") ID: " << LOG_HEX(id) << " at: " << pos << ".\n";
 
-				Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
+				Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, id,
 					pos.x, pos.y, pos.z);
 			}
 			else
@@ -239,7 +239,7 @@ namespace Hooking
 				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 			}
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		//EXCEPT{ LOG_EXCEPTION(); }
 
 		return result;
 	}
@@ -266,14 +266,11 @@ namespace Hooking
 				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 				switch (inventoryId)
 				{
-#if ENABLE_LARGE_STACK_ITEMS
 				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
-#endif
 				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
-				default:
 					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
 						inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
 					Menu::Logger.AddLog("\tReturned %d\n\n", ret);
@@ -328,12 +325,10 @@ namespace Hooking
 				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 				switch (inventoryId)
 				{
-#if ENABLE_LARGE_STACK_ITEMS
 				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
-#endif
 				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
 					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
 					Menu::Logger.AddLog("\tReturned %d\n\n", ret);
