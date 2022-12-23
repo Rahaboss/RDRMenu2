@@ -15,14 +15,6 @@
 
 namespace Features
 {
-	inline bool
-		EnableNoSnipers = true,
-		EnableInfiniteAmmo = true,
-		EnableNoSliding = true,
-		EnableGodMode = true,
-		EnableSuperJump = false,
-		EnableNoBlackBorders = false,
-		EnableNeverWanted = false;
 	inline uint8_t g_rgb[3]{ 255, 0, 0 };
 
 	void ExecuteAsThread(joaat_t script_hash, void (*function)());

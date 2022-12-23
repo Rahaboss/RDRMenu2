@@ -13,8 +13,9 @@ namespace Menu
 	{
 		TRY
 		{
-			ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_Always);
-			if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen, ImGuiWindowFlags_NoResize))
+			ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_FirstUseEver);
+			//ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_Always);
+			if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen/*, ImGuiWindowFlags_NoResize*/))
 			{
 				ImGui::BeginTabBar("tab_bar");
 				RenderPlayerTab();
@@ -130,6 +131,19 @@ namespace Menu
 
 			ImGui::EndGroup();
 			ImGui::Separator();
+			ImGui::BeginGroup();
+
+			if (ImGui::Checkbox("God Mode###mount_god_mode", g_Settings["mount_god_mode"].get<bool*>()) && !g_Settings["mount_god_mode"].get_ref<bool&>())
+			{
+				QUEUE_JOB()
+				{
+					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Mount, FALSE);
+				}
+				END_JOB()
+			}
+
+			ImGui::EndGroup();
+			ImGui::Separator();
 
 			ImGui::Text("Scale");
 			static float MountScale = 1.0f;
@@ -203,7 +217,7 @@ namespace Menu
 			ImGui::Separator();
 			ImGui::BeginGroup();
 
-			ImGui::Checkbox("Infinite Ammo", &Features::EnableInfiniteAmmo);
+			ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
 			
 			ImGui::EndGroup();
 			ImGui::Separator();
@@ -374,20 +388,20 @@ namespace Menu
 			ImGui::Separator();
 			ImGui::BeginGroup();
 
-			ImGui::Checkbox("No Snipers", &Features::EnableNoSnipers);
+			ImGui::Checkbox("No Snipers", g_Settings["no_snipers"].get<bool*>());
 
 			ImGui::EndGroup();
 			ImGui::SameLine();
 			ImGui::BeginGroup();
 
-			ImGui::Checkbox("No Black Borders", &Features::EnableNoBlackBorders);
+			ImGui::Checkbox("No Black Borders", g_Settings["no_black_borders"].get<bool*>());
 
 			ImGui::EndGroup();
 			ImGui::Separator();
 			ImGui::BeginGroup();
 
 			ImGui::Text("Set Weather");
-			ImGui::BeginChild("weather_list_menu", ImVec2(200, 200));
+			ImGui::BeginChild("weather_list_menu", ImVec2(200, 0));
 			for (const auto& w : g_WeatherTypeList)
 			{
 				if (ImGui::Selectable(w.first.c_str()))
@@ -406,7 +420,7 @@ namespace Menu
 
 			ImGui::BeginGroup();
 			ImGui::Text("Set Snow Type");
-			ImGui::BeginChild("snow_list_menu", ImVec2(200, 200));
+			ImGui::BeginChild("snow_list_menu", ImVec2(200, 0));
 			for (const auto& s : g_SnowTypeList)
 			{
 				if (ImGui::Selectable(s.first.c_str()))
@@ -749,7 +763,7 @@ namespace Menu
 	void RenderPlayerCheckboxes()
 	{
 		ImGui::BeginGroup();
-		if (ImGui::Checkbox("God Mode", &Features::EnableGodMode) && !Features::EnableGodMode)
+		if (ImGui::Checkbox("God Mode", g_Settings["god_mode"].get<bool*>()) && !g_Settings["god_mode"].get_ref<bool&>())
 		{
 			QUEUE_JOB()
 			{
@@ -762,19 +776,19 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
-		ImGui::Checkbox("Never Wanted", &Features::EnableNeverWanted);
+		ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
-		ImGui::Checkbox("Super Jump", &Features::EnableSuperJump);
+		ImGui::Checkbox("Super Jump", g_Settings["super_jump"].get<bool*>());
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
-		ImGui::Checkbox("No Sliding", &Features::EnableNoSliding);
+		ImGui::Checkbox("No Sliding", g_Settings["no_sliding"].get<bool*>());
 		ImGui::EndGroup();
 	}
 

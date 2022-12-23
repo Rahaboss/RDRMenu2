@@ -112,7 +112,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoSnipers && ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
+			if (g_Settings["no_snipers"].get_ref<bool&>() && ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
 				return;
 			
 			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
@@ -124,7 +124,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableNoSnipers && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
+			if (g_Settings["no_snipers"].get_ref<bool&>() && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
 				*(BOOL*)ctx->m_ReturnValue = FALSE; // spoof return value
@@ -162,7 +162,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (Features::EnableInfiniteAmmo && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
+			if (g_Settings["infinite_ammo"].get_ref<bool&>() && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
 				return;
 
 			Hooking::DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);

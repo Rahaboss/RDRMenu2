@@ -82,22 +82,28 @@ namespace Features
 			//	"\xE2\x80\xBA \\xE2\\x80\\xBA\n\xCE\xA9 \\xCE\\xA9", 0.0f, 0.0f);
 			//RenderText("~COLOR_RED~\xE2\x88\x91 Admin", 0.0f, 0.1f);
 
-			if (EnableNoSliding)
+			if (g_Settings["no_sliding"].get_ref<bool&>())
 				NoSliding();
 
-			if (EnableGodMode)
+			if (g_Settings["god_mode"].get_ref<bool&>())
 				SetGodmode(true);
 
-			if (EnableSuperJump)
+			if (g_Settings["super_jump"].get_ref<bool&>())
 				MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
 
-			if (EnableNeverWanted)
+			if (g_Settings["never_wanted"].get_ref<bool&>())
 				ClearWanted();
 
-			if (EnableNoBlackBorders)
+			if (g_Settings["no_black_borders"].get_ref<bool&>())
 			{
 				CAM::_REQUEST_LETTER_BOX_OVERTIME(-1, -1, FALSE, 17, TRUE, FALSE);
 				CAM::_FORCE_LETTER_BOX_THIS_UPDATE();
+			}
+
+			if (g_LocalPlayer.m_Mount)
+			{
+				if (g_Settings["mount_god_mode"].get_ref<bool&>())
+					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Mount, TRUE);
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

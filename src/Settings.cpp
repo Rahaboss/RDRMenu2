@@ -5,11 +5,19 @@ namespace Settings
 {
 	static nlohmann::json s_DefaultSettings =
 		R"({
-			"log_ped_spawning": false,
-			"log_human_spawning": false,
-			"log_vehicle_spawning": false,
+			"enable_imgui_demo": false,
+			"god_mode": false,
+			"infinite_ammo": false,
 			"log_added_inventory_items": false,
-			"enable_imgui_demo": false
+			"log_human_spawning": false,
+			"log_ped_spawning": false,
+			"log_vehicle_spawning": false,
+			"never_wanted": false,
+			"no_black_borders": false,
+			"no_sliding": false,
+			"no_snipers": false,
+			"super_jump": false,
+			"mount_god_mode": false
 		})"_json;
 
 	std::filesystem::path GetSettingsFolderPath()
