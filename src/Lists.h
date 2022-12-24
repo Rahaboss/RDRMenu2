@@ -260,21 +260,6 @@ const inline std::map<std::string, Vector3> g_TeleportList{
 //	{ "Window Rock", Vector3() },
 };
 
-constexpr inline std::array g_DualWieldWeaponList{
-	WEAPON_REVOLVER_CATTLEMAN, // Cattleman Revolver
-	WEAPON_REVOLVER_CATTLEMAN_JOHN, // John's Cattleman Revolver
-	WEAPON_REVOLVER_DOUBLEACTION, // Double-Action Revolver
-	WEAPON_REVOLVER_DOUBLEACTION_EXOTIC, // Algernon's Revolver
-	WEAPON_REVOLVER_SCHOFIELD, // Schofield Revolver
-	WEAPON_REVOLVER_LEMAT, // LeMat Revolver
-	WEAPON_PISTOL_VOLCANIC, // Volcanic Pistol
-	WEAPON_PISTOL_SEMIAUTO, // Semi-Automatic Pistol
-	WEAPON_PISTOL_MAUSER, // Mauser Pistol
-	WEAPON_PISTOL_MAUSER_DRUNK, // Midnight's Pistol
-	WEAPON_PISTOL_M1899, // M1899 Pistol
-	WEAPON_SHOTGUN_SAWEDOFF, // Sawed-Off Shotgun
-};
-
 constexpr inline std::array g_DualWieldWeaponPickupList{
 	PICKUP_WEAPON_REVOLVER_CATTLEMAN, // Cattleman Revolver
 	PICKUP_WEAPON_REVOLVER_CATTLEMAN_JOHN, // John's Cattleman Revolver

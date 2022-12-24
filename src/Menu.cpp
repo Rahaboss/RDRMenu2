@@ -567,7 +567,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Print to console"))
 			std::cout << LOG_HEX(nhash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" <<
-			LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
+				LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
 
 		if (ImGui::Button("Copy IDA Address"))
 		{

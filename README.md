@@ -3,13 +3,13 @@ A trainer for Red Dead Redemption 2.
 
 ## Building this project
 You will need:
-* Visual Studio 2019
+* Visual Studio 2017/2019/2022
 * Git
 
 ```cmd
 git clone --recurse-submodules git@github.com:Rahaboss/RDRMenu2.git
 cd RDRMenu2
-GenerateProjects.bat
+generate_vs2019.bat
 ```
 
 ## Debugging
