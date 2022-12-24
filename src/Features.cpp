@@ -6,6 +6,7 @@
 #include "Fiber.h"
 #include "PlayerInfo.h"
 #include "Lists.h"
+#include "Menu.h"
 
 namespace Features
 {
@@ -41,6 +42,8 @@ namespace Features
 	{
 		TRY
 		{
+			Lists::Create();
+
 			//std::cout << "Thread Collection: " << LOG_HEX(Pointers::ThreadCollection) << '\n';
 			//std::cout << "Hash of current script: " << SCRIPTS::GET_HASH_OF_THIS_SCRIPT_NAME() << '\n';
 			//std::cout << "Player name: " << PLAYER::GET_PLAYER_NAME(0) << '\n';
@@ -57,8 +60,6 @@ namespace Features
 			//std::cout << "DEBUG::GET_GAME_VERSION_NAME: " << DEBUG::GET_GAME_VERSION_NAME() << ".\n";
 			//std::cout << "CPedFactory: " << LOG_HEX(GetPedFactory()) << " (vtbl: " << LOG_HEX(*(void**)GetPedFactory()) << ").\n";
 			//std::cout << "Blip Collection: " << LOG_HEX(GetBlipCollection()) << ".\n";
-
-			Lists::Create();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -90,6 +91,9 @@ namespace Features
 
 			if (g_Settings["god_mode"].get_ref<bool&>())
 				SetGodmode(true);
+			
+			if (g_Settings["god_mode"].get_ref<bool&>())
+				GiveGoldCores(g_LocalPlayer.m_Entity);
 
 			if (g_Settings["super_jump"].get_ref<bool&>())
 				MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
@@ -107,7 +111,34 @@ namespace Features
 			{
 				if (g_Settings["mount_god_mode"].get_ref<bool&>())
 					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Mount, TRUE);
+
+				if (g_Settings["mount_gold_cores"].get_ref<bool&>())
+					GiveGoldCores(g_LocalPlayer.m_Mount);
 			}
+
+			auto& pd = Menu::PedDebug;
+			if (pd.ent)
+			{
+				if (ENTITY::DOES_ENTITY_EXIST(pd.ent))
+				{
+					pd.pos = ENTITY::GET_ENTITY_COORDS(pd.ent, TRUE, TRUE);
+					pd.head = ENTITY::GET_ENTITY_HEADING(pd.ent);
+					pd.health = ENTITY::GET_ENTITY_HEALTH(pd.ent);
+					pd.max_health = ENTITY::GET_ENTITY_MAX_HEALTH(pd.ent, TRUE);
+					pd.injured = PED::IS_PED_INJURED(pd.ent);
+
+					ENTITY::FREEZE_ENTITY_POSITION(pd.ent, pd.freeze);
+					if (pd.freeze)
+						TASK::CLEAR_PED_TASKS(pd.ent, FALSE, TRUE);
+					ENTITY::SET_ENTITY_INVINCIBLE(pd.ent, pd.invincible);
+					ENTITY::SET_ENTITY_VISIBLE(pd.ent, pd.visible);
+				}
+				else
+					pd.ent = 0;
+			}
+
+			if (g_Settings["rgb_elec_lantern"].get_ref<bool&>())
+				RGBElectricLantern();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

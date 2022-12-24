@@ -7,6 +7,11 @@
 
 namespace Features
 {
+	void DeletePed(Ped Handle)
+	{
+		PED::DELETE_PED(&Handle);
+	}
+
 	void EndSpawnPed(Hash Model, Ped Handle)
 	{
 		ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&Handle);

@@ -19,6 +19,7 @@ namespace Menu
 			{
 				ImGui::BeginTabBar("tab_bar");
 				RenderPlayerTab();
+				RenderTeleportTab();
 				RenderWeaponTab();
 				RenderInventoryTab();
 				RenderWorldTab();
@@ -143,6 +144,12 @@ namespace Menu
 			}
 
 			ImGui::EndGroup();
+			ImGui::SameLine();
+			ImGui::BeginGroup();
+
+			ImGui::Checkbox("Gold Cores###mount_gold_cores", g_Settings["mount_gold_cores"].get<bool*>());
+
+			ImGui::EndGroup();
 			ImGui::Separator();
 
 			ImGui::Text("Scale");
@@ -170,498 +177,544 @@ namespace Menu
 			if (MountDisabled)
 				ImGui::EndDisabled();
 		}
-		ImGui::Separator();
-
-		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-		if (ImGui::CollapsingHeader("Teleports"))
-			RenderTeleportMenu();
 			
+		ImGui::EndChild();
+		ImGui::EndTabItem();
+	}
+
+	void RenderTeleportTab()
+	{
+		if (!ImGui::BeginTabItem("Teleport"))
+			return;
+
+		ImGui::Text("Teleports");
+		ImGui::Separator();
+		ImGui::BeginChild("teleport_child");
+
+		for (const auto& s : g_TeleportList)
+		{
+			const auto& name = s.first.c_str();
+			const auto& pos = s.second;
+			if (ImGui::Selectable(name))
+				Features::TeleportOnGround(pos.x, pos.y, pos.z);
+		}
+
 		ImGui::EndChild();
 		ImGui::EndTabItem();
 	}
 
 	void RenderWeaponTab()
 	{
-		if (ImGui::BeginTabItem("Weapon"))
+		if (!ImGui::BeginTabItem("Weapon"))
+			return;
+
+		ImGui::BeginChild("weapon_child");
+
+		ImGui::BeginGroup();
+		if (ImGui::Button("Give Weapons"))
+			Features::GiveAllWeapons();
+
+		if (ImGui::Button("Give Dual Wield Weapons"))
+			Features::GiveAllDualWieldWeapons();
+
+		if (ImGui::Button("Give Ammo"))
+			Features::GiveAllAmmo();
+			
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		if (ImGui::Button("Spawn Turret"))
 		{
-			ImGui::BeginChild("weapon_child");
-
-			ImGui::BeginGroup();
-			if (ImGui::Button("Give Weapons"))
-				Features::GiveAllWeapons();
-
-			if (ImGui::Button("Give Dual Wield Weapons"))
-				Features::GiveAllDualWieldWeapons();
-
-			if (ImGui::Button("Give Ammo"))
-				Features::GiveAllAmmo();
-			
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-
-			if (ImGui::Button("Spawn Turret"))
+			QUEUE_JOB()
 			{
-				QUEUE_JOB()
-				{
-					Vehicle veh = Features::SpawnVehicle(GATLING_GUN);
-					Features::EndSpawnVehicle(GATLING_GUN, veh);
-				}
-				END_JOB()
+				Vehicle veh = Features::SpawnVehicle(GATLING_GUN);
+				Features::EndSpawnVehicle(GATLING_GUN, veh);
 			}
-
-			if (ImGui::Button("Drop Current Weapon"))
-				Features::DropCurrentWeapon();
-
-			ImGui::EndGroup();
-			ImGui::Separator();
-			ImGui::BeginGroup();
-
-			ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
-			
-			ImGui::EndGroup();
-			ImGui::Separator();
-			ImGui::BeginGroup();
-
-			ImGui::Text("Weapon List");
-			ImGui::BeginChild("weapon_list_menu", ImVec2(270, 0));
-
-			static Hash CurrentWeapon = WEAPON_REVOLVER_DOUBLEACTION_EXOTIC;
-			for (const auto& w : g_WeaponMenuList)
-			{
-				if (ImGui::Selectable(w.first.c_str(), CurrentWeapon == w.second))
-					CurrentWeapon = w.second;
-			}
-			
-			ImGui::EndChild();
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-
-			ImGui::Text("Weapon Name: %s", HUD::GET_STRING_FROM_HASH_KEY(CurrentWeapon));
-			ImGui::Text("Weapon Hash: %X", CurrentWeapon);
-
-			ImGui::Separator();
-			if (ImGui::Button("Give Weapon"))
-			{
-				switch (CurrentWeapon)
-				{
-				case AMMO_MOLOTOV_VOLATILE:
-				case AMMO_DYNAMITE_VOLATILE:
-				case AMMO_THROWING_KNIVES_IMPROVED:
-				case AMMO_THROWING_KNIVES_POISON:
-				case AMMO_TOMAHAWK_IMPROVED:
-				case AMMO_TOMAHAWK_HOMING:
-					Features::GiveAmmo(CurrentWeapon);
-					break;
-				default:
-					Features::GiveWeapon(CurrentWeapon);
-					break;
-				}
-			}
-
-			ImGui::EndGroup();
-			ImGui::EndChild();
-
-			ImGui::EndTabItem();
+			END_JOB()
 		}
+
+		if (ImGui::Button("Drop Current Weapon"))
+			Features::DropCurrentWeapon();
+
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
+			
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("RGB Electric Lantern [WIP]", g_Settings["rgb_elec_lantern"].get<bool*>());
+
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		ImGui::Text("Weapon List");
+		ImGui::BeginChild("weapon_list_menu", ImVec2(270, 0));
+
+		static Hash CurrentWeapon = WEAPON_REVOLVER_DOUBLEACTION_EXOTIC;
+		for (const auto& w : g_WeaponList)
+		{
+			if (ImGui::Selectable(w.first.c_str(), CurrentWeapon == w.second))
+				CurrentWeapon = w.second;
+		}
+			
+		ImGui::EndChild();
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Text("Weapon Name: %s", HUD::GET_STRING_FROM_HASH_KEY(CurrentWeapon));
+		ImGui::Text("Weapon Hash: %X", CurrentWeapon);
+
+		ImGui::Separator();
+		if (ImGui::Button("Give Weapon"))
+			Features::GiveWeapon(CurrentWeapon);
+
+		ImGui::EndGroup();
+		ImGui::EndChild();
+
+		ImGui::EndTabItem();
 	}
 
 	void RenderInventoryTab()
 	{
-		if (ImGui::BeginTabItem("Inventory"))
-		{
-			ImGui::BeginChild("inventory_child");
+		if (!ImGui::BeginTabItem("Inventory"))
+			return;
+		
+		ImGui::BeginChild("inventory_child");
 
-			if (ImGui::Button("Unlock All Herbs"))
+		if (ImGui::Button("Unlock All Herbs"))
+		{
+			QUEUE_JOB()
 			{
-				QUEUE_JOB()
+				Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+				for (const auto& h : g_HerbList)
+					COMPENDIUM::COMPENDIUM_HERB_PICKED(h, pos.x, pos.y, pos.z);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Items"))
+		{
+			Features::GiveAllConsumables();
+			Features::GiveAllDocuments();
+			Features::GiveAllProvisions();
+			Features::GiveAllWeapons();
+			Features::GiveAllAmmo();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Consumables"))
+			Features::GiveAllConsumables();
+			
+		if (ImGui::Button("Give All Documents"))
+			Features::GiveAllDocuments();
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Provisions"))
+			Features::GiveAllProvisions();
+
+		ImGui::Separator();
+			
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Give Consumable Items");
+		ImGui::SameLine();
+		static char ConBuffer[200];
+		ImGui::PushItemWidth(250.0f);
+		ImGui::InputText("###filter_con", ConBuffer, 200);
+		ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
+		for (const auto& c : g_ConsumableList)
+		{
+			if (c.first.find(ConBuffer) == std::string::npos)
+				continue;
+			
+			if (ImGui::Selectable(c.first.c_str()))
+			{
+				QUEUE_JOB(&c)
 				{
-					Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
-					for (const auto& h : g_HerbList)
-						COMPENDIUM::COMPENDIUM_HERB_PICKED(h, pos.x, pos.y, pos.z);
+					Features::GiveInventoryItem(c.second, 99);
 				}
 				END_JOB()
 			}
-			ImGui::SameLine();
-			if (ImGui::Button("Give All Items"))
-			{
-				Features::GiveAllConsumables();
-				Features::GiveAllDocuments();
-				Features::GiveAllProvisions();
-				Features::GiveAllWeapons();
-				Features::GiveAllAmmo();
-			}
-			ImGui::SameLine();
-			if (ImGui::Button("Give All Consumables"))
-				Features::GiveAllConsumables();
-			
-			if (ImGui::Button("Give All Documents"))
-				Features::GiveAllDocuments();
-			ImGui::SameLine();
-			if (ImGui::Button("Give All Provisions"))
-				Features::GiveAllProvisions();
-
-			ImGui::Separator();
-			
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("Give Consumable Items");
-			ImGui::SameLine();
-			static char ConBuffer[200];
-			ImGui::PushItemWidth(250.0f);
-			ImGui::InputText("###filter_con", ConBuffer, 200);
-			ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
-			for (const auto& c : g_ConsumableList)
-			{
-				if (c.first.find(ConBuffer) == std::string::npos)
-					continue;
-			
-				if (ImGui::Selectable(c.first.c_str()))
-				{
-					QUEUE_JOB(&c)
-					{
-						Features::GiveInventoryItem(c.second, 99);
-					}
-					END_JOB()
-				}
-			}
-			ImGui::EndChild();
-			ImGui::Separator();
-			
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("Give Provision Items");
-			ImGui::SameLine();
-			static char ProBuffer[200];
-			ImGui::PushItemWidth(250.0f);
-			ImGui::InputText("###filter_pro", ProBuffer, 200);
-			ImGui::BeginChild("provision_menu");
-			for (const auto& p : g_ProvisionList)
-			{
-				if (p.first.find(ProBuffer) == std::string::npos)
-					continue;
-			
-				if (ImGui::Selectable(p.first.c_str()))
-				{
-					QUEUE_JOB(&p)
-					{
-						Features::GiveInventoryItem(p.second, 99);
-					}
-					END_JOB()
-				}
-			}
-			ImGui::EndChild();
-
-			ImGui::EndChild();
-			ImGui::EndTabItem();
 		}
+		ImGui::EndChild();
+		ImGui::Separator();
+			
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Give Provision Items");
+		ImGui::SameLine();
+		static char ProBuffer[200];
+		ImGui::PushItemWidth(250.0f);
+		ImGui::InputText("###filter_pro", ProBuffer, 200);
+		ImGui::BeginChild("provision_menu");
+		for (const auto& p : g_ProvisionList)
+		{
+			if (p.first.find(ProBuffer) == std::string::npos)
+				continue;
+			
+			if (ImGui::Selectable(p.first.c_str()))
+			{
+				QUEUE_JOB(&p)
+				{
+					Features::GiveInventoryItem(p.second, 99);
+				}
+				END_JOB()
+			}
+		}
+		ImGui::EndChild();
+
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderWorldTab()
 	{
-		if (ImGui::BeginTabItem("World"))
+		if (!ImGui::BeginTabItem("World"))
+			return;
+		
+		ImGui::BeginChild("world_child");
+			
+		ImGui::BeginGroup();
+		if (ImGui::Button("Set Time To Night", ImVec2(180, 0)))
+			Features::SetClockTime(0);
+		if (ImGui::Button("Set Time To Morning", ImVec2(180, 0)))
+			Features::SetClockTime(6);
+		if (ImGui::Button("Set Time To Noon", ImVec2(180, 0)))
+			Features::SetClockTime(12);
+		if (ImGui::Button("Set Time To Evening", ImVec2(180, 0)))
+			Features::SetClockTime(18);
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+			
+		if (ImGui::Button("Reveal Map"))
 		{
-			ImGui::BeginChild("world_child");
-			
-			ImGui::BeginGroup();
-			if (ImGui::Button("Set Time To Night", ImVec2(180, 0)))
-				Features::SetClockTime(0);
-			if (ImGui::Button("Set Time To Morning", ImVec2(180, 0)))
-				Features::SetClockTime(6);
-			if (ImGui::Button("Set Time To Noon", ImVec2(180, 0)))
-				Features::SetClockTime(12);
-			if (ImGui::Button("Set Time To Evening", ImVec2(180, 0)))
-				Features::SetClockTime(18);
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-			
-			if (ImGui::Button("Reveal Map"))
+			QUEUE_JOB()
 			{
-				QUEUE_JOB()
+				Features::RevealMap();
+			}
+			END_JOB()
+		}
+			
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("No Snipers", g_Settings["no_snipers"].get<bool*>());
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("No Black Borders", g_Settings["no_black_borders"].get<bool*>());
+
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		ImGui::Text("Set Weather");
+		ImGui::BeginChild("weather_list_menu", ImVec2(200, 0));
+		for (const auto& w : g_WeatherTypeList)
+		{
+			if (ImGui::Selectable(w.first.c_str()))
+			{
+				Hash hash = w.second;
+				QUEUE_JOB(hash)
 				{
-					Features::RevealMap();
+					MISC::SET_WEATHER_TYPE(hash, TRUE, TRUE, FALSE, 0.0f, FALSE);
 				}
 				END_JOB()
 			}
-			
-			ImGui::EndGroup();
-			ImGui::Separator();
-			ImGui::BeginGroup();
-
-			ImGui::Checkbox("No Snipers", g_Settings["no_snipers"].get<bool*>());
-
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-
-			ImGui::Checkbox("No Black Borders", g_Settings["no_black_borders"].get<bool*>());
-
-			ImGui::EndGroup();
-			ImGui::Separator();
-			ImGui::BeginGroup();
-
-			ImGui::Text("Set Weather");
-			ImGui::BeginChild("weather_list_menu", ImVec2(200, 0));
-			for (const auto& w : g_WeatherTypeList)
-			{
-				if (ImGui::Selectable(w.first.c_str()))
-				{
-					Hash hash = w.second;
-					QUEUE_JOB(hash)
-					{
-						MISC::SET_WEATHER_TYPE(hash, TRUE, TRUE, FALSE, 0.0f, FALSE);
-					}
-					END_JOB()
-				}
-			}
-			ImGui::EndChild();
-			ImGui::EndGroup();
-			ImGui::SameLine();
-
-			ImGui::BeginGroup();
-			ImGui::Text("Set Snow Type");
-			ImGui::BeginChild("snow_list_menu", ImVec2(200, 0));
-			for (const auto& s : g_SnowTypeList)
-			{
-				if (ImGui::Selectable(s.first.c_str()))
-				{
-					int hash = s.second;
-					QUEUE_JOB(hash)
-					{
-						Features::SetSnowType(hash);
-					}
-					END_JOB()
-				}
-			}
-			ImGui::EndChild();
-			ImGui::EndGroup();
-
-			ImGui::EndChild();
-			ImGui::EndTabItem();
 		}
+		ImGui::EndChild();
+		ImGui::EndGroup();
+		ImGui::SameLine();
+
+		ImGui::BeginGroup();
+		ImGui::Text("Set Snow Type");
+		ImGui::BeginChild("snow_list_menu", ImVec2(200, 0));
+		for (const auto& s : g_SnowTypeList)
+		{
+			if (ImGui::Selectable(s.first.c_str()))
+			{
+				int hash = s.second;
+				QUEUE_JOB(hash)
+				{
+					Features::SetSnowType(hash);
+				}
+				END_JOB()
+			}
+		}
+		ImGui::EndChild();
+		ImGui::EndGroup();
+
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderSpawningTab()
 	{
-		if (ImGui::BeginTabItem("Spawning"))
+		if (!ImGui::BeginTabItem("Spawning"))
+			return;
+		
+		ImGui::BeginChild("spawning_child");
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Spawn Ped");
+		ImGui::SameLine();
+		static char PedBuffer[200];
+		ImGui::PushItemWidth(250.0f);
+		ImGui::InputText("###filter_ped", PedBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
+		ImGui::BeginChild("ped_menu", ImVec2(0, 200));
+		for (const auto& it : g_PedList)
 		{
-			ImGui::BeginChild("spawning_child");
+			if (it.first.find(PedBuffer) == std::string::npos)
+				continue;
 
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("Spawn Ped");
-			ImGui::SameLine();
-			static char PedBuffer[200];
-			ImGui::PushItemWidth(250.0f);
-			ImGui::InputText("###filter_ped", PedBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
-			ImGui::BeginChild("ped_menu", ImVec2(0, 200));
-			for (const auto& it : g_PedList)
+			if (ImGui::Selectable(it.first.c_str()))
 			{
-				if (it.first.find(PedBuffer) == std::string::npos)
-					continue;
-
-				if (ImGui::Selectable(it.first.c_str()))
+				QUEUE_JOB(&it)
 				{
-					QUEUE_JOB(&it)
-					{
-						Ped ped = Features::SpawnPed(it.second);
-						Features::EndSpawnPed(it.second, ped);
-					}
-					END_JOB()
+					Ped ped = Features::SpawnPed(it.second);
+					Features::EndSpawnPed(it.second, ped);
 				}
+				END_JOB()
 			}
-			ImGui::EndChild();
-			ImGui::Separator();
-
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("Spawn Vehicle");
-			ImGui::SameLine();
-			static char VehBuffer[200];
-			ImGui::PushItemWidth(250.0f);
-			ImGui::InputText("###filter_veh", VehBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
-			ImGui::BeginChild("vehicle_menu");
-			for (const auto& it : g_VehicleList)
-			{
-				if (it.first.find(VehBuffer) == std::string::npos)
-					continue;
-
-				if (ImGui::Selectable(it.first.c_str()))
-				{
-					QUEUE_JOB(&it)
-					{
-						Vehicle veh = Features::SpawnVehicle(it.second);
-						Features::EndSpawnVehicle(it.second, veh);
-					}
-					END_JOB()
-				}
-			}
-			ImGui::EndChild();
-
-			ImGui::EndChild();
-			ImGui::EndTabItem();
 		}
+		ImGui::EndChild();
+		ImGui::Separator();
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Spawn Vehicle");
+		ImGui::SameLine();
+		static char VehBuffer[200];
+		ImGui::PushItemWidth(250.0f);
+		ImGui::InputText("###filter_veh", VehBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
+		ImGui::BeginChild("vehicle_menu");
+		for (const auto& it : g_VehicleList)
+		{
+			if (it.first.find(VehBuffer) == std::string::npos)
+				continue;
+
+			if (ImGui::Selectable(it.first.c_str()))
+			{
+				QUEUE_JOB(&it)
+				{
+					Vehicle veh = Features::SpawnVehicle(it.second);
+					Features::EndSpawnVehicle(it.second, veh);
+				}
+				END_JOB()
+			}
+		}
+		ImGui::EndChild();
+
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderDebugTab()
 	{
-		if (ImGui::BeginTabItem("Debug"))
+		if (!ImGui::BeginTabItem("Debug"))
+			return;
+		
+		ImGui::BeginChild("debug_child");
+
+		// This native should be fine
+		Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+		if (ImGui::Button("Copy Coords"))
 		{
-			ImGui::BeginChild("debug_child");
-
-			// This native should be fine
-			Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
-			if (ImGui::Button("Copy Coords"))
-			{
-				ImGui::LogToClipboard();
-				ImGui::LogText("%.2ff, %.2ff, %.2ff", pos.x, pos.y, pos.z);
-				ImGui::LogFinish();
-			}
-			ImGui::SameLine();
-			ImGui::Text("%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
-
-			ImGui::Separator();
-
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("CPed: 0x%llX", g_LocalPlayer.m_Ped);
-			ImGui::SameLine();
-			if (ImGui::Button("Copy Address"))
-			{
-				ImGui::LogToClipboard();
-				ImGui::LogText("%llX", g_LocalPlayer.m_Ped);
-				ImGui::LogFinish();
-			}
-
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("GetEntityAddress: 0x%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
-			ImGui::SameLine();
-			if (ImGui::Button("Copy Address"))
-			{
-				ImGui::LogToClipboard();
-				ImGui::LogText("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
-				ImGui::LogFinish();
-			}
-
-			uint64_t nhash = 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
-			auto addr = (uintptr_t)NativeContext::GetHandler(nhash);
-			auto off = addr - g_BaseAddress;
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("0x%llX handler: RDR2.exe+0x%X", nhash, off);
-
-			ImGui::SameLine();
-			if (ImGui::Button("Print to console"))
-				std::cout << LOG_HEX(nhash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" <<
-				LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
-
-			if (ImGui::Button("Copy IDA Address"))
-			{
-				ImGui::LogToClipboard();
-				ImGui::LogText("%llX", 0x7FF73CAB0000 /*imagebase in ida*/ + off);
-				ImGui::LogFinish();
-			}
-
-			ImGui::Separator();
-
-			if (ImGui::Button("Get Height"))
-			{
-				QUEUE_JOB()
-				{
-					std::cout << "Ped height: " << PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity) << "\n";
-				}
-				END_JOB();
-			}
-			ImGui::SameLine();
-
-			if (ImGui::Button("Change Player Model"))
-			{
-				QUEUE_JOB()
-				{
-					Features::RequestModel(U_F_M_RHDNUDEWOMAN_01);
-					PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, FALSE);
-				}
-				END_JOB();
-			}
-
-			ImGui::Separator();
-
-			ImGui::Checkbox("Log Ped Spawning", g_Settings["log_ped_spawning"].get<bool*>());
-			ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());
-			ImGui::Checkbox("Log Vehicle Spawning", g_Settings["log_vehicle_spawning"].get<bool*>());
-			ImGui::Checkbox("Log Added Inventory Items", g_Settings["log_added_inventory_items"].get<bool*>());
-			ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
-
-			ImGui::EndChild();
-			ImGui::EndTabItem();
+			ImGui::LogToClipboard();
+			ImGui::LogText("%.2ff, %.2ff, %.2ff", pos.x, pos.y, pos.z);
+			ImGui::LogFinish();
 		}
+		ImGui::SameLine();
+		ImGui::Text("%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
+
+		ImGui::Separator();
+
+		ImGui::ColorButton("RGB Color", ImVec4(Features::g_rgb[0] / 255.0f, Features::g_rgb[1] / 255.0f, Features::g_rgb[2] / 255.0f, 1.0f),
+			ImGuiColorEditFlags_Uint8);
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("CPed: 0x%llX", g_LocalPlayer.m_Ped);
+		ImGui::SameLine();
+		if (ImGui::Button("Copy Address"))
+		{
+			ImGui::LogToClipboard();
+			ImGui::LogText("%llX", g_LocalPlayer.m_Ped);
+			ImGui::LogFinish();
+		}
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("GetEntityAddress: 0x%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
+		ImGui::SameLine();
+		if (ImGui::Button("Copy Address"))
+		{
+			ImGui::LogToClipboard();
+			ImGui::LogText("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
+			ImGui::LogFinish();
+		}
+
+		uint64_t nhash = 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
+		auto addr = (uintptr_t)NativeContext::GetHandler(nhash);
+		auto off = addr - g_BaseAddress;
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("0x%llX handler: RDR2.exe+0x%X", nhash, off);
+
+		ImGui::SameLine();
+		if (ImGui::Button("Print to console"))
+			std::cout << LOG_HEX(nhash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" <<
+			LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
+
+		if (ImGui::Button("Copy IDA Address"))
+		{
+			ImGui::LogToClipboard();
+			ImGui::LogText("%llX", 0x7FF73CAB0000 /*imagebase in ida*/ + off);
+			ImGui::LogFinish();
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::Button("Get Height"))
+		{
+			QUEUE_JOB()
+			{
+				std::cout << "Ped height: " << PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity) << "\n";
+			}
+			END_JOB();
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Button("Change Player Model"))
+		{
+			QUEUE_JOB()
+			{
+				Features::RequestModel(U_F_M_RHDNUDEWOMAN_01);
+				PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, FALSE);
+			}
+			END_JOB();
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::BeginCombo("HUD Context", HUDContextList[CurCtx]))
+		{
+			for (int i = 0; i < IM_ARRAYSIZE(HUDContextList); i++)
+			{
+				if (ImGui::Selectable(HUDContextList[i], i == CurCtx))
+					CurCtx = i;
+			}
+			ImGui::EndCombo();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Enable"))
+		{
+			QUEUE_JOB()
+			{
+				HUD::_ENABLE_HUD_CONTEXT(joaat(HUDContextList[CurCtx]));
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Disable"))
+		{
+			QUEUE_JOB()
+			{
+				HUD::_DISABLE_HUD_CONTEXT(joaat(HUDContextList[CurCtx]));
+			}
+			END_JOB()
+		}
+
+		ImGui::Separator();
+
+		ImGui::Checkbox("Log Ped Spawning", g_Settings["log_ped_spawning"].get<bool*>());
+		ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());
+		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["log_vehicle_spawning"].get<bool*>());
+		ImGui::Checkbox("Log Added Inventory Items", g_Settings["log_added_inventory_items"].get<bool*>());
+		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
+
+		ImGui::Separator();
+
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::CollapsingHeader("Ped Debug"))
+			RenderPedDebug();
+
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderLoggerTab()
 	{
-		if (ImGui::BeginTabItem("Logger"))
-		{
-			ImGui::BeginChild("logger_child");
+		if (!ImGui::BeginTabItem("Logger"))
+			return;
+		
+		ImGui::BeginChild("logger_child");
 
-			Logger.Draw();
+		Logger.Draw();
 
-			ImGui::EndChild();
-			ImGui::EndTabItem();
-		}
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderMemoryTab()
 	{
-		if (ImGui::BeginTabItem("Memory"))
+		if (!ImGui::BeginTabItem("Memory"))
+			return;
+		
+		ImGui::BeginChild("memory_child");
+
+		uint32_t MemorySize = 0x1000;
+		if (uint8_t* MemoryLocation = (uint8_t*)g_LocalPlayer.m_Ped)
 		{
-			ImGui::BeginChild("memory_child");
+			ImGui::PushFont(Renderer::DefaultFont);
 
-			uint32_t MemorySize = 0x1000;
-			if (uint8_t* MemoryLocation = (uint8_t*)g_LocalPlayer.m_Ped)
+			for (uint32_t i = 0; i < MemorySize; i += 16)
 			{
-				ImGui::PushFont(Renderer::DefaultFont);
-
-				for (uint32_t i = 0; i < MemorySize; i += 16)
+				ImGui::Text("%04X ", i);
+				for (uint32_t j = 0; j < 16; j++)
 				{
-					ImGui::Text("%04X ", i);
-					for (uint32_t j = 0; j < 16; j++)
+					if (j == 8)
 					{
-						if (j == 8)
-						{
-							ImGui::SameLine();
-							ImGui::Text("");
-						}
-
 						ImGui::SameLine();
-						uint8_t Byte = MemoryLocation[i + j];
-						if (Byte)
-							ImGui::Text("%02X", Byte);
-						else
-							ImGui::TextDisabled("%02X", Byte);
+						ImGui::Text("");
 					}
 
 					ImGui::SameLine();
-					ImGui::Text("");
-
-					for (uint32_t j = 0; j < 16; j++)
-					{
-						if (j == 8)
-						{
-							ImGui::SameLine();
-							ImGui::Text("");
-						}
-
-						ImGui::SameLine();
-						uint8_t Byte = MemoryLocation[i + j];
-						if (Byte < 32 || Byte > 126)
-							ImGui::TextDisabled(".");
-						else
-							ImGui::Text("%c", Byte);
-					}
+					uint8_t Byte = MemoryLocation[i + j];
+					if (Byte)
+						ImGui::Text("%02X", Byte);
+					else
+						ImGui::TextDisabled("%02X", Byte);
 				}
 
-				ImGui::PopFont();
+				ImGui::SameLine();
+				ImGui::Text("");
+
+				for (uint32_t j = 0; j < 16; j++)
+				{
+					if (j == 8)
+					{
+						ImGui::SameLine();
+						ImGui::Text("");
+					}
+
+					ImGui::SameLine();
+					uint8_t Byte = MemoryLocation[i + j];
+					if (Byte < 32 || Byte > 126)
+						ImGui::TextDisabled(".");
+					else
+						ImGui::Text("%c", Byte);
+				}
 			}
 
-			ImGui::EndChild();
-			ImGui::EndTabItem();
+			ImGui::PopFont();
 		}
+
+		ImGui::EndChild();
+		ImGui::EndTabItem();
 	}
 
 	void RenderPlayerButtons()
@@ -788,21 +841,108 @@ namespace Menu
 		ImGui::BeginGroup();
 
 		ImGui::Checkbox("No Sliding", g_Settings["no_sliding"].get<bool*>());
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Gold Cores", g_Settings["gold_cores"].get<bool*>());
 		ImGui::EndGroup();
 	}
 
-	void RenderTeleportMenu()
+	void RenderPedDebug()
 	{
-		ImGui::BeginChild("teleport_menu");
+		const bool PedSpawned = PedDebug.ent;
 
-		for (const auto& s : g_TeleportList)
+		ImGui::BeginGroup();
+
+		// Ped Status
+		if (!PedSpawned)
+			ImGui::BeginDisabled();
+		
+		ImGui::Text("Entity Index: %u (0x%X)", PedDebug.ent, PedDebug.ent);
+		ImGui::Text("Coords: %.2f, %.2f, %.2f", PedDebug.pos.x, PedDebug.pos.y, PedDebug.pos.z);
+		ImGui::Text("Heading: %.2f", PedDebug.head);
+		ImGui::Text("Health: %d/%d", PedDebug.health, PedDebug.max_health);
+		ImGui::Text("Injured: %s", (PedDebug.injured ? "true" : "false"));
+		
+		if (!PedSpawned)
+			ImGui::EndDisabled();
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		// Ped controls
+		if (ImGui::Button("Spawn"))
 		{
-			const auto& name = s.first.c_str();
-			const auto& pos = s.second;
-			if (ImGui::Selectable(name))
-				Features::TeleportOnGround(pos.x, pos.y, pos.z);
+			QUEUE_JOB()
+			{
+				PedDebug.ent = Features::SpawnPed(PedDebug.model);
+				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedDebug.model);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (!PedSpawned)
+			ImGui::BeginDisabled();
+		if (ImGui::Button("Despawn"))
+		{
+			QUEUE_JOB()
+			{
+				Features::DeletePed(PedDebug.ent);
+				Features::EndSpawnPed(PedDebug.model, PedDebug.ent);
+				PedDebug.ent = 0;
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Resurrect"))
+		{
+			QUEUE_JOB()
+			{
+				PED::RESURRECT_PED(PedDebug.ent);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Revive"))
+		{
+			QUEUE_JOB()
+			{
+				PED::REVIVE_INJURED_PED(PedDebug.ent);
+			}
+			END_JOB()
 		}
 
-		ImGui::EndChild();
+		if (ImGui::Button("Set Random Component Variations"))
+		{
+			QUEUE_JOB()
+			{
+				PED::SET_PED_RANDOM_COMPONENT_VARIATION(PedDebug.ent, 0);
+			}
+			END_JOB()
+		}
+		
+		if (ImGui::Button("Set Random Outfit Variations"))
+		{
+			QUEUE_JOB()
+			{
+				PED::_SET_RANDOM_OUTFIT_VARIATION(PedDebug.ent, TRUE);
+			}
+			END_JOB()
+		}
+		if (!PedSpawned)
+			ImGui::EndDisabled();
+
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Freeze", &PedDebug.freeze);
+		ImGui::Checkbox("Invincible", &PedDebug.invincible);
+		ImGui::Checkbox("Visible", &PedDebug.visible);
+
+		ImGui::EndGroup();
 	}
 }

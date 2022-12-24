@@ -173,6 +173,34 @@ namespace Lists
 		}
 	}
 
+	void InitWeaponList(const std::filesystem::path& Path)
+	{
+		std::fstream File(Path, std::fstream::in);
+		if (!File.good())
+		{
+			std::cout << "Can't find file: " << Path.filename().string() << ".\n";
+			return;
+		}
+
+		nlohmann::json j;
+		File >> j;
+		File.close();
+
+		for (const auto& w : j)
+		{
+			Hash model = joaat(w.get<std::string>());
+			auto name = HUD::GET_STRING_FROM_HASH_KEY(model);
+
+			if (!IsStringValid(name))
+			{
+				std::cout << __FUNCTION__ << ": " << w.get<std::string>() << " is invalid!\n";
+				continue;
+			}
+
+			g_WeaponList[name] = model;
+		}
+	}
+
 	void Create()
 	{
 		std::cout << "Creating lists.\n";
@@ -193,5 +221,6 @@ namespace Lists
 		InitDocumentList(Path.parent_path().append("Documents.json"));
 		InitConsumableList(Path.parent_path().append("Consumables.json"));
 		InitPedList(Path.parent_path().append("Peds.json"));
+		InitWeaponList(Path.parent_path().append("Weapons.json"));
 	}
 }

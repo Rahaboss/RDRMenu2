@@ -7,17 +7,20 @@ namespace Settings
 		R"({
 			"enable_imgui_demo": false,
 			"god_mode": false,
+			"gold_cores": false,
 			"infinite_ammo": false,
 			"log_added_inventory_items": false,
 			"log_human_spawning": false,
 			"log_ped_spawning": false,
 			"log_vehicle_spawning": false,
+			"mount_god_mode": false,
+			"mount_gold_cores": false,
 			"never_wanted": false,
 			"no_black_borders": false,
 			"no_sliding": false,
 			"no_snipers": false,
 			"super_jump": false,
-			"mount_god_mode": false
+			"rgb_elec_lantern": false
 		})"_json;
 
 	std::filesystem::path GetSettingsFolderPath()
