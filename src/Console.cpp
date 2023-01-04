@@ -3,12 +3,12 @@
 
 namespace Console
 {
-	static FILE* f;
+	static FILE* s_File{};
 
 	void Create()
 	{
 		AllocConsole();
-		freopen_s(&f, "CONOUT$", "w", stdout);
+		freopen_s(&s_File, "CONOUT$", "w", stdout);
 		SetConsoleTitle(L"RDRMenu2 - "
 	#ifdef _DEBUG
 			"Debug"
@@ -16,14 +16,14 @@ namespace Console
 			"Release"
 	#endif
 		);
-		std::cout << "Created console.\n";
+		printf("Created console.\n");
 	}
 
 	void Destroy()
 	{
-		std::cout << "Destroying console.\n";
-		if (f)
-			fclose(f);
+		printf("Destroying console.\n");
+		assert(s_File);
+		fclose(s_File);
 		FreeConsole();
 	}
 }

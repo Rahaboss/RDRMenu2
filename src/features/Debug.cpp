@@ -12,19 +12,13 @@ namespace Features
 		return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ *Pointers::BlipHash, 32), (x & 0x1F) + 5));
 	}
 
-	CPedFactory* GetPedFactory()
-	{
-		uint64_t x = _rotl64(*Pointers::PedFactoryBase, 27);
-		return reinterpret_cast<CPedFactory*>(~_rotl64(_rotl64(x ^ *Pointers::PedFactoryHash, 32), (x & 0x1F) + 1));
-	}
-
-	void PrintNativeHandlerAddress(const uint64_t& hash)
+	void PrintNativeHandlerAddress(uint64_t hash)
 	{
 		TRY
 		{
-			auto addr = (uintptr_t)NativeContext::GetHandler(hash);
-			auto off = addr - g_BaseAddress;
-			std::cout << LOG_HEX(hash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" << LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
+			uint64_t addr = (uintptr_t)NativeContext::GetHandler(hash);
+			uint64_t off = addr - g_BaseAddress;
+			printf("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", hash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -32,13 +26,13 @@ namespace Features
 	void UnlockSPPreorderBonus()
 	{
 		constexpr Hash unlock_hash = RAGE_JOAAT("SP_GAME_CONTENT_PRE_ORDER");
-		UNLOCK::UNLOCK_SET_UNLOCKED(unlock_hash, TRUE);
+		UNLOCK::UNLOCK_SET_UNLOCKED(unlock_hash, true);
 	}
 
 	void PlayDinoLadyCutscene()
 	{
 		// Init anim scene (cutscene)
-		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@RCDIN_RSC2", 0, 0, FALSE, TRUE);
+		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@RCDIN_RSC2", 0, 0, false, true);
 
 		Features::Teleport(208.423f, 1000.71f, 190.036f);
 
@@ -52,7 +46,7 @@ namespace Features
 
 			float groundZ;
 
-			if (MISC::GET_GROUND_Z_FOR_3D_COORD(208.423f, 1000.71f, 1000.f, &groundZ, FALSE))
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(208.423f, 1000.71f, 1000.f, &groundZ, false))
 				break;
 
 			Features::YieldThread();
@@ -61,7 +55,7 @@ namespace Features
 		// Create characters and objects
 		bool b_playerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
 
-		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_playerArthur", b_playerArthur, FALSE);
+		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_playerArthur", b_playerArthur, false);
 
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, (b_playerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
 
@@ -69,26 +63,26 @@ namespace Features
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CS_DINOBONESLADY", dinoLady, 0);
 
 		Features::RequestModel(joaat("P_STICK04X"));
-		Object stick = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("P_STICK04X"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
+		Object stick = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("P_STICK04X"), 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_stick04x", stick, 0);
 
 		Features::RequestModel(joaat("w_melee_knife03"));
-		Object knife = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("w_melee_knife03"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
+		Object knife = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("w_melee_knife03"), 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "w_melee_knife03", knife, 0);
 
 		Features::RequestModel(joaat("p_eme_barn_door3"));
 		Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(160425541, 0));
 		if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
-			ENTITY::SET_ENTITY_VISIBLE(rdoor1, FALSE);
+			ENTITY::SET_ENTITY_VISIBLE(rdoor1, false);
 
-		Object door1 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
+		Object door1 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_eme_barn_door3", door1, 0);
 
 		Object rdoor2 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1127035680, 0));
 		if (ENTITY::DOES_ENTITY_EXIST(rdoor2))
-			ENTITY::SET_ENTITY_VISIBLE(rdoor2, FALSE);
+			ENTITY::SET_ENTITY_VISIBLE(rdoor2, false);
 
-		Object door2 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
+		Object door2 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_eme_barn_door3^1", door2, 0);
 
 		// Activate interior
@@ -96,24 +90,24 @@ namespace Features
 		INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", 0);
 
 		// Load, start, unload
-		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, TRUE, FALSE))
+		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, true, false))
 		{
 			ANIMSCENE::LOAD_ANIM_SCENE(scene);
 			Features::YieldThread();
 		}
 		ANIMSCENE::START_ANIM_SCENE(scene);
-		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, FALSE))
+		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, false))
 		{
 			Features::YieldThread();
 		}
 
 		// Deactivate interior
-		INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", TRUE);
+		INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", true);
 
 		// Delete objects and characters
-		if (ENTITY::DOES_ENTITY_EXIST(rdoor1)) ENTITY::SET_ENTITY_VISIBLE(rdoor1, TRUE);
+		if (ENTITY::DOES_ENTITY_EXIST(rdoor1)) ENTITY::SET_ENTITY_VISIBLE(rdoor1, true);
 		OBJECT::DELETE_OBJECT(&door1);
-		if (ENTITY::DOES_ENTITY_EXIST(rdoor2)) ENTITY::SET_ENTITY_VISIBLE(rdoor2, TRUE);
+		if (ENTITY::DOES_ENTITY_EXIST(rdoor2)) ENTITY::SET_ENTITY_VISIBLE(rdoor2, true);
 		OBJECT::DELETE_OBJECT(&door2);
 		OBJECT::DELETE_OBJECT(&knife);
 		OBJECT::DELETE_OBJECT(&stick);
@@ -125,7 +119,7 @@ namespace Features
 		// Init anim scene (cutscene)
 		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@"
 			"RCFSH_RSC2" // RCFSH_RSC2 // RCFSH_RSC3 // RCFSH_EXT
-			, 0, 0, FALSE, TRUE);
+			, 0, 0, false, true);
 
 		// Load in the map
 		Features::Teleport(347.43f, -659.89f, 42.00f);
@@ -139,7 +133,7 @@ namespace Features
 
 			float groundZ;
 
-			if (MISC::GET_GROUND_Z_FOR_3D_COORD(347.43f, -659.89f, 1000.f, &groundZ, FALSE))
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(347.43f, -659.89f, 1000.f, &groundZ, false))
 				break;
 
 			Features::YieldThread();
@@ -160,12 +154,12 @@ namespace Features
 			ANIMSCENE::REQUEST_ANIM_SCENE_PLAY_LIST(scene, playList);
 			Features::YieldThread();
 		}
-		ANIMSCENE::SET_ANIM_SCENE_PLAY_LIST(scene, playList, TRUE);
-		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_breakout", FALSE, FALSE);
+		ANIMSCENE::SET_ANIM_SCENE_PLAY_LIST(scene, playList, true);
+		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_breakout", false, false);
 
 		// Create characters and objects
 		bool b_playerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
-		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_playerArthur", b_playerArthur, FALSE);
+		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_playerArthur", b_playerArthur, false);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, (b_playerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
 
 		Ped fishCollector = Features::SpawnPed(CS_FISHCOLLECTOR);
@@ -173,7 +167,7 @@ namespace Features
 		PED::_RESET_PED_COMPONENTS(fishCollector);
 
 		Features::RequestModel(joaat("P_CAMERABOX01X"));
-		Object camera = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("P_CAMERABOX01X"), -5044.987f, -4090.398f, -29.0651f, TRUE, TRUE, FALSE, TRUE);
+		Object camera = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("P_CAMERABOX01X"), -5044.987f, -4090.398f, -29.0651f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "P_CAMERABOX01X", camera, 0);
 
 		//Ped fishCollector2 = Features::SpawnPed(IG_FISHCOLLECTOR);
@@ -181,26 +175,26 @@ namespace Features
 		//PED::SET_PED_RANDOM_COMPONENT_VARIATION(fishCollector, 0);
 
 		Features::RequestModel(joaat("p_fishingpole01x"));
-		Object fishingPole = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_fishingpole01x"), 347.43f, -659.89f, 42.00f, TRUE, TRUE, FALSE, TRUE);
+		Object fishingPole = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_fishingpole01x"), 347.43f, -659.89f, 42.00f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_fishingpole01x", fishingPole, 0);
 
 		Features::RequestModel(joaat("p_cs_fishbag01x"));
-		Object fishBag = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_cs_fishbag01x"), 347.43f, -659.89f, 42.00f, TRUE, TRUE, FALSE, TRUE);
+		Object fishBag = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_cs_fishbag01x"), 347.43f, -659.89f, 42.00f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_cs_fishbag01x", fishBag, 0);
 
 		Features::RequestModel(joaat("p_door04x"));
 		Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1056329818, 0));
 		if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
-			ENTITY::SET_ENTITY_VISIBLE(rdoor1, FALSE);
+			ENTITY::SET_ENTITY_VISIBLE(rdoor1, false);
 		
-		Object door1 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_door04x"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
+		Object door1 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_door04x"), 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_door04x", door1, 0);
 		
 		//Object rdoor2 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1127035680, 0));
 		//if (ENTITY::DOES_ENTITY_EXIST(rdoor2))
-		//	ENTITY::SET_ENTITY_VISIBLE(rdoor2, FALSE);
+		//	ENTITY::SET_ENTITY_VISIBLE(rdoor2, false);
 		//
-		//Object door2 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
+		//Object door2 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_eme_barn_door3^1", door2, 0);
 
 		// Activate interior
@@ -208,24 +202,24 @@ namespace Features
 		//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", 0);
 
 		// Load, start, unload
-		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, TRUE, FALSE))
+		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, true, false))
 		{
 			ANIMSCENE::LOAD_ANIM_SCENE(scene);
 			Features::YieldThread();
 		}
 		ANIMSCENE::START_ANIM_SCENE(scene);
-		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, FALSE))
+		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, false))
 		{
 			Features::YieldThread();
 		}
 
 		// Deactivate interior
-		//INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", TRUE);
+		//INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", true);
 
 		// Delete objects and characters
-		if (ENTITY::DOES_ENTITY_EXIST(rdoor1)) ENTITY::SET_ENTITY_VISIBLE(rdoor1, TRUE);
+		if (ENTITY::DOES_ENTITY_EXIST(rdoor1)) ENTITY::SET_ENTITY_VISIBLE(rdoor1, true);
 		OBJECT::DELETE_OBJECT(&door1);
-		//if (ENTITY::DOES_ENTITY_EXIST(rdoor2)) ENTITY::SET_ENTITY_VISIBLE(rdoor2, TRUE);
+		//if (ENTITY::DOES_ENTITY_EXIST(rdoor2)) ENTITY::SET_ENTITY_VISIBLE(rdoor2, true);
 		//OBJECT::DELETE_OBJECT(&door2);
 		OBJECT::DELETE_OBJECT(&camera);
 		OBJECT::DELETE_OBJECT(&fishBag);
@@ -236,7 +230,7 @@ namespace Features
 	void PlayIndustryCutscene()
 	{
 		// Init anim scene (cutscene)
-		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@ind1_mcs_1", 0, 0, FALSE, TRUE);
+		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@ind1_mcs_1", 0, 0, false, true);
 
 		// Load in the map
 		Features::Teleport(2551.05f, -1178.40f, 53.31f);
@@ -250,14 +244,11 @@ namespace Features
 
 			float groundZ;
 
-			if (MISC::GET_GROUND_Z_FOR_3D_COORD(2551.05f, -1178.40f, 1000.f, &groundZ, FALSE))
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(2551.05f, -1178.40f, 1000.f, &groundZ, false))
 				break;
 
 			Features::YieldThread();
 		}
-
-		//ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_breakout", false, false);
-		//ANIMSCENE::SET_ANIM_SCENE_PLAY_LIST(scene, "pl_IG33_AMB_WServesDrinks_BK", TRUE);
 
 		// Create characters and objects
 		bool b_playerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
@@ -269,64 +260,19 @@ namespace Features
 		Ped hosea = Features::SpawnPed(CS_HOSEAMATTHEWS);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "HoseaMatthews", hosea, 0);
 
-		//Features::RequestModel(joaat("P_CAMERABOX01X"));
-		//Object camera = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("P_CAMERABOX01X"), -5044.987f, -4090.398f, -29.0651f, TRUE, TRUE, FALSE, TRUE);
-		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "P_CAMERABOX01X", camera, 0);
-		//
-		//Ped fishCollector2 = Features::SpawnPed(IG_FISHCOLLECTOR);
-		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CS_FISHCOLLECTOR", fishCollector, 0);
-		//PED::SET_PED_RANDOM_COMPONENT_VARIATION(fishCollector, 0);
-		//
-		//Features::RequestModel(joaat("p_fishingpole01x"));
-		//Object fishingPole = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_fishingpole01x"), 347.43f, -659.89f, 42.00f, TRUE, TRUE, FALSE, TRUE);
-		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_fishingpole01x", fishingPole, 0);
-		//
-		//Features::RequestModel(joaat("p_cs_fishbag01x"));
-		//Object fishBag = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_cs_fishbag01x"), 347.43f, -659.89f, 42.00f, TRUE, TRUE, FALSE, TRUE);
-		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_cs_fishbag01x", fishBag, 0);
-		//
-		//Features::RequestModel(joaat("p_door04x"));
-		//Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1056329818, 0));
-		//if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
-		//	ENTITY::SET_ENTITY_VISIBLE(rdoor1, FALSE);
-		//
-		//Object door1 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_door04x"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
-		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_door04x", door1, 0);
-		//
-		//Object rdoor2 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1127035680, 0));
-		//if (ENTITY::DOES_ENTITY_EXIST(rdoor2))
-		//	ENTITY::SET_ENTITY_VISIBLE(rdoor2, FALSE);
-		//
-		//Object door2 = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("p_eme_barn_door3"), 196.386f, 988.0386f, 189.1274f, TRUE, TRUE, FALSE, TRUE);
-		//ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "p_eme_barn_door3^1", door2, 0);
-		//
-		// Activate interior
-		//Interior stage = INTERIOR::GET_INTERIOR_AT_COORDS(196.2653f, 985.5404f, 189.1246f);
-		//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", 0);
-
 		// Load, start, unload
-		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, TRUE, FALSE))
+		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, true, false))
 		{
 			ANIMSCENE::LOAD_ANIM_SCENE(scene);
 			Features::YieldThread();
 		}
 		ANIMSCENE::START_ANIM_SCENE(scene);
-		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, FALSE))
+		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, false))
 		{
 			Features::YieldThread();
 		}
 
-		// Deactivate interior
-		//INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", TRUE);
-
 		// Delete objects and characters
-		//if (ENTITY::DOES_ENTITY_EXIST(rdoor1)) ENTITY::SET_ENTITY_VISIBLE(rdoor1, TRUE);
-		//OBJECT::DELETE_OBJECT(&door1);
-		//if (ENTITY::DOES_ENTITY_EXIST(rdoor2)) ENTITY::SET_ENTITY_VISIBLE(rdoor2, TRUE);
-		//OBJECT::DELETE_OBJECT(&door2);
-		//OBJECT::DELETE_OBJECT(&camera);
-		//OBJECT::DELETE_OBJECT(&fishBag);
-		//OBJECT::DELETE_OBJECT(&fishingPole);
 		PED::DELETE_PED(&hosea);
 		PED::DELETE_PED(&dutch);
 	}

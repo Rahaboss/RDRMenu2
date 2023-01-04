@@ -5,13 +5,13 @@
 class DetourHook
 {
 public:
-	void Create(void* target, void* detour);
+	void Create(void* Target, void* Detour);
 	void Destroy();
 
 	template<typename T>
-	T GetOriginal() { return reinterpret_cast<T>(m_original); }
+	T GetOriginal() { return reinterpret_cast<T>(m_Original); }
 
 private:
-	void* m_target{};
-	void* m_original{};
+	void* m_Target{};
+	void* m_Original{};
 };

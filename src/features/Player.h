@@ -6,7 +6,7 @@
 
 namespace Features
 {
-	void AddMoney(const int& amount_cents);
+	void AddMoney(int AmountCents);
 	void ClearWanted();
 	void FixAttributes(Ped ped);
 	void FixHorseAttributes(Ped ped);
@@ -14,15 +14,14 @@ namespace Features
 	Entity GetMainEntity();
 	int GetMoney();
 	Entity GetMountOrVehicle();
-	void GiveGoldCores(const Ped& ped);
+	void GiveGoldCores(Ped ped);
 	void NoSliding();
-	void PrintPedAttributes(Ped ped);
-	void RemoveMoney(const int& amount_cents);
+	void RemoveMoney(int AmountCents);
 	void RestoreHorseCores();
 	void RestorePlayerCores();
 	void SetGodmode(bool Toggle);
 	void SetMaxAttributeValue(Ped ped, int attr);
-	void SetMoney(const int& amount_cents);
+	void SetMoney(int AmountCents);
 	void SpawnBadHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
 	void SpawnGoodHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
 	void Teleport(float x, float y, float z);

@@ -3,6 +3,13 @@
 #include "Features.h"
 
 // Features for drawing on the screen
+// \xE2\x88\x91 = Rockstar
+// \xC2\xA6		= Verified
+// \xE2\x80\xB9 = Created
+// \xE2\x80\xBA = Blank
+// \xCE\xA9		= Padlock
+// ~COLOR_RED~\xE2\x88\x91 Admin
+// ~COLOR_SOCIAL_CLUB~
 
 namespace Features
 {
@@ -24,7 +31,7 @@ namespace Features
 			if (!Ent)
 				return;
 
-			Vector3 pos = ENTITY::GET_ENTITY_COORDS(Ent, TRUE, TRUE);
+			Vector3 pos = ENTITY::GET_ENTITY_COORDS(Ent, true, true);
 			float x = 0, y = 0;
 			if (!WorldToScreen(pos.x, pos.y, pos.z, x, y))
 				return;

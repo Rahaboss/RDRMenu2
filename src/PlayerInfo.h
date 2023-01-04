@@ -11,6 +11,6 @@ struct PlayerInfo
 	Ped m_Mount; // PED::GET_MOUNT (0 if not on mount)
 	Ped m_LastMount; // PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER / PED::_GET_LAST_MOUNT (0 if no last mount)
 	Vehicle m_Vehicle; // PED::GET_VEHICLE_PED_IS_IN (0 if not in vehicle)
-	CPed* m_Ped; // Pointers::GetPlayerPed
 	Vector3 m_Pos; // ENTITY::GET_ENTITY_COORDS
+	CPed* m_Ped; // CPedFactory::GetLocalPed / Pointers::GetPlayerPed
 } inline g_LocalPlayer;

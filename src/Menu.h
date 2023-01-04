@@ -126,6 +126,9 @@ struct ExampleAppLog
 
 namespace Menu
 {
+	// State
+	inline bool IsOpen = false;
+
 	// Main menus
 	void RenderMenu();
 	void RenderPlayerTab();
@@ -215,7 +218,7 @@ namespace Menu
 		"HUD_CTX_TRANSLATE_OVERLAY",
 	};
 
-	struct _PedDebug {
+	struct {
 		Entity ent = 0;
 		Hash model = U_F_M_RHDNUDEWOMAN_01;
 		Vector3 pos{};

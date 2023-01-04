@@ -13,9 +13,6 @@ namespace Renderer
 	void SetupImGui();
 	LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	// Must be false on inject, otherwise breaks input
-	inline bool MenuOpen = false;
-
 	struct _FrameContext
 	{
 		ID3D12CommandAllocator* CommandAllocator;

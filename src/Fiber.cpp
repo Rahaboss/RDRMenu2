@@ -3,39 +3,39 @@
 #include "Features.h"
 
 Fiber::Fiber(void(*func)()) :
-	m_script_fiber(nullptr),
-	m_main_fiber(nullptr),
-	m_func(func)
+	m_ScriptFiber(nullptr),
+	m_MainFiber(nullptr),
+	m_Func(func)
 {
-	std::cout << "Creating fiber " << LOG_HEX(m_func) << ".\n";
-	m_script_fiber = CreateFiber(0, [](void* param)
+	printf("Creating fiber 0x%llX\n", (uint64_t)m_Func);
+	m_ScriptFiber = CreateFiber(0, [](void* param)
 		{
-			auto this_fiber = static_cast<Fiber*>(param);
+			auto ThisFiber = static_cast<Fiber*>(param);
 			while (true)
 			{
-				TRY{ this_fiber->m_func(); }
+				TRY{ ThisFiber->m_Func(); }
 				EXCEPT{ LOG_EXCEPTION(); }
-				this_fiber->YieldThread();
+				ThisFiber->YieldThread();
 			}
 		}, this);
 }
 
 void Fiber::Destroy()
 {
-	std::cout << "Destroying fiber " << LOG_HEX(m_func) << ".\n";
-	if (m_script_fiber)
-		DeleteFiber(m_script_fiber);
+	printf("Destroying fiber 0x%llX\n", (uint64_t)m_Func);
+	if (m_ScriptFiber)
+		DeleteFiber(m_ScriptFiber);
 }
 
 void Fiber::YieldThread()
 {
-	SwitchToFiber(m_main_fiber);
+	SwitchToFiber(m_MainFiber);
 }
 
 void Fiber::Tick()
 {
-	m_main_fiber = GetCurrentFiber();
-	SwitchToFiber(m_script_fiber);
+	m_MainFiber = GetCurrentFiber();
+	SwitchToFiber(m_ScriptFiber);
 }
 
 static bool init = false;
@@ -55,6 +55,6 @@ void ScriptThreadTick()
 		{
 			fiber->Tick();
 		}
-		EXCEPT{ LOG_EXCEPTION(); std::cout << "Exception in Fiber Tick: " << fiber << '\n'; }
+		EXCEPT{ LOG_EXCEPTION(); printf("Exception in Fiber Tick: 0x%llX.\n", (uint64_t)fiber); }
 	}
 }

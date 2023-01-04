@@ -23,15 +23,15 @@ namespace Features
 	Hash GetCurrentWeapon()
 	{
 		Hash CurWeap = 0;
-		WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &CurWeap, FALSE, WEAPON_ATTACH_POINT_HAND_PRIMARY, FALSE);
+		WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &CurWeap, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, false);
 		return CurWeap;
 	}
 
-	void GiveAmmo(const Hash& ammo_hash)
+	void GiveAmmo(Hash AmmoHash)
 	{
 		QUEUE_JOB(=)
 		{
-			WEAPON::_ADD_AMMO_TO_PED_BY_TYPE(g_LocalPlayer.m_Entity, ammo_hash, 9999, ADD_REASON_DEFAULT);
+			WEAPON::_ADD_AMMO_TO_PED_BY_TYPE(g_LocalPlayer.m_Entity, AmmoHash, 9999, ADD_REASON_DEFAULT);
 		}
 		END_JOB()
 	}
@@ -54,73 +54,73 @@ namespace Features
 			GiveWeapon(w.second);
 	}
 
-	void GiveBackWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	void GiveBackWeapon(Hash WeaponHash, int AmmoAmount)
 	{
 		QUEUE_JOB(=)
 		{
 			if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
 			{
-				std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not two handed!\n";
+				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
-			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-				WEAPON_ATTACH_POINT_RIFLE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, true, false,
+				WEAPON_ATTACH_POINT_RIFLE, true, 0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		}
 		END_JOB()
 	}
 
-	void GiveLeftHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	void GiveLeftHandWeapon(Hash WeaponHash, int AmmoAmount)
 	{
 		QUEUE_JOB(=)
 		{
 			if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
 			{
-				std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not one handed!\n";
+				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
-			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-				WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, true, false,
+				WEAPON_ATTACH_POINT_HAND_PRIMARY, true, 0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		}
 		END_JOB()
 	}
 
-	void GiveRightHandWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	void GiveRightHandWeapon(Hash WeaponHash, int AmmoAmount)
 	{
 		QUEUE_JOB(=)
 		{
 			if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
 			{
-				std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not one handed!\n";
+				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
-			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-				WEAPON_ATTACH_POINT_HAND_SECONDARY, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, true, false,
+				WEAPON_ATTACH_POINT_HAND_SECONDARY, true, 0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		}
 		END_JOB()
 	}
 
-	void GiveShoulderWeapon(const Hash& WeaponHash, const int& AmmoAmount)
+	void GiveShoulderWeapon(Hash WeaponHash, int AmmoAmount)
 	{
 		QUEUE_JOB(=)
 		{
 			if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
 			{
-				std::cout << __FUNCTION__ << ": Weapon " << LOG_HEX(WeaponHash) << " (" << HUD::GET_STRING_FROM_HASH_KEY(WeaponHash) << ") is not two handed!\n";
+				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
-			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, TRUE, FALSE,
-				WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, TRUE, 0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+			WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, AmmoAmount, true, false,
+				WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, true, 0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		}
 		END_JOB()
 	}
 
-	void GiveWeapon(const Hash& weapon_hash)
+	void GiveWeapon(Hash WeaponHash)
 	{
-		switch (weapon_hash)
+		switch (WeaponHash)
 		{
 		case AMMO_MOLOTOV_VOLATILE:
 		case AMMO_DYNAMITE_VOLATILE:
@@ -128,13 +128,13 @@ namespace Features
 		case AMMO_THROWING_KNIVES_POISON:
 		case AMMO_TOMAHAWK_IMPROVED:
 		case AMMO_TOMAHAWK_HOMING:
-			GiveAmmo(weapon_hash);
+			GiveAmmo(WeaponHash);
 			break;
 		default:
 			QUEUE_JOB(=)
 			{
-				WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, weapon_hash, 9999, TRUE, FALSE, WEAPON_ATTACH_POINT_HAND_PRIMARY, TRUE,
-					0.5f, 1.0f, ADD_REASON_DEFAULT, TRUE, 0.0f, FALSE);
+				WEAPON::GIVE_WEAPON_TO_PED(g_LocalPlayer.m_Entity, WeaponHash, 9999, true, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, true,
+					0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 			}
 			END_JOB()
 			break;

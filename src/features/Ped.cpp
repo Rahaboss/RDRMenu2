@@ -6,13 +6,13 @@ namespace Features
 {
 	void CleanPed(Ped ped)
 	{
-		QUEUE_JOB(ped)
+		QUEUE_JOB(=)
 		{
 			PED::CLEAR_PED_BLOOD_DAMAGE(ped);
 			PED::CLEAR_PED_WETNESS(ped);
 			PED::CLEAR_PED_ENV_DIRT(ped);
 			PED::CLEAR_PED_DECORATIONS(ped);
-			PED::_SET_PED_DIRT_CLEANED(ped, 0.0f, -1, TRUE, TRUE);
+			PED::_SET_PED_DIRT_CLEANED(ped, 0.0f, -1, true, true);
 			for (int i = 0; i < 10; i++)
 			{
 				PED::_CLEAR_PED_BLOOD_DAMAGE_FACIAL(ped, i);
@@ -21,5 +21,37 @@ namespace Features
 			}
 		}
 		END_JOB()
+	}
+
+	void PrintPedAttributes(Ped ped)
+	{
+		constexpr const char* AttributeNames[]{
+			"PA_HEALTH", "PA_STAMINA", "PA_SPECIALABILITY", "PA_COURAGE", "PA_AGILITY", "PA_SPEED",
+			"PA_ACCELERATION", "PA_BONDING", "SA_HUNGER", "SA_FATIGUED", "SA_INEBRIATED", "SA_POISONED",
+			"SA_BODYHEAT", "SA_BODYWEIGHT", "SA_OVERFED", "SA_SICKNESS", "SA_DIRTINESS", "SA_DIRTINESSHAT",
+			"MTR_STRENGTH", "MTR_GRIT", "MTR_INSTINCT", "PA_UNRULINESS", "SA_DIRTINESSSKIN",
+		};
+		static_assert(ARRAYSIZE(AttributeNames) == MAX_ATTRIBUTES);
+
+		TRY
+		{
+			//printf("Attr,Rank,BaseRank,BonusRank,MaxRank,DefaultRank,DefaultMaxRank,Points,MaxPoints\n");
+			for (int i = 0; i < MAX_ATTRIBUTES; i++)
+			{
+				const char* Attr = AttributeNames[i];
+				const int Rank = ATTRIBUTE::GET_ATTRIBUTE_RANK(ped, i);
+				const int BaseRank = ATTRIBUTE::GET_ATTRIBUTE_BASE_RANK(ped, i);
+				const int BonusRank = ATTRIBUTE::GET_ATTRIBUTE_BONUS_RANK(ped, i);
+				const int MaxRank = ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(ped, i);
+				const int DefaultRank = ATTRIBUTE::GET_DEFAULT_ATTRIBUTE_RANK(ped, i);
+				const int DefaultMaxRank = ATTRIBUTE::GET_DEFAULT_MAX_ATTRIBUTE_RANK(ped, i);
+				const int Points = ATTRIBUTE::GET_ATTRIBUTE_POINTS(ped, i);
+				const int MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
+				
+				//printf("%s,%d,%d,%d,%d,%d,%d,%d,%d\n", Attr, Rank, BaseRank, BonusRank, MaxRank, DefaultRank, DefaultMaxRank, Points, MaxPoints);
+				printf("%s (%d/%d)\n", Attr, Points, MaxPoints);
+			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 	}
 }

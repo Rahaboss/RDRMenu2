@@ -14,11 +14,10 @@ namespace Menu
 	{
 		TRY
 		{
-			if (Renderer::MenuOpen)
+			if (IsOpen)
 			{
 				ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_FirstUseEver);
-				//ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_Always);
-				if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen/*, ImGuiWindowFlags_NoResize*/))
+				if (ImGui::Begin("RDRMenu2", &IsOpen))
 				{
 					ImGui::BeginTabBar("tab_bar");
 					RenderPlayerTab();
@@ -39,7 +38,7 @@ namespace Menu
 				}
 				ImGui::End();
 
-				if (g_Settings["enable_imgui_demo"].get_ref<bool&>())
+				if (g_Settings["enable_imgui_demo"].get<bool>())
 					ImGui::ShowDemoWindow(g_Settings["enable_imgui_demo"].get<bool*>());
 			}
 
@@ -69,7 +68,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::Button("Set###set_money"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					Features::SetMoney((int)(Money * 100.f));
 				}
@@ -78,7 +77,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::Button("Add###add_money"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					Features::AddMoney((int)(Money * 100.f));
 				}
@@ -87,7 +86,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::Button("Remove###remove_money"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					Features::RemoveMoney((int)(Money * 100.f));
 				}
@@ -100,7 +99,7 @@ namespace Menu
 			ImGui::PushItemWidth(300.0f);
 			if (ImGui::SliderFloat("###player_scale", &PlayerScale, 0.01f, 10.0f, "%.2f"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, PlayerScale);
 				}
@@ -109,7 +108,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::Button("Reset"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					PlayerScale = 1.0f;
 					PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, PlayerScale);
@@ -124,7 +123,7 @@ namespace Menu
 			ImGui::PushButtonRepeat(true);
 			if (ImGui::ArrowButton("###lof", ImGuiDir_Left))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					if (Outfit == 0)
 						return;
@@ -138,7 +137,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::ArrowButton("###rof", ImGuiDir_Right))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					if (Outfit == PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1)
 						return;
@@ -148,7 +147,7 @@ namespace Menu
 			}
 			ImGui::PopButtonRepeat();
 			ImGui::SameLine();
-			ImGui::Checkbox("Keep Accessories", &KeepAcc);
+			ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
 		}
 		ImGui::Separator();
 
@@ -181,11 +180,11 @@ namespace Menu
 			ImGui::Separator();
 			ImGui::BeginGroup();
 
-			if (ImGui::Checkbox("God Mode###mount_god_mode", g_Settings["mount_god_mode"].get<bool*>()) && !g_Settings["mount_god_mode"].get_ref<bool&>())
+			if (ImGui::Checkbox("God Mode###mount_god_mode", g_Settings["mount_god_mode"].get<bool*>()) && !g_Settings["mount_god_mode"].get<bool>())
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
-					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Mount, FALSE);
+					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Mount, false);
 				}
 				END_JOB()
 			}
@@ -204,7 +203,7 @@ namespace Menu
 			ImGui::PushItemWidth(300.0f);
 			if (ImGui::SliderFloat("###mount_scale", &MountScale, 0.01f, 10.0f, "%.2f"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					PED::_SET_PED_SCALE(g_LocalPlayer.m_Mount, MountScale);
 				}
@@ -213,7 +212,7 @@ namespace Menu
 			ImGui::SameLine();
 			if (ImGui::Button("Reset###reset_mount_scale"))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
 					MountScale = 1.0f;
 					PED::_SET_PED_SCALE(g_LocalPlayer.m_Mount, MountScale);
@@ -273,7 +272,7 @@ namespace Menu
 
 		if (ImGui::Button("Spawn Turret"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Vehicle veh = Features::SpawnVehicle(GATLING_GUN);
 				Features::EndSpawnVehicle(GATLING_GUN, veh);
@@ -349,7 +348,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Unlock All Herbs"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				const Vector3& pos = g_LocalPlayer.m_Pos;
 				for (const auto& h : g_HerbList)
@@ -465,14 +464,8 @@ namespace Menu
 		ImGui::BeginGroup();
 			
 		if (ImGui::Button("Reveal Map"))
-		{
-			QUEUE_JOB()
-			{
-				Features::RevealMap();
-			}
-			END_JOB()
-		}
-			
+			Features::RevealMap();
+		
 		ImGui::EndGroup();
 		ImGui::Separator();
 		ImGui::BeginGroup();
@@ -496,9 +489,9 @@ namespace Menu
 			if (ImGui::Selectable(w.first.c_str()))
 			{
 				Hash hash = w.second;
-				QUEUE_JOB(hash)
+				QUEUE_JOB(=)
 				{
-					MISC::SET_WEATHER_TYPE(hash, TRUE, TRUE, FALSE, 0.0f, FALSE);
+					MISC::SET_WEATHER_TYPE(hash, true, true, false, 0.0f, false);
 				}
 				END_JOB()
 			}
@@ -513,14 +506,7 @@ namespace Menu
 		for (const auto& s : g_SnowTypeList)
 		{
 			if (ImGui::Selectable(s.first.c_str()))
-			{
-				int hash = s.second;
-				QUEUE_JOB(hash)
-				{
-					Features::SetSnowType(hash);
-				}
-				END_JOB()
-			}
+				Features::SetSnowType(s.second);
 		}
 		ImGui::EndChild();
 		ImGui::EndGroup();
@@ -638,13 +624,12 @@ namespace Menu
 
 		ImGui::SameLine();
 		if (ImGui::Button("Print to console"))
-			std::cout << LOG_HEX(nhash) << " handler: RDR2.exe+" << LOG_HEX(off) << " (" <<
-				LOG_HEX(0x7FF73CAB0000 /*imagebase in ida*/ + off) << ").\n";
+			printf("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", nhash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
 
 		if (ImGui::Button("Copy IDA Address"))
 		{
 			ImGui::LogToClipboard();
-			ImGui::LogText("%llX", 0x7FF73CAB0000 /*imagebase in ida*/ + off);
+			ImGui::LogText("%llX", off + 0x7FF73CAB0000 /*imagebase in ida*/);
 			ImGui::LogFinish();
 		}
 
@@ -652,29 +637,29 @@ namespace Menu
 
 		if (ImGui::Button("Get Height"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
-				std::cout << "Ped height: " << PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity) << "\n";
+				printf("Ped height: %.2f.\n", PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity));
 			}
 			END_JOB();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Change Player Model"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::RequestModel(U_F_M_RHDNUDEWOMAN_01);
-				PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, FALSE);
+				PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, false);
 			}
 			END_JOB();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("A Quiet Time Cutscene"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				const char* animDict = "cutscene@SAL1_INT";
-				auto iLocal_31 = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, 0, 0, FALSE, TRUE);
+				auto iLocal_31 = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, 0, 0, false, true);
 
 				//Ped arthur = Features::SpawnPed(PLAYER_ZERO);
 				Ped arthur = Features::SpawnPed(PLAYER_THREE);
@@ -689,14 +674,14 @@ namespace Menu
 				Ped lenny = Features::SpawnPed(CS_LENNY);
 				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "Lenny", lenny, 0);
 
-				for (int i = 0; i < 20 && !ANIMSCENE::IS_ANIM_SCENE_LOADED(iLocal_31, TRUE, FALSE); i++)
+				for (int i = 0; i < 20 && !ANIMSCENE::IS_ANIM_SCENE_LOADED(iLocal_31, true, false); i++)
 				{
 					ANIMSCENE::LOAD_ANIM_SCENE(iLocal_31);
 					Features::YieldThread();
 				}
 				ANIMSCENE::START_ANIM_SCENE(iLocal_31);
 
-				while (!ANIMSCENE::IS_ANIM_SCENE_FINISHED(iLocal_31, FALSE))
+				while (!ANIMSCENE::IS_ANIM_SCENE_FINISHED(iLocal_31, false))
 				{
 					Features::YieldThread();
 				}
@@ -711,7 +696,7 @@ namespace Menu
 
 		if (ImGui::Button("Dinolady Cutscene"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::PlayDinoLadyCutscene();
 			}
@@ -720,7 +705,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Fish Collector Cutscene"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::PlayFishCollectorCutscene();
 			}
@@ -729,25 +714,15 @@ namespace Menu
 
 		if (ImGui::Button("Industry Cutscene"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::PlayIndustryCutscene();
 			}
 			END_JOB()
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("XDDDDD"))
+		if (ImGui::Button("Corrupt scrNativeCallContext::SetVectorResults"))
 			*(Signature("8B 41 18 4C 8B C1 85 C0").Get<uint8_t*>()) = 0xC3;
-
-		if (ImGui::Button("asd"))
-		{
-			QUEUE_JOB()
-			{
-				static int i = 0;
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, i++, FALSE);
-			}
-			END_JOB()
-		}
 
 		ImGui::Separator();
 
@@ -763,7 +738,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Enable"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				HUD::_ENABLE_HUD_CONTEXT(joaat(HUDContextList[CurCtx]));
 			}
@@ -772,7 +747,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Disable"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				HUD::_DISABLE_HUD_CONTEXT(joaat(HUDContextList[CurCtx]));
 			}
@@ -876,7 +851,7 @@ namespace Menu
 
 		if (ImGui::Button("Clear Wanted", ImVec2(150, 0)))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::ClearWanted();
 			}
@@ -894,18 +869,12 @@ namespace Menu
 		ImGui::BeginGroup();
 
 		if (ImGui::Button("TP To Waypoint", ImVec2(150, 0)))
-		{
-			QUEUE_JOB()
-			{
-				Features::TeleportToWaypoint();
-			}
-			END_JOB()
-		}
+			Features::TeleportToWaypoint();
 
 		ImGui::PushButtonRepeat(true);
 		if (ImGui::Button("TP Through Door", ImVec2(150, 0)))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::TeleportThroughDoor();
 			}
@@ -923,9 +892,9 @@ namespace Menu
 		{
 			if (ImGui::Button("TP To Last Mount", ImVec2(150, 0)))
 			{
-				QUEUE_JOB()
+				QUEUE_JOB(=)
 				{
-					PED::SET_PED_ONTO_MOUNT(g_LocalPlayer.m_Entity, g_LocalPlayer.m_LastMount, -1, TRUE);
+					PED::SET_PED_ONTO_MOUNT(g_LocalPlayer.m_Entity, g_LocalPlayer.m_LastMount, -1, true);
 				}
 				END_JOB()
 			}
@@ -937,7 +906,7 @@ namespace Menu
 
 		if (ImGui::Button("Suicide", ImVec2(70, 0)))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, 0, 0);
 			}
@@ -946,9 +915,9 @@ namespace Menu
 
 		if (ImGui::Button("Clone", ImVec2(70, 0)))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
-				PED::CLONE_PED(g_LocalPlayer.m_Entity, FALSE, FALSE, TRUE);
+				PED::CLONE_PED(g_LocalPlayer.m_Entity, false, false, true);
 			}
 			END_JOB()
 		}
@@ -962,7 +931,7 @@ namespace Menu
 		
 		if (ImGui::Button("Spawn Good Honor Enemy", ImVec2(220, 0)))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::SpawnGoodHonorEnemy();
 			}
@@ -971,7 +940,7 @@ namespace Menu
 
 		if (ImGui::Button("Spawn Bad Honor Enemy", ImVec2(220, 0)))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::SpawnBadHonorEnemy();
 			}
@@ -984,23 +953,23 @@ namespace Menu
 
 		if (ImGui::Button("Set Legend Of The West Outfit"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
 				if (model == PLAYER_ZERO)
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, FALSE);
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, false);
 			}
 			END_JOB()
 		}
 		if (ImGui::Button("Set Naked Outfit"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
 				if (model == PLAYER_ZERO)
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 14, FALSE);
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 14, false);
 				else if (model == PLAYER_THREE)
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 28, FALSE);
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 28, false);
 			}
 			END_JOB()
 		}
@@ -1011,9 +980,9 @@ namespace Menu
 	void RenderPlayerCheckboxes()
 	{
 		ImGui::BeginGroup();
-		if (ImGui::Checkbox("God Mode", g_Settings["god_mode"].get<bool*>()) && !g_Settings["god_mode"].get_ref<bool&>())
+		if (ImGui::Checkbox("God Mode", g_Settings["god_mode"].get<bool*>()) && !g_Settings["god_mode"].get<bool>())
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::SetGodmode(false);
 			}
@@ -1051,32 +1020,15 @@ namespace Menu
 	{
 		const bool PedSpawned = PedDebug.ent;
 
-		ImGui::BeginGroup();
-
-		// Ped Status
-		if (!PedSpawned)
-			ImGui::BeginDisabled();
-		
-		ImGui::Text("Entity Index: %u (0x%X)", PedDebug.ent, PedDebug.ent);
-		ImGui::Text("Coords: %.2f, %.2f, %.2f", PedDebug.pos.x, PedDebug.pos.y, PedDebug.pos.z);
-		ImGui::Text("Heading: %.2f", PedDebug.head);
-		ImGui::Text("Health: %d/%d", PedDebug.health, PedDebug.max_health);
-		ImGui::Text("Injured: %s", (PedDebug.injured ? "true" : "false"));
-		
-		if (!PedSpawned)
-			ImGui::EndDisabled();
-
-		ImGui::EndGroup();
-		ImGui::SameLine();
+		ImGui::PushItemWidth(350.0f);
 		ImGui::BeginGroup();
 
 		// Ped controls
 		if (ImGui::Button("Spawn"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
-				PedDebug.ent = PED::CLONE_PED(g_LocalPlayer.m_Entity, FALSE, FALSE, TRUE);
-				//PedDebug.ent = Features::SpawnPed(PedDebug.model);
+				PedDebug.ent = Features::SpawnPed(PedDebug.model);
 				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedDebug.model);
 			}
 			END_JOB()
@@ -1086,7 +1038,7 @@ namespace Menu
 			ImGui::BeginDisabled();
 		if (ImGui::Button("Despawn"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				Features::DeletePed(PedDebug.ent);
 				Features::EndSpawnPed(PedDebug.model, PedDebug.ent);
@@ -1097,7 +1049,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Resurrect"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				PED::RESURRECT_PED(PedDebug.ent);
 			}
@@ -1106,7 +1058,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Revive"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				PED::REVIVE_INJURED_PED(PedDebug.ent);
 			}
@@ -1115,18 +1067,49 @@ namespace Menu
 
 		if (ImGui::Button("Set Random Component Variations"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
 				PED::SET_PED_RANDOM_COMPONENT_VARIATION(PedDebug.ent, 0);
 			}
 			END_JOB()
 		}
-		
+
 		if (ImGui::Button("Set Random Outfit Variations"))
 		{
-			QUEUE_JOB()
+			QUEUE_JOB(=)
 			{
-				PED::_SET_RANDOM_OUTFIT_VARIATION(PedDebug.ent, TRUE);
+				PED::_SET_RANDOM_OUTFIT_VARIATION(PedDebug.ent, true);
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Set Good Honor"))
+		{
+			QUEUE_JOB(=)
+			{
+				DECORATOR::DECOR_SET_INT(PedDebug.ent, "honor_override", -9999);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Set Bad Honor"))
+		{
+			QUEUE_JOB(=)
+			{
+				DECORATOR::DECOR_SET_INT(PedDebug.ent, "honor_override", 9999);
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("TP Player To Ped"))
+			Features::TeleportOnGround(PedDebug.pos);
+		ImGui::SameLine();
+		if (ImGui::Button("TP Ped To Player"))
+		{
+			QUEUE_JOB(=)
+			{
+				const Vector3& pos = g_LocalPlayer.m_Pos;
+				ENTITY::SET_ENTITY_COORDS(PedDebug.ent, pos.x, pos.y, pos.z, false, false, false, false);
 			}
 			END_JOB()
 		}
@@ -1134,12 +1117,30 @@ namespace Menu
 			ImGui::EndDisabled();
 
 		ImGui::EndGroup();
-		ImGui::Separator();
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
 		ImGui::BeginGroup();
 
 		ImGui::Checkbox("Freeze", &PedDebug.freeze);
 		ImGui::Checkbox("Invincible", &PedDebug.invincible);
 		ImGui::Checkbox("Visible", &PedDebug.visible);
+
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		// Ped Status
+		if (!PedSpawned)
+			ImGui::BeginDisabled();
+
+		ImGui::Text("Entity Index: %u (0x%X)", PedDebug.ent, PedDebug.ent);
+		ImGui::Text("Coords: %.2f, %.2f, %.2f", PedDebug.pos.x, PedDebug.pos.y, PedDebug.pos.z);
+		ImGui::Text("Heading: %.2f", PedDebug.head);
+		ImGui::Text("Health: %d/%d", PedDebug.health, PedDebug.max_health);
+		ImGui::Text("Injured: %s", (PedDebug.injured ? "true" : "false"));
+
+		if (!PedSpawned)
+			ImGui::EndDisabled();
 
 		ImGui::EndGroup();
 	}

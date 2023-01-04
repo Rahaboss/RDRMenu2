@@ -6,9 +6,9 @@
 
 namespace Features
 {
-	void AddMoney(const int& amount_cents)
+	void AddMoney(int AmountCents)
 	{
-		MONEY::_MONEY_INCREMENT_CASH_BALANCE(amount_cents, ADD_REASON_DEFAULT);
+		MONEY::_MONEY_INCREMENT_CASH_BALANCE(AmountCents, ADD_REASON_DEFAULT);
 	}
 
 	void ClearWanted()
@@ -57,9 +57,9 @@ namespace Features
 			g_LocalPlayer.m_Entity = PLAYER::GET_PLAYER_PED_SCRIPT_INDEX(g_LocalPlayer.m_Index);
 			g_LocalPlayer.m_Mount = PED::GET_MOUNT(g_LocalPlayer.m_Entity);
 			g_LocalPlayer.m_LastMount = PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER(g_LocalPlayer.m_Index);
-			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, FALSE);
-			g_LocalPlayer.m_Ped = Pointers::GetPlayerPed(g_LocalPlayer.m_Index);
-			g_LocalPlayer.m_Pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, false);
+			g_LocalPlayer.m_Pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, true, true);
+			g_LocalPlayer.m_Ped = CPedFactory::GetLocalPed();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -83,15 +83,15 @@ namespace Features
 		return g_LocalPlayer.m_Vehicle;
 	}
 
-	void GiveGoldCores(const Ped& ped)
+	void GiveGoldCores(Ped ped)
 	{
-		QUEUE_JOB(ped)
+		QUEUE_JOB(=)
 		{
 			for (int i = 0; i < 3; i++)
 			{
 				constexpr float Duration = 10000.0f; // seconds
 				constexpr int CoreValue = 100; // 0 - 100
-				constexpr BOOL Sound = FALSE;
+				constexpr BOOL Sound = false;
 
 				ATTRIBUTE::DISABLE_ATTRIBUTE_OVERPOWER(ped, i);
 				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(ped, i, CoreValue);
@@ -105,54 +105,19 @@ namespace Features
 	void NoSliding()
 	{
 		// PCF_0x435F091E = set ped can run into steep slope
-		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, PCF_0x435F091E, TRUE);
+		PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Entity, PCF_0x435F091E, true);
 		if (g_LocalPlayer.m_Mount)
-			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, PCF_0x435F091E, TRUE);
+			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, PCF_0x435F091E, true);
 	}
 
-	void PrintPedAttributes(Ped ped)
+	void RemoveMoney(int AmountCents)
 	{
-		if (!ped)
-			return;
-
-		constexpr const char* AttributeNames[]{
-			"PA_HEALTH", "PA_STAMINA", "PA_SPECIALABILITY", "PA_COURAGE", "PA_AGILITY", "PA_SPEED",
-			"PA_ACCELERATION", "PA_BONDING", "SA_HUNGER", "SA_FATIGUED", "SA_INEBRIATED", "SA_POISONED",
-			"SA_BODYHEAT", "SA_BODYWEIGHT", "SA_OVERFED", "SA_SICKNESS", "SA_DIRTINESS", "SA_DIRTINESSHAT",
-			"MTR_STRENGTH", "MTR_GRIT", "MTR_INSTINCT", "PA_UNRULINESS", "SA_DIRTINESSSKIN",
-		};
-		static_assert(ARRAYSIZE(AttributeNames) == MAX_ATTRIBUTES);
-			
-		TRY
-		{
-			//std::cout << "Attr,Rank,BaseRank,BonusRank,MaxRank,DefaultRank,DefaultMaxRank,Points,MaxPoints\n";
-			for (int i = 0; i < MAX_ATTRIBUTES; i++)
-			{
-				const char* Attr = AttributeNames[i];
-				int Rank = ATTRIBUTE::GET_ATTRIBUTE_RANK(ped, i);
-				int BaseRank = ATTRIBUTE::GET_ATTRIBUTE_BASE_RANK(ped, i);
-				int BonusRank = ATTRIBUTE::GET_ATTRIBUTE_BONUS_RANK(ped, i);
-				int MaxRank = ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(ped, i);
-				int DefaultRank = ATTRIBUTE::GET_DEFAULT_ATTRIBUTE_RANK(ped, i);
-				int DefaultMaxRank = ATTRIBUTE::GET_DEFAULT_MAX_ATTRIBUTE_RANK(ped, i);
-				int Points = ATTRIBUTE::GET_ATTRIBUTE_POINTS(ped, i);
-				int MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
-				//std::cout << Attr << ',' << Rank << ',' << BaseRank << ',' << BonusRank << ',' << MaxRank << ','
-				//	<< DefaultRank << ',' << DefaultMaxRank << ',' << Points << ',' << MaxPoints << '\n';
-				std::cout << Attr << " (" << Points << "/" << MaxPoints << ")\n";
-			}
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-
-	void RemoveMoney(const int& amount_cents)
-	{
-		MONEY::_MONEY_DECREMENT_CASH_BALANCE(amount_cents);
+		MONEY::_MONEY_DECREMENT_CASH_BALANCE(AmountCents);
 	}
 
 	void RestoreHorseCores()
 	{
-		QUEUE_JOB()
+		QUEUE_JOB(=)
 		{
 			if (!g_LocalPlayer.m_Mount)
 				return;
@@ -160,7 +125,7 @@ namespace Features
 			for (int i = 0; i < 3; i++)
 				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Mount, i, 100);
 
-			ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, FALSE), FALSE);
+			ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Mount, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Mount, false), false);
 			PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
 		}
 		END_JOB()
@@ -168,14 +133,14 @@ namespace Features
 
 	void RestorePlayerCores()
 	{
-		QUEUE_JOB()
+		QUEUE_JOB(=)
 		{
 			for (int i = 0; i < 3; i++)
 				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(g_LocalPlayer.m_Entity, i, 100);
 
-			ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Entity, FALSE), FALSE);
+			ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, ENTITY::GET_ENTITY_MAX_HEALTH(g_LocalPlayer.m_Entity, false), false);
 			PLAYER::RESTORE_PLAYER_STAMINA(g_LocalPlayer.m_Index, 100.0);
-			PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, FALSE);
+			PLAYER::_SPECIAL_ABILITY_START_RESTORE(g_LocalPlayer.m_Index, -1, false);
 			PED::CLEAR_PED_WETNESS(g_LocalPlayer.m_Entity);
 		}
 		END_JOB()
@@ -196,9 +161,9 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
-	void SetMoney(const int& amount_cents)
+	void SetMoney(int AmountCents)
 	{
-		int amount = amount_cents - GetMoney();
+		int amount = AmountCents - GetMoney();
 		if (amount > 0)
 			AddMoney(amount);
 		else if (amount < 0)
@@ -231,7 +196,7 @@ namespace Features
 
 	void Teleport(float x, float y, float z)
 	{
-		ENTITY::SET_ENTITY_COORDS(GetMainEntity(), x, y, z, FALSE, FALSE, FALSE, FALSE);
+		ENTITY::SET_ENTITY_COORDS(GetMainEntity(), x, y, z, false, false, false, false);
 	}
 
 	void Teleport(const Vector3& pos)
@@ -244,7 +209,7 @@ namespace Features
 		QUEUE_JOB(=)
 		{
 			Teleport(x, y, z);
-			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), TRUE);
+			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), true);
 		}
 		END_JOB()
 	}
@@ -261,7 +226,7 @@ namespace Features
 
 	void TeleportToWaypoint()
 	{
-		TRY
+		QUEUE_JOB(=)
 		{
 			Vector3 coords{};
 			bool found = false, playerBlip = false;
@@ -289,7 +254,7 @@ namespace Features
 
 			if (!found)
 			{
-				std::cout << "Waypoint not active!\n";
+				printf("Waypoint not active.\n");
 				return;
 			}
 
@@ -315,6 +280,6 @@ namespace Features
 
 			Teleport(coords);
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		END_JOB()
 	}
 }

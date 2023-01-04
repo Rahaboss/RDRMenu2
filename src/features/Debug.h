@@ -6,8 +6,7 @@
 namespace Features
 {
 	void* GetBlipCollection();
-	CPedFactory* GetPedFactory();
-	void PrintNativeHandlerAddress(const uint64_t& hash);
+	void PrintNativeHandlerAddress(uint64_t hash);
 	void UnlockSPPreorderBonus();
 	void PlayDinoLadyCutscene();
 	void PlayFishCollectorCutscene();

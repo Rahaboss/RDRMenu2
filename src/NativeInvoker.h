@@ -27,7 +27,7 @@ public:
 		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
 	}
 
-	static scrNativeHandler GetHandler(const uint64_t& hash);
+	static scrNativeHandler GetHandler(uint64_t hash);
 
 private:
 	void FixVectors();
@@ -35,7 +35,7 @@ private:
 public:
 	void PrintNativeStackInfo(uint64_t Hash, void* Handler);
 
-	void EndCall(const uint64_t& hash);
+	void EndCall(uint64_t hash);
 
 	template <typename T>
 	T GetReturnValue()

@@ -2,7 +2,7 @@
 
 #include "NativeInvoker.h"
 
-// Generated Fri, 09 Sep 2022 00:15:45 GMT
+// Generated Wed, 04 Jan 2023 14:36:56 GMT
 // https://alloc8or.re/rdr3/nativedb/
 
 #define NATIVE_DECL __forceinline
@@ -1521,7 +1521,7 @@ namespace DECORATOR
 	// Sets property to int.
 	NATIVE_DECL BOOL DECOR_SET_INT(Entity entity, const char* propertyName, int value) { return invoke<BOOL>(0xE88F4D7F52A6090F, entity, propertyName, value); } // 0xE88F4D7F52A6090F 0xDB718B21 b1207
 	NATIVE_DECL BOOL _DECOR_SET_UINT8(Entity entity, const char* propertyName, int value) { return invoke<BOOL>(0x4BDC83150D43772D, entity, propertyName, value); } // 0x4BDC83150D43772D b1207
-	NATIVE_DECL BOOL _DECOR_SET_STRING(Entity entity, const char* propertyName, const char* value) { return invoke<BOOL>(0x0671C1A3FF7AFDFC, entity, propertyName, value); } // 0x0671C1A3FF7AFDFC b1207
+	NATIVE_DECL BOOL DECOR_SET_STRING(Entity entity, const char* propertyName, const char* value) { return invoke<BOOL>(0x0671C1A3FF7AFDFC, entity, propertyName, value); } // 0x0671C1A3FF7AFDFC b1207
 	NATIVE_DECL BOOL DECOR_GET_BOOL(Entity entity, const char* propertyName) { return invoke<BOOL>(0xDEF3F1B071ABB197, entity, propertyName); } // 0xDEF3F1B071ABB197 0xDBCE51E0 b1207
 	NATIVE_DECL float DECOR_GET_FLOAT(Entity entity, const char* propertyName) { return invoke<float>(0xE5FF70CD842CA9D4, entity, propertyName); } // 0xE5FF70CD842CA9D4 0x8DE5382F b1207
 	NATIVE_DECL int DECOR_GET_INT(Entity entity, const char* propertyName) { return invoke<int>(0x44DB62727762FD9B, entity, propertyName); } // 0x44DB62727762FD9B 0xDDDE59B5 b1207
@@ -1529,7 +1529,7 @@ namespace DECORATOR
 	// Returns whether or not the specified property is set for the entity.
 	NATIVE_DECL BOOL DECOR_EXIST_ON(Entity entity, const char* propertyName) { return invoke<BOOL>(0xD9D1CDBF3464DCDF, entity, propertyName); } // 0xD9D1CDBF3464DCDF 0x74EF9C40 b1207
 	NATIVE_DECL BOOL DECOR_REMOVE(Entity entity, const char* propertyName) { return invoke<BOOL>(0x2BA7F5877A088A1D, entity, propertyName); } // 0x2BA7F5877A088A1D 0xE0E2640B b1207
-	NATIVE_DECL BOOL _DECOR_REMOVE_ALL(Entity entity) { return invoke<BOOL>(0x88942780E0ADEA42, entity); } // 0x88942780E0ADEA42 b1207
+	NATIVE_DECL BOOL DECOR_REMOVE_ALL(Entity entity) { return invoke<BOOL>(0x88942780E0ADEA42, entity); } // 0x88942780E0ADEA42 b1207
 	NATIVE_DECL void DECOR_REGISTER(const char* propertyName, int type) { invoke<void>(0x0B253D644E3C36B3, propertyName, type); } // 0x0B253D644E3C36B3 0x68BD42A9 b1207
 	NATIVE_DECL void _DECOR_REGISTER_2(const char* propertyName, int type, BOOL p2) { invoke<void>(0x4587374F88B7F6C2, propertyName, type, p2); } // 0x4587374F88B7F6C2 b1207
 	// type: see DECOR_REGISTER
@@ -1635,7 +1635,7 @@ namespace ENTITY
 	NATIVE_DECL Vector3 _0x3AB3A77672F6473F(Any p0, Any p1, Any p2, Any p3) { return invoke<Vector3>(0x3AB3A77672F6473F, p0, p1, p2, p3); } // 0x3AB3A77672F6473F b1207
 	NATIVE_DECL Player GET_NEAREST_PLAYER_TO_ENTITY(Entity entity, Ped playerPedToIgnore, int flags) { return invoke<Player>(0x990E294FC387FB88, entity, playerPedToIgnore, flags); } // 0x990E294FC387FB88 0xCE17FDEC b1207
 	NATIVE_DECL Player GET_NEAREST_PLAYER_TO_ENTITY_ON_TEAM(Entity entity, int team, Ped playerPedToIgnore, int flags) { return invoke<Player>(0xB2C30C3B4AFF718C, entity, team, playerPedToIgnore, flags); } // 0xB2C30C3B4AFF718C 0xB1808F56 b1207
-	NATIVE_DECL Player _GET_NEAREST_PARTICIPANT_TO_ENTITY(Entity entity) { return invoke<Player>(0x6888A43C35A5F630, entity); } // 0x6888A43C35A5F630 b1207
+	NATIVE_DECL Player GET_NEAREST_PARTICIPANT_TO_ENTITY(Entity entity) { return invoke<Player>(0x6888A43C35A5F630, entity); } // 0x6888A43C35A5F630 b1207
 	NATIVE_DECL BOOL PLACE_ENTITY_ON_GROUND_PROPERLY(Entity entity, BOOL p1) { return invoke<BOOL>(0x9587913B9E772D29, entity, p1); } // 0x9587913B9E772D29 b1207
 	// Returns:
 	// 0 = no entity
@@ -1962,7 +1962,7 @@ namespace ENTITY
 namespace EVENT
 {
 	NATIVE_DECL void SET_DECISION_MAKER(Ped ped, Hash name) { invoke<void>(0x8AE2F981CDDB8FA4, ped, name); } // 0x8AE2F981CDDB8FA4 0x19CEAC9E b1207
-	NATIVE_DECL void _SET_DECISION_MAKER_DEFAULT(Ped ped) { invoke<void>(0x6B9C5C38838FB6E6, ped); } // 0x6B9C5C38838FB6E6 b1207
+	NATIVE_DECL void SET_DECISION_MAKER_TO_DEFAULT(Ped ped) { invoke<void>(0x6B9C5C38838FB6E6, ped); } // 0x6B9C5C38838FB6E6 b1207
 	NATIVE_DECL ScrHandle _CREATE_SHOCKING_EVENT(Any* args) { return invoke<ScrHandle>(0xCA1315C33B9A2847, args); } // 0xCA1315C33B9A2847 b1207
 	// eventType: https://alloc8or.re/rdr3/doc/enums/eEventType.txt
 	// https://github.com/femga/rdr3_discoveries/blob/master/AI/EVENTS
@@ -1977,7 +1977,7 @@ namespace EVENT
 	// eventType: https://alloc8or.re/rdr3/doc/enums/eEventType.txt
 	NATIVE_DECL void _REMOVE_ALL_SHOCKING_EVENTS_OF_TYPE_IN_AREA(Hash eventType, float x, float y, float z, float radius, BOOL p5) { invoke<void>(0x6A648D42BF271DC7, eventType, x, y, z, radius, p5); } // 0x6A648D42BF271DC7 b1207
 	// eventType: https://alloc8or.re/rdr3/doc/enums/eEventType.txt
-	NATIVE_DECL void _REMOVE_ALL_SHOCKING_EVENTS_OF_TYPE(Hash eventType, BOOL p1) { invoke<void>(0x118873DD538490B4, eventType, p1); } // 0x118873DD538490B4 b1207
+	NATIVE_DECL void REMOVE_ALL_SHOCKING_EVENTS_OF_TYPE(Hash eventType, BOOL p1) { invoke<void>(0x118873DD538490B4, eventType, p1); } // 0x118873DD538490B4 b1207
 	NATIVE_DECL void REMOVE_SHOCKING_EVENT_SPAWN_BLOCKING_AREAS() { invoke<void>(0xDB249021652420C5); } // 0xDB249021652420C5 0xA0CE89C8 b1207
 	// _ADD* (_ADD_SHOCKING_EVENT_* ?)
 	NATIVE_DECL Any _0x36D0F2BA2C0D9BDE(Entity entity, int p1) { return invoke<Any>(0x36D0F2BA2C0D9BDE, entity, p1); } // 0x36D0F2BA2C0D9BDE b1207
@@ -3618,7 +3618,7 @@ namespace LAW
 namespace LOCALIZATION
 {
 	// Same return values as GET_CURRENT_LANGUAGE
-	NATIVE_DECL int _LOCALIZATION_GET_SYSTEM_LANGUAGE() { return invoke<int>(0x3C1A05F86AE6ACB5); } // 0x3C1A05F86AE6ACB5 b1207
+	NATIVE_DECL int LOCALIZATION_GET_SYSTEM_LANGUAGE() { return invoke<int>(0x3C1A05F86AE6ACB5); } // 0x3C1A05F86AE6ACB5 b1207
 	// 0 = american (en-US)
 	// 1 = french (fr-FR)
 	// 2 = german (de-DE)
@@ -3911,9 +3911,9 @@ namespace MISC
 	// Returns rage::fwTimer::sm_nonScaledClippedTime
 	NATIVE_DECL int _GET_GAME_TIMER_NON_SCALED_CLIPPED() { return invoke<int>(0x483B8C542103AD72); } // 0x483B8C542103AD72 b1207
 	NATIVE_DECL int GET_SYSTEM_TIME() { return invoke<int>(0xBE7F225417E35A7C); } // 0xBE7F225417E35A7C b1207
-	NATIVE_DECL int _GET_NUMBER_OF_MICROSECONDS_SINCE_LAST_CALL() { return invoke<int>(0xB0CE5E5ED8BB3581); } // 0xB0CE5E5ED8BB3581 b1207
-	NATIVE_DECL int _GET_SCRIPT_TIME_WITHIN_FRAME_IN_MICROSECONDS() { return invoke<int>(0x63219768C586667C); } // 0x63219768C586667C b1207
-	NATIVE_DECL void _RESET_SCRIPT_TIME_WITHIN_FRAME() { invoke<void>(0x1411A7CBC3A6EB7B); } // 0x1411A7CBC3A6EB7B b1207
+	NATIVE_DECL int GET_NUMBER_OF_MICROSECONDS_SINCE_LAST_CALL() { return invoke<int>(0xB0CE5E5ED8BB3581); } // 0xB0CE5E5ED8BB3581 b1207
+	NATIVE_DECL int GET_SCRIPT_TIME_WITHIN_FRAME_IN_MICROSECONDS() { return invoke<int>(0x63219768C586667C); } // 0x63219768C586667C b1207
+	NATIVE_DECL void RESET_SCRIPT_TIME_WITHIN_FRAME() { invoke<void>(0x1411A7CBC3A6EB7B); } // 0x1411A7CBC3A6EB7B b1207
 	NATIVE_DECL float GET_FRAME_TIME() { return invoke<float>(0x5E72022914CE3C38); } // 0x5E72022914CE3C38 0x96374262 b1207
 	// Old name: _GET_BENCHMARK_TIME
 	NATIVE_DECL float GET_SYSTEM_TIME_STEP() { return invoke<float>(0x3F3172FEAE3AFE1C); } // 0x3F3172FEAE3AFE1C b1207
@@ -4109,7 +4109,8 @@ namespace MISC
 	NATIVE_DECL Any _0x6C7B68D3CE60E8DE(Any p0) { return invoke<Any>(0x6C7B68D3CE60E8DE, p0); } // 0x6C7B68D3CE60E8DE b1207
 	NATIVE_DECL Any _0x627B68D9CE6EE8DE(Any p0) { return invoke<Any>(0x627B68D9CE6EE8DE, p0); } // 0x627B68D9CE6EE8DE b1207
 	NATIVE_DECL Any _0x7CF96F1250EF3221(Any p0) { return invoke<Any>(0x7CF96F1250EF3221, p0); } // 0x7CF96F1250EF3221 b1207
-	NATIVE_DECL void _COPY_MEMORY(Any* dst, Any* src, int size) { invoke<void>(0xF7AC7DC0DEE7C9BE, dst, src, size); } // 0xF7AC7DC0DEE7C9BE b1207
+	// Old name: _COPY_MEMORY
+	NATIVE_DECL void COPY_SCRIPT_STRUCT(Any* dst, Any* src, int size) { invoke<void>(0xF7AC7DC0DEE7C9BE, dst, src, size); } // 0xF7AC7DC0DEE7C9BE b1207
 	// enum DispatchType
 	// {
 	// 	DT_Invalid,
@@ -4196,10 +4197,10 @@ namespace MISC
 	NATIVE_DECL void NEXT_ONSCREEN_KEYBOARD_RESULT_WILL_DISPLAY_USING_THESE_FONTS(int p0) { invoke<void>(0x5CB71EAA1429A358, p0); } // 0x5CB71EAA1429A358 0x3301EA47 b1207
 	// Appears to remove stealth kill action from memory (?)
 	NATIVE_DECL void ACTION_MANAGER_ENABLE_ACTION(Hash hash, BOOL enable) { invoke<void>(0x7ACF124C12A2B045, hash, enable); } // 0x7ACF124C12A2B045 0x42B484ED b1207
-	NATIVE_DECL Any _0xFD0759658268FD8E(Any p0) { return invoke<Any>(0xFD0759658268FD8E, p0); } // 0xFD0759658268FD8E b1207
+	NATIVE_DECL BOOL ACTION_MANAGER_IS_ACTION_ENABLED(Hash hash) { return invoke<BOOL>(0xFD0759658268FD8E, hash); } // 0xFD0759658268FD8E b1207
 	// Returns GET_GAME_TIMER() / 1000
 	// Only used in rcm_pearson1.ysc
-	NATIVE_DECL int _GET_REAL_GAME_TIMER_IN_SECONDS() { return invoke<int>(0x2E036F0480B8BF02); } // 0x2E036F0480B8BF02 b1207
+	NATIVE_DECL int GET_REAL_WORLD_TIME() { return invoke<int>(0x2E036F0480B8BF02); } // 0x2E036F0480B8BF02 b1207
 	NATIVE_DECL void SET_SUPER_JUMP_THIS_FRAME(Player player) { invoke<void>(0xB3E9BE963F10C445, player); } // 0xB3E9BE963F10C445 0x86745EF3 b1207
 	NATIVE_DECL void SCRIPT_RACE_INIT(int numCheckpoints, int numLaps, int numPlayers, Any p3) { invoke<void>(0x8AE059F47158417E, numCheckpoints, numLaps, numPlayers, p3); } // 0x8AE059F47158417E 0x2D33F15A b1207
 	NATIVE_DECL void SCRIPT_RACE_SHUTDOWN() { invoke<void>(0x334CE0DA4FAF330C); } // 0x334CE0DA4FAF330C 0xDF99925C b1207
@@ -4566,8 +4567,7 @@ namespace NETWORK
 	NATIVE_DECL BOOL _NETWORK_IS_IN_SESSION_LOBBY() { return invoke<BOOL>(0xC5196C42DE19F646); } // 0xC5196C42DE19F646 b1207
 	NATIVE_DECL BOOL NETWORK_IS_SESSION_STARTED() { return invoke<BOOL>(0x9DE624D2FC4B603F); } // 0x9DE624D2FC4B603F 0x9D854A37 b1207
 	NATIVE_DECL BOOL NETWORK_CAN_SESSION_END() { return invoke<BOOL>(0x4EEBC3694E49C572); } // 0x4EEBC3694E49C572 0xE1FCCDBA b1207
-	// _NETWORK_GET_G*
-	NATIVE_DECL int _0x225640E09EFFDC3F() { return invoke<int>(0x225640E09EFFDC3F); } // 0x225640E09EFFDC3F b1207
+	NATIVE_DECL int NETWORK_GET_GAME_MODE() { return invoke<int>(0x225640E09EFFDC3F); } // 0x225640E09EFFDC3F b1207
 	// enum eSessionFlags
 	// {
 	// 	SESSION_FLAG_NONE = 0,
@@ -4667,7 +4667,7 @@ namespace NETWORK
 	NATIVE_DECL BOOL NETWORK_IS_HOST_OF_THIS_SCRIPT() { return invoke<BOOL>(0x83CD99A1E6061AB5); } // 0x83CD99A1E6061AB5 0x6970BA94 b1207
 	NATIVE_DECL Player NETWORK_GET_HOST_OF_THIS_SCRIPT() { return invoke<Player>(0xC7B4D79B01FA7A5C); } // 0xC7B4D79B01FA7A5C 0x89EA7B54 b1232
 	NATIVE_DECL Player NETWORK_GET_HOST_OF_SCRIPT(const char* scriptName, int p1, int p2) { return invoke<Player>(0x1D6A14F1F9A736FC, scriptName, p1, p2); } // 0x1D6A14F1F9A736FC 0x9C95D0BB b1436
-	NATIVE_DECL Player _NETWORK_GET_HOST_OF_THREAD(int threadId) { return invoke<Player>(0xB4A25351D79B444C, threadId); } // 0xB4A25351D79B444C b1207
+	NATIVE_DECL Player NETWORK_GET_HOST_OF_THREAD(int threadId) { return invoke<Player>(0xB4A25351D79B444C, threadId); } // 0xB4A25351D79B444C b1207
 	NATIVE_DECL void NETWORK_SET_MISSION_FINISHED() { invoke<void>(0x3B3D11CD9FFCDFC9); } // 0x3B3D11CD9FFCDFC9 0x3083FAD7 b1207
 	NATIVE_DECL BOOL NETWORK_IS_SCRIPT_ACTIVE(const char* scriptName, int p1, BOOL p2, int p3) { return invoke<BOOL>(0x9D40DF90FAD26098, scriptName, p1, p2, p3); } // 0x9D40DF90FAD26098 0x4A65250C b1207
 	NATIVE_DECL BOOL NETWORK_IS_SCRIPT_ACTIVE_BY_HASH(Hash scriptHash, int p1, BOOL p2, int p3) { return invoke<BOOL>(0x1B89BC43B6E69107, scriptHash, p1, p2, p3); } // 0x1B89BC43B6E69107 b1207
@@ -4803,8 +4803,8 @@ namespace NETWORK
 	NATIVE_DECL void _0xD78A26024BB13E08(Player player) { invoke<void>(0xD78A26024BB13E08, player); } // 0xD78A26024BB13E08 b1207
 	NATIVE_DECL void SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(int netId, BOOL toggle) { invoke<void>(0xE05E81A888FA63C8, netId, toggle); } // 0xE05E81A888FA63C8 0x68D486B2 b1207
 	NATIVE_DECL void SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(int netId, Player player, BOOL toggle) { invoke<void>(0xA8A024587329F36A, netId, player, toggle); } // 0xA8A024587329F36A 0x4D15FDB1 b1207
-	NATIVE_DECL void _0x9ED3108D6847760A(int netHandle, Any p1) { invoke<void>(0x9ED3108D6847760A, netHandle, p1); } // 0x9ED3108D6847760A b1207
-	NATIVE_DECL void _0xD785864798258032(Entity entity, BOOL toggle) { invoke<void>(0xD785864798258032, entity, toggle); } // 0xD785864798258032 b1207
+	NATIVE_DECL void SET_NETWORK_ID_STOP_CLONING(int networkId, BOOL bStopCloning) { invoke<void>(0x9ED3108D6847760A, networkId, bStopCloning); } // 0x9ED3108D6847760A b1207
+	NATIVE_DECL void NETWORK_SET_ENTITY_REMAINS_WHEN_UNNETWORKED(Entity entity, BOOL toggle) { invoke<void>(0xD785864798258032, entity, toggle); } // 0xD785864798258032 b1207
 	// if set to true other network players can't see it
 	// if set to false other network player can see it
 	// =========================================
@@ -4945,7 +4945,7 @@ namespace NETWORK
 	NATIVE_DECL void _0xDCA6ABDB9288FBE4(Player player, BOOL disabled) { invoke<void>(0xDCA6ABDB9288FBE4, player, disabled); } // 0xDCA6ABDB9288FBE4 b1207
 	NATIVE_DECL void _SET_ENTITY_GHOSTED_TO_LOCAL_PLAYER(Entity entity, BOOL toggle) { invoke<void>(0xEE5AE9956743BA20, entity, toggle); } // 0xEE5AE9956743BA20 b1207
 	// Note: this native was added in build 1311.16
-	NATIVE_DECL BOOL _IS_OBJECT_REASSIGNMENT_IN_PROGRESS() { return invoke<BOOL>(0x8FE9EB11EC9CC23A); } // 0x8FE9EB11EC9CC23A b1311
+	NATIVE_DECL BOOL IS_OBJECT_REASSIGNMENT_IN_PROGRESS() { return invoke<BOOL>(0x8FE9EB11EC9CC23A); } // 0x8FE9EB11EC9CC23A b1311
 	// Note: this native was added in build 1311.23
 	NATIVE_DECL int _0x039AD6B57D5179FF() { return invoke<int>(0x039AD6B57D5179FF); } // 0x039AD6B57D5179FF b1311
 	// Note: this native was added in build 1311.16
@@ -4956,8 +4956,8 @@ namespace NETWORK
 	NATIVE_DECL int _GET_NUM_PEER_NEGOTIATION_RESPONSES() { return invoke<int>(0x4FE932E84FE932E8); } // 0x4FE932E84FE932E8 b1311
 	// Must be called from a background script, otherwise it will do nothing.
 	NATIVE_DECL void _NETWORK_DEBUG_REQUEST_ENTITY_POSITION(Any* p0) { invoke<void>(0xFA38B52F91B59075, p0); } // 0xFA38B52F91B59075 b1207
-	NATIVE_DECL int _NETWORK_GET_NETWORK_ID_FROM_ROPE(int ropeId) { return invoke<int>(0x42871327315EDAE8, ropeId); } // 0x42871327315EDAE8 b1207
-	NATIVE_DECL int _NETWORK_GET_ROPE_FROM_NETWORK_ID(int netId) { return invoke<int>(0xEB1A4DD8352EC828, netId); } // 0xEB1A4DD8352EC828 b1207
+	NATIVE_DECL int NETWORK_GET_NETWORK_ID_FROM_ROPE_ID(int ropeId) { return invoke<int>(0x42871327315EDAE8, ropeId); } // 0x42871327315EDAE8 b1207
+	NATIVE_DECL int NETWORK_GET_ROPE_ID_FROM_NETWORK_ID(int netId) { return invoke<int>(0xEB1A4DD8352EC828, netId); } // 0xEB1A4DD8352EC828 b1207
 	NATIVE_DECL void _NETWORK_SPAWN_CONFIG_ADD_SPAWN_POINT(float x, float y, float z, float heading) { invoke<void>(0xFD1AC0B3858F224C, x, y, z, heading); } // 0xFD1AC0B3858F224C b1207
 	NATIVE_DECL void _0xA63E4F050F20021F() { invoke<void>(0xA63E4F050F20021F); } // 0xA63E4F050F20021F b1207
 	NATIVE_DECL void _NETWORK_SPAWN_CONFIG_ADD_EXCLUSION_VOLUME(Volume volume) { invoke<void>(0xEEB7818B1D307212, volume); } // 0xEEB7818B1D307212 b1207
@@ -5014,9 +5014,9 @@ namespace NETWORK
 	NATIVE_DECL BOOL NETWORK_DOES_TUNABLE_EXIST(Hash tunableContext, Hash tunableName) { return invoke<BOOL>(0x85E5F8B9B898B20A, tunableContext, tunableName); } // 0x85E5F8B9B898B20A 0x9FCE9C9A b1207
 	NATIVE_DECL BOOL NETWORK_ACCESS_TUNABLE_INT(Hash tunableContext, Hash tunableName, int* value) { return invoke<BOOL>(0x8BE1146DFD5D4468, tunableContext, tunableName, value); } // 0x8BE1146DFD5D4468 0xE4B3726A b1207
 	NATIVE_DECL BOOL NETWORK_ACCESS_TUNABLE_BOOL(Hash tunableContext, Hash tunableName) { return invoke<BOOL>(0xAA6A47A573ABB75A, tunableContext, tunableName); } // 0xAA6A47A573ABB75A 0x8A04E1FE b1207
-	NATIVE_DECL int _NETWORK_TRY_ACCESS_TUNABLE_INT(Hash tunableContext, Hash tunableName, int defaultValue) { return invoke<int>(0xA25E006B36719774, tunableContext, tunableName, defaultValue); } // 0xA25E006B36719774 b1207
-	NATIVE_DECL float _NETWORK_TRY_ACCESS_TUNABLE_FLOAT(Hash tunableContext, Hash tunableName, float defaultValue) { return invoke<float>(0xA18393089C05E49C, tunableContext, tunableName, defaultValue); } // 0xA18393089C05E49C b1207
-	NATIVE_DECL BOOL _NETWORK_TRY_ACCESS_TUNABLE_BOOL(Hash tunableContext, Hash tunableName, BOOL defaultValue) { return invoke<BOOL>(0xB2AD5D29A99D4B26, tunableContext, tunableName, defaultValue); } // 0xB2AD5D29A99D4B26 b1207
+	NATIVE_DECL int NETWORK_TRY_ACCESS_TUNABLE_INT_HASH(Hash tunableContext, Hash tunableName, int defaultValue) { return invoke<int>(0xA25E006B36719774, tunableContext, tunableName, defaultValue); } // 0xA25E006B36719774 b1207
+	NATIVE_DECL float NETWORK_TRY_ACCESS_TUNABLE_FLOAT_HASH(Hash tunableContext, Hash tunableName, float defaultValue) { return invoke<float>(0xA18393089C05E49C, tunableContext, tunableName, defaultValue); } // 0xA18393089C05E49C b1207
+	NATIVE_DECL BOOL NETWORK_TRY_ACCESS_TUNABLE_BOOL_HASH(Hash tunableContext, Hash tunableName, BOOL defaultValue) { return invoke<BOOL>(0xB2AD5D29A99D4B26, tunableContext, tunableName, defaultValue); } // 0xB2AD5D29A99D4B26 b1207
 	NATIVE_DECL void _0x894B5ECAB45D2342(int netHandle, Any p1) { invoke<void>(0x894B5ECAB45D2342, netHandle, p1); } // 0x894B5ECAB45D2342 b1207
 	NATIVE_DECL void NETWORK_DISABLE_PROXIMITY_MIGRATION(int netID) { invoke<void>(0x407091CF6037118E, netID); } // 0x407091CF6037118E 0x9F82917F b1207
 	NATIVE_DECL int _0xCE5E79D9E303628E() { return invoke<int>(0xCE5E79D9E303628E); } // 0xCE5E79D9E303628E b1355
@@ -5024,7 +5024,7 @@ namespace NETWORK
 	NATIVE_DECL BOOL CLOUD_HAS_REQUEST_COMPLETED(int id) { return invoke<BOOL>(0x4C61B39930D045DA, id); } // 0x4C61B39930D045DA 0xBAF52DD8 b1207
 	NATIVE_DECL BOOL CLOUD_DID_REQUEST_SUCCEED(int id) { return invoke<BOOL>(0x3A3D5568AF297CD5, id); } // 0x3A3D5568AF297CD5 0x9B9AFFF1 b1207
 	NATIVE_DECL BOOL _GET_LAUNCH_PARAM_EXISTS(const char* paramName) { return invoke<BOOL>(0x02E97CE283648CD9, paramName); } // 0x02E97CE283648CD9 b1207
-	NATIVE_DECL const char* _GET_LAUNCH_PARAM_VALUE(const char* paramName) { return invoke<const char*>(0x65E65CA6A0FE59D4, paramName); } // 0x65E65CA6A0FE59D4 b1207
+	NATIVE_DECL const char* GET_LAUNCH_PARAM_VALUE(const char* paramName) { return invoke<const char*>(0x65E65CA6A0FE59D4, paramName); } // 0x65E65CA6A0FE59D4 b1207
 	NATIVE_DECL void _SET_LAUNCH_PARAM_VALUE(const char* paramName, const char* value) { invoke<void>(0x668AF6E4933AC13F, paramName, value); } // 0x668AF6E4933AC13F b1207
 	NATIVE_DECL void _CLEAR_LAUNCH_PARAM(const char* paramName) { invoke<void>(0x782C94DB6469634D, paramName); } // 0x782C94DB6469634D b1207
 	NATIVE_DECL const char* _GET_LAUNCH_PARAM_STRING() { return invoke<const char*>(0xC59AB6A04333C502); } // 0xC59AB6A04333C502 b1207

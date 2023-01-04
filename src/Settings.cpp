@@ -3,8 +3,8 @@
 
 namespace Settings
 {
-	static nlohmann::json s_DefaultSettings =
-		R"({
+	static nlohmann::json s_DefaultSettings{
+	R"({
 			"enable_imgui_demo": false,
 			"god_mode": false,
 			"gold_cores": false,
@@ -24,7 +24,8 @@ namespace Settings
 			"enable_overlay": false,
 			"clean_player": false,
 			"log_created_cutscenes": false
-		})"_json;
+		})"_json
+	};
 
 	std::filesystem::path GetSettingsFolderPath()
 	{
@@ -98,7 +99,7 @@ namespace Settings
 
 		if (UpdateFile)
 		{
-			std::cout << "Updating settings.\n";
+			printf("Updating settings.\n");
 			Save(Path);
 		}
 	}

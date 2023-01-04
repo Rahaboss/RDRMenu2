@@ -76,7 +76,7 @@ namespace Renderer
 	{
 		TRY
 		{
-			std::cout << "Creating renderer.\n";
+			printf("Creating renderer.\n");
 		
 			if (!Pointers::SwapChain || !(*Pointers::SwapChain))
 				return;
@@ -104,7 +104,7 @@ namespace Renderer
 	{
 		TRY
 		{ 
-			std::cout << "Destroying renderer.\n";
+			printf("Destroying renderer.\n");
 			if (!Setup)
 				return;
 
@@ -116,20 +116,16 @@ namespace Renderer
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
-	// Very weird bug that fixes broken input
-	static bool FirstFrame = true;
 	void Present()
 	{
 		TRY
 		{
-			NewFrame();
-		
-			if (FirstFrame)
-				FirstFrame = false;
-			else
+			if (Setup)
+			{
+				NewFrame();
 				Menu::RenderMenu();
-		
-			EndFrame();
+				EndFrame();
+			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -141,7 +137,7 @@ namespace Renderer
 			ImGui_ImplDX12_NewFrame();
 			ImGui_ImplWin32_NewFrame();
 			ImGui::NewFrame();
-			ImGui::GetIO().MouseDrawCursor = MenuOpen;
+			ImGui::GetIO().MouseDrawCursor = Menu::IsOpen;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -306,23 +302,22 @@ namespace Renderer
 			if (uMsg == WM_KEYUP && wParam == VK_INSERT)
 			{
 				// Persist and restore the cursor position between menu instances
-				if (MenuOpen)
+				if (Menu::IsOpen)
 					GetCursorPos(&CursorCoords);
 				else if (CursorCoords.x + CursorCoords.y != 0)
 					SetCursorPos(CursorCoords.x, CursorCoords.y);
 
-				MenuOpen = !MenuOpen;
+				Menu::IsOpen = !Menu::IsOpen;
 			}
-
-			if (MenuOpen)
-			{
+			
+			if (Menu::IsOpen)
 				ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
-				return true;
-			}
 
+			// Always call the original event handler even if menu is open
 			return CallWindowProc((WNDPROC)_WndProc, hwnd, uMsg, wParam, lParam);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-		return false;
+		
+		return 0;
 	}
 }

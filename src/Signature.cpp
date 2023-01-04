@@ -46,7 +46,7 @@ Signature::Signature(std::string_view ida_pattern)
 			// Check for double question mark
 			if (ida_pattern[i + 1] == '?')
 				i++;
-			m_bytes.push_back(0);
+			m_Bytes.push_back(0);
 			continue;
 		}
 
@@ -57,7 +57,7 @@ Signature::Signature(std::string_view ida_pattern)
 		// Construct whole byte from two characters
 		uint8_t c1 = to_hex(ida_pattern[i]);
 		uint8_t c2 = to_hex(ida_pattern[i + 1]);
-		m_bytes.push_back((c1 * 0x10) + c2);
+		m_Bytes.push_back((c1 * 0x10) + c2);
 		// Skip over the second part of the byte
 		i++;
 	}
@@ -72,18 +72,18 @@ Signature::Signature(void* code_pattern, std::string_view mask)
 		// Check for unknown byte in mask
 		if (mask[i] == '?')
 		{
-			m_bytes.push_back(0);
+			m_Bytes.push_back(0);
 			continue;
 		}
 
-		m_bytes.push_back(static_cast<uint8_t*>(code_pattern)[i]);
+		m_Bytes.push_back(static_cast<uint8_t*>(code_pattern)[i]);
 	}
 	Scan();
 }
 
-Signature::Signature(const uintptr_t address)
+Signature::Signature(uintptr_t address)
 {
-	m_result = address;
+	m_Result = address;
 }
 
 Signature& Signature::Scan()
@@ -91,16 +91,16 @@ Signature& Signature::Scan()
 	// Helper function to scan for pattern
 	auto check_pattern = [this](const uintptr_t& location) -> bool
 	{
-		for (size_t i = 0; i < m_bytes.size(); i++)
+		for (size_t i = 0; i < m_Bytes.size(); i++)
 		{
-			if (m_bytes[i] && m_bytes[i] != *reinterpret_cast<uint8_t*>(location + i))
+			if (m_Bytes[i] && m_Bytes[i] != *reinterpret_cast<uint8_t*>(location + i))
 				return false;
 		}
 		return true;
 	};
 
 	// Check if already scanned
-	if (m_result)
+	if (m_Result)
 		return *this;
 
 	// Get information about process
@@ -125,35 +125,35 @@ Signature& Signature::Scan()
 			// Check if pattern matches at current location
 			if (check_pattern(curr + i))
 			{
-				m_result = curr + i;
+				m_Result = curr + i;
 				return *this;
 			}
 		}
 	}
 
 	// At this point the scan has failed so m_result is 0
-	assert(m_result);
+	assert(m_Result);
 	return *this;
 }
 
-Signature& Signature::Add(const ptrdiff_t& n)
+Signature& Signature::Add(ptrdiff_t n)
 {
-	m_result += n;
+	m_Result += n;
 	return *this;
 }
 
-Signature& Signature::Sub(const ptrdiff_t& n)
+Signature& Signature::Sub(ptrdiff_t n)
 {
-	m_result -= n;
+	m_Result -= n;
 	return *this;
 }
 
 Signature& Signature::Rip()
 {
-	return Add(*reinterpret_cast<int32_t*>(m_result)).Add(4);
+	return Add(*reinterpret_cast<int32_t*>(m_Result)).Add(4);
 }
 
 uintptr_t Signature::GetRaw()
 {
-	return m_result;
+	return m_Result;
 }

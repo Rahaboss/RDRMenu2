@@ -24,50 +24,38 @@ namespace Features
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 	}
 
-	std::string GetPedModelName(const Hash& hash)
+	std::string GetPedModelName(Hash hash)
 	{
-//#if ENABLE_LARGE_STACK_ITEMS
-		//TRY
-		{
-			auto it = g_PedModelNameList.find(hash);
-			if (it != g_PedModelNameList.end())
-				return it->second;
-		}
-		//EXCEPT{ LOG_EXCEPTION(); }
-//#endif
+		auto it = g_PedModelNameList.find(hash);
+		if (it != g_PedModelNameList.end())
+			return it->second;
 
 		return "Unknown";
 	}
 
-	std::string GetVehicleModelName(const Hash& hash)
+	std::string GetVehicleModelName(Hash hash)
 	{
-//#if ENABLE_LARGE_STACK_ITEMS
-		//TRY
-		{
-			auto it = g_VehicleModelNameList.find(hash);
-			if (it != g_VehicleModelNameList.end())
-				return it->second;
-		}
-		//EXCEPT{ LOG_EXCEPTION(); }
-//#endif 
-
+		auto it = g_VehicleModelNameList.find(hash);
+		if (it != g_VehicleModelNameList.end())
+			return it->second;
+		
 		return "Unknown";
 	}
 
-	bool RequestModel(const Hash& model)
+	bool RequestModel(Hash model)
 	{
 		TRY
 		{
 			if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
 			{
-				std::cout << __FUNCTION__ << ": " << LOG_HEX(model) << " is not a valid model hash!\n";
+				printf("%s: 0x%llX is not a valid model hash!\n", __FUNCTION__, (uint64_t)model);
 				return false;
 			}
 
 			constexpr int MaxRequests = 100;
 			for (int i = 0; i < MaxRequests; i++)
 			{
-				STREAMING::REQUEST_MODEL(model, FALSE);
+				STREAMING::REQUEST_MODEL(model, false);
 				YieldThread();
 				if (STREAMING::HAS_MODEL_LOADED(model))
 					return true;
@@ -78,68 +66,34 @@ namespace Features
 		return false;
 	}
 
-	//void SpawnLegendaryAnimal(const Hash& model_hash, const Hash& legendary_hash, const Hash& outfit_hash)
-	//{
-	//	if (!RequestModel(model_hash))
-	//		return;
-	//
-	//	int outfit = PED::_REQUEST_METAPED_OUTFIT(legendary_hash, outfit_hash);
-	//	if (!PED::_IS_METAPED_OUTFIT_REQUEST_VALID(outfit))
-	//		return;
-	//
-	//	Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
-	//	Ped animal = PED::CREATE_PED(model_hash, pos.x, pos.y, pos.z, 0, 1, 1, 0, 0);
-	//	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(animal, 1);
-	//	FLOCK::_SET_ANIMAL_RARITY(animal, 2);
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableHeadGore, TRUE);
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableLimbGore, TRUE);
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_0x71A55282, TRUE);
-	//
-	//	PED::SET_PED_CONFIG_FLAG(animal, PCF_DisableMelee, TRUE);
-	//	
-	//	ENTITY::SET_ENTITY_HEALTH(animal, 0, g_LocalPlayer.m_Entity);
-	//	
-	//	EVENT::SET_DECISION_MAKER(animal, RAGE_JOAAT("EMTPY"));
-	//
-	//	if (model_hash == RAGE_JOAAT("A_C_ALLIGATOR_02"))
-	//	{
-	//		PED::_SET_RANDOM_OUTFIT_VARIATION(animal, 1);
-	//	}
-	//	else
-	//	{
-	//		PED::_EQUIP_META_PED_OUTFIT(animal, legendary_hash);
-	//		PED::_UPDATE_PED_VARIATION(animal, 0, 1, 1, 1, 0);
-	//	}
-	//}
-
-	Ped SpawnPed(const Hash& model)
+	Ped SpawnPed(Hash model)
 	{
 		Ped ped = 0;
 		
 		if (!RequestModel(model))
 		{
-			std::cout << __FUNCTION__ << ": Couldn't request ped " << GetPedModelName(model) << '\n';
+			printf("%s: Couldn't request ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 			return 0;
 		}
 
 		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
 		ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z,
-			ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), FALSE, FALSE, FALSE, FALSE);
+			ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), false, false, false, false);
 
 		if (!ped)
 		{
-			std::cout << __FUNCTION__ << ": Couldn't spawn ped " << GetPedModelName(model) << '\n';
+			printf("%s: Couldn't spawn ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 			return ped;
 		}
 
 		YieldThread();
 
-		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, TRUE);
-		PED::SET_PED_CAN_BE_TARGETTED(ped, TRUE);
-		PED::SET_PED_CAN_BE_TARGETTED_BY_PLAYER(ped, g_LocalPlayer.m_Index, TRUE);
-		ENTITY::SET_ENTITY_INVINCIBLE(ped, FALSE);
-		ENTITY::SET_ENTITY_CAN_BE_DAMAGED(ped, TRUE);
-		PED::SET_PED_MODEL_IS_SUPPRESSED(ped, FALSE);
+		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, true);
+		PED::SET_PED_CAN_BE_TARGETTED(ped, true);
+		PED::SET_PED_CAN_BE_TARGETTED_BY_PLAYER(ped, g_LocalPlayer.m_Index, true);
+		ENTITY::SET_ENTITY_INVINCIBLE(ped, false);
+		ENTITY::SET_ENTITY_CAN_BE_DAMAGED(ped, true);
+		PED::SET_PED_MODEL_IS_SUPPRESSED(ped, false);
 
 		return ped;
 	}
@@ -151,14 +105,14 @@ namespace Features
 		TRY
 		{
 			const Vector3& Pos = g_LocalPlayer.m_Pos;
-			obj = OBJECT::CREATE_PICKUP(PickupHash, Pos.x, Pos.y, Pos.z, 0, 0, FALSE, 0, 0, 0.0f, 0);
+			obj = OBJECT::CREATE_PICKUP(PickupHash, Pos.x, Pos.y, Pos.z, 0, 0, false, 0, 0, 0.0f, 0);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
 		return obj;
 	}
 
-	Vehicle SpawnVehicle(const Hash& model, const bool& warp_into)
+	Vehicle SpawnVehicle(Hash model, bool warp_into)
 	{
 		Vehicle veh = 0;
 
@@ -166,23 +120,23 @@ namespace Features
 		{
 			if (!RequestModel(model))
 			{
-				std::cout << __FUNCTION__ << ": Couldn't request vehicle " << GetVehicleModelName(model) << "!\n";
+				printf("%s: Couldn't request vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 				return 0;
 			}
 
 			const Vector3& coords = g_LocalPlayer.m_Pos;
 			veh = VEHICLE::CREATE_VEHICLE(model, coords.x, coords.y, coords.z,
-				ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), FALSE, FALSE, FALSE, FALSE);
+				ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), false, false, false, false);
 
 			if (!veh)
 			{
-				std::cout << __FUNCTION__ << ": Couldn't spawn vehicle " << GetVehicleModelName(model) << "!\n";
+				printf("%s: Couldn't spawn vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 				return veh;
 			}
 
 			YieldThread();
 
-			DECORATOR::DECOR_SET_BOOL(veh, "wagon_block_honor", TRUE);
+			DECORATOR::DECOR_SET_BOOL(veh, "wagon_block_honor", true);
 			VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(veh, 0);
 			if (warp_into)
 				PED::SET_PED_INTO_VEHICLE(g_LocalPlayer.m_Entity, veh, -1);

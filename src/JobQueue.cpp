@@ -3,14 +3,14 @@
 
 void JobQueue::Add(job_t job)
 {
-	m_list.push(job);
+	m_List.push(job);
 }
 
 void JobQueue::Run()
 {
-	while (!m_list.empty())
+	while (!m_List.empty())
 	{
-		m_list.front()();
-		m_list.pop();
+		m_List.front()();
+		m_List.pop();
 	}
 }

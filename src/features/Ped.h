@@ -6,4 +6,5 @@
 namespace Features
 {
 	void CleanPed(Ped ped);
+	void PrintPedAttributes(Ped ped);
 }

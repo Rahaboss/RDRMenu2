@@ -11,9 +11,9 @@ public:
 	void Tick();
 	static Fiber* GetCurrent() { return static_cast<Fiber*>(GetFiberData()); }
 
-	void* m_script_fiber;
-	void* m_main_fiber;
-	void (*m_func)();
+	void* m_ScriptFiber;
+	void* m_MainFiber;
+	void (*m_Func)();
 };
 
 inline std::vector<Fiber*> g_FiberCollection;

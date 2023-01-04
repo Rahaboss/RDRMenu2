@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Hooking.h"
 #include "Pointers.h"
-#include "Console.h"
 #include "Features.h"
 #include "Fiber.h"
 #include "PlayerInfo.h"
@@ -15,7 +14,7 @@ namespace Hooking
 
 	void Create()
 	{
-		std::cout << "Creating hooks.\n";
+		printf("Creating hooks.\n");
 		assert(MH_Initialize() == MH_OK);
 
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
@@ -39,7 +38,7 @@ namespace Hooking
 
 	void Destroy()
 	{
-		std::cout << "Destroying hooks.\n";
+		printf("Destroying hooks.\n");
 
 		CreateAnimScene.Destroy();
 		CreatePersChar.Destroy();
@@ -63,7 +62,7 @@ namespace Hooking
 
 	void Enable()
 	{
-		std::cout << "Enabling hooks.\n";
+		printf("Enabling hooks.\n");
 		if (Enabled)
 			return;
 		assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
@@ -72,7 +71,7 @@ namespace Hooking
 
 	void Disable()
 	{
-		std::cout << "Disabling hooks.\n";
+		printf("Disabling hooks.\n");
 		if (!Enabled)
 			return;
 		assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
@@ -117,7 +116,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (g_Settings["no_snipers"].get_ref<bool&>() && ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
+			if (g_Settings["no_snipers"].get<bool>() && ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
 				return;
 			
 			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
@@ -129,7 +128,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (g_Settings["no_snipers"].get_ref<bool&>() && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
+			if (g_Settings["no_snipers"].get<bool>() && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
 				*(BOOL*)ctx->m_ReturnValue = FALSE; // spoof return value
@@ -146,19 +145,19 @@ namespace Hooking
 #if ENABLE_ANTI_ANTI_DEBUG
 	void DebuggerCheck1Hook(uint32_t a1)
 	{
-		std::cout << __FUNCTION__"(" << a1 << ")\n";
+		printf("%s(%u)\n", __FUNCTION__, a1);
 		return;
 	}
 
 	void DebuggerCheck2Hook(int32_t a1, int32_t a2, int32_t a3)
 	{
-		std::cout << __FUNCTION__"(" << a1 << ", " << a2 << ", " << a3 << ")\n";
+		printf("%s(%d, %d, %d)\n", __FUNCTION__, a1, a2, a3);
 		return;
 	}
 
 	BOOL WINAPI IsDebuggerPresentHook()
 	{
-		std::cout << __FUNCTION__"()\n";
+		printf("%s()\n", __FUNCTION__);
 		return FALSE;
 	}
 #endif
@@ -167,7 +166,7 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (g_Settings["infinite_ammo"].get_ref<bool&>() && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
+			if (g_Settings["infinite_ammo"].get<bool>() && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
 				return;
 
 			Hooking::DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);
@@ -181,7 +180,7 @@ namespace Hooking
 
 		//TRY
 		{
-			if (ctx && (g_Settings["log_human_spawning"].get_ref<bool&>() || g_Settings["log_ped_spawning"].get_ref<bool&>()))
+			if (ctx && (g_Settings["log_human_spawning"].get<bool>() || g_Settings["log_ped_spawning"].get<bool>()))
 			{
 				Hash model = ctx->GetArg<Hash>(0);
 				Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -191,11 +190,11 @@ namespace Hooking
 
 				if (PED::IS_PED_HUMAN(id))
 				{
-					if (g_Settings["log_human_spawning"].get_ref<bool&>())
+					if (g_Settings["log_human_spawning"].get<bool>())
 						Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
 							pos.x, pos.y, pos.z);
 				}
-				else if (g_Settings["log_ped_spawning"].get_ref<bool&>())
+				else if (g_Settings["log_ped_spawning"].get<bool>())
 					Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
 						pos.x, pos.y, pos.z);
 			}
@@ -215,7 +214,7 @@ namespace Hooking
 
 		//TRY
 		{
-			if (ctx && g_Settings["log_vehicle_spawning"].get_ref<bool&>())
+			if (ctx && g_Settings["log_vehicle_spawning"].get<bool>())
 			{
 				Hash model = ctx->GetArg<Hash>(0);
 				Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -242,7 +241,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx && g_Settings["log_added_inventory_items"].get_ref<bool&>())
+			if (ctx && g_Settings["log_added_inventory_items"].get<bool>())
 			{
 				int inventoryId = ctx->GetArg<int>(0);
 				Any* guid1 = ctx->GetArg<Any*>(1);
@@ -291,7 +290,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (ctx && g_Settings["log_added_inventory_items"].get_ref<bool&>())
+			if (ctx && g_Settings["log_added_inventory_items"].get<bool>())
 			{
 				int inventoryId = ctx->GetArg<int>(0);
 				Any* guid = ctx->GetArg<Any*>(1);
@@ -352,7 +351,7 @@ namespace Hooking
 		// PersChar PERSCHAR::_CREATE_PERSISTENT_CHARACTER(Hash hash)
 		PersChar result = 0;
 
-		if (ctx && g_Settings["log_human_spawning"].get_ref<bool&>())
+		if (ctx && g_Settings["log_human_spawning"].get<bool>())
 		{
 			Hash hash = ctx->GetArg<Hash>(0);
 			result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
@@ -388,14 +387,14 @@ namespace Hooking
 			const char* animDict = ctx->GetArg<const char*>(0);
 			int flags = ctx->GetArg<int>(1);
 			const char* playbackListName = ctx->GetArg<const char*>(2);
-			BOOL p3 = ctx->GetArg<BOOL>(3);
-			BOOL p4 = ctx->GetArg<BOOL>(4);
+			bool p3 = ctx->GetArg<BOOL>(3);
+			bool p4 = ctx->GetArg<BOOL>(4);
 			result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
 			AnimScene scene = ctx->GetRet<AnimScene>();
 
 			if (std::string(animDict).find("cutscene@") != std::string::npos)
 				Menu::Logger.AddLog("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
-					(p3 ? "TRUE" : "FALSE"), (p4 ? "TRUE" : "FALSE"), scene);
+					(p3 ? "true" : "false"), (p4 ? "true" : "false"), scene);
 		}
 		else
 		{

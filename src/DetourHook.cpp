@@ -1,20 +1,23 @@
 #include "pch.h"
-#include "Console.h"
 #include "DetourHook.h"
 
-void DetourHook::Create(void* target, void* detour)
+void DetourHook::Create(void* Target, void* Detour)
 {
-	m_target = target;
-	std::cout << "Creating hook " << LOG_HEX(m_target) << ".\n";
-	assert(m_target && detour);
-	MH_STATUS status = MH_CreateHook(m_target, detour, &m_original);
-	if (status != MH_OK)
-		std::cout << "Minhook error: " << MH_StatusToString(status) << '\n';
-	assert(status == MH_OK);
+	m_Target = Target;
+	printf("Creating hook 0x%llX.\n", (uint64_t)m_Target);
+	assert(m_Target && Detour);
+	MH_STATUS Status = MH_CreateHook(m_Target, Detour, &m_Original);
+	if (Status != MH_OK)
+		printf("%s: Minhook error %s.\n", __FUNCTION__, MH_StatusToString(Status));
+	assert(Status == MH_OK);
 }
 
 void DetourHook::Destroy()
 {
-	std::cout << "Destroying hook " << LOG_HEX(m_target) << ".\n";
-	assert(m_target && MH_RemoveHook(m_target) == MH_OK);
+	printf("Destroying hook 0x%llX.\n", (uint64_t)m_Target);
+	assert(m_Target);
+	MH_STATUS Status = MH_RemoveHook(m_Target);
+	if (Status != MH_OK)
+		printf("%s: Minhook error %s.\n", __FUNCTION__, MH_StatusToString(Status));
+	assert(Status == MH_OK);
 }
