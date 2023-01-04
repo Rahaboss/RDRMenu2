@@ -7,6 +7,7 @@
 #include "PlayerInfo.h"
 #include "Renderer.h"
 #include "Menu.h"
+#include "Lists.h"
 
 namespace Hooking
 {
@@ -32,12 +33,16 @@ namespace Hooking
 		CreateVehicle.Create(NativeContext::GetHandler(0xAF35D0D2583051B0), CreateVehicleHook);
 		InventoryAddItem.Create(NativeContext::GetHandler(0xCB5D11F9508A928D), InventoryAddItemHook);
 		GetGUIDFromItemID.Create(NativeContext::GetHandler(0x886DFD3E185C8A89), GetGUIDFromItemIDHook);
+		CreatePersChar.Create(NativeContext::GetHandler(0x4F76E3676583D951), CreatePersCharHook);
+		CreateAnimScene.Create(NativeContext::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
 	}
 
 	void Destroy()
 	{
 		std::cout << "Destroying hooks.\n";
 
+		CreateAnimScene.Destroy();
+		CreatePersChar.Destroy();
 		GetGUIDFromItemID.Destroy();
 		InventoryAddItem.Destroy();
 		CreateVehicle.Destroy();
@@ -338,6 +343,64 @@ namespace Hooking
 			result = Hooking::SwapChainPresent.GetOriginal<decltype(&SwapChainPresentHook)>()(SwapChain, SyncInterval, Flags);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+
+	PersChar CreatePersCharHook(scrNativeCallContext* ctx)
+	{
+		// PersChar PERSCHAR::_CREATE_PERSISTENT_CHARACTER(Hash hash)
+		PersChar result = 0;
+
+		if (ctx && g_Settings["log_human_spawning"].get_ref<bool&>())
+		{
+			Hash hash = ctx->GetArg<Hash>(0);
+			result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
+			PersChar id = ctx->GetRet<PersChar>();
+			Hash model = PERSCHAR::_GET_PERSCHAR_MODEL_NAME(hash);
+			if (!model)
+			{
+				Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(id);
+				model = ENTITY::GET_ENTITY_MODEL(ped);
+			}
+
+			if (model)
+			{
+				const auto it = g_PedModelNameList.find(model);
+				if (it != g_PedModelNameList.end())
+					Menu::Logger.AddLog("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, id);
+			}
+		}
+		else
+		{
+			result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
+		}
+
+		return result;
+	}
+
+	AnimScene CreateAnimSceneHook(scrNativeCallContext* ctx)
+	{
+		AnimScene result = 0;
+		
+		if (g_Settings["log_created_cutscenes"].get<bool>() && ctx)
+		{
+			const char* animDict = ctx->GetArg<const char*>(0);
+			int flags = ctx->GetArg<int>(1);
+			const char* playbackListName = ctx->GetArg<const char*>(2);
+			BOOL p3 = ctx->GetArg<BOOL>(3);
+			BOOL p4 = ctx->GetArg<BOOL>(4);
+			result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+			AnimScene scene = ctx->GetRet<AnimScene>();
+
+			if (std::string(animDict).find("cutscene@") != std::string::npos)
+				Menu::Logger.AddLog("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
+					(p3 ? "TRUE" : "FALSE"), (p4 ? "TRUE" : "FALSE"), scene);
+		}
+		else
+		{
+			result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+		}
 
 		return result;
 	}

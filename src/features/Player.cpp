@@ -59,6 +59,7 @@ namespace Features
 			g_LocalPlayer.m_LastMount = PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER(g_LocalPlayer.m_Index);
 			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, FALSE);
 			g_LocalPlayer.m_Ped = Pointers::GetPlayerPed(g_LocalPlayer.m_Index);
+			g_LocalPlayer.m_Pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -228,7 +229,7 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
-	void Teleport(const float& x, const float& y, const float& z)
+	void Teleport(float x, float y, float z)
 	{
 		ENTITY::SET_ENTITY_COORDS(GetMainEntity(), x, y, z, FALSE, FALSE, FALSE, FALSE);
 	}
@@ -238,7 +239,7 @@ namespace Features
 		Teleport(pos.x, pos.y, pos.z);
 	}
 
-	void TeleportOnGround(const float& x, const float& y, const float& z)
+	void TeleportOnGround(float x, float y, float z)
 	{
 		QUEUE_JOB(=)
 		{
@@ -309,7 +310,7 @@ namespace Features
 						break;
 				}
 
-				coords.z = (useGroundZ ? groundZ : ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE).z);
+				coords.z = (useGroundZ ? groundZ : g_LocalPlayer.m_Pos.z);
 			}
 
 			Teleport(coords);

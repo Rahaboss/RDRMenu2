@@ -142,6 +142,8 @@ namespace Menu
 	void RenderPlayerButtons();
 	void RenderPlayerCheckboxes();
 	void RenderPedDebug();
+	void RenderOverlay();
+	void RenderOverlayMain();
 
 	inline int CurCtx = 0;
 	inline constexpr char* HUDContextList[]{

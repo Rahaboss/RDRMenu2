@@ -150,7 +150,7 @@ namespace Features
 
 		TRY
 		{
-			Vector3 Pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+			const Vector3& Pos = g_LocalPlayer.m_Pos;
 			obj = OBJECT::CREATE_PICKUP(PickupHash, Pos.x, Pos.y, Pos.z, 0, 0, FALSE, 0, 0, 0.0f, 0);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -170,7 +170,7 @@ namespace Features
 				return 0;
 			}
 
-			Vector3 coords = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
+			const Vector3& coords = g_LocalPlayer.m_Pos;
 			veh = VEHICLE::CREATE_VEHICLE(model, coords.x, coords.y, coords.z,
 				ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), FALSE, FALSE, FALSE, FALSE);
 

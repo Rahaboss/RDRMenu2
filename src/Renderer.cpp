@@ -116,13 +116,17 @@ namespace Renderer
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	// Very weird bug that fixes broken input
+	static bool FirstFrame = true;
 	void Present()
 	{
 		TRY
 		{
 			NewFrame();
 		
-			if (Renderer::MenuOpen)
+			if (FirstFrame)
+				FirstFrame = false;
+			else
 				Menu::RenderMenu();
 		
 			EndFrame();

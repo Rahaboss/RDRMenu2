@@ -25,9 +25,9 @@ namespace Features
 	void SetMoney(const int& amount_cents);
 	void SpawnBadHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
 	void SpawnGoodHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
-	void Teleport(const float& x, const float& y, const float& z);
+	void Teleport(float x, float y, float z);
 	void Teleport(const Vector3& pos);
-	void TeleportOnGround(const float& x, const float& y, const float& z);
+	void TeleportOnGround(float x, float y, float z);
 	void TeleportOnGround(const Vector3& pos);
 	void TeleportThroughDoor();
 	void TeleportToWaypoint();

@@ -20,7 +20,10 @@ namespace Settings
 			"no_sliding": false,
 			"no_snipers": false,
 			"super_jump": false,
-			"rgb_elec_lantern": false
+			"rgb_elec_lantern": false,
+			"enable_overlay": false,
+			"clean_player": false,
+			"log_created_cutscenes": false
 		})"_json;
 
 	std::filesystem::path GetSettingsFolderPath()

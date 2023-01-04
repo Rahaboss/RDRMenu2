@@ -6,6 +6,7 @@
 #include "JobQueue.h"
 #include "PlayerInfo.h"
 #include "Lists.h"
+#include "Signature.h"
 
 namespace Menu
 {
@@ -13,31 +14,37 @@ namespace Menu
 	{
 		TRY
 		{
-			ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_FirstUseEver);
-			//ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_Always);
-			if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen/*, ImGuiWindowFlags_NoResize*/))
+			if (Renderer::MenuOpen)
 			{
-				ImGui::BeginTabBar("tab_bar");
-				RenderPlayerTab();
-				RenderTeleportTab();
-				RenderWeaponTab();
-				RenderInventoryTab();
-				RenderWorldTab();
-				RenderSpawningTab();
-				RenderDebugTab();
-				RenderLoggerTab();
-				RenderMemoryTab();
-				if (ImGui::BeginTabItem("Exit"))
+				ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_FirstUseEver);
+				//ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_Always);
+				if (ImGui::Begin("RDRMenu2", &Renderer::MenuOpen/*, ImGuiWindowFlags_NoResize*/))
 				{
-					g_Running = false;
-					ImGui::EndTabItem();
+					ImGui::BeginTabBar("tab_bar");
+					RenderPlayerTab();
+					RenderTeleportTab();
+					RenderWeaponTab();
+					RenderInventoryTab();
+					RenderWorldTab();
+					RenderSpawningTab();
+					RenderDebugTab();
+					RenderLoggerTab();
+					RenderMemoryTab();
+					if (ImGui::BeginTabItem("Exit"))
+					{
+						g_Running = false;
+						ImGui::EndTabItem();
+					}
+					ImGui::EndTabBar();
 				}
-				ImGui::EndTabBar();
-			}
-			ImGui::End();
+				ImGui::End();
 
-			if (g_Settings["enable_imgui_demo"].get_ref<bool&>())
-				ImGui::ShowDemoWindow(g_Settings["enable_imgui_demo"].get<bool*>());
+				if (g_Settings["enable_imgui_demo"].get_ref<bool&>())
+					ImGui::ShowDemoWindow(g_Settings["enable_imgui_demo"].get<bool*>());
+			}
+
+			if (g_Settings["enable_overlay"].get<bool>())
+				RenderOverlay();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -86,8 +93,8 @@ namespace Menu
 				}
 				END_JOB()
 			}
-
 			ImGui::Separator();
+
 			ImGui::Text("Scale");
 			static float PlayerScale = 1.0f;
 			ImGui::PushItemWidth(300.0f);
@@ -109,6 +116,39 @@ namespace Menu
 				}
 				END_JOB()
 			}
+			ImGui::Separator();
+
+			ImGui::Text("Set Outfit");
+			static int Outfit = 0;
+			static bool KeepAcc = false;
+			ImGui::PushButtonRepeat(true);
+			if (ImGui::ArrowButton("###lof", ImGuiDir_Left))
+			{
+				QUEUE_JOB()
+				{
+					if (Outfit == 0)
+						return;
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, --Outfit, KeepAcc);
+				}
+				END_JOB()
+			}
+			ImGui::SameLine();
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("%d", Outfit);
+			ImGui::SameLine();
+			if (ImGui::ArrowButton("###rof", ImGuiDir_Right))
+			{
+				QUEUE_JOB()
+				{
+					if (Outfit == PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1)
+						return;
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, ++Outfit, KeepAcc);
+				}
+				END_JOB()
+			}
+			ImGui::PopButtonRepeat();
+			ImGui::SameLine();
+			ImGui::Checkbox("Keep Accessories", &KeepAcc);
 		}
 		ImGui::Separator();
 
@@ -129,6 +169,13 @@ namespace Menu
 
 			if (ImGui::Button("Give Gold Cores###gold_mount"))
 				Features::GiveGoldCores(g_LocalPlayer.m_Mount);
+
+			ImGui::EndGroup();
+			ImGui::SameLine();
+			ImGui::BeginGroup();
+
+			if (ImGui::Button("Clean###clean_mount"))
+				Features::CleanPed(g_LocalPlayer.m_Mount);
 
 			ImGui::EndGroup();
 			ImGui::Separator();
@@ -288,17 +335,6 @@ namespace Menu
 		
 		ImGui::BeginChild("inventory_child");
 
-		if (ImGui::Button("Unlock All Herbs"))
-		{
-			QUEUE_JOB()
-			{
-				Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
-				for (const auto& h : g_HerbList)
-					COMPENDIUM::COMPENDIUM_HERB_PICKED(h, pos.x, pos.y, pos.z);
-			}
-			END_JOB()
-		}
-		ImGui::SameLine();
 		if (ImGui::Button("Give All Items"))
 		{
 			Features::GiveAllConsumables();
@@ -308,14 +344,19 @@ namespace Menu
 			Features::GiveAllAmmo();
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Give All Consumables"))
-			Features::GiveAllConsumables();
-			
-		if (ImGui::Button("Give All Documents"))
-			Features::GiveAllDocuments();
+		if (ImGui::Button("Give All Item Requests"))
+			Features::GiveAllItemRequests();
 		ImGui::SameLine();
-		if (ImGui::Button("Give All Provisions"))
-			Features::GiveAllProvisions();
+		if (ImGui::Button("Unlock All Herbs"))
+		{
+			QUEUE_JOB()
+			{
+				const Vector3& pos = g_LocalPlayer.m_Pos;
+				for (const auto& h : g_HerbList)
+					COMPENDIUM::COMPENDIUM_HERB_PICKED(h, pos.x, pos.y, pos.z);
+			}
+			END_JOB()
+		}
 
 		ImGui::Separator();
 			
@@ -325,6 +366,9 @@ namespace Menu
 		static char ConBuffer[200];
 		ImGui::PushItemWidth(250.0f);
 		ImGui::InputText("###filter_con", ConBuffer, 200);
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Consumables"))
+			Features::GiveAllConsumables();
 		ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
 		for (const auto& c : g_ConsumableList)
 		{
@@ -349,7 +393,10 @@ namespace Menu
 		static char ProBuffer[200];
 		ImGui::PushItemWidth(250.0f);
 		ImGui::InputText("###filter_pro", ProBuffer, 200);
-		ImGui::BeginChild("provision_menu");
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Provisions"))
+			Features::GiveAllProvisions();
+		ImGui::BeginChild("provision_menu", ImVec2(0, 200));
 		for (const auto& p : g_ProvisionList)
 		{
 			if (p.first.find(ProBuffer) == std::string::npos)
@@ -360,6 +407,33 @@ namespace Menu
 				QUEUE_JOB(&p)
 				{
 					Features::GiveInventoryItem(p.second, 99);
+				}
+				END_JOB()
+			}
+		}
+		ImGui::EndChild();
+		ImGui::Separator();
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Give Document Items");
+		ImGui::SameLine();
+		static char DocBuffer[200];
+		ImGui::PushItemWidth(250.0f);
+		ImGui::InputText("###filter_doc", DocBuffer, 200);
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Documents"))
+			Features::GiveAllDocuments();
+		ImGui::BeginChild("document_menu", ImVec2(0, 200));
+		for (const auto& d : g_DocumentList)
+		{
+			if (d.first.find(DocBuffer) == std::string::npos)
+				continue;
+
+			if (ImGui::Selectable(d.first.c_str()))
+			{
+				QUEUE_JOB(&d)
+				{
+					Features::GiveInventoryItem(d.second, 99);
 				}
 				END_JOB()
 			}
@@ -522,16 +596,14 @@ namespace Menu
 		
 		ImGui::BeginChild("debug_child");
 
-		// This native should be fine
-		Vector3 pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, TRUE, TRUE);
 		if (ImGui::Button("Copy Coords"))
 		{
 			ImGui::LogToClipboard();
-			ImGui::LogText("%.2ff, %.2ff, %.2ff", pos.x, pos.y, pos.z);
+			ImGui::LogText("%.2ff, %.2ff, %.2ff", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 			ImGui::LogFinish();
 		}
 		ImGui::SameLine();
-		ImGui::Text("%.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
+		ImGui::Text("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 
 		ImGui::Separator();
 
@@ -587,7 +659,6 @@ namespace Menu
 			END_JOB();
 		}
 		ImGui::SameLine();
-
 		if (ImGui::Button("Change Player Model"))
 		{
 			QUEUE_JOB()
@@ -596,6 +667,86 @@ namespace Menu
 				PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, FALSE);
 			}
 			END_JOB();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("A Quiet Time Cutscene"))
+		{
+			QUEUE_JOB()
+			{
+				const char* animDict = "cutscene@SAL1_INT";
+				auto iLocal_31 = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, 0, 0, FALSE, TRUE);
+
+				//Ped arthur = Features::SpawnPed(PLAYER_ZERO);
+				Ped arthur = Features::SpawnPed(PLAYER_THREE);
+				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "ARTHUR", arthur, 0);
+
+				Ped dutch = Features::SpawnPed(CS_DUTCH);
+				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "DUTCH", dutch, 0);
+
+				Ped molly = Features::SpawnPed(CS_MOLLYOSHEA);
+				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "MollyOshea", molly, 0);
+
+				Ped lenny = Features::SpawnPed(CS_LENNY);
+				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "Lenny", lenny, 0);
+
+				for (int i = 0; i < 20 && !ANIMSCENE::IS_ANIM_SCENE_LOADED(iLocal_31, TRUE, FALSE); i++)
+				{
+					ANIMSCENE::LOAD_ANIM_SCENE(iLocal_31);
+					Features::YieldThread();
+				}
+				ANIMSCENE::START_ANIM_SCENE(iLocal_31);
+
+				while (!ANIMSCENE::IS_ANIM_SCENE_FINISHED(iLocal_31, FALSE))
+				{
+					Features::YieldThread();
+				}
+
+				PED::DELETE_PED(&arthur);
+				PED::DELETE_PED(&dutch);
+				PED::DELETE_PED(&molly);
+				PED::DELETE_PED(&lenny);
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Dinolady Cutscene"))
+		{
+			QUEUE_JOB()
+			{
+				Features::PlayDinoLadyCutscene();
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Fish Collector Cutscene"))
+		{
+			QUEUE_JOB()
+			{
+				Features::PlayFishCollectorCutscene();
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Industry Cutscene"))
+		{
+			QUEUE_JOB()
+			{
+				Features::PlayIndustryCutscene();
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("XDDDDD"))
+			*(Signature("8B 41 18 4C 8B C1 85 C0").Get<uint8_t*>()) = 0xC3;
+
+		if (ImGui::Button("asd"))
+		{
+			QUEUE_JOB()
+			{
+				static int i = 0;
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, i++, FALSE);
+			}
+			END_JOB()
 		}
 
 		ImGui::Separator();
@@ -634,7 +785,9 @@ namespace Menu
 		ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());
 		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["log_vehicle_spawning"].get<bool*>());
 		ImGui::Checkbox("Log Added Inventory Items", g_Settings["log_added_inventory_items"].get<bool*>());
+		ImGui::Checkbox("Log Created Cutscenes", g_Settings["log_created_cutscenes"].get<bool*>());
 		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
+		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
 
 		ImGui::Separator();
 
@@ -782,6 +935,31 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
+		if (ImGui::Button("Suicide", ImVec2(70, 0)))
+		{
+			QUEUE_JOB()
+			{
+				ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, 0, 0);
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Clone", ImVec2(70, 0)))
+		{
+			QUEUE_JOB()
+			{
+				PED::CLONE_PED(g_LocalPlayer.m_Entity, FALSE, FALSE, TRUE);
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Clean", ImVec2(70, 0)))
+			Features::CleanPed(g_LocalPlayer.m_Entity);
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+		
 		if (ImGui::Button("Spawn Good Honor Enemy", ImVec2(220, 0)))
 		{
 			QUEUE_JOB()
@@ -799,12 +977,30 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		
-		if (ImGui::Button("Suicide", ImVec2(220, 0)))
+
+		ImGui::EndGroup();
+		ImGui::Separator();
+		ImGui::BeginGroup();
+
+		if (ImGui::Button("Set Legend Of The West Outfit"))
 		{
 			QUEUE_JOB()
 			{
-				ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, 0, 0);
+				Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
+				if (model == PLAYER_ZERO)
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, FALSE);
+			}
+			END_JOB()
+		}
+		if (ImGui::Button("Set Naked Outfit"))
+		{
+			QUEUE_JOB()
+			{
+				Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
+				if (model == PLAYER_ZERO)
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 14, FALSE);
+				else if (model == PLAYER_THREE)
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 28, FALSE);
 			}
 			END_JOB()
 		}
@@ -823,6 +1019,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
+		ImGui::Checkbox("Clean###clplcb", g_Settings["clean_player"].get<bool*>());
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
@@ -878,7 +1075,8 @@ namespace Menu
 		{
 			QUEUE_JOB()
 			{
-				PedDebug.ent = Features::SpawnPed(PedDebug.model);
+				PedDebug.ent = PED::CLONE_PED(g_LocalPlayer.m_Entity, FALSE, FALSE, TRUE);
+				//PedDebug.ent = Features::SpawnPed(PedDebug.model);
 				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedDebug.model);
 			}
 			END_JOB()
@@ -944,5 +1142,69 @@ namespace Menu
 		ImGui::Checkbox("Visible", &PedDebug.visible);
 
 		ImGui::EndGroup();
+	}
+
+	void RenderOverlay()
+	{
+		TRY
+		{
+			bool* p_open = g_Settings["enable_overlay"].get<bool*>();
+			static int location = 0;
+			ImGuiIO& io = ImGui::GetIO();
+			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+			if (location >= 0)
+			{
+				const float PAD = 10.0f;
+				const ImGuiViewport* viewport = ImGui::GetMainViewport();
+				ImVec2 work_pos = viewport->WorkPos; // Use work area to avoid menu-bar/task-bar, if any!
+				ImVec2 work_size = viewport->WorkSize;
+				ImVec2 window_pos, window_pos_pivot;
+				window_pos.x = (location & 1) ? (work_pos.x + work_size.x - PAD) : (work_pos.x + PAD);
+				window_pos.y = (location & 2) ? (work_pos.y + work_size.y - PAD) : (work_pos.y + PAD);
+				window_pos_pivot.x = (location & 1) ? 1.0f : 0.0f;
+				window_pos_pivot.y = (location & 2) ? 1.0f : 0.0f;
+				ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
+				window_flags |= ImGuiWindowFlags_NoMove;
+			}
+			else if (location == -2)
+			{
+				// Center window
+				ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+				window_flags |= ImGuiWindowFlags_NoMove;
+			}
+			ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+			if (ImGui::Begin("###overlay", p_open, window_flags))
+			{
+				RenderOverlayMain();
+				if (ImGui::BeginPopupContextWindow())
+				{
+					if (ImGui::MenuItem("Custom", NULL, location == -1)) location = -1;
+					if (ImGui::MenuItem("Center", NULL, location == -2)) location = -2;
+					if (ImGui::MenuItem("Top-left", NULL, location == 0)) location = 0;
+					if (ImGui::MenuItem("Top-right", NULL, location == 1)) location = 1;
+					if (ImGui::MenuItem("Bottom-left", NULL, location == 2)) location = 2;
+					if (ImGui::MenuItem("Bottom-right", NULL, location == 3)) location = 3;
+					if (p_open && ImGui::MenuItem("Close")) *p_open = false;
+					ImGui::EndPopup();
+				}
+			}
+			ImGui::End();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	void RenderOverlayMain()
+	{
+		TRY
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			if (ImGui::IsMousePosValid())
+				ImGui::Text("Mouse Position: (%.0f, %.0f)", io.MousePos.x, io.MousePos.y);
+			else
+				ImGui::Text("Mouse Position: <invalid>");
+			ImGui::Text("Framerate: %.1f (%.3f ms)", io.Framerate, 1000.0f / io.Framerate);
+			ImGui::Text("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 	}
 }

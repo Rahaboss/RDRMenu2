@@ -9,4 +9,7 @@ namespace Features
 	CPedFactory* GetPedFactory();
 	void PrintNativeHandlerAddress(const uint64_t& hash);
 	void UnlockSPPreorderBonus();
+	void PlayDinoLadyCutscene();
+	void PlayFishCollectorCutscene();
+	void PlayIndustryCutscene();
 }

@@ -86,33 +86,36 @@ namespace Features
 			//	"\xE2\x80\xBA \\xE2\\x80\\xBA\n\xCE\xA9 \\xCE\\xA9", 0.0f, 0.0f);
 			//RenderText("~COLOR_RED~\xE2\x88\x91 Admin", 0.0f, 0.1f);
 
-			if (g_Settings["no_sliding"].get_ref<bool&>())
+			if (g_Settings["no_sliding"].get<bool>())
 				NoSliding();
 
-			if (g_Settings["god_mode"].get_ref<bool&>())
+			if (g_Settings["god_mode"].get<bool>())
 				SetGodmode(true);
 			
-			if (g_Settings["god_mode"].get_ref<bool&>())
+			if (g_Settings["gold_cores"].get<bool>())
 				GiveGoldCores(g_LocalPlayer.m_Entity);
 
-			if (g_Settings["super_jump"].get_ref<bool&>())
+			if (g_Settings["super_jump"].get<bool>())
 				MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
 
-			if (g_Settings["never_wanted"].get_ref<bool&>())
+			if (g_Settings["never_wanted"].get<bool>())
 				ClearWanted();
 
-			if (g_Settings["no_black_borders"].get_ref<bool&>())
+			if (g_Settings["no_black_borders"].get<bool>())
 			{
 				CAM::_REQUEST_LETTER_BOX_OVERTIME(-1, -1, FALSE, 17, TRUE, FALSE);
 				CAM::_FORCE_LETTER_BOX_THIS_UPDATE();
 			}
 
+			if (g_Settings["clean_player"].get<bool>())
+				Features::CleanPed(g_LocalPlayer.m_Entity);
+
 			if (g_LocalPlayer.m_Mount)
 			{
-				if (g_Settings["mount_god_mode"].get_ref<bool&>())
+				if (g_Settings["mount_god_mode"].get<bool>())
 					ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Mount, TRUE);
 
-				if (g_Settings["mount_gold_cores"].get_ref<bool&>())
+				if (g_Settings["mount_gold_cores"].get<bool>())
 					GiveGoldCores(g_LocalPlayer.m_Mount);
 			}
 
@@ -129,7 +132,12 @@ namespace Features
 
 					ENTITY::FREEZE_ENTITY_POSITION(pd.ent, pd.freeze);
 					if (pd.freeze)
+					{
 						TASK::CLEAR_PED_TASKS(pd.ent, FALSE, TRUE);
+						TASK::CLEAR_PED_SECONDARY_TASK(pd.ent);
+						TASK::CLEAR_PED_TASKS_IMMEDIATELY(pd.ent, TRUE, TRUE);
+						ENTITY::SET_ENTITY_HEADING(pd.ent, 0);
+					}
 					ENTITY::SET_ENTITY_INVINCIBLE(pd.ent, pd.invincible);
 					ENTITY::SET_ENTITY_VISIBLE(pd.ent, pd.visible);
 				}
@@ -137,7 +145,7 @@ namespace Features
 					pd.ent = 0;
 			}
 
-			if (g_Settings["rgb_elec_lantern"].get_ref<bool&>())
+			if (g_Settings["rgb_elec_lantern"].get<bool>())
 				RGBElectricLantern();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

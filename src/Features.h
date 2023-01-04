@@ -4,6 +4,7 @@
 #include "features/Debug.h"
 #include "features/Input.h"
 #include "features/Inventory.h"
+#include "features/Ped.h"
 #include "features/Player.h"
 #include "features/Rendering.h"
 #include "features/Spawning.h"

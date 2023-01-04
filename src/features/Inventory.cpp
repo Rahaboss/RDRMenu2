@@ -233,13 +233,13 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	// Seems to work on items like consumables, provisions, documents but not clothing
 	void GiveInventoryItem(Hash ItemHash, int Amount)
 	{
 		for (int i = 0; i < Amount; i++)
 			GiveSingleInventoryItem(ItemHash);
 	}
 
-	// Seems to work on consumables but not clothing
 	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot, int InventoryID, Hash AddReason)
 	{
 		Any guid1[4 * 2]; memset(guid1, 0, sizeof(guid1));
@@ -263,7 +263,7 @@ namespace Features
 		if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1, guid2, ItemHash, guid2[4 * 2], 1, AddReason))
 			return;
 
-		YieldThread();
+		//YieldThread();
 	}
 
 	void GiveValerianRoot()

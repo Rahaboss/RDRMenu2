@@ -55,4 +55,10 @@ namespace Hooking
 
 	inline DetourHook SwapChainPresent;
 	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags);
+
+	inline DetourHook CreatePersChar;
+	PersChar CreatePersCharHook(scrNativeCallContext* ctx);
+
+	inline DetourHook CreateAnimScene;
+	AnimScene CreateAnimSceneHook(scrNativeCallContext* ctx);
 }
