@@ -77,7 +77,7 @@ namespace Features
 				ClearWanted();
 
 			if (g_Settings["clean_player"].get<bool>())
-				Features::CleanPed(g_LocalPlayer.m_Entity);
+				CleanPed(g_LocalPlayer.m_Entity);
 
 			if (g_Settings["rgb_elec_lantern"].get<bool>())
 				RGBElectricLantern();
