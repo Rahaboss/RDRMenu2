@@ -16,12 +16,12 @@
 
 namespace Features
 {
-	inline uint8_t g_rgb[3]{ 255, 0, 0 };
-
 	void ExecuteAsThread(joaat_t ScriptHash, void (*Function)());
 	void Setup();
 	void OnTick();
 	void RunJobQueue();
 	void YieldThread();
 	void RGBTick();
+
+	inline uint8_t g_rgb[3]{ 255, 0, 0 };
 }

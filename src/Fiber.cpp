@@ -2,18 +2,21 @@
 #include "Fiber.h"
 #include "Features.h"
 
-Fiber::Fiber(void(*func)()) :
+Fiber::Fiber(void(*Function)()) :
 	m_ScriptFiber(nullptr),
 	m_MainFiber(nullptr),
-	m_Func(func)
+	m_Function(Function)
 {
-	printf("Creating fiber 0x%llX\n", (uint64_t)m_Func);
-	m_ScriptFiber = CreateFiber(0, [](void* param)
+	printf("Creating fiber 0x%llX\n", (uint64_t)m_Function);
+	m_ScriptFiber = CreateFiber(0, [](void* FiberParam)
 		{
-			auto ThisFiber = static_cast<Fiber*>(param);
+			Fiber* ThisFiber = static_cast<Fiber*>(FiberParam);
 			while (true)
 			{
-				TRY{ ThisFiber->m_Func(); }
+				TRY
+				{
+					ThisFiber->m_Function();
+				}
 				EXCEPT{ LOG_EXCEPTION(); }
 				ThisFiber->YieldThread();
 			}
@@ -22,7 +25,7 @@ Fiber::Fiber(void(*func)()) :
 
 void Fiber::Destroy()
 {
-	printf("Destroying fiber 0x%llX\n", (uint64_t)m_Func);
+	printf("Destroying fiber 0x%llX\n", (uint64_t)m_Function);
 	if (m_ScriptFiber)
 		DeleteFiber(m_ScriptFiber);
 }
@@ -49,12 +52,16 @@ void ScriptThreadTick()
 		init = true;
 	}
 
-	for (const auto& fiber : g_FiberCollection)
+	for (const auto& CurrentFiber : g_FiberCollection)
 	{
 		TRY
 		{
-			fiber->Tick();
+			CurrentFiber->Tick();
 		}
-		EXCEPT{ LOG_EXCEPTION(); printf("Exception in Fiber Tick: 0x%llX.\n", (uint64_t)fiber); }
+		EXCEPT
+		{
+			LOG_EXCEPTION();
+			printf("Exception in Fiber Tick: 0x%llX.\n", reinterpret_cast<uint64_t>(CurrentFiber));
+		}
 	}
 }

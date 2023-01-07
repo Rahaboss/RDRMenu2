@@ -5,15 +5,15 @@
 class Fiber
 {
 public:
-	Fiber(void (*func)());
+	Fiber(void (*Function)());
 	void Destroy();
 	void YieldThread();
 	void Tick();
-	static Fiber* GetCurrent() { return static_cast<Fiber*>(GetFiberData()); }
+	static Fiber* GetCurrent() { return reinterpret_cast<Fiber*>(GetFiberData()); }
 
 	void* m_ScriptFiber;
 	void* m_MainFiber;
-	void (*m_Func)();
+	void (*m_Function)();
 };
 
 inline std::vector<Fiber*> g_FiberCollection;

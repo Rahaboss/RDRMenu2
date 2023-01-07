@@ -8,11 +8,11 @@ typedef std::function<void()> job_t;
 class JobQueue
 {
 public:
-	void Add(job_t job);
+	void Add(job_t Job);
 	void Run();
 
 private:
-	std::queue<job_t> m_List;
+	std::queue<job_t> m_Queue;
 };
 
 inline JobQueue g_JobQueue;

@@ -139,9 +139,10 @@ namespace Features
 		Fiber::GetCurrent()->YieldThread();
 	}
 
-	static int iC = 1, dC = 0;
 	void RGBTick()
 	{
+		static int iC = 1, dC = 0;
+		// Change increasing color (iC) and decreasing color (dC)
 		if (g_rgb[iC] == 255)
 		{
 			iC++;
@@ -151,6 +152,7 @@ namespace Features
 			else if (dC == 3)
 				dC = 0;
 		}
+		// Increase and decrease values
 		g_rgb[iC]++;
 		g_rgb[dC]--;
 	}

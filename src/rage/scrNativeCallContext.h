@@ -36,7 +36,7 @@ public:
 	uint8_t pad[96]; //0x0080
 
 	template<typename T>
-	T GetArg(size_t Index)
+	T& GetArg(size_t Index)
 	{
 		return *(T*)(&(m_Args[Index]));
 	}

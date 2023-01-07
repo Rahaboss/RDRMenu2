@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Signature.h"
 
-Signature::Signature(std::string_view ida_pattern)
+Signature::Signature(std::string_view IDAPattern)
 {
 	// Helper functions
 	auto to_upper = [](const char& c) -> char
@@ -34,29 +34,29 @@ Signature::Signature(std::string_view ida_pattern)
 	};
 
 	// Loop through pattern
-	for (size_t i = 0; i < ida_pattern.size(); i++)
+	for (size_t i = 0; i < IDAPattern.size(); i++)
 	{
 		// Skip gaps
-		if (ida_pattern[i] == ' ')
+		if (IDAPattern[i] == ' ')
 			continue;
 
 		// Unknown byte
-		if (ida_pattern[i] == '?')
+		if (IDAPattern[i] == '?')
 		{
 			// Check for double question mark
-			if (ida_pattern[i + 1] == '?')
+			if (IDAPattern[i + 1] == '?')
 				i++;
 			m_Bytes.push_back(0);
 			continue;
 		}
 
 		// Skip last byte if incomplete
-		if (i == (ida_pattern.size() - 1))
+		if (i == (IDAPattern.size() - 1))
 			break;
 
 		// Construct whole byte from two characters
-		uint8_t c1 = to_hex(ida_pattern[i]);
-		uint8_t c2 = to_hex(ida_pattern[i + 1]);
+		uint8_t c1 = to_hex(IDAPattern[i]);
+		uint8_t c2 = to_hex(IDAPattern[i + 1]);
 		m_Bytes.push_back((c1 * 0x10) + c2);
 		// Skip over the second part of the byte
 		i++;
@@ -64,36 +64,36 @@ Signature::Signature(std::string_view ida_pattern)
 	Scan();
 }
 
-Signature::Signature(void* code_pattern, std::string_view mask)
+Signature::Signature(void* CodePattern, std::string_view Mask)
 {
 	// Loop through pattern
-	for (size_t i = 0; i < mask.size(); i++)
+	for (size_t i = 0; i < Mask.size(); i++)
 	{
 		// Check for unknown byte in mask
-		if (mask[i] == '?')
+		if (Mask[i] == '?')
 		{
 			m_Bytes.push_back(0);
 			continue;
 		}
 
-		m_Bytes.push_back(static_cast<uint8_t*>(code_pattern)[i]);
+		m_Bytes.push_back(static_cast<uint8_t*>(CodePattern)[i]);
 	}
 	Scan();
 }
 
-Signature::Signature(uintptr_t address)
+Signature::Signature(uintptr_t Address):
+	m_Result(Address)
 {
-	m_Result = address;
 }
 
 Signature& Signature::Scan()
 {
 	// Helper function to scan for pattern
-	auto check_pattern = [this](const uintptr_t& location) -> bool
+	auto check_pattern = [this](uintptr_t Location) -> bool
 	{
 		for (size_t i = 0; i < m_Bytes.size(); i++)
 		{
-			if (m_Bytes[i] && m_Bytes[i] != *reinterpret_cast<uint8_t*>(location + i))
+			if (m_Bytes[i] && m_Bytes[i] != *reinterpret_cast<uint8_t*>(Location + i))
 				return false;
 		}
 		return true;

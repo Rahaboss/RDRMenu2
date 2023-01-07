@@ -1,16 +1,20 @@
 #include "pch.h"
 #include "JobQueue.h"
 
-void JobQueue::Add(job_t job)
+void JobQueue::Add(job_t Job)
 {
-	m_List.push(job);
+	m_Queue.push(Job);
 }
 
 void JobQueue::Run()
 {
-	while (!m_List.empty())
+	while (!m_Queue.empty())
 	{
-		m_List.front()();
-		m_List.pop();
+		TRY
+		{
+			m_Queue.front()();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		m_Queue.pop();
 	}
 }
