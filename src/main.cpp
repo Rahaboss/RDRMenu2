@@ -41,6 +41,8 @@ void MainLoop()
 		
 		Hooking::Destroy();
 
+		JobQueueFiber.Destroy();
+
 		MainFiber.Destroy();
 
 		Settings::Destroy();

@@ -42,7 +42,7 @@ public:
 	}
 
 	template<typename T>
-	T GetRet()
+	T& GetRet()
 	{
 		return *(T*)(m_ReturnValue);
 	}

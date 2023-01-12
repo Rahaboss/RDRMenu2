@@ -116,7 +116,8 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (g_Settings["no_snipers"].get<bool>() && ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
+			if (g_Settings["no_snipers"].get<bool>() && ctx &&
+				ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
 				return;
 			
 			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
@@ -128,9 +129,11 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (g_Settings["no_snipers"].get<bool>() && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
+			if (g_Settings["no_snipers"].get<bool>() && ctx &&
+				ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
+				//ctx->GetRet<BOOL>() = FALSE;
 				*(BOOL*)ctx->m_ReturnValue = FALSE; // spoof return value
 				return FALSE;
 			}
@@ -166,117 +169,93 @@ namespace Hooking
 	{
 		TRY
 		{
-			if (g_Settings["infinite_ammo"].get<bool>() && a2 == Pointers::GetPlayerPed(g_LocalPlayer.m_Index))
+			if (a2 == g_LocalPlayer.m_Ped && g_Settings["infinite_ammo"].get<bool>())
 				return;
 
-			Hooking::DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);
+			DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
 	Ped CreatePedHook(scrNativeCallContext* ctx)
 	{
-		Ped result = 0;
+		if (!ctx || !g_Settings["log_human_spawning"].get<bool>() || !g_Settings["log_ped_spawning"].get<bool>())
+			return CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 
-		//TRY
+		Hash model = ctx->GetArg<Hash>(0);
+		Vector3 pos = ctx->GetArg<Vector3>(1);
+
+		Ped result = CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
+		Ped ret = ctx->GetRet<Ped>();
+
+		if (PED::IS_PED_HUMAN(ret))
 		{
-			if (ctx && (g_Settings["log_human_spawning"].get<bool>() || g_Settings["log_ped_spawning"].get<bool>()))
-			{
-				Hash model = ctx->GetArg<Hash>(0);
-				Vector3 pos = ctx->GetArg<Vector3>(1);
-
-				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
-				Ped id = ctx->GetRet<Ped>();
-
-				if (PED::IS_PED_HUMAN(id))
-				{
-					if (g_Settings["log_human_spawning"].get<bool>())
-						Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
-							pos.x, pos.y, pos.z);
-				}
-				else if (g_Settings["log_ped_spawning"].get<bool>())
-					Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, id,
-						pos.x, pos.y, pos.z);
-			}
-			else
-			{
-				result = Hooking::CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
-			}
+			if (g_Settings["log_human_spawning"].get<bool>())
+				Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret,
+					pos.x, pos.y, pos.z);
 		}
-		//EXCEPT{ LOG_EXCEPTION(); }
+		else if (g_Settings["log_ped_spawning"].get<bool>())
+			Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret,
+				pos.x, pos.y, pos.z);
 
 		return result;
 	}
 	
 	Vehicle CreateVehicleHook(scrNativeCallContext* ctx)
 	{
-		Vehicle result = 0;
+		if (!ctx || !g_Settings["log_vehicle_spawning"].get<bool>())
+			return CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 
-		//TRY
-		{
-			if (ctx && g_Settings["log_vehicle_spawning"].get<bool>())
-			{
-				Hash model = ctx->GetArg<Hash>(0);
-				Vector3 pos = ctx->GetArg<Vector3>(1);
+		Hash model = ctx->GetArg<Hash>(0);
+		Vector3 pos = ctx->GetArg<Vector3>(1);
 
-				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
-				Vehicle id = ctx->GetRet<Vehicle>();
+		Vehicle result = CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
+		Vehicle ret = ctx->GetRet<Vehicle>();
 
-				Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, id,
-					pos.x, pos.y, pos.z);
-			}
-			else
-			{
-				result = Hooking::CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
-			}
-		}
-		//EXCEPT{ LOG_EXCEPTION(); }
+		Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, ret,
+			pos.x, pos.y, pos.z);
 
 		return result;
 	}
 	
 	BOOL InventoryAddItemHook(scrNativeCallContext* ctx)
 	{
+		if (!ctx || !g_Settings["log_added_inventory_items"].get<bool>())
+			return InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+			
 		BOOL result = 0;
 
 		TRY
 		{
-			if (ctx && g_Settings["log_added_inventory_items"].get<bool>())
-			{
-				int inventoryId = ctx->GetArg<int>(0);
-				Any* guid1 = ctx->GetArg<Any*>(1);
-				Any* guid2 = ctx->GetArg<Any*>(2);
-				Hash item = ctx->GetArg<Hash>(3);
-				Hash inventoryItemSlot = ctx->GetArg<Hash>(4);
-				int p5 = ctx->GetArg<int>(5);
-				Hash addReason = ctx->GetArg<Hash>(6);
+			int inventoryId = ctx->GetArg<int>(0);
+			Any* guid1 = ctx->GetArg<Any*>(1);
+			Any* guid2 = ctx->GetArg<Any*>(2);
+			Hash item = ctx->GetArg<Hash>(3);
+			Hash inventoryItemSlot = ctx->GetArg<Hash>(4);
+			int p5 = ctx->GetArg<int>(5);
+			Hash addReason = ctx->GetArg<Hash>(6);
 
-				result = Hooking::InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
-				BOOL ret = ctx->GetRet<BOOL>();
+			result = InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+			BOOL ret = ctx->GetRet<BOOL>();
 
-				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
-				switch (inventoryId)
-				{
-				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
-				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
-				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
-				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
-				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
-					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
-						inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
-					Menu::Logger.AddLog("\tReturned %d\n\n", ret);
-					Menu::Logger.AddLog("\tguid1:\n");
-					for (int i = 0; i < 4; i++)
-						Menu::Logger.AddLog("\t%d\n", ((int*)guid1)[i * 2]);
-					Menu::Logger.AddLog("\tguid2:\n");
-					for (int i = 0; i < 5; i++)
-						Menu::Logger.AddLog("\t%d\n", ((int*)guid2)[i * 2]);
-					break;
-				}
-			}
-			else
+			constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+			switch (inventoryId)
 			{
-				result = Hooking::InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+			case CONSUMABLE_BIG_GAME_MEAT_COOKED:
+			case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
+			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
+			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+			case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
+				Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
+					inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
+				Menu::Logger.AddLog("\tReturned %d\n\n", ret);
+				Menu::Logger.AddLog("\tguid1:\n");
+				for (int i = 0; i < 4; i++)
+					Menu::Logger.AddLog("\t%d\n", ((int*)guid1)[i * 2]);
+				Menu::Logger.AddLog("\tguid2:\n");
+				for (int i = 0; i < 5; i++)
+					Menu::Logger.AddLog("\t%d\n", ((int*)guid2)[i * 2]);
+				break;
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -286,43 +265,39 @@ namespace Hooking
 	
 	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx)
 	{
+		if (!ctx || !g_Settings["log_added_inventory_items"].get<bool>())
+			return GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
+
 		BOOL result = 0;
 
 		TRY
 		{
-			if (ctx && g_Settings["log_added_inventory_items"].get<bool>())
-			{
-				int inventoryId = ctx->GetArg<int>(0);
-				Any* guid = ctx->GetArg<Any*>(1);
-				Hash p2 = ctx->GetArg<Hash>(2);
-				Hash slotId = ctx->GetArg<Hash>(3);
-				Any* outGuid = ctx->GetArg<Any*>(4);
+			int inventoryId = ctx->GetArg<int>(0);
+			Any* guid = ctx->GetArg<Any*>(1);
+			Hash p2 = ctx->GetArg<Hash>(2);
+			Hash slotId = ctx->GetArg<Hash>(3);
+			Any* outGuid = ctx->GetArg<Any*>(4);
 
-				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
-				BOOL ret = ctx->GetRet<BOOL>();
+			result = GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
+			BOOL ret = ctx->GetRet<BOOL>();
 
-				constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
-				switch (inventoryId)
-				{
-				case CONSUMABLE_BIG_GAME_MEAT_COOKED:
-				case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
-				case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
-				case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
-				case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
-					Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
-					Menu::Logger.AddLog("\tReturned %d\n\n", ret);
-					Menu::Logger.AddLog("\tguid:\n");
-					for (int i = 0; i < 5; i++)
-						Menu::Logger.AddLog("\t%d\n", ((int*)guid)[i * 2]);
-					Menu::Logger.AddLog("\toutGuid:\n");
-					for (int i = 0; i < 5; i++)
-						Menu::Logger.AddLog("\t%d\n", ((int*)outGuid)[i * 2]);
-					break;
-				}
-			}
-			else
+			constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+			switch (inventoryId)
 			{
-				result = Hooking::GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
+			case CONSUMABLE_BIG_GAME_MEAT_COOKED:
+			case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
+			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
+			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+			case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
+				Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
+				Menu::Logger.AddLog("\tReturned %d\n\n", ret);
+				Menu::Logger.AddLog("\tguid:\n");
+				for (int i = 0; i < 5; i++)
+					Menu::Logger.AddLog("\t%d\n", ((int*)guid)[i * 2]);
+				Menu::Logger.AddLog("\toutGuid:\n");
+				for (int i = 0; i < 5; i++)
+					Menu::Logger.AddLog("\t%d\n", ((int*)outGuid)[i * 2]);
+				break;
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -339,7 +314,7 @@ namespace Hooking
 			if (g_Running)
 				Renderer::Present();
 
-			result = Hooking::SwapChainPresent.GetOriginal<decltype(&SwapChainPresentHook)>()(SwapChain, SyncInterval, Flags);
+			result = SwapChainPresent.GetOriginal<decltype(&SwapChainPresentHook)>()(SwapChain, SyncInterval, Flags);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
@@ -348,31 +323,24 @@ namespace Hooking
 
 	PersChar CreatePersCharHook(scrNativeCallContext* ctx)
 	{
-		// PersChar PERSCHAR::_CREATE_PERSISTENT_CHARACTER(Hash hash)
-		PersChar result = 0;
+		if (!ctx || !g_Settings["log_human_spawning"].get<bool>())
+			return CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
 
-		if (ctx && g_Settings["log_human_spawning"].get<bool>())
+		Hash hash = ctx->GetArg<Hash>(0);
+		PersChar result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
+		PersChar ret = ctx->GetRet<PersChar>();
+		Hash model = PERSCHAR::_GET_PERSCHAR_MODEL_NAME(hash);
+		if (!model)
 		{
-			Hash hash = ctx->GetArg<Hash>(0);
-			result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
-			PersChar id = ctx->GetRet<PersChar>();
-			Hash model = PERSCHAR::_GET_PERSCHAR_MODEL_NAME(hash);
-			if (!model)
-			{
-				Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(id);
-				model = ENTITY::GET_ENTITY_MODEL(ped);
-			}
-
-			if (model)
-			{
-				const auto it = g_PedModelNameList.find(model);
-				if (it != g_PedModelNameList.end())
-					Menu::Logger.AddLog("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, id);
-			}
+			Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
+			model = ENTITY::GET_ENTITY_MODEL(ped);
 		}
-		else
+
+		if (model)
 		{
-			result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
+			const auto it = g_PedModelNameList.find(model);
+			if (it != g_PedModelNameList.end())
+				Menu::Logger.AddLog("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
 		}
 
 		return result;
@@ -380,26 +348,20 @@ namespace Hooking
 
 	AnimScene CreateAnimSceneHook(scrNativeCallContext* ctx)
 	{
-		AnimScene result = 0;
+		if (!ctx || !g_Settings["log_created_cutscenes"].get<bool>())
+			return CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
 		
-		if (g_Settings["log_created_cutscenes"].get<bool>() && ctx)
-		{
-			const char* animDict = ctx->GetArg<const char*>(0);
-			int flags = ctx->GetArg<int>(1);
-			const char* playbackListName = ctx->GetArg<const char*>(2);
-			bool p3 = ctx->GetArg<BOOL>(3);
-			bool p4 = ctx->GetArg<BOOL>(4);
-			result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
-			AnimScene scene = ctx->GetRet<AnimScene>();
+		const char* animDict = ctx->GetArg<const char*>(0);
+		int flags = ctx->GetArg<int>(1);
+		const char* playbackListName = ctx->GetArg<const char*>(2);
+		bool p3 = ctx->GetArg<BOOL>(3);
+		bool p4 = ctx->GetArg<BOOL>(4);
+		AnimScene result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+		AnimScene ret = ctx->GetRet<AnimScene>();
 
-			if (std::string(animDict).find("cutscene@") != std::string::npos)
-				Menu::Logger.AddLog("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
-					(p3 ? "true" : "false"), (p4 ? "true" : "false"), scene);
-		}
-		else
-		{
-			result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
-		}
+		if (std::string(animDict).find("cutscene@") != std::string::npos)
+			Menu::Logger.AddLog("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
+				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
 
 		return result;
 	}

@@ -9,12 +9,13 @@ namespace Console
 	{
 		AllocConsole();
 		freopen_s(&s_File, "CONOUT$", "w", stdout);
+		assert(s_File);
 		SetConsoleTitle(L"RDRMenu2 - "
-	#ifdef _DEBUG
+#ifdef _DEBUG
 			"Debug"
-	#else
+#else
 			"Release"
-	#endif
+#endif
 		);
 		printf("Created console.\n");
 	}
@@ -22,7 +23,6 @@ namespace Console
 	void Destroy()
 	{
 		printf("Destroying console.\n");
-		assert(s_File);
 		fclose(s_File);
 		FreeConsole();
 	}
