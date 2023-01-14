@@ -6,7 +6,7 @@
 namespace Features
 {
 	void DeletePed(Ped Handle);
-	void EndSpawnPed(Hash Model, Ped Handle);
+	void EndSpawnPed(Ped Handle);
 	void EndSpawnVehicle(Hash model, Vehicle Handle);
 	std::string GetPedModelName(Hash hash);
 	std::string GetVehicleModelName(Hash hash);

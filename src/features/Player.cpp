@@ -110,6 +110,39 @@ namespace Features
 			PED::SET_PED_RESET_FLAG(g_LocalPlayer.m_Mount, PCF_0x435F091E, true);
 	}
 
+	bool LoadGround(float x, float y, float z)
+	{
+		return LoadGround(Vector3(x, y, z));
+	}
+
+	bool LoadGround(Vector3 location)
+	{
+		float groundZ;
+		const uint8_t attempts = 10;
+
+		for (uint8_t i = 0; i < attempts; i++)
+		{
+			// Only request a collision after the first try failed because the location might already be loaded on first attempt.
+			for (uint16_t z = 0; i && z < 1000; z += 100)
+			{
+				STREAMING::REQUEST_COLLISION_AT_COORD(location.x, location.y, (float)z);
+
+				YieldThread();
+			}
+
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(location.x, location.y, 1000.f, &groundZ, false))
+			{
+				location.z = groundZ + 1.f;
+
+				return true;
+			}
+
+			YieldThread();
+		}
+
+		return false;
+	}
+
 	void RemoveMoney(int AmountCents)
 	{
 		MONEY::_MONEY_DECREMENT_CASH_BALANCE(AmountCents);
@@ -177,7 +210,7 @@ namespace Features
 			Ped ped = SpawnPed(Model);
 			DECORATOR::DECOR_SET_INT(ped, "honor_override", 9999);
 			TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
-			EndSpawnPed(Model, ped);
+			EndSpawnPed(ped);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -189,13 +222,14 @@ namespace Features
 			Ped ped = SpawnPed(Model);
 			DECORATOR::DECOR_SET_INT(ped, "honor_override", -9999);
 			TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
-			EndSpawnPed(Model, ped);
+			EndSpawnPed(ped);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
 	void Teleport(float x, float y, float z)
 	{
+		LoadGround(x, y, z);
 		ENTITY::SET_ENTITY_COORDS(GetMainEntity(), x, y, z, false, false, false, false);
 	}
 
@@ -208,7 +242,7 @@ namespace Features
 	{
 		QUEUE_JOB(=)
 		{
-			Teleport(x, y, z);
+			Teleport(x, y, z - 1.0f);
 			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), true);
 		}
 		END_JOB()

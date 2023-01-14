@@ -12,8 +12,9 @@ namespace Features
 		PED::DELETE_PED(&Handle);
 	}
 
-	void EndSpawnPed(Hash Model, Ped Handle)
+	void EndSpawnPed(Ped Handle)
 	{
+		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
 		ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&Handle);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 	}
@@ -77,16 +78,21 @@ namespace Features
 		}
 
 		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
-		ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z,
-			ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), false, false, false, false);
+		
+		for (int i = 0; !ped && i < 10; i++)
+		{
+			ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z,
+				ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), false, false, false, false);
+			YieldThread();
+		}
 
 		if (!ped)
 		{
 			printf("%s: Couldn't spawn ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
-			return ped;
+			return 0;
 		}
 
-		YieldThread();
+		ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(ped, true);
 
 		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, true);
 		PED::SET_PED_CAN_BE_TARGETTED(ped, true);

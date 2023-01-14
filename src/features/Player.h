@@ -15,6 +15,8 @@ namespace Features
 	int GetMoney();
 	Entity GetMountOrVehicle();
 	void GiveGoldCores(Ped ped);
+	bool LoadGround(float x, float y, float z);
+	bool LoadGround(Vector3 pos);
 	void NoSliding();
 	void RemoveMoney(int AmountCents);
 	void RestoreHorseCores();

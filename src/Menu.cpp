@@ -539,7 +539,7 @@ namespace Menu
 				QUEUE_JOB(&it)
 				{
 					Ped ped = Features::SpawnPed(it.second);
-					Features::EndSpawnPed(it.second, ped);
+					Features::EndSpawnPed(ped);
 				}
 				END_JOB()
 			}
@@ -694,7 +694,13 @@ namespace Menu
 			END_JOB()
 		}
 
-		if (ImGui::Button("Dinolady Cutscene"))
+		if (ImGui::Button("Corrupt scrNativeCallContext::SetVectorResults"))
+			*(Signature("8B 41 18 4C 8B C1 85 C0").Get<uint8_t*>()) = 0xC3;
+
+		ImGui::Separator();
+		ImGui::Text("Beta Cutscenes");
+
+		if (ImGui::Button("A Test of Faith II (Arthur)"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -703,7 +709,7 @@ namespace Menu
 			END_JOB()
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Fish Collector Cutscene"))
+		if (ImGui::Button("A Fisher of Fish II (Arthur)"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -712,7 +718,7 @@ namespace Menu
 			END_JOB()
 		}
 
-		if (ImGui::Button("Industry Cutscene"))
+		if (ImGui::Button("The Gilded Cage"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -721,8 +727,37 @@ namespace Menu
 			END_JOB()
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Corrupt scrNativeCallContext::SetVectorResults"))
-			*(Signature("8B 41 18 4C 8B C1 85 C0").Get<uint8_t*>()) = 0xC3;
+		if (ImGui::Button("Annesburg Jail Breakout With Charles"))
+		{
+			QUEUE_JOB(= )
+			{
+				Features::PlayAnnesburgBreakoutCutscene();
+			}
+			END_JOB()
+		}
+		
+		if (ImGui::Button("Charles Leaving (Natives)"))
+		{
+			QUEUE_JOB(=)
+			{
+				Features::PlayCharlesLeavingCutscene();
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Spawn Charles Horse"))
+		{
+			QUEUE_JOB()
+			{
+				Ped ped = Features::SpawnPed(A_C_HORSE_GANG_CHARLES);
+				int id = PED::_REQUEST_METAPED_OUTFIT(A_C_HORSE_GANG_CHARLES, 0x4B96E611);
+				while (!PED::_HAS_METAPED_OUTFIT_LOADED(id))
+					Features::YieldThread();
+				PED::_APPLY_PED_METAPED_OUTFIT(id, ped, true, false);
+				PED::_RELEASE_METAPED_OUTFIT_REQUEST(id);
+			}
+			END_JOB()
+		}
 
 		ImGui::Separator();
 
@@ -1041,7 +1076,7 @@ namespace Menu
 			QUEUE_JOB(=)
 			{
 				Features::DeletePed(PedDebug.ent);
-				Features::EndSpawnPed(PedDebug.model, PedDebug.ent);
+				Features::EndSpawnPed(PedDebug.ent);
 				PedDebug.ent = 0;
 			}
 			END_JOB()
