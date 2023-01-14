@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "features/Cutscene.h"
 #include "features/Debug.h"
 #include "features/Input.h"
 #include "features/Inventory.h"
