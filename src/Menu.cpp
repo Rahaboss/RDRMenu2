@@ -7,6 +7,7 @@
 #include "PlayerInfo.h"
 #include "Lists.h"
 #include "Signature.h"
+#include "ScriptGlobal.h"
 
 namespace Menu
 {
@@ -148,6 +149,26 @@ namespace Menu
 			ImGui::PopButtonRepeat();
 			ImGui::SameLine();
 			ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
+			ImGui::Separator();
+
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Set Player Model");
+			ImGui::SameLine();
+
+			static char ModBuffer[200];
+			ImGui::PushItemWidth(250.0f);
+			ImGui::InputText("###filter_ped", ModBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
+			ImGui::BeginChild("player_model_child", ImVec2(0, 200));
+			for (const auto& p : g_PedList)
+			{
+				if (p.first.find(ModBuffer) == std::string::npos)
+					continue;
+
+				if (ImGui::Selectable(p.first.c_str()))
+					Features::SetPlayerModel(p.second);
+			}
+
+			ImGui::EndChild();
 		}
 		ImGui::Separator();
 
@@ -591,11 +612,12 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::Text("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 
-		ImGui::Separator();
-
+		ImGui::SameLine();
 		ImGui::ColorButton("RGB Color", ImVec4(Features::g_rgb[0] / 255.0f, Features::g_rgb[1] / 255.0f, Features::g_rgb[2] / 255.0f, 1.0f),
 			ImGuiColorEditFlags_Uint8);
+		ImGui::Separator();
 
+		ImGui::BeginGroup();
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("CPed: 0x%llX", g_LocalPlayer.m_Ped);
 		ImGui::SameLine();
@@ -632,7 +654,18 @@ namespace Menu
 			ImGui::LogText("%llX", off + 0x7FF73CAB0000 /*imagebase in ida*/);
 			ImGui::LogFinish();
 		}
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
 
+		ImGui::Text("Global_35: 0x%llX", ScriptGlobal(35).Get<Ped*>());
+		ImGui::Text("Global_35 = %u", ScriptGlobal(35).Get<Ped&>());
+		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
+		ImGui::Text("Global_1946054.f_1 = %u", ScriptGlobal(1946054).At(1).Get<int&>());
+		constexpr auto asdasd = joaat("MPC_PLAYER_TYPE_MP_MALE");
+		constexpr auto asdasd2 = joaat("MPC_PLAYER_TYPE_MP_FEMALE");
+
+		ImGui::EndGroup();
 		ImGui::Separator();
 
 		if (ImGui::Button("Get Height"))
@@ -640,16 +673,6 @@ namespace Menu
 			QUEUE_JOB(=)
 			{
 				printf("Ped height: %.2f.\n", PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity));
-			}
-			END_JOB();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Change Player Model"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::RequestModel(U_F_M_RHDNUDEWOMAN_01);
-				PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, U_F_M_RHDNUDEWOMAN_01, false);
 			}
 			END_JOB();
 		}
@@ -697,6 +720,12 @@ namespace Menu
 		if (ImGui::Button("Corrupt scrNativeCallContext::SetVectorResults"))
 			*(Signature("8B 41 18 4C 8B C1 85 C0").Get<uint8_t*>()) = 0xC3;
 
+		if (ImGui::Button("Change Player Model"))
+			Features::SetPlayerModel();
+		ImGui::SameLine();
+		if (ImGui::Button("Reset Player Model"))
+			Features::SetPlayerModel(PLAYER_ZERO);
+
 		ImGui::Separator();
 		ImGui::Text("Beta Cutscenes");
 
@@ -736,6 +765,15 @@ namespace Menu
 			END_JOB()
 		}
 		
+		if (ImGui::Button("Jack Cutscene (John)"))
+		{
+			QUEUE_JOB(=)
+			{
+				Features::PlayJackCutscene();
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
 		if (ImGui::Button("Charles Leaving (Natives)"))
 		{
 			QUEUE_JOB(=)
@@ -744,20 +782,22 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		ImGui::SameLine();
-		if (ImGui::Button("Spawn Charles Horse"))
-		{
-			QUEUE_JOB()
-			{
-				Ped ped = Features::SpawnPed(A_C_HORSE_GANG_CHARLES);
-				int id = PED::_REQUEST_METAPED_OUTFIT(A_C_HORSE_GANG_CHARLES, 0x4B96E611);
-				while (!PED::_HAS_METAPED_OUTFIT_LOADED(id))
-					Features::YieldThread();
-				PED::_APPLY_PED_METAPED_OUTFIT(id, ped, true, false);
-				PED::_RELEASE_METAPED_OUTFIT_REQUEST(id);
-			}
-			END_JOB()
-		}
+		//ImGui::SameLine();
+		//if (ImGui::Button("Spawn Charles Horse"))
+		//{
+		//	QUEUE_JOB()
+		//	{
+		//		Ped ped = Features::SpawnPed(A_C_HORSE_GANG_CHARLES);
+		//		int id = PED::_REQUEST_METAPED_OUTFIT(A_C_HORSE_GANG_CHARLES, 0x4B96E611);
+		//		while (!PED::_HAS_METAPED_OUTFIT_LOADED(id))
+		//			Features::YieldThread();
+		//		PED::_APPLY_PED_METAPED_OUTFIT(id, ped, true, false);
+		//		PED::_RELEASE_METAPED_OUTFIT_REQUEST(id);
+		//	}
+		//	END_JOB()
+		//}
+
+
 
 		ImGui::Separator();
 

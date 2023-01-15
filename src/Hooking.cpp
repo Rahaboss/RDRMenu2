@@ -179,7 +179,7 @@ namespace Hooking
 
 	Ped CreatePedHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["log_human_spawning"].get<bool>() || !g_Settings["log_ped_spawning"].get<bool>())
+		if (!ctx || (!g_Settings["log_human_spawning"].get<bool>() && !g_Settings["log_ped_spawning"].get<bool>()))
 			return CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 
 		Hash model = ctx->GetArg<Hash>(0);
@@ -191,12 +191,14 @@ namespace Hooking
 		if (PED::IS_PED_HUMAN(ret))
 		{
 			if (g_Settings["log_human_spawning"].get<bool>())
-				Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret,
-					pos.x, pos.y, pos.z);
+			{
+				Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
+			}
 		}
 		else if (g_Settings["log_ped_spawning"].get<bool>())
-			Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret,
-				pos.x, pos.y, pos.z);
+		{
+			Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
+		}
 
 		return result;
 	}

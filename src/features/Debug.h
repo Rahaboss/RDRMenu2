@@ -6,7 +6,6 @@
 namespace Features
 {
 	void* GetBlipCollection();
-	void* GetScriptGlobal(uint32_t Index);
 	void PrintNativeHandlerAddress(uint64_t hash);
 	void UnlockSPPreorderBonus();
 }

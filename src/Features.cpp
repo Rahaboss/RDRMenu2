@@ -18,19 +18,19 @@ namespace Features
 
 			for (uint16_t i = 0; i < Pointers::ThreadCollection->m_pCount; i++)
 			{
-				GtaThread* thread = Pointers::ThreadCollection->m_pData[i];
-				if (!thread || !thread->m_ThreadID || thread->m_ScriptHash != ScriptHash)
+				GtaThread* Thread = Pointers::ThreadCollection->m_pData[i];
+				if (!Thread || !Thread->m_ThreadID || Thread->m_ScriptHash != ScriptHash)
 					continue;
 				
 				// Backup and change thread
-				scrThread* og_thread = *Pointers::ActiveThread;
-				*Pointers::ActiveThread = thread;
+				scrThread* OriginalThread = *Pointers::ActiveThread;
+				*Pointers::ActiveThread = Thread;
 
 				// Execute
 				Function();
 
 				// Restore thread 
-				*Pointers::ActiveThread = og_thread;
+				*Pointers::ActiveThread = OriginalThread;
 				return;
 			}
 		}

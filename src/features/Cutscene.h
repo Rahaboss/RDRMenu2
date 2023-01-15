@@ -9,4 +9,5 @@ namespace Features
 	void PlayIndustryCutscene();
 	void PlayAnnesburgBreakoutCutscene();
 	void PlayCharlesLeavingCutscene();
+	void PlayJackCutscene();
 }

@@ -10,6 +10,7 @@ namespace Features
 	void EndSpawnVehicle(Hash model, Vehicle Handle);
 	std::string GetPedModelName(Hash hash);
 	std::string GetVehicleModelName(Hash hash);
+	bool IsModelValid(Hash Model);
 	bool RequestModel(Hash model);
 	Ped SpawnPed(Hash model);
 	Pickup SpawnPickup(Hash PickupHash);

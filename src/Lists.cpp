@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Lists.h"
+#include "Features.h"
 
 namespace Lists
 {
@@ -14,11 +15,6 @@ namespace Lists
 		Path.append("RDRMenu2");
 
 		return Path;
-	}
-
-	bool IsModelValid(Hash model)
-	{
-		return STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model);
 	}
 
 	bool IsStringValid(const char* str)
@@ -49,7 +45,7 @@ namespace Lists
 			auto name = v.get<std::string>();
 			Hash model = joaat(name);
 
-			if (!IsModelValid(model))
+			if (!Features::IsModelValid(model))
 			{
 				printf("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
 				continue;
@@ -162,7 +158,7 @@ namespace Lists
 			auto name = p.get<std::string>();
 			Hash model = joaat(name);
 
-			if (!IsModelValid(model))
+			if (!Features::IsModelValid(model))
 			{
 				printf("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
 				continue;

@@ -21,6 +21,6 @@ In Visual Studio, right click on the project in the Solution Explorer. Click on 
 * ✔ Native invoker
 * ✔ Job queue
 * ✔ JSON file support
-* ❌ YSC script global access
+* ✔ YSC script global access
 * ✔ D3D12 ImGui renderer
 * ❌ Vulkan ImGui renderer

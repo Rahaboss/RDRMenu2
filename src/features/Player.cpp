@@ -3,6 +3,7 @@
 #include "Features.h"
 #include "PlayerInfo.h"
 #include "JobQueue.h"
+#include "ScriptGlobal.h"
 
 namespace Features
 {
@@ -201,6 +202,28 @@ namespace Features
 			AddMoney(amount);
 		else if (amount < 0)
 			RemoveMoney(-amount);
+	}
+
+	void SetPlayerModel(Hash Model)
+	{
+		QUEUE_JOB(=)
+		{
+			if (!IsModelValid(Model))
+				return;
+
+			RequestModel(Model);
+
+			ScriptGlobal(40).At(39).Get<Hash&>() = Model; // medium_update.c: Global_40.f_39
+			ScriptGlobal(1935630).At(2).Get<Hash&>() = Model; // medium_update.c: Global_1935630.f_2
+			PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, Model, false);
+
+			GetLocalPlayerInfo();
+
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
+			PED::_SET_RANDOM_OUTFIT_VARIATION(g_LocalPlayer.m_Entity, true);
+			RestorePlayerCores();
+		}
+		END_JOB()
 	}
 
 	void SpawnBadHonorEnemy(Hash Model)

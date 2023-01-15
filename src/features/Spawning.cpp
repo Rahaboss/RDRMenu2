@@ -9,7 +9,9 @@ namespace Features
 {
 	void DeletePed(Ped Handle)
 	{
+		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
 		PED::DELETE_PED(&Handle);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 	}
 
 	void EndSpawnPed(Ped Handle)
@@ -42,12 +44,17 @@ namespace Features
 		
 		return "Unknown";
 	}
+	
+	bool IsModelValid(Hash Model)
+	{
+		return STREAMING::IS_MODEL_IN_CDIMAGE(Model) && STREAMING::IS_MODEL_VALID(Model);
+	}
 
 	bool RequestModel(Hash model)
 	{
 		TRY
 		{
-			if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
+			if (!IsModelValid(model))
 			{
 				printf("%s: 0x%llX is not a valid model hash!\n", __FUNCTION__, (uint64_t)model);
 				return false;
