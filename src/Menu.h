@@ -38,12 +38,6 @@ struct ExampleAppLog
 
 	void    Draw()
 	{
-		//if (!ImGui::Begin(title, p_open))
-		//{
-		//	ImGui::End();
-		//	return;
-		//}
-
 		// Options menu
 		if (ImGui::BeginPopup("Options"))
 		{
@@ -120,7 +114,6 @@ struct ExampleAppLog
 			ImGui::SetScrollHereY(1.0f);
 
 		ImGui::EndChild();
-		//ImGui::End();
 	}
 };
 

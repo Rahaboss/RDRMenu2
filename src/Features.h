@@ -23,6 +23,7 @@ namespace Features
 	void RunJobQueue();
 	void YieldThread();
 	void RGBTick();
+	ImVec4 GetImGuiRGB();
 
 	inline uint8_t g_rgb[3]{ 255, 0, 0 };
 }

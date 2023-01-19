@@ -432,18 +432,24 @@ namespace Menu
 		if (ImGui::Button("Give All Consumables"))
 			Features::GiveAllConsumables();
 		ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
-		for (const auto& c : g_ConsumableList)
 		{
-			if (c.first.find(ConBuffer) == std::string::npos)
-				continue;
-			
-			if (ImGui::Selectable(c.first.c_str()))
+			std::string s1(ConBuffer);
+			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
+			for (const auto& c : g_ConsumableList)
 			{
-				QUEUE_JOB(&c)
+				std::string s2(c.first);
+				std::transform(s2.cbegin(), s2.cend(), s2.begin(), ::toupper);
+				if (s2.find(s1) == std::string::npos)
+					continue;
+			
+				if (ImGui::Selectable(c.first.c_str()))
 				{
-					Features::GiveInventoryItem(c.second, 99);
+					QUEUE_JOB(&c)
+					{
+						Features::GiveInventoryItem(c.second, 99);
+					}
+					END_JOB()
 				}
-				END_JOB()
 			}
 		}
 		ImGui::EndChild();
@@ -459,18 +465,24 @@ namespace Menu
 		if (ImGui::Button("Give All Provisions"))
 			Features::GiveAllProvisions();
 		ImGui::BeginChild("provision_menu", ImVec2(0, 200));
-		for (const auto& p : g_ProvisionList)
 		{
-			if (p.first.find(ProBuffer) == std::string::npos)
-				continue;
-			
-			if (ImGui::Selectable(p.first.c_str()))
+			std::string s1(ProBuffer);
+			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
+			for (const auto& p : g_ProvisionList)
 			{
-				QUEUE_JOB(&p)
+				std::string s2(p.first);
+				std::transform(s2.cbegin(), s2.cend(), s2.begin(), ::toupper);
+				if (s2.find(s1) == std::string::npos)
+					continue;
+
+				if (ImGui::Selectable(p.first.c_str()))
 				{
-					Features::GiveInventoryItem(p.second, 99);
+					QUEUE_JOB(&p)
+					{
+						Features::GiveInventoryItem(p.second, 99);
+					}
+					END_JOB()
 				}
-				END_JOB()
 			}
 		}
 		ImGui::EndChild();
@@ -486,18 +498,24 @@ namespace Menu
 		if (ImGui::Button("Give All Documents"))
 			Features::GiveAllDocuments();
 		ImGui::BeginChild("document_menu", ImVec2(0, 200));
-		for (const auto& d : g_DocumentList)
 		{
-			if (d.first.find(DocBuffer) == std::string::npos)
-				continue;
-
-			if (ImGui::Selectable(d.first.c_str()))
+			std::string s1(DocBuffer);
+			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
+			for (const auto& d : g_DocumentList)
 			{
-				QUEUE_JOB(&d)
+				std::string s2(d.first);
+				std::transform(s2.cbegin(), s2.cend(), s2.begin(), ::toupper);
+				if (s2.find(s1) == std::string::npos)
+					continue;
+
+				if (ImGui::Selectable(d.first.c_str()))
 				{
-					Features::GiveInventoryItem(d.second, 99);
+					QUEUE_JOB(&d)
+					{
+						Features::GiveInventoryItem(d.second, 99);
+					}
+					END_JOB()
 				}
-				END_JOB()
 			}
 		}
 		ImGui::EndChild();
@@ -722,8 +740,7 @@ namespace Menu
 		ImGui::Text("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 
 		ImGui::SameLine();
-		ImGui::ColorButton("RGB Color", ImVec4(Features::g_rgb[0] / 255.0f, Features::g_rgb[1] / 255.0f, Features::g_rgb[2] / 255.0f, 1.0f),
-			ImGuiColorEditFlags_Uint8);
+		ImGui::ColorButton("RGB Color", Features::GetImGuiRGB(),ImGuiColorEditFlags_Uint8);
 		ImGui::Separator();
 
 		ImGui::BeginGroup();
@@ -767,10 +784,13 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
-		ImGui::Text("Global_35: 0x%llX", ScriptGlobal(35).Get<Ped*>());
-		ImGui::Text("Global_35 = %u", ScriptGlobal(35).Get<Ped&>());
-		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
-		ImGui::Text("Global_1946054.f_1 = %u", ScriptGlobal(1946054).At(1).Get<int&>());
+		if (g_LocalPlayer.m_Entity)
+		{
+			ImGui::Text("Global_35: 0x%llX", ScriptGlobal(35).Get<Ped*>());
+			ImGui::Text("Global_35 = %u", ScriptGlobal(35).Get<Ped&>());
+			ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
+			ImGui::Text("Global_1946054.f_1 = %u", ScriptGlobal(1946054).At(1).Get<int&>());
+		}
 		
 		ImGui::EndGroup();
 		ImGui::Separator();

@@ -244,19 +244,38 @@ namespace Features
 
 	void RGBTick()
 	{
-		static int iC = 1, dC = 0;
-		// Change increasing color (iC) and decreasing color (dC)
-		if (g_rgb[iC] == 255)
+		constexpr int Speed = 2;
+		for (int i = 0; i < Speed; i++)
 		{
-			iC++;
-			dC++;
-			if (iC == 3)
-				iC = 0;
-			else if (dC == 3)
-				dC = 0;
+			static bool Increasing = true;
+			static int iC = 1, dC = 0;
+
+			// Change increasing color (iC) and decreasing color (dC)
+			if (Increasing && g_rgb[iC] == 255)
+			{
+				Increasing = false;
+				iC++;
+				if (iC == 3)
+					iC = 0;
+			}
+			else if (g_rgb[dC] == 0)
+			{
+				Increasing = true;
+				dC++;
+				if (dC == 3)
+					dC = 0;
+			}
+
+			// Increase and decrease values
+			if (Increasing)
+				g_rgb[iC]++;
+			else
+				g_rgb[dC]--;
 		}
-		// Increase and decrease values
-		g_rgb[iC]++;
-		g_rgb[dC]--;
+	}
+
+	ImVec4 GetImGuiRGB()
+	{
+		return ImVec4(g_rgb[0] / 255.0f, g_rgb[1] / 255.0f, g_rgb[2] / 255.0f, 1.0f);
 	}
 }

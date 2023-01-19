@@ -84,25 +84,6 @@ namespace Features
 		return g_LocalPlayer.m_Vehicle;
 	}
 
-	void GiveGoldCores(Ped ped)
-	{
-		QUEUE_JOB(=)
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				constexpr float Duration = 10000.0f; // seconds
-				constexpr int CoreValue = 100; // 0 - 100
-				constexpr BOOL Sound = false;
-
-				ATTRIBUTE::DISABLE_ATTRIBUTE_OVERPOWER(ped, i);
-				ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(ped, i, CoreValue);
-				ATTRIBUTE::_ENABLE_ATTRIBUTE_CORE_OVERPOWER(ped, i, Duration, Sound);
-				ATTRIBUTE::ENABLE_ATTRIBUTE_OVERPOWER(ped, i, Duration, Sound);
-			}
-		}
-		END_JOB()
-	}
-
 	void NoSliding()
 	{
 		// PCF_0x435F091E = set ped can run into steep slope
