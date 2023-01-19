@@ -144,9 +144,23 @@ namespace Menu
 	// Submenus
 	void RenderPlayerButtons();
 	void RenderPlayerCheckboxes();
+	void RenderPlayerModelChanger();
 	void RenderPedDebug();
 	void RenderOverlay();
 	void RenderOverlayMain();
+
+	inline bool EnableFreeCam = false;
+	inline Cam CamEntity = 0;
+
+	struct {
+		Entity ent = 0;
+		Hash model = A_C_FISHCHANNELCATFISH_01_XL;
+		Vector3 pos{};
+		float head{};
+		int health{}, max_health{};
+		bool freeze{}, invincible{}, visible = true;
+		bool injured{};
+	} inline PedDebug;
 
 	inline int CurCtx = 0;
 	inline constexpr char* HUDContextList[]{
@@ -217,16 +231,6 @@ namespace Menu
 		"HUD_CTX_TITHING_NOGANG_CASH",
 		"HUD_CTX_TRANSLATE_OVERLAY",
 	};
-
-	struct {
-		Entity ent = 0;
-		Hash model = A_C_FISHCHANNELCATFISH_01_XL;
-		Vector3 pos{};
-		float head{};
-		int health{}, max_health{};
-		bool freeze{}, invincible{}, visible = true;
-		bool injured{};
-	} inline PedDebug;
 
 	inline ExampleAppLog Logger;
 }

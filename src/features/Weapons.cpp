@@ -141,6 +141,15 @@ namespace Features
 		}
 	}
 
+	void RemoveWeapon(Hash WeaponHash)
+	{
+		QUEUE_JOB(=)
+		{
+			WEAPON::REMOVE_WEAPON_FROM_PED(g_LocalPlayer.m_Entity, WeaponHash, true, REMOVE_REASON_DEFAULT);
+		}
+		END_JOB()
+	}
+
 	void RGBElectricLantern()
 	{
 		if (GetCurrentWeapon() != WEAPON_MELEE_LANTERN_ELECTRIC)

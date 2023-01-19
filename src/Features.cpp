@@ -50,12 +50,16 @@ namespace Features
 	{
 		TRY
 		{
+			// Update local player info struct
+			GetLocalPlayerInfo();
+			
+			// Try to prevent weird bugs
+			if (!ENTITY::DOES_ENTITY_EXIST(g_LocalPlayer.m_Entity))
+				return;
+
 			// Disable inputs if menu is open
 			if (Menu::IsOpen)
 				PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
-
-			// Update local player info struct
-			GetLocalPlayerInfo();
 
 			// Update RGB state
 			RGBTick();
@@ -78,6 +82,20 @@ namespace Features
 
 			if (g_Settings["clean_player"].get<bool>())
 				CleanPed(g_LocalPlayer.m_Entity);
+
+			if (g_Settings["super_run"].get<bool>())
+				SuperRun();
+
+			if (g_Settings["freeze_player"].get<bool>())
+			{
+				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Entity, true);
+				TASK::CLEAR_PED_TASKS(g_LocalPlayer.m_Entity, false, true);
+				TASK::CLEAR_PED_SECONDARY_TASK(g_LocalPlayer.m_Entity);
+				TASK::CLEAR_PED_TASKS_IMMEDIATELY(g_LocalPlayer.m_Entity, true, true);
+			}
+
+			if (g_Settings["no_ragdoll"].get<bool>())
+				SetNoRagdoll(true);
 
 			if (g_Settings["rgb_elec_lantern"].get<bool>())
 				RGBElectricLantern();
@@ -124,6 +142,91 @@ namespace Features
 				}
 				else
 					pd.ent = 0;
+			}
+
+			if (Menu::EnableFreeCam)
+			{
+				static Vector3 vecPosition;
+				static Vector3 vecRot;
+				static float speed = 0.5f;
+				static float mult = 0.f;
+
+				if (!Menu::CamEntity)
+				{
+					Menu::CamEntity = CAM::CREATE_CAM("DEFAULT_SCRIPTED_CAMERA", 0);
+
+					vecPosition = CAM::GET_GAMEPLAY_CAM_COORD();
+					vecRot = CAM::GET_GAMEPLAY_CAM_ROT(2);
+
+					ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Vehicle, true);
+					ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Mount, true);
+
+					CAM::SET_CAM_COORD(Menu::CamEntity, vecPosition.x, vecPosition.y, vecPosition.z);
+					CAM::SET_CAM_ROT(Menu::CamEntity, vecRot.x, vecRot.y, vecRot.z, 2);
+					CAM::SET_CAM_ACTIVE(Menu::CamEntity, true);
+					CAM::RENDER_SCRIPT_CAMS(true, true, 500, true, true, 0);
+				}
+				
+				Vector3 vecChange = { 0.f, 0.f, 0.f };
+
+				// Left Shift
+				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_JUMP))
+					vecChange.z += speed / 2;
+				// Left Control
+				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_SPRINT))
+					vecChange.z -= speed / 2;
+				// Forward
+				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_MOVE_UP_ONLY))
+					vecChange.y += speed;
+				// Backward
+				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_MOVE_DOWN_ONLY))
+					vecChange.y -= speed;
+				// Left
+				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_MOVE_LEFT_ONLY))
+					vecChange.x -= speed;
+				// Right
+				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_MOVE_RIGHT_ONLY))
+					vecChange.x += speed;
+
+				if (vecChange.x == 0.f && vecChange.y == 0.f && vecChange.z == 0.f)
+					mult = 0.f;
+				else if (mult < 10)
+					mult += 0.15f;
+
+				Vector3 rot = CAM::GET_CAM_ROT(Menu::CamEntity, 2);
+				//float pitch = math::deg_to_rad(rot.x); // vertical
+				//float roll = rot.y;
+				//float yaw = math::deg_to_rad(rot.z); // horizontal
+				float yaw = (3.14159265359f / 180.0f) * rot.z; // horizontal
+
+				vecPosition.x += (vecChange.x * cos(yaw) - vecChange.y * sin(yaw)) * mult;
+				vecPosition.y += (vecChange.x * sin(yaw) + vecChange.y * cos(yaw)) * mult;
+				vecPosition.z += vecChange.z * mult;
+
+				CAM::SET_CAM_COORD(Menu::CamEntity, vecPosition.x, vecPosition.y, vecPosition.z);
+				STREAMING::SET_FOCUS_POS_AND_VEL(vecPosition.x, vecPosition.y, vecPosition.z, 0.f, 0.f, 0.f);
+
+				vecRot = CAM::GET_GAMEPLAY_CAM_ROT(2);
+				CAM::SET_CAM_ROT(Menu::CamEntity, vecRot.x, vecRot.y, vecRot.z, 2);
+
+				if (!Menu::IsOpen)
+				{
+					static Hash controls[]{
+						INPUT_LOOK_LR,
+						INPUT_LOOK_UD,
+						INPUT_LOOK_UP_ONLY,
+						INPUT_LOOK_DOWN_ONLY,
+						INPUT_LOOK_LEFT_ONLY,
+						INPUT_LOOK_RIGHT_ONLY,
+					};
+
+					PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
+					for (const auto& c : controls)
+					{
+						PAD::ENABLE_CONTROL_ACTION(0, c, true);
+						PAD::ENABLE_CONTROL_ACTION(1, c, true);
+					}
+				}
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

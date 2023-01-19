@@ -118,6 +118,38 @@ namespace Menu
 			}
 			ImGui::Separator();
 
+			if (ImGui::Button("Set Legend Of The East Outfit"))
+			{
+				QUEUE_JOB(=)
+				{
+					Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
+					if (model == PLAYER_ZERO)
+						PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, false);
+				}
+				END_JOB()
+			}
+			if (ImGui::Button("Set Naked Outfit"))
+			{
+				QUEUE_JOB(=)
+				{
+					Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
+					if (model == PLAYER_ZERO)
+						PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 14, false);
+					else if (model == PLAYER_THREE)
+						PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 28, false);
+				}
+				END_JOB()
+			}
+			if (ImGui::Button("Knock Off Hat"))
+			{
+				QUEUE_JOB()
+				{
+					PED::KNOCK_OFF_PED_PROP(g_LocalPlayer.m_Entity, false, true, false, true);
+				}
+				END_JOB()
+			}
+
+			ImGui::Separator();
 			ImGui::Text("Set Outfit");
 			static int Outfit = 0;
 			static bool KeepAcc = false;
@@ -127,7 +159,7 @@ namespace Menu
 				QUEUE_JOB(=)
 				{
 					if (Outfit == 0)
-						return;
+						++Outfit;
 					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, --Outfit, KeepAcc);
 				}
 				END_JOB()
@@ -141,7 +173,7 @@ namespace Menu
 				QUEUE_JOB(=)
 				{
 					if (Outfit == PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1)
-						return;
+						--Outfit;
 					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, ++Outfit, KeepAcc);
 				}
 				END_JOB()
@@ -149,26 +181,9 @@ namespace Menu
 			ImGui::PopButtonRepeat();
 			ImGui::SameLine();
 			ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
+			
 			ImGui::Separator();
-
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("Set Player Model");
-			ImGui::SameLine();
-
-			static char ModBuffer[200];
-			ImGui::PushItemWidth(250.0f);
-			ImGui::InputText("###filter_ped", ModBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
-			ImGui::BeginChild("player_model_child", ImVec2(0, 200));
-			for (const auto& p : g_PedList)
-			{
-				if (p.first.find(ModBuffer) == std::string::npos)
-					continue;
-
-				if (ImGui::Selectable(p.first.c_str()))
-					Features::SetPlayerModel(p.second);
-			}
-
-			ImGui::EndChild();
+			RenderPlayerModelChanger();
 		}
 		ImGui::Separator();
 
@@ -304,6 +319,15 @@ namespace Menu
 		if (ImGui::Button("Drop Current Weapon"))
 			Features::DropCurrentWeapon();
 
+		if (ImGui::Button("Remove All Weapons"))
+		{
+			QUEUE_JOB()
+			{
+				WEAPON::REMOVE_ALL_PED_WEAPONS(g_LocalPlayer.m_Entity, true, true);
+			}
+			END_JOB()
+		}
+
 		ImGui::EndGroup();
 		ImGui::Separator();
 		ImGui::BeginGroup();
@@ -341,6 +365,9 @@ namespace Menu
 		ImGui::Separator();
 		if (ImGui::Button("Give Weapon"))
 			Features::GiveWeapon(CurrentWeapon);
+		ImGui::SameLine();
+		if (ImGui::Button("Remove Weapon"))
+			Features::RemoveWeapon(CurrentWeapon);
 
 		ImGui::EndGroup();
 		ImGui::EndChild();
@@ -374,6 +401,21 @@ namespace Menu
 				const Vector3& pos = g_LocalPlayer.m_Pos;
 				for (const auto& h : g_HerbList)
 					COMPENDIUM::COMPENDIUM_HERB_PICKED(h, pos.x, pos.y, pos.z);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Give All Perks"))
+		{
+			QUEUE_JOB()
+			{
+				for (const auto& [name, hash] : g_ProvisionList)
+				{
+					if (name.find("Talisman") == std::string::npos && name.find("Trinket") == std::string::npos)
+						continue;
+
+					Features::GiveInventoryItem(hash);
+				}
 			}
 			END_JOB()
 		}
@@ -603,6 +645,73 @@ namespace Menu
 		
 		ImGui::BeginChild("debug_child");
 
+		Vector3 DebugPos = g_LocalPlayer.m_Pos;
+		bool DebugTeleport = false;
+		constexpr float ArrowButtonSpeed = 50.0f;
+		ImGui::PushItemWidth(200.0f);
+		ImGui::PushButtonRepeat(true);
+		
+		if (ImGui::ArrowButton("###debug_x-", ImGuiDir_Left))
+		{
+			DebugTeleport = true;
+			DebugPos.x -= ArrowButtonSpeed;
+		}
+		ImGui::SameLine();
+		DebugTeleport |= ImGui::DragFloat("X###debug_x", &DebugPos.x);
+		ImGui::SameLine();
+		if (ImGui::ArrowButton("###debug_x+", ImGuiDir_Right))
+		{
+			DebugTeleport = true;
+			DebugPos.x += ArrowButtonSpeed;
+		}
+
+		if (ImGui::ArrowButton("###debug_y-", ImGuiDir_Left))
+		{
+			DebugTeleport = true;
+			DebugPos.y -= ArrowButtonSpeed;
+		}
+		ImGui::SameLine();
+		DebugTeleport |= ImGui::DragFloat("Y###debug_y", &DebugPos.y);
+		ImGui::SameLine();
+		if (ImGui::ArrowButton("###debug_y+", ImGuiDir_Right))
+		{
+			DebugTeleport = true;
+			DebugPos.y += ArrowButtonSpeed;
+		}
+
+		if (ImGui::ArrowButton("###debug_z-", ImGuiDir_Left))
+		{
+			DebugTeleport = true;
+			DebugPos.z -= ArrowButtonSpeed;
+		}
+		ImGui::SameLine();
+		DebugTeleport |= ImGui::DragFloat("Z###debug_z", &DebugPos.z);
+		ImGui::SameLine();
+		if (ImGui::ArrowButton("###debug_z+", ImGuiDir_Right))
+		{
+			DebugTeleport = true;
+			DebugPos.z += ArrowButtonSpeed;
+		}
+
+		ImGui::PopButtonRepeat();
+		ImGui::PopItemWidth();
+		if (DebugTeleport)
+		{
+			QUEUE_JOB(=)
+			{
+				ENTITY::SET_ENTITY_COORDS(g_LocalPlayer.m_Entity, DebugPos.x, DebugPos.y, DebugPos.z - 1, false, false, false, false);
+			}
+			END_JOB()
+		}
+		if (ImGui::Checkbox("Freeze Position", g_Settings["freeze_player"].get<bool*>()) && !g_Settings["freeze_player"].get<bool>())
+		{
+			QUEUE_JOB(=)
+			{
+				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Entity, false);
+			}
+			END_JOB()
+		}
+
 		if (ImGui::Button("Copy Coords"))
 		{
 			ImGui::LogToClipboard();
@@ -662,9 +771,7 @@ namespace Menu
 		ImGui::Text("Global_35 = %u", ScriptGlobal(35).Get<Ped&>());
 		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
 		ImGui::Text("Global_1946054.f_1 = %u", ScriptGlobal(1946054).At(1).Get<int&>());
-		constexpr auto asdasd = joaat("MPC_PLAYER_TYPE_MP_MALE");
-		constexpr auto asdasd2 = joaat("MPC_PLAYER_TYPE_MP_FEMALE");
-
+		
 		ImGui::EndGroup();
 		ImGui::Separator();
 
@@ -726,6 +833,24 @@ namespace Menu
 		if (ImGui::Button("Reset Player Model"))
 			Features::SetPlayerModel(PLAYER_ZERO);
 
+		if (ImGui::Button("Knock Off Ped Prop"))
+		{
+			QUEUE_JOB()
+			{
+				PED::KNOCK_OFF_PED_PROP(g_LocalPlayer.m_Entity, false, true, false, true);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Reload Lists"))
+		{
+			QUEUE_JOB()
+			{
+				Lists::Reload();
+			}
+			END_JOB()
+		}
+
 		ImGui::Separator();
 		ImGui::Text("Beta Cutscenes");
 
@@ -742,7 +867,8 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Features::PlayFishCollectorCutscene();
+				for (int i = 0; i <= 2; i++)
+					Features::PlayFishCollectorCutscene(i);
 			}
 			END_JOB()
 		}
@@ -758,7 +884,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Annesburg Jail Breakout With Charles"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				Features::PlayAnnesburgBreakoutCutscene();
 			}
@@ -774,7 +900,7 @@ namespace Menu
 			END_JOB()
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Charles Leaving (Natives)"))
+		if (ImGui::Button("Charles Leaving To Natives (Chapter 4)"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -796,8 +922,6 @@ namespace Menu
 		//	}
 		//	END_JOB()
 		//}
-
-
 
 		ImGui::Separator();
 
@@ -830,15 +954,35 @@ namespace Menu
 		}
 
 		ImGui::Separator();
-
+		ImGui::BeginGroup();
 		ImGui::Checkbox("Log Ped Spawning", g_Settings["log_ped_spawning"].get<bool*>());
 		ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());
 		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["log_vehicle_spawning"].get<bool*>());
 		ImGui::Checkbox("Log Added Inventory Items", g_Settings["log_added_inventory_items"].get<bool*>());
+		if (ImGui::Checkbox("Enable Freecam", &EnableFreeCam) && !EnableFreeCam)
+		{
+			QUEUE_JOB()
+			{
+				CAM::SET_CAM_ACTIVE(CamEntity, false);
+				CAM::RENDER_SCRIPT_CAMS(false, true, 500, true, true, 0);
+				CAM::DESTROY_CAM(CamEntity, false);
+				STREAMING::SET_FOCUS_ENTITY(g_LocalPlayer.m_Entity);
+
+				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Vehicle, false);
+
+				CamEntity = 0;
+			}
+			END_JOB()
+		}
+		ImGui::EndGroup();
+		ImGui::SameLine();
+
+		ImGui::BeginGroup();
 		ImGui::Checkbox("Log Created Cutscenes", g_Settings["log_created_cutscenes"].get<bool*>());
+		ImGui::Checkbox("Log Set Decor", g_Settings["log_set_decor"].get<bool*>());
 		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
 		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
-
+		ImGui::EndGroup();
 		ImGui::Separator();
 
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
@@ -1023,33 +1167,6 @@ namespace Menu
 		}
 
 		ImGui::EndGroup();
-		ImGui::Separator();
-		ImGui::BeginGroup();
-
-		if (ImGui::Button("Set Legend Of The West Outfit"))
-		{
-			QUEUE_JOB(=)
-			{
-				Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
-				if (model == PLAYER_ZERO)
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, false);
-			}
-			END_JOB()
-		}
-		if (ImGui::Button("Set Naked Outfit"))
-		{
-			QUEUE_JOB(=)
-			{
-				Hash model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
-				if (model == PLAYER_ZERO)
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 14, false);
-				else if (model == PLAYER_THREE)
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 28, false);
-			}
-			END_JOB()
-		}
-
-		ImGui::EndGroup();
 	}
 
 	void RenderPlayerCheckboxes()
@@ -1070,12 +1187,21 @@ namespace Menu
 		ImGui::BeginGroup();
 
 		ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
+		ImGui::Checkbox("Super Run", g_Settings["super_run"].get<bool*>());
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
 		ImGui::Checkbox("Super Jump", g_Settings["super_jump"].get<bool*>());
+		if (ImGui::Checkbox("No Ragdoll", g_Settings["no_ragdoll"].get<bool*>()) && !g_Settings["no_ragdoll"].get<bool>())
+		{
+			QUEUE_JOB()
+			{
+				Features::SetNoRagdoll(false);
+			}
+			END_JOB()
+		}
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
@@ -1089,6 +1215,70 @@ namespace Menu
 
 		ImGui::Checkbox("Gold Cores", g_Settings["gold_cores"].get<bool*>());
 		ImGui::EndGroup();
+	}
+
+	void RenderPlayerModelChanger()
+	{
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Set Player Model");
+		ImGui::SameLine();
+		static char ModBuffer[200];
+		ImGui::SetNextItemWidth(250.0f);
+		ImGui::InputText("###filter_ped", ModBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
+
+		const float width = ImGui::GetContentRegionAvail().x / 2;
+		ImGui::BeginChild("player_model_child", ImVec2(width, 200));
+		for (const auto& p : g_PedList)
+		{
+			if (p.first.find(ModBuffer) == std::string::npos)
+				continue;
+
+			if (ImGui::Selectable(p.first.c_str()))
+				Features::SetPlayerModel(p.second);
+		}
+		ImGui::EndChild();
+		ImGui::SameLine();
+
+		ImGui::BeginChild("player_model_preset_child", ImVec2(0, 200));
+		if (ImGui::Selectable("Arthur"))
+			Features::SetPlayerModel(PLAYER_ZERO);
+		if (ImGui::Selectable("John"))
+			Features::SetPlayerModel(PLAYER_THREE);
+		if (ImGui::Selectable("Dutch"))
+			Features::SetPlayerModel(CS_DUTCH);
+		if (ImGui::Selectable("Robot"))
+			Features::SetPlayerModel(CS_CRACKPOTROBOT);
+		if (ImGui::Selectable("Naked Woman"))
+			Features::SetPlayerModel(U_F_M_RHDNUDEWOMAN_01);
+		if (ImGui::Selectable("Naked Man"))
+			Features::SetPlayerModel(RE_NAKEDSWIMMER_MALES_01);
+		if (ImGui::Selectable("Clan Member (1)"))
+			Features::SetPlayerModel(RE_RALLY_MALES_01);
+		if (ImGui::Selectable("Clan Member (2)"))
+			Features::SetPlayerModel(RE_RALLYDISPUTE_MALES_01);
+		if (ImGui::Selectable("Clan Member (3)"))
+			Features::SetPlayerModel(RE_RALLYSETUP_MALES_01);
+		if (ImGui::Selectable("2 Headed Skeleton (1)"))
+			Features::SetPlayerModel(U_M_M_CIRCUSWAGON_01);
+		if (ImGui::Selectable("2 Headed Skeleton (2)"))
+			Features::SetPlayerModel(U_F_M_CIRCUSWAGON_01);
+		if (ImGui::Selectable("Magnifico"))
+			Features::SetPlayerModel(CS_MAGNIFICO);
+		if (ImGui::Selectable("Bertram"))
+			Features::SetPlayerModel(CS_ODDFELLOWSPINHEAD);
+		if (ImGui::Selectable("Strange Man"))
+			Features::SetPlayerModel(CS_MYSTERIOUSSTRANGER);
+		if (ImGui::Selectable("Vampire"))
+			Features::SetPlayerModel(CS_VAMPIRE);
+		if (ImGui::Selectable("Swamp Freak"))
+			Features::SetPlayerModel(CS_SWAMPFREAK);
+		if (ImGui::Selectable("Jack"))
+			Features::SetPlayerModel(CS_JACKMARSTON);
+		if (ImGui::Selectable("Jack (Teen)"))
+			Features::SetPlayerModel(CS_JACKMARSTON_TEEN);
+		if (ImGui::Selectable("Gavin"))
+			Features::SetPlayerModel(CS_GAVIN);
+		ImGui::EndChild();
 	}
 
 	void RenderPedDebug()

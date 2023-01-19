@@ -7,6 +7,7 @@
 namespace Lists
 {
 	void Create();
+	void Reload();
 }
 
 inline std::map<std::string, Hash>
@@ -167,6 +168,7 @@ const inline std::map<std::string, Vector3> g_TeleportList{
 	{ "Guarma - Camp (Chapter 5)", Vector3(1424.31f, -7325.1f, 81.4575f) },
 	{ "Guarma - Cave", Vector3(1514.17f, -7135.65f, 68.7184f) },
 	{ "Guarma - Cinco Torres", Vector3(991.142f, -6747.47f, 63.1255f) },
+	{ "Guarma - El Hueco", Vector3(662.78f, -7272.32f, 164.27f) },
 	{ "Guarma - El Nido", Vector3(1760.2f, -5957.89f, 64.5258f) },
 	{ "Guarma - La Capilla", Vector3(1197.48f, -7207.31f, 67.5624f) },
 	{ "Guarma - Landing Site", Vector3(1947.18f, -4720.0f, 43.1784f) },

@@ -23,7 +23,11 @@ namespace Settings
 			"rgb_elec_lantern": false,
 			"enable_overlay": false,
 			"clean_player": false,
-			"log_created_cutscenes": false
+			"log_created_cutscenes": false,
+			"super_run": false,
+			"freeze_player": false,
+			"no_ragdoll": false,
+			"log_set_decor": false
 		})"_json
 	};
 

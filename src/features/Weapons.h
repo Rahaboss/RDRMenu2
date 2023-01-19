@@ -17,5 +17,6 @@ namespace Features
 	void GiveRightHandWeapon(Hash WeaponHash, int AmmoAmount = 9999);
 	void GiveShoulderWeapon(Hash WeaponHash, int AmmoAmount = 9999);
 	void GiveWeapon(Hash WeaponHash);
+	void RemoveWeapon(Hash WeaponHash);
 	void RGBElectricLantern();
 }

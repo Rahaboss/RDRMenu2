@@ -219,4 +219,18 @@ namespace Lists
 		InitPedList(Path.parent_path().append("Peds.json"));
 		InitWeaponList(Path.parent_path().append("Weapons.json"));
 	}
+
+	void Reload()
+	{
+		printf("Clearing lists.\n");
+		g_VehicleList.clear();
+		g_VehicleModelNameList.clear();
+		g_ProvisionList.clear();
+		g_DocumentList.clear();
+		g_ConsumableList.clear();
+		g_PedList.clear();
+		g_PedModelNameList.clear();
+		g_WeaponList.clear();
+		Create();
+	}
 }

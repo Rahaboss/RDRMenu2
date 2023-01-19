@@ -34,12 +34,16 @@ namespace Hooking
 		GetGUIDFromItemID.Create(NativeContext::GetHandler(0x886DFD3E185C8A89), GetGUIDFromItemIDHook);
 		CreatePersChar.Create(NativeContext::GetHandler(0x4F76E3676583D951), CreatePersCharHook);
 		CreateAnimScene.Create(NativeContext::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
+		DecorSetBool.Create(NativeContext::GetHandler(0xFE26E4609B1C3772), DecorSetIntHook);
+		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
 	}
 
 	void Destroy()
 	{
 		printf("Destroying hooks.\n");
 
+		DecorSetInt.Destroy();
+		DecorSetBool.Destroy();
 		CreateAnimScene.Destroy();
 		CreatePersChar.Destroy();
 		GetGUIDFromItemID.Destroy();
@@ -364,6 +368,64 @@ namespace Hooking
 		if (std::string(animDict).find("cutscene@") != std::string::npos)
 			Menu::Logger.AddLog("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
 				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
+
+		return result;
+	}
+
+	BOOL DecorSetBoolHook(scrNativeCallContext* ctx)
+	{
+		BOOL result = 0;
+
+		TRY
+		{
+			if (!ctx || !g_Settings["log_set_decor"].get<bool>())
+				return DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
+
+			Entity entity = ctx->GetArg<Entity>(0);
+			const char* propertyName = ctx->GetArg<const char*>(1);
+			BOOL value = ctx->GetArg<BOOL>(2);
+			result = DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
+			BOOL ret = ctx->GetRet<BOOL>();
+
+			if (entity == g_LocalPlayer.m_Entity)
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Entity, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+			else if (entity == g_LocalPlayer.m_Mount)
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Mount, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+			else if (entity == g_LocalPlayer.m_Vehicle)
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Vehicle, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+			else
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(%u, \"%s\", %s)\n", entity, propertyName, (value ? "true" : "false"));
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+
+	BOOL DecorSetIntHook(scrNativeCallContext* ctx)
+	{
+		BOOL result = 0;
+
+		TRY
+		{
+			if (!ctx || !g_Settings["log_set_decor"].get<bool>())
+				return DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
+
+			Entity entity = ctx->GetArg<Entity>(0);
+			const char* propertyName = ctx->GetArg<const char*>(1);
+			int value = ctx->GetArg<int>(2);
+			result = DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
+			BOOL ret = ctx->GetRet<BOOL>();
+
+			if (entity == g_LocalPlayer.m_Entity)
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Entity, \"%s\", %d)\n", propertyName, value);
+			else if (entity == g_LocalPlayer.m_Mount)
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Mount, \"%s\", %d)\n", propertyName, value);
+			else if (entity == g_LocalPlayer.m_Vehicle)
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Vehicle, \"%s\", %d)\n", propertyName, value);
+			else
+				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(%u, \"%s\", %d)\n", entity, propertyName, value);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 
 		return result;
 	}

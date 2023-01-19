@@ -5,7 +5,7 @@
 namespace Features
 {
 	void PlayDinoLadyCutscene();
-	void PlayFishCollectorCutscene();
+	void PlayFishCollectorCutscene(int index = 0);
 	void PlayIndustryCutscene();
 	void PlayAnnesburgBreakoutCutscene();
 	void PlayCharlesLeavingCutscene();

@@ -76,28 +76,47 @@ namespace Features
 		DeletePed(dinoLady);
 	}
 
-	void PlayFishCollectorCutscene()
+	void PlayFishCollectorCutscene(int index)
 	{
 		// Load in the map
-		Teleport(347.43f, -659.89f, 42.00f);
+		switch (index)
+		{
+		case 0:
+			Teleport(347.43f, -659.89f, 42.00f);
+			break;
+		case 1:
+		case 2:
+			Teleport(-5083.33f, -4119.60f, -28.63f);
+			break;
+		default:
+			printf("%s: %d is not a valid cutscene index.\n", __FUNCTION__, index);
+			return;
+		}
 		
 		// Init anim scene (cutscene)
-		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@"
-			"RCFSH_RSC2" // RCFSH_RSC2 // RCFSH_RSC3 // RCFSH_EXT
-			, 0, "MultiStart", false, true);
+		constexpr char* animDicts[] = {
+			"cutscene@RCFSH_RSC2",
+			"cutscene@RCFSH_RSC3",
+			"cutscene@RCFSH_EXT",
+		};
+		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDicts[index], 0, "MultiStart", false, true);
 
 		// Create characters and objects
 		bool b_PlayerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
 		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_PlayerArthur", b_PlayerArthur, false);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, (b_PlayerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
 
-		Ped fishCollector = SpawnPed(CS_FISHCOLLECTOR);
-		int id = PED::_REQUEST_METAPED_OUTFIT(CS_FISHCOLLECTOR, 0xE3AA86D);
-		while (!PED::_HAS_METAPED_OUTFIT_LOADED(id))
-			YieldThread();
-		PED::_APPLY_PED_METAPED_OUTFIT(id, fishCollector, true, false);
-		PED::_RELEASE_METAPED_OUTFIT_REQUEST(id);
-		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CS_FISHCOLLECTOR", fishCollector, 0);
+		Ped fishCollector;
+		if (index != 2)
+		{
+			fishCollector = SpawnPed(CS_FISHCOLLECTOR);
+			int id = PED::_REQUEST_METAPED_OUTFIT(CS_FISHCOLLECTOR, 0xE3AA86D);
+			while (!PED::_HAS_METAPED_OUTFIT_LOADED(id))
+				YieldThread();
+			PED::_APPLY_PED_METAPED_OUTFIT(id, fishCollector, true, false);
+			PED::_RELEASE_METAPED_OUTFIT_REQUEST(id);
+			ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CS_FISHCOLLECTOR", fishCollector, 0);
+		}
 
 		RequestModel(joaat("P_CAMERABOX01X"));
 		Object camera = OBJECT::CREATE_OBJECT_NO_OFFSET(joaat("P_CAMERABOX01X"), -5044.987f, -4090.398f, -29.0651f, true, true, false, true);
@@ -138,7 +157,8 @@ namespace Features
 		OBJECT::DELETE_OBJECT(&camera);
 		OBJECT::DELETE_OBJECT(&fishBag);
 		OBJECT::DELETE_OBJECT(&fishingPole);
-		DeletePed(fishCollector);
+		if (index != 2)
+			DeletePed(fishCollector);
 	}
 
 	void PlayIndustryCutscene()
@@ -192,7 +212,7 @@ namespace Features
 
 		Ped arthur = SpawnPed(PLAYER_ZERO);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "ARTHUR", arthur, 0);
-
+		
 		Ped lawman1 = SpawnPed(S_M_M_AMBIENTLAWRURAL_01);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "S_M_M_AMBIENTLAWRURAL_01", lawman1, 0);
 
@@ -228,6 +248,7 @@ namespace Features
 		// Create characters and objects
 		Ped charles = SpawnPed(CS_CHARLESSMITH);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CharlesSmith", charles, 0);
+		WEAPON::REMOVE_ALL_PED_WEAPONS(charles, true, true);
 
 		//Ped arthur = SpawnPed(PLAYER_ZERO);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "ARTHUR", g_LocalPlayer.m_Entity, 0);

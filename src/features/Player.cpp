@@ -208,22 +208,39 @@ namespace Features
 	{
 		QUEUE_JOB(=)
 		{
-			if (!IsModelValid(Model))
+			// Check model validity or if model is already set
+			if (!IsModelValid(Model) || ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == Model)
 				return;
 
+			// Request the new model
 			RequestModel(Model);
 
+			// Set the model
 			ScriptGlobal(40).At(39).Get<Hash&>() = Model; // medium_update.c: Global_40.f_39
 			ScriptGlobal(1935630).At(2).Get<Hash&>() = Model; // medium_update.c: Global_1935630.f_2
 			PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, Model, false);
 
+			// Get the player info again, because a new player model will be created
 			GetLocalPlayerInfo();
 
+			// Clean up
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 			PED::_SET_RANDOM_OUTFIT_VARIATION(g_LocalPlayer.m_Entity, true);
+			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
+			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
+			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);
 			RestorePlayerCores();
+			GiveWeapon(WEAPON_UNARMED);
 		}
 		END_JOB()
+	}
+
+	void SetNoRagdoll(bool Toggle)
+	{
+		if (Toggle)
+			PED::SET_RAGDOLL_BLOCKING_FLAGS(g_LocalPlayer.m_Entity, -1);
+		else
+			PED::CLEAR_RAGDOLL_BLOCKING_FLAGS(g_LocalPlayer.m_Entity, -1);
 	}
 
 	void SpawnBadHonorEnemy(Hash Model)
@@ -250,6 +267,15 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	void SuperRun()
+	{
+		if (PED::IS_PED_RAGDOLL(g_LocalPlayer.m_Entity))
+			return;
+
+		if (TASK::IS_PED_RUNNING(g_LocalPlayer.m_Entity) || TASK::IS_PED_SPRINTING(g_LocalPlayer.m_Entity))
+			ENTITY::APPLY_FORCE_TO_ENTITY(g_LocalPlayer.m_Entity, 1, 0.0f, 10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1, true, true, true, false, true);
+	}
+
 	void Teleport(float x, float y, float z)
 	{
 		LoadGround(x, y, z);
@@ -266,6 +292,7 @@ namespace Features
 		QUEUE_JOB(=)
 		{
 			Teleport(x, y, z - 1.0f);
+			YieldThread();
 			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), true);
 		}
 		END_JOB()

@@ -4,12 +4,12 @@
 Signature::Signature(std::string_view IDAPattern)
 {
 	// Helper functions
-	auto to_upper = [](const char& c) -> char
+	auto to_upper = [](char c) -> char
 	{
 		return ((c >= 'a' && c <= 'z') ? c + ('A' - 'a') : c);
 	};
 
-	auto to_hex = [&](const char& c) -> uint8_t
+	auto to_hex = [&](char c) -> uint8_t
 	{
 		switch (to_upper(c))
 		{
@@ -84,6 +84,7 @@ Signature::Signature(void* CodePattern, std::string_view Mask)
 Signature::Signature(uintptr_t Address):
 	m_Result(Address)
 {
+	assert(m_Result);
 }
 
 Signature& Signature::Scan()
@@ -104,23 +105,23 @@ Signature& Signature::Scan()
 		return *this;
 
 	// Get information about process
-	MODULEINFO module_info;
-	GetModuleInformation(GetCurrentProcess(), g_GameModule, &module_info, sizeof(MODULEINFO));
-	MEMORY_BASIC_INFORMATION mbi;
+	MODULEINFO ModuleInfo;
+	GetModuleInformation(GetCurrentProcess(), g_GameModule, &ModuleInfo, sizeof(MODULEINFO));
+	MEMORY_BASIC_INFORMATION Mbi;
 
-	const auto begin = g_BaseAddress; // Begin location of scan (base address)
-	const auto size = module_info.SizeOfImage; // Total size of process (area to be scanned)
+	const auto Begin = g_BaseAddress; // Begin location of scan (base address)
+	const auto Size = ModuleInfo.SizeOfImage; // Total size of process (area to be scanned)
 
 	// Loop through memory regions
-	for (uintptr_t curr = begin; curr < begin + size; curr += mbi.RegionSize)
+	for (uintptr_t curr = Begin; curr < Begin + Size; curr += Mbi.RegionSize)
 	{
 		// Check if current region is invalid
-		if (!VirtualQuery(reinterpret_cast<LPCVOID>(curr), &mbi, sizeof(mbi))
-			|| mbi.State != MEM_COMMIT || mbi.Protect == PAGE_NOACCESS)
+		if (!VirtualQuery(reinterpret_cast<LPCVOID>(curr), &Mbi, sizeof(Mbi))
+			|| Mbi.State != MEM_COMMIT || Mbi.Protect == PAGE_NOACCESS)
 			continue;
 
 		// Loop through current region
-		for (size_t i = 0; i < size; ++i)
+		for (size_t i = 0; i < Size; ++i)
 		{
 			// Check if pattern matches at current location
 			if (check_pattern(curr + i))
@@ -131,7 +132,7 @@ Signature& Signature::Scan()
 		}
 	}
 
-	// At this point the scan has failed so m_result is 0
+	// At this point the scan has failed so m_Result is 0
 	assert(m_Result);
 	return *this;
 }
@@ -155,5 +156,6 @@ Signature& Signature::Rip()
 
 uintptr_t Signature::GetRaw()
 {
+	assert(m_Result);
 	return m_Result;
 }
