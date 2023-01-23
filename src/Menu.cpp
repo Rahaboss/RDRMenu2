@@ -338,7 +338,7 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
-		ImGui::Checkbox("RGB Electric Lantern [WIP]", g_Settings["rgb_elec_lantern"].get<bool*>());
+		ImGui::Checkbox("RGB Electric Lantern", g_Settings["rgb_elec_lantern"].get<bool*>());
 
 		ImGui::EndGroup();
 		ImGui::Separator();
@@ -784,14 +784,19 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
-		if (g_LocalPlayer.m_Entity)
+		auto Global_35 = ScriptGlobal(35).Get<Ped*>();
+		ImGui::Text("Global_35: 0x%llX", Global_35);
+		if (Global_35)
+			ImGui::Text("Global_35 = %u", *Global_35);
+		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
+		auto Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<Hash*>();
+		ImGui::Text("Global_1946054.f_1: 0x%llX", Global_1946054_f_1);
+		if (Global_1946054_f_1)
 		{
-			ImGui::Text("Global_35: 0x%llX", ScriptGlobal(35).Get<Ped*>());
-			ImGui::Text("Global_35 = %u", ScriptGlobal(35).Get<Ped&>());
-			ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
-			ImGui::Text("Global_1946054.f_1 = %u", ScriptGlobal(1946054).At(1).Get<int&>());
+			ImGui::Text("Global_1946054.f_1 = %u", *Global_1946054_f_1);
+			ImGui::Text("Global_1946054.f_1 = %s", Features::GetPedModelName(*Global_1946054_f_1));
 		}
-		
+
 		ImGui::EndGroup();
 		ImGui::Separator();
 
@@ -851,7 +856,7 @@ namespace Menu
 			Features::SetPlayerModel();
 		ImGui::SameLine();
 		if (ImGui::Button("Reset Player Model"))
-			Features::SetPlayerModel(PLAYER_ZERO);
+			Features::ResetPlayerModel();
 
 		if (ImGui::Button("Knock Off Ped Prop"))
 		{

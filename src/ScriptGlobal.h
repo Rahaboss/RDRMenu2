@@ -5,9 +5,9 @@
 class ScriptGlobal
 {
 public:
-	ScriptGlobal(uintptr_t index);
-	ScriptGlobal& At(ptrdiff_t index);
-	ScriptGlobal& At(ptrdiff_t index, uintptr_t size);
+	ScriptGlobal(uintptr_t Index);
+	ScriptGlobal& At(ptrdiff_t Index);
+	ScriptGlobal& At(ptrdiff_t Index, uintptr_t Size);
 
 	// Get by pointer
 	template <typename T>
@@ -16,11 +16,18 @@ public:
 		return static_cast<T>(GetAddress());
 	}
 
-	// Get by value
+	// Get by reference
 	template <typename T>
 	inline std::enable_if_t<std::is_lvalue_reference_v<T>, T> Get()
 	{
 		return *static_cast<std::add_pointer_t<std::remove_reference_t<T>>>(GetAddress());
+	}
+
+	// Get by value
+	template <typename T>
+	inline std::enable_if_t<std::is_integral_v<T>, T> Get()
+	{
+		return *static_cast<T*>(GetAddress());
 	}
 
 private:

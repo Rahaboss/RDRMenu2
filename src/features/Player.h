@@ -18,6 +18,7 @@ namespace Features
 	bool LoadGround(Vector3 pos);
 	void NoSliding();
 	void RemoveMoney(int AmountCents);
+	void ResetPlayerModel();
 	void RestoreHorseCores();
 	void RestorePlayerCores();
 	void SetGodmode(bool Toggle);

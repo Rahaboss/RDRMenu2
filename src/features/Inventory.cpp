@@ -142,7 +142,7 @@ namespace Features
 			GiveInventoryItem(CONSUMABLE_WHISKEY);
 			GiveInventoryItem(CONSUMABLE_PEPPERMINT);
 			GiveInventoryItem(CONSUMABLE_HAIR_GREASE);
-			GiveInventoryItem(PROVISION_ANIMAL_CARCASS_SKUNK_HIGH_QUALITY);
+			GiveInventoryItem(PROVISION_STRINGY_MEAT);
 		}
 		END_JOB()
 	}

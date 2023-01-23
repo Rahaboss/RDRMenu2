@@ -86,13 +86,15 @@ namespace Hooking
 	{
 		TRY
 		{
+			bool Result = RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
+			
 			if (g_Running)
 			{
 				constexpr joaat_t main_hash = RAGE_JOAAT("main");
 				Features::ExecuteAsThread(main_hash, ScriptThreadTick);
 			}
 			
-			return RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
+			return Result;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 

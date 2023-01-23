@@ -130,6 +130,31 @@ namespace Features
 		MONEY::_MONEY_DECREMENT_CASH_BALANCE(AmountCents);
 	}
 
+	void ResetPlayerModel()
+	{
+		QUEUE_JOB(=)
+		{
+			int* Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<int*>();
+			if (!Global_1946054_f_1)
+				return;
+
+			// medium_update.c: func_392
+			switch (*Global_1946054_f_1)
+			{
+			case -2125499975:
+				SetPlayerModel(PLAYER_ZERO);
+				break;
+			case 1160113249:
+				SetPlayerModel(PLAYER_THREE);
+				break;
+			default:
+				printf("%s: Unknown default player model: %d!\n", __FUNCTION__, *Global_1946054_f_1);
+				break;
+			}
+		}
+		END_JOB()
+	}
+
 	void RestoreHorseCores()
 	{
 		QUEUE_JOB(=)
@@ -207,6 +232,7 @@ namespace Features
 			// Clean up
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 			PED::_SET_RANDOM_OUTFIT_VARIATION(g_LocalPlayer.m_Entity, true);
+			PED::SET_PED_RANDOM_COMPONENT_VARIATION(g_LocalPlayer.m_Entity, 0);
 			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
 			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
 			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);

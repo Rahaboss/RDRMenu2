@@ -205,13 +205,31 @@ namespace Features
 		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@JBO6_EXT", 0, "MultiStart", false, true);
 
 		Teleport(2912.49f, 1296.00f, 44.20f);
+		YieldThread();
+		ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), true);
 
 		// Create characters and objects
 		Ped charles = SpawnPed(CS_CHARLESSMITH);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CharlesSmith", charles, 0);
 
-		Ped arthur = SpawnPed(PLAYER_ZERO);
+		Ped arthur = g_LocalPlayer.m_Entity;
+		if (ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) != PLAYER_ZERO)
+			arthur = SpawnPed(PLAYER_ZERO);
+		PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "ARTHUR", arthur, 0);
+		constexpr Hash tags[]
+		{
+			joaat("GUNBELTS"),
+			joaat("HATS"),
+			joaat("HOLSTERS_KNIFE"),
+			joaat("HOLSTERS_LEFT"),
+			joaat("HOLSTERS_RIGHT"),
+			joaat("SATCHELS"),
+			joaat("SATCHEL_STRAPS"),
+		};
+		for (const auto& t : tags)
+			PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
+		PED::_UPDATE_PED_VARIATION(arthur, false, true, true, true, true);
 		
 		Ped lawman1 = SpawnPed(S_M_M_AMBIENTLAWRURAL_01);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "S_M_M_AMBIENTLAWRURAL_01", lawman1, 0);
