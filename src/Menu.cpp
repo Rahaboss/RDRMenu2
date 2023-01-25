@@ -657,6 +657,24 @@ namespace Menu
 		ImGui::Separator();
 
 		ImGui::BeginGroup();
+
+		auto Global_35 = ScriptGlobal(35).Get<Ped*>();
+		ImGui::Text("Global_35: 0x%llX", Global_35);
+		if (Global_35)
+			ImGui::Text("Global_35 = %u", *Global_35);
+		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
+		auto Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<Hash*>();
+		ImGui::Text("Global_1946054.f_1: 0x%llX", Global_1946054_f_1);
+		if (Global_1946054_f_1)
+		{
+			ImGui::Text("Global_1946054.f_1 = %u", *Global_1946054_f_1);
+			ImGui::Text("Global_1946054.f_1 = %s", Features::GetPedModelName(*Global_1946054_f_1));
+		}
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("CPed: 0x%llX", g_LocalPlayer.m_Ped);
 		ImGui::SameLine();
@@ -677,44 +695,26 @@ namespace Menu
 			ImGui::LogFinish();
 		}
 
-		uint64_t nhash = 0xBD5DD5EAE2B6CE14; // 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
+		uint64_t nhash = 0xFA925AC00EB830B9; // 0xBD5DD5EAE2B6CE14; // 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
 		auto addr = (uintptr_t)NativeContext::GetHandler(nhash);
 		auto off = addr - g_BaseAddress;
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("0x%llX handler: RDR2.exe+0x%X", nhash, off);
 
-		ImGui::SameLine();
 		if (ImGui::Button("Print to console"))
 			printf("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", nhash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
-
+		ImGui::SameLine();
 		if (ImGui::Button("Copy IDA Address"))
 		{
 			ImGui::LogToClipboard();
 			ImGui::LogText("%llX", off + 0x7FF73CAB0000 /*imagebase in ida*/);
 			ImGui::LogFinish();
 		}
-		ImGui::EndGroup();
-		ImGui::SameLine();
-		ImGui::BeginGroup();
-
-		auto Global_35 = ScriptGlobal(35).Get<Ped*>();
-		ImGui::Text("Global_35: 0x%llX", Global_35);
-		if (Global_35)
-			ImGui::Text("Global_35 = %u", *Global_35);
-		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
-		auto Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<Hash*>();
-		ImGui::Text("Global_1946054.f_1: 0x%llX", Global_1946054_f_1);
-		if (Global_1946054_f_1)
-		{
-			ImGui::Text("Global_1946054.f_1 = %u", *Global_1946054_f_1);
-			ImGui::Text("Global_1946054.f_1 = %s", Features::GetPedModelName(*Global_1946054_f_1));
-		}
-
-		ImGui::EndGroup();
-		ImGui::Separator();
 
 		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
 		ImGui::Text("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n");
+
+		ImGui::EndGroup();
 		ImGui::Separator();
 
 		if (ImGui::Button("Get Height"))
@@ -798,17 +798,22 @@ namespace Menu
 			QUEUE_JOB(=)
 			{
 				printf("=== BEGIN METAPED COMPONENT CATEGORIES ===\n");
+
 				const int num = PED::_GET_NUM_COMPONENT_CATEGORIES_IN_PED(g_LocalPlayer.m_Entity);
 				for (int i = 0; i < num; i++)
-				{
-					Hash h = PED::_GET_PED_COMPONENT_CATEGORY_BY_INDEX(g_LocalPlayer.m_Entity, i);
-					printf("%u", h);
-					const char* name = HUD::GET_STRING_FROM_HASH_KEY(h);
-					if (name && name[0])
-						printf(" %s", name);
-					printf("\n");
-				}
+					printf("%u\n", PED::_GET_PED_COMPONENT_CATEGORY_BY_INDEX(g_LocalPlayer.m_Entity, i));
+
 				printf("=== END METAPED COMPONENT CATEGORIES ===\n");
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Add Blip"))
+		{
+			QUEUE_JOB(=)
+			{
+				constexpr Hash hash = joaat("blip_cash_bag");
+				MAP::BLIP_ADD_FOR_COORDS(hash, g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 			}
 			END_JOB()
 		}
@@ -950,6 +955,11 @@ namespace Menu
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Ped Debug"))
 			RenderPedDebug();
+		ImGui::Separator();
+
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::CollapsingHeader("Text Debug"))
+			RenderTextDebug();
 
 		ImGui::EndChild();
 		ImGui::EndTabItem();
@@ -1762,5 +1772,31 @@ namespace Menu
 		RenderPlayerModelChanger();
 
 		ImGui::End();
+	}
+
+	void RenderTextDebug()
+	{
+		TRY
+		{
+			ImGui::Text("Text Debug");
+			ImGui::InputText("Text Input", TextBuffer, IM_ARRAYSIZE(TextBuffer));
+
+			ImGui::PushItemWidth(200);
+			ImGui::InputInt("Text Flags", &TextFlags, 2);
+			ImGui::PopItemWidth();
+			ImGui::SameLine();
+
+			ImGui::Checkbox("Enable Text", &EnableTextDebug);
+			ImGui::Separator();
+
+			ImGui::PushItemWidth(200);
+			ImGui::SliderFloat("X Position", &TextDebugX, 0, 1);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y Position", &TextDebugY, 0, 1);
+
+			ImGui::SliderFloat("Scale", &TextDebugScale, 0, 5);
+			ImGui::PopItemWidth();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 	}
 }

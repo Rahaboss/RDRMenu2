@@ -203,25 +203,14 @@ namespace Features
 				}
 			}
 
-			//RenderText(
-			//	"~COLOR_BLUE~~d~TEST\n" // Light Pink (Peach)
-			//	"~COLOR_BLUE~~e~TEST\n" // Red
-			//	"~COLOR_BLUE~~o~TEST\n" // Light Yellow (Banana)
-			//	"~COLOR_BLUE~~p~TEST\n" // Reset Color
-			//	"~COLOR_BLUE~~q~TEST\n" // Reset Color
-			//	"~COLOR_BLUE~~s~TEST\n" // Reset Color
-			//	"~COLOR_BLUE~~n~TEST\n" // Newline
-			//
-			//	"~COLOR_BLUE~~a~TEST\n" // Unknown
-			//	"~COLOR_BLUE~~fg~TEST\n" // Unknown
-			//	"~COLOR_BLUE~~fo~TEST\n" // Unknown
-			//	"~COLOR_BLUE~~z~TEST\n", // Unknown
-			//	0.1f, 0.1f);
-			//
-			//RenderTextOnEntity(g_LocalPlayer.m_Entity,
-			//	"\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1\n"
-			//	"\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n"
-			//);
+			// Text Debug
+			if (Menu::EnableTextDebug)
+			{
+				UIDEBUG::_BG_SET_TEXT_SCALE(Menu::TextDebugScale, Menu::TextDebugScale);
+				UIDEBUG::_BG_SET_TEXT_COLOR(255, 255, 255, 255);
+				auto vs = MISC::VAR_STRING(Menu::TextFlags, "LITERAL_STRING", Menu::TextBuffer);
+				UIDEBUG::_BG_DISPLAY_TEXT(vs, Menu::TextDebugX, Menu::TextDebugY);
+			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

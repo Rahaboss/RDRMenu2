@@ -210,28 +210,16 @@ namespace Features
 			RemoveMoney(-amount);
 	}
 
-	void SetPlayerModel(Hash Model, bool Force)
+	void SetPlayerModel(Hash Model)
 	{
 		QUEUE_JOB(=)
 		{
 			// Check model validity or if model is already set
-			if (!Force && (!IsModelValid(Model) || ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == Model))
+			if (!IsModelValid(Model) || ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == Model)
 				return;
 
 			// Request the new model
-			if (Force)
-			{
-				constexpr int MaxRequests = 100;
-				for (int i = 0; i < MaxRequests; i++)
-				{
-					STREAMING::REQUEST_MODEL(Model, false);
-					YieldThread();
-					if (STREAMING::HAS_MODEL_LOADED(Model))
-						break;
-				}
-			}
-			else
-				RequestModel(Model);
+			RequestModel(Model);
 
 			// Set the model
 			ScriptGlobal(40).At(39).Get<Hash&>() = Model; // medium_update.c: Global_40.f_39

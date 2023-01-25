@@ -142,6 +142,7 @@ namespace Menu
 	void RenderOverlay();
 	void RenderOverlayMain();
 	void RenderClothingMenu();
+	void RenderTextDebug();
 
 	inline bool EnableFreeCam = false;
 	inline Cam CamEntity = 0;
@@ -227,4 +228,9 @@ namespace Menu
 	};
 
 	inline ExampleAppLog Logger;
+
+	inline bool EnableTextDebug = false;
+	inline char TextBuffer[500]{ "~COLOR_RED~\xE2\x88\x91 Admin~n~~COLOR_CASH_GOLD~\xE2\x84\x85 0 Claim Reward~s~\xC2\xB5\x00" };
+	inline float TextDebugX = 0.1f, TextDebugY = 0.1f, TextDebugScale = 1.0f;
+	inline int TextFlags = 10;
 }
