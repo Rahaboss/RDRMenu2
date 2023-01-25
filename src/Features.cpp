@@ -1,42 +1,12 @@
 ﻿#include "pch.h"
 #include "Features.h"
 #include "Pointers.h"
-#include "Renderer.h"
-#include "JobQueue.h"
-#include "Fiber.h"
 #include "PlayerInfo.h"
 #include "Lists.h"
 #include "Menu.h"
 
 namespace Features
 {
-	void ExecuteAsThread(joaat_t ScriptHash, void(*Function)())
-	{
-		TRY
-		{
-			assert(Function && Pointers::ThreadCollection && Pointers::ActiveThread);
-
-			for (uint16_t i = 0; i < Pointers::ThreadCollection->m_pCount; i++)
-			{
-				GtaThread* Thread = Pointers::ThreadCollection->m_pData[i];
-				if (!Thread || !Thread->m_ThreadID || Thread->m_ScriptHash != ScriptHash)
-					continue;
-				
-				// Backup and change thread
-				scrThread* OriginalThread = *Pointers::ActiveThread;
-				*Pointers::ActiveThread = Thread;
-
-				// Execute
-				Function();
-
-				// Restore thread 
-				*Pointers::ActiveThread = OriginalThread;
-				return;
-			}
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-	}
-
 	void Setup()
 	{
 		TRY
@@ -144,6 +114,7 @@ namespace Features
 					pd.ent = 0;
 			}
 
+			// Freecam
 			if (Menu::EnableFreeCam)
 			{
 				static Vector3 vecPosition;
@@ -226,56 +197,32 @@ namespace Features
 						PAD::ENABLE_CONTROL_ACTION(0, c, true);
 						PAD::ENABLE_CONTROL_ACTION(1, c, true);
 					}
+
+					if (IsKeyClicked(VK_RETURN))
+						Teleport(vecPosition);
 				}
 			}
+
+			//RenderText(
+			//	"~COLOR_BLUE~~d~TEST\n" // Light Pink (Peach)
+			//	"~COLOR_BLUE~~e~TEST\n" // Red
+			//	"~COLOR_BLUE~~o~TEST\n" // Light Yellow (Banana)
+			//	"~COLOR_BLUE~~p~TEST\n" // Reset Color
+			//	"~COLOR_BLUE~~q~TEST\n" // Reset Color
+			//	"~COLOR_BLUE~~s~TEST\n" // Reset Color
+			//	"~COLOR_BLUE~~n~TEST\n" // Newline
+			//
+			//	"~COLOR_BLUE~~a~TEST\n" // Unknown
+			//	"~COLOR_BLUE~~fg~TEST\n" // Unknown
+			//	"~COLOR_BLUE~~fo~TEST\n" // Unknown
+			//	"~COLOR_BLUE~~z~TEST\n", // Unknown
+			//	0.1f, 0.1f);
+			//
+			//RenderTextOnEntity(g_LocalPlayer.m_Entity,
+			//	"\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1\n"
+			//	"\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n"
+			//);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-	}
-
-	void RunJobQueue()
-	{
-		g_JobQueue.Run();
-	}
-
-	void YieldThread()
-	{
-		Fiber::GetCurrent()->YieldThread();
-	}
-
-	void RGBTick()
-	{
-		constexpr int Speed = 2;
-		for (int i = 0; i < Speed; i++)
-		{
-			static bool Increasing = true;
-			static int iC = 1, dC = 0;
-
-			// Change increasing color (iC) and decreasing color (dC)
-			if (Increasing && g_rgb[iC] == 255)
-			{
-				Increasing = false;
-				iC++;
-				if (iC == 3)
-					iC = 0;
-			}
-			else if (g_rgb[dC] == 0)
-			{
-				Increasing = true;
-				dC++;
-				if (dC == 3)
-					dC = 0;
-			}
-
-			// Increase and decrease values
-			if (Increasing)
-				g_rgb[iC]++;
-			else
-				g_rgb[dC]--;
-		}
-	}
-
-	ImVec4 GetImGuiRGB()
-	{
-		return ImVec4(g_rgb[0] / 255.0f, g_rgb[1] / 255.0f, g_rgb[2] / 255.0f, 1.0f);
 	}
 }

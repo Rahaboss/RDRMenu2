@@ -32,5 +32,4 @@ namespace Renderer
 	inline WNDPROC _WndProc;
 
 	inline ImFont* DefaultFont;
-	inline ImFont* ChaletFont;
 }

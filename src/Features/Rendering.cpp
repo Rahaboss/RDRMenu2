@@ -3,11 +3,16 @@
 #include "Features.h"
 
 // Features for drawing on the screen
-// \xE2\x88\x91 = Rockstar
+// \xE2\x88\x91	= Rockstar
 // \xC2\xA6		= Verified
-// \xE2\x80\xB9 = Created
-// \xE2\x80\xBA = Blank
+// \xE2\x80\xB9	= Created
+// \xE2\x80\xBA	= Blank
 // \xCE\xA9		= Padlock
+// \xE2\x84\xAE	= Token?
+// \xE2\x84\x85	= C/O
+// \xE2\x86\x95	= Up/Down Arrow
+// \xC6\xB1		= Thick Padlock
+// ~n~			= Newline ('\n')
 // ~COLOR_RED~\xE2\x88\x91 Admin
 // ~COLOR_SOCIAL_CLUB~
 
@@ -36,7 +41,8 @@ namespace Features
 			if (!WorldToScreen(pos.x, pos.y, pos.z, x, y))
 				return;
 
-			RenderText(Text, x, y, g_rgb[0], g_rgb[1], g_rgb[2], (uint8_t)(255 * 0.75f), 0.8f);
+			//const auto& RGB = GetRGB();
+			RenderText(Text, x, y, GET_RGB(), static_cast<uint8_t>(255ui8 * 0.75f), 0.8f);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

@@ -27,7 +27,8 @@ namespace Settings
 			"super_run": false,
 			"freeze_player": false,
 			"no_ragdoll": false,
-			"log_set_decor": false
+			"log_set_decor": false,
+			"render_clothing_menu": false
 		})"_json
 	};
 

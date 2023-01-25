@@ -277,12 +277,15 @@ namespace Renderer
 			ImFontConfig FontCfg{};
 			FontCfg.FontDataOwnedByAtlas = false;
 
-			// Main font
-			strcpy_s(FontCfg.Name, "Redemption");
-			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 24.0f, &FontCfg);
-
 			strcpy_s(FontCfg.Name, "Chalet London 1960");
-			ChaletFont = io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+			io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+
+			strcpy_s(FontCfg.Name, "Redemption");
+			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 20.0f, &FontCfg);
+
+			// Main font
+			strcpy_s(FontCfg.Name, "RDR-Lino");
+			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::RDRLino, sizeof(Fonts::RDRLino), 20.0f, &FontCfg);
 		}
 
 		ImGui_ImplWin32_Init(Hwnd);

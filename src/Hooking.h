@@ -2,9 +2,9 @@
 
 #include "pch.h"
 #include "DetourHook.h"
-#include "rage/scrThread.h"
-#include "rage/scrNativeCallContext.h"
-#include "rage/CPed.h"
+#include "Rage/scrThread.h"
+#include "Rage/scrNativeCallContext.h"
+#include "Rage/CPed.h"
 
 namespace Hooking
 {

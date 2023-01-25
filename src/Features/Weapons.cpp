@@ -159,12 +159,12 @@ namespace Features
 		
 		GRAPHICS::_SET_LIGHTS_TYPE_FOR_ENTITY(WeapEnt, 1);
 		GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(WeapEnt, 5.0f);
-		GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(WeapEnt, g_rgb[0], g_rgb[1], g_rgb[2]);
+		GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(WeapEnt, GET_RGB());
 		GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(WeapEnt);
 
 		GRAPHICS::_SET_LIGHTS_TYPE_FOR_ENTITY(g_LocalPlayer.m_Entity, 1);
 		GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(g_LocalPlayer.m_Entity, 5.0f);
-		GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(g_LocalPlayer.m_Entity, g_rgb[0], g_rgb[1], g_rgb[2]);
+		GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(g_LocalPlayer.m_Entity, GET_RGB());
 		GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(g_LocalPlayer.m_Entity);
 	}
 }

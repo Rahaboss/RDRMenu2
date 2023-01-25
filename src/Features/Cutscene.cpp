@@ -2,8 +2,8 @@
 #include "Cutscene.h"
 #include "Features.h"
 #include "PlayerInfo.h"
-#include "rage/enums.h"
-#include "rage/natives.h"
+#include "Rage/enums.h"
+#include "Rage/natives.h"
 
 namespace Features
 {

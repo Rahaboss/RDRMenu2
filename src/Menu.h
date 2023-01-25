@@ -141,6 +141,7 @@ namespace Menu
 	void RenderPedDebug();
 	void RenderOverlay();
 	void RenderOverlayMain();
+	void RenderClothingMenu();
 
 	inline bool EnableFreeCam = false;
 	inline Cam CamEntity = 0;

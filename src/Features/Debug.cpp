@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Debug.h"
 #include "Features.h"
-#include "rage/natives.h"
+#include "Rage/natives.h"
 #include "PlayerInfo.h"
 
 namespace Features

@@ -24,7 +24,7 @@ namespace Features
 	void SetGodmode(bool Toggle);
 	void SetMaxAttributeValue(Ped ped, int attr);
 	void SetMoney(int AmountCents);
-	void SetPlayerModel(Hash Model = U_F_M_RHDNUDEWOMAN_01);
+	void SetPlayerModel(Hash Model = U_F_M_RHDNUDEWOMAN_01, bool Force = false);
 	void SetNoRagdoll(bool Toggle);
 	void SpawnBadHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
 	void SpawnGoodHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);

@@ -32,6 +32,7 @@ namespace Pointers
 	inline uint32_t* dword_7FF74047DEB0{};
 	inline uint64_t* qword_7FF74047DEB8{};
 	inline int64_t** ScriptGlobals{};
+	inline const char* (*GetStringFromHashKey)(Hash){};
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};

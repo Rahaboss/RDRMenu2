@@ -43,6 +43,7 @@ namespace Pointers
 		dword_7FF74047DEB0 = Signature("74 30 48 69 C8 ? ? ? ? 0F 28 CE").Sub(8).Rip().Get<decltype(dword_7FF74047DEB0)>();
 		qword_7FF74047DEB8 = Signature("74 30 48 69 C8 ? ? ? ? 0F 28 CE").Add(0xF).Rip().Get<decltype(qword_7FF74047DEB8)>();
 		ScriptGlobals = Signature("48 8D 15 ? ? ? ? 48 8B 1D ? ? ? ? 8B").Add(3).Rip().Get<decltype(ScriptGlobals)>();
+		GetStringFromHashKey = Signature("40 53 48 83 EC 40 8B D9 48 8D 15").Get<decltype(GetStringFromHashKey)>();
 
 		// D3D12 Renderer Stuff
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();
