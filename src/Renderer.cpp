@@ -243,7 +243,9 @@ namespace Renderer
 		ImGui::StyleColorsDark();
 		//ImGui::StyleColorsCherry();
 
+		ImGuiIO& io = ImGui::GetIO();
 		ImGuiStyle& Style = ImGui::GetStyle();
+
 		Style.WindowTitleAlign.x = 0.5f;
 		Style.WindowRounding = Style.ChildRounding = Style.FrameRounding = Style.PopupRounding =
 			Style.ScrollbarRounding = Style.GrabRounding = Style.TabRounding = 4.0f;
@@ -265,7 +267,6 @@ namespace Renderer
 		// Made static so it persists until end of the program
 		static std::string IniPath(Path.string());
 
-		ImGuiIO& io = ImGui::GetIO();
 		io.IniFilename = IniPath.c_str();
 		DefaultFont = io.Fonts->AddFontDefault();
 

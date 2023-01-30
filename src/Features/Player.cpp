@@ -60,6 +60,8 @@ namespace Features
 			g_LocalPlayer.m_LastMount = PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER(g_LocalPlayer.m_Index);
 			g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, false);
 			g_LocalPlayer.m_Pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, true, true);
+			g_LocalPlayer.m_Heading = ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity);
+			g_LocalPlayer.m_Model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
 			g_LocalPlayer.m_Ped = CPedFactory::GetLocalPed();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -372,5 +374,15 @@ namespace Features
 			Teleport(coords);
 		}
 		END_JOB()
+	}
+
+	bool IsArthurModel()
+	{
+		return g_LocalPlayer.m_Model == PLAYER_ZERO;
+	}
+
+	bool IsJohnModel()
+	{
+		return g_LocalPlayer.m_Model == PLAYER_THREE;
 	}
 }

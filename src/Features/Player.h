@@ -35,4 +35,7 @@ namespace Features
 	void TeleportOnGround(const Vector3& pos);
 	void TeleportThroughDoor();
 	void TeleportToWaypoint();
+
+	bool IsArthurModel();
+	bool IsJohnModel();
 }
