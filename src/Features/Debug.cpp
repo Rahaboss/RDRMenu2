@@ -28,4 +28,37 @@ namespace Features
 		constexpr Hash unlock_hash = RAGE_JOAAT("SP_GAME_CONTENT_PRE_ORDER");
 		UNLOCK::UNLOCK_SET_UNLOCKED(unlock_hash, true);
 	}
+
+	bool IsStringValid(const char* String)
+	{
+		return String && String[0];
+	}
+
+	bool IsStringValid(const std::string& String)
+	{
+		return !String.empty();
+	}
+
+	std::filesystem::path GetConfigPath()
+	{
+		char* Buffer = nullptr;
+		size_t BufferCount = 0;
+		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
+		assert(Buffer);
+		std::filesystem::path Path(Buffer);
+		delete Buffer;
+		Path.append("RDRMenu2");
+
+		return Path;
+	}
+
+	void SetClipboardText(const char* Text)
+	{
+		ImGui::SetClipboardText(Text);
+	}
+
+	void SetClipboardText(const std::string& Text)
+	{
+		SetClipboardText(Text.c_str());
+	}
 }

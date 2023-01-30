@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Settings.h"
+#include "Features.h"
 
 namespace Settings
 {
@@ -32,19 +33,6 @@ namespace Settings
 		})"_json
 	};
 
-	std::filesystem::path GetSettingsFolderPath()
-	{
-		char* Buffer = nullptr;
-		size_t BufferCount = 0;
-		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
-		assert(Buffer);
-		std::filesystem::path Path(Buffer);
-		delete Buffer;
-		Path.append("RDRMenu2");
-
-		return Path;
-	}
-
 	void WriteDefaultSettings(const std::filesystem::path& FilePath)
 	{
 		std::fstream File(FilePath, std::fstream::out | std::fstream::trunc);
@@ -66,7 +54,7 @@ namespace Settings
 
 	void Create()
 	{
-		std::filesystem::path Path(GetSettingsFolderPath());
+		std::filesystem::path Path(Features::GetConfigPath());
 
 		if (!std::filesystem::exists(Path))
 		{
@@ -111,7 +99,7 @@ namespace Settings
 
 	void Destroy()
 	{
-		std::filesystem::path Path(GetSettingsFolderPath());
+		std::filesystem::path Path(Features::GetConfigPath());
 		Path.append("Settings.json");
 		Save(Path);
 	}

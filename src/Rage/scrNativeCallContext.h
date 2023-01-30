@@ -10,7 +10,7 @@ public:
 
 	scrVector() = default;
 
-	constexpr scrVector(const float& _x, const float& _y, const float& _z) :
+	constexpr scrVector(float _x, float _y, float _z) :
 		x(_x), y(_y), z(_z)
 	{
 	}

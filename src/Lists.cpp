@@ -4,29 +4,6 @@
 
 namespace Lists
 {
-	std::filesystem::path GetSettingsFolderPath()
-	{
-		char* Buffer = nullptr;
-		size_t BufferCount = 0;
-		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
-		assert(Buffer);
-		std::filesystem::path Path(Buffer);
-		delete Buffer;
-		Path.append("RDRMenu2");
-
-		return Path;
-	}
-
-	bool IsStringValid(const char* str)
-	{
-		return str && str[0];
-	}
-
-	bool IsStringValid(const std::string& str)
-	{
-		return !str.empty();
-	}
-
 	void InitVehicleList(const std::filesystem::path& Path)
 	{
 		std::fstream File(Path, std::fstream::in);
@@ -74,7 +51,7 @@ namespace Lists
 			Hash hash = joaat(p.get<std::string>());
 			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
 
-			if (!IsStringValid(name))
+			if (!Features::IsStringValid(name))
 			{
 				printf("%s: %s is invalid!\n", __FUNCTION__, p.get<std::string>().c_str());
 				continue;
@@ -102,7 +79,7 @@ namespace Lists
 			Hash hash = joaat(d.get<std::string>());
 			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
 
-			if (!IsStringValid(name))
+			if (!Features::IsStringValid(name))
 			{
 				printf("%s: %s is invalid!\n", __FUNCTION__, d.get<std::string>().c_str());
 				continue;
@@ -130,7 +107,7 @@ namespace Lists
 			Hash hash = joaat(c.get<std::string>());
 			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
 
-			if (!IsStringValid(name))
+			if (!Features::IsStringValid(name))
 			{
 				printf("%s: %s is invalid!\n", __FUNCTION__, c.get<std::string>().c_str());
 				continue;
@@ -187,7 +164,7 @@ namespace Lists
 			Hash model = joaat(w.get<std::string>());
 			auto name = HUD::GET_STRING_FROM_HASH_KEY(model);
 
-			if (!IsStringValid(name))
+			if (!Features::IsStringValid(name))
 			{
 				printf("%s: %s is invalid!\n", __FUNCTION__, w.get<std::string>().c_str());
 				continue;
@@ -201,7 +178,7 @@ namespace Lists
 	{
 		printf("Creating lists.\n");
 
-		auto Path = GetSettingsFolderPath();
+		std::filesystem::path Path(Features::GetConfigPath());
 		if (!std::filesystem::exists(Path))
 		{
 			std::filesystem::create_directory(Path);

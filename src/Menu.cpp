@@ -644,10 +644,9 @@ namespace Menu
 
 		if (ImGui::Button("Copy Coords"))
 		{
-			//ImGui::SetClipboardText("%.2ff, %.2ff, %.2ff");
-			ImGui::LogToClipboard();
-			ImGui::LogText("%.2ff, %.2ff, %.2ff", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
-			ImGui::LogFinish();
+			std::stringstream Stream;
+			Stream << std::setprecision(2) << std::fixed << g_LocalPlayer.m_Pos;
+			Features::SetClipboardText(Stream.str());
 		}
 		ImGui::SameLine();
 		ImGui::Text("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
@@ -680,9 +679,9 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Copy Address"))
 		{
-			ImGui::LogToClipboard();
-			ImGui::LogText("%llX", g_LocalPlayer.m_Ped);
-			ImGui::LogFinish();
+			std::stringstream Stream;
+			Stream << std::hex << std::uppercase << (uint64_t)g_LocalPlayer.m_Ped;
+			Features::SetClipboardText(Stream.str());
 		}
 
 		ImGui::AlignTextToFramePadding();
@@ -690,9 +689,9 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Copy Address"))
 		{
-			ImGui::LogToClipboard();
-			ImGui::LogText("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
-			ImGui::LogFinish();
+			std::stringstream Stream;
+			Stream << std::hex << std::uppercase << (uint64_t)Pointers::GetEntityAddress(g_LocalPlayer.m_Entity);
+			Features::SetClipboardText(Stream.str());
 		}
 
 		uint64_t nhash = 0xFA925AC00EB830B9; // 0xBD5DD5EAE2B6CE14; // 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
@@ -706,9 +705,9 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Copy IDA Address"))
 		{
-			ImGui::LogToClipboard();
-			ImGui::LogText("%llX", off + 0x7FF73CAB0000 /*imagebase in ida*/);
-			ImGui::LogFinish();
+			std::stringstream Stream;
+			Stream << std::hex << std::uppercase << (uint64_t)(off + 0x7FF73CAB0000);
+			Features::SetClipboardText(Stream.str());
 		}
 
 		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
@@ -985,52 +984,67 @@ namespace Menu
 		
 		ImGui::BeginChild("memory_child");
 
-		uint32_t MemorySize = 0x1000;
-		if (uint8_t* MemoryLocation = (uint8_t*)g_LocalPlayer.m_Ped)
+		if (!g_LocalPlayer.m_Ped)
 		{
-			ImGui::PushFont(Renderer::DefaultFont);
+			ImGui::Text("CPed is null");
+			ImGui::EndChild();
+			ImGui::EndTabItem();
+		}
 
-			for (uint32_t i = 0; i < MemorySize; i += 16)
+		if (ImGui::Button("Copy CPed Address"))
+		{
+			std::stringstream Stream;
+			Stream << std::hex << std::uppercase << "0x" << (uint64_t)g_LocalPlayer.m_Ped;
+			Features::SetClipboardText(Stream.str());
+		}
+
+		ImGui::PushFont(Renderer::DefaultFont);
+
+		uint32_t MemorySize = 0x1000;
+		uint8_t* MemoryLocation = (uint8_t*)g_LocalPlayer.m_Ped;
+
+		ImGui::Text("%llX", g_LocalPlayer.m_Ped);
+
+		for (uint32_t i = 0; i < MemorySize; i += 16)
+		{
+			ImGui::Text("%04X ", i);
+			for (uint32_t j = 0; j < 16; j++)
 			{
-				ImGui::Text("%04X ", i);
-				for (uint32_t j = 0; j < 16; j++)
+				if (j == 8)
 				{
-					if (j == 8)
-					{
-						ImGui::SameLine();
-						ImGui::Text("");
-					}
-
 					ImGui::SameLine();
-					uint8_t Byte = MemoryLocation[i + j];
-					if (Byte)
-						ImGui::Text("%02X", Byte);
-					else
-						ImGui::TextDisabled("%02X", Byte);
+					ImGui::Text("");
 				}
 
 				ImGui::SameLine();
-				ImGui::Text("");
-
-				for (uint32_t j = 0; j < 16; j++)
-				{
-					if (j == 8)
-					{
-						ImGui::SameLine();
-						ImGui::Text("");
-					}
-
-					ImGui::SameLine();
-					uint8_t Byte = MemoryLocation[i + j];
-					if (Byte < 32 || Byte > 126)
-						ImGui::TextDisabled(".");
-					else
-						ImGui::Text("%c", Byte);
-				}
+				uint8_t Byte = MemoryLocation[i + j];
+				if (Byte)
+					ImGui::Text("%02X", Byte);
+				else
+					ImGui::TextDisabled("%02X", Byte);
 			}
 
-			ImGui::PopFont();
+			ImGui::SameLine();
+			ImGui::Text("");
+
+			for (uint32_t j = 0; j < 16; j++)
+			{
+				if (j == 8)
+				{
+					ImGui::SameLine();
+					ImGui::Text("");
+				}
+
+				ImGui::SameLine();
+				uint8_t Byte = MemoryLocation[i + j];
+				if (Byte < 32 || Byte > 126)
+					ImGui::TextDisabled(".");
+				else
+					ImGui::Text("%c", Byte);
+			}
 		}
+
+		ImGui::PopFont();
 
 		ImGui::EndChild();
 		ImGui::EndTabItem();
@@ -1713,29 +1727,6 @@ namespace Menu
 		}
 		ImGui::Separator();
 
-		static std::vector<std::string> labels;
-		labels.clear();
-		for (int i = 0; i < PED::_GET_NUM_COMPONENT_CATEGORIES_IN_PED(g_LocalPlayer.m_Entity); i++)
-		{
-			Hash category = PED::_GET_PED_COMPONENT_CATEGORY_BY_INDEX(g_LocalPlayer.m_Entity, i);
-			if (PED::_IS_METAPED_USING_COMPONENT(g_LocalPlayer.m_Entity, category))
-			{
-				std::string label("Remove ");
-				label += std::to_string(category);
-				labels.push_back(label);
-				if (ImGui::Button(labels[labels.size() - 1].c_str()))
-				{
-					QUEUE_JOB(=)
-					{
-						PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, category, 1);
-						PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
-					}
-					END_JOB()
-				}
-			}
-		}
-
-		ImGui::Separator();
 		ImGui::Text("Set Outfit");
 		static int Outfit = 0;
 		static bool KeepAcc = false;
@@ -1768,7 +1759,7 @@ namespace Menu
 		ImGui::SameLine();
 		ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
 		ImGui::Separator();
-
+		
 		RenderPlayerModelChanger();
 
 		ImGui::End();

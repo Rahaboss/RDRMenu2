@@ -4,6 +4,7 @@
 #include "Hooking.h"
 #include "Menu.h"
 #include "Fonts.h"
+#include "Features.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -243,50 +244,43 @@ namespace Renderer
 		//ImGui::StyleColorsCherry();
 
 		ImGuiStyle& Style = ImGui::GetStyle();
+		Style.WindowTitleAlign.x = 0.5f;
 		Style.WindowRounding = Style.ChildRounding = Style.FrameRounding = Style.PopupRounding =
 			Style.ScrollbarRounding = Style.GrabRounding = Style.TabRounding = 4.0f;
-		Style.WindowTitleAlign.x = 0.5f;
 
-		char* Buffer = nullptr;
-		size_t BufferCount = 0;
-		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
-		if (Buffer)
+		std::filesystem::path Path(Features::GetConfigPath());
+
+		if (!std::filesystem::exists(Path))
 		{
-			std::filesystem::path Path(Buffer);
-			delete Buffer;
-
-			Path.append("RDRMenu2");
-
-			if (!std::filesystem::exists(Path))
-			{
-				std::filesystem::create_directory(Path);
-			}
-			else if (!std::filesystem::is_directory(Path))
-			{
-				std::filesystem::remove(Path);
-				std::filesystem::create_directory(Path);
-			}
-
-			Path.append("imgui.ini");
-			static std::string IniPath(Path.string());
-
-			ImGuiIO& io = ImGui::GetIO();
-			io.IniFilename = IniPath.c_str();
-			DefaultFont = io.Fonts->AddFontDefault();
-
-			ImFontConfig FontCfg{};
-			FontCfg.FontDataOwnedByAtlas = false;
-
-			strcpy_s(FontCfg.Name, "Chalet London 1960");
-			io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
-
-			strcpy_s(FontCfg.Name, "Redemption");
-			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 20.0f, &FontCfg);
-
-			// Main font
-			strcpy_s(FontCfg.Name, "RDR-Lino");
-			io.Fonts->AddFontFromMemoryTTF((void*)Fonts::RDRLino, sizeof(Fonts::RDRLino), 20.0f, &FontCfg);
+			std::filesystem::create_directory(Path);
 		}
+		else if (!std::filesystem::is_directory(Path))
+		{
+			std::filesystem::remove(Path);
+			std::filesystem::create_directory(Path);
+		}
+
+		Path.append("imgui.ini");
+
+		// Made static so it persists until end of the program
+		static std::string IniPath(Path.string());
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.IniFilename = IniPath.c_str();
+		DefaultFont = io.Fonts->AddFontDefault();
+
+		ImFontConfig FontCfg{};
+		FontCfg.FontDataOwnedByAtlas = false;
+
+		// Main font
+		strcpy_s(FontCfg.Name, "Chalet London 1960");
+		io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+
+		strcpy_s(FontCfg.Name, "Redemption");
+		io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 20.0f, &FontCfg);
+
+		strcpy_s(FontCfg.Name, "RDR-Lino");
+		io.Fonts->AddFontFromMemoryTTF((void*)Fonts::RDRLino, sizeof(Fonts::RDRLino), 20.0f, &FontCfg);
 
 		ImGui_ImplWin32_Init(Hwnd);
 		ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,

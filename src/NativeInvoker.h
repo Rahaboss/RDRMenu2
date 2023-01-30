@@ -45,7 +45,7 @@ public:
 };
 
 template <typename Ret, typename... Args>
-Ret invoke(const uint64_t& hash, Args&&... args)
+inline Ret invoke(uint64_t hash, Args&&... args)
 {
 	NativeContext Context;
 	Context.Reset();
