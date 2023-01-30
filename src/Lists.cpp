@@ -9,7 +9,7 @@ namespace Lists
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
-			printf("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
 			return;
 		}
 
@@ -24,7 +24,7 @@ namespace Lists
 
 			if (!Features::IsModelValid(model))
 			{
-				printf("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
 				continue;
 			}
 
@@ -38,7 +38,7 @@ namespace Lists
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
-			printf("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
 			return;
 		}
 		
@@ -53,7 +53,7 @@ namespace Lists
 
 			if (!Features::IsStringValid(name))
 			{
-				printf("%s: %s is invalid!\n", __FUNCTION__, p.get<std::string>().c_str());
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, p.get<std::string>().c_str());
 				continue;
 			}
 
@@ -66,7 +66,7 @@ namespace Lists
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
-			printf("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
 			return;
 		}
 
@@ -81,7 +81,7 @@ namespace Lists
 
 			if (!Features::IsStringValid(name))
 			{
-				printf("%s: %s is invalid!\n", __FUNCTION__, d.get<std::string>().c_str());
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, d.get<std::string>().c_str());
 				continue;
 			}
 
@@ -94,7 +94,7 @@ namespace Lists
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
-			printf("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
 			return;
 		}
 
@@ -109,7 +109,7 @@ namespace Lists
 
 			if (!Features::IsStringValid(name))
 			{
-				printf("%s: %s is invalid!\n", __FUNCTION__, c.get<std::string>().c_str());
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, c.get<std::string>().c_str());
 				continue;
 			}
 
@@ -122,7 +122,7 @@ namespace Lists
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
-			printf("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
 			return;
 		}
 
@@ -137,7 +137,7 @@ namespace Lists
 
 			if (!Features::IsModelValid(model))
 			{
-				printf("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
 				continue;
 			}
 
@@ -151,7 +151,7 @@ namespace Lists
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
-			printf("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
 			return;
 		}
 
@@ -166,7 +166,7 @@ namespace Lists
 
 			if (!Features::IsStringValid(name))
 			{
-				printf("%s: %s is invalid!\n", __FUNCTION__, w.get<std::string>().c_str());
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, w.get<std::string>().c_str());
 				continue;
 			}
 
@@ -176,7 +176,7 @@ namespace Lists
 
 	void Create()
 	{
-		printf("Creating lists.\n");
+		LOG_TO_CONSOLE("Creating lists.\n");
 
 		std::filesystem::path Path(Features::GetConfigPath());
 		if (!std::filesystem::exists(Path))
@@ -199,7 +199,7 @@ namespace Lists
 
 	void Reload()
 	{
-		printf("Clearing lists.\n");
+		LOG_TO_CONSOLE("Clearing lists.\n");
 		g_VehicleList.clear();
 		g_VehicleModelNameList.clear();
 		g_ProvisionList.clear();

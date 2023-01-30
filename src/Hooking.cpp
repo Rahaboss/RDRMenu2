@@ -14,7 +14,7 @@ namespace Hooking
 
 	void Create()
 	{
-		printf("Creating hooks.\n");
+		LOG_TO_CONSOLE("Creating hooks.\n");
 		assert(MH_Initialize() == MH_OK);
 
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
@@ -40,7 +40,7 @@ namespace Hooking
 
 	void Destroy()
 	{
-		printf("Destroying hooks.\n");
+		LOG_TO_CONSOLE("Destroying hooks.\n");
 
 		DecorSetInt.Destroy();
 		DecorSetBool.Destroy();
@@ -66,7 +66,7 @@ namespace Hooking
 
 	void Enable()
 	{
-		printf("Enabling hooks.\n");
+		LOG_TO_CONSOLE("Enabling hooks.\n");
 		if (Enabled)
 			return;
 		assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
@@ -75,7 +75,7 @@ namespace Hooking
 
 	void Disable()
 	{
-		printf("Disabling hooks.\n");
+		LOG_TO_CONSOLE("Disabling hooks.\n");
 		if (!Enabled)
 			return;
 		assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
@@ -198,12 +198,12 @@ namespace Hooking
 		{
 			if (g_Settings["log_human_spawning"].get<bool>())
 			{
-				Menu::Logger.AddLog("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
+				LOG_TO_MENU("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
 			}
 		}
 		else if (g_Settings["log_ped_spawning"].get<bool>())
 		{
-			Menu::Logger.AddLog("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
+			LOG_TO_MENU("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
 		}
 
 		return result;
@@ -220,7 +220,7 @@ namespace Hooking
 		Vehicle result = CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 		Vehicle ret = ctx->GetRet<Vehicle>();
 
-		Menu::Logger.AddLog("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, ret,
+		LOG_TO_MENU("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, ret,
 			pos.x, pos.y, pos.z);
 
 		return result;
@@ -254,15 +254,15 @@ namespace Hooking
 			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
 			case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
-				Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
+				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
 					inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
-				Menu::Logger.AddLog("\tReturned %d\n\n", ret);
-				Menu::Logger.AddLog("\tguid1:\n");
+				LOG_TO_MENU("\tReturned %d\n\n", ret);
+				LOG_TO_MENU("\tguid1:\n");
 				for (int i = 0; i < 4; i++)
-					Menu::Logger.AddLog("\t%d\n", ((int*)guid1)[i * 2]);
-				Menu::Logger.AddLog("\tguid2:\n");
+					LOG_TO_MENU("\t%d\n", ((int*)guid1)[i * 2]);
+				LOG_TO_MENU("\tguid2:\n");
 				for (int i = 0; i < 5; i++)
-					Menu::Logger.AddLog("\t%d\n", ((int*)guid2)[i * 2]);
+					LOG_TO_MENU("\t%d\n", ((int*)guid2)[i * 2]);
 				break;
 			}
 		}
@@ -297,14 +297,14 @@ namespace Hooking
 			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
 			case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
-				Menu::Logger.AddLog("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
-				Menu::Logger.AddLog("\tReturned %d\n\n", ret);
-				Menu::Logger.AddLog("\tguid:\n");
+				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
+				LOG_TO_MENU("\tReturned %d\n\n", ret);
+				LOG_TO_MENU("\tguid:\n");
 				for (int i = 0; i < 5; i++)
-					Menu::Logger.AddLog("\t%d\n", ((int*)guid)[i * 2]);
-				Menu::Logger.AddLog("\toutGuid:\n");
+					LOG_TO_MENU("\t%d\n", ((int*)guid)[i * 2]);
+				LOG_TO_MENU("\toutGuid:\n");
 				for (int i = 0; i < 5; i++)
-					Menu::Logger.AddLog("\t%d\n", ((int*)outGuid)[i * 2]);
+					LOG_TO_MENU("\t%d\n", ((int*)outGuid)[i * 2]);
 				break;
 			}
 		}
@@ -348,7 +348,7 @@ namespace Hooking
 		{
 			const auto it = g_PedModelNameList.find(model);
 			if (it != g_PedModelNameList.end())
-				Menu::Logger.AddLog("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
+				LOG_TO_MENU("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
 		}
 
 		return result;
@@ -368,7 +368,7 @@ namespace Hooking
 		AnimScene ret = ctx->GetRet<AnimScene>();
 
 		if (std::string(animDict).find("cutscene@") != std::string::npos)
-			Menu::Logger.AddLog("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
+			LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
 				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
 
 		return result;
@@ -390,13 +390,13 @@ namespace Hooking
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			if (entity == g_LocalPlayer.m_Entity)
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Entity, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Entity, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else if (entity == g_LocalPlayer.m_Mount)
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Mount, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Mount, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else if (entity == g_LocalPlayer.m_Vehicle)
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Vehicle, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Vehicle, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_BOOL(%u, \"%s\", %s)\n", entity, propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(%u, \"%s\", %s)\n", entity, propertyName, (value ? "true" : "false"));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
@@ -419,13 +419,13 @@ namespace Hooking
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			if (entity == g_LocalPlayer.m_Entity)
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Entity, \"%s\", %d)\n", propertyName, value);
+				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Entity, \"%s\", %d)\n", propertyName, value);
 			else if (entity == g_LocalPlayer.m_Mount)
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Mount, \"%s\", %d)\n", propertyName, value);
+				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Mount, \"%s\", %d)\n", propertyName, value);
 			else if (entity == g_LocalPlayer.m_Vehicle)
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Vehicle, \"%s\", %d)\n", propertyName, value);
+				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Vehicle, \"%s\", %d)\n", propertyName, value);
 			else
-				Menu::Logger.AddLog("DECORATOR::DECOR_SET_INT(%u, \"%s\", %d)\n", entity, propertyName, value);
+				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(%u, \"%s\", %d)\n", entity, propertyName, value);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 

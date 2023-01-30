@@ -60,7 +60,7 @@ namespace Features
 		{
 			if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
 			{
-				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
+				LOG_TO_CONSOLE("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
@@ -76,7 +76,7 @@ namespace Features
 		{
 			if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
 			{
-				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
+				LOG_TO_CONSOLE("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
@@ -92,7 +92,7 @@ namespace Features
 		{
 			if (!WEAPON::_IS_WEAPON_ONE_HANDED(WeaponHash))
 			{
-				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
+				LOG_TO_CONSOLE("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 
@@ -108,7 +108,7 @@ namespace Features
 		{
 			if (!WEAPON::_IS_WEAPON_TWO_HANDED(WeaponHash))
 			{
-				printf("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
+				LOG_TO_CONSOLE("%s: Weapon 0x%X (%s) is not two handed!\n", __FUNCTION__, WeaponHash, HUD::GET_STRING_FROM_HASH_KEY(WeaponHash));
 				return;
 			}
 

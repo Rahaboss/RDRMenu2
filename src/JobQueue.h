@@ -18,4 +18,4 @@ private:
 inline JobQueue g_JobQueue;
 
 #define QUEUE_JOB(...) g_JobQueue.Add([__VA_ARGS__]() { __try
-#define END_JOB() __except (EXCEPTION_EXECUTE_HANDLER) { printf("Caught exception in queued job:\n\tFile %s:%d\n", __FILE__, __LINE__); } });
+#define END_JOB() __except (EXCEPTION_EXECUTE_HANDLER) { LOG_TO_CONSOLE("Caught exception in queued job:\n\tFile %s:%d\n", __FILE__, __LINE__); } });

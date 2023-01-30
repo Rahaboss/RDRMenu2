@@ -180,7 +180,7 @@ namespace Features
 		const Hash ItemSlot = 2884296223;
 		//const int ItemSlot2 = 2884296223; //-1410671073
 		if (!INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, ItemSlot))
-			printf("CLOTHING_SP_CIVIL_WAR_HAT_000_1 error\n");
+			LOG_TO_CONSOLE("CLOTHING_SP_CIVIL_WAR_HAT_000_1 error\n");
 
 		GiveSingleInventoryItem(ItemHash, ItemSlot, 1, ADD_REASON_DEFAULT);
 

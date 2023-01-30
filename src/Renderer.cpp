@@ -77,7 +77,7 @@ namespace Renderer
 	{
 		TRY
 		{
-			printf("Creating renderer.\n");
+			LOG_TO_CONSOLE("Creating renderer.\n");
 		
 			if (!Pointers::SwapChain || !(*Pointers::SwapChain))
 				return;
@@ -105,7 +105,7 @@ namespace Renderer
 	{
 		TRY
 		{ 
-			printf("Destroying renderer.\n");
+			LOG_TO_CONSOLE("Destroying renderer.\n");
 			if (!Setup)
 				return;
 

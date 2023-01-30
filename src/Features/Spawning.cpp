@@ -56,7 +56,7 @@ namespace Features
 		{
 			if (!IsModelValid(model))
 			{
-				printf("%s: 0x%llX is not a valid model hash!\n", __FUNCTION__, (uint64_t)model);
+				LOG_TO_CONSOLE("%s: 0x%llX is not a valid model hash!\n", __FUNCTION__, (uint64_t)model);
 				return false;
 			}
 
@@ -80,7 +80,7 @@ namespace Features
 		
 		if (!RequestModel(model))
 		{
-			printf("%s: Couldn't request ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't request ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 			return 0;
 		}
 
@@ -95,7 +95,7 @@ namespace Features
 
 		if (!ped)
 		{
-			printf("%s: Couldn't spawn ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't spawn ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 			return 0;
 		}
 
@@ -133,7 +133,7 @@ namespace Features
 		{
 			if (!RequestModel(model))
 			{
-				printf("%s: Couldn't request vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+				LOG_TO_CONSOLE("%s: Couldn't request vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 				return 0;
 			}
 
@@ -143,7 +143,7 @@ namespace Features
 
 			if (!veh)
 			{
-				printf("%s: Couldn't spawn vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+				LOG_TO_CONSOLE("%s: Couldn't spawn vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
 				return veh;
 			}
 

@@ -33,6 +33,7 @@
 
 // User headers
 #include "Settings.h"
+#include "Logger.h"
 
 // Global variables
 inline HMODULE g_Module; // DLL handle (used to exit thread)
@@ -49,7 +50,7 @@ using namespace std::literals::string_view_literals;
 #define LOG_HEX(v) std::hex << std::uppercase << "0x" << (uintptr_t)v << std::dec << std::nouppercase
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
-#define LOG_EXCEPTION() printf("Caught exception in:\n\tFile: %s:%d\n\tFunction: %s\n", __FILE__, __LINE__, __FUNCTION__);
+#define LOG_EXCEPTION() LOG_TO_CONSOLE("Caught exception in:\n\tFile: %s:%d\n\tFunction: %s\n", __FILE__, __LINE__, __FUNCTION__);
 #define __ROL8__ _rotl64
 #define __ROR8__ _rotr64
 

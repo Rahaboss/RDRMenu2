@@ -17,12 +17,12 @@ namespace Console
 			"Release"
 #endif
 		);
-		printf("Created console.\n");
+		LOG_TO_CONSOLE("Created console.\n");
 	}
 
 	void Destroy()
 	{
-		printf("Destroying console.\n");
+		LOG_TO_CONSOLE("Destroying console.\n");
 		fclose(s_File);
 		FreeConsole();
 	}

@@ -49,7 +49,7 @@ namespace Features
 				const int MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
 				
 				//printf("%s,%d,%d,%d,%d,%d,%d,%d,%d\n", Attr, Rank, BaseRank, BonusRank, MaxRank, DefaultRank, DefaultMaxRank, Points, MaxPoints);
-				printf("%s (%d/%d)\n", Attr, Points, MaxPoints);
+				LOG_TO_CONSOLE("%s (%d/%d)\n", Attr, Points, MaxPoints);
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }

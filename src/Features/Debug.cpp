@@ -18,7 +18,7 @@ namespace Features
 		{
 			uint64_t addr = (uintptr_t)NativeContext::GetHandler(hash);
 			uint64_t off = addr - g_BaseAddress;
-			printf("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", hash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
+			LOG_TO_CONSOLE("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", hash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

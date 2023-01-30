@@ -89,7 +89,7 @@ namespace Features
 			Teleport(-5083.33f, -4119.60f, -28.63f);
 			break;
 		default:
-			printf("%s: %d is not a valid cutscene index.\n", __FUNCTION__, index);
+			LOG_TO_CONSOLE("%s: %d is not a valid cutscene index.\n", __FUNCTION__, index);
 			return;
 		}
 		

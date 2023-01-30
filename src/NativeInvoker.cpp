@@ -43,11 +43,11 @@ void NativeContext::PrintNativeStackInfo(uint64_t hash, void* Handler)
 	TRY
 	{
 		//printf("=== Native Stack Info ===\n");
-		printf("Caught exception in native 0x%llX!\n", hash);
-		printf("Handler: 0x%llX\n", (uint64_t)Handler);
-		printf("Return Value: 0x%llX / %.2f\n", m_Context.GetRet<uint64_t>(), m_Context.GetRet<float>());
+		LOG_TO_CONSOLE("Caught exception in native 0x%llX!\n", hash);
+		LOG_TO_CONSOLE("Handler: 0x%llX\n", (uint64_t)Handler);
+		LOG_TO_CONSOLE("Return Value: 0x%llX / %.2f\n", m_Context.GetRet<uint64_t>(), m_Context.GetRet<float>());
 		for (uint32_t i = 0; i < m_Context.m_ArgCount; i++)
-			printf("Arg[%u] = 0x%llX\n", i, m_Context.GetArg<uint64_t>(i));
+			LOG_TO_CONSOLE("Arg[%u] = 0x%llX\n", i, m_Context.GetArg<uint64_t>(i));
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
@@ -69,6 +69,6 @@ void NativeContext::EndCall(uint64_t hash)
 	}
 	else
 	{
-		printf("Failed to find native 0x%llX!\n", hash);
+		LOG_TO_CONSOLE("Failed to find native 0x%llX!\n", hash);
 	}
 }

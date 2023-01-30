@@ -92,7 +92,7 @@ namespace Settings
 
 		if (UpdateFile)
 		{
-			printf("Updating settings.\n");
+			LOG_TO_CONSOLE("Updating settings.\n");
 			Save(Path);
 		}
 	}

@@ -211,7 +211,7 @@ namespace Menu
 		ImGui::Text("0x%llX handler: RDR2.exe+0x%X", nhash, off);
 
 		if (ImGui::Button("Print to console"))
-			printf("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", nhash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
+			LOG_TO_CONSOLE("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", nhash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
 		ImGui::SameLine();
 		if (ImGui::Button("Copy IDA Address"))
 		{
@@ -230,7 +230,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				printf("Ped height: %.2f.\n", PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity));
+				LOG_TO_CONSOLE("Ped height: %.2f.\n", PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity));
 			}
 			END_JOB();
 		}
@@ -306,13 +306,13 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				printf("=== BEGIN METAPED COMPONENT CATEGORIES ===\n");
+				LOG_TO_CONSOLE("=== BEGIN METAPED COMPONENT CATEGORIES ===\n");
 
 				const int num = PED::_GET_NUM_COMPONENT_CATEGORIES_IN_PED(g_LocalPlayer.m_Entity);
 				for (int i = 0; i < num; i++)
-					printf("%u\n", PED::_GET_PED_COMPONENT_CATEGORY_BY_INDEX(g_LocalPlayer.m_Entity, i));
+					LOG_TO_CONSOLE("%u\n", PED::_GET_PED_COMPONENT_CATEGORY_BY_INDEX(g_LocalPlayer.m_Entity, i));
 
-				printf("=== END METAPED COMPONENT CATEGORIES ===\n");
+				LOG_TO_CONSOLE("=== END METAPED COMPONENT CATEGORIES ===\n");
 			}
 			END_JOB()
 		}

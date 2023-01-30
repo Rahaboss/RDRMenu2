@@ -150,7 +150,7 @@ namespace Features
 				SetPlayerModel(PLAYER_THREE);
 				break;
 			default:
-				printf("%s: Unknown default player model: %d!\n", __FUNCTION__, *Global_1946054_f_1);
+				LOG_TO_CONSOLE("%s: Unknown default player model: %d!\n", __FUNCTION__, *Global_1946054_f_1);
 				break;
 			}
 		}
@@ -347,7 +347,7 @@ namespace Features
 
 			if (!found)
 			{
-				printf("Waypoint not active.\n");
+				LOG_TO_CONSOLE("Waypoint not active.\n");
 				return;
 			}
 
