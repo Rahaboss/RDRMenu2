@@ -1,7 +1,7 @@
 workspace "RDRMenu2"
 	architecture "x86_64" -- x86 for 32-bit
 	configurations {
-		"Debug", -- Regular debug build
+		-- "Debug", -- Regular debug build
 		"Release" -- Build with optimization
 	}
 

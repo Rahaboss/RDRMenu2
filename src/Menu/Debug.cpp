@@ -5,6 +5,8 @@
 #include "ScriptGlobal.h"
 #include "Signature.h"
 #include "Lists.h"
+#include "Features.h"
+#include "CutsceneHelper.h"
 
 namespace Menu
 {
@@ -398,7 +400,6 @@ namespace Menu
 		//	}
 		//	END_JOB()
 		//}
-
 		ImGui::Separator();
 
 		if (ImGui::BeginCombo("HUD Context", HUDContextList[CurCtx]))
@@ -428,8 +429,97 @@ namespace Menu
 			}
 			END_JOB()
 		}
-
 		ImGui::Separator();
+
+		static int s_CurrentCutscene = 0;
+		static char CutFilter[200]{ "cutscene@" };
+		ImGui::BeginGroup();
+		ImGui::Text("Cutscenes (%d)", g_Cutscenes.size());
+		ImGui::BeginChild("###cutscene_list", ImVec2(350, 250));
+		for (int i = 0; i < g_Cutscenes.size(); i++)
+		{
+			const std::string& Name = g_Cutscenes[i]["id"].get_ref<const std::string&>();
+			if (Name.find(CutFilter) == std::string::npos)
+				continue;
+
+			if (ImGui::Selectable(Name.c_str(), i == s_CurrentCutscene))
+				s_CurrentCutscene = i;
+		}
+		ImGui::EndChild();
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		
+		ImGui::BeginGroup();
+		ImGui::PushItemWidth(300);
+		ImGui::InputText("###filter_cut", CutFilter, 200);
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Play"))
+			Features::PlayCutsceneFromJson(g_Cutscenes[s_CurrentCutscene]);
+		ImGui::SameLine();
+		if (ImGui::Button("Play Native Cutscene 2 Exit"))
+		{
+			QUEUE_JOB(=)
+			{
+				[=]() {
+					int index = 0;
+					for (int i = 0; i < g_Cutscenes.size(); i++)
+					{
+						if (g_Cutscenes[i]["id"].get_ref<const std::string&>().find("cutscene@ntv2_ext") != std::string::npos)
+						{
+							index = i;
+							break;
+						}
+					}
+
+					LOG_TO_CONSOLE("Playing cutscene %d.\n", index);
+					CutsceneHelper cs(g_Cutscenes[index]);
+					cs.PlayAutomatically();
+				}();
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Fix cutscenes"))
+		{
+			nlohmann::json j;
+			std::map<std::string, int> mm;
+
+			for (const auto& jjj : g_Cutscenes)
+			{
+				bool nnew = true;
+				for (const auto& jj : j)
+				{
+					if (jj["id"].get<std::string>() == jjj["id"].get<std::string>())
+					{
+						nnew = false;
+						break;
+					}
+				}
+				if (nnew)
+				{
+					mm[jjj["id"].get<std::string>()];
+				}
+			}
+			
+			for (const auto& jj : mm)
+			{
+				nlohmann::json jjj;
+				jjj["id"] = jj.first;
+				j.push_back(jjj);
+			}
+
+			auto FilePath = Features::GetConfigPath();
+			FilePath.append("cs2.json");
+
+			std::fstream File(FilePath, std::fstream::out | std::fstream::trunc);
+			assert(File.good());
+			File << j.dump(4);
+			File.close();
+		}
+		ImGui::EndGroup();
+		ImGui::Separator();
+
 		ImGui::BeginGroup();
 		ImGui::Checkbox("Log Ped Spawning", g_Settings["log_ped_spawning"].get<bool*>());
 		ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());

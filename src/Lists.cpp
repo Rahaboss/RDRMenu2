@@ -174,6 +174,19 @@ namespace Lists
 		}
 	}
 
+	void InitCutscenesList(const std::filesystem::path& Path)
+	{
+		std::fstream File(Path, std::fstream::in);
+		if (!File.good())
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			return;
+		}
+
+		File >> g_Cutscenes;
+		File.close();
+	}
+
 	void Create()
 	{
 		LOG_TO_CONSOLE("Creating lists.\n");
@@ -195,6 +208,7 @@ namespace Lists
 		InitConsumableList(Path.parent_path().append("Consumables.json"));
 		InitPedList(Path.parent_path().append("Peds.json"));
 		InitWeaponList(Path.parent_path().append("Weapons.json"));
+		InitCutscenesList(Path.parent_path().append("Cutscenes.json"));
 	}
 
 	void Reload()
@@ -208,6 +222,7 @@ namespace Lists
 		g_PedList.clear();
 		g_PedModelNameList.clear();
 		g_WeaponList.clear();
+		g_Cutscenes.clear();
 		Create();
 	}
 }

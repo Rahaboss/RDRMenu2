@@ -76,6 +76,28 @@ namespace Features
 				CAM::_FORCE_LETTER_BOX_THIS_UPDATE();
 			}
 
+			[=](){
+				Entity out;
+				if (PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(g_LocalPlayer.m_Index, &out))
+				{
+					Hash hash = ENTITY::GET_ENTITY_MODEL(out);
+
+					auto it = g_PedModelNameList.find(hash);
+					if (it != g_PedModelNameList.end())
+						RenderTextOnEntity(out, it->second.c_str());
+					else
+					{
+						auto it2 = g_VehicleModelNameList.find(hash);
+						if (it2 != g_VehicleModelNameList.end())
+							RenderTextOnEntity(out, it2->second.c_str());
+						else
+						{
+							RenderTextOnEntity(out, std::to_string(hash).c_str());
+						}
+					}
+				}
+			}();
+
 			// Local player mount options
 			if (g_LocalPlayer.m_Mount && ENTITY::DOES_ENTITY_EXIST(g_LocalPlayer.m_Mount))
 			{

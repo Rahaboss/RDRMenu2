@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Clothing.h"
 #include "JobQueue.h"
+#include "Features.h"
 #include "PlayerInfo.h"
 #include "Lists.h"
 
@@ -267,6 +268,18 @@ namespace Menu
 				}
 				END_JOB()
 			}
+		}
+		ImGui::Separator();
+		
+		if (ImGui::Button("Spawn Hat"))
+		{
+			QUEUE_JOB(=)
+			{
+				constexpr Hash model = 813051418;
+				Features::RequestModel(model);
+				Object stick = OBJECT::CREATE_OBJECT_NO_OFFSET(model, 196.386f, 988.0386f, 189.1274f, true, true, false, true);
+			}
+			END_JOB()
 		}
 		ImGui::Separator();
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "JobQueue.h"
+#include "Features.h"
 #include "PlayerInfo.h"
 
 namespace Menu

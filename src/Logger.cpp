@@ -21,7 +21,7 @@ int LogText(const char* Format, ...)
 		str.append(Buffer);
 
 		puts(str.c_str());
-		LOG_TO_MENU(str.c_str());
+		LOG_TO_MENU("%s\n", str.c_str());
 	}
 
 	delete[] Buffer;

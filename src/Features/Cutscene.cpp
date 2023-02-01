@@ -4,6 +4,8 @@
 #include "PlayerInfo.h"
 #include "Rage/enums.h"
 #include "Rage/natives.h"
+#include "JobQueue.h"
+#include "CutsceneHelper.h"
 
 namespace Features
 {
@@ -323,5 +325,17 @@ namespace Features
 
 		// Delete objects and characters
 		DeletePed(jack);
+	}
+
+	void PlayCutsceneFromJson(const nlohmann::json& JsonObject)
+	{
+		QUEUE_JOB(&)
+		{
+			[&]() {
+				CutsceneHelper Cutscene(JsonObject);
+				Cutscene.PlayAutomatically();
+			}();
+		}
+		END_JOB()
 	}
 }

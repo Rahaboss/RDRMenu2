@@ -10,4 +10,5 @@ namespace Features
 	void PlayAnnesburgBreakoutCutscene();
 	void PlayCharlesLeavingCutscene();
 	void PlayJackCutscene();
+	void PlayCutsceneFromJson(const nlohmann::json& JsonObject);
 }

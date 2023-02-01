@@ -2,6 +2,7 @@
 #include "Spawning.h"
 #include "Lists.h"
 #include "JobQueue.h"
+#include "Features.h"
 
 namespace Menu
 {

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Ped.h"
 #include "JobQueue.h"
+#include "Features.h"
 
 namespace Features
 {
