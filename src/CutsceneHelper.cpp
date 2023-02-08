@@ -2,23 +2,43 @@
 #include "CutsceneHelper.h"
 #include "Features.h"
 #include "PlayerInfo.h"
+#include "Lists.h"
 
 CutsceneHelper::CutsceneHelper(const nlohmann::json& JsonObject):
 	m_Scene(0),
 	m_JsonObject(JsonObject)
 {
-	if (m_JsonObject["id"].is_null())
-	{
-		LOG_TXT("%s: JsonObject.id is null!", __FUNCTION__);
-		return;
-	}
+	assert(!(m_JsonObject["id"].is_null()) && "Invalid cutscene!");
 
 	const char* animDict = m_JsonObject["id"].get_ref<const std::string&>().c_str();
 	const char* playbackListName = "MultiStart";
 	if (!m_JsonObject["playback_id"].is_null())
 		playbackListName = m_JsonObject["playback_id"].get_ref<const std::string&>().c_str();
 	
-	m_Scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, 0, playbackListName, false, true);
+	m_Scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, ASF_NONE, playbackListName, false, true);
+}
+
+CutsceneHelper::CutsceneHelper(const char* animDict) :
+	m_Scene(0)
+{
+	for (const auto& cs : g_Cutscenes)
+	{
+		if (cs["id"].get_ref<const std::string&>() != std::string(animDict))
+			continue;
+		
+		m_JsonObject = cs;
+		
+		const char* animDict = m_JsonObject["id"].get_ref<const std::string&>().c_str();
+		const char* playbackListName = "MultiStart";
+		if (!m_JsonObject["playback_id"].is_null())
+			playbackListName = m_JsonObject["playback_id"].get_ref<const std::string&>().c_str();
+
+		m_Scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, ASF_NONE, playbackListName, false, true);
+		return;
+	}
+
+	// m_Scene will be 0 at this point
+	assert(m_Scene && "Unknown cutscene!");
 }
 
 void CutsceneHelper::AddPedExisting(Ped Handle, const char* entityName)
@@ -45,16 +65,15 @@ void CutsceneHelper::AddPeds()
 		if (j["model"].is_null() || j["name"].is_null())
 			continue;
 
-		LOG_TXT("%s: Adding ped %s.", __FUNCTION__, j["model"].get_ref<const std::string&>().c_str());
 		AddPedNew(joaat(j["model"].get_ref<const std::string&>()), j["name"].get_ref<const std::string&>().c_str());
 	}
 }
 
 void CutsceneHelper::AddLocalPlayer()
 {
-	const bool b_playerArthur = g_LocalPlayer.m_Model == PLAYER_ZERO;
-	ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_playerArthur", b_playerArthur, false);
-	AddPedExisting(g_LocalPlayer.m_Entity, (b_playerArthur ? "ARTHUR" : "JOHN"));
+	const bool b_PlayerArthur = !Features::IsJohnModel();
+	ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
+	ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, (b_PlayerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
 }
 
 bool CutsceneHelper::IsCutsceneValid()
@@ -69,7 +88,6 @@ void CutsceneHelper::TeleportToOrigin()
 {
 	Vector3 position, rotation;
 	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &position, &rotation, 2);
-	LOG_TXT("%s: Teleporting to origin.", __FUNCTION__);
 	Features::Teleport(position);
 }
 
@@ -77,8 +95,6 @@ void CutsceneHelper::LoadCutscene()
 {
 	if (m_Loaded)
 		return;
-
-	LOG_TXT("%s: Loading cutscene.", __FUNCTION__);
 
 	while (true)
 	{
@@ -92,8 +108,6 @@ void CutsceneHelper::LoadCutscene()
 
 void CutsceneHelper::PlayCutscene()
 {
-	LOG_TXT("%s: Playing cutscene.", __FUNCTION__);
-
 	LoadCutscene();
 	ANIMSCENE::START_ANIM_SCENE(m_Scene);
 }
@@ -112,8 +126,6 @@ void CutsceneHelper::WaitForCutsceneEnd()
 
 void CutsceneHelper::CleanupCutscene()
 {
-	LOG_TXT("%s: Cleaning up cutscene.", __FUNCTION__);
-
 	for (const auto& p : m_Peds)
 		Features::DeletePed(p);
 	m_Peds.clear();
@@ -124,11 +136,14 @@ void CutsceneHelper::CleanupCutscene()
 void CutsceneHelper::PlayAutomatically()
 {
 	if (!IsCutsceneValid())
-	{
-		LOG_TXT("%s: Cutscene is invalid (%d)!", __FUNCTION__, (int)m_Scene);
 		return;
-	}
 
+	TRY
+	{
+		AddPeds();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+		
 	TRY
 	{
 		LoadCutscene();
@@ -141,12 +156,6 @@ void CutsceneHelper::PlayAutomatically()
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 		
-	TRY
-	{
-		AddPeds();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-
 	TRY
 	{
 		PlayCutscene();

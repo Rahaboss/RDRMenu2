@@ -23,11 +23,7 @@ namespace Menu
 		}
 
 		if (ImGui::Button("Copy CPed Address"))
-		{
-			std::stringstream Stream;
-			Stream << std::hex << std::uppercase << "0x" << (uint64_t)g_LocalPlayer.m_Ped;
-			Features::SetClipboardText(Stream.str());
-		}
+			LOG_TO_CLIPBOARD("%llX", g_LocalPlayer.m_Ped);
 
 		ImGui::PushFont(Renderer::DefaultFont);
 

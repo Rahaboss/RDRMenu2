@@ -8,6 +8,7 @@ class CutsceneHelper
 public:
 	CutsceneHelper() = delete;
 	CutsceneHelper(const nlohmann::json& JsonObject);
+	CutsceneHelper(const char* animDict);
 
 	void AddPedExisting(Ped Handle, const char* entityName);
 	void AddPedNew(Hash Model, const char* entityName);

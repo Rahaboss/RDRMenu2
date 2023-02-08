@@ -46,3 +46,5 @@ inline joaat_t joaat(const std::string& str)
 }
 
 #define RAGE_JOAAT joaat
+
+static_assert(joaat("main") == 669725655);

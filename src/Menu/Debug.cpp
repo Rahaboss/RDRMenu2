@@ -155,11 +155,7 @@ namespace Menu
 		}
 
 		if (ImGui::Button("Copy Coords"))
-		{
-			std::stringstream Stream;
-			Stream << std::setprecision(2) << std::fixed << g_LocalPlayer.m_Pos;
-			Features::SetClipboardText(Stream.str());
-		}
+			LOG_TO_CLIPBOARD("%.2ff, %.2ff, %.2ff", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 		ImGui::SameLine();
 		ImGui::Text("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 
@@ -174,13 +170,15 @@ namespace Menu
 		if (Global_35)
 			ImGui::Text("Global_35 = %u", *Global_35);
 		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
-		auto Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<Hash*>();
-		ImGui::Text("Global_1946054.f_1: 0x%llX", Global_1946054_f_1);
-		if (Global_1946054_f_1)
+		auto Global_40_f_39 = ScriptGlobal(40).At(39).Get<Hash*>();
+		ImGui::Text("Global_40.f_39: 0x%llX", Global_40_f_39);
+		if (Global_40_f_39)
 		{
-			ImGui::Text("Global_1946054.f_1 = %u", *Global_1946054_f_1);
-			ImGui::Text("Global_1946054.f_1 = %s", Features::GetPedModelName(*Global_1946054_f_1));
+			ImGui::Text("Global_40.f_39 = %u", *Global_40_f_39);
+			ImGui::Text("Global_40.f_39 = %s", Features::GetPedModelName(*Global_40_f_39));
 		}
+		if (Pointers::IsSessionStarted)
+			ImGui::Text("Is Session Started: %s", *Pointers::IsSessionStarted ? "true" : "false");
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
@@ -190,22 +188,14 @@ namespace Menu
 		ImGui::Text("CPed: 0x%llX", g_LocalPlayer.m_Ped);
 		ImGui::SameLine();
 		if (ImGui::Button("Copy Address"))
-		{
-			std::stringstream Stream;
-			Stream << std::hex << std::uppercase << (uint64_t)g_LocalPlayer.m_Ped;
-			Features::SetClipboardText(Stream.str());
-		}
+			LOG_TO_CLIPBOARD("%llX", g_LocalPlayer.m_Ped);
 
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("GetEntityAddress: 0x%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
 		ImGui::SameLine();
 		if (ImGui::Button("Copy Address"))
-		{
-			std::stringstream Stream;
-			Stream << std::hex << std::uppercase << (uint64_t)Pointers::GetEntityAddress(g_LocalPlayer.m_Entity);
-			Features::SetClipboardText(Stream.str());
-		}
-
+			LOG_TO_CLIPBOARD("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
+		
 		uint64_t nhash = 0xFA925AC00EB830B9; // 0xBD5DD5EAE2B6CE14; // 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
 		auto addr = (uintptr_t)NativeContext::GetHandler(nhash);
 		auto off = addr - g_BaseAddress;
@@ -216,11 +206,7 @@ namespace Menu
 			LOG_TO_CONSOLE("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", nhash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
 		ImGui::SameLine();
 		if (ImGui::Button("Copy IDA Address"))
-		{
-			std::stringstream Stream;
-			Stream << std::hex << std::uppercase << (uint64_t)(off + 0x7FF73CAB0000);
-			Features::SetClipboardText(Stream.str());
-		}
+			LOG_TO_CLIPBOARD("%llX", off + 0x7FF73CAB0000);
 
 		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
 		ImGui::Text("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n");
@@ -435,16 +421,25 @@ namespace Menu
 		static char CutFilter[200]{ "cutscene@" };
 		ImGui::BeginGroup();
 		ImGui::Text("Cutscenes (%d)", g_Cutscenes.size());
-		ImGui::BeginChild("###cutscene_list", ImVec2(350, 250));
-		for (int i = 0; i < g_Cutscenes.size(); i++)
+		if (ImGui::BeginChild("###cutscene_list", ImVec2(350, 250)))
 		{
-			const std::string& Name = g_Cutscenes[i]["id"].get_ref<const std::string&>();
-			if (Name.find(CutFilter) == std::string::npos)
-				continue;
+			std::string s1(CutFilter);
+			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::tolower);
 
-			if (ImGui::Selectable(Name.c_str(), i == s_CurrentCutscene))
-				s_CurrentCutscene = i;
+			for (int i = 0; i < g_Cutscenes.size(); i++)
+			{
+				const std::string& Name = g_Cutscenes[i]["id"].get_ref<const std::string&>();
+
+				std::string s2(Name);
+				std::transform(s2.cbegin(), s2.cend(), s2.begin(), ::tolower);
+				if (s2.find(s1) == std::string::npos)
+					continue;
+
+				if (ImGui::Selectable(Name.c_str(), i == s_CurrentCutscene))
+					s_CurrentCutscene = i;
+			}
 		}
+
 		ImGui::EndChild();
 		ImGui::EndGroup();
 		ImGui::SameLine();
@@ -478,44 +473,6 @@ namespace Menu
 				}();
 			}
 			END_JOB()
-		}
-
-		if (ImGui::Button("Fix cutscenes"))
-		{
-			nlohmann::json j;
-			std::map<std::string, int> mm;
-
-			for (const auto& jjj : g_Cutscenes)
-			{
-				bool nnew = true;
-				for (const auto& jj : j)
-				{
-					if (jj["id"].get<std::string>() == jjj["id"].get<std::string>())
-					{
-						nnew = false;
-						break;
-					}
-				}
-				if (nnew)
-				{
-					mm[jjj["id"].get<std::string>()];
-				}
-			}
-			
-			for (const auto& jj : mm)
-			{
-				nlohmann::json jjj;
-				jjj["id"] = jj.first;
-				j.push_back(jjj);
-			}
-
-			auto FilePath = Features::GetConfigPath();
-			FilePath.append("cs2.json");
-
-			std::fstream File(FilePath, std::fstream::out | std::fstream::trunc);
-			assert(File.good());
-			File << j.dump(4);
-			File.close();
 		}
 		ImGui::EndGroup();
 		ImGui::Separator();

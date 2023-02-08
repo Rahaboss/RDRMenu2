@@ -4,93 +4,9 @@
 
 namespace Lists
 {
-	void InitVehicleList(const std::filesystem::path& Path)
+	void InitConsumableList(const std::string& FileName)
 	{
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
-		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
-			return;
-		}
-
-		nlohmann::json j;
-		File >> j;
-		File.close();
-
-		for (const auto& v : j)
-		{
-			auto name = v.get<std::string>();
-			Hash model = joaat(name);
-
-			if (!Features::IsModelValid(model))
-			{
-				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
-				continue;
-			}
-
-			g_VehicleList[name] = model;
-			g_VehicleModelNameList[model] = name;
-		}
-	}
-
-	void InitProvisionList(const std::filesystem::path& Path)
-	{
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
-		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
-			return;
-		}
-		
-		nlohmann::json j;
-		File >> j;
-		File.close();
-		
-		for (const auto& p : j)
-		{
-			Hash hash = joaat(p.get<std::string>());
-			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
-
-			if (!Features::IsStringValid(name))
-			{
-				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, p.get<std::string>().c_str());
-				continue;
-			}
-
-			g_ProvisionList[name] = hash;
-		}
-	}
-
-	void InitDocumentList(const std::filesystem::path& Path)
-	{
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
-		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
-			return;
-		}
-
-		nlohmann::json j;
-		File >> j;
-		File.close();
-
-		for (const auto& d : j)
-		{
-			Hash hash = joaat(d.get<std::string>());
-			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
-
-			if (!Features::IsStringValid(name))
-			{
-				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, d.get<std::string>().c_str());
-				continue;
-			}
-
-			g_DocumentList[name] = hash;
-		}
-	}
-
-	void InitConsumableList(const std::filesystem::path& Path)
-	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
@@ -117,8 +33,52 @@ namespace Lists
 		}
 	}
 
-	void InitPedList(const std::filesystem::path& Path)
+	void InitCutscenesList(const std::string& FileName)
 	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
+		std::fstream File(Path, std::fstream::in);
+		if (!File.good())
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			return;
+		}
+
+		File >> g_Cutscenes;
+		File.close();
+	}
+
+	void InitDocumentList(const std::string& FileName)
+	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
+		std::fstream File(Path, std::fstream::in);
+		if (!File.good())
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			return;
+		}
+
+		nlohmann::json j;
+		File >> j;
+		File.close();
+
+		for (const auto& d : j)
+		{
+			Hash hash = joaat(d.get<std::string>());
+			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
+
+			if (!Features::IsStringValid(name))
+			{
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, d.get<std::string>().c_str());
+				continue;
+			}
+
+			g_DocumentList[name] = hash;
+		}
+	}
+
+	void InitPedList(const std::string& FileName)
+	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
@@ -146,8 +106,38 @@ namespace Lists
 		}
 	}
 
-	void InitWeaponList(const std::filesystem::path& Path)
+	void InitProvisionList(const std::string& FileName)
 	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
+		std::fstream File(Path, std::fstream::in);
+		if (!File.good())
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			return;
+		}
+		
+		nlohmann::json j;
+		File >> j;
+		File.close();
+		
+		for (const auto& p : j)
+		{
+			Hash hash = joaat(p.get<std::string>());
+			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
+
+			if (!Features::IsStringValid(name))
+			{
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, p.get<std::string>().c_str());
+				continue;
+			}
+
+			g_ProvisionList[name] = hash;
+		}
+	}
+
+	void InitWeaponList(const std::string& FileName)
+	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
@@ -174,8 +164,9 @@ namespace Lists
 		}
 	}
 
-	void InitCutscenesList(const std::filesystem::path& Path)
+	void InitVehicleList(const std::string& FileName)
 	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
 		std::fstream File(Path, std::fstream::in);
 		if (!File.good())
 		{
@@ -183,8 +174,24 @@ namespace Lists
 			return;
 		}
 
-		File >> g_Cutscenes;
+		nlohmann::json j;
+		File >> j;
 		File.close();
+
+		for (const auto& v : j)
+		{
+			auto name = v.get<std::string>();
+			Hash model = joaat(name);
+
+			if (!Features::IsModelValid(model))
+			{
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
+				continue;
+			}
+
+			g_VehicleList[name] = model;
+			g_VehicleModelNameList[model] = name;
+		}
 	}
 
 	void Create()
@@ -202,13 +209,13 @@ namespace Lists
 			std::filesystem::create_directory(Path);
 		}
 
-		InitVehicleList(Path.append("Vehicles.json"));
-		InitProvisionList(Path.parent_path().append("Provisions.json"));
-		InitDocumentList(Path.parent_path().append("Documents.json"));
-		InitConsumableList(Path.parent_path().append("Consumables.json"));
-		InitPedList(Path.parent_path().append("Peds.json"));
-		InitWeaponList(Path.parent_path().append("Weapons.json"));
-		InitCutscenesList(Path.parent_path().append("Cutscenes.json"));
+		InitConsumableList("Consumables.json");
+		InitCutscenesList("Cutscenes.json");
+		InitDocumentList("Documents.json");
+		InitPedList("Peds.json");
+		InitProvisionList("Provisions.json");
+		InitWeaponList("Weapons.json");
+		InitVehicleList("Vehicles.json");
 	}
 
 	void Reload()

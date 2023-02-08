@@ -36,7 +36,7 @@ namespace Features
 
 		TRY
 		{
-			//printf("Attr,Rank,BaseRank,BonusRank,MaxRank,DefaultRank,DefaultMaxRank,Points,MaxPoints\n");
+			//LOG_TO_CONSOLE("Attr,Rank,BaseRank,BonusRank,MaxRank,DefaultRank,DefaultMaxRank,Points,MaxPoints\n");
 			for (int i = 0; i < MAX_ATTRIBUTES; i++)
 			{
 				const char* Attr = AttributeNames[i];
@@ -49,7 +49,7 @@ namespace Features
 				const int Points = ATTRIBUTE::GET_ATTRIBUTE_POINTS(ped, i);
 				const int MaxPoints = ATTRIBUTE::GET_MAX_ATTRIBUTE_POINTS(ped, i);
 				
-				//printf("%s,%d,%d,%d,%d,%d,%d,%d,%d\n", Attr, Rank, BaseRank, BonusRank, MaxRank, DefaultRank, DefaultMaxRank, Points, MaxPoints);
+				//LOG_TO_CONSOLE("%s,%d,%d,%d,%d,%d,%d,%d,%d\n", Attr, Rank, BaseRank, BonusRank, MaxRank, DefaultRank, DefaultMaxRank, Points, MaxPoints);
 				LOG_TO_CONSOLE("%s (%d/%d)\n", Attr, Points, MaxPoints);
 			}
 		}

@@ -13,15 +13,15 @@ namespace Features
 	{
 		// Init anim scene (cutscene)
 		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@RCDIN_RSC2", 0, "MultiStart", false, true);
-
+		
 		Teleport(208.423f, 1000.71f, 190.036f);
 
 		// Create characters and objects
-		bool b_playerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
+		const bool b_PlayerArthur = !IsJohnModel();
 
-		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_playerArthur", b_playerArthur, false);
+		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_PlayerArthur", b_PlayerArthur, false);
 
-		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, (b_playerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
+		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, (b_PlayerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
 
 		Ped dinoLady = SpawnPed(CS_DINOBONESLADY);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CS_DINOBONESLADY", dinoLady, 0);
@@ -104,7 +104,7 @@ namespace Features
 		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDicts[index], 0, "MultiStart", false, true);
 
 		// Create characters and objects
-		bool b_PlayerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
+		const bool b_PlayerArthur = !IsJohnModel();
 		ANIMSCENE::SET_ANIM_SCENE_BOOL(scene, "b_PlayerArthur", b_PlayerArthur, false);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, (b_PlayerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
 
@@ -165,40 +165,8 @@ namespace Features
 
 	void PlayIndustryCutscene()
 	{
-		// Init anim scene (cutscene)
-		AnimScene scene = ANIMSCENE::_CREATE_ANIM_SCENE("cutscene@ind1_mcs_1", 0, "MultiStart", false, true);
-
-		// Load in the map
-		Teleport(2543.44f, -1169.15f, 52.31f);
-		
-		// Create characters and objects
-		//bool b_playerArthur = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == PLAYER_ZERO;
-		Ped arthur = SpawnPed(PLAYER_ZERO);
-		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "ARTHUR", arthur, 0);
-		PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 4, false);
-
-		Ped dutch = SpawnPed(CS_DUTCH);
-		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "Dutch", dutch, 0);
-
-		Ped hosea = SpawnPed(CS_HOSEAMATTHEWS);
-		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "HoseaMatthews", hosea, 0);
-
-		// Load, start, unload
-		while (!ANIMSCENE::IS_ANIM_SCENE_LOADED(scene, true, false))
-		{
-			ANIMSCENE::LOAD_ANIM_SCENE(scene);
-			YieldThread();
-		}
-		ANIMSCENE::START_ANIM_SCENE(scene);
-		while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(scene, false))
-		{
-			YieldThread();
-		}
-
-		// Delete objects and characters
-		DeletePed(hosea);
-		DeletePed(dutch);
-		DeletePed(arthur);
+		CutsceneHelper Cutscene("cutscene@ind1_mcs_1");
+		Cutscene.PlayAutomatically();
 	}
 
 	void PlayAnnesburgBreakoutCutscene()
@@ -215,7 +183,7 @@ namespace Features
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "CharlesSmith", charles, 0);
 
 		Ped arthur = g_LocalPlayer.m_Entity;
-		if (ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) != PLAYER_ZERO)
+		if (!IsArthurModel())
 			arthur = SpawnPed(PLAYER_ZERO);
 		PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
 		ANIMSCENE::SET_ANIM_SCENE_ENTITY(scene, "ARTHUR", arthur, 0);

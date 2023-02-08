@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Logger.h"
 #include "Menu.h"
+#include "Features.h"
 
-int LogText(const char* Format, ...)
+void LogText(const char* Format, ...)
 {
 	va_list Args;
 	va_start(Args, Format);
@@ -26,5 +27,20 @@ int LogText(const char* Format, ...)
 
 	delete[] Buffer;
 	va_end(Args);
-	return Length;
+}
+
+void LogToClipboard(const char* Format, ...)
+{
+	va_list Args;
+	va_start(Args, Format);
+
+	int Length = _vscprintf(Format, Args) + 1;
+	char* Buffer = new char[Length * sizeof(char)];
+	assert(Buffer);
+	vsprintf_s(Buffer, Length, Format, Args);
+
+	Features::SetClipboardText(Buffer);
+
+	delete[] Buffer;
+	va_end(Args);
 }

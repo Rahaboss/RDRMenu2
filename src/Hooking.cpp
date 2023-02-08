@@ -10,7 +10,7 @@
 
 namespace Hooking
 {
-	static bool Enabled = false;
+	static bool s_Enabled = false;
 
 	void Create()
 	{
@@ -67,19 +67,19 @@ namespace Hooking
 	void Enable()
 	{
 		LOG_TO_CONSOLE("Enabling hooks.\n");
-		if (Enabled)
+		if (s_Enabled)
 			return;
 		assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
-		Enabled = true;
+		s_Enabled = true;
 	}
 
 	void Disable()
 	{
 		LOG_TO_CONSOLE("Disabling hooks.\n");
-		if (!Enabled)
+		if (!s_Enabled)
 			return;
 		assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
-		Enabled = false;
+		s_Enabled = false;
 	}
 
 	bool RunScriptThreadsHook(pgPtrCollection* this_, uint32_t ops)
@@ -90,8 +90,8 @@ namespace Hooking
 			
 			if (g_Running)
 			{
-				constexpr joaat_t main_hash = RAGE_JOAAT("main");
-				Features::ExecuteAsThread(main_hash, ScriptThreadTick);
+				constexpr joaat_t MainHash = RAGE_JOAAT("main");
+				Features::ExecuteAsThread(MainHash, ScriptThreadTick);
 			}
 			
 			return Result;
@@ -154,19 +154,19 @@ namespace Hooking
 #if ENABLE_ANTI_ANTI_DEBUG
 	void DebuggerCheck1Hook(uint32_t a1)
 	{
-		printf("%s(%u)\n", __FUNCTION__, a1);
+		LOG_TO_CONSOLE("%s(%u)\n", __FUNCTION__, a1);
 		return;
 	}
 
 	void DebuggerCheck2Hook(int32_t a1, int32_t a2, int32_t a3)
 	{
-		printf("%s(%d, %d, %d)\n", __FUNCTION__, a1, a2, a3);
+		LOG_TO_CONSOLE("%s(%d, %d, %d)\n", __FUNCTION__, a1, a2, a3);
 		return;
 	}
 
 	BOOL WINAPI IsDebuggerPresentHook()
 	{
-		printf("%s()\n", __FUNCTION__);
+		LOG_TO_CONSOLE("%s()\n", __FUNCTION__);
 		return FALSE;
 	}
 #endif

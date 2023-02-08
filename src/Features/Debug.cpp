@@ -41,12 +41,15 @@ namespace Features
 
 	std::filesystem::path GetConfigPath()
 	{
+		// Get Windows %APPDATA% environment variable
 		char* Buffer = nullptr;
 		size_t BufferCount = 0;
 		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
-		assert(Buffer);
+		assert(Buffer); // Fix _dupenv_s warning
 		std::filesystem::path Path(Buffer);
 		delete Buffer;
+
+		// Change path to %APPDATA%\RDRMenu2
 		Path.append("RDRMenu2");
 
 		return Path;

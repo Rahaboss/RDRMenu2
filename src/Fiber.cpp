@@ -7,7 +7,7 @@ Fiber::Fiber(void(*Function)()) :
 	m_MainFiber(nullptr),
 	m_Function(Function)
 {
-	LOG_TO_CONSOLE("Creating fiber 0x%llX\n", (uint64_t)m_Function);
+	LOG_TO_CONSOLE("Creating fiber 0x%llX.\n", (uint64_t)m_Function);
 	m_ScriptFiber = CreateFiber(0, [](void* FiberParam)
 		{
 			Fiber* ThisFiber = static_cast<Fiber*>(FiberParam);
@@ -25,7 +25,7 @@ Fiber::Fiber(void(*Function)()) :
 
 void Fiber::Destroy()
 {
-	LOG_TO_CONSOLE("Destroying fiber 0x%llX\n", (uint64_t)m_Function);
+	LOG_TO_CONSOLE("Destroying fiber 0x%llX.\n", reinterpret_cast<uint64_t>(m_Function));
 	if (m_ScriptFiber)
 		DeleteFiber(m_ScriptFiber);
 }

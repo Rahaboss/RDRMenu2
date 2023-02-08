@@ -63,7 +63,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Give All Consumables"))
 			Features::GiveAllConsumables();
-		ImGui::BeginChild("consumable_menu", ImVec2(0, 200));
+		if (ImGui::BeginChild("consumable_menu", ImVec2(0, 200)))
 		{
 			std::string s1(ConBuffer);
 			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
@@ -96,7 +96,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Give All Provisions"))
 			Features::GiveAllProvisions();
-		ImGui::BeginChild("provision_menu", ImVec2(0, 200));
+		if (ImGui::BeginChild("provision_menu", ImVec2(0, 200)))
 		{
 			std::string s1(ProBuffer);
 			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
@@ -129,7 +129,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Give All Documents"))
 			Features::GiveAllDocuments();
-		ImGui::BeginChild("document_menu", ImVec2(0, 200));
+		if (ImGui::BeginChild("document_menu", ImVec2(0, 200)))
 		{
 			std::string s1(DocBuffer);
 			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);

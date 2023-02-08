@@ -74,7 +74,7 @@ typedef int Volume;
 typedef scrVector Vector3;
 
 typedef void (*scrNativeHandler)(scrNativeCallContext*);
-typedef scrNativeHandler(*GetNativeHandler_t)(uint64_t);
+typedef scrNativeHandler (*GetNativeHandler_t)(uint64_t);
 
 inline std::ostream& operator<<(std::ostream& out, const scrVector& vec)
 {
