@@ -6,8 +6,14 @@
 namespace Menu
 {
 	void RenderDebugTab();
+	void RenderCoordDebug();
+	void RenderCutsceneDebug();
+	void RenderDebugButtons();
+	void RenderDebugInfo();
+	void RenderDebugToggles();
 	void RenderPedDebug();
 	void RenderTextDebug();
+	void RenderHUDContextDebug();
 
 	inline bool EnableFreeCam = false;
 	inline Cam CamEntity = 0;

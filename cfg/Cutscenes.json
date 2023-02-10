@@ -132,190 +132,252 @@
         "id": "cutscene@dst5_mcs3"
     },
     {
-        "id": "cutscene@fin1_ext"
+        "id": "cutscene@fin1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_ext2"
+        "id": "cutscene@fin1_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_ext_p2_t00"
+        "id": "cutscene@fin1_ext_p2_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_int"
+        "id": "cutscene@fin1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_int_p2a1_t02"
+        "id": "cutscene@fin1_int_p2a1_t02",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs1"
+        "id": "cutscene@fin1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs10"
+        "id": "cutscene@fin1_mcs10",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs10_p1a1_t07"
+        "id": "cutscene@fin1_mcs10_p1a1_t07",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs11"
+        "id": "cutscene@fin1_mcs11",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs2"
+        "id": "cutscene@fin1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs3"
+        "id": "cutscene@fin1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs4"
+        "id": "cutscene@fin1_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs5"
+        "id": "cutscene@fin1_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs6"
+        "id": "cutscene@fin1_mcs6",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs6_p1a1_t04"
+        "id": "cutscene@fin1_mcs6_p1a1_t04",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs7"
+        "id": "cutscene@fin1_mcs7",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs8"
+        "id": "cutscene@fin1_mcs8",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin1_mcs9"
+        "id": "cutscene@fin1_mcs9",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fin2_ext_p0_t02"
+        "id": "cutscene@fin2_ext_p0_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p0a1_t02"
+        "id": "cutscene@fin2_ext_p0a1_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p0p1"
+        "id": "cutscene@fin2_ext_p0p1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p10"
+        "id": "cutscene@fin2_ext_p10",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p10_t01"
+        "id": "cutscene@fin2_ext_p10_t01",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p11"
+        "id": "cutscene@fin2_ext_p11",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p11_t01"
+        "id": "cutscene@fin2_ext_p11_t01",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p12"
+        "id": "cutscene@fin2_ext_p12",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p12_t06"
+        "id": "cutscene@fin2_ext_p12_t06",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p13"
+        "id": "cutscene@fin2_ext_p13",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p13_t04"
+        "id": "cutscene@fin2_ext_p13_t04",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p15"
+        "id": "cutscene@fin2_ext_p15",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p15_t05"
+        "id": "cutscene@fin2_ext_p15_t05",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p16"
+        "id": "cutscene@fin2_ext_p16",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p16_t02"
+        "id": "cutscene@fin2_ext_p16_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p17"
+        "id": "cutscene@fin2_ext_p17",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p17_t02"
+        "id": "cutscene@fin2_ext_p17_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p17_t04"
+        "id": "cutscene@fin2_ext_p17_t04",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p18"
+        "id": "cutscene@fin2_ext_p18",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p18_t02"
+        "id": "cutscene@fin2_ext_p18_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p19"
+        "id": "cutscene@fin2_ext_p19",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p19_t03"
+        "id": "cutscene@fin2_ext_p19_t03",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p1_t04"
+        "id": "cutscene@fin2_ext_p1_t04",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p2"
+        "id": "cutscene@fin2_ext_p2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p2_t06"
+        "id": "cutscene@fin2_ext_p2_t06",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p3"
+        "id": "cutscene@fin2_ext_p3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p3_t02"
+        "id": "cutscene@fin2_ext_p3_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p4"
+        "id": "cutscene@fin2_ext_p4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p4_t02"
+        "id": "cutscene@fin2_ext_p4_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p5"
+        "id": "cutscene@fin2_ext_p5",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p5_t02"
+        "id": "cutscene@fin2_ext_p5_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p6"
+        "id": "cutscene@fin2_ext_p6",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p6_t02"
+        "id": "cutscene@fin2_ext_p6_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p7"
+        "id": "cutscene@fin2_ext_p7",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p7_t02"
+        "id": "cutscene@fin2_ext_p7_t02",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p8"
+        "id": "cutscene@fin2_ext_p8",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p8_t04"
+        "id": "cutscene@fin2_ext_p8_t04",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p9"
+        "id": "cutscene@fin2_ext_p9",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_ext_p9_t01"
+        "id": "cutscene@fin2_ext_p9_t01",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_int"
+        "id": "cutscene@fin2_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_mcs1"
+        "id": "cutscene@fin2_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_mcs2"
+        "id": "cutscene@fin2_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_mcs3"
+        "id": "cutscene@fin2_mcs3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@fin2_mcs4"
+        "id": "cutscene@fin2_mcs4",
+        "player_model": "player_three"
     },
     {
         "id": "cutscene@fud1_ext"
@@ -483,7 +545,19 @@
         "id": "cutscene@ind1_mcs6"
     },
     {
-        "id": "cutscene@ind1_mcs_1"
+        "id": "cutscene@ind1_mcs_1",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch"
+            },
+            {
+                "model": "cs_hoseamatthews",
+                "name": "HoseaMatthews"
+            }
+        ],
+        "player_model": "player_zero",
+        "player_outfit_preset": 4
     },
     {
         "id": "cutscene@ind3_ext"
@@ -534,7 +608,23 @@
         "id": "cutscene@jbo5_ext"
     },
     {
-        "id": "cutscene@jbo6_ext"
+        "id": "cutscene@jbo6_ext",
+        "peds": [
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith"
+            },
+            {
+                "model": "s_m_m_ambientlawrural_01",
+                "name": "s_m_m_ambientlawrural_01"
+            },
+            {
+                "model": "s_m_m_ambientlawrural_01",
+                "name": "s_m_m_ambientlawrural_01^1"
+            }
+        ],
+        "playback_id": "MultiStart",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@jbo7_ext"
@@ -567,7 +657,8 @@
         "id": "cutscene@lsmin_ext"
     },
     {
-        "id": "cutscene@lsmin_int"
+        "id": "cutscene@lsmin_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@lsmin_mcs1"
@@ -585,127 +676,221 @@
         "id": "cutscene@lssol_int_p2a1_t01"
     },
     {
-        "id": "cutscene@mar1_ext"
+        "id": "cutscene@mar1_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar1_int"
+        "id": "cutscene@mar1_int",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            },
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@mar1_int_p1a2_t05"
+        "id": "cutscene@mar1_int_p1a2_t05",
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@mar1_mcs2"
+        "id": "cutscene@mar1_mcs2",
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@mar1_mcs3"
+        "id": "cutscene@mar1_mcs3",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            },
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@mar1_mcs4"
+        "id": "cutscene@mar1_mcs4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar24_ptl"
+        "id": "cutscene@mar24_ptl",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar2_ext"
+        "id": "cutscene@mar2_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar2_int"
+        "id": "cutscene@mar2_int",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            },
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            },
+            {
+                "model": "cs_tomdickens",
+                "name": "TomDickens"
+            }
+        ],
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar2_mcs2"
+        "id": "cutscene@mar2_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar2_mcs3"
+        "id": "cutscene@mar2_mcs3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar2_mcs4"
+        "id": "cutscene@mar2_mcs4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar4_ext"
+        "id": "cutscene@mar4_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar4_int"
+        "id": "cutscene@mar4_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar4_mcs1"
+        "id": "cutscene@mar4_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar4_mcs2"
+        "id": "cutscene@mar4_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar4_mcs4"
+        "id": "cutscene@mar4_mcs4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_int"
+        "id": "cutscene@mar5_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs1"
+        "id": "cutscene@mar5_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs10"
+        "id": "cutscene@mar5_mcs10",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs11"
+        "id": "cutscene@mar5_mcs11",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs12"
+        "id": "cutscene@mar5_mcs12",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs14"
+        "id": "cutscene@mar5_mcs14",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs2"
+        "id": "cutscene@mar5_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs4"
+        "id": "cutscene@mar5_mcs4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs5"
+        "id": "cutscene@mar5_mcs5",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs7"
+        "id": "cutscene@mar5_mcs7",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar5_mcs8"
+        "id": "cutscene@mar5_mcs8",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar6_rsc2"
+        "id": "cutscene@mar6_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar6_rsc3"
+        "id": "cutscene@mar6_rsc3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar6_train_bink"
+        "id": "cutscene@mar6_train_bink",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar7_ext"
+        "id": "cutscene@mar7_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar7_int"
+        "id": "cutscene@mar7_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar7_mcs1"
+        "id": "cutscene@mar7_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar7_mcs2"
+        "id": "cutscene@mar7_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar7_mcs3"
+        "id": "cutscene@mar7_mcs3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar8_ext"
+        "id": "cutscene@mar8_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar8_int"
+        "id": "cutscene@mar8_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mar8_mcs2"
+        "id": "cutscene@mar8_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@mob1_ext"
+        "id": "cutscene@mob1_ext",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            }
+        ]
     },
     {
-        "id": "cutscene@mob1_int"
+        "id": "cutscene@mob1_int",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            }
+        ]
     },
     {
         "id": "cutscene@mob1_mcs2"
@@ -762,34 +947,70 @@
         "id": "cutscene@mob5_int"
     },
     {
-        "id": "cutscene@mry1_ext"
+        "id": "cutscene@mry1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry1_int"
+        "id": "cutscene@mry1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry1_mcs1"
+        "id": "cutscene@mry1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry1_mcs2"
+        "id": "cutscene@mry1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry1_mcs3"
+        "id": "cutscene@mry1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry1_mcs4"
+        "id": "cutscene@mry1_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry3_ext"
+        "id": "cutscene@mry3_ext",
+        "peds": [
+            {
+                "model": "cs_marylinton",
+                "name": "MaryLinton"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry3_int"
+        "id": "cutscene@mry3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry3_mcs1"
+        "id": "cutscene@mry3_mcs1",
+        "peds": [
+            {
+                "model": "cs_marylinton",
+                "name": "MaryLinton"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mry3_mcs2"
+        "id": "cutscene@mry3_mcs2",
+        "peds": [
+            {
+                "model": "cs_marylinton",
+                "name": "MaryLinton"
+            },
+            {
+                "model": "cs_mrlinton",
+                "name": "CS_MrLinton"
+            },
+            {
+                "model": "cs_ashton",
+                "name": "cs_ashton"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@mud1_ext"
@@ -972,14 +1193,15 @@
             },
             {
                 "model": "cs_captainmonroe",
-                "name": "cs_captainmonroe"
+                "name": "CaptainMonroe"
             },
             {
                 "model": "cs_revswanson",
                 "name": "RevSwanson"
             }
         ],
-        "playback_id": "NormalStart"
+        "playback_id": "MultiStart",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@ntv2_ext_p1a3_t04"
@@ -1063,7 +1285,17 @@
         "id": "cutscene@prhm6_int"
     },
     {
-        "id": "cutscene@prhma_mcs1"
+        "id": "cutscene@prhma_mcs1",
+        "peds": [
+            {
+                "model": "cs_aberdeenpigfarmer",
+                "name": "ABERDEENPIGFARMER"
+            },
+            {
+                "model": "cs_aberdeensister",
+                "name": "ABERDEENSISTER"
+            }
+        ]
     },
     {
         "id": "cutscene@prhmls_mcs1"
@@ -1084,19 +1316,81 @@
         "id": "cutscene@prhmr_mcs6"
     },
     {
-        "id": "cutscene@ptl_mcs1"
+        "id": "cutscene@ptl_mcs1",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@ptl_mcs2"
+        "id": "cutscene@ptl_mcs2",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@ptl_mcs3"
+        "id": "cutscene@ptl_mcs3",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@ptl_mcs4"
+        "id": "cutscene@ptl_mcs4",
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@ptl_mcs5"
+        "id": "cutscene@ptl_mcs5",
+        "objects": [
+            {
+                "model": "p_cs_bucket01x",
+                "name": "p_cs_bucket01x"
+            },
+            {
+                "model": "p_stool02x",
+                "name": "p_stool02x"
+            },
+            {
+                "model": "p_val_gate2m02x",
+                "name": "p_val_gate2m02x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_abe",
+                "name": "ABE"
+            },
+            {
+                "model": "a_c_cow",
+                "name": "cow"
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 12
     },
     {
         "id": "cutscene@rabi1_rsc2"
@@ -1252,7 +1546,31 @@
         "id": "cutscene@rcdin_rsc1"
     },
     {
-        "id": "cutscene@rcdin_rsc2"
+        "id": "cutscene@rcdin_rsc2",
+        "objects": [
+            {
+                "model": "p_stick04x",
+                "name": "p_stick04x"
+            },
+            {
+                "model": "w_melee_knife03",
+                "name": "w_melee_knife03"
+            },
+            {
+                "model": "p_eme_barn_door3",
+                "name": "p_eme_barn_door3"
+            },
+            {
+                "model": "p_eme_barn_door3",
+                "name": "p_eme_barn_door3^1"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_dinoboneslady",
+                "name": "cs_dinoboneslady"
+            }
+        ]
     },
     {
         "id": "cutscene@rcexo_rsc1"
@@ -1288,16 +1606,85 @@
         "id": "cutscene@rcexo_rsc6_p1a2_t06"
     },
     {
-        "id": "cutscene@rcfsh_ext"
+        "id": "cutscene@rcfsh_ext",
+        "objects": [
+            {
+                "model": "p_camerabox01x",
+                "name": "p_camerabox01x"
+            }
+        ]
     },
     {
-        "id": "cutscene@rcfsh_rsc1"
+        "id": "cutscene@rcfsh_rsc1",
+        "objects": [
+            {
+                "model": "p_cs_basfishonthewal01x",
+                "name": "p_cs_basfishonthewal01x"
+            },
+            {
+                "model": "p_fishingpole01x",
+                "name": "p_fishingpole01x"
+            },
+            {
+                "model": "p_cs_fishbag01x",
+                "name": "p_cs_fishbag01x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_fishcollector",
+                "name": "cs_fishcollector",
+                "outfit_preset": 2
+            }
+        ]
     },
     {
-        "id": "cutscene@rcfsh_rsc2"
+        "id": "cutscene@rcfsh_rsc2",
+        "objects": [
+            {
+                "model": "p_fishingpole01x",
+                "name": "p_fishingpole01x"
+            },
+            {
+                "model": "p_cs_fishbag01x",
+                "name": "p_cs_fishbag01x"
+            },
+            {
+                "model": "p_door04x",
+                "name": "p_door04x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_fishcollector",
+                "name": "cs_fishcollector",
+                "outfit_preset": 2
+            }
+        ]
     },
     {
-        "id": "cutscene@rcfsh_rsc3"
+        "id": "cutscene@rcfsh_rsc3",
+        "objects": [
+            {
+                "model": "p_camerabox01x",
+                "name": "p_camerabox01x"
+            },
+            {
+                "model": "p_fishingpole01x",
+                "name": "p_fishingpole01x"
+            },
+            {
+                "model": "p_cs_fishbag01x",
+                "name": "p_cs_fishbag01x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_fishcollector",
+                "name": "cs_fishcollector",
+                "outfit_preset": 2
+            }
+        ]
     },
     {
         "id": "cutscene@rchnt1_ext"
@@ -1408,7 +1795,16 @@
         "id": "cutscene@rdown_rsc_1"
     },
     {
-        "id": "cutscene@rdown_rsc_2"
+        "id": "cutscene@rdown_rsc_2",
+        "peds": [
+            {
+                "model": "cs_leostrauss",
+                "name": "LeoStrauss",
+                "outfit_preset": 2
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rdown_rsc_3"
@@ -1630,19 +2026,31 @@
         "id": "cutscene@rhntn_s6_int"
     },
     {
-        "id": "cutscene@rjck1_rsc5"
+        "id": "cutscene@rjck1_rsc5",
+        "peds": [
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            }
+        ],
+        "playback_id": "MultiStart",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rjck2_rsc1"
+        "id": "cutscene@rjck2_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rjck2_rsc2"
+        "id": "cutscene@rjck2_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rjck2_rsc3"
+        "id": "cutscene@rjck2_rsc3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rjck2_rsc5"
+        "id": "cutscene@rjck2_rsc5",
+        "player_model": "player_three"
     },
     {
         "id": "cutscene@rktty_s1_int"
@@ -1756,7 +2164,15 @@
         "id": "cutscene@rmnr1_rsc4"
     },
     {
-        "id": "cutscene@rmry0b_rsc1"
+        "id": "cutscene@rmry0b_rsc1",
+        "peds": [
+            {
+                "model": "cs_leostrauss",
+                "name": "LeoStrauss",
+                "outfit_preset": 2
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rmud3_s1_int"
@@ -1966,22 +2382,108 @@
         "id": "cutscene@sad5_int"
     },
     {
-        "id": "cutscene@sal1_ext"
+        "id": "cutscene@sal1_ext",
+        "peds": [
+            {
+                "model": "cs_lenny",
+                "name": "Lenny"
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sal1_int"
+        "id": "cutscene@sal1_int",
+        "objects": [
+            {
+                "model": "p_cs_book02x",
+                "name": "P_CS_BOOK02X"
+            },
+            {
+                "model": "p_knittingneedle01x",
+                "name": "P_KNITTINGNEEDLE01X"
+            },
+            {
+                "model": "p_knittingsquare01x",
+                "name": "P_KNITTINGSQUARE01X"
+            },
+            {
+                "model": "p_chairfolding02x",
+                "name": "P_CHAIRFOLDING02X"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch"
+            },
+            {
+                "model": "cs_mollyoshea",
+                "name": "MollyOshea"
+            },
+            {
+                "model": "cs_lenny",
+                "name": "Lenny"
+            },
+            {
+                "model": "a_c_horse_morgan_flaxenchestnut",
+                "name": "Horse_01"
+            },
+            {
+                "model": "a_c_horse_morgan_flaxenchestnut",
+                "name": "Horse_01^1"
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sal1_mcs1"
+        "id": "cutscene@sal1_mcs1",
+        "peds": [
+            {
+                "model": "cs_lenny",
+                "name": "Lenny"
+            },
+            {
+                "model": "u_m_m_nbxbartender_01",
+                "name": "Bartender"
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sal1_mcs2"
+        "id": "cutscene@sal1_mcs2",
+        "peds": [
+            {
+                "model": "cs_lenny",
+                "name": "Lenny"
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sal1_mcs3"
+        "id": "cutscene@sal1_mcs3",
+        "peds": [
+            {
+                "model": "cs_lenny",
+                "name": "Lenny"
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sal1_mcs4"
+        "id": "cutscene@sal1_mcs4",
+        "peds": [
+            {
+                "model": "cs_lenny",
+                "name": "Lenny"
+            }
+        ],
+        "playback_id": "NormalStart",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@sen1_ext"

@@ -332,6 +332,9 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Set###set_model_manually"))
 			Features::SetPlayerModel(joaat(ModBuffer));
+		ImGui::SameLine();
+		if (ImGui::Button("Reset###reset_model"))
+			Features::ResetPlayerModel();
 
 		const float width = ImGui::GetContentRegionAvail().x / 2;
 		ImGui::BeginChild("player_model_child", ImVec2(width, 200));

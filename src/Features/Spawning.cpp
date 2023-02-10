@@ -7,6 +7,13 @@
 
 namespace Features
 {
+	void DeleteObject(Ped Handle)
+	{
+		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
+		OBJECT::DELETE_OBJECT(&Handle);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
+	}
+
 	void DeletePed(Ped Handle)
 	{
 		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
@@ -72,6 +79,35 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 
 		return false;
+	}
+
+	Object SpawnObject(Hash model)
+	{
+		Object obj = 0;
+
+		if (!RequestModel(model))
+		{
+			LOG_TO_CONSOLE("%s: Couldn't request object %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			return 0;
+		}
+
+		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+
+		for (int i = 0; !obj && i < 10; i++)
+		{
+			obj = OBJECT::CREATE_OBJECT_NO_OFFSET(model, coords.x, coords.y, coords.z, true, true, false, true);
+			YieldThread();
+		}
+
+		if (!obj)
+		{
+			LOG_TO_CONSOLE("%s: Couldn't spawn object %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			return 0;
+		}
+
+		ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(obj, true);
+
+		return obj;
 	}
 
 	Ped SpawnPed(Hash model)

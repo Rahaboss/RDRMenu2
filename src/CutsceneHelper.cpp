@@ -8,17 +8,12 @@ CutsceneHelper::CutsceneHelper(const nlohmann::json& JsonObject):
 	m_Scene(0),
 	m_JsonObject(JsonObject)
 {
-	assert(!(m_JsonObject["id"].is_null()) && "Invalid cutscene!");
-
-	const char* animDict = m_JsonObject["id"].get_ref<const std::string&>().c_str();
-	const char* playbackListName = "MultiStart";
-	if (!m_JsonObject["playback_id"].is_null())
-		playbackListName = m_JsonObject["playback_id"].get_ref<const std::string&>().c_str();
+	assert(m_JsonObject.contains("id") && "Invalid cutscene!");
 	
-	m_Scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, ASF_NONE, playbackListName, false, true);
+	m_Scene = CreateCutscene();
 }
 
-CutsceneHelper::CutsceneHelper(const char* animDict) :
+CutsceneHelper::CutsceneHelper(const char* animDict):
 	m_Scene(0)
 {
 	for (const auto& cs : g_Cutscenes)
@@ -28,17 +23,25 @@ CutsceneHelper::CutsceneHelper(const char* animDict) :
 		
 		m_JsonObject = cs;
 		
-		const char* animDict = m_JsonObject["id"].get_ref<const std::string&>().c_str();
-		const char* playbackListName = "MultiStart";
-		if (!m_JsonObject["playback_id"].is_null())
-			playbackListName = m_JsonObject["playback_id"].get_ref<const std::string&>().c_str();
-
-		m_Scene = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, ASF_NONE, playbackListName, false, true);
+		m_Scene = CreateCutscene();
 		return;
 	}
 
 	// m_Scene will be 0 at this point
 	assert(m_Scene && "Unknown cutscene!");
+}
+
+AnimScene CutsceneHelper::CreateCutscene()
+{
+	const char* animDict = m_JsonObject["id"].get_ref<const std::string&>().c_str();
+	constexpr int flags = ASF_NONE /* | ASF_BLOCK_SKIPPING | ASF_ENABLE_LETTER_BOX */;
+	const char* playbackListName = "MultiStart";
+	if (m_JsonObject.contains("playback_id"))
+		playbackListName = m_JsonObject["playback_id"].get_ref<const std::string&>().c_str();
+	constexpr BOOL p3 = false;
+	constexpr BOOL p4 = true;
+
+	return ANIMSCENE::_CREATE_ANIM_SCENE(animDict, flags, playbackListName, p3, p4);
 }
 
 void CutsceneHelper::AddPedExisting(Ped Handle, const char* entityName)
@@ -47,36 +50,101 @@ void CutsceneHelper::AddPedExisting(Ped Handle, const char* entityName)
 	m_Peds.push_back(Handle);
 }
 
-void CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
+Ped CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 {
 	Ped Handle = Features::SpawnPed(Model);
 	AddPedExisting(Handle, entityName);
+	
+	return Handle;
+}
+
+void CutsceneHelper::AddPedFromPedJson(const nlohmann::json& PedJsonObject)
+{
+	Ped Handle = AddPedNew(joaat(PedJsonObject["model"].get_ref<const std::string&>()),
+		PedJsonObject["name"].get_ref<const std::string&>().c_str());
+
+	if (PedJsonObject.contains("outfit_preset"))
+		PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, PedJsonObject["outfit_preset"].get<int>(), false);
 }
 
 void CutsceneHelper::AddPeds()
 {
 	AddLocalPlayer();
 
-	if (m_JsonObject["peds"].is_null())
+	if (!m_JsonObject.contains("peds"))
 		return;
 
 	for (const auto& j : m_JsonObject["peds"])
 	{
-		if (j["model"].is_null() || j["name"].is_null())
+		if (!j.contains("model") || !j.contains("name"))
 			continue;
 
-		AddPedNew(joaat(j["model"].get_ref<const std::string&>()), j["name"].get_ref<const std::string&>().c_str());
+		AddPedFromPedJson(j);
 	}
 }
 
 void CutsceneHelper::AddLocalPlayer()
 {
-	const bool b_PlayerArthur = !Features::IsJohnModel();
-	ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
-	ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, (b_PlayerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
+	if (m_JsonObject.contains("player_model"))
+	{
+		// Known ped model (from JSON)
+		const auto& PlayerModel = m_JsonObject["player_model"].get_ref<const std::string&>();
+		const bool b_PlayerArthur = PlayerModel == "player_zero";
+		const char* entityName = (b_PlayerArthur ? "ARTHUR" : "JOHN");
+		ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
+
+		if (g_LocalPlayer.m_Model == joaat(PlayerModel))
+		{
+			if (m_JsonObject.contains("player_outfit_preset"))
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, m_JsonObject["player_outfit_preset"].get<int>(), false);
+			ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, g_LocalPlayer.m_Entity, 0);
+		}
+		else
+		{
+			Ped Handle = Features::SpawnPed(joaat(PlayerModel));
+			if (m_JsonObject.contains("player_outfit_preset"))
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, m_JsonObject["player_outfit_preset"].get<int>(), false);
+			else
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, (b_PlayerArthur ? 3 : 26), false);
+			AddPedExisting(Handle, entityName);
+		}
+	}
+	else
+	{
+		// Unknown ped model (use current)
+		const bool b_PlayerArthur = !Features::IsJohnModel(); // YSC script style check
+		ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
+		ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, (b_PlayerArthur ? "ARTHUR" : "JOHN"), g_LocalPlayer.m_Entity, 0);
+	}
 }
 
-bool CutsceneHelper::IsCutsceneValid()
+void CutsceneHelper::AddObjectExisting(Object Handle, const char* entityName)
+{
+	ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, Handle, 0);
+	m_Objects.push_back(Handle);
+}
+
+void CutsceneHelper::AddObjectNew(Hash Model, const char* entityName)
+{
+	Object Handle = Features::SpawnObject(Model);
+	AddObjectExisting(Handle, entityName);
+}
+
+void CutsceneHelper::AddObjects()
+{
+	if (!m_JsonObject.contains("objects"))
+		return;
+
+	for (const auto& j : m_JsonObject["objects"])
+	{
+		if (!j.contains("model") || !j.contains("name"))
+			continue;
+
+		AddObjectNew(joaat(j["model"].get_ref<const std::string&>()), j["name"].get_ref<const std::string&>().c_str());
+	}
+}
+
+bool CutsceneHelper::IsCutsceneValid() const
 {
 	if (m_Scene == 0 || (int)m_Scene == -1)
 		return false;
@@ -89,6 +157,7 @@ void CutsceneHelper::TeleportToOrigin()
 	Vector3 position, rotation;
 	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &position, &rotation, 2);
 	Features::Teleport(position);
+	Features::YieldThread(1000); // Try to load more of the map
 }
 
 void CutsceneHelper::LoadCutscene()
@@ -130,6 +199,10 @@ void CutsceneHelper::CleanupCutscene()
 		Features::DeletePed(p);
 	m_Peds.clear();
 
+	for (const auto& o : m_Objects)
+		Features::DeleteObject(o);
+	m_Objects.clear();
+
 	ANIMSCENE::_DELETE_ANIM_SCENE(m_Scene);
 }
 
@@ -141,36 +214,49 @@ void CutsceneHelper::PlayAutomatically()
 	TRY
 	{
 		AddPeds();
+		Features::YieldThread();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	TRY
+	{
+		AddObjects();
+		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 		
 	TRY
 	{
 		LoadCutscene();
+		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
 	TRY
 	{
 		TeleportToOrigin();
+		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 		
 	TRY
 	{
 		PlayCutscene();
+		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
 	TRY
 	{
 		WaitForCutsceneEnd();
+		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
 	TRY
 	{
 		CleanupCutscene();
+		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

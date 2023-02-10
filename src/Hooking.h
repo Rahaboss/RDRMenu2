@@ -67,4 +67,7 @@ namespace Hooking
 
 	inline DetourHook DecorSetInt;
 	BOOL DecorSetIntHook(scrNativeCallContext* ctx);
+
+	inline DetourHook SetAnimSceneEntity;
+	void SetAnimSceneEntityHook(scrNativeCallContext* ctx);
 }

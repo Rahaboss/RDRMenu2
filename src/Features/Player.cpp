@@ -217,7 +217,7 @@ namespace Features
 		QUEUE_JOB(=)
 		{
 			// Check model validity or if model is already set
-			if (!IsModelValid(Model) || ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity) == Model)
+			if (!IsModelValid(Model) || g_LocalPlayer.m_Model == Model)
 				return;
 
 			// Request the new model

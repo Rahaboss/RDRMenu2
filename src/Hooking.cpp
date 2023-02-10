@@ -36,12 +36,14 @@ namespace Hooking
 		CreateAnimScene.Create(NativeContext::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
 		DecorSetBool.Create(NativeContext::GetHandler(0xFE26E4609B1C3772), DecorSetIntHook);
 		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
+		SetAnimSceneEntity.Create(NativeContext::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 	}
 
 	void Destroy()
 	{
 		LOG_TO_CONSOLE("Destroying hooks.\n");
 
+		SetAnimSceneEntity.Destroy();
 		DecorSetInt.Destroy();
 		DecorSetBool.Destroy();
 		CreateAnimScene.Destroy();
@@ -430,5 +432,41 @@ namespace Hooking
 		EXCEPT{ LOG_EXCEPTION(); }
 
 		return result;
+	}
+
+	void SetAnimSceneEntityHook(scrNativeCallContext* ctx)
+	{
+		// void SET_ANIM_SCENE_ENTITY(AnimScene animScene, const char* entityName, Entity entity, int flags)
+		AnimScene animScene = ctx->GetArg<AnimScene>(0);
+		const char* entityName = ctx->GetArg<const char*>(1);
+		Entity entity = ctx->GetArg<Entity>(2);
+		int flags = ctx->GetArg<int>(3);
+		Hash model = ENTITY::GET_ENTITY_MODEL(entity);
+		const char* modelName = 0;
+
+		const auto it = g_PedModelNameList.find(model);
+		if (it != g_PedModelNameList.end())
+			modelName = it->second.c_str();
+
+		const auto it2 = g_VehicleModelNameList.find(model);
+		if (it2 != g_VehicleModelNameList.end())
+			modelName = it->second.c_str();
+
+		if (!modelName)
+		{
+			if (joaat(entityName) == model)
+				modelName = entityName;
+		}
+
+		std::string modelStr;
+		if (!modelName)
+		{
+			modelStr = std::to_string(model);
+			modelName = modelStr.c_str();
+		}
+
+		LOG_TO_MENU("Adding animscene entity %s (model: %s)\n", entityName, modelName);
+
+		SetAnimSceneEntity.GetOriginal<decltype(&SetAnimSceneEntityHook)>()(ctx);
 	}
 }

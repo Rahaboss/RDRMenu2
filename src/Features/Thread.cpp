@@ -38,8 +38,12 @@ namespace Features
 		g_JobQueue.Run();
 	}
 
-	void YieldThread()
+	void YieldThread(uint32_t DurationMS)
 	{
-		Fiber::GetCurrent()->YieldThread();
+		const uint64_t EndTime = GetTickCount64() + DurationMS;
+		do
+		{
+			Fiber::GetCurrent()->YieldThread();
+		} while (GetTickCount64() < EndTime);
 	}
 }
