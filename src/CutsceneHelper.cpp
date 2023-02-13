@@ -3,6 +3,7 @@
 #include "Features.h"
 #include "PlayerInfo.h"
 #include "Lists.h"
+#include "Menu.h"
 
 CutsceneHelper::CutsceneHelper(const nlohmann::json& JsonObject):
 	m_Scene(0),
@@ -65,6 +66,9 @@ void CutsceneHelper::AddPedFromPedJson(const nlohmann::json& PedJsonObject)
 
 	if (PedJsonObject.contains("outfit_preset"))
 		PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, PedJsonObject["outfit_preset"].get<int>(), false);
+
+	if (PedJsonObject.contains("metaped_outfit"))
+		Features::SetMetapedOutfit(Handle, PedJsonObject["metaped_outfit"].get<Hash>());
 }
 
 void CutsceneHelper::AddPeds()
@@ -144,6 +148,45 @@ void CutsceneHelper::AddObjects()
 	}
 }
 
+void CutsceneHelper::AddVehicleExisting(Vehicle Handle, const char* entityName)
+{
+	ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, Handle, 0);
+	m_Vehicles.push_back(Handle);
+}
+
+void CutsceneHelper::AddVehicleFromVehicleJson(const nlohmann::json& VehicleJsonObject)
+{
+	Vehicle Handle = Features::SpawnVehicle(joaat(VehicleJsonObject["model"].get_ref<const std::string&>()), false);
+	
+	if (VehicleJsonObject.contains("extras"))
+	{
+		for (const auto& e : VehicleJsonObject["extras"])
+			VEHICLE::SET_VEHICLE_EXTRA(Handle, e.get<int>(), false);
+	}
+	
+	AddVehicleExisting(Handle, VehicleJsonObject["name"].get_ref<const std::string&>().c_str());
+}
+
+void CutsceneHelper::AddVehicleNew(Hash Model, const char* entityName)
+{
+	Vehicle Handle = Features::SpawnVehicle(Model, false);
+	AddVehicleExisting(Handle, entityName);
+}
+
+void CutsceneHelper::AddVehicles()
+{
+	if (!m_JsonObject.contains("vehicles"))
+		return;
+
+	for (const auto& j : m_JsonObject["vehicles"])
+	{
+		if (!j.contains("model") || !j.contains("name"))
+			continue;
+
+		AddVehicleFromVehicleJson(j);
+	}
+}
+
 bool CutsceneHelper::IsCutsceneValid() const
 {
 	if (m_Scene == 0 || (int)m_Scene == -1)
@@ -195,13 +238,17 @@ void CutsceneHelper::WaitForCutsceneEnd()
 
 void CutsceneHelper::CleanupCutscene()
 {
+	for (const auto& o : m_Objects)
+		Features::DeleteObject(o);
+	m_Objects.clear();
+
 	for (const auto& p : m_Peds)
 		Features::DeletePed(p);
 	m_Peds.clear();
 
-	for (const auto& o : m_Objects)
-		Features::DeleteObject(o);
-	m_Objects.clear();
+	for (const auto& v : m_Vehicles)
+		Features::DeleteVehicle(v);
+	m_Vehicles.clear();
 
 	ANIMSCENE::_DELETE_ANIM_SCENE(m_Scene);
 }
@@ -213,18 +260,25 @@ void CutsceneHelper::PlayAutomatically()
 
 	TRY
 	{
-		AddPeds();
+		AddObjects();
 		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
 	TRY
 	{
-		AddObjects();
+		AddPeds();
 		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
-		
+	
+	TRY
+	{
+		AddVehicles();
+		Features::YieldThread();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+	
 	TRY
 	{
 		LoadCutscene();

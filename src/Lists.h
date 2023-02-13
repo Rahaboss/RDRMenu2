@@ -8,6 +8,7 @@ namespace Lists
 {
 	void Create();
 	void Reload();
+	void ReloadCutscenesList();
 }
 
 inline std::map<std::string, Hash>

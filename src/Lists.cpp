@@ -232,4 +232,11 @@ namespace Lists
 		g_Cutscenes.clear();
 		Create();
 	}
+	
+	void ReloadCutscenesList()
+	{
+		LOG_TO_CONSOLE("Reloading cutscenes.\n");
+		g_Cutscenes.clear();
+		InitCutscenesList("Cutscenes.json");
+	}
 }

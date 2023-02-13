@@ -82,14 +82,6 @@ namespace Features
 	void PlayCharlesLeavingCutscene()
 	{
 		CutsceneHelper Cutscene("cutscene@ntv0_int");
-		Cutscene.AddPedNew(CS_CHARLESSMITH, "CharlesSmith");
-		Ped horse = SpawnPed(A_C_HORSE_GANG_CHARLES);
-		int id = PED::_REQUEST_METAPED_OUTFIT(A_C_HORSE_GANG_CHARLES, 0x4B96E611);
-		while (!PED::_HAS_METAPED_OUTFIT_LOADED(id))
-			YieldThread();
-		PED::_APPLY_PED_METAPED_OUTFIT(id, horse, true, false);
-		PED::_RELEASE_METAPED_OUTFIT_REQUEST(id);
-		Cutscene.AddPedExisting(horse, "Horse_01");
 		Cutscene.PlayAutomatically();
 	}
 
@@ -102,6 +94,12 @@ namespace Features
 	void PlayDebtCollectorCutscene()
 	{
 		CutsceneHelper Cutscene("cutscene@rdown_rsc_2");
+		Cutscene.PlayAutomatically();
+	}
+
+	void PlayBeechersHopeCutscene()
+	{
+		CutsceneHelper Cutscene("cutscene@rbch5_rsc4");
 		Cutscene.PlayAutomatically();
 	}
 

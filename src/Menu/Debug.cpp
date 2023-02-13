@@ -137,6 +137,7 @@ namespace Menu
 		static int s_CurrentCutscene = 0;
 		static char CutFilter[200]{ "cutscene@" };
 		ImGui::BeginGroup();
+
 		ImGui::Text("Select Cutscene:");
 		if (ImGui::BeginChild("###cutscene_list", ImVec2(350, 250)))
 		{
@@ -145,9 +146,18 @@ namespace Menu
 
 			for (int i = 0; i < g_Cutscenes.size(); i++)
 			{
-				if (g_Settings["disable_default_cutscenes"].get<bool>() && g_Cutscenes[i].size() == 1)
-					continue;
-				
+				if (g_Settings["disable_default_cutscenes"].get<bool>())
+				{
+					int cs_size = static_cast<int>(g_Cutscenes[i].size());
+					if (g_Cutscenes[i].contains("player_model"))
+						cs_size--;
+					if (g_Cutscenes[i].contains("player_outfit_preset"))
+						cs_size--;
+
+					if (cs_size <= 1)
+						continue;
+				}
+
 				const std::string& Name = g_Cutscenes[i]["id"].get_ref<const std::string&>();
 
 				std::string s2(Name);
@@ -159,50 +169,69 @@ namespace Menu
 					s_CurrentCutscene = i;
 			}
 		}
-
 		ImGui::EndChild();
+
 		ImGui::EndGroup();
 		ImGui::SameLine();
-		
 		ImGui::BeginGroup();
-		ImGui::Text("Filter Cutscenes:");
-		ImGui::PushItemWidth(300);
-		ImGui::InputText("###filter_cut", CutFilter, 200);
-		ImGui::PopItemWidth();
 		
-		ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>());
-		ImGui::Separator();
-
-		const nlohmann::json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
-		if (ImGui::Button("Play"))
-			Features::PlayCutsceneFromJson(CurrentJson);
-
-		ImGui::Text("Cutscene Info:");
-		ImGui::Text("animDict: %s", CurrentJson["id"].get_ref<const std::string&>().c_str());
-		if (CurrentJson.size() != 1)
+		ImGui::Text("Filter Cutscenes:");
+		if (ImGui::BeginChild("###cutscene_info", ImVec2(0, 250)) && !g_Cutscenes.empty())
 		{
-			if (CurrentJson.contains("playback_id"))
+			ImGui::PushItemWidth(300);
+			ImGui::InputText("###filter_cut", CutFilter, 200);
+			ImGui::PopItemWidth();
+		
+			ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>());
+			ImGui::Separator();
+
+			const nlohmann::json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
+			if (ImGui::Button("Play"))
+				Features::PlayCutsceneFromJson(CurrentJson);
+			ImGui::SameLine();
+			if (ImGui::Button("Reload List"))
 			{
-				ImGui::Text("playbackListName: %s", CurrentJson["playback_id"].get_ref<const std::string&>().c_str());
+				QUEUE_JOB(=)
+				{
+					Lists::ReloadCutscenesList();
+				}
+				END_JOB()
 			}
-			if (CurrentJson.contains("player_model"))
+
+			ImGui::Text("Cutscene Info:");
+			ImGui::Text("animDict: %s", CurrentJson["id"].get_ref<const std::string&>().c_str());
+			if (CurrentJson.size() != 1)
 			{
-				ImGui::Text("Player Model: %s", CurrentJson["player_model"].get_ref<const std::string&>().c_str());
-			}
+				if (CurrentJson.contains("playback_id"))
+				{
+					ImGui::Text("playbackListName: %s", CurrentJson["playback_id"].get_ref<const std::string&>().c_str());
+				}
+				if (CurrentJson.contains("player_model"))
+				{
+					ImGui::Text("Player Model: %s", CurrentJson["player_model"].get_ref<const std::string&>().c_str());
+				}
 			
-			if (CurrentJson.contains("peds"))
-			{
-				ImGui::Text("Cutscene Peds:");
-				for (const auto& cs_ped : CurrentJson["peds"])
-					ImGui::BulletText(cs_ped["name"].get_ref<const std::string&>().c_str());
-			}
-			if (CurrentJson.contains("objects"))
-			{
-				ImGui::Text("Cutscene Objects:");
-				for (const auto& cs_ped : CurrentJson["objects"])
-					ImGui::BulletText(cs_ped["name"].get_ref<const std::string&>().c_str());
+				if (CurrentJson.contains("peds"))
+				{
+					ImGui::Text("Cutscene Peds:");
+					for (const auto& cs_ped : CurrentJson["peds"])
+						ImGui::BulletText(cs_ped["name"].get_ref<const std::string&>().c_str());
+				}
+				if (CurrentJson.contains("objects"))
+				{
+					ImGui::Text("Cutscene Objects:");
+					for (const auto& cs_ped : CurrentJson["objects"])
+						ImGui::BulletText(cs_ped["name"].get_ref<const std::string&>().c_str());
+				}
+				if (CurrentJson.contains("vehicles"))
+				{
+					ImGui::Text("Cutscene Vehicles:");
+					for (const auto& cs_ped : CurrentJson["vehicles"])
+						ImGui::BulletText(cs_ped["name"].get_ref<const std::string&>().c_str());
+				}
 			}
 		}
+		ImGui::EndChild();
 
 		ImGui::EndGroup();
 		ImGui::Separator();
@@ -290,6 +319,15 @@ namespace Menu
 			QUEUE_JOB(=)
 			{
 				Features::PlayCharlesLeavingCutscene();
+			}
+			END_JOB()
+		}
+
+		if (ImGui::Button("Beechers Hope"))
+		{
+			QUEUE_JOB(=)
+			{
+				Features::PlayBeechersHopeCutscene();
 			}
 			END_JOB()
 		}
@@ -403,6 +441,67 @@ namespace Menu
 			if (Pointers::IsSessionStarted)
 				*Pointers::IsSessionStarted = !(*Pointers::IsSessionStarted);
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Toggle Saint Denis Interiors"))
+		{
+			int iVar0;
+
+			iVar0 = INTERIOR::GET_INTERIOR_AT_COORDS(2638.399f, -1290.197f, 51.2461f);
+			if (INTERIOR::IS_VALID_INTERIOR(iVar0))
+			{
+				if (INTERIOR::IS_INTERIOR_READY(iVar0))
+				{
+					auto func_2060 = [](int iParam0)
+					{
+						int iVar0;
+						int iVar1;
+						int iVar2;
+
+						iVar0 = iParam0;
+						iVar1 = (iVar0 / 31);
+						iVar2 = (iVar0 % 31);
+
+						auto Global_1934765_f_21 = ScriptGlobal(1934765).At(21).Get<int*>();
+						MISC::SET_BIT(&(Global_1934765_f_21[iVar1]), iVar2);
+						MISC::SET_BIT(&(Global_1934765_f_21[iVar1 * 2]), iVar2);
+
+						auto Global_1934765_f_30 = ScriptGlobal(1934765).At(30).Get<int*>();
+						MISC::SET_BIT(&(Global_1934765_f_30[iVar1]), iVar2);
+						MISC::SET_BIT(&(Global_1934765_f_30[iVar1 * 2]), iVar2);
+					};
+					
+					func_2060(134);
+					func_2060(137);
+
+					INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(iVar0, "new_com_bank_before", 0);
+					INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(iVar0, "new_com_bank_after", 0);
+					INTERIOR::_0x2533F2AB0EB9C6F9(iVar0, 1);
+					INTERIOR::_0xFE2B3D5500B1B2E4(iVar0, 1);
+				}
+			}
+		}
+
+		if (ImGui::Button("Sort Cutscenes JSON"))
+		{
+			std::sort(g_Cutscenes.begin(), g_Cutscenes.end(), [](const nlohmann::json& a, const nlohmann::json& b) {
+				return a["id"].get_ref<const std::string&>() < b["id"].get_ref<const std::string&>();
+			});
+
+			std::fstream File(Features::GetConfigPath().append("cut.json"), std::fstream::out | std::fstream::trunc);
+			assert(File.good());
+			File << g_Cutscenes.dump(4);
+			File.close();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Mrs. Adler"))
+		{
+			QUEUE_JOB(=)
+			{
+				Ped ped = Features::SpawnPed(CS_MRSADLER);
+				Features::SetMetapedOutfit(ped, 0x5F43C3FC);
+			}
+			END_JOB()
+		}
 	}
 
 	void RenderDebugInfo()
@@ -486,6 +585,7 @@ namespace Menu
 		ImGui::BeginGroup();
 		ImGui::Checkbox("Log Created Cutscenes", g_Settings["log_created_cutscenes"].get<bool*>());
 		ImGui::Checkbox("Log Set Decor", g_Settings["log_set_decor"].get<bool*>());
+		ImGui::Checkbox("Log Added Cutscene Entities", g_Settings["log_added_cutscene_entities"].get<bool*>());
 		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
 		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
 		ImGui::EndGroup();
@@ -501,7 +601,7 @@ namespace Menu
 		// Ped controls
 		if (ImGui::Button("Spawn"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				PedDebug.ent = Features::SpawnPed(PedDebug.model);
 				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedDebug.model);
@@ -513,10 +613,9 @@ namespace Menu
 			ImGui::BeginDisabled();
 		if (ImGui::Button("Despawn"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				Features::DeletePed(PedDebug.ent);
-				Features::EndSpawnPed(PedDebug.ent);
 				PedDebug.ent = 0;
 			}
 			END_JOB()
@@ -524,7 +623,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Resurrect"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				PED::RESURRECT_PED(PedDebug.ent);
 			}
@@ -533,7 +632,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Revive"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				PED::REVIVE_INJURED_PED(PedDebug.ent);
 			}
@@ -542,7 +641,7 @@ namespace Menu
 
 		if (ImGui::Button("Set Random Component Variations"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				PED::SET_PED_RANDOM_COMPONENT_VARIATION(PedDebug.ent, 0);
 			}
@@ -551,7 +650,7 @@ namespace Menu
 
 		if (ImGui::Button("Set Random Outfit Variations"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				PED::_SET_RANDOM_OUTFIT_VARIATION(PedDebug.ent, true);
 			}
@@ -560,7 +659,7 @@ namespace Menu
 
 		if (ImGui::Button("Set Good Honor"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				DECORATOR::DECOR_SET_INT(PedDebug.ent, "honor_override", -9999);
 			}
@@ -569,7 +668,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Set Bad Honor"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				DECORATOR::DECOR_SET_INT(PedDebug.ent, "honor_override", 9999);
 			}
@@ -581,7 +680,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("TP Ped To Player"))
 		{
-			QUEUE_JOB(= )
+			QUEUE_JOB(=)
 			{
 				const Vector3& pos = g_LocalPlayer.m_Pos;
 				ENTITY::SET_ENTITY_COORDS(PedDebug.ent, pos.x, pos.y, pos.z, false, false, false, false);

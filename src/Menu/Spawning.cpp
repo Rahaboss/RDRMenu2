@@ -29,8 +29,7 @@ namespace Menu
 			{
 				QUEUE_JOB(=)
 				{
-					Ped ped = Features::SpawnPed(it.second);
-					Features::EndSpawnPed(ped);
+					Features::SpawnPed(it.second);
 				}
 				END_JOB()
 			}
@@ -54,8 +53,7 @@ namespace Menu
 			{
 				QUEUE_JOB(=)
 				{
-					Vehicle veh = Features::SpawnVehicle(it.second);
-					Features::EndSpawnVehicle(it.second, veh);
+					Features::SpawnVehicle(it.second);
 				}
 				END_JOB()
 			}

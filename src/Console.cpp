@@ -3,13 +3,17 @@
 
 namespace Console
 {
-	static FILE* s_File{};
+	static FILE* s_InFile{};
+	static FILE* s_OutFile{};
+	static FILE* s_ErrFile{};
 
 	void Create()
 	{
 		AllocConsole();
-		freopen_s(&s_File, "CONOUT$", "w", stdout);
-		assert(s_File);
+		freopen_s(&s_InFile, "CONIN$", "r", stdin);
+		freopen_s(&s_OutFile, "CONOUT$", "w", stdout);
+		freopen_s(&s_ErrFile, "CONOUT$", "w", stderr);
+		assert(s_InFile && s_OutFile && s_ErrFile);
 		SetConsoleTitle(L"RDRMenu2 - "
 #ifdef _DEBUG
 			"Debug"
@@ -23,7 +27,9 @@ namespace Console
 	void Destroy()
 	{
 		LOG_TO_CONSOLE("Destroying console.\n");
-		fclose(s_File);
+		fclose(s_ErrFile);
+		fclose(s_OutFile);
+		fclose(s_InFile);
 		FreeConsole();
 	}
 }

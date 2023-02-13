@@ -32,8 +32,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Vehicle veh = Features::SpawnVehicle(GATLING_GUN);
-				Features::EndSpawnVehicle(GATLING_GUN, veh);
+				Features::SpawnVehicle(GATLING_GUN);
 			}
 			END_JOB()
 		}

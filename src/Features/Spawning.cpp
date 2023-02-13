@@ -9,29 +9,17 @@ namespace Features
 {
 	void DeleteObject(Ped Handle)
 	{
-		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
 		OBJECT::DELETE_OBJECT(&Handle);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 	}
 
 	void DeletePed(Ped Handle)
 	{
-		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
 		PED::DELETE_PED(&Handle);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 	}
 
-	void EndSpawnPed(Ped Handle)
+	void DeleteVehicle(Vehicle Handle)
 	{
-		Hash Model = ENTITY::GET_ENTITY_MODEL(Handle);
-		ENTITY::SET_PED_AS_NO_LONGER_NEEDED(&Handle);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
-	}
-
-	void EndSpawnVehicle(Hash model, Vehicle Handle)
-	{
-		ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&Handle);
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+		VEHICLE::DELETE_VEHICLE(&Handle);
 	}
 
 	std::string GetPedModelName(Hash hash)
@@ -57,22 +45,22 @@ namespace Features
 		return STREAMING::IS_MODEL_IN_CDIMAGE(Model) && STREAMING::IS_MODEL_VALID(Model);
 	}
 
-	bool RequestModel(Hash model)
+	bool RequestModel(Hash Model)
 	{
 		TRY
 		{
-			if (!IsModelValid(model))
+			if (!IsModelValid(Model))
 			{
-				LOG_TO_CONSOLE("%s: 0x%llX is not a valid model hash!\n", __FUNCTION__, (uint64_t)model);
+				LOG_TO_CONSOLE("%s: 0x%llX is not a valid model hash!\n", __FUNCTION__, (uint64_t)Model);
 				return false;
 			}
 
 			constexpr int MaxRequests = 100;
 			for (int i = 0; i < MaxRequests; i++)
 			{
-				STREAMING::REQUEST_MODEL(model, false);
+				STREAMING::REQUEST_MODEL(Model, false);
 				YieldThread();
-				if (STREAMING::HAS_MODEL_LOADED(model))
+				if (STREAMING::HAS_MODEL_LOADED(Model))
 					return true;
 			}
 		}
@@ -81,119 +69,95 @@ namespace Features
 		return false;
 	}
 
-	Object SpawnObject(Hash model)
+	Object SpawnObject(Hash Model)
 	{
-		Object obj = 0;
-
-		if (!RequestModel(model))
+		if (!RequestModel(Model))
 		{
-			LOG_TO_CONSOLE("%s: Couldn't request object %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't request object %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
 			return 0;
 		}
 
-		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+		const Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
 
-		for (int i = 0; !obj && i < 10; i++)
-		{
-			obj = OBJECT::CREATE_OBJECT_NO_OFFSET(model, coords.x, coords.y, coords.z, true, true, false, true);
-			YieldThread();
-		}
+		const Object obj = OBJECT::CREATE_OBJECT_NO_OFFSET(Model, coords.x, coords.y, coords.z, true, true, false, true);
 
 		if (!obj)
 		{
-			LOG_TO_CONSOLE("%s: Couldn't spawn object %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't spawn object %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
 			return 0;
 		}
 
+		YieldThread();
+
 		ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(obj, true);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 
 		return obj;
 	}
 
-	Ped SpawnPed(Hash model)
+	Ped SpawnPed(Hash Model)
 	{
-		Ped ped = 0;
+		const Ped ped = 0;
 		
-		if (!RequestModel(model))
+		if (!RequestModel(Model))
 		{
-			LOG_TO_CONSOLE("%s: Couldn't request ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't request ped %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
 			return 0;
 		}
 
-		Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+		const Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
 		
-		for (int i = 0; !ped && i < 10; i++)
-		{
-			ped = PED::CREATE_PED(model, coords.x, coords.y, coords.z,
-				ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), false, false, false, false);
-			YieldThread();
-		}
-
+		const Ped ped = PED::CREATE_PED(Model, coords.x, coords.y, coords.z, ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity),
+			false, false, false, false);
+		
 		if (!ped)
 		{
-			LOG_TO_CONSOLE("%s: Couldn't spawn ped %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't spawn ped %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
 			return 0;
 		}
+		
+		YieldThread();
 
 		ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(ped, true);
-
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, true);
-		PED::SET_PED_CAN_BE_TARGETTED(ped, true);
-		PED::SET_PED_CAN_BE_TARGETTED_BY_PLAYER(ped, g_LocalPlayer.m_Index, true);
-		ENTITY::SET_ENTITY_INVINCIBLE(ped, false);
-		ENTITY::SET_ENTITY_CAN_BE_DAMAGED(ped, true);
-		PED::SET_PED_MODEL_IS_SUPPRESSED(ped, false);
-
+		
 		return ped;
 	}
 
 	Pickup SpawnPickup(Hash PickupHash)
 	{
-		Pickup obj = 0;
-
-		TRY
-		{
-			const Vector3& Pos = g_LocalPlayer.m_Pos;
-			obj = OBJECT::CREATE_PICKUP(PickupHash, Pos.x, Pos.y, Pos.z, 0, 0, false, 0, 0, 0.0f, 0);
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
-
-		return obj;
+		const Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+		return OBJECT::CREATE_PICKUP(PickupHash, coords.x, coords.y, coords.z, 0, 0, false, 0, 0, 0.0f, 0);
 	}
 
-	Vehicle SpawnVehicle(Hash model, bool warp_into)
+	Vehicle SpawnVehicle(Hash Model, bool WarpInside)
 	{
-		Vehicle veh = 0;
-
-		//TRY
+		if (!RequestModel(Model))
 		{
-			if (!RequestModel(model))
-			{
-				LOG_TO_CONSOLE("%s: Couldn't request vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
-				return 0;
-			}
-
-			const Vector3& coords = g_LocalPlayer.m_Pos;
-			veh = VEHICLE::CREATE_VEHICLE(model, coords.x, coords.y, coords.z,
-				ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity), false, false, false, false);
-
-			if (!veh)
-			{
-				LOG_TO_CONSOLE("%s: Couldn't spawn vehicle %s!\n", __FUNCTION__, GetPedModelName(model).c_str());
-				return veh;
-			}
-
-			YieldThread();
-
-			DECORATOR::DECOR_SET_BOOL(veh, "wagon_block_honor", true);
-			VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(veh, 0);
-			if (warp_into)
-				PED::SET_PED_INTO_VEHICLE(g_LocalPlayer.m_Entity, veh, -1);
-
-			ENTITY::SET_VEHICLE_AS_NO_LONGER_NEEDED(&veh);
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+			LOG_TO_CONSOLE("%s: Couldn't request vehicle %s!\n", __FUNCTION__, GetVehicleModelName(Model).c_str());
+			return 0;
 		}
-		//EXCEPT{ LOG_EXCEPTION(); }
+
+		const Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+			
+		const Vehicle veh = VEHICLE::CREATE_VEHICLE(Model, coords.x, coords.y, coords.z, ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity),
+			false, false, false, false);
+
+		if (!veh)
+		{
+			LOG_TO_CONSOLE("%s: Couldn't spawn vehicle %s!\n", __FUNCTION__, GetVehicleModelName(Model).c_str());
+			return 0;
+		}
+
+		YieldThread();
+
+		DECORATOR::DECOR_SET_BOOL(veh, "wagon_block_honor", true);
+		VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(veh, 0);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
+
+		if (WarpInside)
+			PED::SET_PED_INTO_VEHICLE(g_LocalPlayer.m_Entity, veh, -1);
 		
 		return veh;
 	}

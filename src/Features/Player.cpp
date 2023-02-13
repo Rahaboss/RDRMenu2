@@ -259,7 +259,6 @@ namespace Features
 			Ped ped = SpawnPed(Model);
 			DECORATOR::DECOR_SET_INT(ped, "honor_override", 9999);
 			TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
-			EndSpawnPed(ped);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -271,7 +270,6 @@ namespace Features
 			Ped ped = SpawnPed(Model);
 			DECORATOR::DECOR_SET_INT(ped, "honor_override", -9999);
 			TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
-			EndSpawnPed(ped);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

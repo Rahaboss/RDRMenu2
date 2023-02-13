@@ -37,12 +37,14 @@ namespace Hooking
 		DecorSetBool.Create(NativeContext::GetHandler(0xFE26E4609B1C3772), DecorSetIntHook);
 		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
 		SetAnimSceneEntity.Create(NativeContext::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
+		IsDlcPresent.Create(NativeContext::GetHandler(0x2763DC12BBE2BB6F), IsDlcPresentHook);
 	}
 
 	void Destroy()
 	{
 		LOG_TO_CONSOLE("Destroying hooks.\n");
 
+		IsDlcPresent.Destroy();
 		SetAnimSceneEntity.Destroy();
 		DecorSetInt.Destroy();
 		DecorSetBool.Destroy();
@@ -370,8 +372,18 @@ namespace Hooking
 		AnimScene ret = ctx->GetRet<AnimScene>();
 
 		if (std::string(animDict).find("cutscene@") != std::string::npos)
-			LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
-				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
+		{
+			if (!playbackListName)
+			{
+				LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, NULL, %s, %s) = %d\n", animDict, flags,
+					(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
+			}
+			else
+			{
+				LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
+					(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
+			}
+		}
 
 		return result;
 	}
@@ -436,37 +448,95 @@ namespace Hooking
 
 	void SetAnimSceneEntityHook(scrNativeCallContext* ctx)
 	{
-		// void SET_ANIM_SCENE_ENTITY(AnimScene animScene, const char* entityName, Entity entity, int flags)
-		AnimScene animScene = ctx->GetArg<AnimScene>(0);
-		const char* entityName = ctx->GetArg<const char*>(1);
-		Entity entity = ctx->GetArg<Entity>(2);
-		int flags = ctx->GetArg<int>(3);
-		Hash model = ENTITY::GET_ENTITY_MODEL(entity);
-		const char* modelName = 0;
-
-		const auto it = g_PedModelNameList.find(model);
-		if (it != g_PedModelNameList.end())
-			modelName = it->second.c_str();
-
-		const auto it2 = g_VehicleModelNameList.find(model);
-		if (it2 != g_VehicleModelNameList.end())
-			modelName = it->second.c_str();
-
-		if (!modelName)
+		if (g_Settings["log_added_cutscene_entities"].get<bool>())
 		{
-			if (joaat(entityName) == model)
-				modelName = entityName;
-		}
+			// void SET_ANIM_SCENE_ENTITY(AnimScene animScene, const char* entityName, Entity entity, int flags)
+			AnimScene animScene = ctx->GetArg<AnimScene>(0);
+			const char* entityName = ctx->GetArg<const char*>(1);
+			Entity entity = ctx->GetArg<Entity>(2);
+			int flags = ctx->GetArg<int>(3);
+			Hash model = ENTITY::GET_ENTITY_MODEL(entity);
+			std::string modelStr;
+			
+			const auto it = g_PedModelNameList.find(model);
+			if (it != g_PedModelNameList.end())
+			{
+				modelStr = it->second;
+			}
+			else
+			{
+				const auto it2 = g_VehicleModelNameList.find(model);
+				if (it2 != g_VehicleModelNameList.end())
+				{
+					modelStr = it2->second;
+				}
+				else
+				{
+					if (joaat(entityName) == model)
+					{
+						modelStr = entityName;
+					}
+					else
+					{
+						modelStr = std::to_string(model);
+					}
+				}
+			}
 
-		std::string modelStr;
-		if (!modelName)
-		{
-			modelStr = std::to_string(model);
-			modelName = modelStr.c_str();
+			LOG_TO_MENU("Adding animscene entity %s (model: %s)\n", entityName, modelStr.c_str());
 		}
-
-		LOG_TO_MENU("Adding animscene entity %s (model: %s)\n", entityName, modelName);
 
 		SetAnimSceneEntity.GetOriginal<decltype(&SetAnimSceneEntityHook)>()(ctx);
+	}
+	
+	BOOL IsDlcPresentHook(scrNativeCallContext* ctx)
+	{
+		BOOL result = 0;
+
+		TRY
+		{
+			Hash dlcHash = ctx->GetArg<Hash>(0);
+			result = IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
+			BOOL result2 = ctx->GetRet<BOOL>();
+			const char* dlcName = 0;
+
+			switch (dlcHash)
+			{
+			case 3615828851u:
+				ctx->GetRet<BOOL>() = TRUE;
+				break;
+			case joaat("DLC_PHYSPREORDERCONTENT"):
+				dlcName = "DLC_PHYSPREORDERCONTENT";
+				ctx->GetRet<BOOL>() = TRUE;
+				break;
+			case joaat("DLC_PREORDERCONTENT"):
+				dlcName = "DLC_PHYSPREORDERCONTENT";
+				ctx->GetRet<BOOL>() = TRUE;
+				break;
+			case joaat("DLC_SPECIALEDITION"):
+				dlcName = "DLC_PHYSPREORDERCONTENT";
+				ctx->GetRet<BOOL>() = TRUE;
+				break;
+			case joaat("DLC_ULTIMATEEDITION"):
+				dlcName = "DLC_PHYSPREORDERCONTENT";
+				ctx->GetRet<BOOL>() = TRUE;
+				break;
+			case joaat("XX_I$RAWKST4H_D3V_XX"): // LMAO
+				ctx->GetRet<BOOL>() = TRUE;
+				dlcName = "DLC_PHYSPREORDERCONTENT";
+				break;
+			}
+
+			if (dlcName)
+			{
+				LOG_TO_MENU("IS_DLC_PRESENT(\"%s\") = %s\n", dlcName, (result2 ? "true" : "false"));
+				return TRUE;
+			}
+			else
+				LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (result2 ? "true" : "false"));
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
 	}
 }

@@ -74,4 +74,17 @@ namespace Features
 		}
 		END_JOB()
 	}
+
+	void SetMetapedOutfit(Ped ped, Hash outfit)
+	{
+		TRY
+		{
+			int requestId = PED::_REQUEST_METAPED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), outfit);
+			while (!PED::_HAS_METAPED_OUTFIT_LOADED(requestId))
+				YieldThread();
+			PED::_APPLY_PED_METAPED_OUTFIT(requestId, ped, true, false);
+			PED::_RELEASE_METAPED_OUTFIT_REQUEST(requestId);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
 }

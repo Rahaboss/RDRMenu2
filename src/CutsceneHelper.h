@@ -22,6 +22,11 @@ public:
 	void AddObjectNew(Hash Model, const char* entityName);
 	void AddObjects();
 
+	void AddVehicleExisting(Vehicle Handle, const char* entityName);
+	void AddVehicleFromVehicleJson(const nlohmann::json& VehicleJsonObject);
+	void AddVehicleNew(Hash Model, const char* entityName);
+	void AddVehicles();
+
 	bool IsCutsceneValid() const;
 
 	void TeleportToOrigin();
@@ -38,7 +43,8 @@ public:
 private:
 	nlohmann::json m_JsonObject;
 	AnimScene m_Scene;
-	std::vector<Ped> m_Peds;
 	std::vector<Object> m_Objects;
+	std::vector<Ped> m_Peds;
+	std::vector<Vehicle> m_Vehicles;
 	bool m_Loaded = false;
 };

@@ -7,14 +7,13 @@ namespace Features
 {
 	void DeleteObject(Ped Handle);
 	void DeletePed(Ped Handle);
-	void EndSpawnPed(Ped Handle);
-	void EndSpawnVehicle(Hash model, Vehicle Handle);
+	void DeleteVehicle(Vehicle Handle);
 	std::string GetPedModelName(Hash hash);
 	std::string GetVehicleModelName(Hash hash);
 	bool IsModelValid(Hash Model);
-	bool RequestModel(Hash model);
-	Object SpawnObject(Hash model);
-	Ped SpawnPed(Hash model);
+	bool RequestModel(Hash Model);
+	Object SpawnObject(Hash Model);
+	Ped SpawnPed(Hash Model);
 	Pickup SpawnPickup(Hash PickupHash);
-	Vehicle SpawnVehicle(Hash model, bool warp_into = true);
+	Vehicle SpawnVehicle(Hash Model, bool WarpInside = true);
 }

@@ -70,4 +70,7 @@ namespace Hooking
 
 	inline DetourHook SetAnimSceneEntity;
 	void SetAnimSceneEntityHook(scrNativeCallContext* ctx);
+
+	inline DetourHook IsDlcPresent;
+	BOOL IsDlcPresentHook(scrNativeCallContext* ctx);
 }

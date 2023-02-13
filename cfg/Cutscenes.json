@@ -1,135 +1,325 @@
 [
     {
-        "id": "cutscene@bou1_ext"
+        "id": "cutscene@bou1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@bou1_mcs1"
+        "id": "cutscene@bou1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@bou1_mcs2"
+        "id": "cutscene@bou1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt1_ext"
+        "id": "cutscene@brt1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt1_int"
+        "id": "cutscene@brt1_int",
+        "objects": [
+            {
+                "model": "p_cigarette_cs01x",
+                "name": "p_cigarette_cs01x"
+            },
+            {
+                "model": "p_jug01x",
+                "name": "p_jug01x"
+            },
+            {
+                "model": "p_jug01x",
+                "name": "p_jug01x^1"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_johnmarston",
+                "name": "JohnMarston"
+            },
+            {
+                "model": "cs_hoseamatthews",
+                "name": "HoseaMatthews",
+                "outfit_preset": 3
+            }
+        ],
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "extras": [
+                    5
+                ],
+                "model": "WAGON05X",
+                "name": "WAGON05X"
+            }
+        ]
     },
     {
-        "id": "cutscene@brt1_mcs2"
+        "id": "cutscene@brt1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt1_mcs3"
+        "id": "cutscene@brt1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt1_mcs_1"
+        "id": "cutscene@brt1_mcs_1",
+        "peds": [
+            {
+                "model": "cs_hoseamatthews",
+                "name": "HoseaMatthews",
+                "outfit_preset": 3
+            },
+            {
+                "model": "cs_catherinebraithwaite",
+                "name": "CatherineBraithwaite"
+            },
+            {
+                "model": "CS_GARETHBRAITHWAITE",
+                "name": "GarethBraithwaite"
+            },
+            {
+                "model": "CS_BARTHOLOMEWBRAITHWAITE",
+                "name": "BartholomewBraithwaite"
+            },
+            {
+                "model": "CS_GERALDBRAITHWAITE",
+                "name": "GeraldBraithwaite"
+            }
+        ],
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "extras": [
+                    5
+                ],
+                "model": "WAGON05X",
+                "name": "WAGON05X"
+            }
+        ]
     },
     {
-        "id": "cutscene@brt2_int"
+        "id": "cutscene@brt2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt2_mcs1"
+        "id": "cutscene@brt2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt3_ext"
+        "id": "cutscene@brt3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt3_int"
+        "id": "cutscene@brt3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@brt3_mcs2"
+        "id": "cutscene@brt3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cabll_crob3_int"
+        "id": "cutscene@cabll_crob3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cachr_ext"
+        "id": "cutscene@cachr_ext",
+        "objects": [
+            {
+                "model": "p_cs_billstack01x",
+                "name": "p_cs_billstack01x"
+            },
+            {
+                "model": "p_cs_billstack01x",
+                "name": "p_cs_billstack01x^1"
+            },
+            {
+                "model": "p_cs_billstack01x",
+                "name": "p_cs_billstack01x^2"
+            },
+            {
+                "model": "p_cs_billsingle01x",
+                "name": "p_cs_billsingle01x"
+            },
+            {
+                "model": "p_cs_billsingle01x",
+                "name": "p_cs_billsingle01x^1"
+            },
+            {
+                "model": "p_cs_billsingle01x",
+                "name": "p_cs_billsingle01x^2"
+            },
+            {
+                "model": "p_cs_billsingle01x",
+                "name": "p_cs_billsingle01x^3"
+            },
+            {
+                "model": "p_cs_billsingle01x",
+                "name": "p_cs_billsingle01x^4"
+            },
+            {
+                "model": "s_mp_moneybag02x",
+                "name": "s_mp_moneybag02x"
+            },
+            {
+                "model": "s_mp_moneybag02x",
+                "name": "s_mp_moneybag02x^1"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith",
+                "outfit_preset": 19
+            },
+            {
+                "model": "cs_uncle",
+                "name": "Uncle",
+                "outfit_preset": 1
+            },
+            {
+                "model": "a_c_horse_gang_uncle",
+                "name": "Horse_01"
+            },
+            {
+                "model": "a_c_horse_arabian_white",
+                "name": "Horse_01^1"
+            },
+            {
+                "model": "a_c_horse_gang_charles",
+                "name": "Horse_01^2"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cachr_hnt2"
+        "id": "cutscene@cachr_hnt2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cachr_int"
+        "id": "cutscene@cachr_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cachr_mcs1"
+        "id": "cutscene@cachr_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cachr_mcs2"
+        "id": "cutscene@cachr_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cajav_fsh1_int"
+        "id": "cutscene@cajav_fsh1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cajav_fsh1_mcs1"
+        "id": "cutscene@cajav_fsh1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@cakie_fsh2"
+        "id": "cutscene@cakie_fsh2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@calen_fff1"
+        "id": "cutscene@calen_fff1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@calny_crob4_ext"
+        "id": "cutscene@calny_crob4_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@calny_crob4_int"
+        "id": "cutscene@calny_crob4_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@camch_crob1_ext"
+        "id": "cutscene@camch_crob1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@camch_crob2"
+        "id": "cutscene@camch_crob2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@caprs_hnt6_ext"
+        "id": "cutscene@caprs_hnt6_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@caprs_hnt6_int"
+        "id": "cutscene@caprs_hnt6_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@casen_crob2_int"
+        "id": "cutscene@casen_crob2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@catll_dmno1"
+        "id": "cutscene@catll_dmno1",
+        "peds": [
+            {
+                "model": "cs_tilly",
+                "name": "Tilly",
+                "outfit_preset": 7
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@caunc_rust2_ext"
+        "id": "cutscene@caunc_rust2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@caunc_rust2_int"
+        "id": "cutscene@caunc_rust2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ccmrb_ext"
+        "id": "cutscene@ccmrb_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@cctll_ext"
+        "id": "cutscene@cctll_ext",
+        "peds": [
+            {
+                "model": "cs_tilly",
+                "name": "Tilly",
+                "outfit_preset": 5
+            }
+        ],
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@crn1_ext"
+        "id": "cutscene@crn1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@crn1_int"
+        "id": "cutscene@crn1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@crn1_mcs1"
+        "id": "cutscene@crn1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@crn1_mcs2"
+        "id": "cutscene@crn1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@dst5_ext"
+        "id": "cutscene@dst5_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@dst5_ext2"
+        "id": "cutscene@dst5_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@dst5_int"
+        "id": "cutscene@dst5_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@dst5_mcs1"
+        "id": "cutscene@dst5_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@dst5_mcs3"
+        "id": "cutscene@dst5_mcs3",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@fin1_ext",
@@ -361,6 +551,34 @@
     },
     {
         "id": "cutscene@fin2_int",
+        "peds": [
+            {
+                "model": "cs_uncle",
+                "name": "Uncle",
+                "outfit_preset": 2
+            },
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith",
+                "outfit_preset": 6
+            },
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            },
+            {
+                "model": "cs_mrsadler",
+                "name": "MrsAdler",
+                "outfit_preset": 6
+            },
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen",
+                "outfit_preset": 5
+            }
+        ],
+        "player_outfit_preset": 26,
         "player_model": "player_three"
     },
     {
@@ -380,169 +598,224 @@
         "player_model": "player_three"
     },
     {
-        "id": "cutscene@fud1_ext"
+        "id": "cutscene@fud1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fud1_mcs1"
+        "id": "cutscene@fud1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fud1_mcs2"
+        "id": "cutscene@fud1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fud1_mcs3"
+        "id": "cutscene@fud1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fus1_ext"
+        "id": "cutscene@fus1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fus1_int"
+        "id": "cutscene@fus1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fus1_mcs1"
+        "id": "cutscene@fus1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fus1_mcs2"
+        "id": "cutscene@fus1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fus2_ext"
+        "id": "cutscene@fus2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@fus2_mcs3"
+        "id": "cutscene@fus2_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng1_ext"
+        "id": "cutscene@gng1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng1_int"
+        "id": "cutscene@gng1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng1_int_p4l0m1_t08"
+        "id": "cutscene@gng1_int_p4l0m1_t08",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng1_mcs1"
+        "id": "cutscene@gng1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng2_ext"
+        "id": "cutscene@gng2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng2_int"
+        "id": "cutscene@gng2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng2_mcs1"
+        "id": "cutscene@gng2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng2_mcs2"
+        "id": "cutscene@gng2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng2_mcs3"
+        "id": "cutscene@gng2_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_ext"
+        "id": "cutscene@gng3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_ext2"
+        "id": "cutscene@gng3_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_int"
+        "id": "cutscene@gng3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_mcs1"
+        "id": "cutscene@gng3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_mcs2"
+        "id": "cutscene@gng3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_mcs3"
+        "id": "cutscene@gng3_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gng3_mcs4"
+        "id": "cutscene@gng3_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry1_ext"
+        "id": "cutscene@gry1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry1_ext2"
+        "id": "cutscene@gry1_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry1_ext_p1a1_t07"
+        "id": "cutscene@gry1_ext_p1a1_t07",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry1_int"
+        "id": "cutscene@gry1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry2_ext"
+        "id": "cutscene@gry2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry2_int"
+        "id": "cutscene@gry2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry2_mcs2"
+        "id": "cutscene@gry2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry3_ext"
+        "id": "cutscene@gry3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gry3_int"
+        "id": "cutscene@gry3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua1_ext"
+        "id": "cutscene@gua1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua1_int"
+        "id": "cutscene@gua1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua2_ext"
+        "id": "cutscene@gua2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua2_ext_p7a2_t04"
+        "id": "cutscene@gua2_ext_p7a2_t04",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua2_int"
+        "id": "cutscene@gua2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua2_mcs2"
+        "id": "cutscene@gua2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua3_ext"
+        "id": "cutscene@gua3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua3_int"
+        "id": "cutscene@gua3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua3_mcs1"
+        "id": "cutscene@gua3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua3_mcs2"
+        "id": "cutscene@gua3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua3_mcs3"
+        "id": "cutscene@gua3_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@gua3_mcs5"
+        "id": "cutscene@gua3_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_ext"
+        "id": "cutscene@ind1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_extb"
+        "id": "cutscene@ind1_extb",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_int"
+        "id": "cutscene@ind1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_mcs2"
+        "id": "cutscene@ind1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_mcs3"
+        "id": "cutscene@ind1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_mcs4"
+        "id": "cutscene@ind1_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_mcs5"
+        "id": "cutscene@ind1_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind1_mcs6"
+        "id": "cutscene@ind1_mcs6",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@ind1_mcs_1",
@@ -560,52 +833,68 @@
         "player_outfit_preset": 4
     },
     {
-        "id": "cutscene@ind3_ext"
+        "id": "cutscene@ind3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_int"
+        "id": "cutscene@ind3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs1"
+        "id": "cutscene@ind3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs2"
+        "id": "cutscene@ind3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs3"
+        "id": "cutscene@ind3_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs4"
+        "id": "cutscene@ind3_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs5"
+        "id": "cutscene@ind3_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs7"
+        "id": "cutscene@ind3_mcs7",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ind3_mcs8"
+        "id": "cutscene@ind3_mcs8",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo10_ext"
+        "id": "cutscene@jbo10_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@jbo11_ext"
+        "id": "cutscene@jbo11_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@jbo1_ext"
+        "id": "cutscene@jbo1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo2_ext"
+        "id": "cutscene@jbo2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo3_ext"
+        "id": "cutscene@jbo3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo4_ext"
+        "id": "cutscene@jbo4_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo5_ext"
+        "id": "cutscene@jbo5_ext",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@jbo6_ext",
@@ -627,53 +916,68 @@
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo7_ext"
+        "id": "cutscene@jbo7_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo8_ext"
+        "id": "cutscene@jbo8_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@jbo9_ext"
+        "id": "cutscene@jbo9_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@lar1_mcs1"
+        "id": "cutscene@lar1_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@lar1_mcs2"
+        "id": "cutscene@lar1_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@lcmp_int"
+        "id": "cutscene@lcmp_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lsemr_mcs1"
+        "id": "cutscene@lsemr_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lshnt2_mcs1"
+        "id": "cutscene@lshnt2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lshss_mcs1"
+        "id": "cutscene@lshss_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lsmin_ext"
+        "id": "cutscene@lsmin_ext",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@lsmin_int",
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lsmin_mcs1"
+        "id": "cutscene@lsmin_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lssol_ext"
+        "id": "cutscene@lssol_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lssol_int"
+        "id": "cutscene@lssol_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lssol_int_p1a1_t06"
+        "id": "cutscene@lssol_int_p1a1_t06",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@lssol_int_p2a1_t01"
+        "id": "cutscene@lssol_int_p2a1_t01",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@mar1_ext",
@@ -693,7 +997,13 @@
             }
         ],
         "player_model": "player_three",
-        "player_outfit_preset": 4
+        "player_outfit_preset": 4,
+        "vehicles": [
+            {
+                "model": "utilliwag",
+                "name": "UTILLIWAG"
+            }
+        ]
     },
     {
         "id": "cutscene@mar1_int_p1a2_t05",
@@ -893,58 +1203,76 @@
         ]
     },
     {
-        "id": "cutscene@mob1_mcs2"
+        "id": "cutscene@mob1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob1_mcs3"
+        "id": "cutscene@mob1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob1_mcs3a"
+        "id": "cutscene@mob1_mcs3a",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob1_mcs_1"
+        "id": "cutscene@mob1_mcs_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob2_ext"
+        "id": "cutscene@mob2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob2_ext2"
+        "id": "cutscene@mob2_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob2_int"
+        "id": "cutscene@mob2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob2_mcs_1"
+        "id": "cutscene@mob2_mcs_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob3_ext"
+        "id": "cutscene@mob3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob3_int"
+        "id": "cutscene@mob3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob3_mcs1"
+        "id": "cutscene@mob3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob3_mcs2"
+        "id": "cutscene@mob3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob4_ext"
+        "id": "cutscene@mob4_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob4_int"
+        "id": "cutscene@mob4_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob4_mcs1"
+        "id": "cutscene@mob4_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob4_mcs2"
+        "id": "cutscene@mob4_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob5_ext"
+        "id": "cutscene@mob5_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mob5_int"
+        "id": "cutscene@mob5_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@mry1_ext",
@@ -1013,172 +1341,446 @@
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_ext"
+        "id": "cutscene@mud1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int"
+        "id": "cutscene@mud1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5_t00"
+        "id": "cutscene@mud1_int_p5_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5_t00_merge"
+        "id": "cutscene@mud1_int_p5_t00_merge",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5m1_t00"
+        "id": "cutscene@mud1_int_p5m1_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5m2_t00"
+        "id": "cutscene@mud1_int_p5m2_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5m3_t00"
+        "id": "cutscene@mud1_int_p5m3_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5m4_t00"
+        "id": "cutscene@mud1_int_p5m4_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_int_p5m5_t00"
+        "id": "cutscene@mud1_int_p5m5_t00",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_mcs5"
+        "id": "cutscene@mud1_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_mcs_2a"
+        "id": "cutscene@mud1_mcs_2a",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud1_mcs_2b"
+        "id": "cutscene@mud1_mcs_2b",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud2_ext"
+        "id": "cutscene@mud2_ext",
+        "peds": [
+            {
+                "model": "cs_mud2bigguy",
+                "name": "Mud2BigGuy"
+            },
+            {
+                "model": "cs_thomasdown",
+                "name": "ThomasDownes"
+            },
+            {
+                "model": "cs_josiahtrelawny",
+                "name": "JosiahTrelawny",
+                "outfit_preset": 1
+            },
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 1
+            },
+            {
+                "model": "cs_javierescuella",
+                "name": "JavierEscuella",
+                "outfit_preset": 17
+            },
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_billwilliamson",
+                "name": "BillWilliamson",
+                "outfit_preset": 12
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud2_int"
+        "id": "cutscene@mud2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud2_mcs_1"
+        "id": "cutscene@mud2_mcs_1",
+        "peds": [
+            {
+                "model": "cs_mud2bigguy",
+                "name": "Mud2BigGuy"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3_ext"
+        "id": "cutscene@mud3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3_int"
+        "id": "cutscene@mud3_int",
+        "peds": [
+            {
+                "model": "CS_Karen",
+                "name": "Karen",
+                "outfit_preset": 2
+            },
+            {
+                "model": "CS_MaryBeth",
+                "name": "MaryBeth",
+                "outfit_preset": 1
+            },
+            {
+                "model": "CS_Tilly",
+                "name": "Tilly",
+                "outfit_preset": 2
+            },
+            {
+                "model": "CS_Uncle",
+                "name": "Uncle",
+                "outfit_preset": 1
+            }
+        ],
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "model": "WAGON03X",
+                "name": "WAGON03X"
+            }
+        ]
     },
     {
-        "id": "cutscene@mud3_mcs2"
+        "id": "cutscene@mud3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3_mcs3"
+        "id": "cutscene@mud3_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3b_ext"
+        "id": "cutscene@mud3b_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3b_int"
+        "id": "cutscene@mud3b_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3b_mcs1"
+        "id": "cutscene@mud3b_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud3b_mcs2"
+        "id": "cutscene@mud3b_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud4_int"
+        "id": "cutscene@mud4_int",
+        "peds": [
+            {
+                "model": "cs_johnmarston",
+                "name": "JohnMarston"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud4_mcs2"
+        "id": "cutscene@mud4_mcs2",
+        "objects": [
+            {
+                "model": "p_cs_ledger01x",
+                "name": "P_CS_LEDGER01X"
+            },
+            {
+                "model": "p_pen01x",
+                "name": "P_PEN01X"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_johnmarston",
+                "name": "JohnMarston"
+            },
+            {
+                "model": "cs_valauctionboss_01",
+                "name": "ValAuctionBoss_01"
+            },
+            {
+                "model": "u_m_m_valauctionforman_02",
+                "name": "U_M_M_ValAuctionForman_02"
+            },
+            {
+                "model": "a_m_m_valfarmer_01",
+                "name": "A_M_M_ValFarmer_01"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud4_mcs3"
+        "id": "cutscene@mud4_mcs3",
+        "objects": [
+            {
+                "model": "p_bottleJD01x",
+                "name": "p_bottleJD01x"
+            },
+            {
+                "model": "p_cigarette_cs01x",
+                "name": "p_cigarette_cs01x"
+            },
+            {
+                "model": "p_coin01x",
+                "name": "p_coin01x"
+            },
+            {
+                "model": "p_glass01x",
+                "name": "p_glass01x"
+            },
+            {
+                "model": "p_glass01x",
+                "name": "p_glass01x^1"
+            },
+            {
+                "model": "p_glass01x",
+                "name": "p_glass01x^2"
+            },
+            {
+                "model": "p_glass01x",
+                "name": "p_glass01x^3"
+            },
+            {
+                "model": "p_glass01x",
+                "name": "p_glass01x^3"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_johnmarston",
+                "name": "JohnMarston"
+            },
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 1
+            },
+            {
+                "model": "cs_leostrauss",
+                "name": "LeoStrauss",
+                "outfit_preset": 2
+            },
+            {
+                "model": "cs_leviticuscornwall",
+                "name": "LeviticusCornwall"
+            },
+            {
+                "model": "U_M_O_ValBartender_01",
+                "name": "U_M_O_ValBartender_01"
+            },
+            {
+                "model": "A_M_M_VALTOWNFOLK_01",
+                "name": "A_M_M_VALTOWNFOLK_01"
+            },
+            {
+                "model": "A_M_M_VALTOWNFOLK_01",
+                "name": "A_M_M_VALTOWNFOLK_01^1"
+            },
+            {
+                "model": "G_M_M_UniCornwallGoons_01",
+                "name": "G_M_M_UniCornwallGoons_01"
+            },
+            {
+                "model": "G_M_M_UniCornwallGoons_01",
+                "name": "G_M_M_UniCornwallGoons_01^1"
+            },
+            {
+                "model": "G_M_M_UniCornwallGoons_01",
+                "name": "G_M_M_UniCornwallGoons_01^2"
+            },
+            {
+                "model": "G_M_M_UniCornwallGoons_01",
+                "name": "G_M_M_UniCornwallGoons_01^3"
+            },
+            {
+                "model": "G_M_M_UniCornwallGoons_01",
+                "name": "G_M_M_UniCornwallGoons_01^4"
+            },
+            {
+                "model": "G_M_M_UniCornwallGoons_01",
+                "name": "G_M_M_UniCornwallGoons_01^5"
+            },
+            {
+                "model": "A_C_HORSE_AMERICANSTANDARDBRED_BUCKSKIN",
+                "name": "Horse_01"
+            },
+            {
+                "model": "A_C_HORSE_HUNGARIANHALFBRED_PIEBALDTOBIANO",
+                "name": "Horse_01^1"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud4_mcs4"
+        "id": "cutscene@mud4_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud5_ext"
+        "id": "cutscene@mud5_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud5_int"
+        "id": "cutscene@mud5_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud5_mcs1"
+        "id": "cutscene@mud5_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud5_mcs2"
+        "id": "cutscene@mud5_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@mud5_mcs3"
+        "id": "cutscene@mud5_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nbd1_ext"
+        "id": "cutscene@nbd1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nbd1_int"
+        "id": "cutscene@nbd1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nbd1_mcs2"
+        "id": "cutscene@nbd1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nbd1_mcs3"
+        "id": "cutscene@nbd1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nbd1_mcs5"
+        "id": "cutscene@nbd1_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts1_ext"
+        "id": "cutscene@nts1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts1_int"
+        "id": "cutscene@nts1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts1_mcs1"
+        "id": "cutscene@nts1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts1_mcs4"
+        "id": "cutscene@nts1_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_ext"
+        "id": "cutscene@nts2_ext",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch"
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_ext_p1a2_t01"
+        "id": "cutscene@nts2_ext_p1a2_t01",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_int"
+        "id": "cutscene@nts2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_mcs1"
+        "id": "cutscene@nts2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_mcs2"
+        "id": "cutscene@nts2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_mcs3"
+        "id": "cutscene@nts2_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts2_mcs4"
+        "id": "cutscene@nts2_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts3_ext"
+        "id": "cutscene@nts3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts3_int"
+        "id": "cutscene@nts3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts3_mcs0"
+        "id": "cutscene@nts3_mcs0",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts3_mcs1"
+        "id": "cutscene@nts3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@nts3_mcs2"
+        "id": "cutscene@nts3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv0_int"
+        "id": "cutscene@ntv0_int",
+        "peds": [
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith"
+            },
+            {
+                "model": "a_c_horse_gang_charles",
+                "name": "Horse_01",
+                "metaped_outfit": 1268180497
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv1_ext"
+        "id": "cutscene@ntv1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv1_int"
+        "id": "cutscene@ntv1_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@ntv2_ext",
@@ -1204,85 +1806,112 @@
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv2_ext_p1a3_t04"
+        "id": "cutscene@ntv2_ext_p1a3_t04",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv2_ext_p1a4_t04"
+        "id": "cutscene@ntv2_ext_p1a4_t04",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv2_int"
+        "id": "cutscene@ntv2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv2_int_p2a4_t05"
+        "id": "cutscene@ntv2_int_p2a4_t05",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv2_mcs1"
+        "id": "cutscene@ntv2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv2_mcs3"
+        "id": "cutscene@ntv2_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_ext"
+        "id": "cutscene@ntv3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_int"
+        "id": "cutscene@ntv3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs1"
+        "id": "cutscene@ntv3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs2"
+        "id": "cutscene@ntv3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs3"
+        "id": "cutscene@ntv3_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs4"
+        "id": "cutscene@ntv3_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs5"
+        "id": "cutscene@ntv3_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs6"
+        "id": "cutscene@ntv3_mcs6",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@ntv3_mcs7"
+        "id": "cutscene@ntv3_mcs7",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr1_ext"
+        "id": "cutscene@odr1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr1_int"
+        "id": "cutscene@odr1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr1_mcs1"
+        "id": "cutscene@odr1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr3_ext"
+        "id": "cutscene@odr3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr3_ext2"
+        "id": "cutscene@odr3_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr3_int"
+        "id": "cutscene@odr3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr3_mcs1"
+        "id": "cutscene@odr3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr3_mcs2"
+        "id": "cutscene@odr3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr4_ext"
+        "id": "cutscene@odr4_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@odr4_int"
+        "id": "cutscene@odr4_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhm6_ext"
+        "id": "cutscene@prhm6_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhm6_int"
+        "id": "cutscene@prhm6_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@prhma_mcs1",
@@ -1298,25 +1927,37 @@
         ]
     },
     {
-        "id": "cutscene@prhmls_mcs1"
+        "id": "cutscene@prhmls_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhmr_mcs1"
+        "id": "cutscene@prhmr_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhmr_mcs2"
+        "id": "cutscene@prhmr_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhmr_mcs3"
+        "id": "cutscene@prhmr_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhmr_mcs5"
+        "id": "cutscene@prhmr_mcs5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@prhmr_mcs6"
+        "id": "cutscene@prhmr_mcs6",
+        "player_model": "player_three"
     },
     {
         "id": "cutscene@ptl_mcs1",
+        "objects": [
+            {
+                "model": "p_door04x",
+                "name": "p_door04x"
+            }
+        ],
         "peds": [
             {
                 "model": "cs_abigailroberts",
@@ -1329,6 +1970,12 @@
     },
     {
         "id": "cutscene@ptl_mcs2",
+        "objects": [
+            {
+                "model": "p_door04x",
+                "name": "p_door04x"
+            }
+        ],
         "peds": [
             {
                 "model": "cs_abigailroberts",
@@ -1341,23 +1988,43 @@
     },
     {
         "id": "cutscene@ptl_mcs3",
+        "objects": [
+            {
+                "model": "p_hayBale03x",
+                "name": "p_hayBale03x"
+            }
+        ],
         "peds": [
             {
-                "model": "cs_abigailroberts",
-                "name": "AbigailRoberts",
-                "outfit_preset": 4
+                "model": "cs_tomdickens",
+                "name": "TomDickens"
             }
         ],
         "player_model": "player_three",
-        "player_outfit_preset": 4
+        "player_outfit_preset": 4,
+        "vehicles": [
+            {
+                "model": "CART06",
+                "name": "CART06"
+            }
+        ]
     },
     {
         "id": "cutscene@ptl_mcs4",
+        "objects": [
+            {
+                "model": "p_brushHorse01x",
+                "name": "p_brushHorse01x"
+            }
+        ],
         "peds": [
             {
-                "model": "cs_abigailroberts",
-                "name": "AbigailRoberts",
-                "outfit_preset": 4
+                "model": "cs_davidgeddes",
+                "name": "DavidGeddes"
+            },
+            {
+                "model": "a_c_horse_americanpaint_tobiano",
+                "name": "Horse_01"
             }
         ],
         "player_model": "player_three",
@@ -1393,121 +2060,234 @@
         "player_outfit_preset": 12
     },
     {
-        "id": "cutscene@rabi1_rsc2"
+        "id": "cutscene@rabi1_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi1_rsc4"
+        "id": "cutscene@rabi1_rsc4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi1_rsc_1"
+        "id": "cutscene@rabi1_rsc_1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi21_int"
+        "id": "cutscene@rabi21_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi21_mcs1"
+        "id": "cutscene@rabi21_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi2_rsc1"
+        "id": "cutscene@rabi2_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi2_rsc1b"
+        "id": "cutscene@rabi2_rsc1b",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi2_rsc2"
+        "id": "cutscene@rabi2_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_rsc1"
+        "id": "cutscene@rabi3_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_rsc2"
+        "id": "cutscene@rabi3_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_s1_ext"
+        "id": "cutscene@rabi3_s1_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_s1_extb"
+        "id": "cutscene@rabi3_s1_extb",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_s1_mcs1"
+        "id": "cutscene@rabi3_s1_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_s1_mcs2"
+        "id": "cutscene@rabi3_s1_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rabi3_s1_mcs4"
+        "id": "cutscene@rabi3_s1_mcs4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch1_rsc1"
+        "id": "cutscene@rbch1_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch1_rsc2"
+        "id": "cutscene@rbch1_rsc2",
+        "objects": [
+            {
+                "model": "P_PEN01X",
+                "name": "P_PEN01X"
+            },
+            {
+                "model": "p_chair06x",
+                "name": "p_chair06x"
+            },
+            {
+                "model": "P_WOODENDESKCHAIR01X",
+                "name": "P_WOODENDESKCHAIR01X"
+            },
+            {
+                "model": "P_PAPER03X",
+                "name": "P_PAPER03X"
+            },
+            {
+                "model": "P_CS_DEED01X",
+                "name": "P_CS_DEED01X"
+            },
+            {
+                "model": "P_DOOR13X",
+                "name": "P_DOOR13X"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_ansel_atherton",
+                "name": "ANSEL_ATHERTON"
+            }
+        ],
+        "playback_id": "2-BankIsOpen-Multi",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch1_rsc4"
+        "id": "cutscene@rbch1_rsc4",
+        "peds": [
+            {
+                "model": "cs_uncle",
+                "name": "Uncle"
+            },
+            {
+                "model": "cs_ansel_atherton",
+                "name": "ANSEL_ATHERTON"
+            }
+        ],
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch1_rsc6"
+        "id": "cutscene@rbch1_rsc6",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch1_rsc6_ptl"
+        "id": "cutscene@rbch1_rsc6_ptl",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch2_rsc1"
+        "id": "cutscene@rbch2_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch2_rsc11"
+        "id": "cutscene@rbch2_rsc11",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch2_rsc2"
+        "id": "cutscene@rbch2_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch2_rsc3"
+        "id": "cutscene@rbch2_rsc3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch2_rsc5"
+        "id": "cutscene@rbch2_rsc5",
+        "peds": [
+            {
+                "model": "cs_uncle",
+                "name": "Uncle",
+                "outfit_preset": 2
+            },
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith",
+                "outfit_preset": 6
+            }
+        ],
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch3_rsc1"
+        "id": "cutscene@rbch3_rsc1",
+        "peds": [
+            {
+                "model": "cs_uncle",
+                "name": "Uncle",
+                "outfit_preset": 2
+            }
+        ],
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rbch5_rsc4"
+        "id": "cutscene@rbch5_rsc4",
+        "peds": [
+            {
+                "model": "cs_uncle",
+                "name": "Uncle",
+                "outfit_preset": 2
+            },
+            {
+                "model": "cs_charlessmith",
+                "name": "CharlesSmith",
+                "outfit_preset": 6
+            }
+        ],
+        "player_outfit_preset": 27,
+        "player_model": "player_three"
     },
     {
         "id": "cutscene@rbdul_mcs1"
     },
     {
-        "id": "cutscene@rbnp1_rc1"
+        "id": "cutscene@rbnp1_rc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp1_rc2"
+        "id": "cutscene@rbnp1_rc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp1_rc3"
+        "id": "cutscene@rbnp1_rc3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp1_s2_ext"
+        "id": "cutscene@rbnp1_s2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp1_s2_mcs1"
+        "id": "cutscene@rbnp1_s2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp1_s2_mcs2"
+        "id": "cutscene@rbnp1_s2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp2_s1_ext"
+        "id": "cutscene@rbnp2_s1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp2_s1_int"
+        "id": "cutscene@rbnp2_s1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp2_s1_mcs1"
+        "id": "cutscene@rbnp2_s1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbnp2_s1_mcs2"
+        "id": "cutscene@rbnp2_s1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rbsos_int"
+        "id": "cutscene@rbsos_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rbwcg_rc1"
@@ -1687,37 +2467,48 @@
         ]
     },
     {
-        "id": "cutscene@rchnt1_ext"
+        "id": "cutscene@rchnt1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchnt1_int"
+        "id": "cutscene@rchnt1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchnt1_mcs1a"
+        "id": "cutscene@rchnt1_mcs1a",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchnt1_mcs1b"
+        "id": "cutscene@rchnt1_mcs1b",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchnt1_mcs2"
+        "id": "cutscene@rchnt1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchnt1_mcs3"
+        "id": "cutscene@rchnt1_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchnt1_mcs4"
+        "id": "cutscene@rchnt1_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchrb_rc1"
+        "id": "cutscene@rchrb_rc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchrb_rc2"
+        "id": "cutscene@rchrb_rc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchrb_s1_ext"
+        "id": "cutscene@rchrb_s1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rchrb_s1_mcs1"
+        "id": "cutscene@rchrb_s1_mcs1",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rckpt_s1_ext"
@@ -1735,28 +2526,36 @@
         "id": "cutscene@rckpt_s2_mcs1"
     },
     {
-        "id": "cutscene@rcld2_rsc1"
+        "id": "cutscene@rcld2_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcldn_rsc1"
+        "id": "cutscene@rcldn_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcldn_rsc3"
+        "id": "cutscene@rcldn_rsc3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcldn_rsc4"
+        "id": "cutscene@rcldn_rsc4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcldn_rsc6"
+        "id": "cutscene@rcldn_rsc6",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcldn_rsc_5"
+        "id": "cutscene@rcldn_rsc_5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcmp_int"
+        "id": "cutscene@rcmp_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rcmp_mcs1"
+        "id": "cutscene@rcmp_mcs1",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rcrkf_rsc1"
@@ -1774,25 +2573,32 @@
         "id": "cutscene@rcrle_s2_ext_p1a1_t04"
     },
     {
-        "id": "cutscene@rctxd_rsc1"
+        "id": "cutscene@rctxd_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rctxd_rsc2"
+        "id": "cutscene@rctxd_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rdopn_rsc_1"
+        "id": "cutscene@rdopn_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdopn_rsc_1a"
+        "id": "cutscene@rdopn_rsc_1a",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdopn_rsc_2"
+        "id": "cutscene@rdopn_rsc_2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdown_rsc2"
+        "id": "cutscene@rdown_rsc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdown_rsc_1"
+        "id": "cutscene@rdown_rsc_1",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rdown_rsc_2",
@@ -1807,103 +2613,136 @@
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdown_rsc_3"
+        "id": "cutscene@rdown_rsc_3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdown_rsc_4"
+        "id": "cutscene@rdown_rsc_4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst2_rsc2"
+        "id": "cutscene@rdst2_rsc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst2_rsc3"
+        "id": "cutscene@rdst2_rsc3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst2_rsc_1"
+        "id": "cutscene@rdst2_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst6_rsc1"
+        "id": "cutscene@rdst6_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst6_rsc1_p1a5_t03"
+        "id": "cutscene@rdst6_rsc1_p1a5_t03",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst6_rsc1_p1a6_t04"
+        "id": "cutscene@rdst6_rsc1_p1a6_t04",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst6_rsc1b"
+        "id": "cutscene@rdst6_rsc1b",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst6_rsc3"
+        "id": "cutscene@rdst6_rsc3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdst6_rsc3_p2a1_t03"
+        "id": "cutscene@rdst6_rsc3_p2a1_t03",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc1_rsc2"
+        "id": "cutscene@rdtc1_rsc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc1_rsc4"
+        "id": "cutscene@rdtc1_rsc4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc1_rsc5"
+        "id": "cutscene@rdtc1_rsc5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc1_rsc6"
+        "id": "cutscene@rdtc1_rsc6",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc1_rsc_1"
+        "id": "cutscene@rdtc1_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc2_rsc1"
+        "id": "cutscene@rdtc2_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc2_rsc3a"
+        "id": "cutscene@rdtc2_rsc3a",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc2_rsc4"
+        "id": "cutscene@rdtc2_rsc4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc1"
+        "id": "cutscene@rdtc3_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc1_p1a1_t07"
+        "id": "cutscene@rdtc3_rsc1_p1a1_t07",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc2"
+        "id": "cutscene@rdtc3_rsc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc3"
+        "id": "cutscene@rdtc3_rsc3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc4"
+        "id": "cutscene@rdtc3_rsc4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc5"
+        "id": "cutscene@rdtc3_rsc5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rdtc3_rsc5b"
+        "id": "cutscene@rdtc3_rsc5b",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw0_rsc_1"
+        "id": "cutscene@redw0_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw2_rsc_1"
+        "id": "cutscene@redw2_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw2_s1_ext"
+        "id": "cutscene@redw2_s1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw2_s1_mcs1"
+        "id": "cutscene@redw2_s1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw2_s2_ext"
+        "id": "cutscene@redw2_s2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw2_s2_int"
+        "id": "cutscene@redw2_s2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@redw2_s2_mcs1"
+        "id": "cutscene@redw2_s2_mcs1",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rehc_rc1"
@@ -1912,13 +2751,16 @@
         "id": "cutscene@reth_int"
     },
     {
-        "id": "cutscene@rev1_ext"
+        "id": "cutscene@rev1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rev1_mcs1"
+        "id": "cutscene@rev1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rev1_mcs3"
+        "id": "cutscene@rev1_mcs3",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rfma_rc1"
@@ -1939,16 +2781,20 @@
         "id": "cutscene@rfma_rc7"
     },
     {
-        "id": "cutscene@rfud2_rsc_2"
+        "id": "cutscene@rfud2_rsc_2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rgng0_rsc1"
+        "id": "cutscene@rgng0_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rgng0_rsc2"
+        "id": "cutscene@rgng0_rsc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rgng0_s2_int"
+        "id": "cutscene@rgng0_s2_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rgun1_s1_int"
@@ -1975,28 +2821,36 @@
         "id": "cutscene@rgun5_s1_mcs1"
     },
     {
-        "id": "cutscene@rhlp2_rsc1"
+        "id": "cutscene@rhlp2_rsc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rhlp2_rsc2"
+        "id": "cutscene@rhlp2_rsc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rhlp2_rsc3"
+        "id": "cutscene@rhlp2_rsc3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rhlp2_rsc4"
+        "id": "cutscene@rhlp2_rsc4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rhmr0_int1"
+        "id": "cutscene@rhmr0_int1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rhmr0_mcs1"
+        "id": "cutscene@rhmr0_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rhmr0_mcs2"
+        "id": "cutscene@rhmr0_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rhmrb_rsc1"
+        "id": "cutscene@rhmrb_rsc1",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rhntn_s1_ext"
@@ -2140,28 +2994,36 @@
         "id": "cutscene@rmayr_s4_mcs2"
     },
     {
-        "id": "cutscene@rmllr_rc1"
+        "id": "cutscene@rmllr_rc1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rmllr_rc2"
+        "id": "cutscene@rmllr_rc2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rmllr_rc2a"
+        "id": "cutscene@rmllr_rc2a",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rmllr_rc5"
+        "id": "cutscene@rmllr_rc5",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rmllr_rc6"
+        "id": "cutscene@rmllr_rc6",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rmnr1_rsc1"
+        "id": "cutscene@rmnr1_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rmnr1_rsc2"
+        "id": "cutscene@rmnr1_rsc2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rmnr1_rsc4"
+        "id": "cutscene@rmnr1_rsc4",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rmry0b_rsc1",
@@ -2175,25 +3037,32 @@
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rmud3_s1_int"
+        "id": "cutscene@rmud3_s1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rmud3_s2_int"
+        "id": "cutscene@rmud3_s2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rmud3_s3_int"
+        "id": "cutscene@rmud3_s3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rmud3_s3_int2"
+        "id": "cutscene@rmud3_s3_int2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rnatv_s1_int"
+        "id": "cutscene@rnatv_s1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rnatv_s2_ext"
+        "id": "cutscene@rnatv_s2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rnatv_s2_int"
+        "id": "cutscene@rnatv_s2_int",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@robt_s1_ext"
@@ -2235,43 +3104,56 @@
         "id": "cutscene@roddf_s2_int"
     },
     {
-        "id": "cutscene@rprsn_ext"
+        "id": "cutscene@rprsn_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rprsn_rsc_1"
+        "id": "cutscene@rprsn_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rprsn_rsc_2"
+        "id": "cutscene@rprsn_rsc_2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrfa_s1_int"
+        "id": "cutscene@rrfa_s1_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@rrtl_rc_1"
+        "id": "cutscene@rrtl_rc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrtl_rc_4"
+        "id": "cutscene@rrtl_rc_4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrtl_rc_5"
+        "id": "cutscene@rrtl_rc_5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrtl_rc_6"
+        "id": "cutscene@rrtl_rc_6",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrtl_rc_6_p3a1_t01"
+        "id": "cutscene@rrtl_rc_6_p3a1_t01",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrtl_s3_ext"
+        "id": "cutscene@rrtl_s3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rrvrd_rsc_1"
+        "id": "cutscene@rrvrd_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rsad1_rsc1"
+        "id": "cutscene@rsad1_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rsad1_rsc4"
+        "id": "cutscene@rsad1_rsc4",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rsklr_s1_ext"
@@ -2286,16 +3168,20 @@
         "id": "cutscene@rslvc_s3_int"
     },
     {
-        "id": "cutscene@rstr1_rsc_1"
+        "id": "cutscene@rstr1_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rstr2_rsc_1"
+        "id": "cutscene@rstr2_rsc_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rstr3_rsc1"
+        "id": "cutscene@rstr3_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rstr3_rsc2"
+        "id": "cutscene@rstr3_rsc2",
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rwarv_s1_ext"
@@ -2331,55 +3217,72 @@
         "id": "cutscene@rwarv_s4_mcs1"
     },
     {
-        "id": "cutscene@rxcf1_rsc1"
+        "id": "cutscene@rxcf1_rsc1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@rxcf1_rsc4"
+        "id": "cutscene@rxcf1_rsc4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sad2_ext"
+        "id": "cutscene@sad2_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad2_int"
+        "id": "cutscene@sad2_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_ext"
+        "id": "cutscene@sad3_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_int"
+        "id": "cutscene@sad3_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_mcs1"
+        "id": "cutscene@sad3_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_mcs2"
+        "id": "cutscene@sad3_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_mcs3"
+        "id": "cutscene@sad3_mcs3",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_mcs4"
+        "id": "cutscene@sad3_mcs4",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad3_mcs5"
+        "id": "cutscene@sad3_mcs5",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad4_ext"
+        "id": "cutscene@sad4_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad4_int"
+        "id": "cutscene@sad4_int",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad4_mcs1"
+        "id": "cutscene@sad4_mcs1",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad4_mcs2"
+        "id": "cutscene@sad4_mcs2",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad5_ext"
+        "id": "cutscene@sad5_ext",
+        "player_model": "player_three"
     },
     {
-        "id": "cutscene@sad5_int"
+        "id": "cutscene@sad5_int",
+        "player_model": "player_three"
     },
     {
         "id": "cutscene@sal1_ext",
@@ -2486,162 +3389,215 @@
         "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sen1_ext"
+        "id": "cutscene@sen1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sen1_int"
+        "id": "cutscene@sen1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@smg2_ext"
+        "id": "cutscene@smg2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@smg2_int"
+        "id": "cutscene@smg2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@smg2_mcs2"
+        "id": "cutscene@smg2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@smg2_mcs3"
+        "id": "cutscene@smg2_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@smg2_mcs4"
+        "id": "cutscene@smg2_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sus1_ext"
+        "id": "cutscene@sus1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sus1_int"
+        "id": "cutscene@sus1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@sus1_mcs1"
+        "id": "cutscene@sus1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@tre1_ext"
+        "id": "cutscene@tre1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@tre1_mcs0"
+        "id": "cutscene@tre1_mcs0",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@tre1_mcs1"
+        "id": "cutscene@tre1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@tre1_mcs2"
+        "id": "cutscene@tre1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn1_ext"
+        "id": "cutscene@trn1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn1_int"
+        "id": "cutscene@trn1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn1_mcs1"
+        "id": "cutscene@trn1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn1_mcs2"
+        "id": "cutscene@trn1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn2_ext"
+        "id": "cutscene@trn2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn2_int"
+        "id": "cutscene@trn2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn2_mcs1"
+        "id": "cutscene@trn2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn3_ext"
+        "id": "cutscene@trn3_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn3_int"
+        "id": "cutscene@trn3_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn3_mcs1"
+        "id": "cutscene@trn3_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn3_mcs2"
+        "id": "cutscene@trn3_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn4_ext"
+        "id": "cutscene@trn4_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn4_int"
+        "id": "cutscene@trn4_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn4_mcs1"
+        "id": "cutscene@trn4_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn4_mcs2"
+        "id": "cutscene@trn4_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn4_mcs3"
+        "id": "cutscene@trn4_mcs3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@trn4_mcs4"
+        "id": "cutscene@trn4_mcs4",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp1_ext"
+        "id": "cutscene@utp1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp1_int"
+        "id": "cutscene@utp1_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp1_mcs_1"
+        "id": "cutscene@utp1_mcs_1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp1_mcs_1a"
+        "id": "cutscene@utp1_mcs_1a",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp2_ext"
+        "id": "cutscene@utp2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp2_int"
+        "id": "cutscene@utp2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp2_mcs1"
+        "id": "cutscene@utp2_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@utp2_mcs2"
+        "id": "cutscene@utp2_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt1_ext"
+        "id": "cutscene@wnt1_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt1_int_cabin"
+        "id": "cutscene@wnt1_int_cabin",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt1_int_wagon"
+        "id": "cutscene@wnt1_int_wagon",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt1_mcs1"
+        "id": "cutscene@wnt1_mcs1",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt1_mcs2"
+        "id": "cutscene@wnt1_mcs2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt2_ext"
+        "id": "cutscene@wnt2_ext",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt2_int"
+        "id": "cutscene@wnt2_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt2_mcs_2"
+        "id": "cutscene@wnt2_mcs_2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt4_ext2"
+        "id": "cutscene@wnt4_ext2",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt4_int"
+        "id": "cutscene@wnt4_int",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt4_mcs7"
+        "id": "cutscene@wnt4_mcs7",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt4_mcs_3"
+        "id": "cutscene@wnt4_mcs_3",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt4_mcs_5"
+        "id": "cutscene@wnt4_mcs_5",
+        "player_model": "player_zero"
     },
     {
-        "id": "cutscene@wnt4_mcs_6"
+        "id": "cutscene@wnt4_mcs_6",
+        "player_model": "player_zero"
     }
 ]
