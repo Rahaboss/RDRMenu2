@@ -97,8 +97,6 @@ namespace Features
 
 	Ped SpawnPed(Hash Model)
 	{
-		const Ped ped = 0;
-		
 		if (!RequestModel(Model))
 		{
 			LOG_TO_CONSOLE("%s: Couldn't request ped %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
