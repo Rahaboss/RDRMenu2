@@ -1,5 +1,7 @@
 #pragma once
 
+#define NOGDI
+
 // C++ standard library
 #include <iostream>
 #include <string>

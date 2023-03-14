@@ -47,4 +47,10 @@ namespace Features
 		const auto& RGB = GetRGB();
 		return ImVec4(RGB[0] / 255.0f, RGB[1] / 255.0f, RGB[2] / 255.0f, 1.0f);
 	}
+	
+	ImU32 GetImGuiRGB32()
+	{
+		const auto& RGB = GetRGB();
+		return IM_COL32((int)RGB[0], (int)RGB[1], (int)RGB[2], 255);
+	}
 }

@@ -204,6 +204,7 @@ namespace Hooking
 			{
 				LOG_TO_MENU("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
 			}
+			Features::g_AddedPeds.push_back(result);
 		}
 		else if (g_Settings["logging"]["spawned_ped"].get<bool>())
 		{
@@ -342,11 +343,12 @@ namespace Hooking
 		PersChar result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
 		PersChar ret = ctx->GetRet<PersChar>();
 		Hash model = PERSCHAR::_GET_PERSCHAR_MODEL_NAME(hash);
+		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
 		if (!model)
-		{
-			Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
 			model = ENTITY::GET_ENTITY_MODEL(ped);
-		}
+		
+		if (PED::IS_PED_HUMAN(ped))
+			Features::g_AddedPeds.push_back(ped);
 
 		if (model)
 		{

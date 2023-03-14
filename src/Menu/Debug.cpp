@@ -490,11 +490,17 @@ namespace Menu
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("GetEntityAddress: 0x%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
 		ImGui::SameLine();
-		if (ImGui::Button("Copy Address"))
+		if (ImGui::Button("Copy Address###copy_gea"))
 			LOG_TO_CLIPBOARD("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
 		
 		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
 		ImGui::Text("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n");
+
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("sub_7FF73D8DB3C4: 0x%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
+		ImGui::SameLine();
+		if (ImGui::Button("Copy Address###copy_sub3c4"))
+			LOG_TO_CLIPBOARD("%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
 
 		ImGui::EndGroup();
 	}

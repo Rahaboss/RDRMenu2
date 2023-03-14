@@ -121,6 +121,7 @@ namespace Renderer
 			if (Setup)
 			{
 				NewFrame();
+				Features::RenderImGuiESP();
 				Menu::RenderMenu();
 				EndFrame();
 			}
