@@ -189,7 +189,7 @@ namespace Hooking
 
 	Ped CreatePedHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || (!g_Settings["log_human_spawning"].get<bool>() && !g_Settings["log_ped_spawning"].get<bool>()))
+		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>() && !g_Settings["logging"]["spawned_ped"].get<bool>()))
 			return CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 
 		Hash model = ctx->GetArg<Hash>(0);
@@ -200,12 +200,12 @@ namespace Hooking
 
 		if (PED::IS_PED_HUMAN(ret))
 		{
-			if (g_Settings["log_human_spawning"].get<bool>())
+			if (g_Settings["logging"]["spawned_human"].get<bool>())
 			{
 				LOG_TO_MENU("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
 			}
 		}
-		else if (g_Settings["log_ped_spawning"].get<bool>())
+		else if (g_Settings["logging"]["spawned_ped"].get<bool>())
 		{
 			LOG_TO_MENU("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
 		}
@@ -215,7 +215,7 @@ namespace Hooking
 	
 	Vehicle CreateVehicleHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["log_vehicle_spawning"].get<bool>())
+		if (!ctx || !g_Settings["logging"]["spawned_vehicle"].get<bool>())
 			return CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 
 		Hash model = ctx->GetArg<Hash>(0);
@@ -232,7 +232,7 @@ namespace Hooking
 	
 	BOOL InventoryAddItemHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["log_added_inventory_items"].get<bool>())
+		if (!ctx || !g_Settings["logging"]["added_inventory_item"].get<bool>())
 			return InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
 			
 		BOOL result = 0;
@@ -277,7 +277,7 @@ namespace Hooking
 	
 	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["log_added_inventory_items"].get<bool>())
+		if (!ctx || !g_Settings["logging"]["added_inventory_item"].get<bool>())
 			return GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 
 		BOOL result = 0;
@@ -335,7 +335,7 @@ namespace Hooking
 
 	PersChar CreatePersCharHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["log_human_spawning"].get<bool>())
+		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
 			return CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
 
 		Hash hash = ctx->GetArg<Hash>(0);
@@ -360,7 +360,7 @@ namespace Hooking
 
 	AnimScene CreateAnimSceneHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["log_created_cutscenes"].get<bool>())
+		if (!ctx || !g_Settings["logging"]["created_cutscene"].get<bool>())
 			return CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
 		
 		const char* animDict = ctx->GetArg<const char*>(0);
@@ -371,20 +371,21 @@ namespace Hooking
 		AnimScene result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
 		AnimScene ret = ctx->GetRet<AnimScene>();
 
-		if (std::string(animDict).find("cutscene@") != std::string::npos)
-		{
-			if (!playbackListName)
-			{
-				LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, NULL, %s, %s) = %d\n", animDict, flags,
-					(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
-			}
-			else
-			{
-				LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
-					(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
-			}
-		}
+		// Check if is cutscene (instead of scripted event)
+		//if (std::string(animDict).find("cutscene@") == std::string::npos)
+		//	return result;
 
+		if (!playbackListName)
+		{
+			LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, NULL, %s, %s) = %d\n", animDict, flags,
+				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
+		}
+		else
+		{
+			LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
+				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
+		}
+		
 		return result;
 	}
 
@@ -394,7 +395,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (!ctx || !g_Settings["log_set_decor"].get<bool>())
+			if (!ctx || !g_Settings["logging"]["set_decor"].get<bool>())
 				return DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
 
 			Entity entity = ctx->GetArg<Entity>(0);
@@ -423,7 +424,7 @@ namespace Hooking
 
 		TRY
 		{
-			if (!ctx || !g_Settings["log_set_decor"].get<bool>())
+			if (!ctx || !g_Settings["logging"]["set_decor"].get<bool>())
 				return DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
 
 			Entity entity = ctx->GetArg<Entity>(0);
@@ -448,7 +449,7 @@ namespace Hooking
 
 	void SetAnimSceneEntityHook(scrNativeCallContext* ctx)
 	{
-		if (g_Settings["log_added_cutscene_entities"].get<bool>())
+		if (g_Settings["logging"]["added_cutscene_entity"].get<bool>())
 		{
 			// void SET_ANIM_SCENE_ENTITY(AnimScene animScene, const char* entityName, Entity entity, int flags)
 			AnimScene animScene = ctx->GetArg<AnimScene>(0);
@@ -529,11 +530,11 @@ namespace Hooking
 
 			if (dlcName)
 			{
-				LOG_TO_MENU("IS_DLC_PRESENT(\"%s\") = %s\n", dlcName, (result2 ? "true" : "false"));
+				//LOG_TO_MENU("IS_DLC_PRESENT(\"%s\") = %s\n", dlcName, (result2 ? "true" : "false"));
 				return TRUE;
 			}
-			else
-				LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (result2 ? "true" : "false"));
+			//else
+			//	LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (result2 ? "true" : "false"));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 

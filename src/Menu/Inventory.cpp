@@ -53,7 +53,10 @@ namespace Menu
 		}
 
 		ImGui::Separator();
-			
+		
+		const float ChildHeight = ImGui::GetContentRegionAvail().y / 3;
+
+		ImGui::BeginChild("consumable_menu_outer", ImVec2(0, ChildHeight));
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Give Consumable Items");
 		ImGui::SameLine();
@@ -63,7 +66,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Give All Consumables"))
 			Features::GiveAllConsumables();
-		if (ImGui::BeginChild("consumable_menu", ImVec2(0, 200)))
+		if (ImGui::BeginChild("consumable_menu"))
 		{
 			std::string s1(ConBuffer);
 			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
@@ -85,8 +88,10 @@ namespace Menu
 			}
 		}
 		ImGui::EndChild();
+		ImGui::EndChild();
 		ImGui::Separator();
 			
+		ImGui::BeginChild("provision_menu_outer", ImVec2(0, ChildHeight));
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Give Provision Items");
 		ImGui::SameLine();
@@ -96,7 +101,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Give All Provisions"))
 			Features::GiveAllProvisions();
-		if (ImGui::BeginChild("provision_menu", ImVec2(0, 200)))
+		if (ImGui::BeginChild("provision_menu"))
 		{
 			std::string s1(ProBuffer);
 			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
@@ -118,8 +123,10 @@ namespace Menu
 			}
 		}
 		ImGui::EndChild();
+		ImGui::EndChild();
 		ImGui::Separator();
 
+		ImGui::BeginChild("document_menu_outer");
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Give Document Items");
 		ImGui::SameLine();
@@ -129,7 +136,7 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Give All Documents"))
 			Features::GiveAllDocuments();
-		if (ImGui::BeginChild("document_menu", ImVec2(0, 200)))
+		if (ImGui::BeginChild("document_menu"))
 		{
 			std::string s1(DocBuffer);
 			std::transform(s1.cbegin(), s1.cend(), s1.begin(), ::toupper);
@@ -150,6 +157,7 @@ namespace Menu
 				}
 			}
 		}
+		ImGui::EndChild();
 		ImGui::EndChild();
 
 		ImGui::EndChild();

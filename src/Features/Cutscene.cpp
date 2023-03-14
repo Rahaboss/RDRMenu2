@@ -11,107 +11,140 @@ namespace Features
 {
 	void PlayDinoLadyCutscene()
 	{
-		Interior stage = INTERIOR::GET_INTERIOR_AT_COORDS(196.2653f, 985.5404f, 189.1246f);
-		INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", 0);
+		QUEUE_JOB(=)
+		{
+			[]() {
+				Interior stage = INTERIOR::GET_INTERIOR_AT_COORDS(196.2653f, 985.5404f, 189.1246f);
+				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", 0);
 
-		CutsceneHelper Cutscene("cutscene@rcdin_rsc2");
-		Cutscene.PlayAutomatically();
+				CutsceneHelper Cutscene("cutscene@rcdin_rsc2");
+				Cutscene.PlayAutomatically();
 
-		INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", true);
+				INTERIOR::DEACTIVATE_INTERIOR_ENTITY_SET(stage, "din_barn_dinoSP", true);
+			}();
+		}
+		END_JOB()
 	}
 
 	void PlayFishCollectorCutscene()
 	{
-		// First cutscene
-		CutsceneHelper Cutscene1("cutscene@rcfsh_rsc2");
-		Cutscene1.AddPeds();
-		Cutscene1.AddObjects();
-		Cutscene1.LoadCutscene();
-		Cutscene1.TeleportToOrigin();
+		QUEUE_JOB(=)
+		{
+			[]() {
+				CutsceneHelper Cutscene1("cutscene@rcfsh_rsc2");
+				Cutscene1.AddPeds();
+				Cutscene1.AddObjects();
+				Cutscene1.LoadCutscene();
+				Cutscene1.TeleportToOrigin();
 
-		Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1056329818, 0));
-		if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
-			ENTITY::SET_ENTITY_VISIBLE(rdoor1, false);
+				Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1056329818, 0));
+				if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
+					ENTITY::SET_ENTITY_VISIBLE(rdoor1, false);
 
-		Cutscene1.PlayCutscene();
-		Cutscene1.WaitForCutsceneEnd();
-		Cutscene1.CleanupCutscene();
+				Cutscene1.PlayCutscene();
+				Cutscene1.WaitForCutsceneEnd();
+				Cutscene1.CleanupCutscene();
 
-		if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
-			ENTITY::SET_ENTITY_VISIBLE(rdoor1, true);
+				if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
+					ENTITY::SET_ENTITY_VISIBLE(rdoor1, true);
+			}();
+		}
+		END_JOB()
 	}
 
 	void PlayIndustryCutscene()
 	{
-		CutsceneHelper Cutscene("cutscene@ind1_mcs_1");
-		Cutscene.PlayAutomatically();
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@ind1_mcs_1");
+		}
+		END_JOB()
 	}
 
 	void PlayAnnesburgBreakoutCutscene()
 	{
-		constexpr Hash tags[]{
-			joaat("GUNBELTS"),
-			joaat("HATS"),
-			joaat("HOLSTERS_KNIFE"),
-			joaat("HOLSTERS_LEFT"),
-			joaat("HOLSTERS_RIGHT"),
-			joaat("SATCHELS"),
-			joaat("SATCHEL_STRAPS")
-		};
-
-		CutsceneHelper Cutscene("cutscene@jbo6_ext");
-		if (IsArthurModel())
+		QUEUE_JOB(=)
 		{
-			for (const auto& t : tags)
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, t, 1);
-			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
-			Cutscene.AddLocalPlayer();
-		}
-		else
-		{
-			Ped arthur = SpawnPed(PLAYER_ZERO);
-			PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
-			for (const auto& t : tags)
-				PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
-			PED::_UPDATE_PED_VARIATION(arthur, false, true, true, true, true);
-			Cutscene.AddPedExisting(arthur, "ARTHUR");
-		}
-		Cutscene.PlayAutomatically();
-	}
+			[]() {
+				constexpr Hash tags[]{
+					joaat("GUNBELTS"),
+					joaat("HATS"),
+					joaat("HOLSTERS_KNIFE"),
+					joaat("HOLSTERS_LEFT"),
+					joaat("HOLSTERS_RIGHT"),
+					joaat("SATCHELS"),
+					joaat("SATCHEL_STRAPS")
+				};
 
-	void PlayCharlesLeavingCutscene()
-	{
-		CutsceneHelper Cutscene("cutscene@ntv0_int");
-		Cutscene.PlayAutomatically();
-	}
+				CutsceneHelper Cutscene("cutscene@jbo6_ext");
 
-	void PlayJackCutscene()
-	{
-		CutsceneHelper Cutscene("cutscene@rjck1_rsc5");
-		Cutscene.PlayAutomatically();
-	}
+				if (IsArthurModel())
+				{
+					for (const auto& t : tags)
+						PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, t, 1);
+					PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
+				}
+				else
+				{
+					Ped arthur = SpawnPed(PLAYER_ZERO);
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
+					for (const auto& t : tags)
+						PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
+					PED::_UPDATE_PED_VARIATION(arthur, false, true, true, true, true);
+					Cutscene.AddPedExisting(arthur, "ARTHUR");
+				}
 
-	void PlayDebtCollectorCutscene()
-	{
-		CutsceneHelper Cutscene("cutscene@rdown_rsc_2");
-		Cutscene.PlayAutomatically();
-	}
-
-	void PlayBeechersHopeCutscene()
-	{
-		CutsceneHelper Cutscene("cutscene@rbch5_rsc4");
-		Cutscene.PlayAutomatically();
-	}
-
-	void PlayCutsceneFromJson(const nlohmann::json& JsonObject)
-	{
-		QUEUE_JOB(&)
-		{
-			[&]() {
-				CutsceneHelper Cutscene(JsonObject);
 				Cutscene.PlayAutomatically();
 			}();
 		}
 		END_JOB()
+	}
+
+	void PlayCharlesLeavingCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@ntv0_int");
+		}
+		END_JOB()
+	}
+
+	void PlayJackCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@rjck1_rsc5");
+		}
+		END_JOB()
+	}
+
+	void PlayDebtCollectorCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@rdown_rsc_2");
+		}
+		END_JOB()
+	}
+
+	void PlayBeechersHopeCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@rbch5_rsc4");
+		}
+		END_JOB()
+	}
+
+	void PlayCutsceneFromJson(const nlohmann::json& JsonObject)
+	{
+		CutsceneHelper Cutscene(JsonObject);
+		Cutscene.PlayAutomatically();
+	}
+	
+	void PlayCutsceneFromID(const char* animDict)
+	{
+		CutsceneHelper Cutscene(animDict);
+		Cutscene.PlayAutomatically();
 	}
 }

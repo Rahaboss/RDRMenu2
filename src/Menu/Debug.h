@@ -11,6 +11,7 @@ namespace Menu
 	void RenderDebugButtons();
 	void RenderDebugInfo();
 	void RenderDebugToggles();
+	void RenderNativeDebug();
 	void RenderPedDebug();
 	void RenderTextDebug();
 	void RenderHUDContextDebug();

@@ -52,13 +52,13 @@ void MainLoop()
 	EXCEPT{ LOG_EXCEPTION(); }
 }
 
-BOOL WINAPI DllMain(HMODULE hmodule, DWORD reason, LPVOID)
+BOOL WINAPI DllMain(HMODULE Module, DWORD Reason, LPVOID Reserved)
 {
-	if (reason == DLL_PROCESS_ATTACH)
+	if (Reason == DLL_PROCESS_ATTACH)
 	{
-		DisableThreadLibraryCalls(hmodule);
+		DisableThreadLibraryCalls(Module);
 		
-		g_Module = hmodule;
+		g_Module = Module;
 		g_GameModule = GetModuleHandle(NULL);
 		g_BaseAddress = reinterpret_cast<uintptr_t>(g_GameModule);
 		g_MainThread = CreateThread(NULL, 0, [](LPVOID) -> DWORD

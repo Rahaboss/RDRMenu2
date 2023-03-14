@@ -238,6 +238,12 @@ namespace Features
 			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
 			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
 			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);
+			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
+			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
+			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
+			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
+			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
+			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
 			RestorePlayerCores();
 			GiveWeapon(WEAPON_UNARMED);
 		}

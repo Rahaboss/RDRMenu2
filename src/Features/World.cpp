@@ -35,4 +35,13 @@ namespace Features
 		}
 		END_JOB()
 	}
+	
+	void SetWeatherType(Hash Type)
+	{
+		QUEUE_JOB(=)
+		{
+			MISC::SET_WEATHER_TYPE(Type, true, true, false, 0.0f, false);
+		}
+		END_JOB()
+	}
 }

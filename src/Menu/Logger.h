@@ -112,6 +112,9 @@ struct ExampleAppLog
 			ImGui::SetScrollHereY(1.0f);
 
 		ImGui::EndChild();
+
+		if (copy)
+			ImGui::LogFinish();
 	}
 };
 

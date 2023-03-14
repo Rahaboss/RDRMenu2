@@ -79,19 +79,16 @@ namespace Renderer
 		{
 			LOG_TO_CONSOLE("Creating renderer.\n");
 		
-			if (!Pointers::SwapChain || !(*Pointers::SwapChain))
+			if (!Pointers::SwapChain || !(*Pointers::SwapChain) || !Pointers::SwapChainPresent
+				|| !Pointers::CommandQueue || !(*Pointers::CommandQueue))
+			{
+				LOG_TO_CONSOLE("Game is not using DirectX12 renderer backend, disabling menu renderer.\n");
 				return;
-			SwapChain = *Pointers::SwapChain;
+			}
 		
-			if (!Pointers::SwapChainPresent)
-				return;
-
+			SwapChain = *Pointers::SwapChain;
 			CommandQueue = *Pointers::CommandQueue;
-			if (!Pointers::CommandQueue || !(*Pointers::CommandQueue))
-				return;
-
-			Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent,
-				Hooking::SwapChainPresentHook);
+			Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent, Hooking::SwapChainPresentHook);
 		
 			SetupD3D12();
 			SetupImGui();
@@ -184,17 +181,14 @@ namespace Renderer
 
 		DXGI_SWAP_CHAIN_DESC Desc;
 		SwapChain->GetDesc(&Desc);
-		Desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-		Desc.OutputWindow = Hwnd;
-		Desc.Windowed = !(GetWindowLongPtr(Hwnd, GWL_STYLE) & WS_POPUP);
-
 		BuffersCounts = Desc.BufferCount;
 		FrameContext = new _FrameContext[BuffersCounts];
 
-		const D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender{
-			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, BuffersCounts,
-			D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, 0
-		};
+		D3D12_DESCRIPTOR_HEAP_DESC DescriptorImGuiRender;
+		DescriptorImGuiRender.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		DescriptorImGuiRender.NumDescriptors = BuffersCounts;
+		DescriptorImGuiRender.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+		DescriptorImGuiRender.NodeMask = 0;
 
 		if (FAILED(Device->CreateDescriptorHeap(&DescriptorImGuiRender,
 			IID_PPV_ARGS(&DescriptorHeapImGuiRender))))
@@ -213,10 +207,11 @@ namespace Renderer
 			|| FAILED(CommandList->Close()))
 			return;
 
-		const D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers{
-			D3D12_DESCRIPTOR_HEAP_TYPE_RTV, BuffersCounts,
-			D3D12_DESCRIPTOR_HEAP_FLAG_NONE, 1
-		};
+		D3D12_DESCRIPTOR_HEAP_DESC DescriptorBackBuffers;
+		DescriptorBackBuffers.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		DescriptorBackBuffers.NumDescriptors = BuffersCounts;
+		DescriptorBackBuffers.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		DescriptorBackBuffers.NodeMask = 1;
 
 		if (FAILED(Device->CreateDescriptorHeap(&DescriptorBackBuffers,
 			IID_PPV_ARGS(&DescriptorHeapBackBuffers))))
@@ -266,9 +261,7 @@ namespace Renderer
 
 		// Made static so it persists until end of the program
 		static std::string IniPath(Path.string());
-
 		io.IniFilename = IniPath.c_str();
-		DefaultFont = io.Fonts->AddFontDefault();
 
 		ImFontConfig FontCfg{};
 		FontCfg.FontDataOwnedByAtlas = false;
@@ -276,12 +269,14 @@ namespace Renderer
 		// Main font
 		strcpy_s(FontCfg.Name, "Chalet London 1960");
 		io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
-
-		strcpy_s(FontCfg.Name, "Redemption");
-		io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 20.0f, &FontCfg);
-
-		strcpy_s(FontCfg.Name, "RDR-Lino");
-		io.Fonts->AddFontFromMemoryTTF((void*)Fonts::RDRLino, sizeof(Fonts::RDRLino), 20.0f, &FontCfg);
+		
+		//strcpy_s(FontCfg.Name, "Redemption");
+		//io.Fonts->AddFontFromMemoryTTF((void*)Fonts::Redemption, sizeof(Fonts::Redemption), 20.0f, &FontCfg);
+		//
+		//strcpy_s(FontCfg.Name, "RDR-Lino");
+		//io.Fonts->AddFontFromMemoryTTF((void*)Fonts::RDRLino, sizeof(Fonts::RDRLino), 20.0f, &FontCfg);
+		//
+		//DefaultFont = io.Fonts->AddFontDefault();
 
 		ImGui_ImplWin32_Init(Hwnd);
 		ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
@@ -312,7 +307,7 @@ namespace Renderer
 				ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
 
 			// Always call the original event handler even if menu is open
-			return CallWindowProc((WNDPROC)_WndProc, hwnd, uMsg, wParam, lParam);
+			return CallWindowProc(_WndProc, hwnd, uMsg, wParam, lParam);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 		

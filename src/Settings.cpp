@@ -6,33 +6,35 @@ namespace Settings
 {
 	static nlohmann::json s_DefaultSettings{
 	R"({
-			"enable_imgui_demo": false,
-			"god_mode": false,
-			"gold_cores": false,
-			"infinite_ammo": false,
-			"log_added_inventory_items": false,
-			"log_human_spawning": false,
-			"log_ped_spawning": false,
-			"log_vehicle_spawning": false,
-			"mount_god_mode": false,
-			"mount_gold_cores": false,
-			"never_wanted": false,
-			"no_black_borders": false,
-			"no_sliding": false,
-			"no_snipers": false,
-			"super_jump": false,
-			"rgb_elec_lantern": false,
-			"enable_overlay": false,
-			"clean_player": false,
-			"log_created_cutscenes": false,
-			"super_run": false,
-			"freeze_player": false,
-			"no_ragdoll": false,
-			"log_set_decor": false,
-			"render_clothing_menu": false,
-			"disable_default_cutscenes": false,
-			"log_added_cutscene_entities": false
-		})"_json
+		"clean_player": false,
+		"disable_default_cutscenes": false,
+		"enable_imgui_demo": false,
+		"enable_overlay": false,
+		"freeze_player": false,
+		"god_mode": false,
+		"gold_cores": false,
+		"infinite_ammo": false,
+		"logging": {
+			"added_cutscene_entity": false,
+			"added_inventory_item": false,
+			"created_cutscene": false,
+			"set_decor": false,
+			"spawned_human": false,
+			"spawned_ped": false,
+			"spawned_vehicle": false
+		},
+		"mount_god_mode": false,
+		"mount_gold_cores": false,
+		"never_wanted": false,
+		"no_black_borders": false,
+		"no_ragdoll": false,
+		"no_sliding": false,
+		"no_snipers": false,
+		"render_clothing_menu": false,
+		"rgb_elec_lantern": false,
+		"super_jump": false,
+		"super_run": false
+	})"_json
 	};
 
 	void WriteDefaultSettings(const std::filesystem::path& FilePath)
@@ -82,20 +84,23 @@ namespace Settings
 		File >> g_Settings;
 		File.close();
 
-		bool UpdateFile = false;
-		for (const auto& e : s_DefaultSettings.items())
+		if (g_Settings.size() != s_DefaultSettings.size())
 		{
-			if (g_Settings.count(e.key()) == 0)
+			bool UpdateFile = false;
+			for (const auto& e : s_DefaultSettings.items())
 			{
-				UpdateFile = true;
-				g_Settings[e.key()] = e.value();
+				if (!g_Settings.contains(e.key()))
+				{
+					UpdateFile = true;
+					g_Settings[e.key()] = e.value();
+				}
 			}
-		}
 
-		if (UpdateFile)
-		{
-			LOG_TO_CONSOLE("Updating settings.\n");
-			Save(Path);
+			if (UpdateFile)
+			{
+				LOG_TO_CONSOLE("Updating settings.\n");
+				Save(Path);
+			}
 		}
 	}
 

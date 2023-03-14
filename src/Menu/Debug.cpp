@@ -39,6 +39,10 @@ namespace Menu
 			RenderCutsceneDebug();
 		ImGui::Separator();
 
+		if (ImGui::CollapsingHeader("Native Debug"))
+			RenderNativeDebug();
+		ImGui::Separator();
+
 		if (ImGui::CollapsingHeader("Ped Debug"))
 			RenderPedDebug();
 		ImGui::Separator();
@@ -187,7 +191,13 @@ namespace Menu
 
 			const nlohmann::json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
 			if (ImGui::Button("Play"))
-				Features::PlayCutsceneFromJson(CurrentJson);
+			{
+				QUEUE_JOB(&)
+				{
+					Features::PlayCutsceneFromJson(CurrentJson);
+				}
+				END_JOB()
+			}
 			ImGui::SameLine();
 			if (ImGui::Button("Reload List"))
 			{
@@ -238,99 +248,37 @@ namespace Menu
 
 		ImGui::Text("Beta / Special Cutscenes");
 		if (ImGui::Button("A Test of Faith II"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayDinoLadyCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayDinoLadyCutscene();
 		ImGui::SameLine();
 		if (ImGui::Button("A Fisher of Fish II"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayFishCollectorCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayFishCollectorCutscene();
 		ImGui::SameLine();
 		if (ImGui::Button("The Gilded Cage"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayIndustryCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayIndustryCutscene();
 		ImGui::SameLine();
 		if (ImGui::Button("Jack Cutscene"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayJackCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayJackCutscene();
 		
 		if (ImGui::Button("Money Lending and Other Sins"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayDebtCollectorCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayDebtCollectorCutscene();
 		ImGui::SameLine();
 		if (ImGui::Button("Annesburg Jail Breakout With Charles"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayAnnesburgBreakoutCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayAnnesburgBreakoutCutscene();
 
 		if (ImGui::Button("The Fine Art of Conversation"))
 		{
 			QUEUE_JOB(=)
 			{
-				[=]() {
-					int index = 0;
-					for (int i = 0; i < g_Cutscenes.size(); i++)
-					{
-						if (g_Cutscenes[i]["id"].get_ref<const std::string&>().find("cutscene@ntv2_ext") != std::string::npos)
-						{
-							index = i;
-							break;
-						}
-					}
-
-					LOG_TO_CONSOLE("Playing cutscene %d.\n", index);
-					CutsceneHelper cs(g_Cutscenes[index]);
-					cs.PlayAutomatically();
-				}();
+				Features::PlayCutsceneFromID("cutscene@ntv2_ext");
 			}
 			END_JOB()
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Charles Leaving To Help Natives"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayCharlesLeavingCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayCharlesLeavingCutscene();
 
 		if (ImGui::Button("Beechers Hope"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::PlayBeechersHopeCutscene();
-			}
-			END_JOB()
-		}
+			Features::PlayBeechersHopeCutscene();
 	}
 
 	void RenderDebugButtons()
@@ -502,6 +450,12 @@ namespace Menu
 			}
 			END_JOB()
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Noon And Sunny"))
+		{
+			Features::SetClockTime(12);
+			Features::SetWeatherType(SUNNY);
+		}
 	}
 
 	void RenderDebugInfo()
@@ -539,18 +493,6 @@ namespace Menu
 		if (ImGui::Button("Copy Address"))
 			LOG_TO_CLIPBOARD("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
 		
-		uint64_t nhash = 0xFA925AC00EB830B9; // 0xBD5DD5EAE2B6CE14; // 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
-		auto addr = (uintptr_t)NativeContext::GetHandler(nhash);
-		auto off = addr - g_BaseAddress;
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("0x%llX handler: RDR2.exe+0x%X", nhash, off);
-
-		if (ImGui::Button("Print to console"))
-			LOG_TO_CONSOLE("0x%llX handler: RDR2.exe+0x%llX (0x%llX).\n", nhash, off, (off + 0x7FF73CAB0000 /*imagebase in ida*/));
-		ImGui::SameLine();
-		if (ImGui::Button("Copy IDA Address"))
-			LOG_TO_CLIPBOARD("%llX", off + 0x7FF73CAB0000);
-
 		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
 		ImGui::Text("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n");
 
@@ -560,10 +502,10 @@ namespace Menu
 	void RenderDebugToggles()
 	{
 		ImGui::BeginGroup();
-		ImGui::Checkbox("Log Ped Spawning", g_Settings["log_ped_spawning"].get<bool*>());
-		ImGui::Checkbox("Log Human Spawning", g_Settings["log_human_spawning"].get<bool*>());
-		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["log_vehicle_spawning"].get<bool*>());
-		ImGui::Checkbox("Log Added Inventory Items", g_Settings["log_added_inventory_items"].get<bool*>());
+		ImGui::Checkbox("Log Ped Spawning", g_Settings["logging"]["spawned_ped"].get<bool*>());
+		ImGui::Checkbox("Log Human Spawning", g_Settings["logging"]["spawned_human"].get<bool*>());
+		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["logging"]["spawned_vehicle"].get<bool*>());
+		ImGui::Checkbox("Log Added Inventory Items", g_Settings["logging"]["added_inventory_item"].get<bool*>());
 		if (ImGui::Checkbox("Enable Freecam", &EnableFreeCam) && !EnableFreeCam)
 		{
 			QUEUE_JOB(=)
@@ -583,12 +525,53 @@ namespace Menu
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		ImGui::Checkbox("Log Created Cutscenes", g_Settings["log_created_cutscenes"].get<bool*>());
-		ImGui::Checkbox("Log Set Decor", g_Settings["log_set_decor"].get<bool*>());
-		ImGui::Checkbox("Log Added Cutscene Entities", g_Settings["log_added_cutscene_entities"].get<bool*>());
+		ImGui::Checkbox("Log Created Cutscenes", g_Settings["logging"]["created_cutscene"].get<bool*>());
+		ImGui::Checkbox("Log Set Decor", g_Settings["logging"]["set_decor"].get<bool*>());
+		ImGui::Checkbox("Log Added Cutscene Entities", g_Settings["logging"]["added_cutscene_entity"].get<bool*>());
 		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
 		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
 		ImGui::EndGroup();
+	}
+
+	void RenderNativeDebug()
+	{
+		ImGui::Text("Native Address Lookup");
+
+		static uint64_t nhash = 0xFA925AC00EB830B9; // 0xBD5DD5EAE2B6CE14; // 0xB980061DA992779D; // 0xED40380076A31506; // 0xA86D5F069399F44D; // 0x25ACFC650B65C538;
+		static uintptr_t addr = (uintptr_t)NativeContext::GetHandler(nhash); // Address in current process
+		static uintptr_t off = addr - g_BaseAddress; // Offset from imagebase
+		static uintptr_t ida_addr = off + 0x7FF73CAB0000; // Address in process dump in IDA
+
+		ImGui::PushItemWidth(250);
+		if (ImGui::InputScalar("Native Hash", ImGuiDataType_U64, &nhash, 0, 0, "%llX",
+			ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
+		{
+			addr = (uintptr_t)NativeContext::GetHandler(nhash); // Address in current process
+			off = addr - g_BaseAddress; // Offset from imagebase
+			ida_addr = off + 0x7FF73CAB0000; // Address in process dump in IDA
+		}
+		ImGui::PopItemWidth();
+
+		if (addr)
+		{
+			ImGui::Text("0x%llX Handler Address (RDR2.exe + 0x%llX):", nhash, off);
+		
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("Current Address: %llX", addr);
+			ImGui::SameLine();
+			if (ImGui::Button("Copy Current Address"))
+				LOG_TO_CLIPBOARD("%llX", addr);
+
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("IDA Address: %llX", ida_addr);
+			ImGui::SameLine();
+			if (ImGui::Button("Copy IDA Address"))
+				LOG_TO_CLIPBOARD("%llX", ida_addr);
+		}
+		else
+		{
+			ImGui::TextDisabled("Unknown Native: 0x%llX", nhash);
+		}
 	}
 
 	void RenderPedDebug()

@@ -13,4 +13,5 @@ namespace Features
 	void PlayDebtCollectorCutscene();
 	void PlayBeechersHopeCutscene();
 	void PlayCutsceneFromJson(const nlohmann::json& JsonObject);
+	void PlayCutsceneFromID(const char* animDict);
 }

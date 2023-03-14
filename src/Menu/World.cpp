@@ -50,14 +50,7 @@ namespace Menu
 		for (const auto& w : g_WeatherTypeList)
 		{
 			if (ImGui::Selectable(w.first.c_str()))
-			{
-				Hash hash = w.second;
-				QUEUE_JOB(=)
-				{
-					MISC::SET_WEATHER_TYPE(hash, true, true, false, 0.0f, false);
-				}
-				END_JOB()
-			}
+				Features::SetWeatherType(w.second);
 		}
 		ImGui::EndChild();
 		ImGui::EndGroup();

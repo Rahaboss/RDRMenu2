@@ -13,13 +13,16 @@ namespace Menu
 		
 		ImGui::BeginChild("spawning_child");
 
+		const float ChildHeight = ImGui::GetContentRegionAvail().y / 2;
+
+		ImGui::BeginChild("ped_menu_outer", ImVec2(0, ChildHeight));
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Spawn Ped");
 		ImGui::SameLine();
 		static char PedBuffer[200];
 		ImGui::PushItemWidth(250.0f);
 		ImGui::InputText("###filter_ped", PedBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
-		ImGui::BeginChild("ped_menu", ImVec2(0, 200));
+		ImGui::BeginChild("ped_menu");
 		for (const auto& it : g_PedList)
 		{
 			if (it.first.find(PedBuffer) == std::string::npos)
@@ -35,8 +38,10 @@ namespace Menu
 			}
 		}
 		ImGui::EndChild();
+		ImGui::EndChild();
 		ImGui::Separator();
 
+		ImGui::BeginChild("vehicle_menu_outer");
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Spawn Vehicle");
 		ImGui::SameLine();
@@ -58,6 +63,7 @@ namespace Menu
 				END_JOB()
 			}
 		}
+		ImGui::EndChild();
 		ImGui::EndChild();
 
 		ImGui::EndChild();
