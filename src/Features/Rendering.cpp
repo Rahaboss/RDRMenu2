@@ -77,7 +77,7 @@ namespace Features
 		return true;
 	}
 
-	void RenderBoneESP(Ped ped)
+	bool RenderBoneESP(Ped ped)
 	{
 		const ImU32 Color = GetImGuiRGB32();
 		constexpr float Thickness = 5.0f;
@@ -85,24 +85,24 @@ namespace Features
 		ImVec2 Head, Neck, Spine, LShoulder, RShoulder, LElbow, RElbow, LHand,
 			RHand, LHip, RHip, LKnee, RKnee, LFoot, RFoot, LToe, RToe;
 
-		if (!GetPedBoneScreenCoords(ped, SKEL_HEAD, Head)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_NECK0, Neck)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_SPINE_ROOT, Spine)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_L_UPPERARM, LShoulder)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_R_UPPERARM, RShoulder)) return;
-		if (!GetPedBoneScreenCoords(ped, MH_L_ELBOWGRP, LElbow) && !GetPedBoneScreenCoords(ped, 22711, LElbow)) return;
+		if (!GetPedBoneScreenCoords(ped, SKEL_HEAD, Head)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_NECK0, Neck)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_SPINE_ROOT, Spine)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_L_UPPERARM, LShoulder)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_R_UPPERARM, RShoulder)) return false;
+		if (!GetPedBoneScreenCoords(ped, MH_L_ELBOWGRP, LElbow) && !GetPedBoneScreenCoords(ped, 22711, LElbow)) return false;
 		if (!GetPedBoneScreenCoords(ped, MH_R_ELBOWGRP, RElbow) && !GetPedBoneScreenCoords(ped, 24550, RElbow)
-			&& !GetPedBoneScreenCoords(ped, 2992, RElbow) && !GetPedBoneScreenCoords(ped, 37346, RElbow)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_L_HAND, LHand)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_R_HAND, RHand)) return;
-		if (!GetPedBoneScreenCoords(ped, RB_L_THIGHROLL, LHip)) return;
-		if (!GetPedBoneScreenCoords(ped, RB_R_THIGHROLL, RHip)) return;
-		if (!GetPedBoneScreenCoords(ped, RB_L_KNEEFRONT, LKnee)) return;
-		if (!GetPedBoneScreenCoords(ped, RB_R_KNEEFRONT, RKnee)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_L_FOOT, LFoot)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_R_FOOT, RFoot)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_L_TOE0, LToe)) return;
-		if (!GetPedBoneScreenCoords(ped, SKEL_R_TOE0, RToe)) return;
+			&& !GetPedBoneScreenCoords(ped, 2992, RElbow) && !GetPedBoneScreenCoords(ped, 37346, RElbow)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_L_HAND, LHand)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_R_HAND, RHand)) return false;
+		if (!GetPedBoneScreenCoords(ped, RB_L_THIGHROLL, LHip)) return false;
+		if (!GetPedBoneScreenCoords(ped, RB_R_THIGHROLL, RHip)) return false;
+		if (!GetPedBoneScreenCoords(ped, RB_L_KNEEFRONT, LKnee)) return false;
+		if (!GetPedBoneScreenCoords(ped, RB_R_KNEEFRONT, RKnee)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_L_FOOT, LFoot)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_R_FOOT, RFoot)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_L_TOE0, LToe)) return false;
+		if (!GetPedBoneScreenCoords(ped, SKEL_R_TOE0, RToe)) return false;
 
 		// Head + Body
 		RenderLineArray({ Head, Neck, Spine }, Color, Thickness);
@@ -114,6 +114,8 @@ namespace Features
 		// Legs
 		RenderLineArray({ Spine, LHip, LKnee, LFoot, LToe }, Color, Thickness);
 		RenderLineArray({ Spine, RHip, RKnee, RFoot, RToe }, Color, Thickness);
+
+		return true;
 	}
 
 	void RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness)
@@ -163,8 +165,13 @@ namespace Features
 		{
 			if (g_LocalPlayer.m_Entity)
 			{
-				RenderBoneESP(g_LocalPlayer.m_Entity);
-				//RenderBoneDebug(g_LocalPlayer.m_Entity);
+				if (g_Settings["esp"]["player_bone"].get<bool>())
+					RenderBoneESP(g_LocalPlayer.m_Entity);
+				if (g_Settings["esp"]["player_bone_debug"].get<bool>())
+					RenderBoneDebug(g_LocalPlayer.m_Entity);
+				if (g_Settings["esp"]["player_box"].get<bool>())
+					RenderBoxESP(g_LocalPlayer.m_Entity);
+				RenderTextESP(g_LocalPlayer.m_Entity, g_Settings["esp"]["player_model"].get<bool>());
 			}
 			
 			RenderAddedPedESP();
@@ -177,12 +184,144 @@ namespace Features
 		std::vector<Ped> NewPeds;
 		for (const auto& p : g_AddedPeds)
 		{
-			if (ENTITY::DOES_ENTITY_EXIST(p))
+			if (ENTITY::DOES_ENTITY_EXIST(p) && ENTITY::IS_ENTITY_A_PED(p) && PED::IS_PED_HUMAN(p))
 				NewPeds.push_back(p);
 		}
 		g_AddedPeds = NewPeds;
 
 		for (const auto& p : g_AddedPeds)
-			RenderBoneESP(p);
+		{
+			if (g_Settings["esp"]["added_ped_bone"].get<bool>())
+				RenderBoneESP(p);
+			if (g_Settings["esp"]["added_ped_box"].get<bool>())
+				RenderBoxESP(p);
+			RenderTextESP(p, g_Settings["esp"]["added_ped_model"].get<bool>());
+		}
+	}
+	
+	bool RenderTextESP(Ped ped, bool ModelESP)
+	{
+		ImVec2 TopLeft, BottomRight;
+		if (!GetBoxCoords(ped, TopLeft, BottomRight))
+			return false;
+
+		std::string Text;
+
+		if (ModelESP)
+			Text += GetPedModelName(ENTITY::GET_ENTITY_MODEL(ped)) + "\n";
+
+		if (Text.empty())
+			return false;
+
+		ImVec2 TextSize = ImGui::CalcTextSize(Text.c_str());
+		ImVec2 TextPos = ImVec2(((TopLeft.x + BottomRight.x) / 2) - (TextSize.x / 2), BottomRight.y);
+
+		auto l = ImGui::GetBackgroundDrawList();
+		l->AddText(TextPos, GetImGuiRGB32(), Text.c_str());
+
+		return true;
+	}
+	
+	bool RenderBoxESP(Ped ped)
+	{
+		ImVec2 TopLeft, BottomRight;
+		if (!GetBoxCoords(ped, TopLeft, BottomRight))
+			return false;
+
+		auto l = ImGui::GetBackgroundDrawList();
+		l->AddRect(TopLeft, BottomRight, GetImGuiRGB32(), 0, 0, 2);
+
+		return true;
+	}
+	
+	bool GetBoxCoords(Ped ped, ImVec2& TopLeft, ImVec2& BottomRight)
+	{
+		constexpr uint32_t Bones[]{
+			SKEL_HEAD,
+			SKEL_NECK0,
+			SKEL_SPINE_ROOT,
+			SKEL_L_UPPERARM,
+			SKEL_R_UPPERARM,
+			SKEL_L_HAND,
+			SKEL_R_HAND,
+			RB_L_THIGHROLL,
+			RB_R_THIGHROLL,
+			RB_L_KNEEFRONT,
+			RB_R_KNEEFRONT,
+			SKEL_L_FOOT,
+			SKEL_R_FOOT,
+			SKEL_L_TOE0,
+			SKEL_R_TOE0,
+		};
+
+		ImVec2 temp;
+		if (!GetPedBoneScreenCoords(ped, SKEL_HEAD, temp))
+			return false;
+
+		TopLeft = temp;
+		BottomRight = temp;
+
+		for (const auto& b : Bones)
+		{
+			if (!GetPedBoneScreenCoords(ped, b, temp))
+				return false;
+
+			if (temp.x < TopLeft.x)
+				TopLeft.x = temp.x;
+			if (temp.x > BottomRight.x)
+				BottomRight.x = temp.x;
+
+			if (temp.y < TopLeft.y)
+				TopLeft.y = temp.y;
+			if (temp.y > BottomRight.y)
+				BottomRight.y = temp.y;
+		}
+
+		constexpr uint32_t OptionalBones[]{
+			MH_L_ELBOWGRP,
+			MH_R_ELBOWGRP,
+			22711,
+			24550,
+			2992,
+			37346,
+			SPR_HAIR_01,
+			SPR_HAIR_02,
+			SPR_HAIR_03,
+			SPR_HAIR_04,
+			SPR_HAIR_05,
+			SPR_HAIR_06,
+			SPR_HAIR_07,
+			SPR_HAIR_08,
+			SPR_HAIR_09,
+			SPR_HAIR_010,
+			SPR_HAIR_011,
+			SPR_HAIR_012,
+			SPR_HAIR_013,
+			SKEL_L_TOE10,
+			SKEL_L_TOE20,
+			SKEL_R_TOE10,
+			SKEL_R_TOE20,
+			HAT_LOC,
+			57278,
+			37762,
+		};
+
+		for (const auto& b : OptionalBones)
+		{
+			if (!GetPedBoneScreenCoords(ped, b, temp))
+				continue;
+
+			if (temp.x < TopLeft.x)
+				TopLeft.x = temp.x;
+			if (temp.x > BottomRight.x)
+				BottomRight.x = temp.x;
+
+			if (temp.y < TopLeft.y)
+				TopLeft.y = temp.y;
+			if (temp.y > BottomRight.y)
+				BottomRight.y = temp.y;
+		}
+
+		return true;
 	}
 }

@@ -10,11 +10,14 @@ namespace Features
 	bool WorldToScreen(float X, float Y, float Z, float& OutX, float& OutY);
 	bool WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY);
 	bool GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords);
-	void RenderBoneESP(Ped ped);
+	bool RenderBoneESP(Ped ped);
 	void RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness);
 	void RenderBoneDebug(Ped ped);
 	void RenderImGuiESP();
 
 	inline std::vector<Ped> g_AddedPeds;
 	void RenderAddedPedESP();
+	bool RenderTextESP(Ped ped, bool ModelESP = false);
+	bool RenderBoxESP(Ped ped);
+	bool GetBoxCoords(Ped ped, ImVec2& TopLeft, ImVec2& BottomRight);
 }

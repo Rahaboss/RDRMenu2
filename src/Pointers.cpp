@@ -46,10 +46,15 @@ namespace Pointers
 		GetStringFromHashKey = Signature("40 53 48 83 EC 40 8B D9 48 8D 15").Get<decltype(GetStringFromHashKey)>();
 		WorldToScreen = Signature("E8 ? ? ? ? 0F B6 D0 48 8B 03 89 10 48 83 C4 20 5B C3 48 8B 41 10 48 8B 48 08").Add(1).Rip().Get<decltype(WorldToScreen)>();
 		sub_7FF73D8DB3C4 = Signature("E8 ? ? ? ? 8A 50 28").Add(1).Rip().Get<decltype(sub_7FF73D8DB3C4)>();
+		GetEntityPedReal = Signature("44 8B C9 83 F9 FF").Get<decltype(GetEntityPedReal)>();
 
 		// D3D12 Renderer Stuff
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();
 		Pointers::SwapChainPresent = GetSwapChainPresent(Pointers::SwapChain);
 		Pointers::CommandQueue = Signature("4C 8D 0D ? ? ? ? 4C 89 65 B8").Add(3).Rip().Get<decltype(Pointers::CommandQueue)>();
+
+		auto x = __ROR8__(__ROL8__(0xDA5B6ABB2C9F462B, 32), 2);
+		auto y = ~__ROL8__(__ROL8__(x ^ 0x35F2A56DAB292551, (x & 0x1F) + 3), 32);
+		LOG_TXT("%llX", y);
 	}
 }

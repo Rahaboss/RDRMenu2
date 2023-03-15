@@ -53,6 +53,10 @@ namespace Menu
 
 		if (ImGui::CollapsingHeader("HUD Context Debug"))
 			RenderHUDContextDebug();
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("CPed Debug"))
+			RenderCPedDebug();
 
 		ImGui::EndChild();
 		ImGui::EndTabItem();
@@ -502,6 +506,12 @@ namespace Menu
 		if (ImGui::Button("Copy Address###copy_sub3c4"))
 			LOG_TO_CLIPBOARD("%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
 
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("RDR2.exe: 0x%llX", g_BaseAddress);
+		ImGui::SameLine();
+		if (ImGui::Button("Copy Address###base_address"))
+			LOG_TO_CLIPBOARD("%llX", g_BaseAddress);
+
 		ImGui::EndGroup();
 	}
 
@@ -833,5 +843,31 @@ namespace Menu
 			}
 			END_JOB()
 		}
+	}
+	
+	void RenderCPedDebug()
+	{
+		static CPed* CurrentPed{};
+		static Entity CurrentPedIndex{};
+
+		bool Update = false;
+
+		ImGui::PushItemWidth(200);
+		if (ImGui::InputScalar("Input Ped Index", ImGuiDataType_U32, &CurrentPedIndex))
+			Update = true;
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Set Local Ped"))
+		{
+			CurrentPedIndex = g_LocalPlayer.m_Entity;
+			Update = true;
+		}
+
+		if (Update)
+			CurrentPed = Pointers::GetEntityPedReal(CurrentPedIndex);
+
+		ImGui::Text("Entity Index: %u (0x%X)", CurrentPedIndex, CurrentPedIndex);
+		ImGui::Text("CPed Address: 0x%llX", (uintptr_t)CurrentPed);
+		ImGui::Text("GetEntityPedReal: 0x%llX", (uintptr_t)Pointers::GetEntityPedReal);
 	}
 }

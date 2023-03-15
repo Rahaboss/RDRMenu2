@@ -276,8 +276,8 @@ namespace Renderer
 		//
 		//strcpy_s(FontCfg.Name, "RDR-Lino");
 		//io.Fonts->AddFontFromMemoryTTF((void*)Fonts::RDRLino, sizeof(Fonts::RDRLino), 20.0f, &FontCfg);
-		//
-		//DefaultFont = io.Fonts->AddFontDefault();
+		
+		DefaultFont = io.Fonts->AddFontDefault();
 
 		ImGui_ImplWin32_Init(Hwnd);
 		ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,

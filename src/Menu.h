@@ -8,6 +8,7 @@
 #include "Menu/Memory.h"
 #include "Menu/Overlay.h"
 #include "Menu/Player.h"
+#include "Menu/Rendering.h"
 #include "Menu/Spawning.h"
 #include "Menu/Teleport.h"
 #include "Menu/Weapon.h"

@@ -33,7 +33,17 @@ namespace Settings
 		"render_clothing_menu": false,
 		"rgb_elec_lantern": false,
 		"super_jump": false,
-		"super_run": false
+		"super_run": false,
+		"esp": {
+			"player_bone_debug": false,
+			"player_model": false,
+			"player_box": false,
+			"player_bone": false,
+			"added_ped_model": false,
+			"added_ped_box": false,
+			"added_ped_bone": false
+		},
+		"render_model_debug_gun": false
 	})"_json
 	};
 

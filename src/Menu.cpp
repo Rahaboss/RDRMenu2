@@ -22,6 +22,7 @@ namespace Menu
 					RenderDebugTab();
 					RenderLoggerTab();
 					RenderMemoryTab();
+					RenderRenderingTab();
 					if (ImGui::BeginTabItem("Exit"))
 					{
 						g_Running = false;

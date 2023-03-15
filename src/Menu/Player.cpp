@@ -20,9 +20,10 @@ namespace Menu
 			RenderPlayerCheckboxes();
 			ImGui::Separator();
 
+			ImGui::Text("Money");
 			static float Money = 10000.0f;
 			ImGui::PushItemWidth(200.0f);
-			ImGui::InputFloat("Money", &Money, 0, 0, "$%.2f");
+			ImGui::InputFloat("###money_input", &Money, 0, 0, "$%.2f");
 			ImGui::SameLine();
 			if (ImGui::Button("Set###set_money"))
 			{

@@ -35,6 +35,7 @@ namespace Pointers
 	inline const char* (*GetStringFromHashKey)(Hash){};
 	inline bool (*WorldToScreen)(const Vector3*, float*, float*){};
 	inline void* (*sub_7FF73D8DB3C4)(void*){};
+	inline CPed* (*GetEntityPedReal)(Entity){};
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};
