@@ -19,4 +19,5 @@ namespace Features
 	void GiveWeapon(Hash WeaponHash);
 	void RemoveWeapon(Hash WeaponHash);
 	void RGBElectricLantern();
+	void RapidFire();
 }

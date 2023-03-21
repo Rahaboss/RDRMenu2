@@ -52,9 +52,5 @@ namespace Pointers
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();
 		Pointers::SwapChainPresent = GetSwapChainPresent(Pointers::SwapChain);
 		Pointers::CommandQueue = Signature("4C 8D 0D ? ? ? ? 4C 89 65 B8").Add(3).Rip().Get<decltype(Pointers::CommandQueue)>();
-
-		auto x = __ROR8__(__ROL8__(0xDA5B6ABB2C9F462B, 32), 2);
-		auto y = ~__ROL8__(__ROL8__(x ^ 0x35F2A56DAB292551, (x & 0x1F) + 3), 32);
-		LOG_TXT("%llX", y);
 	}
 }

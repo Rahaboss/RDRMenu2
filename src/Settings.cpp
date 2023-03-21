@@ -43,7 +43,8 @@ namespace Settings
 			"added_ped_box": false,
 			"added_ped_bone": false
 		},
-		"render_model_debug_gun": false
+		"render_model_debug_gun": false,
+		"rapid_fire": false
 	})"_json
 	};
 

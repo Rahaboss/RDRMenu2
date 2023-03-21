@@ -7,6 +7,7 @@
 #include "Lists.h"
 #include "Features.h"
 #include "CutsceneHelper.h"
+#include "ImGuiAddons.h"
 
 namespace Menu
 {
@@ -559,8 +560,7 @@ namespace Menu
 		static uintptr_t ida_addr = off + 0x7FF73CAB0000; // Address in process dump in IDA
 
 		ImGui::PushItemWidth(250);
-		if (ImGui::InputScalar("Native Hash", ImGuiDataType_U64, &nhash, 0, 0, "%llX",
-			ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
+		if (ImGui::InputU64("Native Hash", &nhash, 1, 100, ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
 		{
 			addr = (uintptr_t)NativeContext::GetHandler(nhash); // Address in current process
 			off = addr - g_BaseAddress; // Offset from imagebase
@@ -853,7 +853,7 @@ namespace Menu
 		bool Update = false;
 
 		ImGui::PushItemWidth(200);
-		if (ImGui::InputScalar("Input Ped Index", ImGuiDataType_U32, &CurrentPedIndex))
+		if (ImGui::InputInt("Input Ped Index", &CurrentPedIndex))
 			Update = true;
 		ImGui::PopItemWidth();
 

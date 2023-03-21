@@ -5,6 +5,7 @@
 #include "Features/Debug.h"
 #include "Features/Input.h"
 #include "Features/Inventory.h"
+#include "Features/Math.h"
 #include "Features/Ped.h"
 #include "Features/Player.h"
 #include "Features/Rendering.h"
@@ -17,5 +18,6 @@
 namespace Features
 {
 	void Setup();
+	void Cleanup();
 	void OnTick();
 }

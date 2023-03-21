@@ -2,27 +2,7 @@
 
 #include "pch.h"
 #include "joaat.h"
-
-class scrVector
-{
-public:
-	__declspec(align(8)) float x, y, z;
-
-	scrVector() = default;
-
-	constexpr scrVector(float _x, float _y, float _z) :
-		x(_x), y(_y), z(_z)
-	{
-	}
-}; //Size: 0x0018
-static_assert(sizeof(scrVector) == 24);
-
-class __declspec(align(16)) scrVec3N
-{
-public:
-	float x, y, z;
-}; //Size: 0x0010
-static_assert(sizeof(scrVec3N) == 16);
+#include "scrVector.h"
 
 class scrNativeCallContext
 {

@@ -4,6 +4,7 @@
 #include "PlayerInfo.h"
 #include "Lists.h"
 #include "JobQueue.h"
+#include "Menu.h"
 
 // Features for managing player weapons
 
@@ -166,5 +167,23 @@ namespace Features
 		GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(g_LocalPlayer.m_Entity, 5.0f);
 		GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(g_LocalPlayer.m_Entity, GET_RGB());
 		GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(g_LocalPlayer.m_Entity);
+	}
+	
+	void RapidFire()
+	{
+		if (Menu::IsOpen)
+			return;
+
+		PAD::DISABLE_CONTROL_ACTION(0, INPUT_ATTACK, TRUE);
+		PAD::DISABLE_CONTROL_ACTION(0, INPUT_ATTACK2, TRUE);
+
+		if (!PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_ATTACK))
+			return;
+
+		Vector3 direction = RotationToDirection(CAM::GET_GAMEPLAY_CAM_ROT(0));
+		Vector3 start = CAM::GET_GAMEPLAY_CAM_COORD() + direction;
+		Vector3 end = start + (direction * 200);
+		MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, TRUE, GetCurrentWeapon(), g_LocalPlayer.m_Entity, TRUE, FALSE, -1.0f, FALSE);
+		MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, TRUE, GetCurrentWeapon(), g_LocalPlayer.m_Entity, TRUE, FALSE, -1.0f, FALSE);
 	}
 }

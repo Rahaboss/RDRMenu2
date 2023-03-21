@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/scrNativeCallContext.h"
+#include "Rage/scrNativeCallContext.h"
 #include "Pointers.h"
 
 class NativeContext

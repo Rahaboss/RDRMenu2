@@ -16,6 +16,29 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	void Cleanup()
+	{
+		TRY
+		{
+			// Disable freecam
+			if (Menu::EnableFreeCam && Menu::CamEntity)
+			{
+				CAM::SET_CAM_ACTIVE(Menu::CamEntity, false);
+				CAM::RENDER_SCRIPT_CAMS(false, true, 500, true, true, 0);
+				CAM::DESTROY_CAM(Menu::CamEntity, false);
+				STREAMING::SET_FOCUS_ENTITY(g_LocalPlayer.m_Entity);
+
+				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Vehicle, false);
+
+				Menu::CamEntity = 0;
+			}
+			
+			// Disable godmode
+			//SetGodmode(false);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
 	void OnTick()
 	{
 		TRY
@@ -190,10 +213,7 @@ namespace Features
 					mult += 0.15f;
 
 				Vector3 rot = CAM::GET_CAM_ROT(Menu::CamEntity, 2);
-				//float pitch = math::deg_to_rad(rot.x); // vertical
-				//float roll = rot.y;
-				//float yaw = math::deg_to_rad(rot.z); // horizontal
-				float yaw = (3.14159265359f / 180.0f) * rot.z; // horizontal
+				float yaw = DegreeToRadian(rot.z);
 
 				vecPosition.x += (vecChange.x * cos(yaw) - vecChange.y * sin(yaw)) * mult;
 				vecPosition.y += (vecChange.x * sin(yaw) + vecChange.y * cos(yaw)) * mult;
@@ -236,6 +256,9 @@ namespace Features
 				auto vs = MISC::VAR_STRING(Menu::TextFlags, "LITERAL_STRING", Menu::TextBuffer);
 				UIDEBUG::_BG_DISPLAY_TEXT(vs, Menu::TextDebugX, Menu::TextDebugY);
 			}
+
+			if (g_Settings["rapid_fire"].get<bool>())
+				RapidFire();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

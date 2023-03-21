@@ -31,7 +31,7 @@ void MainLoop()
 		while (g_Running)
 		{
 			if (Features::IsKeyHeld(VK_LCONTROL) && Features::IsKeyHeld(VK_END))
-				g_Running = false;
+				Features::RunScriptCleanupAndExit();
 			std::this_thread::sleep_for(25ms);
 		}
 

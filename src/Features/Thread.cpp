@@ -3,6 +3,7 @@
 #include "Pointers.h"
 #include "JobQueue.h"
 #include "Fiber.h"
+#include "Features.h"
 
 namespace Features
 {
@@ -45,5 +46,17 @@ namespace Features
 		{
 			Fiber::GetCurrent()->YieldThread();
 		} while (GetTickCount64() < EndTime);
+	}
+	
+	void RunScriptCleanupAndExit()
+	{
+		QUEUE_JOB(=)
+		{
+			Cleanup();
+			g_Running = false;
+		}
+		END_JOB()
+		std::this_thread::sleep_for(100ms);
+		g_Running = false;
 	}
 }

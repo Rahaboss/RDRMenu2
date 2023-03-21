@@ -62,6 +62,12 @@ namespace Menu
 		ImGui::Checkbox("RGB Electric Lantern", g_Settings["rgb_elec_lantern"].get<bool*>());
 
 		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Rapid Fire", g_Settings["rapid_fire"].get<bool*>());
+
+		ImGui::EndGroup();
 		ImGui::Separator();
 		ImGui::BeginGroup();
 

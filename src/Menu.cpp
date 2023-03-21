@@ -25,7 +25,7 @@ namespace Menu
 					RenderRenderingTab();
 					if (ImGui::BeginTabItem("Exit"))
 					{
-						g_Running = false;
+						Features::RunScriptCleanupAndExit();
 						ImGui::EndTabItem();
 					}
 					ImGui::EndTabBar();
