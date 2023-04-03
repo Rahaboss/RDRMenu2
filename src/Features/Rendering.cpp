@@ -171,7 +171,7 @@ namespace Features
 					RenderBoneDebug(g_LocalPlayer.m_Entity);
 				if (g_Settings["esp"]["player_box"].get<bool>())
 					RenderBoxESP(g_LocalPlayer.m_Entity);
-				RenderTextESP(g_LocalPlayer.m_Entity, g_Settings["esp"]["player_model"].get<bool>());
+				RenderTextESP(g_LocalPlayer.m_Entity, g_Settings["esp"]["player_model"].get<bool>(), true);
 			}
 			
 			RenderAddedPedESP();
@@ -195,11 +195,11 @@ namespace Features
 				RenderBoneESP(p);
 			if (g_Settings["esp"]["added_ped_box"].get<bool>())
 				RenderBoxESP(p);
-			RenderTextESP(p, g_Settings["esp"]["added_ped_model"].get<bool>());
+			RenderTextESP(p, g_Settings["esp"]["added_ped_model"].get<bool>(), true);
 		}
 	}
 	
-	bool RenderTextESP(Ped ped, bool ModelESP)
+	bool RenderTextESP(Ped ped, bool ModelESP, bool HealthESP)
 	{
 		ImVec2 TopLeft, BottomRight;
 		if (!GetBoxCoords(ped, TopLeft, BottomRight))
@@ -209,6 +209,10 @@ namespace Features
 
 		if (ModelESP)
 			Text += GetPedModelName(ENTITY::GET_ENTITY_MODEL(ped)) + "\n";
+
+		if (HealthESP)
+			Text += std::string("Health: ") + std::to_string(ENTITY::GET_ENTITY_HEALTH(ped)) + std::string(" / ")
+				+ std::to_string(ENTITY::GET_ENTITY_MAX_HEALTH(ped, FALSE)) + std::string("\n");
 
 		if (Text.empty())
 			return false;

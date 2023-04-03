@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "DetourHook.h"
+#include "VMTHook.h"
 #include "Rage/scrThread.h"
 #include "Rage/scrNativeCallContext.h"
 #include "Rage/CPed.h"
@@ -53,8 +54,10 @@ namespace Hooking
 	inline DetourHook GetGUIDFromItemID;
 	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx);
 
-	inline DetourHook SwapChainPresent;
+	inline VMTHook SwapChain;
+	inline constexpr size_t SwapChainMethodCount = 41, SwapChainPresentIndex = 8, SwapChainResizeBuffersIndex = 13;
 	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags);
+	HRESULT STDMETHODCALLTYPE SwapChainResizeBuffersHook(IDXGISwapChain* SwapChain, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags);
 
 	inline DetourHook CreatePersChar;
 	PersChar CreatePersCharHook(scrNativeCallContext* ctx);

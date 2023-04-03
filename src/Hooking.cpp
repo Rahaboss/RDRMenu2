@@ -320,18 +320,39 @@ namespace Hooking
 
 	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags)
 	{
-		HRESULT result = S_FALSE;
+		HRESULT Result = S_FALSE;
 		
 		TRY
 		{
 			if (g_Running)
 				Renderer::Present();
 
-			result = SwapChainPresent.GetOriginal<decltype(&SwapChainPresentHook)>()(SwapChain, SyncInterval, Flags);
+			Result = Hooking::SwapChain.GetOriginal<decltype(&SwapChainPresentHook)>(SwapChainPresentIndex)(SwapChain, SyncInterval, Flags);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
-		return result;
+		return Result;
+	}
+
+	HRESULT STDMETHODCALLTYPE SwapChainResizeBuffersHook(IDXGISwapChain* SwapChain, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags)
+	{
+		LOG_TO_CONSOLE("%s(0x%llX, %u, %u, %u, %d, %u)\n", __FUNCTION__, (uintptr_t)SwapChain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
+
+		HRESULT Result = S_FALSE;
+
+		TRY
+		{
+			if (g_Running)
+				ImGui_ImplDX12_InvalidateDeviceObjects();
+
+			Result = Hooking::SwapChain.GetOriginal<decltype(&SwapChainResizeBuffersHook)>(SwapChainResizeBuffersIndex)(SwapChain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
+
+			if (g_Running && SUCCEEDED(Result))
+				ImGui_ImplDX12_CreateDeviceObjects();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		
+		return Result;
 	}
 
 	PersChar CreatePersCharHook(scrNativeCallContext* ctx)

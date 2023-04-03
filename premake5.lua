@@ -58,13 +58,15 @@ workspace "RDRMenu2"
 
 		-- .lib locations
 		libdirs {
-			"bin/lib/%{cfg.buildcfg}"
+			"bin/lib/%{cfg.buildcfg}",
+			"%VULKAN_SDK%/lib"
 		}
 		
 		-- .lib links
 		links {
 			"MinHook",
-			"ImGui"
+			"ImGui",
+			"vulkan-1"
 		}
 
 		includedirs {
@@ -72,7 +74,8 @@ workspace "RDRMenu2"
 			"lib/MinHook/include",
 			"lib/ImGui",
 			"lib/ImGui/backends",
-			"lib/json/single_include/nlohmann"
+			"lib/json/single_include/nlohmann",
+			"%VULKAN_SDK%/include"
 		}
 
 		disablewarnings {
@@ -90,14 +93,14 @@ workspace "RDRMenu2"
 		files {
 			"lib/%{prj.name}/*.cpp",
 			"lib/%{prj.name}/*.h",
-			--"lib/%{prj.name}/backends/imgui_impl_vulkan.*",
+			"lib/%{prj.name}/backends/imgui_impl_vulkan.*",
 			"lib/%{prj.name}/backends/imgui_impl_dx12.*",
 			"lib/%{prj.name}/backends/imgui_impl_win32.*"
 		}
 
 		includedirs {
-			"lib/%{prj.name}"
-			--"%VULKAN_SDK%/include"
+			"lib/%{prj.name}",
+			"%VULKAN_SDK%/include"
 		}
 
 	project "MinHook"

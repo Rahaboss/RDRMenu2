@@ -5,13 +5,18 @@
 namespace Renderer
 {
 	void Create();
+	void CreateD3D12();
+	void CreateVulkan();
 	void Destroy();
 	void Present();
 	void NewFrame();
 	void EndFrame();
 	void SetupD3D12();
+	void SetupVulkan();
 	void SetupImGui();
-	LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	inline WNDPROC WndProc;
+	LRESULT CALLBACK WndProcHook(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	struct _FrameContext
 	{
@@ -29,7 +34,6 @@ namespace Renderer
 	inline ID3D12DescriptorHeap* DescriptorHeapImGuiRender;
 	inline ID3D12GraphicsCommandList* CommandList;
 	inline ID3D12DescriptorHeap* DescriptorHeapBackBuffers;
-	inline WNDPROC _WndProc;
 
 	inline ImFont* DefaultFont;
 }

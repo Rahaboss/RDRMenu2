@@ -5,31 +5,64 @@
 #include "Menu.h"
 #include "Fonts.h"
 #include "Features.h"
+#include "Signature.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace Renderer
 {
 	static bool Setup = false;
+	static bool UseD3D12 = false;
 
 	void Create()
 	{
 		TRY
 		{
-			LOG_TO_CONSOLE("Creating renderer.\n");
-		
-			if (!Pointers::SwapChain || !(*Pointers::SwapChain) || !Pointers::SwapChainPresent
-				|| !Pointers::CommandQueue || !(*Pointers::CommandQueue))
-			{
-				LOG_TO_CONSOLE("Game is not using DirectX12 renderer backend, disabling menu renderer.\n");
-				return;
-			}
-		
+			Hwnd = FindWindow(L"sgaWindow", NULL);
+
+			if (Pointers::SwapChain && (*Pointers::SwapChain) && Pointers::SwapChainPresent && Pointers::CommandQueue && (*Pointers::CommandQueue))
+				CreateD3D12();
+			else
+				CreateVulkan();
+
+			if (!Setup)
+				LOG_TO_CONSOLE("Failed to create %s renderer!\n", (UseD3D12 ? "D3D12" : "Vulkan"));
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	void CreateD3D12()
+	{
+		TRY
+		{
+			LOG_TO_CONSOLE("Creating D3D12 renderer.\n");
+
+			UseD3D12 = true;
+
 			SwapChain = *Pointers::SwapChain;
 			CommandQueue = *Pointers::CommandQueue;
-			Hooking::SwapChainPresent.Create(Pointers::SwapChainPresent, Hooking::SwapChainPresentHook);
-		
+
+			Hooking::SwapChain.Create(SwapChain, Hooking::SwapChainMethodCount);
+			Hooking::SwapChain.Hook(Hooking::SwapChainPresentIndex, Hooking::SwapChainPresentHook);
+			Hooking::SwapChain.Enable();
+
 			SetupD3D12();
+			SetupImGui();
+
+			Setup = true;
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+
+	void CreateVulkan()
+	{
+		TRY
+		{
+			LOG_TO_CONSOLE("Creating Vulkan renderer.\n");
+
+			UseD3D12 = false;
+
+			SetupVulkan();
 			SetupImGui();
 
 			Setup = true;
@@ -45,10 +78,14 @@ namespace Renderer
 			if (!Setup)
 				return;
 
-			// Don't call ImGui shutdown functions!
-			SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)_WndProc);
+			// Don't call ImGui shutdown functions! (at least for D3D12)
+			SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
 
-			Hooking::SwapChainPresent.Destroy();
+			if (UseD3D12)
+			{
+				Hooking::SwapChain.Disable();
+				Hooking::SwapChain.Destroy();
+			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -112,10 +149,9 @@ namespace Renderer
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	// Don't use TRY/EXCEPT macros in these SetupXXX() functions!
 	void SetupD3D12()
 	{
-		Hwnd = FindWindow(L"sgaWindow", NULL);
-
 		if (FAILED(SwapChain->GetDevice(IID_PPV_ARGS(&Device))))
 			return;
 
@@ -171,6 +207,128 @@ namespace Renderer
 		}
 	}
 
+	void SetupVulkan()
+	{
+		ImGui_ImplVulkan_InitInfo InitInfo{};
+
+		auto h = GetModuleHandle(L"vulkan-1.dll");
+		if (!h) return;
+		LOG_TXT("vulkan-1.dll: 0x%llX", h);
+
+		auto vkGetDeviceProcAddr = (void* (*)(void*, void*))(GetProcAddress(h, "vkGetDeviceProcAddr"));
+		if (!vkGetDeviceProcAddr) return;
+		LOG_TXT("vkGetDeviceProcAddr: 0x%llX", vkGetDeviceProcAddr);
+
+		auto vkInstance = Signature("4C 8D 05 ? ? ? ? 33 D2 48 8D 8C 24").Add(3).Rip().Get<VkInstance*>();
+		if (!vkInstance) return;
+		LOG_TXT("vkInstance: 0x%llX", vkInstance);
+
+		auto vkPhysicalDevice = Signature("48 8B 0D ? ? ? ? 4C 8D 0D ? ? ? ? B8").Add(3).Rip().Get<VkPhysicalDevice*>();
+		if (!vkPhysicalDevice) return;
+		LOG_TXT("vkPhysicalDevice: 0x%llX", vkPhysicalDevice);
+
+		auto vkDevice = Signature("48 8B 0D ? ? ? ? 4C 8D 0D ? ? ? ? B8").Add(10).Rip().Get<VkDevice*>();
+		if (!vkDevice) return;
+		LOG_TXT("vkDevice: 0x%llX", vkDevice);
+
+		auto vkQueueFamily = 0; // Probably 0 or 1
+
+		auto vkQueue = Signature("48 89 05 ? ? ? ? EB 0C 49 8B C4").Add(3).Rip().Get<VkQueue*>();
+		if (!vkQueue) return;
+		LOG_TXT("vkQueue: 0x%llX", vkQueue);
+
+		auto vkPipelineCache = VK_NULL_HANDLE;
+		auto vkDescriptorPool = VK_NULL_HANDLE;
+		auto vkSubpass = NULL;
+		auto vkMinImageCount = 2;
+		auto vkImageCount = VK_NULL_HANDLE;
+		auto vkMSAASamples = VK_NULL_HANDLE;
+		auto vkAllocator = VK_NULL_HANDLE;
+		static auto vkCheckFn = [](VkResult err) {
+			if (err == 0)
+				return;
+			fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
+			if (err < 0)
+				abort();
+		};
+
+		auto qword_7FF7421B1A30 = Signature("48 8B 05 ? ? ? ? 48 8B 08 0F 10 41 10 48 8B 51 08 48 8B 01").Add(3).Rip().GetRaw();
+		if (!qword_7FF7421B1A30 || !(*(uintptr_t*)qword_7FF7421B1A30 + 80)) return;
+		LOG_TXT("qword_7FF7421B1A30: 0x%llX", qword_7FF7421B1A30);
+
+		auto msaa = *(uintptr_t*)(*(uintptr_t*)qword_7FF7421B1A30 + 80);
+		LOG_TXT("msaa: 0x%llX", msaa);
+		LOG_TXT("msaa2: 0x%llX", (uint8_t)msaa);
+
+		auto sub_7FF73D042E94 = [](uint8_t a1) -> int64_t {
+			if (a1 > 7u)
+			{
+				if (a1 < 8u)
+					return 0i64;
+				if (a1 <= 9u)
+					return 3i64;
+				if (a1 <= 13u)
+					return 4i64;
+				if (a1 != 14)
+				{
+					if (a1 == 15)
+						return 2i64;
+					if (a1 != 16)
+					{
+						if (a1 != 17)
+							return 0i64;
+						return 4i64;
+					}
+					return 3i64;
+				}
+				return 1i64;
+			}
+			switch (a1)
+			{
+			case 7u:
+				return 2i64;
+			case 0u:
+				return 0i64;
+			case 1u:
+				return 1i64;
+			case 2u:
+				return 2i64;
+			}
+			if (a1 != 3)
+			{
+				if (a1 != 4)
+				{
+					if (a1 != 5)
+					{
+						if (a1 != 6)
+							return 0i64;
+						return 3i64;
+					}
+					return 2i64;
+				}
+				return 4i64;
+			}
+			return 3i64;
+		};
+		LOG_TXT("msaa3: 0x%llX", sub_7FF73D042E94((uint8_t)msaa));
+
+		InitInfo.Instance = *vkInstance;
+		InitInfo.PhysicalDevice = *vkPhysicalDevice;
+		InitInfo.Device = *vkDevice;
+		InitInfo.QueueFamily = vkQueueFamily;
+		InitInfo.Queue = *vkQueue;
+		InitInfo.PipelineCache = vkPipelineCache;
+		InitInfo.DescriptorPool;
+		InitInfo.Subpass = vkSubpass;
+		InitInfo.MinImageCount = vkMinImageCount;
+		InitInfo.ImageCount;
+		InitInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+		InitInfo.Allocator = vkAllocator;
+		InitInfo.CheckVkResultFn = vkCheckFn;
+			
+		ImGui_ImplVulkan_Init(&InitInfo, VK_NULL_HANDLE);
+	}
+
 	void SetupImGui()
 	{
 		IMGUI_CHECKVERSION();
@@ -219,16 +377,25 @@ namespace Renderer
 		DefaultFont = io.Fonts->AddFontDefault();
 
 		ImGui_ImplWin32_Init(Hwnd);
-		ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
-			DescriptorHeapImGuiRender,
-			DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
-			DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
-		ImGui_ImplDX12_CreateDeviceObjects();
-		_WndProc = (WNDPROC)SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+
+		if (UseD3D12)
+		{
+			ImGui_ImplDX12_Init(Device, BuffersCounts, DXGI_FORMAT_R8G8B8A8_UNORM,
+				DescriptorHeapImGuiRender,
+				DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
+				DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
+			ImGui_ImplDX12_CreateDeviceObjects();
+		}
+		else
+		{
+			//
+		}
+
+		WndProc = (WNDPROC)SetWindowLongPtr(Hwnd, GWLP_WNDPROC, (LONG_PTR)WndProcHook);
 	}
 
 	static POINT CursorCoords{};
-	LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK WndProcHook(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		TRY
 		{
@@ -247,7 +414,7 @@ namespace Renderer
 				ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
 
 			// Always call the original event handler even if menu is open
-			return CallWindowProc(_WndProc, hwnd, uMsg, wParam, lParam);
+			return CallWindowProc(WndProc, hwnd, uMsg, wParam, lParam);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 		
