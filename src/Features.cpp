@@ -4,6 +4,7 @@
 #include "PlayerInfo.h"
 #include "Lists.h"
 #include "Menu.h"
+#include "ScriptGlobal.h"
 
 namespace Features
 {
@@ -259,6 +260,10 @@ namespace Features
 
 			if (g_Settings["rapid_fire"].get<bool>())
 				RapidFire();
+
+			if (g_Settings["disable_west_elizabeth_pinkertons"].get<bool>())
+				if (auto b = ScriptGlobal(1934266).At(56).Get<bool*>())
+					*b = true;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

@@ -22,7 +22,7 @@
 // Windows
 #include <Windows.h>
 #include <Psapi.h>
-#include <dxgi1_4.h>
+#include <dxgi1_5.h>
 #include <d3d12.h>
 
 // Third-party libraries
@@ -58,3 +58,4 @@ using namespace std::literals::string_view_literals;
 
 // Toggles
 #define ENABLE_ANTI_ANTI_DEBUG 0
+#define ENABLE_VULKAN_RENDERER 0

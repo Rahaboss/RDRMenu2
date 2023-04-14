@@ -323,10 +323,36 @@
     },
     {
         "id": "cutscene@fin1_ext",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_micahbell",
+                "name": "MicahBell",
+                "outfit_preset": 20
+            }
+        ],
+        "playback_id": "1-HighHonor",
         "player_model": "player_zero"
     },
     {
         "id": "cutscene@fin1_ext2",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_micahbell",
+                "name": "MicahBell",
+                "outfit_preset": 20
+            }
+        ],
+        "playback_id": "1-HighHonor",
         "player_model": "player_zero"
     },
     {
@@ -403,6 +429,24 @@
     },
     {
         "id": "cutscene@fin2_ext_p0p1",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 4
+            },
+            {
+                "model": "cs_micahbell",
+                "name": "MicahBell",
+                "outfit_preset": 7
+            },
+            {
+                "model": "cs_mrsadler",
+                "name": "MrsAdler",
+                "outfit_preset": 7
+            }
+        ],
+        "player_outfit_preset": 25,
         "player_model": "player_three"
     },
     {
@@ -1140,7 +1184,15 @@
     },
     {
         "id": "cutscene@mar6_rsc2",
-        "player_model": "player_three"
+        "peds": [
+            {
+                "model": "CS_Uncle",
+                "name": "Uncle",
+                "outfit_preset": 5
+            }
+        ],
+        "player_model": "player_three",
+        "player_outfit_preset": 26
     },
     {
         "id": "cutscene@mar6_rsc3",
@@ -1236,18 +1288,73 @@
     },
     {
         "id": "cutscene@mob3_ext",
-        "player_model": "player_zero"
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_lenny",
+                "name": "Lenny",
+                "outfit_preset": 6
+            }
+        ],
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "model": "policewagon01x",
+                "name": "POLICEWAGON01X"
+            }
+        ]
     },
     {
         "id": "cutscene@mob3_int",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_lenny",
+                "name": "Lenny",
+                "outfit_preset": 6
+            }
+        ],
+        "playback_id": "1-EnterFront_BeforeInd3_MultiStart",
         "player_model": "player_zero"
     },
     {
         "id": "cutscene@mob3_mcs1",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_lenny",
+                "name": "Lenny",
+                "outfit_preset": 6
+            }
+        ],
         "player_model": "player_zero"
     },
     {
         "id": "cutscene@mob3_mcs2",
+        "peds": [
+            {
+                "model": "cs_dutch",
+                "name": "Dutch",
+                "outfit_preset": 15
+            },
+            {
+                "model": "cs_lenny",
+                "name": "Lenny",
+                "outfit_preset": 6
+            }
+        ],
         "player_model": "player_zero"
     },
     {
@@ -1659,6 +1766,24 @@
     },
     {
         "id": "cutscene@mud5_mcs1",
+        "peds": [
+            {
+                "model": "CS_BILLWILLIAMSON",
+                "name": "BillWilliamson",
+                "outfit_preset": 10
+            },
+            {
+                "model": "CS_KAREN",
+                "name": "Karen",
+                "outfit_preset": 7
+            },
+            {
+                "model": "CS_LENNY",
+                "name": "Lenny",
+                "outfit_preset": 6
+            }
+        ],
+        "playback_id": "1-GirlLost",
         "player_model": "player_zero"
     },
     {
@@ -1802,7 +1927,7 @@
                 "name": "RevSwanson"
             }
         ],
-        "playback_id": "MultiStart",
+        "playback_id": "2A-Swanson_HighHonor_NTS2_Done",
         "player_model": "player_zero"
     },
     {
@@ -2061,15 +2186,22 @@
     },
     {
         "id": "cutscene@rabi1_rsc2",
-        "player_model": "player_three"
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rabi1_rsc4",
-        "player_model": "player_three"
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rabi1_rsc_1",
-        "player_model": "player_three"
+        "peds": [
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 1
+            }
+        ],
+        "player_model": "player_zero"
     },
     {
         "id": "cutscene@rabi21_int",
@@ -2564,13 +2696,74 @@
         "id": "cutscene@rcrkf_rsc2"
     },
     {
-        "id": "cutscene@rcrle_s1_int"
+        "id": "cutscene@rcrle_s1_int",
+        "objects": [
+            {
+                "model": "p_cs_baganders01x",
+                "name": "p_cs_baganders01x"
+            },
+            {
+                "model": "p_chair_crate02x",
+                "name": "p_chair_crate02x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_creoledoctor",
+                "name": "cs_creoledoctor"
+            }
+        ]
     },
     {
-        "id": "cutscene@rcrle_s2_ext"
+        "id": "cutscene@rcrle_s2_ext",
+        "objects": [
+            {
+                "model": "p_cs_baganders01x",
+                "name": "p_cs_baganders01x"
+            },
+            {
+                "model": "p_chair_crate02x",
+                "name": "p_chair_crate02x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_creoledoctor",
+                "name": "cs_creoledoctor"
+            }
+        ],
+        "playback_id": "2-Sick",
+        "vehicles": [
+            {
+                "model": "WAGONDOC01x",
+                "name": "WAGONDOC01x"
+            }
+        ]
     },
     {
-        "id": "cutscene@rcrle_s2_ext_p1a1_t04"
+        "id": "cutscene@rcrle_s2_ext_p1a1_t04",
+        "objects": [
+            {
+                "model": "p_cs_baganders01x",
+                "name": "p_cs_baganders01x"
+            },
+            {
+                "model": "p_chair_crate02x",
+                "name": "p_chair_crate02x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_creoledoctor",
+                "name": "cs_creoledoctor"
+            }
+        ],
+        "vehicles": [
+            {
+                "model": "WAGONDOC01x",
+                "name": "WAGONDOC01x"
+            }
+        ]
     },
     {
         "id": "cutscene@rctxd_rsc1",
@@ -2892,18 +3085,89 @@
     },
     {
         "id": "cutscene@rjck2_rsc1",
+        "peds": [
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            },
+            {
+                "model": "a_c_dogrufus_01",
+                "name": "a_c_dogrufus_01"
+            }
+        ],
         "player_model": "player_three"
     },
     {
         "id": "cutscene@rjck2_rsc2",
+        "peds": [
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            },
+            {
+                "model": "a_c_dogrufus_01",
+                "name": "a_c_dogrufus_01"
+            }
+        ],
         "player_model": "player_three"
     },
     {
         "id": "cutscene@rjck2_rsc3",
+        "objects": [
+            {
+                "model": "p_tablecoffee04x",
+                "name": "p_tablecoffee04x"
+            },
+            {
+                "model": "p_mugCoffee01x",
+                "name": "p_mugCoffee01x"
+            },
+            {
+                "model": "p_door11x_beecher",
+                "name": "p_door11x_beecher"
+            },
+            {
+                "model": "p_chaircomfy07x",
+                "name": "p_chaircomfy07x"
+            },
+            {
+                "model": "p_cs_rufusblanket01x",
+                "name": "p_cs_rufusblanket01x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            },
+            {
+                "model": "a_c_dogrufus_01",
+                "name": "a_c_dogrufus_01"
+            },
+            {
+                "model": "cs_abigailroberts",
+                "name": "AbigailRoberts",
+                "outfit_preset": 4
+            }
+        ],
         "player_model": "player_three"
     },
     {
         "id": "cutscene@rjck2_rsc5",
+        "peds": [
+            {
+                "model": "cs_jackmarston_teen",
+                "name": "JackMarston_Teen"
+            },
+            {
+                "model": "a_c_dogrufus_01",
+                "name": "A_C_DOGcatahoulacur_01"
+            },
+            {
+                "model": "A_C_SNAKE_01",
+                "name": "A_C_SNAKE_01"
+            }
+        ],
         "player_model": "player_three"
     },
     {
@@ -3234,7 +3498,44 @@
     },
     {
         "id": "cutscene@sad3_ext",
-        "player_model": "player_three"
+        "peds": [
+            {
+                "model": "cs_mrsadler",
+                "name": "MrsAdler"
+            },
+            {
+                "model": "u_m_m_rhdsheriff_01",
+                "name": "U_M_M_RHDSHERIFF_01"
+            },
+            {
+                "model": "a_c_horse_morgan_flaxenchestnut",
+                "name": "Horse_01"
+            },
+            {
+                "model": "a_c_horse_gang_sadie_endlesssummer",
+                "name": "Horse_01^1"
+            },
+            {
+                "model": "cs_ramon_cortez",
+                "name": "RAMON_CORTEZ"
+            },
+            {
+                "model": "u_m_m_rhdbackupdeputy_01",
+                "name": "RhoDeputy_01"
+            },
+            {
+                "model": "u_m_m_rhdbackupdeputy_02",
+                "name": "RhoDeputy_02"
+            }
+        ],
+        "playback_id": "1-CortezWasCaptured-Multi",
+        "player_model": "player_three",
+        "vehicles": [
+            {
+                "model": "wagonprison01x",
+                "name": "wagonprison01x"
+            }
+        ]
     },
     {
         "id": "cutscene@sad3_int",
@@ -3258,7 +3559,24 @@
     },
     {
         "id": "cutscene@sad3_mcs5",
-        "player_model": "player_three"
+        "peds": [
+            {
+                "model": "cs_mrsadler",
+                "name": "MrsAdler"
+            },
+            {
+                "model": "cs_ramon_cortez",
+                "name": "RAMON_CORTEZ"
+            }
+        ],
+        "playback_id": "1-PlayerThreatensCortez",
+        "player_model": "player_three",
+        "vehicles": [
+            {
+                "model": "rowboat",
+                "name": "rowboat"
+            }
+        ]
     },
     {
         "id": "cutscene@sad4_ext",
@@ -3278,6 +3596,25 @@
     },
     {
         "id": "cutscene@sad5_ext",
+        "peds": [
+            {
+                "model": "cs_mrsadler",
+                "name": "MrsAdler"
+            },
+            {
+                "model": "u_m_o_blwpolicechief_01",
+                "name": "U_M_O_BLWPOLICECHIEF_01"
+            },
+            {
+                "model": "a_c_horse_gang_sadie_endlesssummer",
+                "name": "Horse_01"
+            },
+            {
+                "model": "mes_sadie5_males_01",
+                "name": "mes_sadie5_males_01"
+            }
+        ],
+        "playback_id": "1-BountyCaught",
         "player_model": "player_three"
     },
     {
@@ -3398,7 +3735,31 @@
     },
     {
         "id": "cutscene@smg2_ext",
-        "player_model": "player_zero"
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "extras": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                ],
+                "model": "SMUGGLER02",
+                "name": "SMUGGLER02"
+            }
+        ]
     },
     {
         "id": "cutscene@smg2_int",
@@ -3418,14 +3779,75 @@
     },
     {
         "id": "cutscene@sus1_ext",
-        "player_model": "player_zero"
+        "peds": [
+            {
+                "model": "cs_susangrimshaw",
+                "name": "SusanGrimshaw",
+                "outfit_preset": 1
+            },
+            {
+                "model": "cs_tilly",
+                "name": "TILLY",
+                "outfit_preset": 0
+            },
+            {
+                "model": "cs_antonyforemen",
+                "name": "ANTONYFOREMEN",
+                "outfit_preset": 0
+            }
+        ],
+        "playback_id": "1-Start",
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "model": "WAGON05X",
+                "name": "WAGON05X"
+            }
+        ]
     },
     {
         "id": "cutscene@sus1_int",
-        "player_model": "player_zero"
+        "peds": [
+            {
+                "model": "cs_susangrimshaw",
+                "name": "SusanGrimshaw",
+                "outfit_preset": 1
+            },
+            {
+                "model": "cs_marybeth",
+                "name": "MaryBeth",
+                "outfit_preset": 1
+            }
+        ],
+        "player_model": "player_zero",
+        "vehicles": [
+            {
+                "model": "WAGON05X",
+                "name": "WAGON05X"
+            }
+        ]
     },
     {
         "id": "cutscene@sus1_mcs1",
+        "objects": [
+            {
+                "model": "w_repeater_carbine01",
+                "name": "w_repeater_carbine01"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_susangrimshaw",
+                "name": "SusanGrimshaw",
+                "outfit_preset": 1
+            },
+            {
+                "model": "cs_tilly",
+                "name": "TILLY",
+                "outfit_preset": 0
+            }
+        ],
+        "playback_id": "2-RightApproach-MultiStart",
         "player_model": "player_zero"
     },
     {

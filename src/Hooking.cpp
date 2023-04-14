@@ -38,6 +38,9 @@ namespace Hooking
 		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
 		SetAnimSceneEntity.Create(NativeContext::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 		IsDlcPresent.Create(NativeContext::GetHandler(0x2763DC12BBE2BB6F), IsDlcPresentHook);
+		CreatePedOnMount.Create(NativeContext::GetHandler(0xF89AA2BD01FC06B7), CreatePedOnMountHook);
+		CreatePedInsideVehicle.Create(NativeContext::GetHandler(0x7DD959874C1FD534), CreatePedInsideVehicleHook);
+		GetAnimScenePed.Create(NativeContext::GetHandler(0xE5822422197BBBA3), GetAnimScenePedHook);
 	}
 
 	void Destroy()
@@ -325,7 +328,10 @@ namespace Hooking
 		TRY
 		{
 			if (g_Running)
+			{
 				Renderer::Present();
+				//LOG_TO_CONSOLE("%s(%u, %u);\n", __FUNCTION__, SyncInterval, Flags);
+			}
 
 			Result = Hooking::SwapChain.GetOriginal<decltype(&SwapChainPresentHook)>(SwapChainPresentIndex)(SwapChain, SyncInterval, Flags);
 		}
@@ -560,6 +566,59 @@ namespace Hooking
 			//	LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (result2 ? "true" : "false"));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+
+		return result;
+	}
+	
+	Ped CreatePedOnMountHook(scrNativeCallContext* ctx)
+	{
+		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>()))
+			return CreatePedOnMount.GetOriginal<decltype(&CreatePedOnMountHook)>()(ctx);
+
+		Ped result = CreatePedOnMount.GetOriginal<decltype(&CreatePedOnMountHook)>()(ctx);
+
+		Ped ret = ctx->GetRet<Ped>();
+		Hash model = ctx->GetArg<Hash>(1);
+		Vector3 pos = ENTITY::GET_ENTITY_COORDS(ret, TRUE, TRUE);
+		
+		LOG_TO_MENU("Creating human %s (0x%X) ID: 0x%X on mount at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
+		Features::g_AddedPeds.push_back(result);
+
+		return result;
+	}
+	
+	Ped CreatePedInsideVehicleHook(scrNativeCallContext* ctx)
+	{
+		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>()))
+			return CreatePedInsideVehicle.GetOriginal<decltype(&CreatePedInsideVehicleHook)>()(ctx);
+
+		Ped result = CreatePedInsideVehicle.GetOriginal<decltype(&CreatePedInsideVehicleHook)>()(ctx);
+
+		Ped ret = ctx->GetRet<Ped>();
+		Hash model = ctx->GetArg<Hash>(1);
+		Vector3 pos = ENTITY::GET_ENTITY_COORDS(ret, TRUE, TRUE);
+
+		LOG_TO_MENU("Creating human %s (0x%X) ID: 0x%X in vehicle at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
+		Features::g_AddedPeds.push_back(result);
+
+		return result;
+	}
+	
+	Ped GetAnimScenePedHook(scrNativeCallContext* ctx)
+	{
+		AnimScene animScene = ctx->GetArg<AnimScene>(0);
+		const char* name = ctx->GetArg<const char*>(1);
+		BOOL isNetwork = ctx->GetArg<BOOL>(2);
+		
+		Ped result = GetAnimScenePed.GetOriginal<decltype(&GetAnimScenePedHook)>()(ctx);
+		Ped ret = ctx->GetRet<Ped>();
+
+		//if (ret == 0 || !ENTITY::DOES_ENTITY_EXIST(ret))
+		//	return;
+		
+		LOG_TO_MENU("_GET_ANIM_SCENE_PED(%u, \"%s\", %s) = %u\n", animScene, name, (isNetwork ? "TRUE" : "FALSE"), ret);
+
+		Features::g_AddedPeds.push_back(result);
 
 		return result;
 	}

@@ -39,12 +39,15 @@ namespace Settings
 			"player_model": false,
 			"player_box": false,
 			"player_bone": false,
+			"player_health": false,
 			"added_ped_model": false,
 			"added_ped_box": false,
-			"added_ped_bone": false
+			"added_ped_bone": false,
+			"added_ped_health": false
 		},
 		"render_model_debug_gun": false,
-		"rapid_fire": false
+		"rapid_fire": false,
+		"disable_west_elizabeth_pinkertons": false
 	})"_json
 	};
 

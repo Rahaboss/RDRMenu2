@@ -192,6 +192,7 @@ namespace Menu
 			ImGui::PopItemWidth();
 		
 			ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>());
+			ImGui::Checkbox("Disable Cinematic Black Borders", g_Settings["no_black_borders"].get<bool*>());
 			ImGui::Separator();
 
 			const nlohmann::json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
@@ -514,6 +515,20 @@ namespace Menu
 			LOG_TO_CLIPBOARD("%llX", g_BaseAddress);
 
 		ImGui::EndGroup();
+
+		// 0, 0, 0, -1, -1, -1
+		if (auto Global_1935630_f_13 = ScriptGlobal(1935630).At(13).Get<int*>())
+			ImGui::Text("Global_1935630.f_13 = %d", *Global_1935630_f_13);
+		if (auto Global_1935630_f_17 = ScriptGlobal(1935630).At(17).Get<int*>())
+			ImGui::Text("Global_1935630.f_17 = %d", *Global_1935630_f_17);
+		if (auto Global_1935630_f_18 = ScriptGlobal(1935630).At(18).Get<int*>())
+			ImGui::Text("Global_1935630.f_18 = %d", *Global_1935630_f_18);
+		if (auto Global_1935630_f_19 = ScriptGlobal(1935630).At(19).Get<int*>())
+			ImGui::Text("Global_1935630.f_19 = %d", *Global_1935630_f_19);
+		if (auto Global_1935630_f_20 = ScriptGlobal(1935630).At(20).Get<int*>())
+			ImGui::Text("Global_1935630.f_20 = %d", *Global_1935630_f_20);
+		if (auto Global_1935630_f_21 = ScriptGlobal(1935630).At(21).Get<int*>())
+			ImGui::Text("Global_1935630.f_21 = %d", *Global_1935630_f_21);
 	}
 
 	void RenderDebugToggles()

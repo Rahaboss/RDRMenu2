@@ -23,7 +23,13 @@ namespace Renderer
 			if (Pointers::SwapChain && (*Pointers::SwapChain) && Pointers::SwapChainPresent && Pointers::CommandQueue && (*Pointers::CommandQueue))
 				CreateD3D12();
 			else
+			{
+#if ENABLE_VULKAN_RENDERER
 				CreateVulkan();
+#else
+				LOG_TO_CONSOLE("Vulkan renderer is currently disabled, use D3D12.\n");
+#endif
+			}
 
 			if (!Setup)
 				LOG_TO_CONSOLE("Failed to create %s renderer!\n", (UseD3D12 ? "D3D12" : "Vulkan"));

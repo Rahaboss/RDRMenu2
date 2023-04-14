@@ -171,7 +171,7 @@ namespace Features
 					RenderBoneDebug(g_LocalPlayer.m_Entity);
 				if (g_Settings["esp"]["player_box"].get<bool>())
 					RenderBoxESP(g_LocalPlayer.m_Entity);
-				RenderTextESP(g_LocalPlayer.m_Entity, g_Settings["esp"]["player_model"].get<bool>(), true);
+				RenderTextESP(g_LocalPlayer.m_Entity, g_Settings["esp"]["player_model"].get<bool>(), g_Settings["esp"]["player_health"].get<bool>());
 			}
 			
 			RenderAddedPedESP();
@@ -195,7 +195,7 @@ namespace Features
 				RenderBoneESP(p);
 			if (g_Settings["esp"]["added_ped_box"].get<bool>())
 				RenderBoxESP(p);
-			RenderTextESP(p, g_Settings["esp"]["added_ped_model"].get<bool>(), true);
+			RenderTextESP(p, g_Settings["esp"]["added_ped_model"].get<bool>(), g_Settings["esp"]["added_ped_health"].get<bool>());
 		}
 	}
 	

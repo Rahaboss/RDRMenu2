@@ -34,12 +34,10 @@ namespace Menu
 		ImGui::BeginGroup();
 
 		ImGui::Checkbox("No Snipers", g_Settings["no_snipers"].get<bool*>());
-
-		ImGui::EndGroup();
 		ImGui::SameLine();
-		ImGui::BeginGroup();
-
 		ImGui::Checkbox("No Black Borders", g_Settings["no_black_borders"].get<bool*>());
+		ImGui::SameLine();
+		ImGui::Checkbox("Disable (Most) West Elizabeth Pinkertons", g_Settings["disable_west_elizabeth_pinkertons"].get<bool*>());
 
 		ImGui::EndGroup();
 		ImGui::Separator();
