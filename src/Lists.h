@@ -104,6 +104,7 @@ const inline std::map<std::string, Hash> g_WeatherTypeList{
 const inline std::map<std::string, Vector3> g_TeleportList{
 	{ "Aberdeen Pig Farm", Vector3(1815.1f, -115.187f, 56.7297f) },
 	{ "Adler Ranch", Vector3(-567.54f, 2682.85f, 319.871f) },
+	{ "Angelo Bronte's Mansion", Vector3(2378.36f, -1216.38f, 47.17f) },
 	{ "Annesburg", Vector3(2921.04f, 1294.39f, 44.639f) },
 	{ "Appleseed Timber Co", Vector3(-1388.23f, -224.803f, 100.787f) },
 	{ "Armadillo", Vector3(-3627.98f, -2591.47f, -13.9677f) },
@@ -198,6 +199,7 @@ const inline std::map<std::string, Vector3> g_TeleportList{
 	{ "Mercer Station", Vector3(-4357.79f, -3067.30f, -10.30f) },
 	{ "Merkins Waller", Vector3(1949.66f, -692.25f, 41.98f) },
 	{ "Mescalero", Vector3(-2836.25f, -2760.28f, 79.17f) },
+	{ "Mexico Graveyard", Vector3(-2798.40f, -4400.80f, -17.13f) },
 	{ "Mexico Tunnel", Vector3(-2774.18f, -4232.66f, -16.0693f) },
 	{ "Millesani Claim", Vector3(-1363.55f, 1014.94f, 183.09f) },
 	{ "Monto's Rest", Vector3(-1508.47f, -215.39f, 112.53f) },

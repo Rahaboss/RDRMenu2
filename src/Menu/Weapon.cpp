@@ -41,13 +41,7 @@ namespace Menu
 			Features::DropCurrentWeapon();
 
 		if (ImGui::Button("Remove All Weapons"))
-		{
-			QUEUE_JOB(=)
-			{
-				WEAPON::REMOVE_ALL_PED_WEAPONS(g_LocalPlayer.m_Entity, true, true);
-			}
-			END_JOB()
-		}
+			Features::RemoveAllPedWeapons(g_LocalPlayer.m_Entity);
 
 		ImGui::EndGroup();
 		ImGui::Separator();

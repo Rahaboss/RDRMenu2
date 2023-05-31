@@ -20,7 +20,7 @@ void MainLoop()
 		g_FiberCollection.push_back(&MainFiber);
 
 		Fiber JobQueueFiber(Features::RunJobQueue);
-		g_FiberCollection.push_back(&JobQueueFiber);
+		g_FiberCollection.emplace_back(&JobQueueFiber);
 
 		Hooking::Create();
 

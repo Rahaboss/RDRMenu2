@@ -16,6 +16,8 @@ namespace Menu
 	void RenderTextDebug();
 	void RenderHUDContextDebug();
 	void RenderCPedDebug();
+	void RenderPersCharDebug();
+	void RenderExplosionDebug();
 
 	inline bool EnableFreeCam = false;
 	inline Cam CamEntity = 0;

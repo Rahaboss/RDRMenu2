@@ -19,10 +19,11 @@ namespace Menu
 					RenderInventoryTab();
 					RenderWorldTab();
 					RenderSpawningTab();
+					RenderRenderingTab();
+					RenderCutsceneTab();
 					RenderDebugTab();
 					RenderLoggerTab();
 					RenderMemoryTab();
-					RenderRenderingTab();
 					if (ImGui::BeginTabItem("Exit"))
 					{
 						Features::RunScriptCleanupAndExit();

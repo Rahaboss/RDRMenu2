@@ -41,15 +41,15 @@ void Fiber::Tick()
 	SwitchToFiber(m_ScriptFiber);
 }
 
+static bool s_Initialized = false;
 void ScriptThreadTick()
 {
-	static bool Initialized = false;
-	if (!Initialized)
+	if (!s_Initialized)
 	{
 		if (!IsThreadAFiber())
 			ConvertThreadToFiber(NULL);
 		Features::Setup();
-		Initialized = true;
+		s_Initialized = true;
 	}
 
 	for (const auto& CurrentFiber : g_FiberCollection)

@@ -77,12 +77,27 @@ namespace Hooking
 	inline DetourHook IsDlcPresent;
 	BOOL IsDlcPresentHook(scrNativeCallContext* ctx);
 
-	inline DetourHook CreatePedOnMount;
-	Ped CreatePedOnMountHook(scrNativeCallContext* ctx);
-
-	inline DetourHook CreatePedInsideVehicle;
-	Ped CreatePedInsideVehicleHook(scrNativeCallContext* ctx);
-
 	inline DetourHook GetAnimScenePed;
 	Ped GetAnimScenePedHook(scrNativeCallContext* ctx);
+
+	inline DetourHook CreateMetapedPed;
+	Ped CreateMetapedPedHook(scrNativeCallContext* ctx);
+
+	inline DetourHook CreateMetapedOutfitPed;
+	Ped CreateMetapedOutfitPedHook(scrNativeCallContext* ctx);
+
+	inline DetourHook ClonePed;
+	Ped ClonePedHook(scrNativeCallContext* ctx);
+
+	inline DetourHook ForceSpawnPersChar;
+	Entity ForceSpawnPersCharHook(scrNativeCallContext* ctx);
+
+	inline DetourHook ForceSpawnPersChar2;
+	Entity ForceSpawnPersChar2Hook(scrNativeCallContext* ctx);
+
+	inline DetourHook ForceSpawnPersChar3;
+	void ForceSpawnPersChar3Hook(scrNativeCallContext* ctx);
+
+	inline DetourHook ForceSpawnPersChar4;
+	Any ForceSpawnPersChar4Hook(scrNativeCallContext* ctx);
 }

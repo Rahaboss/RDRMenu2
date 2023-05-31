@@ -30,6 +30,8 @@ namespace Menu
 		ImGui::Text("Other");
 		ImGui::Checkbox("Model Debug Gun", g_Settings["render_model_debug_gun"].get<bool*>());
 		ImGui::Checkbox("RGB Electric Lantern", g_Settings["rgb_elec_lantern"].get<bool*>());
+		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
+		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
 
 		ImGui::EndChild();
 		ImGui::EndTabItem();

@@ -56,7 +56,11 @@ namespace Features
 			g_Running = false;
 		}
 		END_JOB()
-		std::this_thread::sleep_for(100ms);
+		
+		const uint64_t EndTime = GetTickCount64() + 1000;
+		while (g_Running && GetTickCount64() < EndTime)
+			std::this_thread::sleep_for(10ms);
+		
 		g_Running = false;
 	}
 }

@@ -64,4 +64,12 @@ namespace Features
 	{
 		SetClipboardText(Text.c_str());
 	}
+	
+	Hash GetHashFromJson(const nlohmann::json& JsonObject)
+	{
+		if (JsonObject.is_string())
+			return joaat(JsonObject.get_ref<const std::string&>());
+		
+		return JsonObject.get<Hash>();
+	}
 }

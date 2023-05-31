@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "Menu/Clothing.h"
+#include "Menu/Cutscene.h"
 #include "Menu/Debug.h"
 #include "Menu/Inventory.h"
 #include "Menu/Logger.h"

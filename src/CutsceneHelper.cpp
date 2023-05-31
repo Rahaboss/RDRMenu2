@@ -61,14 +61,16 @@ Ped CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 
 void CutsceneHelper::AddPedFromPedJson(const nlohmann::json& PedJsonObject)
 {
-	Ped Handle = AddPedNew(joaat(PedJsonObject["model"].get_ref<const std::string&>()),
-		PedJsonObject["name"].get_ref<const std::string&>().c_str());
+	Ped Handle = AddPedNew(Features::GetHashFromJson(PedJsonObject["model"]), PedJsonObject["name"].get_ref<const std::string&>().c_str());
 
 	if (PedJsonObject.contains("outfit_preset"))
 		PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, PedJsonObject["outfit_preset"].get<int>(), false);
 
 	if (PedJsonObject.contains("metaped_outfit"))
-		Features::SetMetapedOutfit(Handle, PedJsonObject["metaped_outfit"].get<Hash>());
+		Features::SetMetapedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["metaped_outfit"]));
+
+	if (PedJsonObject.contains("remove_weapons") && PedJsonObject["remove_weapons"].get<bool>())
+		Features::RemoveAllPedWeapons(Handle);
 }
 
 void CutsceneHelper::AddPeds()
@@ -81,6 +83,9 @@ void CutsceneHelper::AddPeds()
 	for (const auto& j : m_JsonObject["peds"])
 	{
 		if (!j.contains("model") || !j.contains("name"))
+			continue;
+
+		if (ENTITY::DOES_ENTITY_EXIST(ANIMSCENE::_GET_ANIM_SCENE_PED(m_Scene, j["name"].get_ref<const std::string&>().c_str(), FALSE)))
 			continue;
 
 		AddPedFromPedJson(j);
@@ -144,7 +149,7 @@ void CutsceneHelper::AddObjects()
 		if (!j.contains("model") || !j.contains("name"))
 			continue;
 
-		AddObjectNew(joaat(j["model"].get_ref<const std::string&>()), j["name"].get_ref<const std::string&>().c_str());
+		AddObjectNew(Features::GetHashFromJson(j["model"]), j["name"].get_ref<const std::string&>().c_str());
 	}
 }
 
@@ -156,7 +161,7 @@ void CutsceneHelper::AddVehicleExisting(Vehicle Handle, const char* entityName)
 
 void CutsceneHelper::AddVehicleFromVehicleJson(const nlohmann::json& VehicleJsonObject)
 {
-	Vehicle Handle = Features::SpawnVehicle(joaat(VehicleJsonObject["model"].get_ref<const std::string&>()), false);
+	Vehicle Handle = Features::SpawnVehicle(Features::GetHashFromJson(VehicleJsonObject["model"]), false);
 	
 	if (VehicleJsonObject.contains("extras"))
 	{

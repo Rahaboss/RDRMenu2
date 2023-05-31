@@ -136,6 +136,40 @@ namespace Features
 		END_JOB()
 	}
 
+	void PlayBareKnuckleFriendshipsCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			[]() {
+				CutsceneHelper Cutscene("cutscene@mar6_rsc2");
+				const Ped unc = Features::SpawnPed(CS_UNCLE);
+				WEAPON::REMOVE_ALL_PED_WEAPONS(unc, TRUE, TRUE);
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(unc, 5, FALSE);
+				Cutscene.AddPedExisting(unc, "Uncle");
+				Cutscene.PlayAutomatically();
+			}();
+		}
+		END_JOB()
+	}
+
+	void PlayANewFutureImaginedCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@rabi3_rsc2");
+		}
+		END_JOB()
+	}
+
+	void PlayEndingStrawberryCutscene()
+	{
+		QUEUE_JOB(=)
+		{
+			PlayCutsceneFromID("cutscene@fin2_ext_p7");
+		}
+		END_JOB()
+	}
+
 	void PlayCutsceneFromJson(const nlohmann::json& JsonObject)
 	{
 		CutsceneHelper Cutscene(JsonObject);

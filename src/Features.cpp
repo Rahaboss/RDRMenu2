@@ -110,7 +110,7 @@ namespace Features
 
 						auto it = g_PedModelNameList.find(hash);
 						if (it != g_PedModelNameList.end())
-							RenderTextOnEntity(out, it->second.c_str());
+							RenderTextOnEntity(out, (it->second + "\n" + std::to_string(out)).c_str());
 						else
 						{
 							auto it2 = g_VehicleModelNameList.find(hash);

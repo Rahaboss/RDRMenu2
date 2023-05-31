@@ -79,12 +79,21 @@ namespace Features
 	{
 		TRY
 		{
-			int requestId = PED::_REQUEST_METAPED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), outfit);
-			while (!PED::_HAS_METAPED_OUTFIT_LOADED(requestId))
+			int requestId = PED::_REQUEST_META_PED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), outfit);
+			while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
 				YieldThread();
-			PED::_APPLY_PED_METAPED_OUTFIT(requestId, ped, true, false);
-			PED::_RELEASE_METAPED_OUTFIT_REQUEST(requestId);
+			PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
+			PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+	}
+	
+	void RemoveAllPedWeapons(Ped ped)
+	{
+		QUEUE_JOB(=)
+		{
+			WEAPON::REMOVE_ALL_PED_WEAPONS(ped, true, true);
+		}
+		END_JOB()
 	}
 }

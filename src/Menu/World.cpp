@@ -18,21 +18,54 @@ namespace Menu
 			Features::SetClockTime(0);
 		if (ImGui::Button("Set Time To Morning", ImVec2(180, 0)))
 			Features::SetClockTime(6);
+
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
 		if (ImGui::Button("Set Time To Noon", ImVec2(180, 0)))
 			Features::SetClockTime(12);
 		if (ImGui::Button("Set Time To Evening", ImVec2(180, 0)))
 			Features::SetClockTime(18);
+
 		ImGui::EndGroup();
 		ImGui::SameLine();
 		ImGui::BeginGroup();
-			
+		
 		if (ImGui::Button("Reveal Map"))
 			Features::RevealMap();
-		
+		if (ImGui::Button("Noon And Sunny"))
+		{
+			Features::SetClockTime(12);
+			Features::SetWeatherType(SUNNY);
+		}
+
 		ImGui::EndGroup();
 		ImGui::Separator();
-		ImGui::BeginGroup();
 
+		ImGui::SetNextItemWidth(200.0f);
+		static float s_TimeScale = 1.0f;
+		if (ImGui::SliderFloat("Time Scale", &s_TimeScale, 0.0f, 1.0f, "%.2f"))
+		{
+			QUEUE_JOB(=)
+			{
+				MISC::SET_TIME_SCALE(s_TimeScale);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Reset###rs_timescale"))
+		{
+			s_TimeScale = 1.0f;
+			QUEUE_JOB(=)
+			{
+				MISC::SET_TIME_SCALE(s_TimeScale);
+			}
+			END_JOB()
+		}
+		ImGui::Separator();
+
+		ImGui::BeginGroup();
 		ImGui::Checkbox("No Snipers", g_Settings["no_snipers"].get<bool*>());
 		ImGui::SameLine();
 		ImGui::Checkbox("No Black Borders", g_Settings["no_black_borders"].get<bool*>());

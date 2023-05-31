@@ -18,15 +18,17 @@ namespace Menu
 		
 		ImGui::BeginChild("debug_child");
 
-		//ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Debug Info"))
 			RenderDebugInfo();
 		ImGui::Separator();
 
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Debug Toggles"))
 			RenderDebugToggles();
 		ImGui::Separator();
 
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Debug Buttons"))
 			RenderDebugButtons();
 		ImGui::Separator();
@@ -35,7 +37,6 @@ namespace Menu
 			RenderCoordDebug();
 		ImGui::Separator();
 
-		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Cutscene Debug"))
 			RenderCutsceneDebug();
 		ImGui::Separator();
@@ -58,6 +59,14 @@ namespace Menu
 
 		if (ImGui::CollapsingHeader("CPed Debug"))
 			RenderCPedDebug();
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("PersChar Debug"))
+			RenderPersCharDebug();
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("Explosion Debug"))
+			RenderExplosionDebug();
 
 		ImGui::EndChild();
 		ImGui::EndTabItem();
@@ -283,64 +292,21 @@ namespace Menu
 		if (ImGui::Button("Charles Leaving To Help Natives"))
 			Features::PlayCharlesLeavingCutscene();
 
-		if (ImGui::Button("Beechers Hope"))
+		if (ImGui::Button("Beecher's Hope"))
 			Features::PlayBeechersHopeCutscene();
+		ImGui::SameLine();
+		if (ImGui::Button("Bare Knuckle Friendships"))
+			Features::PlayBareKnuckleFriendshipsCutscene();
+		ImGui::SameLine();
+		if (ImGui::Button("A New Future Imagined"))
+			Features::PlayANewFutureImaginedCutscene();
+
+		if (ImGui::Button("Ending Strawberry"))
+			Features::PlayEndingStrawberryCutscene();
 	}
 
 	void RenderDebugButtons()
 	{
-		if (ImGui::Button("Get Height"))
-		{
-			QUEUE_JOB(=)
-			{
-				LOG_TO_CONSOLE("Ped height: %.2f.\n", PED::_GET_PED_HEIGHT(g_LocalPlayer.m_Entity));
-			}
-			END_JOB();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("A Quiet Time Cutscene"))
-		{
-			QUEUE_JOB(=)
-			{
-				const char* animDict = "cutscene@SAL1_INT";
-				auto iLocal_31 = ANIMSCENE::_CREATE_ANIM_SCENE(animDict, 0, 0, false, true);
-
-				//Ped arthur = Features::SpawnPed(PLAYER_ZERO);
-				Ped arthur = Features::SpawnPed(PLAYER_THREE);
-				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "ARTHUR", arthur, 0);
-
-				Ped dutch = Features::SpawnPed(CS_DUTCH);
-				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "DUTCH", dutch, 0);
-
-				Ped molly = Features::SpawnPed(CS_MOLLYOSHEA);
-				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "MollyOshea", molly, 0);
-
-				Ped lenny = Features::SpawnPed(CS_LENNY);
-				ANIMSCENE::SET_ANIM_SCENE_ENTITY(iLocal_31, "Lenny", lenny, 0);
-
-				for (int i = 0; i < 20 && !ANIMSCENE::IS_ANIM_SCENE_LOADED(iLocal_31, true, false); i++)
-				{
-					ANIMSCENE::LOAD_ANIM_SCENE(iLocal_31);
-					Features::YieldThread();
-				}
-				ANIMSCENE::START_ANIM_SCENE(iLocal_31);
-
-				while (!ANIMSCENE::IS_ANIM_SCENE_FINISHED(iLocal_31, false))
-				{
-					Features::YieldThread();
-				}
-
-				PED::DELETE_PED(&arthur);
-				PED::DELETE_PED(&dutch);
-				PED::DELETE_PED(&molly);
-				PED::DELETE_PED(&lenny);
-			}
-			END_JOB()
-		}
-
-		if (ImGui::Button("Corrupt scrNativeCallContext::SetVectorResults"))
-			*(Signature("8B 41 18 4C 8B C1 85 C0").Get<uint8_t*>()) = 0xC3;
-
 		if (ImGui::Button("Change Player Model"))
 			Features::SetPlayerModel();
 		ImGui::SameLine();
@@ -462,26 +428,117 @@ namespace Menu
 			Features::SetClockTime(12);
 			Features::SetWeatherType(SUNNY);
 		}
+
+		if (ImGui::Button("Activate Grand Korrigan Interiors"))
+		{
+			QUEUE_JOB(=)
+			{
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2552.205f, -1170.773f, 52.6838f, joaat("NEW_TAILOR01_INT_MAIN")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2552.205f, -1170.773f, 52.6838f, joaat("NEW_TAILOR01_INT_MAIN")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2654.253f, -1179.118f, 52.2785f, joaat("NEW_BARBER_INT")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2654.533f, -1178.978f, 52.2785f, joaat("NEW_BARBER_INT")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3286.869f, -1304.827f, 50.7904f, joaat("SER_GRANDKOR_L2_INT")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3288.151f, -1300.511f, 50.9101f, joaat("SER_GRANDKOR_L2_INT")), 0);
+				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3288.815f, -1309.385f, 41.7978f, joaat("SER_GRANDKOR_L1_INT")), "korrigan_props_poker", 0);
+				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3289.768f, -1309.406f, 41.792f, joaat("SER_GRANDKOR_L1_INT")), "korrigan_props_default", 0);
+			}
+			END_JOB()
+		}
+
+#if 0
+		ImGui::SameLine();
+		if (ImGui::Button("script@titles@title_ch5_guarma"))
+		{
+			QUEUE_JOB(=)
+			{
+				[=]() {
+					auto b = ANIMSCENE::_CREATE_ANIM_SCENE("script@rcm@prsn@leadin@rsc2@charles_drop_deer_on_table", ASF_NONE, "pl_drop_deer", false, true);
+					auto a = ANIMSCENE::_CREATE_ANIM_SCENE("script@rcm@prsn@leadout@rsc_2@leadout", ASF_NONE, "pl_leadout", false, true);
+
+					ANIMSCENE::SET_ANIM_SCENE_BOOL(a, "b_PlayerArthur", true, false);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "ARTHUR", g_LocalPlayer.m_Entity, 0);
+
+					ANIMSCENE::SET_ANIM_SCENE_BOOL(b, "b_PlayerArthur", true, false);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "ARTHUR", g_LocalPlayer.m_Entity, 0);
+
+					Ped pear = Features::SpawnPed(CS_MRPEARSON);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "MrPearson", pear, 0);
+					Ped charl = Features::SpawnPed(CS_CHARLESSMITH);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "CharlesSmith", charl, 0);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "CharlesSmith", charl, 0);
+					Ped deer1 = Features::SpawnPed(A_C_DEER_01);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "A_C_Deer_01", deer1, 0);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "A_C_Deer_01", deer1, 0);
+					Ped deer2 = Features::SpawnPed(A_C_DEER_01);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "A_C_Deer_01^1", deer2, 0);
+					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "A_C_Deer_01^1", deer2, 0);
+
+					CutsceneHelper cs("cutscene@rprsn_rsc_2");
+				
+					cs.AddLocalPlayer();
+					cs.AddPedExisting(pear, "MrPearson");
+					cs.AddPedExisting(charl, "CharlesSmith");
+					cs.AddPedExisting(deer1, "A_C_Deer_01");
+					cs.AddPedExisting(deer2, "A_C_Deer_01^1");
+					cs.AddPedNew(CS_UNCLE, "Uncle");
+					Features::YieldThread();
+
+					cs.LoadCutscene();
+					Features::YieldThread();
+
+					//cs.TeleportToOrigin();
+					//Features::YieldThread();
+
+					Features::Teleport(0.0f, 0.0f, 0.0f);
+
+					ANIMSCENE::START_ANIM_SCENE(b);
+					Features::YieldThread(1000);
+
+					while (true)
+					{
+						ANIMSCENE::LOAD_ANIM_SCENE(a);
+						ANIMSCENE::LOAD_ANIM_SCENE(b);
+						if (ANIMSCENE::IS_ANIM_SCENE_LOADED(a, true, false) && ANIMSCENE::IS_ANIM_SCENE_LOADED(b, true, false))
+							break;
+
+						Features::YieldThread();
+					}
+
+					cs.PlayCutscene();
+					Features::YieldThread();
+
+					cs.WaitForCutsceneEnd();
+					Features::YieldThread();
+
+					ANIMSCENE::START_ANIM_SCENE(a);
+					Features::YieldThread();
+				
+					ANIMSCENE::_DELETE_ANIM_SCENE(a);
+					ANIMSCENE::_DELETE_ANIM_SCENE(b);
+
+					cs.CleanupCutscene();
+					Features::YieldThread();
+
+					Features::DeletePed(deer2);
+					Features::DeletePed(deer1);
+					Features::DeletePed(charl);
+					Features::DeletePed(pear);
+				}();
+			}
+			END_JOB()
+		}
+#endif
 	}
 
 	void RenderDebugInfo()
 	{
 		ImGui::BeginGroup();
 
-		auto Global_35 = ScriptGlobal(35).Get<Ped*>();
-		ImGui::Text("Global_35: 0x%llX", Global_35);
-		if (Global_35)
-			ImGui::Text("Global_35 = %u", *Global_35);
-		ImGui::Text("g_LocalPlayer.m_Entity = %u", g_LocalPlayer.m_Entity);
-		auto Global_40_f_39 = ScriptGlobal(40).At(39).Get<Hash*>();
-		ImGui::Text("Global_40.f_39: 0x%llX", Global_40_f_39);
-		if (Global_40_f_39)
-		{
-			ImGui::Text("Global_40.f_39 = %u", *Global_40_f_39);
-			ImGui::Text("Global_40.f_39 = %s", Features::GetPedModelName(*Global_40_f_39));
-		}
 		if (Pointers::IsSessionStarted)
 			ImGui::Text("Is Session Started: %s", *Pointers::IsSessionStarted ? "true" : "false");
+
+		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
+		ImGui::Text("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n");
 
 		ImGui::EndGroup();
 		ImGui::SameLine();
@@ -499,14 +556,14 @@ namespace Menu
 		if (ImGui::Button("Copy Address###copy_gea"))
 			LOG_TO_CLIPBOARD("%llX", Pointers::GetEntityAddress(g_LocalPlayer.m_Entity));
 		
-		ImGui::Text("\xE2\x84\xAE \xE2\x84\x85 \xE2\x88\x91 \xE2\x86\x95 \xC6\xB1");
-		ImGui::Text("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9\n");
-
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("sub_7FF73D8DB3C4: 0x%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
-		ImGui::SameLine();
-		if (ImGui::Button("Copy Address###copy_sub3c4"))
-			LOG_TO_CLIPBOARD("%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
+		if (g_LocalPlayer.m_Ped)
+		{
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("sub_7FF73D8DB3C4: 0x%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
+			ImGui::SameLine();
+			if (ImGui::Button("Copy Address###copy_sub3c4"))
+				LOG_TO_CLIPBOARD("%llX", Pointers::sub_7FF73D8DB3C4(g_LocalPlayer.m_Ped));
+		}
 
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("RDR2.exe: 0x%llX", g_BaseAddress);
@@ -515,29 +572,31 @@ namespace Menu
 			LOG_TO_CLIPBOARD("%llX", g_BaseAddress);
 
 		ImGui::EndGroup();
-
-		// 0, 0, 0, -1, -1, -1
-		if (auto Global_1935630_f_13 = ScriptGlobal(1935630).At(13).Get<int*>())
-			ImGui::Text("Global_1935630.f_13 = %d", *Global_1935630_f_13);
-		if (auto Global_1935630_f_17 = ScriptGlobal(1935630).At(17).Get<int*>())
-			ImGui::Text("Global_1935630.f_17 = %d", *Global_1935630_f_17);
-		if (auto Global_1935630_f_18 = ScriptGlobal(1935630).At(18).Get<int*>())
-			ImGui::Text("Global_1935630.f_18 = %d", *Global_1935630_f_18);
-		if (auto Global_1935630_f_19 = ScriptGlobal(1935630).At(19).Get<int*>())
-			ImGui::Text("Global_1935630.f_19 = %d", *Global_1935630_f_19);
-		if (auto Global_1935630_f_20 = ScriptGlobal(1935630).At(20).Get<int*>())
-			ImGui::Text("Global_1935630.f_20 = %d", *Global_1935630_f_20);
-		if (auto Global_1935630_f_21 = ScriptGlobal(1935630).At(21).Get<int*>())
-			ImGui::Text("Global_1935630.f_21 = %d", *Global_1935630_f_21);
 	}
 
 	void RenderDebugToggles()
 	{
 		ImGui::BeginGroup();
+		
 		ImGui::Checkbox("Log Ped Spawning", g_Settings["logging"]["spawned_ped"].get<bool*>());
 		ImGui::Checkbox("Log Human Spawning", g_Settings["logging"]["spawned_human"].get<bool*>());
 		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["logging"]["spawned_vehicle"].get<bool*>());
 		ImGui::Checkbox("Log Added Inventory Items", g_Settings["logging"]["added_inventory_item"].get<bool*>());
+		
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+
+		ImGui::Checkbox("Log Created Cutscenes", g_Settings["logging"]["created_cutscene"].get<bool*>());
+		ImGui::Checkbox("Log Set Decor", g_Settings["logging"]["set_decor"].get<bool*>());
+		ImGui::Checkbox("Log Added Cutscene Entities", g_Settings["logging"]["added_cutscene_entity"].get<bool*>());
+		
+		ImGui::EndGroup();
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+		
+		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
+		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
 		if (ImGui::Checkbox("Enable Freecam", &EnableFreeCam) && !EnableFreeCam)
 		{
 			QUEUE_JOB(=)
@@ -553,15 +612,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		ImGui::EndGroup();
-		ImGui::SameLine();
-
-		ImGui::BeginGroup();
-		ImGui::Checkbox("Log Created Cutscenes", g_Settings["logging"]["created_cutscene"].get<bool*>());
-		ImGui::Checkbox("Log Set Decor", g_Settings["logging"]["set_decor"].get<bool*>());
-		ImGui::Checkbox("Log Added Cutscene Entities", g_Settings["logging"]["added_cutscene_entity"].get<bool*>());
-		ImGui::Checkbox("Enable ImGui Demo Window", g_Settings["enable_imgui_demo"].get<bool*>());
-		ImGui::Checkbox("Enable Overlay", g_Settings["enable_overlay"].get<bool*>());
+		
 		ImGui::EndGroup();
 	}
 
@@ -759,78 +810,78 @@ namespace Menu
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 	
-	static int CurCtx = 0;
-	static constexpr char* HUDContextList[]{
-		"HUD_CTX_CODE_TOOLS",
-		"HUD_CTX_CRAFTING_SEQUENCE",
-		"HUD_CTX_FADED_GAMEPLAY",
-		"HUD_CTX_FIREFIGHT_CUTSCENE",
-		"HUD_CTX_FISHING",
-		"HUD_CTX_GOLD_CURRENCY_CHANGE",
-		"HUD_CTX_HACK_RADAR_FORCE_HIDE",
-		"HUD_CTX_HONOR_SHOW",
-		"HUD_CTX_INFINITE_AMMO",
-		"HUD_CTX_INFO_CARD",
-		"HUD_CTX_INPUT_REVEAL_HUD",
-		"HUD_CTX_INSPECT_ITEM",
-		"HUD_CTX_IN_CAMP_WARDROBE",
-		"HUD_CTX_IN_CAMP_WITH_SUPPLIES",
-		"HUD_CTX_IN_CATALOGUE_SHOP_MENU",
-		"HUD_CTX_IN_COMBAT_RESTRICTED_SHOP",
-		"HUD_CTX_IN_FAST_TRAVEL_MENU",
-		"HUD_CTX_IN_GUARMA_AND_BROKE",
-		"HUD_CTX_IN_LOBBY",
-		"HUD_CTX_IN_MINIGAME",
-		"HUD_CTX_IN_MINIGAME_POKER_INTRO",
-		"HUD_CTX_IN_MINIGAME_POKER_OUTRO",
-		"HUD_CTX_IN_MISSION_CUTSCENE",
-		"HUD_CTX_IN_MP_GAME_MODE",
-		"HUD_CTX_IN_MP_TUTORIAL_CUTSCENE",
-		"HUD_CTX_IN_PLAYER_CAMP",
-		"HUD_CTX_IN_QUICK_TIME_EVENT",
-		"HUD_CTX_IN_RESPAWN",
-		"HUD_CTX_IN_SHOP",
-		"HUD_CTX_ITEM_CONSUMPTION_DEADEYE",
-		"HUD_CTX_ITEM_CONSUMPTION_DEADEYE_CORE",
-		"HUD_CTX_ITEM_CONSUMPTION_HEALTH",
-		"HUD_CTX_ITEM_CONSUMPTION_HEALTH_CORE",
-		"HUD_CTX_ITEM_CONSUMPTION_HORSE_HEALTH",
-		"HUD_CTX_ITEM_CONSUMPTION_HORSE_HEALTH_CORE",
-		"HUD_CTX_ITEM_CONSUMPTION_HORSE_STAMINA",
-		"HUD_CTX_ITEM_CONSUMPTION_HORSE_STAMINA_CORE",
-		"HUD_CTX_ITEM_CONSUMPTION_STAMINA",
-		"HUD_CTX_ITEM_CONSUMPTION_STAMINA_CORE",
-		"HUD_CTX_LOBBY_TEAM_SELECT",
-		"HUD_CTX_MAYOR2_CUTSCENE_OBJECTIVES",
-		"HUD_CTX_MINIGAME_SHOOTING",
-		"HUD_CTX_MISSION_CONTROLLER",
-		"HUD_CTX_MISSION_CONTROLLER_CUTSCENE",
-		"HUD_CTX_MISSION_CONTROLLER_INTRO",
-		"HUD_CTX_MISSION_CONTROLLER_OUTRO",
-		"HUD_CTX_MISSION_CREATOR",
-		"HUD_CTX_MISSION_CUTSCENE_WITH_RADAR",
-		"HUD_CTX_MP_MATCHMAKING_TRANSITION",
-		"HUD_CTX_MP_OUT_OF_AREA_BOUNDS",
-		"HUD_CTX_MP_RACES",
-		"HUD_CTX_MP_SPECTATING",
-		"HUD_CTX_NO_ALIVE_PLAYER_HORSE",
-		"HUD_CTX_PLAYER_CAMERA_MODE",
-		"HUD_CTX_PROMPT_MONEY",
-		"HUD_CTX_RESTING_BY_FIRE",
-		"HUD_CTX_ROBBERY_ACTION",
-		"HUD_CTX_SCRIPTED_IN_GAME_CUTSCENE",
-		"HUD_CTX_SCRIPTED_PLAYER_CONTROL_DISABLED",
-		"HUD_CTX_SCRIPT_CME_CUTSCENE",
-		"HUD_CTX_SHARP_SHOOTER_EVENT",
-		"HUD_CTX_SHOP_OBJECTIVE",
-		"HUD_CTX_SKINNING_PROCESS",
-		"HUD_CTX_TITHING",
-		"HUD_CTX_TITHING_NOGANG_CASH",
-		"HUD_CTX_TRANSLATE_OVERLAY",
-	};
-
 	void RenderHUDContextDebug()
 	{
+		static int CurCtx = 0;
+		static constexpr char* HUDContextList[]{
+			"HUD_CTX_CODE_TOOLS",
+			"HUD_CTX_CRAFTING_SEQUENCE",
+			"HUD_CTX_FADED_GAMEPLAY",
+			"HUD_CTX_FIREFIGHT_CUTSCENE",
+			"HUD_CTX_FISHING",
+			"HUD_CTX_GOLD_CURRENCY_CHANGE",
+			"HUD_CTX_HACK_RADAR_FORCE_HIDE",
+			"HUD_CTX_HONOR_SHOW",
+			"HUD_CTX_INFINITE_AMMO",
+			"HUD_CTX_INFO_CARD",
+			"HUD_CTX_INPUT_REVEAL_HUD",
+			"HUD_CTX_INSPECT_ITEM",
+			"HUD_CTX_IN_CAMP_WARDROBE",
+			"HUD_CTX_IN_CAMP_WITH_SUPPLIES",
+			"HUD_CTX_IN_CATALOGUE_SHOP_MENU",
+			"HUD_CTX_IN_COMBAT_RESTRICTED_SHOP",
+			"HUD_CTX_IN_FAST_TRAVEL_MENU",
+			"HUD_CTX_IN_GUARMA_AND_BROKE",
+			"HUD_CTX_IN_LOBBY",
+			"HUD_CTX_IN_MINIGAME",
+			"HUD_CTX_IN_MINIGAME_POKER_INTRO",
+			"HUD_CTX_IN_MINIGAME_POKER_OUTRO",
+			"HUD_CTX_IN_MISSION_CUTSCENE",
+			"HUD_CTX_IN_MP_GAME_MODE",
+			"HUD_CTX_IN_MP_TUTORIAL_CUTSCENE",
+			"HUD_CTX_IN_PLAYER_CAMP",
+			"HUD_CTX_IN_QUICK_TIME_EVENT",
+			"HUD_CTX_IN_RESPAWN",
+			"HUD_CTX_IN_SHOP",
+			"HUD_CTX_ITEM_CONSUMPTION_DEADEYE",
+			"HUD_CTX_ITEM_CONSUMPTION_DEADEYE_CORE",
+			"HUD_CTX_ITEM_CONSUMPTION_HEALTH",
+			"HUD_CTX_ITEM_CONSUMPTION_HEALTH_CORE",
+			"HUD_CTX_ITEM_CONSUMPTION_HORSE_HEALTH",
+			"HUD_CTX_ITEM_CONSUMPTION_HORSE_HEALTH_CORE",
+			"HUD_CTX_ITEM_CONSUMPTION_HORSE_STAMINA",
+			"HUD_CTX_ITEM_CONSUMPTION_HORSE_STAMINA_CORE",
+			"HUD_CTX_ITEM_CONSUMPTION_STAMINA",
+			"HUD_CTX_ITEM_CONSUMPTION_STAMINA_CORE",
+			"HUD_CTX_LOBBY_TEAM_SELECT",
+			"HUD_CTX_MAYOR2_CUTSCENE_OBJECTIVES",
+			"HUD_CTX_MINIGAME_SHOOTING",
+			"HUD_CTX_MISSION_CONTROLLER",
+			"HUD_CTX_MISSION_CONTROLLER_CUTSCENE",
+			"HUD_CTX_MISSION_CONTROLLER_INTRO",
+			"HUD_CTX_MISSION_CONTROLLER_OUTRO",
+			"HUD_CTX_MISSION_CREATOR",
+			"HUD_CTX_MISSION_CUTSCENE_WITH_RADAR",
+			"HUD_CTX_MP_MATCHMAKING_TRANSITION",
+			"HUD_CTX_MP_OUT_OF_AREA_BOUNDS",
+			"HUD_CTX_MP_RACES",
+			"HUD_CTX_MP_SPECTATING",
+			"HUD_CTX_NO_ALIVE_PLAYER_HORSE",
+			"HUD_CTX_PLAYER_CAMERA_MODE",
+			"HUD_CTX_PROMPT_MONEY",
+			"HUD_CTX_RESTING_BY_FIRE",
+			"HUD_CTX_ROBBERY_ACTION",
+			"HUD_CTX_SCRIPTED_IN_GAME_CUTSCENE",
+			"HUD_CTX_SCRIPTED_PLAYER_CONTROL_DISABLED",
+			"HUD_CTX_SCRIPT_CME_CUTSCENE",
+			"HUD_CTX_SHARP_SHOOTER_EVENT",
+			"HUD_CTX_SHOP_OBJECTIVE",
+			"HUD_CTX_SKINNING_PROCESS",
+			"HUD_CTX_TITHING",
+			"HUD_CTX_TITHING_NOGANG_CASH",
+			"HUD_CTX_TRANSLATE_OVERLAY",
+		};
+
 		if (ImGui::BeginCombo("HUD Context", HUDContextList[CurCtx]))
 		{
 			for (int i = 0; i < IM_ARRAYSIZE(HUDContextList); i++)
@@ -884,5 +935,90 @@ namespace Menu
 		ImGui::Text("Entity Index: %u (0x%X)", CurrentPedIndex, CurrentPedIndex);
 		ImGui::Text("CPed Address: 0x%llX", (uintptr_t)CurrentPed);
 		ImGui::Text("GetEntityPedReal: 0x%llX", (uintptr_t)Pointers::GetEntityPedReal);
+	}
+	
+	void RenderPersCharDebug()
+	{
+		static PersChar s_PersChar{};
+		static Ped s_Ped{};
+
+		if (ImGui::InputInt("Input PersChar", &s_PersChar))
+		{
+			QUEUE_JOB(&)
+			{
+				s_Ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(s_PersChar);
+			}
+			END_JOB()
+		}
+
+		ImGui::Text("PersChar: %d", s_PersChar);
+		ImGui::Text("Ped: %d", s_Ped);
+		ImGui::Text("Model: %s", Features::GetPedModelName(s_Ped).c_str());
+	}
+	
+	void RenderExplosionDebug()
+	{
+		static const char* s_ExplosionTypes[]{
+			"EXP_TAG_DONTCARE",
+			"EXP_TAG_GRENADE",
+			"EXP_TAG_STICKYBOMB",
+			"EXP_TAG_MOLOTOV",
+			"EXP_TAG_MOLOTOV_VOLATILE",
+			"EXP_TAG_HI_OCTANE",
+			"EXP_TAG_CAR",
+			"EXP_TAG_PLANE",
+			"EXP_TAG_PETROL_PUMP",
+			"EXP_TAG_DIR_STEAM",
+			"EXP_TAG_DIR_FLAME",
+			"EXP_TAG_DIR_WATER_HYDRANT",
+			"EXP_TAG_BOAT",
+			"EXP_TAG_BULLET",
+			"EXP_TAG_SMOKEGRENADE",
+			"EXP_TAG_BZGAS",
+			"EXP_TAG_GAS_CANISTER",
+			"EXP_TAG_EXTINGUISHER",
+			"EXP_TAG_TRAIN",
+			"EXP_TAG_DIR_FLAME_EXPLODE",
+			"EXP_TAG_VEHICLE_BULLET",
+			"EXP_TAG_BIRD_CRAP",
+			"EXP_TAG_FIREWORK",
+			"EXP_TAG_TORPEDO",
+			"EXP_TAG_TORPEDO_UNDERWATER",
+			"EXP_TAG_LANTERN",
+			"EXP_TAG_DYNAMITE",
+			"EXP_TAG_DYNAMITESTACK",
+			"EXP_TAG_DYNAMITE_VOLATILE",
+			"EXP_TAG_RIVER_BLAST",
+			"EXP_TAG_PLACED_DYNAMITE",
+			"EXP_TAG_FIRE_ARROW",
+			"EXP_TAG_DYNAMITE_ARROW",
+			"EXP_TAG_PHOSPHOROUS_BULLET",
+			"EXP_TAG_LIGHTNING_STRIKE",
+			"EXP_TAG_TRACKING_ARROW",
+			"EXP_TAG_POISON_BOTTLE",
+		};
+		static int s_CurrentExplosion = -1;
+
+		if (ImGui::BeginCombo("Explosion Type", s_ExplosionTypes[s_CurrentExplosion + 1]))
+		{
+			for (int i = 0; i < ARRAYSIZE(s_ExplosionTypes); i++)
+			{
+				if (ImGui::Selectable(s_ExplosionTypes[i], (i - 1) == s_CurrentExplosion))
+					s_CurrentExplosion = i - 1;
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::PushButtonRepeat(true);
+		if (ImGui::Button("Explode"))
+		{
+			QUEUE_JOB(=)
+			{
+				const Vector3 pos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+				FIRE::ADD_EXPLOSION(pos.x, pos.y, pos.z, s_CurrentExplosion, 1.0f, true, false, 1.0f);
+			}
+			END_JOB()
+		}
+		ImGui::PopButtonRepeat();
 	}
 }

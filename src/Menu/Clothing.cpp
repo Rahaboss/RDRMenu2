@@ -236,7 +236,7 @@ namespace Menu
 				for (int i = 0; i < PED::_GET_NUM_COMPONENT_CATEGORIES_IN_PED(g_LocalPlayer.m_Entity); i++)
 				{
 					Hash category = PED::_GET_PED_COMPONENT_CATEGORY_BY_INDEX(g_LocalPlayer.m_Entity, i);
-					if (PED::_IS_METAPED_USING_COMPONENT(g_LocalPlayer.m_Entity, category))
+					if (PED::_IS_META_PED_USING_COMPONENT(g_LocalPlayer.m_Entity, category))
 						PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, category, 1);
 				}
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);

@@ -14,4 +14,6 @@ namespace Features
 	std::filesystem::path GetConfigPath();
 	void SetClipboardText(const char* Text);
 	void SetClipboardText(const std::string& Text);
+
+	Hash GetHashFromJson(const nlohmann::json& JsonObject);
 }
