@@ -73,47 +73,79 @@ namespace Features
 		return JsonObject.get<Hash>();
 	}
 	
-	void* GetPedPool()
-	{
-		if (auto pool = Pointers::PedPoolEncryption; pool->m_IsSet)
-		{
-			uint64_t x = _rotl64(pool->m_Second, 30);
-			return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ pool->m_First, ((x & 0xFF) & 31) + 3), 32));
-		}
-
-		return nullptr;
-	}
-
-	bool IsPedValid(void* pool, Ped ped)
-	{
-		uint8_t* flags = *(uint8_t**)(((uintptr_t)pool) + 0x10);
-		return !((flags[ped]) & 0x80);
-	}
-
-	uint64_t* GetAt(void* pool, Ped ped)
-	{
-		uint8_t* flags = *(uint8_t**)(((uintptr_t)pool) + 0x10);
-		uintptr_t entries = *(uintptr_t*)(((uintptr_t)pool) + 0x8);
-		uint32_t itemsize = *(uint32_t*)(((uintptr_t)pool) + 0x1C);
-
-		if (flags[ped])
-			return (uint64_t*)(entries + ((uintptr_t)(ped * itemsize)));
-		return NULL;
-	}
-
 	std::vector<Ped> GetAllPeds()
 	{
 		std::vector<Ped> result{};
-		const auto pool = GetPedPool();
+		const auto pool = fwBasePool::GetPedPool();
 
 		if (!pool)
 			return result;
 
-		for (int i = 0; i < *(int*)(((uintptr_t)pool) + 0x18); i++)
+		for (uint32_t i = 0; i < pool->m_Size; i++)
 		{
-			if (IsPedValid(pool, i))
+			if (pool->IsValid(i))
 			{
-				if (auto obj = GetAt(pool, i))
+				if (int64_t* obj = pool->GetAt<int64_t>(i))
+					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+			}
+		}
+
+		return result;
+	}
+	
+	std::vector<Object> GetAllObjects()
+	{
+		std::vector<Object> result{};
+		const auto pool = fwBasePool::GetObjectPool();
+
+		if (!pool)
+			return result;
+
+		for (uint32_t i = 0; i < pool->m_Size; i++)
+		{
+			if (pool->IsValid(i))
+			{
+				if (int64_t* obj = pool->GetAt<int64_t>(i))
+					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+			}
+		}
+
+		return result;
+	}
+	
+	std::vector<Vehicle> GetAllVehicles()
+	{
+		std::vector<Vehicle> result{};
+		const auto pool = fwBasePool::GetVehiclePool();
+
+		if (!pool)
+			return result;
+
+		for (uint32_t i = 0; i < pool->m_Size; i++)
+		{
+			if (pool->IsValid(i))
+			{
+				if (int64_t* obj = pool->GetAt<int64_t>(i))
+					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+			}
+		}
+
+		return result;
+	}
+	
+	std::vector<Pickup> GetAllPickups()
+	{
+		std::vector<Pickup> result{};
+		const auto pool = fwBasePool::GetPickupPool();
+
+		if (!pool)
+			return result;
+
+		for (uint32_t i = 0; i < pool->m_Size; i++)
+		{
+			if (pool->IsValid(i))
+			{
+				if (int64_t* obj = pool->GetAt<int64_t>(i))
 					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
 			}
 		}

@@ -63,7 +63,10 @@ namespace Features
 
 	bool WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
 	{
-		return Pointers::WorldToScreen(&WorldPos, &ScreenX, &ScreenY);
+		bool result = Pointers::WorldToScreen(&WorldPos, &ScreenX, &ScreenY);
+		ScreenX *= ImGui::GetMainViewport()->WorkSize.x;
+		ScreenY *= ImGui::GetMainViewport()->WorkSize.y;
+		return result;
 	}
 
 	bool GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords)
@@ -72,8 +75,6 @@ namespace Features
 			return false;
 		if (!WorldToScreen(PED::GET_PED_BONE_COORDS(ped, boneId, 0, 0, 0), OutCoords.x, OutCoords.y))
 			return false;
-		OutCoords.x *= ImGui::GetMainViewport()->WorkSize.x;
-		OutCoords.y *= ImGui::GetMainViewport()->WorkSize.y;
 		return true;
 	}
 
@@ -175,6 +176,7 @@ namespace Features
 			}
 			
 			RenderAddedPedESP();
+			RenderEntityPoolDebugESP();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -191,6 +193,8 @@ namespace Features
 
 		for (const auto& p : g_AddedPeds)
 		{
+			if (p == g_LocalPlayer.m_Entity)
+				continue;
 			if (g_Settings["esp"]["added_ped_bone"].get<bool>())
 				RenderBoneESP(p);
 			if (g_Settings["esp"]["added_ped_box"].get<bool>())
@@ -327,5 +331,78 @@ namespace Features
 		}
 
 		return true;
+	}
+	
+	void RenderEntityPoolDebugESP()
+	{
+		static std::string label{};
+		auto l = ImGui::GetBackgroundDrawList();
+
+		std::vector<Ped> Peds = GetAllPeds();
+		for (const auto& p : Peds)
+		{
+			float x, y;
+			if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(p, TRUE, TRUE), x, y))
+				continue;
+
+			label = "PED:\n";
+			Hash model = ENTITY::GET_ENTITY_MODEL(p);
+			label += GetPedModelName(model);
+			label += "\n(";
+			label += std::to_string(p);
+			label += ")";
+
+			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
+		}
+
+		std::vector<Object> Objects = GetAllObjects();
+		for (const auto& o : Objects)
+		{
+			float x, y;
+			if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(o, TRUE, TRUE), x, y))
+				continue;
+
+			label = "OBJECT:\n";
+			Hash model = ENTITY::GET_ENTITY_MODEL(o);
+			label += std::to_string(model);
+			label += "\n(";
+			label += std::to_string(o);
+			label += ")";
+
+			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
+		}
+
+		std::vector<Vehicle> Vehicles = GetAllVehicles();
+		for (const auto& v : Vehicles)
+		{
+			float x, y;
+			if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(v, TRUE, TRUE), x, y))
+				continue;
+
+			label = "VEHICLE:\n";
+			Hash model = ENTITY::GET_ENTITY_MODEL(v);
+			label += GetVehicleModelName(model);
+			label += "\n(";
+			label += std::to_string(v);
+			label += ")";
+
+			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
+		}
+
+		std::vector<Pickup> Pickups = GetAllPickups();
+		for (const auto& pu : Pickups)
+		{
+			float x, y;
+			if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(pu, TRUE, TRUE), x, y))
+				continue;
+
+			label = "PICKUP:\n";
+			Hash model = ENTITY::GET_ENTITY_MODEL(pu);
+			label += std::to_string(model);
+			label += "\n(";
+			label += std::to_string(pu);
+			label += ")";
+			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
+		}
 	}
 }

@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "Rage/natives.h"
+#include "Rage/fwBasePool.h"
 
 namespace Features
 {
@@ -17,6 +18,8 @@ namespace Features
 
 	Hash GetHashFromJson(const nlohmann::json& JsonObject);
 
-	void* GetPedPool();
 	std::vector<Ped> GetAllPeds();
+	std::vector<Object> GetAllObjects();
+	std::vector<Vehicle> GetAllVehicles();
+	std::vector<Pickup> GetAllPickups();
 }

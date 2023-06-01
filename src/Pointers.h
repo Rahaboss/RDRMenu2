@@ -37,10 +37,11 @@ namespace Pointers
 	inline bool (*WorldToScreen)(const Vector3*, float*, float*){};
 	inline void* (*sub_7FF73D8DB3C4)(void*){};
 	inline CPed* (*GetEntityPedReal)(Entity){};
+	inline uint32_t(*FwScriptGuidCreateGuid)(int64_t* base){};
 	inline VariableEncryption* PedPoolEncryption{};
-	inline uint64_t* PedPoolBase{};
-	inline uint64_t* PedPoolHash{};
-	inline uint32_t(*FwScriptGuidCreateGuid)(uint64_t* base){};
+	inline VariableEncryption* ObjectPoolEncryption{};
+	inline VariableEncryption* VehiclePoolEncryption{};
+	inline VariableEncryption* PickupPoolEncryption{};
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};

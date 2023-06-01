@@ -20,4 +20,5 @@ namespace Features
 	bool RenderTextESP(Ped ped, bool ModelESP = false, bool HealthESP = false);
 	bool RenderBoxESP(Ped ped);
 	bool GetBoxCoords(Ped ped, ImVec2& TopLeft, ImVec2& BottomRight);
+	void RenderEntityPoolDebugESP();
 }

@@ -528,6 +528,15 @@ namespace Menu
 			END_JOB()
 		}
 #endif
+		ImGui::SameLine();
+		if (ImGui::Button("Spawn Hat Test"))
+		{
+			QUEUE_JOB(=)
+			{
+				Features::SpawnObject(813051418);
+			}
+			END_JOB()
+		}
 	}
 
 	void RenderDebugInfo()
