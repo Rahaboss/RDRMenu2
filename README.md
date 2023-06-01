@@ -22,6 +22,7 @@ In Visual Studio, right click on the project in the Solution Explorer. Click on 
 * ✔ Job queue
 * ✔ JSON file support
 * ✔ YSC script global access
+* ✔ Entity pool access (peds, objects, vehicles, pickups)
 * ✔ D3D12 ImGui renderer
 * ❌ Vulkan ImGui renderer
 
