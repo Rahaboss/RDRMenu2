@@ -6,14 +6,10 @@ namespace Pointers
 {
 	SwapChainPresent_t GetSwapChainPresent(IDXGISwapChain3** sc)
 	{
-		TRY
-		{
-			// vtbl** -> vtbl* -> present
-			if (sc; void* p = *(void**)sc)
-				if (p = *(void**)p)
-					return ((SwapChainPresent_t*)p)[8];
-		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		// vtbl** -> vtbl* -> present
+		if (sc; void* p = *(void**)sc)
+			if (p = *(void**)p)
+				return ((SwapChainPresent_t*)p)[8];
 		return 0;
 	}
 
@@ -47,6 +43,10 @@ namespace Pointers
 		WorldToScreen = Signature("E8 ? ? ? ? 0F B6 D0 48 8B 03 89 10 48 83 C4 20 5B C3 48 8B 41 10 48 8B 48 08").Add(1).Rip().Get<decltype(WorldToScreen)>();
 		sub_7FF73D8DB3C4 = Signature("E8 ? ? ? ? 8A 50 28").Add(1).Rip().Get<decltype(sub_7FF73D8DB3C4)>();
 		GetEntityPedReal = Signature("44 8B C9 83 F9 FF").Get<decltype(GetEntityPedReal)>();
+		PedPoolEncryption = Signature("0F 28 F0 48 85 DB 74 56 8A 05 ? ? ? ? 84 C0 75 05").Add(0xA).Rip().Get<decltype(PedPoolEncryption)>();
+		PedPoolBase = Signature("0F 28 F0 48 85 DB 74 56 8A 05 ? ? ? ? 84 C0 75 05").Add(0xA).Rip().Add(8).Get<decltype(PedPoolBase)>();
+		PedPoolHash = Signature("0F 28 F0 48 85 DB 74 56 8A 05 ? ? ? ? 84 C0 75 05").Add(0xA).Rip().Add(0x10).Get<decltype(PedPoolHash)>();
+		FwScriptGuidCreateGuid = Signature("E8 ? ? ? ? B3 01 8B 15").Sub(0x8D).Get<decltype(FwScriptGuidCreateGuid)>();
 
 		// D3D12 Renderer Stuff
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();
@@ -54,7 +54,7 @@ namespace Pointers
 		Pointers::CommandQueue = Signature("4C 8D 0D ? ? ? ? 4C 89 65 B8").Add(3).Rip().Get<decltype(Pointers::CommandQueue)>();
 
 		// Vulkan Renderer Stuff
-#if 0
+#if ENABLE_VULKAN_RENDERER
 		{
 			auto h = GetModuleHandle(L"vulkan-1.dll");
 			if (!h) return;

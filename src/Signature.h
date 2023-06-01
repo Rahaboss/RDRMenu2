@@ -24,6 +24,9 @@ public:
 	}
 
 private:
-	std::vector<uint8_t> m_Bytes; // a 0 byte equals unknown or ?
+	// A 0 byte equals unknown or ?
+	// technically there is no way to scan for a zero byte,
+	// but there has also never been a need to, so...
+	std::vector<uint8_t> m_Bytes;
 	uintptr_t m_Result = 0;
 };

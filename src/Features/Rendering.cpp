@@ -181,13 +181,13 @@ namespace Features
 	
 	void RenderAddedPedESP()
 	{
-		std::vector<Ped> NewPeds;
-		for (const auto& p : g_AddedPeds)
-		{
-			if (ENTITY::DOES_ENTITY_EXIST(p) && ENTITY::IS_ENTITY_A_PED(p) && PED::IS_PED_HUMAN(p))
-				NewPeds.push_back(p);
-		}
-		g_AddedPeds = NewPeds;
+		//std::vector<Ped> NewPeds;
+		//for (const auto& p : g_AddedPeds)
+		//{
+		//	if (ENTITY::DOES_ENTITY_EXIST(p) && ENTITY::IS_ENTITY_A_PED(p) && PED::IS_PED_HUMAN(p))
+		//		NewPeds.push_back(p);
+		//}
+		g_AddedPeds = GetAllPeds();
 
 		for (const auto& p : g_AddedPeds)
 		{

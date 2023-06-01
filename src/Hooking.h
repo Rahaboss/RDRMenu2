@@ -100,4 +100,10 @@ namespace Hooking
 
 	inline DetourHook ForceSpawnPersChar4;
 	Any ForceSpawnPersChar4Hook(scrNativeCallContext* ctx);
+
+	inline DetourHook CreateObject;
+	Object CreateObjectHook(scrNativeCallContext* ctx);
+
+	inline DetourHook CreateObjectNoOffset;
+	Object CreateObjectNoOffsetHook(scrNativeCallContext* ctx);
 }

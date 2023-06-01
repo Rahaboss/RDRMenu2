@@ -581,12 +581,13 @@ namespace Menu
 		ImGui::Checkbox("Log Ped Spawning", g_Settings["logging"]["spawned_ped"].get<bool*>());
 		ImGui::Checkbox("Log Human Spawning", g_Settings["logging"]["spawned_human"].get<bool*>());
 		ImGui::Checkbox("Log Vehicle Spawning", g_Settings["logging"]["spawned_vehicle"].get<bool*>());
-		ImGui::Checkbox("Log Added Inventory Items", g_Settings["logging"]["added_inventory_item"].get<bool*>());
+		ImGui::Checkbox("Log Object Spawning", g_Settings["logging"]["spawned_object"].get<bool*>());
 		
 		ImGui::EndGroup();
 		ImGui::SameLine();
 		ImGui::BeginGroup();
 
+		ImGui::Checkbox("Log Added Inventory Items", g_Settings["logging"]["added_inventory_item"].get<bool*>());
 		ImGui::Checkbox("Log Created Cutscenes", g_Settings["logging"]["created_cutscene"].get<bool*>());
 		ImGui::Checkbox("Log Set Decor", g_Settings["logging"]["set_decor"].get<bool*>());
 		ImGui::Checkbox("Log Added Cutscene Entities", g_Settings["logging"]["added_cutscene_entity"].get<bool*>());

@@ -388,6 +388,8 @@ namespace Menu
 			Features::SetPlayerModel(CS_JACKMARSTON_TEEN);
 		if (ImGui::Selectable("Gavin"))
 			Features::SetPlayerModel(CS_GAVIN);
+		if (ImGui::Selectable("Murder Mystery Body"))
+			Features::SetPlayerModel(RE_MURDERCAMP_MALES_01);
 		ImGui::EndChild();
 	}
 }

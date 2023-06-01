@@ -4,6 +4,7 @@
 #include "rage/scrThread.h"
 #include "rage/scrNativeCallContext.h"
 #include "rage/CPed.h"
+#include "rage/Obfuscation.h"
 
 typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain3*, UINT, UINT);
 
@@ -36,6 +37,10 @@ namespace Pointers
 	inline bool (*WorldToScreen)(const Vector3*, float*, float*){};
 	inline void* (*sub_7FF73D8DB3C4)(void*){};
 	inline CPed* (*GetEntityPedReal)(Entity){};
+	inline VariableEncryption* PedPoolEncryption{};
+	inline uint64_t* PedPoolBase{};
+	inline uint64_t* PedPoolHash{};
+	inline uint32_t(*FwScriptGuidCreateGuid)(uint64_t* base){};
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};

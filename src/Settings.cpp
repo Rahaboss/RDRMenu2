@@ -21,7 +21,8 @@ namespace Settings
 			"set_decor": false,
 			"spawned_human": false,
 			"spawned_ped": false,
-			"spawned_vehicle": false
+			"spawned_vehicle": false,
+			"spawned_object": false
 		},
 		"mount_god_mode": false,
 		"mount_gold_cores": false,

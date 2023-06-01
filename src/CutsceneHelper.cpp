@@ -66,6 +66,7 @@ void CutsceneHelper::AddPedFromPedJson(const nlohmann::json& PedJsonObject)
 	if (PedJsonObject.contains("outfit_preset"))
 		PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, PedJsonObject["outfit_preset"].get<int>(), false);
 
+	// https://github.com/femga/rdr3_discoveries/blob/master/clothes/metaped_outfits.lua
 	if (PedJsonObject.contains("metaped_outfit"))
 		Features::SetMetapedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["metaped_outfit"]));
 

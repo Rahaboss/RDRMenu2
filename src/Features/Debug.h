@@ -16,4 +16,7 @@ namespace Features
 	void SetClipboardText(const std::string& Text);
 
 	Hash GetHashFromJson(const nlohmann::json& JsonObject);
+
+	void* GetPedPool();
+	std::vector<Ped> GetAllPeds();
 }
