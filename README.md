@@ -5,6 +5,7 @@ A trainer for Red Dead Redemption 2.
 You will need:
 * Visual Studio 2017/2019/2022
 * Git
+* [Vulkan SDK](https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe)
 
 ```cmd
 git clone --recurse-submodules git@github.com:Rahaboss/RDRMenu2.git
