@@ -17,8 +17,8 @@ namespace Hooking
 	inline DetourHook RunScriptThreads;
 	bool RunScriptThreadsHook(pgPtrCollection* this_, uint32_t ops);
 
-	//inline DetourHook RunScriptThreads2;
-	//bool RunScriptThreadsHook2(uint32_t ops);
+	inline DetourHook RunScriptThreads2;
+	bool RunScriptThreadsHook2(uint32_t ops);
 
 	// No Snipers: New Austin
 	inline DetourHook ShootBullet;
@@ -77,6 +77,7 @@ namespace Hooking
 	inline DetourHook IsDlcPresent;
 	BOOL IsDlcPresentHook(scrNativeCallContext* ctx);
 
+#if !ENABLE_UNTESTED
 	inline DetourHook GetAnimScenePed;
 	Ped GetAnimScenePedHook(scrNativeCallContext* ctx);
 
@@ -100,6 +101,7 @@ namespace Hooking
 
 	inline DetourHook ForceSpawnPersChar4;
 	Any ForceSpawnPersChar4Hook(scrNativeCallContext* ctx);
+#endif
 
 	inline DetourHook CreateObject;
 	Object CreateObjectHook(scrNativeCallContext* ctx);

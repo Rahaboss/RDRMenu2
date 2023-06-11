@@ -27,14 +27,14 @@ scrNativeHandler NativeContext::GetHandler(uint64_t hash)
 
 void NativeContext::FixVectors()
 {
-	for (size_t i = 0; i < GetContext()->m_DataCount; i++)
+	for (uint32_t i = 0; i < GetContext()->m_DataCount; i++)
 	{
-		auto out = GetContext()->m_OutVectors[i];
-		auto in = GetContext()->m_InVectors + i;
+		auto& out = *(GetContext()->m_OutVectors[i]);
+		auto& in = GetContext()->m_InVectors[i];
 
-		out->x = in->x;
-		out->y = in->y;
-		out->z = in->z;
+		out.x = in.x;
+		out.y = in.y;
+		out.z = in.z;
 	}
 }
 
@@ -52,13 +52,22 @@ void NativeContext::PrintNativeStackInfo(uint64_t hash, void* Handler)
 	EXCEPT{ LOG_EXCEPTION(); }
 }
 
+#if ENABLE_UNTESTED
+extern "C" void SpoofNativeCall(scrNativeCallContext* Context,
+	scrNativeHandler Handler, void* ReturnValue);
+#endif
+
 void NativeContext::EndCall(uint64_t hash)
 {
 	if (const auto Handler = GetHandler(hash))
 	{
 		TRY
 		{
+#if ENABLE_UNTESTED
+			SpoofNativeCall(GetContext(), Handler, &(GetContext()->m_ReturnValue));
+#else
 			Handler(GetContext());
+#endif
 			FixVectors();
 		}
 		EXCEPT

@@ -42,6 +42,9 @@ namespace Pointers
 	inline VariableEncryption* ObjectPoolEncryption{};
 	inline VariableEncryption* VehiclePoolEncryption{};
 	inline VariableEncryption* PickupPoolEncryption{};
+#if ENABLE_UNTESTED
+	inline VariableEncryption* PedFactoryEncryption{};
+#endif
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};

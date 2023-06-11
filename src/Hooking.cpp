@@ -18,6 +18,7 @@ namespace Hooking
 		LOG_TO_CONSOLE("Creating hooks.\n");
 		assert(MH_Initialize() == MH_OK);
 
+		DetourHook::s_HookCount = 0;
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 		//RunScriptThreads2.Create(Pointers::RunScriptThreads2, RunScriptThreadsHook2);
 		ShootBullet.Create(NativeContext::GetHandler(0x867654CBC7606F2C), ShootBulletHook);
@@ -39,6 +40,7 @@ namespace Hooking
 		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
 		SetAnimSceneEntity.Create(NativeContext::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 		IsDlcPresent.Create(NativeContext::GetHandler(0x2763DC12BBE2BB6F), IsDlcPresentHook);
+#if !ENABLE_UNTESTED
 		GetAnimScenePed.Create(NativeContext::GetHandler(0xE5822422197BBBA3), GetAnimScenePedHook);
 		CreateMetapedPed.Create(NativeContext::GetHandler(0x0BCD4091C8EABA42), CreateMetapedPedHook);
 		CreateMetapedOutfitPed.Create(NativeContext::GetHandler(0xEAF682A14F8E5F53), CreateMetapedOutfitPedHook);
@@ -47,6 +49,7 @@ namespace Hooking
 		ForceSpawnPersChar2.Create(NativeContext::GetHandler(0x08FC896D2CB31FCC), ForceSpawnPersChar2Hook);
 		//ForceSpawnPersChar3.Create(NativeContext::GetHandler(0xFCC6DB8DBE709BC8), ForceSpawnPersChar3Hook);
 		//ForceSpawnPersChar4.Create(NativeContext::GetHandler(0x112DDF56300BC6E5), ForceSpawnPersChar4Hook);
+#endif
 		CreateObject.Create(NativeContext::GetHandler(0x509D5878EB39E842), CreateObjectHook);
 		CreateObjectNoOffset.Create(NativeContext::GetHandler(0x9A294B2138ABB884), CreateObjectNoOffsetHook);
 	}
@@ -57,10 +60,16 @@ namespace Hooking
 
 		CreateObjectNoOffset.Destroy();
 		CreateObject.Destroy();
+#if !ENABLE_UNTESTED
 		//ForceSpawnPersChar4.Destroy();
 		//ForceSpawnPersChar3.Destroy();
 		ForceSpawnPersChar2.Destroy();
 		ForceSpawnPersChar.Destroy();
+		ClonePed.Destroy();
+		CreateMetapedOutfitPed.Destroy();
+		CreateMetapedPed.Destroy();
+		GetAnimScenePed.Destroy();
+#endif
 		IsDlcPresent.Destroy();
 		SetAnimSceneEntity.Destroy();
 		DecorSetInt.Destroy();
@@ -82,6 +91,7 @@ namespace Hooking
 		//RunScriptThreads2.Destroy();
 		RunScriptThreads.Destroy();
 
+		assert(DetourHook::s_HookCount = 0);
 		assert(MH_Uninitialize() == MH_OK);
 	}
 
@@ -122,34 +132,32 @@ namespace Hooking
 		return false;
 	}
 
-	//bool RunScriptThreadsHook2(uint32_t ops)
-	//{
-	//	TRY
-	//	{
-	//		if (g_running)
-	//		{
-	//			constexpr joaat_t main_hash = RAGE_JOAAT("main");
-	//			Features::ExecuteAsThread(main_hash, ScriptThreadTick);
-	//		
-	//			return RunScriptThreads2.GetOriginal<decltype(&RunScriptThreadsHook2)>()(ops);
-	//		}
-	//	}
-	//	EXCEPT{ LOG_EXCEPTION(); }
-	//
-	//	return false;
-	//}
-
-	void ShootBulletHook(scrNativeCallContext* ctx)
+	bool RunScriptThreadsHook2(uint32_t ops)
 	{
 		TRY
 		{
-			if (g_Settings["no_snipers"].get<bool>() && ctx &&
-				ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
-				return;
-			
-			ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
+			bool Result = RunScriptThreads2.GetOriginal<decltype(&RunScriptThreadsHook2)>()(ops);
+
+			if (g_Running)
+			{
+				constexpr joaat_t MainHash = RAGE_JOAAT("main");
+				Features::ExecuteAsThread(MainHash, ScriptThreadTick);
+			}
+
+			return Result;
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
+	
+		return false;
+	}
+
+	void ShootBulletHook(scrNativeCallContext* ctx)
+	{
+		if (ctx && g_Settings["no_snipers"].get<bool>() &&
+			ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
+			return;
+			
+		ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
 	}
 
 	BOOL IsEntityInAreaHook(scrNativeCallContext* ctx)
@@ -206,44 +214,24 @@ namespace Hooking
 
 	Ped CreatePedHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>() && !g_Settings["logging"]["spawned_ped"].get<bool>()))
+		if (!ctx)
 			return CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 
-		Hash model = ctx->GetArg<Hash>(0);
-		Vector3 pos = ctx->GetArg<Vector3>(1);
-
 		Ped result = CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
-		Ped ret = ctx->GetRet<Ped>();
 
-		if (PED::IS_PED_HUMAN(ret))
-		{
-			if (g_Settings["logging"]["spawned_human"].get<bool>())
-			{
-				LOG_TO_MENU("Creating human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-			}
-			//Features::g_AddedPeds.push_back(ret);
-		}
-		else if (g_Settings["logging"]["spawned_ped"].get<bool>())
-		{
-			LOG_TO_MENU("Creating ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-		}
+		Features::LogSpawnedEntity(ctx->GetRet<Ped>());
 
 		return result;
 	}
 	
 	Vehicle CreateVehicleHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["logging"]["spawned_vehicle"].get<bool>())
+		if (!ctx)
 			return CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 
-		Hash model = ctx->GetArg<Hash>(0);
-		Vector3 pos = ctx->GetArg<Vector3>(1);
-
 		Vehicle result = CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
-		Vehicle ret = ctx->GetRet<Vehicle>();
 
-		LOG_TO_MENU("Creating vehicle %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetVehicleModelName(model).data(), model, ret,
-			pos.x, pos.y, pos.z);
+		Features::LogSpawnedEntity(ctx->GetRet<Vehicle>());
 
 		return result;
 	}
@@ -268,14 +256,13 @@ namespace Hooking
 			result = InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
 			BOOL ret = ctx->GetRet<BOOL>();
 
-			constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 			switch (inventoryId)
 			{
 			case CONSUMABLE_BIG_GAME_MEAT_COOKED:
 			case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
 			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
 			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
-			case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
+			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
 					inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
 				LOG_TO_MENU("\tReturned %d\n\n", ret);
@@ -474,7 +461,7 @@ namespace Hooking
 
 			if (entity == g_LocalPlayer.m_Entity)
 				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Entity, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
-			else if (entity == g_LocalPlayer.m_Mount)
+			else if (entity == g_LocalPlayer.m_Mount || entity == g_LocalPlayer.m_LastMount)
 				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Mount, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else if (entity == g_LocalPlayer.m_Vehicle)
 				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Vehicle, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
@@ -503,7 +490,7 @@ namespace Hooking
 
 			if (entity == g_LocalPlayer.m_Entity)
 				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Entity, \"%s\", %d)\n", propertyName, value);
-			else if (entity == g_LocalPlayer.m_Mount)
+			else if (entity == g_LocalPlayer.m_Mount || entity == g_LocalPlayer.m_LastMount)
 				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Mount, \"%s\", %d)\n", propertyName, value);
 			else if (entity == g_LocalPlayer.m_Vehicle)
 				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Vehicle, \"%s\", %d)\n", propertyName, value);
@@ -552,6 +539,7 @@ namespace Hooking
 				}
 			}
 
+#if !ENABLE_UNTESTED
 			if (entity != g_LocalPlayer.m_Entity && ENTITY::DOES_ENTITY_EXIST(entity) && PED::IS_PED_HUMAN(entity))
 			{
 				bool exists = false;
@@ -567,6 +555,7 @@ namespace Hooking
 				//if (!exists)
 				//	Features::g_AddedPeds.push_back(entity);
 			}
+#endif
 
 			LOG_TO_MENU("Adding animscene entity %s (model: %s) entity: 0x%X to animscene %d\n", entityName, modelStr.c_str(), entity, animScene);
 		}
@@ -608,7 +597,7 @@ namespace Hooking
 				break;
 			case joaat("XX_I$RAWKST4H_D3V_XX"): // LMAO
 				ctx->GetRet<BOOL>() = TRUE;
-				dlcName = "DLC_PHYSPREORDERCONTENT";
+				dlcName = "XX_I$RAWKST4H_D3V_XX";
 				break;
 			}
 
@@ -625,6 +614,7 @@ namespace Hooking
 		return result;
 	}
 	
+#if !ENABLE_UNTESTED
 	Ped GetAnimScenePedHook(scrNativeCallContext* ctx)
 	{
 		AnimScene animScene = ctx->GetArg<AnimScene>(0);
@@ -890,10 +880,11 @@ namespace Hooking
 
 		return result;
 	}
-	
+#endif
+
 	Object CreateObjectHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["logging"]["spawned_object"].get<bool>())
+		if (!ctx)
 			return CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
 
 		// Object CREATE_OBJECT(Hash modelHash, float x, float y, float z, BOOL isNetwork, BOOL bScriptHostObj, BOOL dynamic, BOOL p7, BOOL p8)
@@ -913,12 +904,14 @@ namespace Hooking
 			(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
 			(p7 ? "TRUE" : "FALSE"), (p8 ? "TRUE" : "FALSE"), ret);
 
+		Features::LogSpawnedEntity(ctx->GetRet<Object>());
+
 		return result;
 	}
 	
 	Object CreateObjectNoOffsetHook(scrNativeCallContext* ctx)
 	{
-		if (!ctx || !g_Settings["logging"]["spawned_object"].get<bool>())
+		if (!ctx)
 			return CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
 
 		// Object CREATE_OBJECT_NO_OFFSET(Hash modelHash, float x, float y, float z, BOOL isNetwork, BOOL bScriptHostObj, BOOL dynamic, BOOL p7)
@@ -936,6 +929,8 @@ namespace Hooking
 		LOG_TO_MENU("OBJECT::CREATE_OBJECT_NO_OFFSET(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
 			(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
 			(p7 ? "TRUE" : "FALSE"), ret);
+		
+		Features::LogSpawnedEntity(ctx->GetRet<Object>());
 
 		return result;
 	}

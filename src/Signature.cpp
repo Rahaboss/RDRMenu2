@@ -151,7 +151,11 @@ Signature& Signature::Sub(ptrdiff_t n)
 
 Signature& Signature::Rip()
 {
+#if ENABLE_UNTESTED
+	return Add(*Get<int32_t*>()).Add(4);
+#else
 	return Add(*reinterpret_cast<int32_t*>(m_Result)).Add(4);
+#endif
 }
 
 uintptr_t Signature::GetRaw()

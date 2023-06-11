@@ -10,6 +10,7 @@ void DetourHook::Create(void* Target, void* Detour)
 	if (Status != MH_OK)
 		LOG_TO_CONSOLE("%s: Minhook error %s.\n", __FUNCTION__, MH_StatusToString(Status));
 	assert(Status == MH_OK);
+	s_HookCount++;
 }
 
 void DetourHook::Destroy()
@@ -20,4 +21,5 @@ void DetourHook::Destroy()
 	if (Status != MH_OK)
 		LOG_TO_CONSOLE("%s: Minhook error %s.\n", __FUNCTION__, MH_StatusToString(Status));
 	assert(Status == MH_OK);
+	s_HookCount--;
 }

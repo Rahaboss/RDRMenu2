@@ -48,6 +48,9 @@ namespace Pointers
 		ObjectPoolEncryption = Signature("3C 05 75 67").Add(0x14).Rip().Get<decltype(ObjectPoolEncryption)>();
 		VehiclePoolEncryption = Signature("48 83 EC 20 8A 05 ? ? ? ? 45 33 E4").Add(6).Rip().Get<decltype(VehiclePoolEncryption)>();
 		PickupPoolEncryption = Signature("0F 84 ? ? ? ? 8A 05 ? ? ? ? 48 85").Add(8).Rip().Get<decltype(PickupPoolEncryption)>();
+#if ENABLE_UNTESTED
+		PedFactoryEncryption = Signature("40 53 48 83 EC 20 33 DB 38 1D ? ? ? ? 74 1C").Add(0x3D).Rip().Sub(0x10).Get<decltype(PedFactoryEncryption)>();
+#endif
 
 		// D3D12 Renderer Stuff
 		Pointers::SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(Pointers::SwapChain)>();
@@ -55,6 +58,10 @@ namespace Pointers
 		Pointers::CommandQueue = Signature("4C 8D 0D ? ? ? ? 4C 89 65 B8").Add(3).Rip().Get<decltype(Pointers::CommandQueue)>();
 
 		// Vulkan Renderer Stuff
+#if ENABLE_UNTESTED
+		// Remove the vulkan renderer stuff from here -
+		// duplicate in Renderer::SetupVulkan() (src/Renderer.cpp)
+#else
 #if ENABLE_VULKAN_RENDERER
 		{
 			auto h = GetModuleHandle(L"vulkan-1.dll");
@@ -173,6 +180,7 @@ namespace Pointers
 			InitInfo.Allocator = vkAllocator;
 			InitInfo.CheckVkResultFn = vkCheckFn;
 		}
-#endif
+#endif // ENABLE_VULKAN_RENDERER
+#endif // ENABLE_UNTESTED
 	}
 }

@@ -24,9 +24,16 @@ public:
 	}
 
 private:
+#if ENABLE_UNTESTED
+	// This should realistically changed to int type
+	// so unknown bytes would be represented as -1 and 0 bytes
+	// could also be scanned for
+	std::vector<int32_t> m_Bytes; // std::vector<int> m_Bytes;
+#else
 	// A 0 byte equals unknown or ?
 	// technically there is no way to scan for a zero byte,
 	// but there has also never been a need to, so...
 	std::vector<uint8_t> m_Bytes;
+#endif
 	uintptr_t m_Result = 0;
 };

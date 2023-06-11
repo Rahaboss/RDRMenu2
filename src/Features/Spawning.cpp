@@ -4,6 +4,7 @@
 #include "PlayerInfo.h"
 #include "JobQueue.h"
 #include "Lists.h"
+#include "Menu/Logger.h"
 
 namespace Features
 {
@@ -158,5 +159,54 @@ namespace Features
 			PED::SET_PED_INTO_VEHICLE(g_LocalPlayer.m_Entity, veh, -1);
 		
 		return veh;
+	}
+
+	void LogSpawnedEntity(Entity ent)
+	{
+		if (ent == 0 || ((int)ent) == -1 || !ENTITY::DOES_ENTITY_EXIST(ent))
+			return;
+
+		Hash Model = ENTITY::GET_ENTITY_MODEL(ent);
+		Vector3 Pos = ENTITY::GET_ENTITY_COORDS(ent, TRUE, TRUE);
+		std::string Type, Name;
+
+		if (ENTITY::IS_ENTITY_AN_OBJECT(ent)) // Object
+		{
+			if (!g_Settings["logging"]["spawned_object"].get<bool>())
+				return;
+			Type = "object";
+			Name = "Unknown";
+		}
+		else if (ENTITY::IS_ENTITY_A_VEHICLE(ent)) // Vehicle
+		{
+			if (!g_Settings["logging"]["spawned_vehicle"].get<bool>())
+				return;
+			Type = "vehicle";
+			Name = Features::GetVehicleModelName(Model);
+		}
+		else if (ENTITY::IS_ENTITY_A_PED(ent))
+		{
+			if (PED::IS_PED_HUMAN(ent)) // Human
+			{
+				if (!g_Settings["logging"]["spawned_human"].get<bool>())
+					return;
+				Type = "human";
+			}
+			else // Ped (animal / other)
+			{
+				if (!g_Settings["logging"]["spawned_ped"].get<bool>())
+					return;
+				Type = "ped";
+			}
+			Name = Features::GetPedModelName(Model);
+		}
+		else return;
+
+		// Display the model name as unsigned decimal if unknown
+		if (Name == "Unknown")
+			Name = std::to_string(Model);
+		
+		LOG_TO_MENU("Creating %s %s (ID: %u / 0x%X) at %.2f, %.2f, %.2f\n",
+			Type.c_str(), Name.c_str(), ent, ent, Pos.x, Pos.y, Pos.z);
 	}
 }

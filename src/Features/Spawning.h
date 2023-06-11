@@ -16,4 +16,5 @@ namespace Features
 	Ped SpawnPed(Hash Model);
 	Pickup SpawnPickup(Hash PickupHash);
 	Vehicle SpawnVehicle(Hash Model, bool WarpInside = true);
+	void LogSpawnedEntity(Entity ent);
 }
