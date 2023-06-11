@@ -46,7 +46,7 @@ Signature::Signature(std::string_view IDAPattern)
 			// Check for double question mark
 			if (IDAPattern[i + 1] == '?')
 				i++;
-			m_Bytes.push_back(0);
+			m_Bytes.push_back(-1);
 			continue;
 		}
 
@@ -72,7 +72,7 @@ Signature::Signature(void* CodePattern, std::string_view Mask)
 		// Check for unknown byte in mask
 		if (Mask[i] == '?')
 		{
-			m_Bytes.push_back(0);
+			m_Bytes.push_back(-1);
 			continue;
 		}
 
@@ -94,7 +94,7 @@ Signature& Signature::Scan()
 	{
 		for (size_t i = 0; i < m_Bytes.size(); i++)
 		{
-			if (m_Bytes[i] && m_Bytes[i] != *reinterpret_cast<uint8_t*>(Location + i))
+			if ((m_Bytes[i] != -1) && m_Bytes[i] != *reinterpret_cast<uint8_t*>(Location + i))
 				return false;
 		}
 		return true;
@@ -151,11 +151,7 @@ Signature& Signature::Sub(ptrdiff_t n)
 
 Signature& Signature::Rip()
 {
-#if ENABLE_UNTESTED
 	return Add(*Get<int32_t*>()).Add(4);
-#else
-	return Add(*reinterpret_cast<int32_t*>(m_Result)).Add(4);
-#endif
 }
 
 uintptr_t Signature::GetRaw()

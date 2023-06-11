@@ -20,11 +20,12 @@ namespace Menu
 		ImGui::Checkbox("Player Health ESP", g_Settings["esp"]["player_health"].get<bool*>());
 		ImGui::Separator();
 
-		ImGui::Text("Added Peds");
-		ImGui::Checkbox("Added Ped Bone ESP", g_Settings["esp"]["added_ped_bone"].get<bool*>());
-		ImGui::Checkbox("Added Ped Box ESP", g_Settings["esp"]["added_ped_box"].get<bool*>());
-		ImGui::Checkbox("Added Ped Model ESP", g_Settings["esp"]["added_ped_model"].get<bool*>());
-		ImGui::Checkbox("Added Ped Health ESP", g_Settings["esp"]["added_ped_health"].get<bool*>());
+		ImGui::Text("Humans");
+		ImGui::Checkbox("Human Bone ESP", g_Settings["esp"]["human_bone"].get<bool*>());
+		ImGui::Checkbox("Human Box ESP", g_Settings["esp"]["human_box"].get<bool*>());
+		ImGui::Checkbox("Human Model ESP", g_Settings["esp"]["human_model"].get<bool*>());
+		ImGui::Checkbox("Human Health ESP", g_Settings["esp"]["human_health"].get<bool*>());
+		ImGui::Checkbox("Human Ignore Dead", g_Settings["esp"]["human_ignore_dead"].get<bool*>());
 		ImGui::Separator();
 
 		ImGui::Text("Other");

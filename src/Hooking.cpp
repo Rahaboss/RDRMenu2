@@ -18,7 +18,6 @@ namespace Hooking
 		LOG_TO_CONSOLE("Creating hooks.\n");
 		assert(MH_Initialize() == MH_OK);
 
-		DetourHook::s_HookCount = 0;
 		RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 		//RunScriptThreads2.Create(Pointers::RunScriptThreads2, RunScriptThreadsHook2);
 		ShootBullet.Create(NativeContext::GetHandler(0x867654CBC7606F2C), ShootBulletHook);
@@ -40,16 +39,6 @@ namespace Hooking
 		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
 		SetAnimSceneEntity.Create(NativeContext::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 		IsDlcPresent.Create(NativeContext::GetHandler(0x2763DC12BBE2BB6F), IsDlcPresentHook);
-#if !ENABLE_UNTESTED
-		GetAnimScenePed.Create(NativeContext::GetHandler(0xE5822422197BBBA3), GetAnimScenePedHook);
-		CreateMetapedPed.Create(NativeContext::GetHandler(0x0BCD4091C8EABA42), CreateMetapedPedHook);
-		CreateMetapedOutfitPed.Create(NativeContext::GetHandler(0xEAF682A14F8E5F53), CreateMetapedOutfitPedHook);
-		ClonePed.Create(NativeContext::GetHandler(0x214651FB1DFEBA89), ClonePedHook);
-		ForceSpawnPersChar.Create(NativeContext::GetHandler(0x0CADC3A977997472), ForceSpawnPersCharHook);
-		ForceSpawnPersChar2.Create(NativeContext::GetHandler(0x08FC896D2CB31FCC), ForceSpawnPersChar2Hook);
-		//ForceSpawnPersChar3.Create(NativeContext::GetHandler(0xFCC6DB8DBE709BC8), ForceSpawnPersChar3Hook);
-		//ForceSpawnPersChar4.Create(NativeContext::GetHandler(0x112DDF56300BC6E5), ForceSpawnPersChar4Hook);
-#endif
 		CreateObject.Create(NativeContext::GetHandler(0x509D5878EB39E842), CreateObjectHook);
 		CreateObjectNoOffset.Create(NativeContext::GetHandler(0x9A294B2138ABB884), CreateObjectNoOffsetHook);
 	}
@@ -60,16 +49,6 @@ namespace Hooking
 
 		CreateObjectNoOffset.Destroy();
 		CreateObject.Destroy();
-#if !ENABLE_UNTESTED
-		//ForceSpawnPersChar4.Destroy();
-		//ForceSpawnPersChar3.Destroy();
-		ForceSpawnPersChar2.Destroy();
-		ForceSpawnPersChar.Destroy();
-		ClonePed.Destroy();
-		CreateMetapedOutfitPed.Destroy();
-		CreateMetapedPed.Destroy();
-		GetAnimScenePed.Destroy();
-#endif
 		IsDlcPresent.Destroy();
 		SetAnimSceneEntity.Destroy();
 		DecorSetInt.Destroy();
@@ -91,7 +70,7 @@ namespace Hooking
 		//RunScriptThreads2.Destroy();
 		RunScriptThreads.Destroy();
 
-		assert(DetourHook::s_HookCount = 0);
+		assert(HookCount == 0);
 		assert(MH_Uninitialize() == MH_OK);
 	}
 
@@ -372,16 +351,6 @@ namespace Hooking
 		PersChar ret = ctx->GetRet<PersChar>();
 		Hash model = PERSCHAR::_GET_PERSCHAR_MODEL_NAME(hash);
 
-		// PERSCHAR::_GET_PERSCHAR_PED_INDEX always returns 0 for some reason
-#if 0
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
-		if (!model)
-			model = ENTITY::GET_ENTITY_MODEL(ped);
-		
-		if (PED::IS_PED_HUMAN(ped))
-			Features::g_AddedPeds.push_back(ped);
-#endif
-
 		if (!model)
 			return result;
 		
@@ -390,25 +359,6 @@ namespace Hooking
 			return result;
 		
 		LOG_TO_MENU("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
-
-		QUEUE_JOB(=)
-		{
-			Features::YieldThread(100);
-
-			Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
-			if (ENTITY::DOES_ENTITY_EXIST(ped))
-			{
-				LOG_TO_MENU("Adding existing perschar %s (0x%X) to ped list\n", it->second.data(), ret);
-
-				//if (PED::IS_PED_HUMAN(ped))
-				//	Features::g_AddedPeds.push_back(ped);
-			}
-			else
-			{
-				LOG_TO_MENU("Perschar %s (0x%X) did not spawn in time!\n", it->second.data(), ret);
-			}
-		}
-		END_JOB()
 
 		return result;
 	}
@@ -539,24 +489,6 @@ namespace Hooking
 				}
 			}
 
-#if !ENABLE_UNTESTED
-			if (entity != g_LocalPlayer.m_Entity && ENTITY::DOES_ENTITY_EXIST(entity) && PED::IS_PED_HUMAN(entity))
-			{
-				bool exists = false;
-				for (const auto& p : Features::g_AddedPeds)
-				{
-					if (p == entity)
-					{
-						exists = true;
-						break;
-					}
-				}
-
-				//if (!exists)
-				//	Features::g_AddedPeds.push_back(entity);
-			}
-#endif
-
 			LOG_TO_MENU("Adding animscene entity %s (model: %s) entity: 0x%X to animscene %d\n", entityName, modelStr.c_str(), entity, animScene);
 		}
 
@@ -614,274 +546,6 @@ namespace Hooking
 		return result;
 	}
 	
-#if !ENABLE_UNTESTED
-	Ped GetAnimScenePedHook(scrNativeCallContext* ctx)
-	{
-		AnimScene animScene = ctx->GetArg<AnimScene>(0);
-		const char* name = ctx->GetArg<const char*>(1);
-		BOOL isNetwork = ctx->GetArg<BOOL>(2);
-		
-		Ped result = GetAnimScenePed.GetOriginal<decltype(&GetAnimScenePedHook)>()(ctx);
-		Ped ret = ctx->GetRet<Ped>();
-
-		//if (ret == 0 || !ENTITY::DOES_ENTITY_EXIST(ret))
-		//	return;
-		
-		LOG_TO_MENU("_GET_ANIM_SCENE_PED(%u, \"%s\", %s) = %u\n", animScene, name, (isNetwork ? "TRUE" : "FALSE"), ret);
-
-		//Features::g_AddedPeds.push_back(result);
-
-		return result;
-	}
-	
-	Ped CreateMetapedPedHook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>() && !g_Settings["logging"]["spawned_ped"].get<bool>()))
-			return CreateMetapedPed.GetOriginal<decltype(&CreateMetapedPedHook)>()(ctx);
-
-		puts(__FUNCTION__);
-
-		Hash model = ctx->GetArg<Hash>(0);
-		Vector3 pos = ctx->GetArg<Vector3>(1);
-
-		Ped result = CreateMetapedPed.GetOriginal<decltype(&CreateMetapedPedHook)>()(ctx);
-		Ped ret = ctx->GetRet<Ped>();
-
-		if (PED::IS_PED_HUMAN(ret))
-		{
-			if (g_Settings["logging"]["spawned_human"].get<bool>())
-			{
-				LOG_TO_MENU("Creating metaped human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-			}
-			//Features::g_AddedPeds.push_back(ret);
-		}
-		else if (g_Settings["logging"]["spawned_ped"].get<bool>())
-		{
-			LOG_TO_MENU("Creating metaped ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-		}
-
-		return result;
-	}
-	
-	Ped CreateMetapedOutfitPedHook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>() && !g_Settings["logging"]["spawned_ped"].get<bool>()))
-			return CreateMetapedOutfitPed.GetOriginal<decltype(&CreateMetapedOutfitPedHook)>()(ctx);
-		
-		Hash model = ctx->GetArg<Hash>(0);
-		Vector3 pos = ctx->GetArg<Vector3>(1);
-
-		Ped result = CreateMetapedOutfitPed.GetOriginal<decltype(&CreateMetapedOutfitPedHook)>()(ctx);
-		Ped ret = ctx->GetRet<Ped>();
-
-		if (PED::IS_PED_HUMAN(ret))
-		{
-			if (g_Settings["logging"]["spawned_human"].get<bool>())
-			{
-				LOG_TO_MENU("Creating metaped outfit human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-			}
-			//Features::g_AddedPeds.push_back(ret);
-		}
-		else if (g_Settings["logging"]["spawned_ped"].get<bool>())
-		{
-			LOG_TO_MENU("Creating metaped outfit ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-		}
-
-		return result;
-	}
-	
-	Ped ClonePedHook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || (!g_Settings["logging"]["spawned_human"].get<bool>() && !g_Settings["logging"]["spawned_ped"].get<bool>()))
-			return ClonePed.GetOriginal<decltype(&ClonePedHook)>()(ctx);
-
-		puts(__FUNCTION__);
-
-		Hash model = ctx->GetArg<Hash>(0);
-		Vector3 pos = ctx->GetArg<Vector3>(1);
-
-		Ped result = ClonePed.GetOriginal<decltype(&ClonePedHook)>()(ctx);
-		Ped ret = ctx->GetRet<Ped>();
-
-		if (PED::IS_PED_HUMAN(ret))
-		{
-			if (g_Settings["logging"]["spawned_human"].get<bool>())
-			{
-				LOG_TO_MENU("Creating cloned human %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-			}
-			//Features::g_AddedPeds.push_back(ret);
-		}
-		else if (g_Settings["logging"]["spawned_ped"].get<bool>())
-		{
-			LOG_TO_MENU("Creating cloned ped %s (0x%X) ID: 0x%X at: %.2f, %.2f, %.2f\n", Features::GetPedModelName(model).data(), model, ret, pos.x, pos.y, pos.z);
-		}
-
-		return result;
-	}
-	
-	Entity ForceSpawnPersCharHook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
-			return ForceSpawnPersChar.GetOriginal<decltype(&ForceSpawnPersCharHook)>()(ctx);
-
-		PersChar persChar = ctx->GetArg<Hash>(0);
-		BOOL p1 = ctx->GetArg<BOOL>(1);
-		Entity result = ForceSpawnPersChar.GetOriginal<decltype(&ForceSpawnPersCharHook)>()(ctx);
-		Entity ret = ctx->GetRet<PersChar>();
-
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(persChar);
-		if (//(result == 0 || !ENTITY::DOES_ENTITY_EXIST(result)) && (ret == 0 || !ENTITY::DOES_ENTITY_EXIST(ret)) && (ped == 0 || !ENTITY::DOES_ENTITY_EXIST(ped))
-			result == 0 && ret == 0 && ped == 0)
-			return result;
-
-		if (ret == 0)
-			ret = ped;
-
-		if (ret == 0)
-			ret = result;
-
-		Hash model = ENTITY::GET_ENTITY_MODEL(ret);
-
-		LOG_TO_MENU(__FUNCTION__": Spawning persistent character %s (0x%X), ID: 0x%X\n", Features::GetPedModelName(model).c_str(), model, ret);
-
-		//if (PED::IS_PED_HUMAN(ret))
-		//	Features::g_AddedPeds.push_back(ret);
-
-#if 0
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
-		if (!model)
-			model = ENTITY::GET_ENTITY_MODEL(ped);
-
-		if (PED::IS_PED_HUMAN(ped))
-			Features::g_AddedPeds.push_back(ped);
-
-		if (model)
-		{
-			const auto it = g_PedModelNameList.find(model);
-			if (it != g_PedModelNameList.end())
-				LOG_TO_MENU("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
-		}
-#endif
-
-		return result;
-	}
-	
-	Entity ForceSpawnPersChar2Hook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
-			return ForceSpawnPersChar2.GetOriginal<decltype(&ForceSpawnPersChar2Hook)>()(ctx);
-
-		PersChar persChar = ctx->GetArg<Hash>(0);
-		BOOL p1 = ctx->GetArg<BOOL>(1);
-		Entity result = ForceSpawnPersChar2.GetOriginal<decltype(&ForceSpawnPersChar2Hook)>()(ctx);
-		Entity ret = ctx->GetRet<PersChar>();
-
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(persChar);
-		if (//(result == 0 || !ENTITY::DOES_ENTITY_EXIST(result)) && (ret == 0 || !ENTITY::DOES_ENTITY_EXIST(ret)) && (ped == 0 || !ENTITY::DOES_ENTITY_EXIST(ped))
-			result == 0 && ret == 0 && ped == 0)
-			return result;
-
-		if (ret == 0)
-			ret = ped;
-
-		if (ret == 0)
-			ret = result;
-
-		Hash model = ENTITY::GET_ENTITY_MODEL(ret);
-
-		LOG_TO_MENU(__FUNCTION__": Spawning persistent character %s (0x%X), ID: 0x%X\n", Features::GetPedModelName(model).c_str(), model, ret);
-
-		//if (PED::IS_PED_HUMAN(ret))
-		//	Features::g_AddedPeds.push_back(ret);
-
-#if 0
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
-		if (!model)
-			model = ENTITY::GET_ENTITY_MODEL(ped);
-
-		if (PED::IS_PED_HUMAN(ped))
-			Features::g_AddedPeds.push_back(ped);
-
-		if (model)
-		{
-			const auto it = g_PedModelNameList.find(model);
-			if (it != g_PedModelNameList.end())
-				LOG_TO_MENU("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
-		}
-#endif
-
-		return result;
-	}
-	
-	void ForceSpawnPersChar3Hook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
-		{
-			ForceSpawnPersChar3.GetOriginal<decltype(&ForceSpawnPersChar3Hook)>()(ctx);
-			return;
-		}
-
-		PersChar persChar = ctx->GetArg<Hash>(0);
-		BOOL p1 = ctx->GetArg<BOOL>(1);
-		ForceSpawnPersChar3.GetOriginal<decltype(&ForceSpawnPersChar3Hook)>()(ctx);
-
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(persChar);
-		if (ped == 0 /*|| !ENTITY::DOES_ENTITY_EXIST(ped)*/)
-			return;
-
-		Hash model = ENTITY::GET_ENTITY_MODEL(ped);
-
-		LOG_TO_MENU(__FUNCTION__": Spawning persistent character %s (0x%X), ID: 0x%X\n", Features::GetPedModelName(model).c_str(), model, ped);
-
-		//if (PED::IS_PED_HUMAN(ped))
-		//	Features::g_AddedPeds.push_back(ped);
-
-#if 0
-		Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(ret);
-		if (!model)
-			model = ENTITY::GET_ENTITY_MODEL(ped);
-
-		if (PED::IS_PED_HUMAN(ped))
-			Features::g_AddedPeds.push_back(ped);
-
-		if (model)
-		{
-			const auto it = g_PedModelNameList.find(model);
-			if (it != g_PedModelNameList.end())
-				LOG_TO_MENU("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
-		}
-#endif
-	}
-	
-	Any ForceSpawnPersChar4Hook(scrNativeCallContext* ctx)
-	{
-		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
-			return ForceSpawnPersChar4.GetOriginal<decltype(&ForceSpawnPersChar4Hook)>()(ctx);
-
-		Hash p0 = ctx->GetArg<Hash>(0);
-		Any result = ForceSpawnPersChar4.GetOriginal<decltype(&ForceSpawnPersChar4Hook)>()(ctx);
-		Any ret = ctx->GetRet<Any>();
-
-		//LOG_TO_MENU(__FUNCTION__"(0x%X) = %d\n", p0, ret);
-
-		//Ped ped = PERSCHAR::_GET_PERSCHAR_PED_INDEX(persChar);
-		//if (ped == 0 /*|| !ENTITY::DOES_ENTITY_EXIST(ped)*/)
-		//{
-		//	LOG_TO_CONSOLE(__FUNCTION__" returned an invalid ped index for perschar 0x%x!\n", persChar);
-		//	return;
-		//}
-		//
-		//Hash model = ENTITY::GET_ENTITY_MODEL(ped);
-		//
-		//LOG_TO_MENU(__FUNCTION__": Spawning persistent character %s (0x%X), ID: 0x%X\n", Features::GetPedModelName(model).c_str(), model, ped);
-		//
-		//if (PED::IS_PED_HUMAN(ped))
-		//	Features::g_AddedPeds.push_back(ped);
-
-		return result;
-	}
-#endif
-
 	Object CreateObjectHook(scrNativeCallContext* ctx)
 	{
 		if (!ctx)
@@ -900,9 +564,9 @@ namespace Hooking
 		Object result = CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
 		Object ret = ctx->GetRet<Object>();
 
-		LOG_TO_MENU("OBJECT::CREATE_OBJECT(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
-			(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
-			(p7 ? "TRUE" : "FALSE"), (p8 ? "TRUE" : "FALSE"), ret);
+		//LOG_TO_MENU("OBJECT::CREATE_OBJECT(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
+		//	(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
+		//	(p7 ? "TRUE" : "FALSE"), (p8 ? "TRUE" : "FALSE"), ret);
 
 		Features::LogSpawnedEntity(ctx->GetRet<Object>());
 
@@ -926,9 +590,9 @@ namespace Hooking
 		Object result = CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
 		Object ret = ctx->GetRet<Object>();
 
-		LOG_TO_MENU("OBJECT::CREATE_OBJECT_NO_OFFSET(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
-			(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
-			(p7 ? "TRUE" : "FALSE"), ret);
+		//LOG_TO_MENU("OBJECT::CREATE_OBJECT_NO_OFFSET(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
+		//	(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
+		//	(p7 ? "TRUE" : "FALSE"), ret);
 		
 		Features::LogSpawnedEntity(ctx->GetRet<Object>());
 

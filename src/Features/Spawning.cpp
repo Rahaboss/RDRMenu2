@@ -200,12 +200,16 @@ namespace Features
 			}
 			Name = Features::GetPedModelName(Model);
 		}
-		else return;
+		else
+		{
+			LOG_TO_MENU("Creating unknown entity (ID: %u / 0x%X) at %.2f, %.2f, %.2f\n", ent, ent, Pos.x, Pos.y, Pos.z);
+			return;
+		}
 
 		// Display the model name as unsigned decimal if unknown
 		if (Name == "Unknown")
 			Name = std::to_string(Model);
-		
+
 		LOG_TO_MENU("Creating %s %s (ID: %u / 0x%X) at %.2f, %.2f, %.2f\n",
 			Type.c_str(), Name.c_str(), ent, ent, Pos.x, Pos.y, Pos.z);
 	}

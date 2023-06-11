@@ -176,34 +176,29 @@ namespace Features
 					g_Settings["esp"]["player_model"].get<bool>(),
 					g_Settings["esp"]["player_health"].get<bool>());
 			}
-			
-			RenderAddedPedESP();
-			RenderEntityPoolDebugESP();
+		
+			RenderHumanESP();
+			//RenderEntityPoolDebugESP();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 	
-	void RenderAddedPedESP()
+	void RenderHumanESP()
 	{
-		//std::vector<Ped> NewPeds;
-		//for (const auto& p : g_AddedPeds)
-		//{
-		//	if (ENTITY::DOES_ENTITY_EXIST(p) && ENTITY::IS_ENTITY_A_PED(p) && PED::IS_PED_HUMAN(p))
-		//		NewPeds.push_back(p);
-		//}
-		g_AddedPeds = GetAllPeds();
-
-		for (const auto& p : g_AddedPeds)
+		const std::vector<Ped> Peds = GetAllPeds();
+		for (const auto& p : Peds)
 		{
 			if (p == g_LocalPlayer.m_Entity)
 				continue;
-			if (g_Settings["esp"]["added_ped_bone"].get<bool>())
+			if (g_Settings["esp"]["human_ignore_dead"].get<bool>() && ENTITY::GET_ENTITY_HEALTH(p) == 0)
+				continue;
+			if (g_Settings["esp"]["human_bone"].get<bool>())
 				RenderBoneESP(p);
-			if (g_Settings["esp"]["added_ped_box"].get<bool>())
+			if (g_Settings["esp"]["human_box"].get<bool>())
 				RenderBoxESP(p);
 			RenderTextESP(p,
-				g_Settings["esp"]["added_ped_model"].get<bool>(),
-				g_Settings["esp"]["added_ped_health"].get<bool>());
+				g_Settings["esp"]["human_model"].get<bool>(),
+				g_Settings["esp"]["human_health"].get<bool>());
 		}
 	}
 	

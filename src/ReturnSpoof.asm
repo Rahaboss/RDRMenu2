@@ -3,14 +3,14 @@
     real_rbx		dq	0
      
 .CODE
-    SpoofNativeCall PROC
+    _call_asm PROC
     	mov real_rbx, rbx
     	mov r9, [rsp]
     	mov return_address, r9
     	lea rbx, _ret_asm
     	mov [rsp], r8
     	jmp rdx
-    SpoofNativeCall ENDP
+    _call_asm ENDP
     	
     _ret_asm PROC
     	mov rbx, real_rbx

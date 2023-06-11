@@ -14,6 +14,8 @@ namespace Hooking
 	void Enable();
 	void Disable();
 
+	inline size_t HookCount = 0;
+
 	inline DetourHook RunScriptThreads;
 	bool RunScriptThreadsHook(pgPtrCollection* this_, uint32_t ops);
 
@@ -76,32 +78,6 @@ namespace Hooking
 
 	inline DetourHook IsDlcPresent;
 	BOOL IsDlcPresentHook(scrNativeCallContext* ctx);
-
-#if !ENABLE_UNTESTED
-	inline DetourHook GetAnimScenePed;
-	Ped GetAnimScenePedHook(scrNativeCallContext* ctx);
-
-	inline DetourHook CreateMetapedPed;
-	Ped CreateMetapedPedHook(scrNativeCallContext* ctx);
-
-	inline DetourHook CreateMetapedOutfitPed;
-	Ped CreateMetapedOutfitPedHook(scrNativeCallContext* ctx);
-
-	inline DetourHook ClonePed;
-	Ped ClonePedHook(scrNativeCallContext* ctx);
-
-	inline DetourHook ForceSpawnPersChar;
-	Entity ForceSpawnPersCharHook(scrNativeCallContext* ctx);
-
-	inline DetourHook ForceSpawnPersChar2;
-	Entity ForceSpawnPersChar2Hook(scrNativeCallContext* ctx);
-
-	inline DetourHook ForceSpawnPersChar3;
-	void ForceSpawnPersChar3Hook(scrNativeCallContext* ctx);
-
-	inline DetourHook ForceSpawnPersChar4;
-	Any ForceSpawnPersChar4Hook(scrNativeCallContext* ctx);
-#endif
 
 	inline DetourHook CreateObject;
 	Object CreateObjectHook(scrNativeCallContext* ctx);

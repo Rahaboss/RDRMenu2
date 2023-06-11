@@ -68,13 +68,13 @@ namespace Menu
 		ImGui::Text("Weapon List");
 		ImGui::BeginChild("weapon_list_menu", ImVec2(270, 0));
 
-		static Hash CurrentWeapon = WEAPON_REVOLVER_DOUBLEACTION_EXOTIC;
+		static Hash CurrentWeapon = RAGE_JOAAT("WEAPON_KIT_CAMERA_ADVANCED");
 		for (const auto& w : g_WeaponList)
 		{
 			if (ImGui::Selectable(w.first.c_str(), CurrentWeapon == w.second))
 				CurrentWeapon = w.second;
 		}
-			
+		
 		ImGui::EndChild();
 		ImGui::EndGroup();
 		ImGui::SameLine();

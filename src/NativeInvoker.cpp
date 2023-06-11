@@ -52,10 +52,7 @@ void NativeContext::PrintNativeStackInfo(uint64_t hash, void* Handler)
 	EXCEPT{ LOG_EXCEPTION(); }
 }
 
-#if ENABLE_UNTESTED
-extern "C" void SpoofNativeCall(scrNativeCallContext* Context,
-	scrNativeHandler Handler, void* ReturnValue);
-#endif
+extern "C" void _call_asm(void* context, void* function, void* ret);
 
 void NativeContext::EndCall(uint64_t hash)
 {
@@ -63,11 +60,9 @@ void NativeContext::EndCall(uint64_t hash)
 	{
 		TRY
 		{
-#if ENABLE_UNTESTED
-			SpoofNativeCall(GetContext(), Handler, &(GetContext()->m_ReturnValue));
-#else
+			//_call_asm(GetContext(), Handler, GetContext()->m_ReturnValue); // Not sure why this causes a crash
 			Handler(GetContext());
-#endif
+
 			FixVectors();
 		}
 		EXCEPT

@@ -8,8 +8,21 @@ namespace Settings
 	R"({
 		"clean_player": false,
 		"disable_default_cutscenes": false,
+		"disable_west_elizabeth_pinkertons": false,
 		"enable_imgui_demo": false,
 		"enable_overlay": false,
+		"esp": {
+			"human_bone": false,
+			"human_box": false,
+			"human_health": false,
+			"human_ignore_dead": true,
+			"human_model": false,
+			"player_bone": false,
+			"player_bone_debug": false,
+			"player_box": false,
+			"player_health": false,
+			"player_model": false
+		},
 		"freeze_player": false,
 		"god_mode": false,
 		"gold_cores": false,
@@ -20,9 +33,9 @@ namespace Settings
 			"created_cutscene": false,
 			"set_decor": false,
 			"spawned_human": false,
+			"spawned_object": false,
 			"spawned_ped": false,
-			"spawned_vehicle": false,
-			"spawned_object": false
+			"spawned_vehicle": false
 		},
 		"mount_god_mode": false,
 		"mount_gold_cores": false,
@@ -31,24 +44,12 @@ namespace Settings
 		"no_ragdoll": false,
 		"no_sliding": false,
 		"no_snipers": false,
+		"rapid_fire": false,
 		"render_clothing_menu": false,
+		"render_model_debug_gun": false,
 		"rgb_elec_lantern": false,
 		"super_jump": false,
-		"super_run": false,
-		"esp": {
-			"player_bone_debug": false,
-			"player_model": false,
-			"player_box": false,
-			"player_bone": false,
-			"player_health": false,
-			"added_ped_model": false,
-			"added_ped_box": false,
-			"added_ped_bone": false,
-			"added_ped_health": false
-		},
-		"render_model_debug_gun": false,
-		"rapid_fire": false,
-		"disable_west_elizabeth_pinkertons": false
+		"super_run": false
 	})"_json
 	};
 
