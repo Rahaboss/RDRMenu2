@@ -17,11 +17,13 @@ inline std::map<std::string, Hash>
 	g_DocumentList,
 	g_ConsumableList,
 	g_PedList,
-	g_WeaponList;
+	g_WeaponList,
+	g_ObjectList;
 
 inline std::map<Hash, std::string>
 	g_PedModelNameList,
-	g_VehicleModelNameList;
+	g_VehicleModelNameList,
+	g_ObjectModelNameList;
 
 constexpr inline std::array g_HerbList{
 	HERB_ACUNAS_STAR_ORCHID,

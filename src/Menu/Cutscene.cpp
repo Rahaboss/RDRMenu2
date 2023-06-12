@@ -169,7 +169,7 @@ namespace Menu
 			}
 			ImGui::Separator();
 
-#if 1
+#if 0
 			int FilteredCutsceneCount = 0;
 			for (const auto& Cat : Categories)
 			{

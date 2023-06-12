@@ -10,6 +10,7 @@ namespace Features
 	void DeleteVehicle(Vehicle Handle);
 	std::string GetPedModelName(Hash hash);
 	std::string GetVehicleModelName(Hash hash);
+	std::string GetObjectModelName(Hash hash);
 	bool IsModelValid(Hash Model);
 	bool RequestModel(Hash Model);
 	Object SpawnObject(Hash Model);

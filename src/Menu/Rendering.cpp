@@ -28,6 +28,12 @@ namespace Menu
 		ImGui::Checkbox("Human Ignore Dead", g_Settings["esp"]["human_ignore_dead"].get<bool*>());
 		ImGui::Separator();
 
+		ImGui::Text("Peds");
+		ImGui::Checkbox("Ped Model ESP", g_Settings["esp"]["ped_model"].get<bool*>());
+		ImGui::Checkbox("Ped Health ESP", g_Settings["esp"]["ped_health"].get<bool*>());
+		ImGui::Checkbox("Ped Ignore Dead", g_Settings["esp"]["ped_ignore_dead"].get<bool*>());
+		ImGui::Separator();
+
 		ImGui::Text("Other");
 		ImGui::Checkbox("Model Debug Gun", g_Settings["render_model_debug_gun"].get<bool*>());
 		ImGui::Checkbox("RGB Electric Lantern", g_Settings["rgb_elec_lantern"].get<bool*>());

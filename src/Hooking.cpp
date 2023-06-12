@@ -147,8 +147,7 @@ namespace Hooking
 				ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
-				//ctx->GetRet<BOOL>() = FALSE;
-				*(BOOL*)ctx->m_ReturnValue = FALSE; // spoof return value
+				ctx->GetRet<BOOL>() = FALSE; // spoof return value
 				return FALSE;
 			}
 
@@ -308,10 +307,7 @@ namespace Hooking
 		TRY
 		{
 			if (g_Running)
-			{
 				Renderer::Present();
-				//LOG_TO_CONSOLE("%s(%u, %u);\n", __FUNCTION__, SyncInterval, Flags);
-			}
 
 			Result = Hooking::SwapChain.GetOriginal<decltype(&SwapChainPresentHook)>(SwapChainPresentIndex)(SwapChain, SyncInterval, Flags);
 		}
@@ -322,7 +318,7 @@ namespace Hooking
 
 	HRESULT STDMETHODCALLTYPE SwapChainResizeBuffersHook(IDXGISwapChain* SwapChain, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags)
 	{
-		LOG_TO_CONSOLE("%s(0x%llX, %u, %u, %u, %d, %u)\n", __FUNCTION__, (uintptr_t)SwapChain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
+		LOG_TO_CONSOLE(__FUNCTION__"(0x%llX, %u, %u, %u, %d, %u)\n", (uintptr_t)SwapChain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
 
 		HRESULT Result = S_FALSE;
 
@@ -375,10 +371,6 @@ namespace Hooking
 		bool p4 = ctx->GetArg<BOOL>(4);
 		AnimScene result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
 		AnimScene ret = ctx->GetRet<AnimScene>();
-
-		// Check if is cutscene (instead of scripted event)
-		//if (std::string(animDict).find("cutscene@") == std::string::npos)
-		//	return result;
 
 		if (!playbackListName)
 		{
@@ -508,7 +500,7 @@ namespace Hooking
 
 			switch (dlcHash)
 			{
-			case 3615828851u:
+			case 3615828851:
 				ctx->GetRet<BOOL>() = TRUE;
 				break;
 			case joaat("DLC_PHYSPREORDERCONTENT"):

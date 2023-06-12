@@ -9,7 +9,8 @@ namespace Menu
 		{
 			if (IsOpen)
 			{
-				ImGui::SetNextWindowSize(ImVec2(700, 550), ImGuiCond_FirstUseEver);
+				ImGui::SetNextWindowSize(ImVec2(1000, 750), ImGuiCond_FirstUseEver);
+				ImGui::SetNextWindowPos(ImVec2(200, 100), ImGuiCond_FirstUseEver);
 				if (ImGui::Begin("RDRMenu2", &IsOpen))
 				{
 					ImGui::BeginTabBar("tab_bar");

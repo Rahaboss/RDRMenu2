@@ -95,7 +95,7 @@ namespace Lists
 			auto name = p.get<std::string>();
 			Hash model = joaat(name);
 
-			if (!Features::IsModelValid(model))
+			if (!Features::IsModelValid(model) && STREAMING::IS_MODEL_A_PED(model))
 			{
 				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
 				continue;
@@ -183,7 +183,7 @@ namespace Lists
 			auto name = v.get<std::string>();
 			Hash model = joaat(name);
 
-			if (!Features::IsModelValid(model))
+			if (!Features::IsModelValid(model) && STREAMING::IS_MODEL_A_VEHICLE(model))
 			{
 				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
 				continue;
@@ -191,6 +191,36 @@ namespace Lists
 
 			g_VehicleList[name] = model;
 			g_VehicleModelNameList[model] = name;
+		}
+	}
+
+	void InitObjectList(const std::string& FileName)
+	{
+		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
+		std::fstream File(Path, std::fstream::in);
+		if (!File.good())
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			return;
+		}
+
+		nlohmann::json j;
+		File >> j;
+		File.close();
+
+		for (const auto& o : j)
+		{
+			auto name = o.get<std::string>();
+			Hash model = joaat(name);
+
+			if (!Features::IsModelValid(model) && STREAMING::_IS_MODEL_AN_OBJECT(model))
+			{
+				LOG_TO_CONSOLE("%s: %s is invalid!\n", __FUNCTION__, name.c_str());
+				continue;
+			}
+
+			g_ObjectList[name] = model;
+			g_ObjectModelNameList[model] = name;
 		}
 	}
 
@@ -216,11 +246,14 @@ namespace Lists
 		InitProvisionList("Provisions.json");
 		InitWeaponList("Weapons.json");
 		InitVehicleList("Vehicles.json");
+		InitObjectList("Objects.json");
 	}
 
 	void Reload()
 	{
 		LOG_TO_CONSOLE("Clearing lists.\n");
+		g_ObjectList.clear();
+		g_ObjectModelNameList.clear();
 		g_VehicleList.clear();
 		g_VehicleModelNameList.clear();
 		g_ProvisionList.clear();

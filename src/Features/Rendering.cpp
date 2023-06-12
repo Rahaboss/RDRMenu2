@@ -178,6 +178,7 @@ namespace Features
 			}
 		
 			RenderHumanESP();
+			RenderPedESP();
 			//RenderEntityPoolDebugESP();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -190,6 +191,8 @@ namespace Features
 		{
 			if (p == g_LocalPlayer.m_Entity)
 				continue;
+			if (!PED::IS_PED_HUMAN(p))
+				continue;
 			if (g_Settings["esp"]["human_ignore_dead"].get<bool>() && ENTITY::GET_ENTITY_HEALTH(p) == 0)
 				continue;
 			if (g_Settings["esp"]["human_bone"].get<bool>())
@@ -199,6 +202,43 @@ namespace Features
 			RenderTextESP(p,
 				g_Settings["esp"]["human_model"].get<bool>(),
 				g_Settings["esp"]["human_health"].get<bool>());
+		}
+	}
+
+	void RenderPedESP()
+	{
+		const std::vector<Ped> Peds = GetAllPeds();
+		for (const auto& p : Peds)
+		{
+			if (PED::IS_PED_HUMAN(p))
+				continue;
+
+			int Health = ENTITY::GET_ENTITY_HEALTH(p);
+			if (g_Settings["esp"]["ped_ignore_dead"].get<bool>() && Health == 0)
+				continue;
+
+			std::string Text;
+
+			if (g_Settings["esp"]["ped_model"].get<bool>())
+				Text += GetPedModelName(ENTITY::GET_ENTITY_MODEL(p)) + "\n";
+
+			if (g_Settings["esp"]["ped_health"].get<bool>())
+			{
+				Text += "Health: "s + std::to_string(Health) + " / "s
+					+ std::to_string(ENTITY::GET_ENTITY_MAX_HEALTH(p, FALSE)) + "\n"s;
+			}
+
+			if (Text.empty())
+				continue;
+
+			ImVec2 TextPos;
+			if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(p, TRUE, TRUE), TextPos.x, TextPos.y))
+				continue;
+
+			TextPos.x -= ImGui::CalcTextSize(Text.c_str()).x / 2;
+
+			auto l = ImGui::GetBackgroundDrawList();
+			l->AddText(TextPos, GetImGuiRGB32(), Text.c_str());
 		}
 	}
 	
@@ -337,6 +377,7 @@ namespace Features
 		static std::string label{};
 		auto l = ImGui::GetBackgroundDrawList();
 
+		/*
 		std::vector<Ped> Peds = GetAllPeds();
 		for (const auto& p : Peds)
 		{
@@ -353,6 +394,7 @@ namespace Features
 
 			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
 		}
+		*/
 
 		std::vector<Object> Objects = GetAllObjects();
 		for (const auto& o : Objects)
@@ -363,7 +405,11 @@ namespace Features
 
 			label = "OBJECT:\n";
 			Hash model = ENTITY::GET_ENTITY_MODEL(o);
-			label += std::to_string(model);
+			std::string name = GetObjectModelName(model);
+			if (name == "Unknown")
+				label += std::to_string(model);
+			else
+				label += name;
 			label += "\n(";
 			label += std::to_string(o);
 			label += ")";
@@ -371,6 +417,7 @@ namespace Features
 			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
 		}
 
+		/*
 		std::vector<Vehicle> Vehicles = GetAllVehicles();
 		for (const auto& v : Vehicles)
 		{
@@ -403,5 +450,6 @@ namespace Features
 			label += ")";
 			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
 		}
+		*/
 	}
 }

@@ -104,24 +104,19 @@ namespace Features
 			{
 				[=](){
 					Entity out;
-					if (PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(g_LocalPlayer.m_Index, &out))
-					{
-						Hash hash = ENTITY::GET_ENTITY_MODEL(out);
+					if (!PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(g_LocalPlayer.m_Index, &out))
+						return;
+					
+					Hash hash = ENTITY::GET_ENTITY_MODEL(out);
+					std::string name = Features::GetPedModelName(hash);
+					if (name == "Unknown")
+						name = Features::GetVehicleModelName(hash);
+					if (name == "Unknown")
+						name = Features::GetObjectModelName(hash);
+					if (name == "Unknown")
+						name = std::to_string(hash);
 
-						auto it = g_PedModelNameList.find(hash);
-						if (it != g_PedModelNameList.end())
-							RenderTextOnEntity(out, (it->second + "\n" + std::to_string(out)).c_str());
-						else
-						{
-							auto it2 = g_VehicleModelNameList.find(hash);
-							if (it2 != g_VehicleModelNameList.end())
-								RenderTextOnEntity(out, it2->second.c_str());
-							else
-							{
-								RenderTextOnEntity(out, std::to_string(hash).c_str());
-							}
-						}
-					}
+					RenderTextOnEntity(out, name.c_str());
 				}();
 			}
 

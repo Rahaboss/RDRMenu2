@@ -47,6 +47,7 @@ inline std::atomic_bool g_Running = true; // Set to false to eject
 // Enable literal macros
 using namespace std::chrono_literals;
 using namespace std::literals::string_view_literals;
+using namespace std::literals::string_literals;
 
 // Shortcut Macros
 #define LOG_HEX(v) std::hex << std::uppercase << "0x" << (uintptr_t)v << std::dec << std::nouppercase

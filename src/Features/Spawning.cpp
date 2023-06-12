@@ -40,6 +40,15 @@ namespace Features
 		
 		return "Unknown";
 	}
+
+	std::string GetObjectModelName(Hash hash)
+	{
+		auto it = g_ObjectModelNameList.find(hash);
+		if (it != g_ObjectModelNameList.end())
+			return it->second;
+
+		return "Unknown";
+	}
 	
 	bool IsModelValid(Hash Model)
 	{
@@ -74,7 +83,7 @@ namespace Features
 	{
 		if (!RequestModel(Model))
 		{
-			LOG_TO_CONSOLE("%s: Couldn't request object %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't request object %s!\n", __FUNCTION__, GetObjectModelName(Model).c_str());
 			return 0;
 		}
 
@@ -84,7 +93,7 @@ namespace Features
 
 		if (!obj)
 		{
-			LOG_TO_CONSOLE("%s: Couldn't spawn object %s!\n", __FUNCTION__, GetPedModelName(Model).c_str());
+			LOG_TO_CONSOLE("%s: Couldn't spawn object %s!\n", __FUNCTION__, GetObjectModelName(Model).c_str());
 			return 0;
 		}
 
@@ -175,14 +184,14 @@ namespace Features
 			if (!g_Settings["logging"]["spawned_object"].get<bool>())
 				return;
 			Type = "object";
-			Name = "Unknown";
+			Name = GetObjectModelName(Model);
 		}
 		else if (ENTITY::IS_ENTITY_A_VEHICLE(ent)) // Vehicle
 		{
 			if (!g_Settings["logging"]["spawned_vehicle"].get<bool>())
 				return;
 			Type = "vehicle";
-			Name = Features::GetVehicleModelName(Model);
+			Name = GetVehicleModelName(Model);
 		}
 		else if (ENTITY::IS_ENTITY_A_PED(ent))
 		{
@@ -198,7 +207,7 @@ namespace Features
 					return;
 				Type = "ped";
 			}
-			Name = Features::GetPedModelName(Model);
+			Name = GetPedModelName(Model);
 		}
 		else
 		{

@@ -444,90 +444,6 @@ namespace Menu
 			}
 			END_JOB()
 		}
-
-#if 0
-		ImGui::SameLine();
-		if (ImGui::Button("script@titles@title_ch5_guarma"))
-		{
-			QUEUE_JOB(=)
-			{
-				[=]() {
-					auto b = ANIMSCENE::_CREATE_ANIM_SCENE("script@rcm@prsn@leadin@rsc2@charles_drop_deer_on_table", ASF_NONE, "pl_drop_deer", false, true);
-					auto a = ANIMSCENE::_CREATE_ANIM_SCENE("script@rcm@prsn@leadout@rsc_2@leadout", ASF_NONE, "pl_leadout", false, true);
-
-					ANIMSCENE::SET_ANIM_SCENE_BOOL(a, "b_PlayerArthur", true, false);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "ARTHUR", g_LocalPlayer.m_Entity, 0);
-
-					ANIMSCENE::SET_ANIM_SCENE_BOOL(b, "b_PlayerArthur", true, false);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "ARTHUR", g_LocalPlayer.m_Entity, 0);
-
-					Ped pear = Features::SpawnPed(CS_MRPEARSON);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "MrPearson", pear, 0);
-					Ped charl = Features::SpawnPed(CS_CHARLESSMITH);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "CharlesSmith", charl, 0);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "CharlesSmith", charl, 0);
-					Ped deer1 = Features::SpawnPed(A_C_DEER_01);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "A_C_Deer_01", deer1, 0);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "A_C_Deer_01", deer1, 0);
-					Ped deer2 = Features::SpawnPed(A_C_DEER_01);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(a, "A_C_Deer_01^1", deer2, 0);
-					ANIMSCENE::SET_ANIM_SCENE_ENTITY(b, "A_C_Deer_01^1", deer2, 0);
-
-					CutsceneHelper cs("cutscene@rprsn_rsc_2");
-				
-					cs.AddLocalPlayer();
-					cs.AddPedExisting(pear, "MrPearson");
-					cs.AddPedExisting(charl, "CharlesSmith");
-					cs.AddPedExisting(deer1, "A_C_Deer_01");
-					cs.AddPedExisting(deer2, "A_C_Deer_01^1");
-					cs.AddPedNew(CS_UNCLE, "Uncle");
-					Features::YieldThread();
-
-					cs.LoadCutscene();
-					Features::YieldThread();
-
-					//cs.TeleportToOrigin();
-					//Features::YieldThread();
-
-					Features::Teleport(0.0f, 0.0f, 0.0f);
-
-					ANIMSCENE::START_ANIM_SCENE(b);
-					Features::YieldThread(1000);
-
-					while (true)
-					{
-						ANIMSCENE::LOAD_ANIM_SCENE(a);
-						ANIMSCENE::LOAD_ANIM_SCENE(b);
-						if (ANIMSCENE::IS_ANIM_SCENE_LOADED(a, true, false) && ANIMSCENE::IS_ANIM_SCENE_LOADED(b, true, false))
-							break;
-
-						Features::YieldThread();
-					}
-
-					cs.PlayCutscene();
-					Features::YieldThread();
-
-					cs.WaitForCutsceneEnd();
-					Features::YieldThread();
-
-					ANIMSCENE::START_ANIM_SCENE(a);
-					Features::YieldThread();
-				
-					ANIMSCENE::_DELETE_ANIM_SCENE(a);
-					ANIMSCENE::_DELETE_ANIM_SCENE(b);
-
-					cs.CleanupCutscene();
-					Features::YieldThread();
-
-					Features::DeletePed(deer2);
-					Features::DeletePed(deer1);
-					Features::DeletePed(charl);
-					Features::DeletePed(pear);
-				}();
-			}
-			END_JOB()
-		}
-#endif
 		ImGui::SameLine();
 		if (ImGui::Button("Spawn Hat Test"))
 		{
@@ -536,6 +452,11 @@ namespace Menu
 				Features::SpawnObject(813051418);
 			}
 			END_JOB()
+		}
+
+		if (ImGui::Button("ImGui Cherry Style"))
+		{
+			ImGui::StyleColorsCherry();
 		}
 	}
 
