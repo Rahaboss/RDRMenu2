@@ -17,6 +17,7 @@ namespace Features
 
 	void RenderHumanESP();
 	void RenderPedESP();
+	void RenderObjectESP();
 	bool RenderTextESP(Ped ped, bool ModelESP = false, bool HealthESP = false);
 	bool RenderBoxESP(Ped ped);
 	bool GetBoxCoords(Ped ped, ImVec2& TopLeft, ImVec2& BottomRight);

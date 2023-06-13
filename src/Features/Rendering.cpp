@@ -179,6 +179,7 @@ namespace Features
 		
 			RenderHumanESP();
 			RenderPedESP();
+			RenderObjectESP();
 			//RenderEntityPoolDebugESP();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
@@ -239,6 +240,57 @@ namespace Features
 
 			auto l = ImGui::GetBackgroundDrawList();
 			l->AddText(TextPos, GetImGuiRGB32(), Text.c_str());
+		}
+	}
+
+	void RenderObjectESP()
+	{
+		if (g_Settings["esp"]["object_model"].get<bool>())
+		{
+			const std::vector<Object> Objects = GetAllObjects();
+			for (const auto& o : Objects)
+			{
+				Hash model = ENTITY::GET_ENTITY_MODEL(o);
+				if (!STREAMING::_IS_MODEL_AN_OBJECT(model))
+					continue;
+
+				std::string Text = GetObjectModelName(model);
+				if (Text == "Unknown")
+					Text = std::to_string(model);
+
+				ImVec2 TextPos;
+				if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(o, TRUE, TRUE), TextPos.x, TextPos.y))
+					continue;
+
+				TextPos.x -= ImGui::CalcTextSize(Text.c_str()).x / 2;
+
+				auto l = ImGui::GetBackgroundDrawList();
+				l->AddText(TextPos, GetImGuiRGB32(), Text.c_str());
+			}
+		}
+
+		if (g_Settings["esp"]["pickup_model"].get<bool>())
+		{
+			const std::vector<Object> Pickups = GetAllPickups();
+			for (const auto& p : Pickups)
+			{
+				Hash model = ENTITY::GET_ENTITY_MODEL(p);
+				//if (!STREAMING::_IS_MODEL_AN_OBJECT(model))
+				//	continue;
+
+				std::string Text = GetObjectModelName(model);
+				if (Text == "Unknown")
+					Text = std::to_string(model);
+
+				ImVec2 TextPos;
+				if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(p, TRUE, TRUE), TextPos.x, TextPos.y))
+					continue;
+
+				TextPos.x -= ImGui::CalcTextSize(Text.c_str()).x / 2;
+
+				auto l = ImGui::GetBackgroundDrawList();
+				l->AddText(TextPos, GetImGuiRGB32(), Text.c_str());
+			}
 		}
 	}
 	

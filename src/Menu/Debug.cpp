@@ -458,6 +458,208 @@ namespace Menu
 		{
 			ImGui::StyleColorsCherry();
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("Make Lists"))
+		{
+			std::filesystem::path Path(Features::GetConfigPath().append("lists.json"));
+			//std::fstream File(Path, std::fstream::out | std::fstream::trunc);
+			std::fstream File(Path, std::fstream::in);
+			
+			if (File.good())
+			{
+				nlohmann::json j;
+				File >> j;
+				File.close();
+
+				nlohmann::json jj;
+				jj["obj"] = std::vector<std::string>{};
+				jj["peds"] = std::vector<std::string>{};
+				jj["unknown"] = std::vector<std::string>{};
+				jj["vehicles"] = std::vector<std::string>{};
+
+				for (const auto& o : j["obj"])
+				{
+					Hash h = o.get<Hash>();
+
+					bool found = false;
+					for (const auto& o2 : g_ObjectList)
+					{
+						if (o2.second == h)
+						{
+							jj["obj"].push_back(o2.first);
+							found = true;
+						}
+					}
+
+					if (!found)
+						jj["obj"].push_back(std::to_string(h));
+				}
+
+				for (const auto& o : j["peds"])
+				{
+					Hash h = o.get<Hash>();
+
+					bool found = false;
+					for (const auto& o2 : g_PedList)
+					{
+						if (o2.second == h)
+						{
+							jj["peds"].push_back(o2.first);
+							found = true;
+						}
+					}
+					if (!found)
+						jj["peds"].push_back(std::to_string(h));
+
+				}
+
+				for (const auto& o : j["vehicles"])
+				{
+					Hash h = o.get<Hash>();
+
+					bool found = false;
+					for (const auto& o2 : g_VehicleList)
+					{
+						if (o2.second == h)
+						{
+							jj["vehicles"].push_back(o2.first);
+							found = true;
+						}
+					}
+					if (!found)
+						jj["vehicles"].push_back(std::to_string(h));
+
+				}
+
+				jj["unknown"] = j["unknown"];
+
+				File.open(Path, std::fstream::out | std::fstream::trunc);
+				File << jj.dump(4);
+				File.close();
+			}
+		}
+
+		if (ImGui::Button("Make Lists2"))
+		{
+			std::vector<const char*> names{};
+			std::vector<Hash> hashes;
+			for (const auto& n : names)
+				hashes.push_back(joaat(n));
+
+			std::filesystem::path Path(Features::GetConfigPath().append("lists2.json"));
+			//std::fstream File(Path, std::fstream::out | std::fstream::trunc);
+			std::fstream File(Path, std::fstream::in);
+
+			if (File.good())
+			{
+				nlohmann::json j, jj;
+				File >> j;
+				File.close();
+
+				jj["obj"] = std::vector<std::string>{};
+				jj["peds"] = std::vector<std::string>{};
+				//jj["unknown"] = std::vector<std::string>{};
+
+				for (const auto& p : j["peds"])
+				{
+					bool found = false;
+					for (int i = 0; i < hashes.size(); i++)
+					{
+						if (hashes[i] == p.get<Hash>())
+						{
+							found = true;
+							jj["peds"].push_back(names[i]);
+						}
+					}
+					if (!found)
+						jj["peds"].push_back(std::to_string(p.get<Hash>()));
+				}
+
+				for (const auto& p : j["obj"])
+				{
+					bool found = false;
+					for (int i = 0; i < hashes.size(); i++)
+					{
+						if (hashes[i] == p.get<Hash>())
+						{
+							found = true;
+							jj["obj"].push_back(names[i]);
+						}
+					}
+					if (!found)
+						jj["obj"].push_back(std::to_string(p.get<Hash>()));
+				}
+
+				File.open(Path, std::fstream::out | std::fstream::trunc);
+				File << jj.dump(4);
+				File.close();
+			}
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Make Lists3"))
+		{
+            QUEUE_JOB(=)
+            {
+                [=]() {
+			        LOG_TO_CONSOLE("Make Lists3\n");
+			        std::filesystem::path Path(Features::GetConfigPath().append("lists3.json"));
+			        std::fstream File(Path, std::fstream::out | std::fstream::trunc);
+
+			        if (File.good())
+			        {
+				        nlohmann::json j;
+				        j["peds"] = std::vector<Hash>{};
+				        j["vehicles"] = std::vector<Hash>{};
+				        j["obj"] = std::vector<Hash>{};
+				        j["unknown"] = std::vector<Hash>{};
+
+				        std::vector<Hash> p, v, o, u;
+				        for (uint64_t i = 0; i < 0xFFFFFFFF; i++)
+				        {
+					        Hash h = (Hash)i;
+
+                            if (i % 0xFFFFFF == 0)
+                                Features::YieldThread();
+
+					        //if (!Features::IsModelValid(h))
+					        //	continue;
+
+					        //LOG_TO_CONSOLE("Logging hash: %u\n", h);
+                            if (STREAMING::IS_MODEL_A_PED(h))
+                            {
+                                j["peds"].push_back(h);
+                                LOG_TO_CONSOLE("Ped: %u\n", h);
+                            }
+                            else if (STREAMING::IS_MODEL_A_VEHICLE(h))
+                            {
+                                j["vehicles"].push_back(h);
+                                LOG_TO_CONSOLE("Veh: %u\n", h);
+                            }
+                            else if (STREAMING::_IS_MODEL_AN_OBJECT(h))
+                            {
+                                j["obj"].push_back(h);
+                                LOG_TO_CONSOLE("Obj: %u\n", h);
+                            }
+                            else if (h == 2053922531)
+                            {
+                                LOG_TO_CONSOLE("2053922531 Failed!\n");
+                            }
+					        //else
+                            //    j["unknown"].push_back(h);
+				        }
+
+				        //j["peds"] = p;
+				        //j["vehicles"] = v;
+				        //j["obj"] = o;
+				        //j["unknown"] = u;
+
+				        File << j.dump(4);
+				        File.close();
+			        }
+                }();
+            }
+            END_JOB()
+		}
 	}
 
 	void RenderDebugInfo()
