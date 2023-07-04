@@ -35,7 +35,9 @@ CutsceneHelper::CutsceneHelper(const char* animDict):
 AnimScene CutsceneHelper::CreateCutscene()
 {
 	const char* animDict = m_JsonObject["id"].get_ref<const std::string&>().c_str();
-	constexpr int flags = ASF_NONE /* | ASF_BLOCK_SKIPPING | ASF_ENABLE_LETTER_BOX */;
+	int flags = ASF_NONE /* | ASF_BLOCK_SKIPPING | ASF_ENABLE_LETTER_BOX */;
+	if (m_JsonObject.contains("flags"))
+		flags = m_JsonObject["flags"].get<uint32_t>();
 	const char* playbackListName = "MultiStart";
 	if (m_JsonObject.contains("playback_id"))
 		playbackListName = m_JsonObject["playback_id"].get_ref<const std::string&>().c_str();
@@ -203,6 +205,12 @@ bool CutsceneHelper::IsCutsceneValid() const
 
 void CutsceneHelper::TeleportToOrigin()
 {
+	if (m_JsonObject.contains("disable_tp_to_origin") && m_JsonObject["disable_tp_to_origin"].get<bool>())
+	{
+		ANIMSCENE::SET_ANIM_SCENE_ORIGIN(m_Scene, g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z, 0, 0, 0, 0);
+		return;
+	}
+
 	Vector3 position, rotation;
 	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &position, &rotation, 2);
 	Features::Teleport(position);
@@ -266,50 +274,17 @@ void CutsceneHelper::PlayAutomatically()
 
 	TRY
 	{
-		AddObjects();
-		Features::YieldThread();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-
-	TRY
-	{
-		AddPeds();
-		Features::YieldThread();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-	
-	TRY
-	{
-		AddVehicles();
-		Features::YieldThread();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-	
-	TRY
-	{
 		LoadCutscene();
-		Features::YieldThread();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-
-	TRY
-	{
 		TeleportToOrigin();
 		Features::YieldThread();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-		
-	TRY
-	{
-		PlayCutscene();
-		Features::YieldThread();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
 
-	TRY
-	{
-		WaitForCutsceneEnd();
+		AddObjects();
+		AddPeds();
+		AddVehicles();
 		Features::YieldThread();
+
+		PlayCutscene();
+		WaitForCutsceneEnd();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 

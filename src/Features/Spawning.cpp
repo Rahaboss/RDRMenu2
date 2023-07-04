@@ -222,4 +222,23 @@ namespace Features
 		LOG_TO_MENU("Creating %s %s (ID: %u / 0x%X) at %.2f, %.2f, %.2f\n",
 			Type.c_str(), Name.c_str(), ent, ent, Pos.x, Pos.y, Pos.z);
 	}
+	
+	std::string GetModelName(Hash hash)
+	{
+		std::map<Hash, std::string>::iterator it;
+
+		it = g_PedModelNameList.find(hash);
+		if (it != g_PedModelNameList.end())
+			return it->second;
+
+		it = g_VehicleModelNameList.find(hash);
+		if (it != g_VehicleModelNameList.end())
+			return it->second;
+
+		it = g_ObjectModelNameList.find(hash);
+		if (it != g_ObjectModelNameList.end())
+			return it->second;
+
+		return std::string();
+	}
 }

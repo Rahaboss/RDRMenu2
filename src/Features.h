@@ -6,6 +6,7 @@
 #include "Features/Input.h"
 #include "Features/Inventory.h"
 #include "Features/Math.h"
+#include "Features/Network.h"
 #include "Features/Ped.h"
 #include "Features/Player.h"
 #include "Features/Rendering.h"

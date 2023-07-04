@@ -26,7 +26,8 @@ namespace Settings
 			"player_bone_debug": false,
 			"player_box": false,
 			"player_health": false,
-			"player_model": false
+			"player_model": false,
+			"vehicle_model": false
 		},
 		"freeze_player": false,
 		"god_mode": false,

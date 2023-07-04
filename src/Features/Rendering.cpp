@@ -176,11 +176,42 @@ namespace Features
 					g_Settings["esp"]["player_model"].get<bool>(),
 					g_Settings["esp"]["player_health"].get<bool>());
 			}
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 		
+		TRY
+		{
 			RenderHumanESP();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		
+		TRY
+		{
 			RenderPedESP();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		
+		TRY
+		{
 			RenderObjectESP();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		
+		TRY
+		{
+			RenderVehicleESP();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		
+		TRY
+		{
 			//RenderEntityPoolDebugESP();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		
+		TRY
+		{
+			//RenderCrosshair();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -284,6 +315,31 @@ namespace Features
 
 				ImVec2 TextPos;
 				if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(p, TRUE, TRUE), TextPos.x, TextPos.y))
+					continue;
+
+				TextPos.x -= ImGui::CalcTextSize(Text.c_str()).x / 2;
+
+				auto l = ImGui::GetBackgroundDrawList();
+				l->AddText(TextPos, GetImGuiRGB32(), Text.c_str());
+			}
+		}
+	}
+
+	void RenderVehicleESP()
+	{
+		if (g_Settings["esp"]["vehicle_model"].get<bool>())
+		{
+			const std::vector<Vehicle> Vehicles = GetAllVehicles();
+			for (const auto& v : Vehicles)
+			{
+				Hash model = ENTITY::GET_ENTITY_MODEL(v);
+
+				std::string Text = GetVehicleModelName(model);
+				if (Text == "Unknown")
+					Text = std::to_string(model);
+
+				ImVec2 TextPos;
+				if (!WorldToScreen(ENTITY::GET_ENTITY_COORDS(v, TRUE, TRUE), TextPos.x, TextPos.y))
 					continue;
 
 				TextPos.x -= ImGui::CalcTextSize(Text.c_str()).x / 2;
@@ -503,5 +559,34 @@ namespace Features
 			l->AddText(ImVec2(x, y), GetImGuiRGB32(), label.c_str());
 		}
 		*/
+	}
+	
+	void RenderCrosshair()
+	{
+		auto l = ImGui::GetBackgroundDrawList();
+		auto Color = GetImGuiRGB32();
+		//auto Color = IM_COL32(0, 255, 255, 255);
+		auto ScreenSize = ImGui::GetMainViewport()->WorkSize;
+		auto ScreenCenter = ImVec2(ScreenSize.x / 2 - 0.5f, ScreenSize.y / 2 - 0.5f);
+		auto Gap = 3;
+		//auto Thickness = ((float)2) / 2.0f;
+		auto Thickness = 2.0f;
+		auto Size = 6;
+
+		/*
+		// up
+		l->AddRectFilled(ImVec2(ScreenCenter.x - Thickness, ScreenCenter.y - Gap), ImVec2(ScreenCenter.x + Thickness, ScreenCenter.y - Gap - Size), Color);
+		// down
+		l->AddRectFilled(ImVec2(ScreenCenter.x - Thickness, ScreenCenter.y + Gap - 1), ImVec2(ScreenCenter.x + Thickness, ScreenCenter.y + Gap + Size - 1), Color);
+		// left
+		l->AddRectFilled(ImVec2(ScreenCenter.x - Gap, ScreenCenter.y + Thickness), ImVec2(ScreenCenter.x - Gap - Size, ScreenCenter.y - Thickness), Color);
+		// right
+		l->AddRectFilled(ImVec2(ScreenCenter.x + Gap - 1, ScreenCenter.y + Thickness), ImVec2(ScreenCenter.x + Gap + Size - 1, ScreenCenter.y - Thickness), Color);
+		*/
+
+		l->AddLine(ImVec2(ScreenCenter.x, ScreenCenter.y + Gap), ImVec2(ScreenCenter.x, ScreenCenter.y + Gap + Size), Color, Thickness);
+		l->AddLine(ImVec2(ScreenCenter.x, ScreenCenter.y - Gap), ImVec2(ScreenCenter.x, ScreenCenter.y - Gap - Size), Color, Thickness);
+		l->AddLine(ImVec2(ScreenCenter.x + Gap, ScreenCenter.y), ImVec2(ScreenCenter.x + Gap + Size, ScreenCenter.y), Color, Thickness);
+		l->AddLine(ImVec2(ScreenCenter.x - Gap, ScreenCenter.y), ImVec2(ScreenCenter.x - Gap - Size, ScreenCenter.y), Color, Thickness);
 	}
 }

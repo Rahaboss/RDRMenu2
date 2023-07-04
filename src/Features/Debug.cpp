@@ -8,8 +8,13 @@ namespace Features
 {
 	void* GetBlipCollection()
 	{
-		uint64_t x = _rotl64(*Pointers::BlipBase, 29);
-		return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ *Pointers::BlipHash, 32), (x & 0x1F) + 5));
+		if (auto blip = Pointers::BlipEncryption; blip->m_IsSet)
+		{
+			uint64_t x = _rotl64(blip->m_Second, 29);
+			return reinterpret_cast<void*>(~_rotl64(_rotl64(x ^ blip->m_First, 32), (x & 0x1F) + 5));
+		}
+
+		return nullptr;
 	}
 
 	void PrintNativeHandlerAddress(uint64_t hash)
@@ -73,7 +78,7 @@ namespace Features
 		return JsonObject.get<Hash>();
 	}
 	
-	std::vector<Ped> GetAllPeds()
+	std::vector<Ped> GetAllPeds(bool CheckEntityValidity)
 	{
 		std::vector<Ped> result{};
 		const auto pool = fwBasePool::GetPedPool();
@@ -86,14 +91,23 @@ namespace Features
 			if (pool->IsValid(i))
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
-					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+				{
+					Ped ped = Pointers::FwScriptGuidCreateGuid(obj);
+					if (CheckEntityValidity)
+					{
+						if (!ENTITY::DOES_ENTITY_EXIST(ped) || !STREAMING::IS_MODEL_A_PED(ENTITY::GET_ENTITY_MODEL(ped)))
+							continue;
+					}
+					
+					result.push_back(ped);
+				}
 			}
 		}
 
 		return result;
 	}
 	
-	std::vector<Object> GetAllObjects()
+	std::vector<Object> GetAllObjects(bool CheckEntityValidity)
 	{
 		std::vector<Object> result{};
 		const auto pool = fwBasePool::GetObjectPool();
@@ -106,14 +120,23 @@ namespace Features
 			if (pool->IsValid(i))
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
-					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+				{
+					Object object = Pointers::FwScriptGuidCreateGuid(obj);
+					if (CheckEntityValidity)
+					{
+						if (!ENTITY::DOES_ENTITY_EXIST(object) || !STREAMING::_IS_MODEL_AN_OBJECT(ENTITY::GET_ENTITY_MODEL(object)))
+							continue;
+					}
+
+					result.push_back(object);
+				}
 			}
 		}
 
 		return result;
 	}
 	
-	std::vector<Vehicle> GetAllVehicles()
+	std::vector<Vehicle> GetAllVehicles(bool CheckEntityValidity)
 	{
 		std::vector<Vehicle> result{};
 		const auto pool = fwBasePool::GetVehiclePool();
@@ -126,14 +149,23 @@ namespace Features
 			if (pool->IsValid(i))
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
-					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+				{
+					Vehicle veh = Pointers::FwScriptGuidCreateGuid(obj);
+					if (CheckEntityValidity)
+					{
+						if (!ENTITY::DOES_ENTITY_EXIST(veh) || !STREAMING::IS_MODEL_A_VEHICLE(ENTITY::GET_ENTITY_MODEL(veh)))
+							continue;
+					}
+
+					result.push_back(veh);
+				}
 			}
 		}
 
 		return result;
 	}
 	
-	std::vector<Pickup> GetAllPickups()
+	std::vector<Pickup> GetAllPickups(bool CheckEntityValidity)
 	{
 		std::vector<Pickup> result{};
 		const auto pool = fwBasePool::GetPickupPool();
@@ -146,7 +178,16 @@ namespace Features
 			if (pool->IsValid(i))
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
-					result.push_back(Pointers::FwScriptGuidCreateGuid(obj));
+				{
+					Pickup pickup = Pointers::FwScriptGuidCreateGuid(obj);
+					if (CheckEntityValidity)
+					{
+						if (!ENTITY::DOES_ENTITY_EXIST(pickup) || !STREAMING::_IS_MODEL_AN_OBJECT(ENTITY::GET_ENTITY_MODEL(pickup)))
+							continue;
+					}
+
+					result.push_back(pickup);
+				}
 			}
 		}
 

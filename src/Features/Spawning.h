@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/natives.h"
+#include "Rage/natives.h"
 
 namespace Features
 {
@@ -18,4 +18,5 @@ namespace Features
 	Pickup SpawnPickup(Hash PickupHash);
 	Vehicle SpawnVehicle(Hash Model, bool WarpInside = true);
 	void LogSpawnedEntity(Entity ent);
+	std::string GetModelName(Hash hash);
 }

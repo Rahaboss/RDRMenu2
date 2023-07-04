@@ -67,6 +67,14 @@ namespace Menu
 
 		if (ImGui::CollapsingHeader("Explosion Debug"))
 			RenderExplosionDebug();
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("Rendering Debug"))
+			RenderRenderingDebug();
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("Network Player Debug"))
+			NetworkPlayerDebug();
 
 		ImGui::EndChild();
 		ImGui::EndTabItem();
@@ -759,7 +767,7 @@ namespace Menu
 		static uintptr_t ida_addr = off + 0x7FF73CAB0000; // Address in process dump in IDA
 
 		ImGui::PushItemWidth(250);
-		if (ImGui::InputU64("Native Hash", &nhash, 1, 100, ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
+		if (ImGui::InputU64("Native Hash", &nhash, 1, 0x100, ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
 		{
 			addr = (uintptr_t)NativeContext::GetHandler(nhash); // Address in current process
 			off = addr - g_BaseAddress; // Offset from imagebase
@@ -1153,5 +1161,73 @@ namespace Menu
 			END_JOB()
 		}
 		ImGui::PopButtonRepeat();
+	}
+	
+	void RenderRenderingDebug()
+	{
+		if (!ImGui::BeginChild("###object_rendering_child", ImVec2(0, 400)))
+		{
+			ImGui::EndChild();
+			return;
+		}
+
+		const std::vector<Object> Pickups = Features::GetAllObjects(true);
+		ImGui::Text("All objects (%llu)", Pickups.size());
+		for (const auto& p : Pickups)
+		{
+			Hash model = ENTITY::GET_ENTITY_MODEL(p);
+			
+			if (!STREAMING::_IS_MODEL_AN_OBJECT(model))
+				continue;
+
+			std::string Text = Features::GetObjectModelName(model);
+			if (Text == "Unknown")
+				Text = std::to_string(model);
+
+			const auto pos = ENTITY::GET_ENTITY_COORDS(p, TRUE, TRUE);
+
+			ImGui::Text("%s", Text.c_str());
+
+			if (ImGui::IsItemClicked())
+				Features::Teleport(pos);
+
+			if (ImGui::IsItemHovered())
+			{
+				ImVec2 TextPos;
+				if (!Features::WorldToScreen(pos, TextPos.x, TextPos.y))
+					continue;
+
+				TextPos.x -= ImGui::CalcTextSize(Text.c_str()).x / 2;
+
+				auto l = ImGui::GetForegroundDrawList();
+				//l->AddText(TextPos, Features::GetImGuiRGB32(), Text.c_str());
+				l->AddLine(TextPos, ImGui::GetMousePos(), Features::GetImGuiRGB32());
+				l->AddCircleFilled(TextPos, 2, Features::GetImGuiRGB32());
+			}
+		}
+
+		ImGui::EndChild();
+	}
+
+	void NetworkPlayerDebug()
+	{
+		const std::vector<Player> PlayerList = Features::GetNetPlayerList();
+		ImGui::Text("Player count: %llu", PlayerList.size());
+
+		if (PlayerList.empty())
+		{
+			ImGui::SameLine();
+			ImGui::Text("(Session is not started)");
+			return;
+		}
+
+		for (const auto& p : PlayerList)
+		{
+			auto NetPlayer = Features::GetNetPlayer(p);
+			if (!NetPlayer)
+				continue;
+
+			ImGui::Selectable(NetPlayer->GetName());
+		}
 	}
 }

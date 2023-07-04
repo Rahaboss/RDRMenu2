@@ -8,6 +8,7 @@ Here is a list of future features that should ideally be implemented. These are 
 * JOAAT hash reverse lookup
 	* A big dictionary mapping hashes to a string representation
 * Full model database for peds, objects, etc.
+	* Object pool contains unknown hashes that return false for STREAMING::\_IS\_MODEL\_AN\_OBJECT
 * Freecam during cutscenes
 	* The freecam currently only works during freeplay
 * Disable all camera effects
@@ -18,6 +19,9 @@ Here is a list of future features that should ideally be implemented. These are 
 	* Keep a list of all entities spawned by user, also for use with peds, vehicles, etc.
 * Enable MP objects in story mode
 	* Peds from multiplayer can't be spawned properly
+* Model appearance / clothing changer
+	* Change player outfits and clothing / other than the preset outfits
+	* Change player (facial) hair length and style
 * General improvements to the menu
 	* Custom styling, proper RDR font from game files
 * More debugging tools / access to game features

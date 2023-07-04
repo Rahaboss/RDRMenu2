@@ -55,9 +55,6 @@ namespace Features
 			if (Menu::IsOpen)
 				PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 
-			// Update RGB state
-			RGBTick();
-
 			// Tick functions
 			if (g_Settings["no_sliding"].get<bool>())
 				NoSliding();

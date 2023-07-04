@@ -41,12 +41,16 @@ namespace Hooking
 		IsDlcPresent.Create(NativeContext::GetHandler(0x2763DC12BBE2BB6F), IsDlcPresentHook);
 		CreateObject.Create(NativeContext::GetHandler(0x509D5878EB39E842), CreateObjectHook);
 		CreateObjectNoOffset.Create(NativeContext::GetHandler(0x9A294B2138ABB884), CreateObjectNoOffsetHook);
+		GetLabelText2.Create(NativeContext::GetHandler(0x3429670F9B9EF2D3), GetLabelText2Hook);
+		GetCharFromAudioConvFilename.Create(NativeContext::GetHandler(0x9D7E12EC6A1EE4E5), GetCharFromAudioConvFilenameHook);
 	}
 
 	void Destroy()
 	{
 		LOG_TO_CONSOLE("Destroying hooks.\n");
 
+		GetCharFromAudioConvFilename.Destroy();
+		GetLabelText2.Destroy();
 		CreateObjectNoOffset.Destroy();
 		CreateObject.Destroy();
 		IsDlcPresent.Destroy();
@@ -147,7 +151,7 @@ namespace Hooking
 				ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
-				ctx->GetRet<BOOL>() = FALSE; // spoof return value
+				ctx->GetRet<BOOL>() = FALSE; // Spoof return value
 				return FALSE;
 			}
 
@@ -402,13 +406,13 @@ namespace Hooking
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			if (entity == g_LocalPlayer.m_Entity)
-				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Entity, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECOR_SET_BOOL(g_LocalPlayer.m_Entity, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else if (entity == g_LocalPlayer.m_Mount || entity == g_LocalPlayer.m_LastMount)
-				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Mount, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECOR_SET_BOOL(g_LocalPlayer.m_Mount, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else if (entity == g_LocalPlayer.m_Vehicle)
-				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(g_LocalPlayer.m_Vehicle, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECOR_SET_BOOL(g_LocalPlayer.m_Vehicle, \"%s\", %s)\n", propertyName, (value ? "true" : "false"));
 			else
-				LOG_TO_MENU("DECORATOR::DECOR_SET_BOOL(%u, \"%s\", %s)\n", entity, propertyName, (value ? "true" : "false"));
+				LOG_TO_MENU("DECOR_SET_BOOL(%u, \"%s\", %s)\n", entity, propertyName, (value ? "true" : "false"));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
@@ -431,13 +435,13 @@ namespace Hooking
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			if (entity == g_LocalPlayer.m_Entity)
-				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Entity, \"%s\", %d)\n", propertyName, value);
+				LOG_TO_MENU("DECOR_SET_INT(g_LocalPlayer.m_Entity, \"%s\", %d)\n", propertyName, value);
 			else if (entity == g_LocalPlayer.m_Mount || entity == g_LocalPlayer.m_LastMount)
-				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Mount, \"%s\", %d)\n", propertyName, value);
+				LOG_TO_MENU("DECOR_SET_INT(g_LocalPlayer.m_Mount, \"%s\", %d)\n", propertyName, value);
 			else if (entity == g_LocalPlayer.m_Vehicle)
-				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(g_LocalPlayer.m_Vehicle, \"%s\", %d)\n", propertyName, value);
+				LOG_TO_MENU("DECOR_SET_INT(g_LocalPlayer.m_Vehicle, \"%s\", %d)\n", propertyName, value);
 			else
-				LOG_TO_MENU("DECORATOR::DECOR_SET_INT(%u, \"%s\", %d)\n", entity, propertyName, value);
+				LOG_TO_MENU("DECOR_SET_INT(%u, \"%s\", %d)\n", entity, propertyName, value);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 
@@ -448,37 +452,19 @@ namespace Hooking
 	{
 		if (g_Settings["logging"]["added_cutscene_entity"].get<bool>())
 		{
-			// void SET_ANIM_SCENE_ENTITY(AnimScene animScene, const char* entityName, Entity entity, int flags)
 			AnimScene animScene = ctx->GetArg<AnimScene>(0);
 			const char* entityName = ctx->GetArg<const char*>(1);
 			Entity entity = ctx->GetArg<Entity>(2);
 			int flags = ctx->GetArg<int>(3);
 			Hash model = ENTITY::GET_ENTITY_MODEL(entity);
-			std::string modelStr;
 			
-			const auto it = g_PedModelNameList.find(model);
-			if (it != g_PedModelNameList.end())
+			std::string modelStr = Features::GetModelName(model);
+			if (modelStr.empty())
 			{
-				modelStr = it->second;
-			}
-			else
-			{
-				const auto it2 = g_VehicleModelNameList.find(model);
-				if (it2 != g_VehicleModelNameList.end())
-				{
-					modelStr = it2->second;
-				}
+				if (joaat(entityName) == model)
+					modelStr = entityName;
 				else
-				{
-					if (joaat(entityName) == model)
-					{
-						modelStr = entityName;
-					}
-					else
-					{
-						modelStr = std::to_string(model);
-					}
-				}
+					modelStr = std::to_string(model);
 			}
 
 			LOG_TO_MENU("Adding animscene entity %s (model: %s) entity: 0x%X to animscene %d\n", entityName, modelStr.c_str(), entity, animScene);
@@ -489,52 +475,41 @@ namespace Hooking
 	
 	BOOL IsDlcPresentHook(scrNativeCallContext* ctx)
 	{
-		BOOL result = 0;
+		Hash dlcHash = ctx->GetArg<Hash>(0);
+		BOOL result = IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
+		BOOL ret = ctx->GetRet<BOOL>();
 
-		TRY
+		const char* dlcName = 0;
+		switch (dlcHash)
 		{
-			Hash dlcHash = ctx->GetArg<Hash>(0);
-			result = IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
-			BOOL result2 = ctx->GetRet<BOOL>();
-			const char* dlcName = 0;
-
-			switch (dlcHash)
-			{
-			case 3615828851:
-				ctx->GetRet<BOOL>() = TRUE;
-				break;
-			case joaat("DLC_PHYSPREORDERCONTENT"):
-				dlcName = "DLC_PHYSPREORDERCONTENT";
-				ctx->GetRet<BOOL>() = TRUE;
-				break;
-			case joaat("DLC_PREORDERCONTENT"):
-				dlcName = "DLC_PHYSPREORDERCONTENT";
-				ctx->GetRet<BOOL>() = TRUE;
-				break;
-			case joaat("DLC_SPECIALEDITION"):
-				dlcName = "DLC_PHYSPREORDERCONTENT";
-				ctx->GetRet<BOOL>() = TRUE;
-				break;
-			case joaat("DLC_ULTIMATEEDITION"):
-				dlcName = "DLC_PHYSPREORDERCONTENT";
-				ctx->GetRet<BOOL>() = TRUE;
-				break;
-			case joaat("XX_I$RAWKST4H_D3V_XX"): // LMAO
-				ctx->GetRet<BOOL>() = TRUE;
-				dlcName = "XX_I$RAWKST4H_D3V_XX";
-				break;
-			}
-
-			if (dlcName)
-			{
-				//LOG_TO_MENU("IS_DLC_PRESENT(\"%s\") = %s\n", dlcName, (result2 ? "true" : "false"));
-				return TRUE;
-			}
-			//else
-			//	LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (result2 ? "true" : "false"));
+		case 3615828851:
+			dlcName = "3615828851 (0xD7852B73)";
+			break;
+		case joaat("DLC_PHYSPREORDERCONTENT"):
+			dlcName = "DLC_PHYSPREORDERCONTENT";
+			break;
+		case joaat("DLC_PREORDERCONTENT"):
+			dlcName = "DLC_PREORDERCONTENT";
+			break;
+		case joaat("DLC_SPECIALEDITION"):
+			dlcName = "DLC_SPECIALEDITION";
+			break;
+		case joaat("DLC_ULTIMATEEDITION"):
+			dlcName = "DLC_ULTIMATEEDITION";
+			break;
+		case joaat("XX_I$RAWKST4H_D3V_XX"): // LMAO
+			dlcName = "XX_I$RAWKST4H_D3V_XX";
+			break;
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
 
+		if (dlcName)
+		{
+			LOG_TO_MENU("IS_DLC_PRESENT(\"%s\") = %s\n", dlcName, (ret ? "true" : "false"));
+			result = ctx->GetRet<BOOL>() = TRUE;
+		}
+		else
+			LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (ret ? "true" : "false"));
+		
 		return result;
 	}
 	
@@ -542,8 +517,6 @@ namespace Hooking
 	{
 		if (!ctx)
 			return CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
-
-		// Object CREATE_OBJECT(Hash modelHash, float x, float y, float z, BOOL isNetwork, BOOL bScriptHostObj, BOOL dynamic, BOOL p7, BOOL p8)
 
 		Hash modelHash = ctx->GetArg<Hash>(0);
 		Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -556,11 +529,7 @@ namespace Hooking
 		Object result = CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
 		Object ret = ctx->GetRet<Object>();
 
-		//LOG_TO_MENU("OBJECT::CREATE_OBJECT(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
-		//	(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
-		//	(p7 ? "TRUE" : "FALSE"), (p8 ? "TRUE" : "FALSE"), ret);
-
-		Features::LogSpawnedEntity(ctx->GetRet<Object>());
+		Features::LogSpawnedEntity(ret);
 
 		return result;
 	}
@@ -569,8 +538,6 @@ namespace Hooking
 	{
 		if (!ctx)
 			return CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
-
-		// Object CREATE_OBJECT_NO_OFFSET(Hash modelHash, float x, float y, float z, BOOL isNetwork, BOOL bScriptHostObj, BOOL dynamic, BOOL p7)
 
 		Hash modelHash = ctx->GetArg<Hash>(0);
 		Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -582,11 +549,38 @@ namespace Hooking
 		Object result = CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
 		Object ret = ctx->GetRet<Object>();
 
-		//LOG_TO_MENU("OBJECT::CREATE_OBJECT_NO_OFFSET(%u, %.2f, %.2f, %.2f, %s, %s, %s, %s)\n\t-> %d\n", modelHash, pos.x, pos.y, pos.z,
-		//	(isNetwork ? "TRUE" : "FALSE"), (bScriptHostObj ? "TRUE" : "FALSE"), (dynamic ? "TRUE" : "FALSE"),
-		//	(p7 ? "TRUE" : "FALSE"), ret);
+		Features::LogSpawnedEntity(ret);
+
+		return result;
+	}
+	
+	const char* GetLabelText2Hook(scrNativeCallContext* ctx)
+	{
+		if (!ctx)
+			return GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
+
+		const char* label = ctx->GetArg<const char*>(0);
+		const char* result = GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
+		const char* ret = ctx->GetRet<const char*>();
+
+		//ret = result = ctx->GetRet<const char*>() = "RDRMenu2";
+		LOG_TO_MENU("_GET_LABEL_TEXT_2(\"%s\") = \"%s\"\n", label, (ret ? ret : ""));
 		
-		Features::LogSpawnedEntity(ctx->GetRet<Object>());
+		return result;
+	}
+	
+	const char* GetCharFromAudioConvFilenameHook(scrNativeCallContext* ctx)
+	{
+		if (!ctx)
+			return GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);
+
+		const char* text = ctx->GetArg<const char*>(0);
+		int position = ctx->GetArg<int>(1);
+		int length = ctx->GetArg<int>(2);
+		const char* result = GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);
+		const char* ret = ctx->GetRet<const char*>();
+
+		LOG_TO_MENU("_GET_TEXT_SUBSTRING(\"%s\", %d, %d) = \"%s\"\n", text, position, length, (ret ? ret : ""));
 
 		return result;
 	}

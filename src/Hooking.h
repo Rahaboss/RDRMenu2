@@ -84,4 +84,10 @@ namespace Hooking
 
 	inline DetourHook CreateObjectNoOffset;
 	Object CreateObjectNoOffsetHook(scrNativeCallContext* ctx);
+
+	inline DetourHook GetLabelText2;
+	const char* GetLabelText2Hook(scrNativeCallContext* ctx);
+
+	inline DetourHook GetCharFromAudioConvFilename;
+	const char* GetCharFromAudioConvFilenameHook(scrNativeCallContext* ctx);
 }

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/natives.h"
-#include "rage/enums.h"
+#include "Rage/natives.h"
+#include "Rage/enums.h"
 
 namespace Lists
 {

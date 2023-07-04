@@ -178,15 +178,18 @@
             },
             {
                 "model": "a_c_horse_gang_uncle",
-                "name": "Horse_01"
+                "name": "Horse_01",
+                "metaped_outfit": "meta_horse_saddle_only"
             },
             {
                 "model": "a_c_horse_arabian_white",
-                "name": "Horse_01^1"
+                "name": "Horse_01^1",
+                "metaped_outfit": "meta_horse_saddle_only"
             },
             {
                 "model": "a_c_horse_gang_charles",
-                "name": "Horse_01^2"
+                "name": "Horse_01^2",
+                "metaped_outfit": "meta_horse_saddle_only"
             }
         ],
         "player_model": "player_zero"
@@ -2051,10 +2054,98 @@
     },
     {
         "id": "cutscene@odr4_ext",
+        "objects": [
+            {
+                "model": "S_KIERANHEAD01X",
+                "name": "S_KIERANHEAD01X"
+            }
+        ],
+        "peds": [
+            {
+                "model": "CS_DUTCH",
+                "name": "Dutch"
+            },
+            {
+                "model": "CS_MRSADLER",
+                "name": "MrsAdler"
+            },
+            {
+                "model": "CS_JOHNMARSTON",
+                "name": "JohnMarston"
+            },
+            {
+                "model": "CS_CHARLESSMITH",
+                "name": "CharlesSmith"
+            },
+            {
+                "model": "CS_HOSEAMATTHEWS",
+                "name": "HoseaMatthews"
+            },
+            {
+                "model": "CS_REVSWANSON",
+                "name": "RevSwanson"
+            },
+            {
+                "model": "CS_KIERAN",
+                "name": "KIERAN"
+            }
+        ],
         "player_model": "player_zero"
     },
     {
         "id": "cutscene@odr4_int",
+        "objects": [
+            {
+                "model": "S_KIERANHEAD01X",
+                "name": "S_KIERANHEAD01X"
+            },
+            {
+                "model": "w_melee_knife02",
+                "name": "w_melee_knife02"
+            }
+        ],
+        "peds": [
+            {
+                "model": "CS_DUTCH",
+                "name": "Dutch"
+            },
+            {
+                "model": "CS_MRSADLER",
+                "name": "MrsAdler"
+            },
+            {
+                "model": "CS_JOHNMARSTON",
+                "name": "JohnMarston"
+            },
+            {
+                "model": "CS_KIERAN",
+                "name": "KIERAN"
+            },
+            {
+                "model": "CS_SUSANGRIMSHAW",
+                "name": "SusanGrimshaw"
+            },
+            {
+                "model": "CS_MARYBETH",
+                "name": "MaryBeth"
+            },
+            {
+                "model": "CS_LEOSTRAUSS",
+                "name": "LeoStrauss"
+            },
+            {
+                "model": "CS_JACKMARSTON",
+                "name": "JackMarston"
+            },
+            {
+                "model": "CS_ABIGAILROBERTS",
+                "name": "AbigailRoberts"
+            },
+            {
+                "model": "A_C_HORSE_MORGAN_BAY",
+                "name": "Horse_01"
+            }
+        ],
         "player_model": "player_zero"
     },
     {
@@ -3567,14 +3658,46 @@
     },
     {
         "id": "cutscene@rdopn_rsc_1",
+        "peds": [
+            {
+                "model": "cs_samaritan",
+                "name": "cs_samaritan"
+            }
+        ],
         "player_model": "player_zero"
     },
     {
         "id": "cutscene@rdopn_rsc_1a",
+        "peds": [
+            {
+                "model": "cs_samaritan",
+                "name": "cs_samaritan"
+            }
+        ],
         "player_model": "player_zero"
     },
     {
         "id": "cutscene@rdopn_rsc_2",
+        "objects": [
+            {
+                "model": "p_medbed01x",
+                "name": "p_medbed01x"
+            },
+            {
+                "model": "p_cs_sink03x",
+                "name": "p_cs_sink03x"
+            },
+            {
+                "model": "p_stool01x",
+                "name": "p_stool01x"
+            }
+        ],
+        "peds": [
+            {
+                "model": "cs_sddoctor_01",
+                "name": "sddoctor_01"
+            }
+        ],
         "player_model": "player_zero"
     },
     {

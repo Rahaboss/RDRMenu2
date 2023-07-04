@@ -42,6 +42,10 @@ namespace Menu
 		ImGui::SameLine();
 
 		ImGui::BeginChild("###right_pane_render");
+		ImGui::Text("Vehicles");
+		ImGui::Checkbox("Vehicle Model ESP", g_Settings["esp"]["vehicle_model"].get<bool*>());
+		ImGui::Separator();
+
 		ImGui::Text("Other");
 		ImGui::Checkbox("Model Debug Gun", g_Settings["render_model_debug_gun"].get<bool*>());
 		ImGui::Checkbox("RGB Electric Lantern", g_Settings["rgb_elec_lantern"].get<bool*>());

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/natives.h"
-#include "rage/CPed.h"
+#include "Rage/natives.h"
+#include "Rage/CPed.h"
 
 struct PlayerInfo
 {

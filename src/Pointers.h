@@ -1,10 +1,12 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/scrThread.h"
-#include "rage/scrNativeCallContext.h"
-#include "rage/CPed.h"
-#include "rage/Obfuscation.h"
+#include "Rage/scrThread.h"
+#include "Rage/scrNativeCallContext.h"
+#include "Rage/CPed.h"
+#include "Rage/Obfuscation.h"
+#include "Rage/CNetGamePlayer.h"
+#include "Rage/CNetworkPlayerMgr.h"
 
 typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain3*, UINT, UINT);
 
@@ -23,17 +25,11 @@ namespace Pointers
 	inline void* DebuggerCheck1{};
 	inline void* DebuggerCheck2{};
 	inline void* DecreaseAmmo{};
-	inline uint64_t* PedFactoryBase{};
-	inline uint64_t* PedFactoryHash{};
-	inline uint64_t* BlipBase{};
-	inline uint64_t* BlipHash{};
-	inline void* sub_7FF73D8C1638{};
+	inline VariableEncryption* PedFactoryEncryption{};
+	inline VariableEncryption* BlipEncryption{};
 	inline CPed* (*GetEntityPed)(Entity){};
 	inline void* (*GetEntityAddress)(Entity){};
-	inline uint32_t* dword_7FF74047DEB0{};
-	inline uint64_t* qword_7FF74047DEB8{};
 	inline int64_t** ScriptGlobals{};
-	inline const char* (*GetStringFromHashKey)(Hash){};
 	inline bool (*WorldToScreen)(const Vector3*, float*, float*){};
 	inline void* (*sub_7FF73D8DB3C4)(void*){};
 	inline CPed* (*GetEntityPedReal)(Entity){};
@@ -42,7 +38,8 @@ namespace Pointers
 	inline VariableEncryption* ObjectPoolEncryption{};
 	inline VariableEncryption* VehiclePoolEncryption{};
 	inline VariableEncryption* PickupPoolEncryption{};
-	inline VariableEncryption* PedFactoryEncryption{};
+	inline CNetGamePlayer* (*GetNetworkPlayer)(Player){};
+	inline CNetworkPlayerMgr** NetworkPlayerMgr{};
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};

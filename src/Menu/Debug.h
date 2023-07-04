@@ -18,6 +18,8 @@ namespace Menu
 	void RenderCPedDebug();
 	void RenderPersCharDebug();
 	void RenderExplosionDebug();
+	void RenderRenderingDebug();
+	void NetworkPlayerDebug();
 
 	inline bool EnableFreeCam = false;
 	inline Cam CamEntity = 0;

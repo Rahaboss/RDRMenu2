@@ -18,8 +18,8 @@ namespace Features
 
 	Hash GetHashFromJson(const nlohmann::json& JsonObject);
 
-	std::vector<Ped> GetAllPeds();
-	std::vector<Object> GetAllObjects();
-	std::vector<Vehicle> GetAllVehicles();
-	std::vector<Pickup> GetAllPickups();
+	std::vector<Ped> GetAllPeds(bool CheckEntityValidity = false);
+	std::vector<Object> GetAllObjects(bool CheckEntityValidity = false);
+	std::vector<Vehicle> GetAllVehicles(bool CheckEntityValidity = false);
+	std::vector<Pickup> GetAllPickups(bool CheckEntityValidity = false);
 }

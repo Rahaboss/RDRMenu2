@@ -81,7 +81,8 @@ workspace "RDRMenu2"
 		disablewarnings {
 			"4838", -- Narrowing conversion
 			"26812", -- Prefer "enum class"
-			"26819" -- Unannotated fallthrough between switch labels
+			"26819", -- Unannotated fallthrough between switch labels
+			"33011" -- Unchecked lower bound for enum key/source as index
 		}
 
 	project "ImGui"
@@ -101,6 +102,12 @@ workspace "RDRMenu2"
 		includedirs {
 			"lib/%{prj.name}",
 			"%VULKAN_SDK%/include"
+		}
+		
+		disablewarnings {
+			"26812", -- Prefer "enum class"
+			"28020", -- The expression ... is not true at this call
+			"33011" -- Unchecked lower bound for enum key/source as index
 		}
 
 	project "MinHook"

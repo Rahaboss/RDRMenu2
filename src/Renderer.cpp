@@ -103,6 +103,7 @@ namespace Renderer
 			if (Setup)
 			{
 				NewFrame();
+				Features::RGBTick();
 				Features::RenderImGuiESP();
 				Menu::RenderMenu();
 				EndFrame();

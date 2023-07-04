@@ -33,6 +33,5 @@ public:
 	static fwBasePool* GetObjectPool();
 	static fwBasePool* GetVehiclePool();
 	static fwBasePool* GetPickupPool();
-};
-
+}; //Size: 0x0030
 static_assert(sizeof(fwBasePool) == 0x30);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/natives.h"
+#include "Rage/natives.h"
 
 namespace Features
 {
@@ -18,8 +18,10 @@ namespace Features
 	void RenderHumanESP();
 	void RenderPedESP();
 	void RenderObjectESP();
+	void RenderVehicleESP();
 	bool RenderTextESP(Ped ped, bool ModelESP = false, bool HealthESP = false);
 	bool RenderBoxESP(Ped ped);
 	bool GetBoxCoords(Ped ped, ImVec2& TopLeft, ImVec2& BottomRight);
 	void RenderEntityPoolDebugESP();
+	void RenderCrosshair();
 }
