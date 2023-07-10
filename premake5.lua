@@ -47,6 +47,10 @@ workspace "RDRMenu2"
 		pchsource "src/pch.cpp" -- Must be defined relative to the script
 		forceincludes "pch.h"
 
+		defines {
+			"NOGDI"
+		}
+
 		-- Source files
 		files {
 			"src/**.hpp",

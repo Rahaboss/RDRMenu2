@@ -479,36 +479,24 @@ namespace Hooking
 		BOOL result = IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
 		BOOL ret = ctx->GetRet<BOOL>();
 
-		const char* dlcName = 0;
-		switch (dlcHash)
+		constexpr Hash DLCList[]{
+			joaat("DLC_PREORDERCONTENT"),
+			joaat("DLC_PHYSPREORDERCONTENT"),
+			joaat("DLC_SPECIALEDITION"),
+			joaat("DLC_ULTIMATEEDITION"),
+			joaat("DLC_TREASUREMAP"),
+		};
+
+		for (int i = 0; i < ARRAYSIZE(DLCList); i++)
 		{
-		case 3615828851:
-			dlcName = "3615828851 (0xD7852B73)";
-			break;
-		case joaat("DLC_PHYSPREORDERCONTENT"):
-			dlcName = "DLC_PHYSPREORDERCONTENT";
-			break;
-		case joaat("DLC_PREORDERCONTENT"):
-			dlcName = "DLC_PREORDERCONTENT";
-			break;
-		case joaat("DLC_SPECIALEDITION"):
-			dlcName = "DLC_SPECIALEDITION";
-			break;
-		case joaat("DLC_ULTIMATEEDITION"):
-			dlcName = "DLC_ULTIMATEEDITION";
-			break;
-		case joaat("XX_I$RAWKST4H_D3V_XX"): // LMAO
-			dlcName = "XX_I$RAWKST4H_D3V_XX";
-			break;
+			if (dlcHash == DLCList[i])
+			{
+				result = ret = ctx->GetRet<BOOL>() = TRUE;
+				return result;
+			}
 		}
 
-		if (dlcName)
-		{
-			LOG_TO_MENU("IS_DLC_PRESENT(\"%s\") = %s\n", dlcName, (ret ? "true" : "false"));
-			result = ctx->GetRet<BOOL>() = TRUE;
-		}
-		else
-			LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (ret ? "true" : "false"));
+		LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (ret ? "true" : "false"));
 		
 		return result;
 	}

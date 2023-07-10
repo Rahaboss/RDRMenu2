@@ -28,12 +28,6 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
-	void UnlockSPPreorderBonus()
-	{
-		constexpr Hash unlock_hash = RAGE_JOAAT("SP_GAME_CONTENT_PRE_ORDER");
-		UNLOCK::UNLOCK_SET_UNLOCKED(unlock_hash, true);
-	}
-
 	bool IsStringValid(const char* String)
 	{
 		return String && String[0];
