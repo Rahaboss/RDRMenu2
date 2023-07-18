@@ -1,0 +1,6350 @@
+{
+    "a_c_alligator_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_animal_outfit_alligator1_000",
+        "meta_animal_outfit_alligator1_001"
+    ],
+    "a_c_alligator_02": [
+        "meta_outfit_field_dressing_000"
+    ],
+    "a_c_alligator_03": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_animal_outfit_alligator3_000",
+        "meta_animal_outfit_alligator3_001"
+    ],
+    "a_c_armadillo_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_badger_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_animal_outfit_badger_000",
+        "meta_animal_outfit_badger_001"
+    ],
+    "a_c_bear_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "bear_legendary",
+        1600962275,
+        2502912385,
+        3203442688,
+        "meta_animal_outfit_bear_000",
+        "meta_animal_outfit_bear_001",
+        3743747504
+    ],
+    "a_c_bearblack_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_animal_outfit_bearblack_000",
+        "meta_animal_outfit_bearblack_001",
+        "meta_outfit_animal_poison_bearblack"
+    ],
+    "a_c_beaver_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_animal_albino_beaver",
+        "meta_animal_outfit_beaver_000",
+        "meta_animal_outfit_beaver_001"
+    ],
+    "a_c_bighornram_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_animal_outfit_bighornsheep_001",
+        "meta_animal_outfit_bighornsheep_000",
+        "meta_animal_outfit_bighornsheeprocky",
+        "meta_animal_outfit_bighornsheeprocky_000",
+        "meta_animal_outfit_bighornsheeprocky_001",
+        "meta_animal_outfit_bighornsheepdesert",
+        "meta_animal_outfit_bighornsheepdesert_000",
+        "meta_animal_outfit_bighornsheepdesert_001",
+        "meta_animal_outfit_bighornram",
+        "meta_animal_outfit_bighornram_001",
+        "meta_animal_outfit_bighornram_000",
+        "meta_outfit_animal_albino_bighornram",
+        "meta_animal_outfit_bighornramrocky",
+        "meta_animal_outfit_bighornramrocky_000",
+        "meta_animal_outfit_bighornramrocky_001",
+        "meta_animal_outfit_bighornramdesert",
+        "meta_animal_outfit_bighornramdesert_000",
+        "meta_animal_outfit_bighornramdesert_001"
+    ],
+    "a_c_boar_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_albino_boar",
+        "meta_animal_outfit_boar_000",
+        "meta_animal_outfit_boar_001"
+    ],
+    "a_c_boarlegendary_01": [
+        "meta_outfit_field_dressing_000"
+    ],
+    "a_c_buck_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_animal_outfit_buck_001",
+        "meta_animal_outfit_buck_000",
+        "meta_outfit_animal_albino_buck",
+        "meta_outfit_animal_poison_buck",
+        "meta_outfit_animal_spirit_buck"
+    ],
+    "a_c_buffalo_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "discoverables_white_buffalo",
+        "meta_animal_outfit_buffalo_000",
+        "meta_animal_outfit_buffalo_001",
+        "meta_animal_outfit_buffalo_m",
+        "meta_animal_outfit_buffalo_m_000",
+        "meta_animal_outfit_buffalo_m_001",
+        2305461905,
+        3019367331,
+        2780645166,
+        2543987448
+    ],
+    "a_c_buffalo_tatanka_01": [
+        47534268,
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003"
+    ],
+    "a_c_bull_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_animal_outfit_bullhereford",
+        "meta_animal_outfit_bulldevon",
+        "meta_animal_outfit_bullangus"
+    ],
+    "a_c_californiacondor_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003"
+    ],
+    "a_c_chicken_01": [
+        "meta_outfit_animal_chickenleghorn",
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_chickenjava"
+    ],
+    "a_c_cormorant_01": [
+        "meta_outfit_animal_cormorantneo",
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_cougar_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        263759244,
+        1095382564,
+        "meta_outfit_animal_cougar_000",
+        "meta_outfit_animal_cougar_001",
+        "cougar_legendary"
+    ],
+    "a_c_cow": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        2531367085
+    ],
+    "a_c_coyote_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        3797641661,
+        3487581383,
+        "meta_outfit_bound",
+        3815025017,
+        "coyote_legendary",
+        "meta_outfit_animal_coyote_000",
+        "meta_outfit_animal_coyote_001",
+        "meta_outfit_animal_poison_coyote",
+        "meta_outfit_animal_spirit_coyote_a"
+    ],
+    "a_c_cranewhooping_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_cranesandhill"
+    ],
+    "a_c_deer_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        2169583559,
+        "meta_outfit_animal_deer_000",
+        "meta_outfit_animal_deer_001",
+        "meta_outfit_animal_poison_deer"
+    ],
+    "a_c_dogamericanfoxhound_01": [
+        "meta_outfit_bound",
+        "meta_outfit_normal",
+        3255947663
+    ],
+    "a_c_dogaustraliansheperd_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_dogbluetickcoonhound_01": [
+        "meta_outfit_bound",
+        3696655096,
+        276247339,
+        "meta_outfit_animal_poison_dogbluetickcoonhound",
+        2779241974,
+        "meta_outfit_animal_poison"
+    ],
+    "a_c_dogcatahoulacur_01": [
+        "meta_outfit_bound",
+        "unnamed_outfit_001",
+        2165611845,
+        2437316304
+    ],
+    "a_c_dogchesbayretriever_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_dogcollie_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_doghobo_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_doghound_01": [
+        "meta_outfit_bound",
+        "meta_outfit_animal_law",
+        "meta_outfit_animal_poison_doghound",
+        "meta_outfit_animal_law_000",
+        "meta_outfit_animal_law_001",
+        "meta_outfit_animal_law_002"
+    ],
+    "a_c_doghusky_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_doglab_01": [
+        "meta_outfit_bound",
+        1613150473,
+        "meta_animal_outfit_doglabyellow",
+        "meta_animal_outfit_doglabchoc",
+        "meta_animal_outfit_doglabblack"
+    ],
+    "a_c_doglion_01": [
+        "meta_outfit_bound",
+        2432732391
+    ],
+    "a_c_dogpoodle_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_dogrufus_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_dogstreet_01": [
+        "meta_outfit_bound"
+    ],
+    "a_c_donkey_01": [
+        "meta_horse_saddle_only",
+        637323261,
+        "meta_horse_harness_only",
+        4117587729,
+        158140748,
+        2099062422,
+        1758465023
+    ],
+    "a_c_duck_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_duckpekin"
+    ],
+    "a_c_eagle_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_eaglegolden",
+        1682396012
+    ],
+    "a_c_egret_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_egretlittle",
+        "meta_outfit_animal_egretsnowy"
+    ],
+    "a_c_elk_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_albino_elk",
+        "meta_outfit_animal_elk_000",
+        "meta_outfit_animal_elk_001",
+        "meta_outfit_animal_elk_m",
+        "meta_outfit_animal_elk_m_000",
+        "meta_outfit_animal_elk_m_001",
+        "meta_outfit_animal_poison_elk"
+    ],
+    "a_c_fishbluegil_01_ms": [
+        "meta_outfit_animal_legendary_bluegill"
+    ],
+    "a_c_fishbluegil_01_sm": [
+        "meta_outfit_animal_poison_bluegil"
+    ],
+    "a_c_fishbullheadcat_01_ms": [
+        "meta_outfit_animal_legendary_bullheadcatfish"
+    ],
+    "a_c_fishchainpickerel_01_ms": [
+        "meta_outfit_animal_legendary_chainpickerel"
+    ],
+    "a_c_fishchainpickerel_01_sm": [
+        "meta_outfit_animal_poison_chainpickerel",
+        1947866077
+    ],
+    "a_c_fishchannelcatfish_01_lg": [
+        "meta_outfit_animal_stow"
+    ],
+    "a_c_fishchannelcatfish_01_xl": [
+        "meta_outfit_animal_legendary_channelcatfish"
+    ],
+    "a_c_fishlakesturgeon_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_lakesturgeon",
+        "meta_outfit_animal_poison_lakesturgeon",
+        1947866077
+    ],
+    "a_c_fishlargemouthbass_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_largemouthbass"
+    ],
+    "a_c_fishlongnosegar_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_longnosegar"
+    ],
+    "a_c_fishmuskie_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_muskie"
+    ],
+    "a_c_fishnorthernpike_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_northernpike"
+    ],
+    "a_c_fishperch_01_ms": [
+        "meta_outfit_animal_legendary_perch",
+        1947866077
+    ],
+    "a_c_fishrainbowtrout_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_steelheadtrout"
+    ],
+    "a_c_fishredfinpickerel_01_ms": [
+        "meta_outfit_animal_legendary_redfinpickerel"
+    ],
+    "a_c_fishredfinpickerel_01_sm": [
+        "meta_outfit_animal_poison_redfin",
+        1947866077
+    ],
+    "a_c_fishrockbass_01_ms": [
+        "meta_outfit_animal_legendary_rockbass"
+    ],
+    "a_c_fishrockbass_01_sm": [
+        "meta_outfit_animal_poison_rockbass",
+        1947866077
+    ],
+    "a_c_fishsalmonsockeye_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_sockeyesalmon"
+    ],
+    "a_c_fishsmallmouthbass_01_lg": [
+        "meta_outfit_animal_stow",
+        "meta_outfit_animal_legendary_smallmouthbass"
+    ],
+    "a_c_fox_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_animal_foxgray",
+        "meta_outfit_animal_foxsilver",
+        "meta_outfit_animal_albino_fox",
+        "meta_outfit_animal_fox_000",
+        "meta_outfit_animal_fox_001",
+        "meta_outfit_animal_poison_fox"
+    ],
+    "a_c_frogbull_01": [
+        "meta_outfit_animal_poison_frogbull",
+        1947866077
+    ],
+    "a_c_gilamonster_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_goat_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_goosecanada_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_hawk_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_hawkrough",
+        "meta_outfit_animal_hawkredtail"
+    ],
+    "a_c_heron_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_herontricolor"
+    ],
+    "a_c_horse_americanpaint_overo": [
+        2496543841
+    ],
+    "a_c_horse_americanpaint_tobiano": [
+        2198051020
+    ],
+    "a_c_horse_americanstandardbred_buckskin": [
+        2670154003
+    ],
+    "a_c_horse_appaloosa_leopardblanket": [
+        2952590014
+    ],
+    "a_c_horse_arabian_white": [
+        2805590348,
+        3837949193,
+        2108756715
+    ],
+    "a_c_horse_buell_warvets": [
+        "meta_horse_leg_only",
+        2070111985,
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_eagleflies": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_bill": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_charles": [
+        "meta_horse_saddle_only",
+        1312911644,
+        1653067266
+    ],
+    "a_c_horse_gang_charles_endlesssummer": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_dutch": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_hosea": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_javier": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_john": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_karen": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_kieran": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_lenny": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_micah": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_sadie": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_sadie_endlesssummer": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_sean": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_trelawney": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_uncle": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_gang_uncle_endlesssummer": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_john_endlesssummer": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_murfreebrood_mange_01": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_murfreebrood_mange_02": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_murfreebrood_mange_03": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horse_nokota_blueroan": [
+        1777952456
+    ],
+    "a_c_horse_nokota_whiteroan": [
+        1479000869
+    ],
+    "a_c_horse_winter02_01": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horsemule_01": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_horsemulepainted_01": [
+        "meta_horse_saddle_only"
+    ],
+    "a_c_iguana_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_iguanadesert_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_javelina_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_javelina_000",
+        "meta_outfit_animal_javelina_001"
+    ],
+    "a_c_lionmangy_01": [
+        3225194717
+    ],
+    "a_c_loon_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_animal_outfit_loonyellow",
+        "meta_animal_outfit_loonpacific"
+    ],
+    "a_c_moose_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_moose_001",
+        "meta_outfit_animal_moose_000",
+        "meta_outfit_animal_moose_m",
+        "meta_outfit_animal_moose_m_001",
+        "meta_outfit_animal_moose_m_000",
+        "meta_outfit_animal_albino_moose"
+    ],
+    "a_c_muskrat_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_oriole_01": [
+        "meta_outfit_animal_oriolehooded"
+    ],
+    "a_c_owl_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_owlcali",
+        "meta_outfit_animal_owlnorth"
+    ],
+    "a_c_ox_01": [
+        "meta_animal_outfit_oxdevon",
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003"
+    ],
+    "a_c_panther_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "panther_legendary",
+        "meta_outfit_animal_panther_000",
+        "meta_outfit_animal_panther_001",
+        "meta_outfit_animal_pantherflorida"
+    ],
+    "a_c_parrot_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_animal_outfit_parrotgreen",
+        "meta_animal_outfit_parrotscarlet"
+    ],
+    "a_c_pelican_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        "meta_outfit_animal_pelicanbrown",
+        "meta_outfit_animal_pelicanwhite"
+    ],
+    "a_c_pheasant_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_animal_pheasantchinese"
+    ],
+    "a_c_pig_01": [
+        "meta_outfit_animal_pigbigchina",
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_animal_pigoldspot"
+    ],
+    "a_c_pigeon": [
+        "meta_outfit_animal_pigeonbandtail"
+    ],
+    "a_c_possum_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_possum_000",
+        "meta_outfit_animal_possum_001"
+    ],
+    "a_c_prairiechicken_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_pronghorn_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_animal_albino_pronghorn",
+        "meta_outfit_animal_pronghorn_000",
+        "meta_outfit_animal_pronghorn_001",
+        "meta_animal_outfit_pronghornsono",
+        "meta_animal_outfit_pronghornsono_000",
+        "meta_animal_outfit_pronghornsono_001",
+        "meta_animal_outfit_pronghornbaja",
+        "meta_animal_outfit_pronghornbaja_000",
+        "meta_animal_outfit_pronghornbaja_001",
+        "meta_animal_outfit_pronghornm",
+        "meta_animal_outfit_pronghornm_000",
+        "meta_animal_outfit_pronghornm_001",
+        "meta_animal_outfit_pronghornsonom",
+        "meta_animal_outfit_pronghornsonom_000",
+        "meta_animal_outfit_pronghornsonom_001",
+        "meta_animal_outfit_pronghornbajam",
+        "meta_animal_outfit_pronghornbajam_000",
+        "meta_animal_outfit_pronghornbajam_001"
+    ],
+    "a_c_quail_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_rabbit_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_rabbit_000",
+        "meta_outfit_animal_rabbit_001",
+        "meta_outfit_animal_poison_rabbit",
+        1947866077,
+        3141472292
+    ],
+    "a_c_raccoon_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "carcass",
+        158140748,
+        2099062422,
+        "meta_outfit_animal_raccoon_000",
+        "meta_outfit_animal_raccoon_001",
+        "meta_outfit_animal_poison_raccoon",
+        1947866077
+    ],
+    "a_c_rat_01": [
+        "mangy_rat",
+        "meta_outfit_animal_rat_000",
+        "meta_outfit_animal_rat_001"
+    ],
+    "a_c_raven_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_redfootedbooby_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_rooster_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_roosterjava",
+        "meta_outfit_animal_roosterleghorn"
+    ],
+    "a_c_roseatespoonbill_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_seagull_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_seagulllaughing",
+        "meta_outfit_animal_seagullringbilled"
+    ],
+    "a_c_sheep_01": [
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        3980105171,
+        2258936598
+    ],
+    "a_c_skunk_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_skunk_000",
+        "meta_outfit_animal_skunk_001",
+        "meta_outfit_animal_poison_skunk",
+        1947866077
+    ],
+    "a_c_snake_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_animal_outfit_snaketimberrattle",
+        644441945
+    ],
+    "a_c_snake_pelt_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        2583775090
+    ],
+    "a_c_snakeblacktailrattle_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_snakeblacktailrattle_pelt_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_snakeferdelance_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_snakesouthcopper",
+        "meta_outfit_animal_snakenorthcopper"
+    ],
+    "a_c_snakeferdelance_pelt_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_snakesouthcopper",
+        "meta_outfit_animal_snakenorthcopper"
+    ],
+    "a_c_snakeredboa_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_snakeredtailboasun",
+        "meta_outfit_animal_snakerainbowboa"
+    ],
+    "a_c_snakeredboa_pelt_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_snakeredtailboasun",
+        "meta_outfit_animal_snakerainbowboa"
+    ],
+    "a_c_snakewater_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_snakecottonmouth",
+        "meta_outfit_animal_snakenorthernwater"
+    ],
+    "a_c_snakewater_pelt_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_snakecottonmouth",
+        "meta_outfit_animal_snakenorthernwater"
+    ],
+    "a_c_songbird_01": [
+        "meta_outfit_animal_songbirdtanager"
+    ],
+    "a_c_sparrow_01": [
+        "meta_outfit_animal_sparroweuro",
+        "meta_outfit_animal_sparrowgold"
+    ],
+    "a_c_squirrel_01": [
+        "meta_outfit_animal_squirrelred",
+        "meta_outfit_animal_squirrelblack",
+        "meta_outfit_animal_squirrel_000",
+        "meta_outfit_animal_squirrel_001",
+        "meta_outfit_animal_poison_squirrel",
+        1947866077
+    ],
+    "a_c_toad_01": [
+        "meta_outfit_animal_desert",
+        "meta_outfit_animal_poison_toad",
+        1947866077
+    ],
+    "a_c_turkey_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_turkey_02": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_turkeywild_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_animal_turkeywildrio"
+    ],
+    "a_c_turtlesea_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001"
+    ],
+    "a_c_turtlesnapping_01": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound"
+    ],
+    "a_c_vulture_01": [
+        "meta_outfit_animal_vultureeast",
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_field_dressing_002",
+        "meta_outfit_field_dressing_003",
+        2153501635
+    ],
+    "a_c_wolf": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_animal_legendary_wolf",
+        3942877302,
+        "meta_outfit_animal_wolflarge_000",
+        "meta_outfit_animal_wolflarge_001"
+    ],
+    "a_c_wolf_medium": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_animal_legendary",
+        "meta_outfit_animal_wolftimber",
+        3942877302,
+        "meta_outfit_animal_wolfmedium_000",
+        "meta_outfit_animal_wolfmedium_001"
+    ],
+    "a_c_wolf_small": [
+        "meta_outfit_field_dressing_000",
+        "meta_outfit_field_dressing_001",
+        "meta_outfit_bound",
+        3815025017,
+        "meta_outfit_animal_wolfsmall_000",
+        "meta_outfit_animal_wolfsmall_001"
+    ],
+    "a_f_m_rhdtownfolk_01": [
+        95105388,
+        4167472867,
+        2234204970
+    ],
+    "a_f_m_unicorpse_01": [
+        2538857284,
+        2368065256,
+        1376090830,
+        2780328902,
+        2532431417,
+        1232157485,
+        3329515791,
+        2027292923,
+        860652080,
+        2774895831,
+        4111928148,
+        4178011007,
+        2098072132,
+        3937844381,
+        4137112670,
+        3021548600,
+        2856435537,
+        989984119,
+        3729237466,
+        1112811077,
+        1813871063,
+        2413241020,
+        2565285324,
+        1788856634,
+        3126060386,
+        4028092653,
+        3673791790,
+        3911465347,
+        2645227204,
+        2010884902,
+        3389640577,
+        3529498669,
+        3785391790,
+        2874020362,
+        118409610,
+        419261799,
+        1582921710,
+        2491311159,
+        2259175563,
+        2174992002,
+        1659404556,
+        2112435985,
+        1882135453,
+        2798192848,
+        4174700661,
+        1526539460,
+        1220706383,
+        2456462402
+    ],
+    "a_f_m_vhttownfolk_01": [
+        1056682093,
+        3739276225,
+        4260303994,
+        2992632906,
+        3229978777
+    ],
+    "a_f_m_waptownfolk_01": [
+        2672748936,
+        3508269242,
+        3898941264,
+        2642676107
+    ],
+    "a_m_m_bivworker_01": [
+        1842387010,
+        306062959,
+        3145113835,
+        307318431
+    ],
+    "a_m_m_blwtownfolk_01": [
+        3052112800,
+        980055150
+    ],
+    "a_m_m_btchillbilly_01": [
+        "meta_outfit_butchercreek_cook_01",
+        "meta_outfit_butchercreek_cook_02",
+        "meta_outfit_butchercreek_cook_03",
+        "meta_outfit_butchercreek_var_01",
+        "meta_outfit_butchercreek_var_02",
+        "meta_outfit_butchercreek_var_03"
+    ],
+    "a_m_m_cardgameplayers_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        3155169806,
+        3419582867,
+        436555239,
+        666823002,
+        4921971,
+        251738079,
+        478204342,
+        777155929,
+        1841389,
+        2694527393,
+        1508387900,
+        1147797824,
+        1947066503,
+        1716995354,
+        401713232,
+        163056605,
+        1032745865,
+        793499396,
+        883482182,
+        1123711721,
+        3391883598,
+        "meta_outfit_rhodes_var_01",
+        "meta_outfit_rhodes_var_02",
+        "meta_outfit_rhodes_var_03",
+        1088279801,
+        1949514659,
+        772091720,
+        1338340040,
+        3973557546,
+        3061727352,
+        1051251111,
+        4032017650,
+        3568467376,
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        1371088384,
+        1263868216,
+        2106064285,
+        1754977219,
+        2568271030,
+        2316572341,
+        3474334236,
+        4250893998,
+        3952663329,
+        "meta_outfit_tumbleweed_var_01",
+        "meta_outfit_tumbleweed_var_02",
+        "meta_outfit_tumbleweed_var_03",
+        2402215386,
+        1174655877,
+        979024947,
+        4054100680,
+        1469806260,
+        317713758,
+        1934601404,
+        487194674,
+        2461330310,
+        "meta_outfit_valentine_var_01",
+        "meta_outfit_valentine_var_02",
+        "meta_outfit_valentine_var_03",
+        3816951588,
+        4100075748,
+        112776593,
+        411040031,
+        2907710141,
+        3207644798,
+        2089668521,
+        1791437852,
+        1426194578,
+        "meta_outfit_vanhorn_var_01",
+        "meta_outfit_vanhorn_var_02",
+        "meta_outfit_vanhorn_var_03",
+        2407191102,
+        3327606778,
+        3018758953,
+        3788568301,
+        3479392786,
+        104710086,
+        2732718116,
+        2482461263,
+        2863957965
+    ],
+    "a_m_m_chelonian_01": [
+        2774895831,
+        3609915489,
+        3384759690,
+        4219582734
+    ],
+    "a_m_m_dominoesplayers_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        3155169806,
+        3419582867,
+        436555239,
+        "meta_outfit_emeraldranch_var_01",
+        "meta_outfit_emeraldranch_var_02",
+        "meta_outfit_emeraldranch_var_03",
+        1633413521,
+        4078210308,
+        368759504,
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        1371088384,
+        1263868216,
+        2106064285
+    ],
+    "a_m_m_fivefingerfilletplayers_01": [
+        "meta_outfit_strawberry_var_01",
+        "meta_outfit_strawberry_var_02",
+        "meta_outfit_strawberry_var_03",
+        496214832,
+        "meta_outfit_valentine_var_01",
+        "meta_outfit_valentine_var_02",
+        "meta_outfit_valentine_var_03",
+        3816951588,
+        "meta_outfit_vanhorn_var_01",
+        "meta_outfit_vanhorn_var_02",
+        "meta_outfit_vanhorn_var_03",
+        2407191102
+    ],
+    "a_m_m_guatownfolk_01": [
+        1470715062,
+        1726214955
+    ],
+    "a_m_m_jamesonguard_01": [
+        880488647,
+        3492685535,
+        313000949,
+        609199960,
+        487954660,
+        246152209
+    ],
+    "a_m_m_skpprisonline_01": [
+        760163859,
+        1158623411,
+        3746686254,
+        3490989747
+    ],
+    "a_m_m_smhthug_01": [
+        2880260410,
+        3109250182,
+        3876306934,
+        4106378083
+    ],
+    "a_m_m_strtownfolk_01": [
+        3176057950,
+        3417401635,
+        803090815,
+        1050365689,
+        351828916
+    ],
+    "a_m_m_unicorpse_01": [
+        2368065256,
+        986098219,
+        1232783247,
+        1113117884,
+        2270947961,
+        1903941038,
+        1893412146,
+        2760333474,
+        615241965,
+        375471192,
+        13635894,
+        4087379667,
+        1376090830,
+        3477923424,
+        2780328902,
+        2532431417,
+        1232157485,
+        4226364242,
+        4063109084,
+        3607456123,
+        4246792934,
+        461402949,
+        959812519,
+        1763526310,
+        2774895831,
+        3609915489,
+        3384759690,
+        4219582734,
+        2953841190,
+        2534043590,
+        2131255687,
+        1277571202,
+        999493468,
+        462146292,
+        1817879612,
+        2836627662,
+        3011417508,
+        3898146704,
+        3595590527,
+        3288741611,
+        2979041792,
+        1773556440,
+        2023411570,
+        949440955,
+        1878790704,
+        718036542,
+        3768142293,
+        1319832841,
+        1558751620,
+        1947129808,
+        2169860701,
+        3527399011,
+        3179744641,
+        4237757406,
+        3837922656,
+        1544985264,
+        1639622136,
+        795656541,
+        1101489618,
+        258048327,
+        616082421,
+        4068591488,
+        3712589072,
+        3876565148,
+        3383949071,
+        2006193429,
+        3460854090,
+        2098072132,
+        673013856,
+        1377009721,
+        943708358,
+        2201087657,
+        585741003,
+        130764381,
+        712086441,
+        3844999459,
+        4126321324,
+        3937844381,
+        4137112670,
+        666139669,
+        "meta_outfit_hunttorsogore_01",
+        2968945506,
+        2679103701,
+        3565308537,
+        3327045138,
+        2044595300,
+        775289787,
+        1072668462,
+        1446529983,
+        152538979,
+        869917927,
+        3036112668,
+        2737947537,
+        921937100,
+        1156572673,
+        3356093499,
+        2205179862,
+        1908325491,
+        254342877,
+        4242166336,
+        3097610808,
+        2867605197,
+        2856435537,
+        1113964342,
+        816323515,
+        2058743928,
+        794165431,
+        1257524659,
+        1112811077,
+        569479591,
+        3520076482,
+        550457596,
+        855242065,
+        586985329,
+        436423875,
+        171289892,
+        350995088,
+        1575408781,
+        4158326895,
+        1033606135,
+        1327838986,
+        2700139168,
+        2998369837,
+        2335829973,
+        67789286,
+        802153392,
+        1522725481,
+        3994844849,
+        1782085359,
+        1750236292,
+        2565285324,
+        1788856634,
+        2086038695,
+        1310068775,
+        3126060386,
+        4028092653,
+        3856972935,
+        483371612,
+        60782588,
+        1156840100,
+        3673791790,
+        3911465347,
+        4136457301,
+        79622328,
+        552413412,
+        314018937,
+        1858448252,
+        1602424055,
+        2645227204,
+        2010884902,
+        3389640577,
+        3529498669,
+        3785391790,
+        2874020362,
+        118409610,
+        419261799,
+        1582921710,
+        2491311159,
+        2259175563,
+        2174992002,
+        1659404556,
+        2112435985,
+        1882135453,
+        2798192848,
+        367697749,
+        3424750528,
+        4204030117,
+        4174700661,
+        1526539460,
+        1220706383,
+        1178434377,
+        872175303,
+        2981810750,
+        2388134777,
+        2086791053,
+        1792296050,
+        3148965199,
+        2304671914,
+        684572554,
+        4136622863,
+        71890561,
+        3525448244,
+        2456462402,
+        2923158500
+    ],
+    "a_m_m_vallaborer_01": [
+        "meta_outfit_val_piano_player_01",
+        "meta_outfit_val_piano_player_02",
+        "meta_outfit_val_piano_player_03",
+        "meta_outfit_val_piano_player_04"
+    ],
+    "a_m_m_valtownfolk_02": [
+        2998114441,
+        3833953324,
+        3332194396,
+        4175176921,
+        3869933686,
+        416376003,
+        230969001,
+        1022635276,
+        1650751468,
+        2764856631,
+        1566461532,
+        2284168170,
+        1105368933
+    ],
+    "a_m_m_wapwarriors_01": [
+        496155170,
+        801529481,
+        4195611429,
+        206215058,
+        3333229656,
+        3927921468,
+        2738636151,
+        3029166105,
+        2948980358,
+        2158003100,
+        3612979469,
+        2846283176,
+        4255022486,
+        3343126754,
+        43190143,
+        3973176317,
+        11010989,
+        299476496,
+        605997722,
+        4082788346,
+        17630047,
+        1788171854,
+        2372610225,
+        2133363756,
+        1776247194,
+        1539687783,
+        680615675,
+        977175129,
+        76781312,
+        896399540,
+        3744844869,
+        4024758539,
+        442090996,
+        327137344,
+        239661014,
+        3527813564,
+        3252127967,
+        4028491115,
+        3981172679,
+        2405999522,
+        2149319945,
+        630925281,
+        4258191433,
+        269778132,
+        507362185
+    ],
+    "a_m_o_waptownfolk_01": [
+        2328286788,
+        2774076264,
+        2672748936,
+        2365900020,
+        3508269242
+    ],
+    "a_m_y_nbxstreetkids_slums_01": [
+        2494694410,
+        2226179582,
+        2126839451,
+        591620484,
+        268321530
+    ],
+    "a_m_y_unicorpse_01": [
+        1022043639
+    ],
+    "am_valentinedoctors_females_01": [
+        1755543207
+    ],
+    "amsp_robsdgunsmith_males_01": [
+        2427044933,
+        3206521136,
+        3573075174,
+        2878836156,
+        3107596545
+    ],
+    "casp_coachrobbery_lenny_males_01": [
+        2327640636,
+        1461985642
+    ],
+    "casp_coachrobbery_micah_males_01": [
+        2804647480
+    ],
+    "casp_hunting02_males_01": [
+        3014430077,
+        3245943062
+    ],
+    "charro_saddle_01": [
+        3052364506,
+        509653947,
+        808081230,
+        1780534074,
+        2086629303,
+        3356467381,
+        2498509407,
+        2804473560,
+        2987324580,
+        3278542679,
+        3759541390,
+        1550139768,
+        1844241543,
+        147003953,
+        444579242,
+        631362542,
+        1733547876,
+        3374095092,
+        3671080539,
+        578768316,
+        739008726
+    ],
+    "cr_strawberry_males_01": [
+        3497260255,
+        2730072427,
+        3032497528,
+        3641172131,
+        1312575432,
+        4031680304,
+        529526552,
+        4271188925,
+        859543443,
+        553054982,
+        1457938152,
+        2317236028,
+        1044811047,
+        140030891,
+        1641761352,
+        2292752522,
+        566860665,
+        830847729,
+        1128226404
+    ],
+    "cs_abe": [
+        "meta_outfit_default",
+        "meta_outfit_gunbelt"
+    ],
+    "cs_aberdeenpigfarmer": [
+        "meta_outfit_default"
+    ],
+    "cs_aberdeensister": [
+        "meta_outfit_default",
+        "meta_outfit_sexy"
+    ],
+    "cs_abigailroberts": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        "meta_outfit_default",
+        1689938120,
+        1309207681,
+        935065141,
+        "meta_outfit_heist",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        "meta_outfit_wedding",
+        3806910850,
+        "meta_wearable_shawl",
+        4105069288
+    ],
+    "cs_acrobat": [
+        "meta_outfit_default"
+    ],
+    "cs_adamgray": [
+        "meta_outfit_default"
+    ],
+    "cs_agnesdowd": [
+        1968256138,
+        "meta_outfit_default",
+        2178828185,
+        "meta_outfit_white"
+    ],
+    "cs_albertcakeesquire": [
+        "meta_outfit_default"
+    ],
+    "cs_albertmason": [
+        1736847997,
+        "meta_outfit_default"
+    ],
+    "cs_andershelgerson": [
+        2875489640,
+        "meta_outfit_dead",
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_angel": [
+        "meta_outfit_default"
+    ],
+    "cs_angryhusband": [
+        "meta_outfit_default"
+    ],
+    "cs_angusgeddes": [
+        "meta_outfit_default",
+        "meta_wearable_hat"
+    ],
+    "cs_ansel_atherton": [
+        "meta_outfit_default"
+    ],
+    "cs_antonyforemen": [
+        "meta_outfit_default",
+        "meta_outfit_susan1"
+    ],
+    "cs_archerfordham": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_archibaldjameson": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_archiedown": [
+        "meta_outfit_default",
+        960661468,
+        "meta_outfit_miner",
+        "meta_outfit_mourning"
+    ],
+    "cs_artappraiser": [
+        "meta_outfit_default"
+    ],
+    "cs_asbdeputy_01": [
+        "meta_outfit_default"
+    ],
+    "cs_ashton": [
+        "meta_outfit_default"
+    ],
+    "cs_balloonoperator": [
+        "meta_outfit_default",
+        103259813,
+        1366486426,
+        "meta_outfit_test"
+    ],
+    "cs_bandbassist": [
+        "meta_outfit_default"
+    ],
+    "cs_banddrummer": [
+        "meta_outfit_default"
+    ],
+    "cs_bandpianist": [
+        "meta_outfit_default"
+    ],
+    "cs_bandsinger": [
+        "meta_outfit_default"
+    ],
+    "cs_baptiste": [
+        "meta_outfit_default"
+    ],
+    "cs_bartholomewbraithwaite": [
+        "meta_outfit_casual",
+        "meta_outfit_default"
+    ],
+    "cs_beatenupcaptain": [
+        "meta_outfit_default"
+    ],
+    "cs_beaugray": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        "meta_outfit_riding"
+    ],
+    "cs_billwilliamson": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1895628185,
+        "meta_outfit_gala",
+        "meta_outfit_heist",
+        377052846,
+        "meta_outfit_island",
+        "meta_outfit_island_holster",
+        1087308308,
+        "meta_outfit_robbery",
+        361821606,
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        1059434053,
+        "meta_outfit_warm_weather_casual",
+        1996046145,
+        2669694634,
+        491764525,
+        3568000679,
+        1365901568,
+        3322602522,
+        2314053440,
+        3194092052,
+        2636025147,
+        "meta_wearable_moneybags",
+        2471368197
+    ],
+    "cs_bivcoachdriver": [
+        "meta_outfit_default"
+    ],
+    "cs_blwphotographer": [
+        "meta_outfit_default"
+    ],
+    "cs_blwwitness": [
+        "meta_outfit_default",
+        3031659007
+    ],
+    "cs_braithwaitebutler": [
+        "meta_outfit_default"
+    ],
+    "cs_braithwaitemaid": [
+        "meta_outfit_default"
+    ],
+    "cs_braithwaiteservant": [
+        "meta_outfit_default"
+    ],
+    "cs_brendacrawley": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_bronte": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        "meta_outfit_gala",
+        "meta_outfit_shaving"
+    ],
+    "cs_brontesbutler": [
+        "meta_outfit_default"
+    ],
+    "cs_brotherdorkins": [
+        "meta_outfit_default"
+    ],
+    "cs_brynntildon": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_bubba": [
+        "meta_outfit_default",
+        3494477702
+    ],
+    "cs_cabaretmc": [
+        "meta_outfit_default"
+    ],
+    "cs_cajun": [
+        "meta_outfit_default"
+    ],
+    "cs_cancan_01": [
+        "meta_outfit_default"
+    ],
+    "cs_cancan_02": [
+        "meta_outfit_default"
+    ],
+    "cs_cancan_03": [
+        "meta_outfit_default"
+    ],
+    "cs_cancan_04": [
+        "meta_outfit_default"
+    ],
+    "cs_cancanman_01": [
+        "meta_outfit_default"
+    ],
+    "cs_captainmonroe": [
+        "meta_outfit_default"
+    ],
+    "cs_cassidy": [
+        "meta_outfit_warm_weather",
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather"
+    ],
+    "cs_catherinebraithwaite": [
+        "meta_outfit_default",
+        646599895
+    ],
+    "cs_cattlerustler": [
+        "meta_outfit_default"
+    ],
+    "cs_cavehermit": [
+        "meta_outfit_default"
+    ],
+    "cs_chainprisoner_01": [
+        2313178507,
+        3122711688,
+        334248914,
+        "meta_outfit_default"
+    ],
+    "cs_chainprisoner_02": [
+        2313178507,
+        3122711688,
+        334248914,
+        "meta_outfit_default"
+    ],
+    "cs_charlessmith": [
+        3914502810,
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        30596609,
+        1689938120,
+        3528106923,
+        636919667,
+        1833893952,
+        505715365,
+        "meta_outfit_heist",
+        2622845191,
+        "meta_outfit_robbery",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        3561808611,
+        869636257,
+        1996046145,
+        "meta_outfit_wedding",
+        2669694634,
+        4218952032,
+        3568000679,
+        1365901568,
+        3322602522,
+        2314053440,
+        3194092052,
+        2636025147,
+        2611759940,
+        "meta_wearable_money_bag",
+        846863436,
+        "meta_wearable_rope"
+    ],
+    "cs_chelonianmaster": [
+        "meta_outfit_corpse",
+        "meta_outfit_default",
+        1070256532,
+        "meta_outfit_shell",
+        868125405
+    ],
+    "cs_cigcardguy": [
+        "meta_outfit_default"
+    ],
+    "cs_clay": [
+        "meta_outfit_default"
+    ],
+    "cs_cleet": [
+        "meta_outfit_default",
+        1689938120,
+        1309207681
+    ],
+    "cs_clive": [
+        "meta_outfit_default"
+    ],
+    "cs_colfavours": [
+        "meta_outfit_default"
+    ],
+    "cs_colmodriscoll": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_default",
+        "meta_outfit_hanged",
+        "meta_outfit_warm_weather",
+        1153596794,
+        3568000679
+    ],
+    "cs_cooper": [
+        "meta_outfit_default"
+    ],
+    "cs_cornwalltrainconductor": [
+        "meta_outfit_default"
+    ],
+    "cs_crackpotinventor": [
+        1604459475,
+        "meta_outfit_default",
+        1689938120,
+        3795360875,
+        "meta_outfit_lab"
+    ],
+    "cs_crackpotrobot": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_creepyoldlady": [
+        "meta_outfit_default"
+    ],
+    "cs_creolecaptain": [
+        "meta_outfit_default"
+    ],
+    "cs_creoledoctor": [
+        "meta_outfit_default"
+    ],
+    "cs_creoleguy": [
+        "meta_outfit_default"
+    ],
+    "cs_dalemaroney": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_daveycallender": [
+        "meta_outfit_default"
+    ],
+    "cs_davidgeddes": [
+        "meta_outfit_default",
+        1435668143
+    ],
+    "cs_desmond": [
+        "meta_outfit_default"
+    ],
+    "cs_didsbury": [
+        "meta_outfit_default"
+    ],
+    "cs_dinoboneslady": [
+        "meta_outfit_default",
+        2970993440
+    ],
+    "cs_disguisedduster_01": [
+        "meta_outfit_default"
+    ],
+    "cs_disguisedduster_02": [
+        "meta_outfit_default"
+    ],
+    "cs_disguisedduster_03": [
+        "meta_outfit_default"
+    ],
+    "cs_doroetheawicklow": [
+        "meta_outfit_default",
+        1689938120,
+        "meta_outfit_gala"
+    ],
+    "cs_drhiggins": [
+        "meta_outfit_default"
+    ],
+    "cs_drmalcolmmacintosh": [
+        "meta_outfit_default"
+    ],
+    "cs_duncangeddes": [
+        "meta_outfit_default"
+    ],
+    "cs_dusterinformant_01": [
+        "meta_outfit_default"
+    ],
+    "cs_dutch": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1895628185,
+        1689938120,
+        "meta_outfit_fishing",
+        "meta_outfit_gala",
+        "meta_outfit_heist",
+        3838379606,
+        377907664,
+        "meta_outfit_island",
+        "meta_outfit_island_holster",
+        1087308308,
+        1976273473,
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        2703856216,
+        2669694634,
+        491764525,
+        "meta_wearable_fishing",
+        1568779782,
+        1153596794,
+        1016389820,
+        2027789845,
+        2582183731,
+        3568000679,
+        1365901568,
+        3322602522,
+        3194092052,
+        "meta_wearable_moneybags"
+    ],
+    "cs_eagleflies": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_combat",
+        "meta_outfit_cool_weather",
+        "meta_outfit_default",
+        "meta_outfit_gala",
+        3174440811,
+        "meta_outfit_tortured",
+        "meta_outfit_western",
+        3322602522,
+        3194092052
+    ],
+    "cs_edgarross": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_edith_john": [
+        "meta_outfit_default"
+    ],
+    "cs_edithdown": [
+        "meta_outfit_default",
+        1689938120,
+        3914850757,
+        "meta_outfit_mourning",
+        1245083301,
+        781973513,
+        "meta_outfit_working"
+    ],
+    "cs_edmundlowry": [
+        "meta_outfit_default"
+    ],
+    "cs_escapeartist": [
+        "meta_outfit_default",
+        1414721216,
+        1450435413,
+        2420832808,
+        1941811839
+    ],
+    "cs_escapeartistassistant": [
+        "meta_outfit_default"
+    ],
+    "cs_evelynmiller": [
+        "meta_outfit_dead",
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_exconfedinformant": [
+        "meta_outfit_default"
+    ],
+    "cs_exconfedsleader_01": [
+        "meta_outfit_default"
+    ],
+    "cs_exoticcollector": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_famousgunslinger_01": [
+        "meta_outfit_default",
+        1815704879
+    ],
+    "cs_famousgunslinger_02": [
+        "meta_outfit_default"
+    ],
+    "cs_famousgunslinger_03": [
+        "meta_outfit_default"
+    ],
+    "cs_famousgunslinger_04": [
+        "meta_outfit_default"
+    ],
+    "cs_famousgunslinger_05": [
+        "meta_outfit_default"
+    ],
+    "cs_famousgunslinger_06": [
+        "meta_outfit_default",
+        1815704879,
+        "meta_wearable_bound"
+    ],
+    "cs_featherstonchambers": [
+        "meta_outfit_default"
+    ],
+    "cs_featsofstrength": [
+        "meta_outfit_default",
+        4087906768
+    ],
+    "cs_fightref": [
+        "meta_outfit_default"
+    ],
+    "cs_fire_breather": [
+        "meta_outfit_default",
+        3376135517,
+        127083513,
+        1697079164
+    ],
+    "cs_fishcollector": [
+        "meta_outfit_default",
+        "meta_outfit_fishing",
+        238725229,
+        1870304677
+    ],
+    "cs_forgivenhusband_01": [
+        "meta_outfit_default"
+    ],
+    "cs_forgivenwife_01": [
+        "meta_outfit_default"
+    ],
+    "cs_formyartbigwoman": [
+        "meta_outfit_default"
+    ],
+    "cs_francis_sinclair": [
+        "meta_outfit_default"
+    ],
+    "cs_frenchartist": [
+        "meta_outfit_default",
+        37289196
+    ],
+    "cs_frenchman_01": [
+        "meta_outfit_default"
+    ],
+    "cs_fussar": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_garethbraithwaite": [
+        "meta_outfit_default"
+    ],
+    "cs_gavin": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_genstoryfemale": [
+        "meta_outfit_default",
+        "meta_outfit_skirt"
+    ],
+    "cs_genstorymale": [
+        "meta_outfit_default"
+    ],
+    "cs_geraldbraithwaite": [
+        "meta_outfit_casual",
+        "meta_outfit_default"
+    ],
+    "cs_germandaughter": [
+        "meta_outfit_default"
+    ],
+    "cs_germanfather": [
+        "meta_outfit_bound",
+        "meta_outfit_default",
+        2531635734,
+        2896558165,
+        952561255
+    ],
+    "cs_germanmother": [
+        "meta_outfit_default",
+        3494477702,
+        4083860936
+    ],
+    "cs_germanson": [
+        "meta_outfit_default",
+        1815704879
+    ],
+    "cs_gilbertknightly": [
+        "meta_outfit_default"
+    ],
+    "cs_gloria": [
+        "meta_outfit_default"
+    ],
+    "cs_grizzledjon": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_guidomartelli": [
+        1832601100,
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_hamish": [
+        "meta_outfit_default"
+    ],
+    "cs_hectorfellowes": [
+        "meta_outfit_default",
+        "meta_outfit_gala",
+        "meta_wearable_tie"
+    ],
+    "cs_henrilemiux": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_herbalist": [
+        "meta_outfit_default"
+    ],
+    "cs_hercule": [
+        "meta_outfit_default",
+        3494477702
+    ],
+    "cs_hestonjameson": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_hobartcrawley": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_hoseamatthews": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        "meta_outfit_fishing",
+        "meta_outfit_gala",
+        "meta_outfit_heist",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        "meta_wearable_blanket",
+        "meta_wearable_fishing",
+        3194092052,
+        2050157097
+    ],
+    "cs_iangray": [
+        "meta_outfit_default"
+    ],
+    "cs_jackmarston": [
+        "meta_outfit_cold_weather",
+        4085669097,
+        "meta_outfit_cool_weather",
+        "meta_outfit_mob_01",
+        "meta_outfit_sleeping",
+        1730515688,
+        "meta_outfit_warm_weather",
+        464906090
+    ],
+    "cs_jackmarston_teen": [
+        389057251,
+        2157313518,
+        "meta_outfit_cool_weather",
+        "meta_outfit_default",
+        3494477702,
+        4083860936,
+        "meta_outfit_sleeping",
+        "meta_outfit_wedding",
+        781533162,
+        "meta_wearable_hat"
+    ],
+    "cs_jamie": [
+        "meta_outfit_default"
+    ],
+    "cs_janson": [
+        "meta_outfit_default"
+    ],
+    "cs_javierescuella": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        3838198154,
+        824487295,
+        "meta_outfit_gala",
+        "meta_outfit_guard",
+        "meta_outfit_heist",
+        643643053,
+        79674171,
+        "meta_outfit_island",
+        174754238,
+        "meta_outfit_island_holster",
+        2378822218,
+        1087308308,
+        "meta_outfit_robbery",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        1194427184,
+        1996046145,
+        2703856216,
+        3052492882,
+        2806009416,
+        3568000679,
+        1365901568,
+        3322602522,
+        2314053440,
+        3194092052,
+        2636025147,
+        2471368197
+    ],
+    "cs_jeb": [
+        "meta_outfit_default",
+        1689938120,
+        "meta_outfit_saloon1"
+    ],
+    "cs_jimcalloway": [
+        "meta_outfit_default"
+    ],
+    "cs_jockgray": [
+        "meta_outfit_default"
+    ],
+    "cs_joe": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_joebutler": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_johnmarston": [
+        "meta_outfit_cold_weather",
+        3204807231,
+        2899584503,
+        "meta_outfit_cool_weather",
+        1052055818,
+        1895628185,
+        "meta_outfit_heist",
+        "meta_outfit_nude",
+        "meta_outfit_prison",
+        2111449038,
+        2590452770,
+        2462092962,
+        "meta_outfit_sleeping",
+        2931983164,
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        "meta_outfit_warm_weather_casual",
+        1996046145,
+        2443496717,
+        890352471,
+        442974713,
+        1391951221,
+        2803320217,
+        1153596794,
+        3568000679,
+        3322602522,
+        3194092052,
+        3074085313,
+        3534747424,
+        4040172534
+    ],
+    "cs_johnthebaptisingmadman": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_johnweathers": [
+        "meta_outfit_default"
+    ],
+    "cs_josiahtrelawny": [
+        "meta_outfit_beatup",
+        "meta_outfit_cool_weather",
+        1052055818,
+        3838198154,
+        "meta_outfit_default",
+        "meta_outfit_healing",
+        "meta_outfit_heist",
+        "meta_outfit_warm_weather",
+        464906090,
+        "meta_outfit_warm_weather_casual"
+    ],
+    "cs_jules": [
+        "meta_outfit_default",
+        4284470665
+    ],
+    "cs_karen": [
+        "meta_outfit_cold_weather",
+        3318265746,
+        "meta_outfit_cool_weather",
+        1052055818,
+        "meta_outfit_robbery",
+        393090546,
+        1175771288,
+        1948339538,
+        1540613092,
+        340016766,
+        1447938793,
+        "meta_outfit_warm_weather",
+        464906090,
+        2785478201,
+        3227983164,
+        "meta_outfit_sleeping"
+    ],
+    "cs_karensjohn_01": [
+        "meta_outfit_default",
+        2420117241
+    ],
+    "cs_kieran": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        2345074637,
+        3417381439,
+        3810071058,
+        2656264241,
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        "meta_outfit_warm_weather_casual",
+        "meta_wearable_fishing",
+        3568000679
+    ],
+    "cs_laramie": [
+        "meta_outfit_default",
+        3999787158
+    ],
+    "cs_leighgray": [
+        "meta_outfit_default"
+    ],
+    "cs_lemiuxassistant": [
+        "meta_outfit_default",
+        "meta_outfit_gala"
+    ],
+    "cs_lenny": [
+        "meta_outfit_cold_weather",
+        3689087479,
+        "meta_outfit_cool_weather",
+        1052055818,
+        "meta_outfit_heist",
+        1802057976,
+        "meta_outfit_robbery",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        "meta_outfit_warm_weather_casual",
+        1996046145,
+        1153596794,
+        3568000679,
+        3322602522,
+        3194092052
+    ],
+    "cs_leon": [
+        "meta_outfit_default",
+        964810824,
+        4040172534
+    ],
+    "cs_leostrauss": [
+        "meta_outfit_cold_weather",
+        549775932,
+        "meta_outfit_cool_weather",
+        1052055818,
+        1947866077,
+        1762831972,
+        2767659762,
+        2991178049,
+        "meta_outfit_heist",
+        "meta_outfit_warm_weather",
+        "meta_outfit_warm_weather_casual",
+        1996046145
+    ],
+    "cs_levisimon": [
+        "meta_outfit_default"
+    ],
+    "cs_leviticuscornwall": [
+        "meta_outfit_default"
+    ],
+    "cs_lillianpowell": [
+        "meta_outfit_default",
+        1689938120,
+        "meta_outfit_gala"
+    ],
+    "cs_lillymillet": [
+        "meta_outfit_default"
+    ],
+    "cs_londonderryson": [
+        "meta_outfit_default"
+    ],
+    "cs_lucanapoli": [
+        "meta_outfit_default"
+    ],
+    "cs_magnifico": [
+        "meta_outfit_default",
+        3533855999
+    ],
+    "cs_mamawatson": [
+        "meta_outfit_default"
+    ],
+    "cs_marshall_thurwell": [
+        "meta_outfit_default"
+    ],
+    "cs_marybeth": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1624672818,
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966
+    ],
+    "cs_marylinton": [
+        "meta_outfit_default",
+        1689938120,
+        2442687304,
+        "meta_outfit_mary3",
+        3808015491
+    ],
+    "cs_meditatingmonk": [
+        "meta_outfit_default"
+    ],
+    "cs_meredith": [
+        "meta_outfit_default"
+    ],
+    "cs_meredithsmother": [
+        "meta_outfit_default"
+    ],
+    "cs_micahbell": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1895628185,
+        3838198154,
+        30596609,
+        1689938120,
+        1959714099,
+        3737488441,
+        4246096848,
+        "meta_outfit_heist",
+        1062942704,
+        3838379606,
+        "meta_outfit_island",
+        "meta_outfit_island_holster",
+        1087308308,
+        "meta_outfit_jail",
+        4043687137,
+        "meta_outfit_robbery",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        1996046145,
+        3512093622,
+        3568000679,
+        1365901568,
+        3322602522,
+        2314053440,
+        3194092052,
+        2636025147,
+        2471368197
+    ],
+    "cs_micahsnemesis": [
+        "meta_outfit_default"
+    ],
+    "cs_mickey": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_miltonandrews": [
+        "meta_outfit_default",
+        2970993440
+    ],
+    "cs_missmarjorie": [
+        "meta_outfit_default",
+        3533855999,
+        4106723501
+    ],
+    "cs_mixedracekid": [
+        "meta_outfit_default"
+    ],
+    "cs_moira": [
+        "meta_outfit_default"
+    ],
+    "cs_mollyoshea": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        "meta_outfit_gala",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        "meta_wearable_blanket"
+    ],
+    "cs_mradler": [
+        "meta_outfit_alive",
+        "meta_outfit_dead",
+        "meta_outfit_default"
+    ],
+    "cs_mrdevon": [
+        "meta_outfit_default"
+    ],
+    "cs_mrlinton": [
+        "meta_outfit_default"
+    ],
+    "cs_mrpearson": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1895628185,
+        1689938120,
+        429183006,
+        "meta_outfit_warm_weather",
+        464906090,
+        3052492882
+    ],
+    "cs_mrs_calhoun": [
+        "meta_outfit_default"
+    ],
+    "cs_mrs_sinclair": [
+        "meta_outfit_default"
+    ],
+    "cs_mrsadler": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        2818685431,
+        1689938120,
+        526359751,
+        861275228,
+        4274324155,
+        2857005174,
+        2597285571,
+        1833893952,
+        "meta_outfit_heist",
+        "meta_outfit_kidnapped",
+        "meta_outfit_mp_gun4hire",
+        646599895,
+        2069918342,
+        "meta_outfit_outlaw",
+        "meta_outfit_warm_weather",
+        464906090,
+        1598276604,
+        "meta_wearable_blanket"
+    ],
+    "cs_mrsfellows": [
+        "meta_outfit_default"
+    ],
+    "cs_mrsgeddes": [
+        "meta_outfit_default"
+    ],
+    "cs_mrslondonderry": [
+        "meta_outfit_default"
+    ],
+    "cs_mrsweathers": [
+        "meta_outfit_default"
+    ],
+    "cs_mrwayne": [
+        "meta_outfit_default"
+    ],
+    "cs_mud2bigguy": [
+        "meta_outfit_beatup",
+        "meta_outfit_default",
+        "meta_outfit_deformed",
+        "meta_outfit_lenny",
+        "meta_wearable_beatup",
+        2839388433
+    ],
+    "cs_mysteriousstranger": [
+        "meta_outfit_default"
+    ],
+    "cs_nbxdrunk": [
+        "meta_outfit_default"
+    ],
+    "cs_nbxexecuted": [
+        1815704879,
+        "meta_outfit_outlaw"
+    ],
+    "cs_nbxpolicechiefformal": [
+        "meta_outfit_default"
+    ],
+    "cs_nbxreceptionist_01": [
+        "meta_outfit_default"
+    ],
+    "cs_nial_whelan": [
+        "meta_outfit_default"
+    ],
+    "cs_nicholastimmins": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_nils": [
+        "meta_outfit_default"
+    ],
+    "cs_norrisforsythe": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_obediahhinton": [
+        "meta_outfit_default"
+    ],
+    "cs_oddfellowspinhead": [
+        "meta_outfit_default",
+        3533855999
+    ],
+    "cs_odprostitute": [
+        "meta_outfit_default"
+    ],
+    "cs_operasinger": [
+        "meta_outfit_default"
+    ],
+    "cs_paytah": [
+        "meta_outfit_default",
+        3322602522,
+        3194092052,
+        "meta_outfit_combat"
+    ],
+    "cs_penelopebraithwaite": [
+        "meta_outfit_default",
+        "meta_outfit_riding"
+    ],
+    "cs_pinkertongoon": [
+        "meta_outfit_default"
+    ],
+    "cs_poisonwellshaman": [
+        "meta_outfit_default",
+        1894285205
+    ],
+    "cs_poorjoe": [
+        "meta_outfit_default"
+    ],
+    "cs_priest_wedding": [
+        "meta_outfit_default"
+    ],
+    "cs_princessisabeau": [
+        "meta_outfit_default"
+    ],
+    "cs_professorbell": [
+        "meta_outfit_default"
+    ],
+    "cs_rainsfall": [
+        2782058880,
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        "meta_wearable_fishing"
+    ],
+    "cs_ramon_cortez": [
+        "meta_outfit_default"
+    ],
+    "cs_reverendfortheringham": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_revswanson": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        "meta_outfit_warm_weather_casual",
+        469058562
+    ],
+    "cs_rhodeputy_01": [
+        "meta_outfit_default"
+    ],
+    "cs_rhodeputy_02": [
+        "meta_outfit_default"
+    ],
+    "cs_rhodesassistant": [
+        "meta_outfit_default"
+    ],
+    "cs_rhodeskidnapvictim": [
+        "meta_outfit_default"
+    ],
+    "cs_rhodessaloonbouncer": [
+        "meta_outfit_default"
+    ],
+    "cs_ringmaster": [
+        "meta_outfit_default"
+    ],
+    "cs_rockyseven_widow": [
+        "meta_outfit_default",
+        "meta_outfit_healthy",
+        586906986,
+        657023538,
+        3234613462
+    ],
+    "cs_samaritan": [
+        "meta_outfit_default"
+    ],
+    "cs_scottgray": [
+        "meta_outfit_default"
+    ],
+    "cs_sd_streetkid_01": [
+        "meta_outfit_default"
+    ],
+    "cs_sd_streetkid_01a": [
+        "meta_outfit_default"
+    ],
+    "cs_sd_streetkid_01b": [
+        "meta_outfit_default"
+    ],
+    "cs_sd_streetkid_02": [
+        "meta_outfit_default"
+    ],
+    "cs_sddoctor_01": [
+        "meta_outfit_default"
+    ],
+    "cs_sdpriest": [
+        "meta_outfit_default"
+    ],
+    "cs_sdsaloondrunk_01": [
+        "meta_outfit_default"
+    ],
+    "cs_sdstreetkidthief": [
+        "meta_outfit_default"
+    ],
+    "cs_sean": [
+        "meta_outfit_cool_weather",
+        "meta_outfit_kidnapped",
+        2379136258,
+        "meta_outfit_robbery",
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        "meta_outfit_warm_weather_casual",
+        1560123389,
+        4273982684,
+        1996046145,
+        2081154332,
+        "meta_wearable_hat",
+        3568000679,
+        3322602522,
+        3194092052,
+        4265423522
+    ],
+    "cs_sherifffreeman": [
+        "meta_outfit_default",
+        2157252102
+    ],
+    "cs_sheriffowens": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_sistercalderon": [
+        "meta_outfit_default"
+    ],
+    "cs_slavecatcher": [
+        "meta_outfit_default"
+    ],
+    "cs_soothsayer": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_strawberryoutlaw_01": [
+        "meta_outfit_default"
+    ],
+    "cs_strawberryoutlaw_02": [
+        "meta_outfit_default"
+    ],
+    "cs_strdeputy_01": [
+        "meta_outfit_default"
+    ],
+    "cs_strdeputy_02": [
+        "meta_outfit_default"
+    ],
+    "cs_strsheriff_01": [
+        "meta_outfit_default"
+    ],
+    "cs_sunworshipper": [
+        "meta_outfit_default"
+    ],
+    "cs_susangrimshaw": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1085627780,
+        1895628185,
+        30596609,
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        3889248313,
+        2192836722
+    ],
+    "cs_swampfreak": [
+        "meta_outfit_default"
+    ],
+    "cs_swampweirdosonny": [
+        "meta_outfit_default",
+        1689938120,
+        2812708039
+    ],
+    "cs_sworddancer": [
+        "meta_outfit_default"
+    ],
+    "cs_tavishgray": [
+        "meta_outfit_default"
+    ],
+    "cs_taxidermist": [
+        "meta_outfit_default"
+    ],
+    "cs_theodorelevin": [
+        "meta_outfit_default",
+        3001544731
+    ],
+    "cs_thomasdown": [
+        "meta_outfit_default",
+        4070339324
+    ],
+    "cs_tigerhandler": [
+        "meta_outfit_default"
+    ],
+    "cs_tilly": [
+        "meta_outfit_bound",
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1052055818,
+        1895628185,
+        1689938120,
+        "meta_outfit_sleeping",
+        "meta_outfit_warm_weather",
+        464906090,
+        744097966,
+        2081154332,
+        "meta_wearable_gag"
+    ],
+    "cs_timothydonahue": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_tinyhermit": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_tomdickens": [
+        "meta_outfit_beatup",
+        2417922153,
+        "meta_outfit_default"
+    ],
+    "cs_towncrier": [
+        "meta_outfit_default",
+        "meta_outfit_mask"
+    ],
+    "cs_treasurehunter": [
+        "meta_outfit_default"
+    ],
+    "cs_twinbrother_01": [
+        "meta_outfit_default",
+        "meta_outfit_stage3"
+    ],
+    "cs_twinbrother_02": [
+        "meta_outfit_default",
+        3831588675
+    ],
+    "cs_twingroupie_01": [
+        "meta_outfit_default"
+    ],
+    "cs_twingroupie_02": [
+        "meta_outfit_default"
+    ],
+    "cs_uncle": [
+        "meta_outfit_cold_weather",
+        "meta_outfit_cool_weather",
+        1689938120,
+        3107762313,
+        1883650185,
+        241911854,
+        "meta_outfit_warm_weather",
+        "meta_outfit_warm_weather_casual",
+        "meta_outfit_wedding",
+        "meta_wearable_bandage",
+        3194092052,
+        4023551975
+    ],
+    "cs_unidusterjail_01": [
+        "meta_outfit_default"
+    ],
+    "cs_valauctionboss_01": [
+        "meta_outfit_default",
+        701511351
+    ],
+    "cs_valdeputy_01": [
+        "meta_outfit_default"
+    ],
+    "cs_valprayingman": [
+        "meta_outfit_default"
+    ],
+    "cs_valprostitute_01": [
+        "meta_outfit_default"
+    ],
+    "cs_valprostitute_02": [
+        "meta_outfit_default"
+    ],
+    "cs_valsheriff": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "cs_vampire": [
+        "meta_outfit_default"
+    ],
+    "cs_vht_bathgirl": [
+        "meta_outfit_default"
+    ],
+    "cs_wapitiboy": [
+        "meta_outfit_default"
+    ],
+    "cs_warvet": [
+        "meta_outfit_cool_weather",
+        2196364744,
+        "meta_outfit_default"
+    ],
+    "cs_watson_01": [
+        "meta_outfit_default"
+    ],
+    "cs_watson_02": [
+        "meta_outfit_default"
+    ],
+    "cs_watson_03": [
+        "meta_outfit_default"
+    ],
+    "cs_welshfighter": [
+        "meta_outfit_default"
+    ],
+    "cs_wintonholmes": [
+        "meta_outfit_default",
+        "meta_outfit_mauled",
+        2305241075
+    ],
+    "cs_wrobel": [
+        "meta_outfit_default"
+    ],
+    "female_skeleton": [
+        1372087246,
+        1717635561,
+        "meta_outfit_dress_flats",
+        "meta_outfit_dress_heels",
+        "meta_outfit_obese",
+        "meta_outfit_pants_flats",
+        "meta_outfit_pants_heels"
+    ],
+    "g_m_m_bountyhunters_01": [
+        875945698,
+        1047720796,
+        2504612277,
+        2726523945,
+        1433891124,
+        1270504890,
+        534840840,
+        3339211916,
+        3041308937,
+        2880282071,
+        467926594,
+        4613714,
+        3463414437,
+        967399703,
+        1208251853
+    ],
+    "g_m_m_unibanditos_01": [
+        2180588325,
+        3141277098,
+        2912090712,
+        3842042163,
+        3611643324,
+        2652402875,
+        2402604788,
+        2095788641,
+        710008452,
+        1601358025,
+        4190543316,
+        1259241107,
+        3041812882,
+        3014417998,
+        2867791632,
+        2054263469,
+        2964389675,
+        205624806,
+        3404548273,
+        4227148468,
+        2471732928,
+        294802571,
+        585561908,
+        897784960,
+        1131722851,
+        918298334,
+        926624745,
+        190307792,
+        4219109745,
+        4166931501,
+        172029938,
+        3825183600,
+        1241165900,
+        548953544,
+        3756462421,
+        3585408241,
+        3276363802,
+        2116375554,
+        1776102258,
+        2883701679,
+        2658096250,
+        3928412977,
+        1406052049,
+        2908641783,
+        3139794309,
+        3394966512,
+        3869461632,
+        2095672105,
+        4258589954,
+        3887251646,
+        3836656310,
+        3597737531,
+        1338060214,
+        1568131363,
+        1769791789,
+        2534292559,
+        3039217009,
+        1937571152,
+        70688453,
+        229452171,
+        451429377,
+        691921068,
+        3422332463,
+        3666494282,
+        125607214,
+        369572419,
+        2439196921,
+        2677427551,
+        470765111,
+        708700820,
+        1275244069,
+        1513704082,
+        319499137,
+        1968500755,
+        649324346,
+        3027075759,
+        3712275641,
+        3154743813,
+        786364334,
+        546888482
+    ],
+    "g_m_m_unibraithwaites_01": [
+        3627674038,
+        2777646178,
+        3017089261,
+        2638574542,
+        2452241810,
+        2490057236,
+        3985536089,
+        2143787213,
+        1676176347,
+        3241796579
+    ],
+    "g_m_m_unibrontegoons_01": [
+        "goon1",
+        "goon2",
+        "goon3",
+        1104347535,
+        1260426278,
+        1500197051,
+        716264264,
+        1146234389,
+        510381508,
+        741239113,
+        4043961089,
+        248721043,
+        3580115894,
+        2842941431,
+        1207538692,
+        308949904,
+        676618084,
+        1052102410,
+        2220546639,
+        2598245160,
+        3389124975,
+        1657936016,
+        2436068690,
+        2497884797,
+        1819533724,
+        2580043659,
+        3348771630,
+        3023178846,
+        240805573,
+        3678371984,
+        1255563200
+    ],
+    "g_m_m_unicornwallgoons_01": [
+        2871269823,
+        3167010048,
+        2132230518,
+        3694506001,
+        747432491,
+        1081049733,
+        909995553,
+        2069461080,
+        1543245078,
+        1892654866,
+        2131639183,
+        2359383733,
+        2590175800,
+        3530547793,
+        3446388157,
+        513497115,
+        997167563,
+        1296971144,
+        1463535834,
+        226768236,
+        3870844877,
+        593589265,
+        3597313040,
+        3231783077,
+        3528637448,
+        3822083843
+    ],
+    "g_m_m_unicriminals_01": [
+        146972782,
+        1773331021,
+        2405980397,
+        2459348648,
+        2689681949,
+        1193711561,
+        1922340057,
+        148685433,
+        453142212,
+        41792611,
+        4038201548,
+        1013967228,
+        1317506479,
+        2636296414,
+        3025198906,
+        3248912869,
+        2301494380,
+        1776501247,
+        449389388,
+        3662786710,
+        16777490,
+        1635109100,
+        1395403865,
+        153059716,
+        1104347535,
+        1260426278,
+        1500197051,
+        716264264,
+        719303544,
+        526818438,
+        1295349795,
+        1675863431,
+        1372914026,
+        2190402269,
+        2029572017,
+        2797972298,
+        2895843115,
+        3738137491,
+        3441217582,
+        2136061081,
+        1153534118,
+        1415292890,
+        3133207723,
+        2919684919,
+        143972945,
+        451116782,
+        3456467924,
+        1911671730,
+        1066175139,
+        1649050579,
+        748072587,
+        1520268862,
+        1226822467,
+        2805532664,
+        3505544042,
+        3978203403,
+        1575482012,
+        332488304,
+        36879155,
+        2802386141,
+        346972202,
+        3339601127,
+        3035144348,
+        2992632906,
+        3229978777,
+        3602627845,
+        1913827357,
+        1640861587,
+        3745343472,
+        1215347309
+    ],
+    "g_m_m_uniduster_01": [
+        1104129217,
+        1394167636,
+        3990001752,
+        605381,
+        1640618693,
+        1411006310,
+        2459348648,
+        2689681949,
+        1193711561,
+        1922340057,
+        3782383173,
+        3150072545,
+        430539445,
+        3492016051,
+        3646292503,
+        1281487612,
+        3837764874,
+        877386931,
+        4240567708,
+        2636296414,
+        3025198906,
+        3248912869,
+        2301494380,
+        2309901138,
+        2899153296,
+        3948672387,
+        2386513422,
+        2675873475,
+        1635109100,
+        1395403865,
+        153059716,
+        711380060,
+        950102225,
+        934963801,
+        167481052,
+        4217991612,
+        3441923385,
+        2661307253,
+        1231464707,
+        3340440883,
+        2775732706,
+        2293878675,
+        2987205177,
+        2756347572,
+        2686708151,
+        2444578010,
+        3665407339,
+        3903539662,
+        906159228,
+        1840469112,
+        1542303981,
+        1151693532,
+        980377200,
+        658028547,
+        2115003825,
+        1274234949,
+        1672902603,
+        1378133831,
+        1794758897,
+        2104655330,
+        1958866025,
+        1196306368,
+        1737912400,
+        3345992437,
+        3156063313,
+        2883261388,
+        1631452107,
+        3878619039,
+        4099973634,
+        2581159614,
+        2232946589,
+        3884569727,
+        4115689484,
+        3416136872,
+        1476045980,
+        3240951551,
+        3154743813,
+        786364334,
+        546888482,
+        1913827357,
+        1640861587,
+        1755543207,
+        54111189,
+        1296547824
+    ],
+    "g_m_m_uniduster_02": [
+        786313787,
+        549754376,
+        2475260812,
+        2235883267,
+        2477816798,
+        2181814421
+    ],
+    "g_m_m_uniduster_03": [
+        2938014340,
+        3784339303,
+        3500789146,
+        1934192936,
+        2061539371,
+        1771140493,
+        2029925160
+    ],
+    "g_m_m_uniduster_04": [
+        "meta_outfit_sniper"
+    ],
+    "g_m_m_uniduster_05": [
+        2621345834,
+        2976103028,
+        3232913681,
+        1246293056,
+        3632957637,
+        312093580
+    ],
+    "g_m_m_unigrays_01": [
+        3367605015,
+        3203301249,
+        2441891498,
+        2295708989,
+        3781613816,
+        1638226287
+    ],
+    "g_m_m_uniinbred_01": [
+        1285276059,
+        750136551,
+        2319731171,
+        1871320175,
+        634126580,
+        1022832458,
+        3840278313,
+        3006143418,
+        2155198022,
+        3555810624,
+        3911275540,
+        3704044384,
+        3420199306,
+        2687681080,
+        169272416,
+        477366566,
+        3869580669,
+        2465212991,
+        3911046809,
+        3026414885,
+        2193131984,
+        1352967593,
+        2657009948,
+        1729811093,
+        907199942,
+        3766557348,
+        4053187791,
+        4217163867,
+        250181492,
+        411637919,
+        2325904632,
+        30729039,
+        4123642677,
+        317807110,
+        625213099,
+        1725858271,
+        1997021746,
+        3399731560,
+        3690621973,
+        3007542822,
+        154214852,
+        3851444292,
+        2163087101,
+        2451061073,
+        2154660328,
+        3926971693,
+        4223334529,
+        3048074344,
+        1306309085,
+        1529597051,
+        3517072301,
+        2021724524,
+        605220140,
+        307579313,
+        2979704018,
+        2673739865,
+        339884989,
+        425805307,
+        4059856938,
+        118073924,
+        722162856,
+        1225232544,
+        1590017052
+    ],
+    "g_m_m_unimicahgoons_01": [
+        4203059624
+    ],
+    "g_m_m_unimountainmen_01": [
+        267296198,
+        927514601,
+        544641605,
+        3134146292,
+        3696429563,
+        3449580686,
+        2280055076,
+        2048476553,
+        3293600242,
+        933052282,
+        2900597699,
+        2661089078,
+        1866899594,
+        1631388791,
+        3825273341,
+        1786043829,
+        1286775345,
+        249802073,
+        4188111573,
+        1028459043,
+        4087894447,
+        97646082,
+        4101249941,
+        4172751899,
+        3356967644,
+        1825833598,
+        3750979579,
+        3854207638,
+        3616075315,
+        3335474368,
+        3907622635,
+        388723566,
+        3227390264,
+        1022823012,
+        786132529,
+        429540271,
+        191342410,
+        2308711341,
+        1867027027,
+        2172466876,
+        1934203837,
+        2223717952,
+        803345875,
+        2713713025,
+        2218324059,
+        395417358,
+        1519922034,
+        1699299540,
+        2024768285,
+        2331584432,
+        655638393,
+        894229482,
+        1883215998,
+        2190032145,
+        2505204387,
+        396486452,
+        2841053856,
+        3162845436,
+        3345997868,
+        3122480519
+    ],
+    "g_m_m_uniranchers_01": [
+        1104129217,
+        1394167636,
+        3990001752,
+        605381,
+        1615541117,
+        2106813965,
+        1120368758,
+        4117698432,
+        2872181515,
+        3774049933,
+        3770752304,
+        1322011626,
+        1024895103,
+        667942732,
+        905223065,
+        2264391055,
+        3215249124,
+        3444992583,
+        2089015447,
+        3606159042,
+        3836754495,
+        3920499392,
+        3754098410,
+        1786464955,
+        723508941,
+        2118550809,
+        3182241137,
+        3404218331,
+        383481420,
+        78565875,
+        811170588,
+        901285354,
+        1668440413,
+        1490832433
+    ],
+    "g_m_m_uniswamp_01": [
+        2957699932,
+        1694127292,
+        312619017,
+        1232051623,
+        1999468834,
+        3006168865,
+        1072634020,
+        890482708,
+        1613203003,
+        2444814685,
+        722162856,
+        1225232544,
+        1590017052
+    ],
+    "g_m_o_uniexconfeds_01": [
+        2046532345,
+        3411656116,
+        2857192361,
+        1283358966,
+        1618520298,
+        1915374669,
+        2507115066,
+        202256484,
+        3557933160,
+        3326878941,
+        2248166695,
+        571413435,
+        328693452,
+        1783129265,
+        2361232335,
+        301110488,
+        1047096773,
+        2132733042,
+        327000813,
+        2003318381,
+        4164935077,
+        2496996262,
+        86100600,
+        397438869,
+        3999845950,
+        3633750682,
+        621949248,
+        384931071,
+        1803220758,
+        2565931962,
+        282886208,
+        779191267,
+        2628509782,
+        2593512490,
+        4220984875,
+        1378133831,
+        1794758897,
+        790809979,
+        1720302664,
+        8501250,
+        363082379,
+        3431342160,
+        3154743813
+    ],
+    "g_m_y_uniexconfeds_01": [
+        3654769327,
+        520414481,
+        2907341206,
+        43068458,
+        1606262487,
+        4267218169,
+        1666399187,
+        2394933877,
+        685741288,
+        933704311,
+        2386283801,
+        2549735573,
+        3731737413,
+        277024448,
+        532561550,
+        2003318381,
+        4185579547,
+        3567369322,
+        3207559258,
+        1265247797,
+        967017128,
+        397438869,
+        2764959692,
+        759793292,
+        204243433,
+        500245810,
+        3323209151,
+        1799843875,
+        4254078134,
+        3601882274,
+        556721503,
+        4002611240,
+        3675057490,
+        1758169297,
+        1989256285,
+        2486689705,
+        2487882535,
+        592917527,
+        3987966927,
+        32289857,
+        2104655330,
+        1958866025,
+        1554294233,
+        755484316,
+        1218969052,
+        1029007840,
+        1230995956,
+        735252120,
+        4015625650,
+        1568403945,
+        314268789,
+        8501250,
+        1631452107,
+        3878619039,
+        4099973634,
+        2581159614,
+        249626696,
+        1119021035,
+        996661589,
+        1831779554,
+        3261479922,
+        3482801748,
+        347824283,
+        786364334,
+        546888482,
+        4085285106,
+        1695015943
+    ],
+    "gc_lemoynecaptive_males_01": [
+        2713033165
+    ],
+    "gc_skinnertorture_males_01": [
+        1185801093,
+        4092280325
+    ],
+    "ge_delloboparty_females_01": [
+        812407015
+    ],
+    "loansharking_asbminer_males_01": [
+        1259903711
+    ],
+    "loansharking_horsechase1_males_01": [
+        42186812,
+        960056836
+    ],
+    "loansharking_undertaker_females_01": [
+        2611471403,
+        95105388,
+        4167472867,
+        2234204970
+    ],
+    "loansharking_undertaker_males_01": [
+        1487067886,
+        1767799909,
+        2723964835
+    ],
+    "male_skeleton": [
+        "meta_outfit_dress",
+        "meta_outfit_obese",
+        "meta_wearable_cock"
+    ],
+    "mbh_rhodesrancher_females_01": [
+        3848717895
+    ],
+    "mbh_rhodesrancher_teens_01": [
+        3031469768
+    ],
+    "mbh_skinnersearch_males_01": [
+        2361746509,
+        1844032232
+    ],
+    "mcclellan_saddle_01": [
+        1405871287,
+        18497349,
+        3269968609,
+        481752702,
+        4029259108,
+        2783307574,
+        2148703120,
+        2337747481,
+        3878218171,
+        3102281020,
+        1432915873,
+        2451384281,
+        1607877452,
+        2893208708,
+        3124066313,
+        1382688884,
+        1057175838,
+        2360923272,
+        941435726,
+        2229683423,
+        1260933476
+    ],
+    "mes_abigail2_males_01": [
+        405972604,
+        3383095356,
+        1436504192,
+        3983385537
+    ],
+    "mes_finale2_females_01": [
+        1205742093
+    ],
+    "mes_finale2_males_01": [
+        2011147285,
+        1655800249,
+        1866046141,
+        2691661096
+    ],
+    "mes_finale3_males_01": [
+        2408301730,
+        1037869381
+    ],
+    "mes_marston1_males_01": [
+        2109321344,
+        3481916451
+    ],
+    "mes_marston2_males_01": [
+        1762186298,
+        1052664747,
+        3568327170,
+        2647092285
+    ],
+    "mes_marston5_2_males_01": [
+        3534301949
+    ],
+    "mes_marston6_females_01": [
+        2975748938
+    ],
+    "mes_marston6_males_01": [
+        1623681088,
+        3532425066,
+        3750214845,
+        1582447188,
+        1944610176,
+        1657717581,
+        2558406315,
+        994997321,
+        702468458,
+        1528935407,
+        1294637057,
+        660162155,
+        295181033,
+        2368606739,
+        4241912166,
+        4008826269,
+        3627067419,
+        1419026657,
+        1180304492,
+        2982468416,
+        2751414197,
+        2906345769,
+        2676209082,
+        527512979,
+        2075127315,
+        1710604959,
+        1454679069,
+        3686379045,
+        1169798853
+    ],
+    "mes_marston6_teens_01": [
+        3028399400
+    ],
+    "mes_sadie4_males_01": [
+        3071724949
+    ],
+    "mes_sadie5_males_01": [
+        2145312194,
+        1753522302,
+        2058044619,
+        1288562961,
+        1594854804,
+        2281557227
+    ],
+    "motherhubbard_saddle_01": [
+        382498996,
+        1322412223,
+        1096469968,
+        723820900,
+        534350542,
+        377302798,
+        735238585,
+        956429335,
+        3226305200,
+        2883017156,
+        3120732725,
+        2500382222,
+        3234538890,
+        2978383617,
+        3746587284,
+        170440772,
+        1872391008,
+        1102417815,
+        3713451735,
+        4013025933,
+        914815286
+    ],
+    "msp_bountyhunter1_females_01": [
+        1216691727
+    ],
+    "msp_braithwaites1_males_01": [
+        2936845176
+    ],
+    "msp_feud1_males_01": [
+        3147840815,
+        2059814720,
+        2742524066,
+        3041737805
+    ],
+    "msp_fussar2_males_01": [
+        853380307,
+        1835401707,
+        2326412403
+    ],
+    "msp_gang2_males_01": [
+        3450254765
+    ],
+    "msp_gang3_males_01": [
+        2503137663
+    ],
+    "msp_grays1_males_01": [
+        573025389
+    ],
+    "msp_grays2_males_01": [
+        4215398381
+    ],
+    "msp_guarma2_males_01": [
+        1470715062,
+        3025901188,
+        1726214955
+    ],
+    "msp_industry1_females_01": [
+        843967863,
+        563891224,
+        826469221,
+        3488826030,
+        4185088082,
+        422289346,
+        653933407
+    ],
+    "msp_industry1_males_01": [
+        3743299590,
+        3920945427,
+        1779851736,
+        3984426082,
+        403540839,
+        1705136021,
+        3276442340,
+        335938618
+    ],
+    "msp_industry3_females_01": [
+        37708101
+    ],
+    "msp_industry3_males_01": [
+        4288024750,
+        2116903526,
+        755804670,
+        2983959791,
+        1418992357,
+        551780060,
+        236902739,
+        4117211109
+    ],
+    "msp_mary1_females_01": [
+        349147614
+    ],
+    "msp_mary1_males_01": [
+        3437761578
+    ],
+    "msp_mary3_males_01": [
+        3265973322,
+        1696207146,
+        697683187,
+        928671868,
+        2083890004,
+        865644342
+    ],
+    "msp_mob0_males_01": [
+        2792484315
+    ],
+    "msp_mob1_females_01": [
+        2163816558,
+        4062803094,
+        1214080699,
+        306468371,
+        491219746,
+        2672457559,
+        922665377,
+        1988112326
+    ],
+    "msp_mob1_males_01": [
+        1573289659,
+        3969549155,
+        3299407966,
+        622741433,
+        1186332498,
+        394109154,
+        2606242537
+    ],
+    "msp_mob1_teens_01": [
+        2767677131,
+        1582029173,
+        2423963090,
+        969412718,
+        1812985085,
+        829801663,
+        3466985725
+    ],
+    "msp_mob3_females_01": [
+        2948992476
+    ],
+    "msp_mob3_males_01": [
+        2948992476,
+        2644076927,
+        469249943
+    ],
+    "msp_mudtown3_males_01": [
+        2291856512,
+        647286959
+    ],
+    "msp_mudtown3b_females_01": [
+        1722336505,
+        408758367,
+        180784434,
+        1030681218,
+        795170415,
+        3793861609,
+        3553566532,
+        1211009089,
+        1518087388,
+        70586051,
+        2716735826,
+        1972551824,
+        660579371,
+        1512442295,
+        2345331968,
+        1113184799,
+        4113153980,
+        382403330,
+        1199891573,
+        52124307
+    ],
+    "msp_mudtown3b_males_01": [
+        1722336505,
+        2481368326,
+        408758367,
+        180784434,
+        1030681218,
+        795170415,
+        3793861609,
+        3553566532,
+        1211009089,
+        1518087388,
+        2716735826,
+        1972551824,
+        660579371,
+        1512442295,
+        2345331968,
+        1113184799,
+        4113153980,
+        382403330,
+        1199891573,
+        52124307
+    ],
+    "msp_mudtown5_males_01": [
+        4104427672,
+        3305160938,
+        2066885966,
+        2077644593,
+        2317022138
+    ],
+    "msp_native1_males_01": [
+        "msp_native1_ailing_native_01",
+        "msp_native1_ailing_native_02",
+        "msp_native1_assistant_01"
+    ],
+    "msp_reverend1_males_01": [
+        4209872626,
+        479580738,
+        2254512008,
+        629126052
+    ],
+    "msp_saintdenis1_females_01": [
+        2145919745,
+        2510966405,
+        1961694020,
+        3864819233,
+        3328846870,
+        3510059440
+    ],
+    "msp_saintdenis1_males_01": [
+        1382794278,
+        3075603684,
+        2771212443,
+        3387396317,
+        2922326096,
+        2145919745,
+        2510966405,
+        2744576606,
+        1558568193,
+        1789163646,
+        1918470120,
+        1961694020,
+        3864819233,
+        2560285343,
+        2278570250,
+        3328846870,
+        3510059440
+    ],
+    "msp_saloon1_females_01": [
+        4070150144,
+        1467286073,
+        1345836794,
+        2510658254,
+        1572762119,
+        2149648543,
+        2609311131,
+        2543061389,
+        695830910,
+        2731315106,
+        1959338016,
+        2014433232,
+        2340638100,
+        1157173776,
+        3830218533,
+        2339808537,
+        1728218259,
+        774303669,
+        3186143838,
+        290772784,
+        3811704376,
+        1295532874
+    ],
+    "msp_saloon1_males_01": [
+        3937389438,
+        3694193457,
+        3552384897,
+        2889188183,
+        1816765629,
+        1096694768,
+        1098316139,
+        1333254179,
+        3988194222,
+        1400692781,
+        3426903035,
+        3858400554,
+        2937463391,
+        4164463014,
+        3341645508,
+        167005469,
+        3824985580,
+        3457941842,
+        2053530622,
+        4070150144,
+        1467286073,
+        429695446,
+        3570152828,
+        786418780,
+        3607065220,
+        92469667,
+        3415382683,
+        188024071,
+        1369993929,
+        3790418552,
+        486792494,
+        4171653098,
+        3906199303,
+        737120904,
+        470116389,
+        1004483175,
+        673280696,
+        2444615203,
+        2101355929,
+        2507531683,
+        2588246000,
+        1663500550,
+        3764530700,
+        3743938818,
+        1282691458
+    ],
+    "msp_smuggler2_males_01": [
+        603720014,
+        1255364348
+    ],
+    "msp_trainrobbery2_males_01": [
+        628512970,
+        1475493313,
+        1811637715,
+        1584417469
+    ],
+    "msp_trelawny1_males_01": [
+        672802025,
+        418940582,
+        1186947635,
+        2809439132,
+        2638122800
+    ],
+    "msp_utopia1_males_01": [
+        2902394106,
+        3224709990,
+        3658604319,
+        3669680241,
+        140196785,
+        1509908196,
+        603583214,
+        4121433675,
+        994058598,
+        3280024286
+    ],
+    "msp_winter4_males_01": [
+        3098426365
+    ],
+    "player_three": [
+        3955351963,
+        4112743736,
+        3814775219,
+        4274229368,
+        1689938120,
+        889824582,
+        636919667,
+        170828967,
+        4111532855,
+        2445113065,
+        2185893999,
+        425935632,
+        1243023497,
+        3195858856,
+        2631354963,
+        11964851,
+        772353680,
+        3159606006,
+        3780091146,
+        378649961,
+        3945624580,
+        1775806192,
+        1226094213,
+        674973847,
+        1044689913,
+        1833893952,
+        "meta_outfit_gunslinger",
+        2090237806,
+        "meta_outfit_nude",
+        "meta_outfit_rancher",
+        2615659609,
+        894599323,
+        "meta_outfit_wedding"
+    ],
+    "player_zero": [
+        3663449315,
+        "meta_outfit_cold_weather",
+        3497792027,
+        "meta_outfit_cool_weather",
+        4145310139,
+        1160541778,
+        3677155265,
+        3039067437,
+        2731071606,
+        "meta_outfit_hot_weather",
+        1675398798,
+        "meta_outfit_island_holster",
+        720426672,
+        2848409704,
+        "meta_outfit_nude",
+        3147941181,
+        "meta_outfit_police",
+        "meta_outfit_robbery",
+        4248004386,
+        602206902,
+        3910301806,
+        3670793185,
+        2911142227,
+        302631516,
+        130528728,
+        2669694634,
+        3534484746,
+        77420784,
+        2882545475,
+        3122775014,
+        374504522,
+        2950803610,
+        3289897230,
+        2562458199,
+        830681191,
+        2333565842,
+        2097530735,
+        1856154281,
+        3522490700,
+        3292485089,
+        3045734519,
+        2068661534,
+        2308497845,
+        1710201443,
+        1812309647,
+        2703102151,
+        1615367965,
+        3419661874,
+        3861946303,
+        1065570915,
+        720283962,
+        4246785439,
+        2845681590,
+        1416985935,
+        1466041132,
+        2309547961,
+        1322051030,
+        2848562126,
+        1094040673,
+        3830459926,
+        1817663730,
+        2806006394,
+        1313855253,
+        560941803,
+        2013517659,
+        3706221697,
+        1874592093,
+        1219812133,
+        508397143,
+        2350047712,
+        2178993532,
+        3786312986,
+        558124150,
+        3416301868
+    ],
+    "rces_abigail3_females_01": [
+        2276487689,
+        2436480818
+    ],
+    "rces_abigail3_males_01": [
+        2813592335
+    ],
+    "rces_beechers1_males_01": [
+        578318942,
+        1241189697,
+        3026510355,
+        3201005256
+    ],
+    "rces_evelynmiller_males_01": [
+        3422943755,
+        3142801574,
+        2914696565
+    ],
+    "rcsp_beauandpenelope1_females_01": [
+        1888985740,
+        1652360791,
+        3790701886,
+        3682564186,
+        3443383255,
+        3101438740,
+        954839853,
+        723785634,
+        92458080,
+        3663922401,
+        2810617641,
+        3116876715,
+        317978114,
+        646454646,
+        3999280347,
+        10572125
+    ],
+    "rcsp_beauandpenelope_males_01": [
+        1055269118,
+        1400130074,
+        1666836965,
+        4190115507,
+        3755812955
+    ],
+    "rcsp_calderon_males_01": [
+        1842035296,
+        1237014266,
+        1466561111
+    ],
+    "rcsp_calderonstage2_males_01": [
+        2913188541,
+        421581998
+    ],
+    "rcsp_calderonstage2_teens_01": [
+        1125487203,
+        1418999136,
+        637524020
+    ],
+    "rcsp_calloway_males_01": [
+        307818551,
+        453588583,
+        124489516,
+        968029114,
+        703616053
+    ],
+    "rcsp_coachrobbery_males_01": [
+        3282793712,
+        1459193931,
+        2241271058,
+        599616266
+    ],
+    "rcsp_crackpot_females_01": [
+        3048215284,
+        654275985
+    ],
+    "rcsp_crackpot_males_01": [
+        3900004157,
+        4144100438,
+        3397954084,
+        3048215284
+    ],
+    "rcsp_creole_males_01": [
+        3139910812
+    ],
+    "rcsp_dutch1_males_01": [
+        124736669,
+        745402968,
+        3274645468,
+        3504126775,
+        3258195402,
+        3483482277,
+        3605579571,
+        3839320848
+    ],
+    "rcsp_dutch3_males_01": [
+        353982131
+    ],
+    "rcsp_edithdownes2_males_01": [
+        2133356367,
+        2450647338
+    ],
+    "rcsp_formyart_females_01": [
+        1152867454,
+        1732485526,
+        1482556363,
+        2328848557,
+        229895796,
+        812135392
+    ],
+    "rcsp_formyart_males_01": [
+        1152867454,
+        1732485526,
+        1482556363,
+        2328848557,
+        229895796,
+        812135392,
+        555128125,
+        1405483675,
+        3882361305,
+        4091136884
+    ],
+    "rcsp_gunslingerduel4_males_01": [
+        3828354190,
+        3319943047,
+        3610997305,
+        3230975216
+    ],
+    "rcsp_herekittykitty_males_01": [
+        1021886395,
+        4069763858
+    ],
+    "rcsp_hunting1_males_01": [
+        2654250511,
+        1862852728
+    ],
+    "rcsp_mrmayor_males_01": [
+        1014453318
+    ],
+    "rcsp_native1s2_males_01": [
+        1377410087,
+        3923842476,
+        3624202800,
+        2798096310,
+        4247614545
+    ],
+    "rcsp_native_americanfathers_males_01": [
+        3375868745
+    ],
+    "rcsp_oddfellows_males_01": [
+        1686244155
+    ],
+    "rcsp_odriscolls2_females_01": [
+        2493546670,
+        2792563795,
+        4181248481
+    ],
+    "rcsp_poisonedwell_females_01": [
+        3348221222,
+        1127531630,
+        896454262,
+        2086067277
+    ],
+    "rcsp_poisonedwell_males_01": [
+        2251567416,
+        3613021059,
+        3031502385,
+        3372031695,
+        3625958676,
+        1435678716
+    ],
+    "rcsp_poisonedwell_teens_01": [
+        177941887,
+        413714842
+    ],
+    "rcsp_ridethelightning_females_01": [
+        2294659157,
+        1856357038
+    ],
+    "rcsp_ridethelightning_males_01": [
+        2294659157
+    ],
+    "rcsp_sadie1_males_01": [
+        3025333921,
+        2641041174,
+        987299617,
+        1723545634
+    ],
+    "rcsp_slavecatcher_males_01": [
+        341723208,
+        1818654807
+    ],
+    "re_animalattack_females_01": [
+        54369366
+    ],
+    "re_animalattack_males_01": [
+        2618873923,
+        54369366
+    ],
+    "re_animalmauling_males_01": [
+        4284003317,
+        4043446088
+    ],
+    "re_approach_males_01": [
+        4166954185,
+        3454097359
+    ],
+    "re_beartrap_males_01": [
+        3181074014,
+        2918316533,
+        3731082101,
+        3536488320
+    ],
+    "re_boatattack_males_01": [
+        1175253274,
+        3804441224
+    ],
+    "re_burningbodies_males_01": [
+        3391217816,
+        4147998995
+    ],
+    "re_checkpoint_males_01": [
+        3180484819,
+        1636540651
+    ],
+    "re_coachrobbery_females_01": [
+        1023712399
+    ],
+    "re_coachrobbery_males_01": [
+        1537379613,
+        975618243,
+        2762146261,
+        1023712399,
+        1255880764,
+        633654067,
+        1963369243
+    ],
+    "re_consequence_males_01": [
+        1772963640,
+        2420708459,
+        2107218540,
+        2353248192,
+        4239964675,
+        3325086964,
+        756301256,
+        372379652
+    ],
+    "re_corpsecart_females_01": [
+        3347795174
+    ],
+    "re_corpsecart_males_01": [
+        3347795174,
+        3586517339
+    ],
+    "re_crashedwagon_males_01": [
+        141421681,
+        3601271012,
+        3024634875,
+        480084174
+    ],
+    "re_darkalleyambush_males_01": [
+        2234212263,
+        2061486876,
+        748072587
+    ],
+    "re_darkalleybum_males_01": [
+        3021010148,
+        3745598280,
+        2389558825,
+        884347675
+    ],
+    "re_darkalleystabbing_males_01": [
+        1892216320,
+        34607264,
+        2107826708,
+        159381960
+    ],
+    "re_deadbodies_males_01": [
+        3373571920,
+        2713068186
+    ],
+    "re_deadjohn_females_01": [
+        3875589145
+    ],
+    "re_deadjohn_males_01": [
+        625655698,
+        1318982204
+    ],
+    "re_disabledbeggar_males_01": [
+        3838676009,
+        257876299,
+        1097805994,
+        313807665,
+        551776143
+    ],
+    "re_domesticdispute_females_01": [
+        2922898111,
+        800714293
+    ],
+    "re_domesticdispute_males_01": [
+        204939119,
+        1521114995,
+        1066397413
+    ],
+    "re_drownmurder_females_01": [
+        1056682093,
+        311089032,
+        3739276225
+    ],
+    "re_drownmurder_males_01": [
+        2649278900,
+        3488394687,
+        4119918855
+    ],
+    "re_drunkcamp_males_01": [
+        2449013719,
+        1153589631,
+        863059677,
+        3898222768
+    ],
+    "re_drunkdueler_males_01": [
+        3159721578,
+        3930153537
+    ],
+    "re_duelboaster_males_01": [
+        566957611,
+        1493140631
+    ],
+    "re_duelwinner_females_01": [
+        1855801915,
+        2632754909,
+        2334524240,
+        1645670014,
+        1344359059,
+        1783037674
+    ],
+    "re_duelwinner_males_01": [
+        2165118743,
+        1855801915,
+        2632754909,
+        2334524240,
+        2001591252,
+        2299559769,
+        2457965119,
+        2788932019,
+        777538026,
+        1074720087,
+        3566913956,
+        4260419782,
+        1645670014,
+        1344359059,
+        1783037674,
+        1469405575,
+        3981739271,
+        455237794,
+        288967888,
+        3206621333,
+        2959313690,
+        885345434
+    ],
+    "re_escort_females_01": [
+        2484761616,
+        571379702
+    ],
+    "re_executions_males_01": [
+        2066870483,
+        1299912038,
+        1699073378,
+        2945369595,
+        2638553448
+    ],
+    "re_fleeingfamily_females_01": [
+        569256984
+    ],
+    "re_fleeingfamily_males_01": [
+        4029118434
+    ],
+    "re_footrobbery_males_01": [
+        2083759476,
+        1784611275
+    ],
+    "re_friendlyoutdoorsman_males_01": [
+        2857716579
+    ],
+    "re_frozentodeath_females_01": [
+        2501317184
+    ],
+    "re_frozentodeath_males_01": [
+        2816678259
+    ],
+    "re_fundraiser_females_01": [
+        3117733093
+    ],
+    "re_fussarchase_males_01": [
+        3611516785,
+        3850435564
+    ],
+    "re_goldpanner_males_01": [
+        1291777022,
+        448565114,
+        661858535,
+        1978058197
+    ],
+    "re_horserace_females_01": [
+        2376033906
+    ],
+    "re_horserace_males_01": [
+        2148944736,
+        2001844695
+    ],
+    "re_hostagerescue_females_01": [
+        2739226031,
+        246158148
+    ],
+    "re_hostagerescue_males_01": [
+        195187657,
+        2892112605,
+        1697584252,
+        1743783295
+    ],
+    "re_inbredkidnap_females_01": [
+        748808650,
+        1065193341
+    ],
+    "re_inbredkidnap_males_01": [
+        748808650,
+        1065193341
+    ],
+    "re_injuredrider_males_01": [
+        1588545859,
+        4107664160,
+        1393342352,
+        2878954486,
+        2782171303,
+        4199954938,
+        885716935,
+        1665243515,
+        2446774953
+    ],
+    "re_kidnappedvictim_females_01": [
+        3307883396,
+        3002083088,
+        2176413073,
+        44625770
+    ],
+    "re_laramiegangrustling_males_01": [
+        1781690883,
+        1014732438
+    ],
+    "re_loneprisoner_males_01": [
+        629490500,
+        937486331
+    ],
+    "re_lostdog_dogs_01": [
+        3255947663,
+        1613150473
+    ],
+    "re_lostdog_teens_01": [
+        591620484,
+        268321530
+    ],
+    "re_lostdrunk_females_01": [
+        3206375666,
+        62001786
+    ],
+    "re_lostdrunk_males_01": [
+        2133548596,
+        2661487358,
+        1239217048
+    ],
+    "re_lostfriend_males_01": [
+        3455409506,
+        3695442431,
+        2094135436,
+        1846303489
+    ],
+    "re_lostman_males_01": [
+        23997852
+    ],
+    "re_moonshinecamp_males_01": [
+        261219891,
+        2626256916,
+        3142368666,
+        3423624993
+    ],
+    "re_murdercamp_males_01": [
+        1449629166,
+        1113025998,
+        806472003
+    ],
+    "re_murdersuicide_females_01": [
+        4260303994,
+        1354021380
+    ],
+    "re_murdersuicide_males_01": [
+        802278568,
+        319001356
+    ],
+    "re_nakedswimmer_males_01": [
+        1350824906
+    ],
+    "re_ontherun_males_01": [
+        1577039406,
+        3637509279
+    ],
+    "re_outlawlooter_males_01": [
+        3705408592,
+        3948128575,
+        1316614046,
+        456984869,
+        41277335,
+        278819816,
+        2470803744,
+        1494025392,
+        1776526941,
+        224785123,
+        2625868056,
+        2933011893,
+        1996572208,
+        2329374172,
+        460853023,
+        761344753,
+        2981051275,
+        3280002862,
+        1413611698,
+        3976769185,
+        919290405,
+        1219519983,
+        3491493060,
+        2857609524
+    ],
+    "re_parlorambush_males_01": [
+        2012803977
+    ],
+    "re_peepingtom_females_01": [
+        1149397788,
+        3962847345,
+        1883654295
+    ],
+    "re_peepingtom_males_01": [
+        2193874262,
+        1906981667,
+        2135582760,
+        787636659,
+        3308819299,
+        912389556,
+        681302568,
+        2868567812
+    ],
+    "re_pickpocket_males_01": [
+        501456460,
+        739130017,
+        1981174472
+    ],
+    "re_pisspot_females_01": [
+        3681389549,
+        3395638224,
+        2149806841,
+        39510090,
+        260897019,
+        1828290413
+    ],
+    "re_pisspot_males_01": [
+        2373160315,
+        3090014959,
+        2224633606,
+        3116769631,
+        108996907,
+        1369849696,
+        1913024510,
+        1581828227,
+        1460043843,
+        3696542608
+    ],
+    "re_playercampstrangers_females_01": [
+        72764813
+    ],
+    "re_poisoned_males_01": [
+        1584189116,
+        1825205111
+    ],
+    "re_policechase_males_01": [
+        4084741301,
+        96688455,
+        1773174030,
+        275729025
+    ],
+    "re_prisonwagon_females_01": [
+        2992632906,
+        3229978777,
+        3602627845,
+        3844757986
+    ],
+    "re_prisonwagon_males_01": [
+        2992632906,
+        3229978777,
+        3602627845
+    ],
+    "re_publichanging_females_01": [
+        4101603328,
+        3909726325,
+        4213241408,
+        2578101073,
+        1446783140,
+        4036156755,
+        985950048,
+        611695303,
+        249987835,
+        195403865,
+        501171404,
+        1679487590,
+        1456297931,
+        1979102785,
+        3211938103,
+        2323260683,
+        2025816470
+    ],
+    "re_publichanging_males_01": [
+        1977838224,
+        3909726325,
+        347506650,
+        1055317050,
+        4165062385,
+        41345883,
+        1712564875,
+        2011450924,
+        1225453698,
+        1536333193,
+        4213241408,
+        2578101073,
+        2870302246,
+        3157751914,
+        3484622689,
+        1349591263,
+        1648215160,
+        1961093572,
+        2263715287,
+        705326154,
+        1446783140,
+        4036156755,
+        3268575699,
+        222664376,
+        528661298,
+        3714594554,
+        2945506124,
+        4190957507,
+        3358002296,
+        344697576,
+        104468037,
+        985950048,
+        276796119,
+        508669563,
+        335813092,
+        611695303,
+        3613532317,
+        101350893,
+        249987835,
+        1161359263,
+        860572612,
+        3767576144,
+        3456106799,
+        204307849,
+        195403865,
+        501171404,
+        2245039277,
+        2573384657,
+        3825979682,
+        4107432623,
+        1679487590,
+        1456297931,
+        1083648863,
+        822119474,
+        2602459248,
+        2373240093,
+        1979102785,
+        3211938103,
+        3827339927,
+        4126291514,
+        146365384,
+        445120357,
+        3823800883,
+        2323260683,
+        2025816470,
+        2031551065,
+        1692916219,
+        2642135842,
+        2336597686,
+        800583576,
+        1379548191,
+        1618466970,
+        2937681368,
+        1022955933
+    ],
+    "re_publichanging_teens_01": [
+        3765596458,
+        1951334013
+    ],
+    "re_rally_males_01": [
+        1094889791,
+        1442592583,
+        1678889591,
+        465945052,
+        763848031,
+        1368239471,
+        2602254473,
+        1960932374,
+        1083771782,
+        3838268388,
+        4135778139,
+        965966943,
+        4155490765
+    ],
+    "re_rallydispute_males_01": [
+        1202814245,
+        381754181,
+        628799672,
+        2751116754
+    ],
+    "re_rallysetup_males_01": [
+        3742188669,
+        2302974189,
+        1455264691
+    ],
+    "re_ratinfestation_males_01": [
+        3540565269
+    ],
+    "re_rowdydrunks_males_01": [
+        1787398040,
+        2750741102,
+        1294781663,
+        2022908843,
+        1055797346,
+        2232946589,
+        3884569727,
+        3655711031,
+        543901249,
+        784851706,
+        81366814,
+        319499137,
+        1968500755
+    ],
+    "re_savageaftermath_females_01": [
+        3990779685,
+        3331795095
+    ],
+    "re_savageaftermath_males_01": [
+        3990779685,
+        3331795095,
+        2339549775,
+        2049609081,
+        3900566046
+    ],
+    "re_savagefight_females_01": [
+        1187754581,
+        512435896,
+        2566575794
+    ],
+    "re_savagefight_males_01": [
+        2364827521,
+        251649753,
+        2059977514
+    ],
+    "re_savagewagon_females_01": [
+        2428046822,
+        598839699,
+        2657790281,
+        1272347095
+    ],
+    "re_savagewagon_males_01": [
+        2428046822,
+        598839699,
+        2657790281,
+        1272347095,
+        3354491994,
+        4177682049
+    ],
+    "re_savagewarning_males_01": [
+        1054016042,
+        1507866692,
+        2874170147,
+        1280845236,
+        973701399,
+        2025782913,
+        2479704688
+    ],
+    "re_sharpshooter_males_01": [
+        438749731,
+        683831289
+    ],
+    "re_showoff_males_01": [
+        2015253088,
+        2239065358,
+        2336799539,
+        3707428502,
+        390787076,
+        3655501204,
+        723204194,
+        3360072544
+    ],
+    "re_skippingstones_males_01": [
+        1987680014
+    ],
+    "re_skippingstones_teens_01": [
+        711444684
+    ],
+    "re_slumambush_females_01": [
+        1948524275
+    ],
+    "re_snakebite_males_01": [
+        2941855855,
+        767108389
+    ],
+    "re_stalkinghunter_males_01": [
+        1125943536,
+        676615008,
+        1049788380
+    ],
+    "re_strandedrider_males_01": [
+        3429328324,
+        2159091740,
+        3063090146,
+        1825217350
+    ],
+    "re_street_fight_males_01": [
+        903791949,
+        1937649573,
+        2093761089,
+        1893018199,
+        2200096498,
+        2372002672,
+        672405718,
+        935704633,
+        1249861036,
+        1418490310,
+        344292521,
+        2401399265,
+        2162349410,
+        2879531748,
+        2640678507,
+        402293651,
+        1236887312,
+        954713453,
+        1655707901,
+        1841741509,
+        961762775,
+        1245509546,
+        399381197
+    ],
+    "re_taunting_01": [
+        339866912,
+        3641539220
+    ],
+    "re_taunting_males_01": [
+        1920929002,
+        3761399887,
+        2007865179
+    ],
+    "re_torturingcaptive_males_01": [
+        936013193
+    ],
+    "re_townburial_males_01": [
+        231626735,
+        1332724617,
+        4214553611,
+        564117607,
+        1011286169,
+        1365060293,
+        1663946342,
+        2190380327,
+        2506142411,
+        2785694750,
+        3090249836,
+        941422661,
+        1293290589,
+        2751347248,
+        1922684772,
+        3824441862,
+        379797347,
+        660824291
+    ],
+    "re_townconfrontation_females_01": [
+        740817300
+    ],
+    "re_townconfrontation_males_01": [
+        3361250057,
+        560715373,
+        3974333430,
+        2782563029
+    ],
+    "re_townrobbery_males_01": [
+        1550613446,
+        718968995
+    ],
+    "re_townwidow_females_01": [
+        254852080,
+        1074159868,
+        4001194705
+    ],
+    "re_trainholdup_females_01": [
+        666290358,
+        2148792687,
+        2664089560
+    ],
+    "re_trainholdup_males_01": [
+        3506132733,
+        3802561107,
+        3664960048,
+        1913056770,
+        1691538330,
+        3225135826,
+        264620465,
+        3820646863,
+        3043923256,
+        1835238691,
+        3610400959,
+        3852941630,
+        1921954230,
+        1672483833,
+        3715058606,
+        3451235387,
+        1996914394,
+        1498104676,
+        2490612148,
+        2226002473,
+        3364974686,
+        3133920467,
+        2904865157,
+        2640714248,
+        2914368171,
+        2684034870,
+        2155143202,
+        1924351135,
+        1019382615,
+        1250207451
+    ],
+    "re_trappedwoman_females_01": [
+        2270544274,
+        2568250639,
+        1799817589
+    ],
+    "re_treasurehunter_males_01": [
+        3433202590,
+        3842468187,
+        346229808
+    ],
+    "re_voice_females_01": [
+        3400788288
+    ],
+    "re_wagonthreat_females_01": [
+        1195126440
+    ],
+    "re_wagonthreat_males_01": [
+        618474282,
+        4073309948
+    ],
+    "re_washedashore_males_01": [
+        2357159432,
+        1571424350
+    ],
+    "re_wealthycouple_females_01": [
+        2807477801,
+        4022781704
+    ],
+    "re_wealthycouple_males_01": [
+        2807477801,
+        4022781704
+    ],
+    "re_wildman_01": [
+        1417771390
+    ],
+    "s_m_m_ambientblwpolice_01": [
+        685716416,
+        4113222744,
+        3187793475
+    ],
+    "s_m_m_ambientlawrural_01": [
+        2864542475,
+        2100664316,
+        783219448,
+        9182899,
+        975190258,
+        1726911118,
+        2520150301,
+        1765923878,
+        1467431057,
+        1718310517,
+        1413984814,
+        1259970514,
+        3079796933,
+        2365236119,
+        2200801277,
+        4032555608,
+        3941720324,
+        3688710875,
+        2375427662,
+        1856137283,
+        1089178838,
+        2737983718,
+        3102506074,
+        2647905909,
+        3039217009,
+        167864621,
+        1313927639,
+        1107332321,
+        685716416,
+        4113222744,
+        3187793475,
+        1965968533,
+        2199447658,
+        1371178414,
+        185498487,
+        4232895988,
+        2792501824,
+        498573497,
+        1967280077,
+        1244494244,
+        263980226,
+        3891410223,
+        909660602,
+        4066494990,
+        119343708,
+        1364401863,
+        597869415,
+        1672364849,
+        290692733,
+        1755543207
+    ],
+    "s_m_m_ambientsdpolice_01": [
+        3300429488,
+        4051920965,
+        465989484,
+        3530284212
+    ],
+    "s_m_m_army_01": [
+        2865822554,
+        1065821384,
+        4018437312,
+        3117748578,
+        3424892415,
+        2623264360,
+        2794646230,
+        1860377122,
+        2522492147,
+        811858199,
+        3343787749,
+        4255146931,
+        2083731153,
+        434198822,
+        3056004262,
+        1353076085,
+        1664774813,
+        888116744,
+        3081476994
+    ],
+    "s_m_m_bankclerk_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_rhodes_var_01",
+        "meta_outfit_rhodes_var_02",
+        "meta_outfit_rhodes_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        "meta_outfit_valentine",
+        "meta_outfit_valentine_var_01",
+        "meta_outfit_valentine_var_02",
+        "meta_outfit_valentine_var_03"
+    ],
+    "s_m_m_barber_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03"
+    ],
+    "s_m_m_cornwallguard_01": [
+        1583869712,
+        2500025418,
+        3277732095,
+        1651779749,
+        954510184,
+        2462441257,
+        2634281893,
+        3546800236,
+        1705870585,
+        3132272386,
+        3299656438,
+        410413704,
+        2858946157
+    ],
+    "s_m_m_dispatchlawrural_01": [
+        3521187572,
+        2189848640,
+        167864621,
+        1107332321,
+        1855120901
+    ],
+    "s_m_m_dispatchleaderrural_01": [
+        2173084014,
+        2488092411,
+        772307571,
+        1086988278
+    ],
+    "s_m_m_fussarhenchman_01": [
+        1711746817,
+        1414302604,
+        1554919846,
+        1317573979,
+        3107154607,
+        2868170290,
+        729370429,
+        985642159,
+        754555171,
+        522321252,
+        3658183484,
+        1670309815,
+        155038486,
+        4226783354
+    ],
+    "s_m_m_genconductor_01": [
+        3638750065,
+        2878181575,
+        3177067624,
+        2249278927,
+        797350075,
+        "meta_outfit_trolley_01",
+        "meta_outfit_trolley_02",
+        "meta_outfit_trolley_03",
+        "meta_outfit_trolley_04",
+        "meta_outfit_trolley_05"
+    ],
+    "s_m_m_liveryworker_01": [
+        "meta_outfit_annesburg_var_01",
+        "meta_outfit_annesburg_var_02",
+        "meta_outfit_annesburg_var_03",
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_rhodes_var_01",
+        "meta_outfit_rhodes_var_02",
+        "meta_outfit_rhodes_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        "meta_outfit_strawberry_var_01",
+        "meta_outfit_strawberry_var_02",
+        "meta_outfit_strawberry_var_03",
+        "meta_outfit_tumbleweed_var_01",
+        "meta_outfit_tumbleweed_var_02",
+        "meta_outfit_tumbleweed_var_03",
+        "meta_outfit_valentine_var_01",
+        "meta_outfit_valentine_var_02",
+        "meta_outfit_valentine_var_03",
+        "meta_outfit_vanhorn_var_01",
+        "meta_outfit_vanhorn_var_02",
+        "meta_outfit_vanhorn_var_03"
+    ],
+    "s_m_m_magiclantern_01": [
+        "magiclantern_projector_val_01",
+        "magiclantern_tickets_blw_01",
+        2954334990,
+        "magiclantern_tickets_val_01"
+    ],
+    "s_m_m_marshallsrural_01": [
+        2966284952,
+        2637284164,
+        3533064260
+    ],
+    "s_m_m_micguard_01": [
+        3925750177,
+        2850515763,
+        2375483002
+    ],
+    "s_m_m_nbxriverboatguards_01": [
+        2258701942,
+        4087500260,
+        954292079,
+        1116367553,
+        293767346
+    ],
+    "s_m_m_pinlaw_01": [
+        879416061,
+        1121644509,
+        3540975399,
+        4049621136,
+        4114215896,
+        905024571,
+        3999696162,
+        1477728384,
+        218350172,
+        816175408,
+        525317764,
+        1110418742,
+        854722235,
+        615705149,
+        392974256
+    ],
+    "s_m_m_tailor_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03"
+    ],
+    "s_m_m_trainstationworker_01": [
+        "meta_outfit_annesburg_var_01",
+        "meta_outfit_annesburg_var_02",
+        "meta_outfit_annesburg_var_03",
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_emeraldranch_var_01",
+        "meta_outfit_emeraldranch_var_02",
+        "meta_outfit_emeraldranch_var_03",
+        "meta_outfit_rhodes_var_01",
+        "meta_outfit_rhodes_var_02",
+        "meta_outfit_rhodes_var_03",
+        "meta_outfit_riggsstation_var_01",
+        "meta_outfit_riggsstation_var_02",
+        "meta_outfit_riggsstation_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        "meta_outfit_strawberry_var_01",
+        "meta_outfit_strawberry_var_02",
+        "meta_outfit_strawberry_var_03",
+        "meta_outfit_valentine_var_01",
+        "meta_outfit_valentine_var_02",
+        "meta_outfit_valentine_var_03",
+        "meta_outfit_wallacestation_var_01",
+        "meta_outfit_wallacestation_var_02",
+        "meta_outfit_wallacestation_var_03"
+    ],
+    "s_m_m_unibutchers_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_rhodes_var_01",
+        "meta_outfit_rhodes_var_02",
+        "meta_outfit_rhodes_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        "meta_outfit_strawberry_var_01",
+        "meta_outfit_strawberry_var_02",
+        "meta_outfit_strawberry_var_03"
+    ],
+    "s_m_m_unitrainengineer_01": [
+        3638750065,
+        2878181575,
+        3177067624,
+        2249278927,
+        797350075,
+        1787924176,
+        1946722750,
+        1558705021,
+        3506132733
+    ],
+    "s_m_m_unitrainguards_01": [
+        "am_robtrain_rear_guard_01"
+    ],
+    "s_m_y_army_01": [
+        1647366993,
+        2410180454,
+        2692649234
+    ],
+    "s_m_y_newspaperboy_01": [
+        "meta_outfit_blackwater_var_01",
+        "meta_outfit_blackwater_var_02",
+        "meta_outfit_blackwater_var_03",
+        "meta_outfit_rhodes_var_01",
+        "meta_outfit_rhodes_var_02",
+        "meta_outfit_rhodes_var_03",
+        "meta_outfit_saintdenis_var_01",
+        "meta_outfit_saintdenis_var_02",
+        "meta_outfit_saintdenis_var_03",
+        "meta_outfit_strawberry_var_01",
+        "meta_outfit_strawberry_var_02",
+        "meta_outfit_strawberry_var_03",
+        "meta_outfit_valentine_var_01",
+        "meta_outfit_valentine_var_02",
+        "meta_outfit_valentine_var_03"
+    ],
+    "shack_missinghusband_males_01": [
+        1980915318
+    ],
+    "shack_ontherun_males_01": [
+        550457596,
+        2310207876,
+        50923185
+    ],
+    "u_f_m_emrdaughter_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_f_m_lagmother_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_f_m_nbxresident_01": [
+        1689938120
+    ],
+    "u_f_m_tljbartender_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_f_m_tumgeneralstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_f_m_valtownfolk_01": [
+        1689938120
+    ],
+    "u_f_m_valtownfolk_02": [
+        1689938120
+    ],
+    "u_f_m_vhtbartender_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_f_y_braithwaitessecret_01": [
+        "meta_outfit_default",
+        1689938120
+    ],
+    "u_m_m_announcer_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_armgeneralstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_armtrainstationworker_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_armundertaker_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_asbgunsmith_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_asbprisoner_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_asbprisoner_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_bht_banditomine": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_bht_banditoshack": [
+        2606605268,
+        2984388502,
+        "meta_outfit_default"
+    ],
+    "u_m_m_bht_skinnerbrother": [
+        "meta_outfit_default",
+        1332724617
+    ],
+    "u_m_m_bht_skinnersearch": [
+        "meta_outfit_default",
+        4214553611
+    ],
+    "u_m_m_bivforeman_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_blwtrainstationworker_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_bulletcatchvolunteer_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_bwmstablehand_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_chelonianjumper_01": [
+        "meta_outfit_dead",
+        "meta_outfit_default"
+    ],
+    "u_m_m_chelonianjumper_02": [
+        "meta_outfit_dead",
+        "meta_outfit_default"
+    ],
+    "u_m_m_chelonianjumper_03": [
+        "meta_outfit_dead",
+        "meta_outfit_default"
+    ],
+    "u_m_m_chelonianjumper_04": [
+        "meta_outfit_dead",
+        "meta_outfit_default"
+    ],
+    "u_m_m_crdhomesteadtenant_01": [
+        "meta_outfit_default",
+        "meta_outfit_sleeping"
+    ],
+    "u_m_m_crdhomesteadtenant_02": [
+        "meta_outfit_default",
+        "meta_outfit_sleeping"
+    ],
+    "u_m_m_crdwitness_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_emrfarmhand_03": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_emrfather_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_fatduster_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_finale2_aa_upperclass_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_galastringquartet_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_galastringquartet_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_galastringquartet_03": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_galastringquartet_04": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_gamdoorman_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_hhrrancher_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_htlforeman_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_htlrancherbounty_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsoutlaw_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsoutlaw_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsoutlaw_03": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsoutlaw_04": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsworker_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsworker_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsworker_03": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lnsworker_04": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_lrshomesteadtenant_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_mfrrancher_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_mud3pimp_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_nbxbankerbounty_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_nbxbartender_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_nbxbartender_02": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_nbxboatticketseller_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_nbxgeneralstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_nbxgraverobber_01": [
+        1689938120
+    ],
+    "u_m_m_nbxgraverobber_02": [
+        1689938120
+    ],
+    "u_m_m_nbxgraverobber_03": [
+        1689938120
+    ],
+    "u_m_m_nbxgraverobber_04": [
+        1689938120
+    ],
+    "u_m_m_nbxgraverobber_05": [
+        1689938120
+    ],
+    "u_m_m_nbxgunsmith_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_nbxliveryworker_01": [
+        1689938120
+    ],
+    "u_m_m_nbxmusician_01": [
+        1689938120
+    ],
+    "u_m_m_nbxresident_01": [
+        1689938120
+    ],
+    "u_m_m_nbxresident_02": [
+        1689938120
+    ],
+    "u_m_m_nbxresident_03": [
+        1689938120
+    ],
+    "u_m_m_nbxresident_04": [
+        1689938120
+    ],
+    "u_m_m_nbxriverboatpitboss_01": [
+        1689938120
+    ],
+    "u_m_m_nbxriverboattarget_01": [
+        1689938120
+    ],
+    "u_m_m_nbxshadydealer_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_nbxskiffdriver_01": [
+        1689938120
+    ],
+    "u_m_m_oddfellowparticipant_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_odriscollbrawler_01": [
+        "meta_outfit_default",
+        3910736352,
+        "meta_outfit_no_hat"
+    ],
+    "u_m_m_racforeman_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_racquartermaster_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_rhdbackupdeputy_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_rhdbackupdeputy_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_rhdbartender_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_rhdfiddleplayer_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_rhdgenstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_rhdgenstoreowner_02": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_rhdgunsmith_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_rhdsheriff_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_rhdtrainstationworker_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_sdbankguard_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_sdcustomvendor_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_sdexoticsshopkeeper_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_gala",
+        "meta_outfit_injured"
+    ],
+    "u_m_m_sdpolicechief_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_sdwealthytraveller_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_shacktwin_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_shacktwin_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_story_manzanita_01": [
+        2636288782
+    ],
+    "u_m_m_strfreightstationowner_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_strgenstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_strsherriff_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_strwelcomecenter_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_tumbartender_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_tumbutcher_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_tumgunsmith_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_unidusterhenchman_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_unidusterhenchman_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_unidusterhenchman_03": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_unidusterleader_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_uniexconfedsbounty_01": [
+        1320127128,
+        "meta_outfit_default"
+    ],
+    "u_m_m_unionleader_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_unionleader_02": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_unipeepingtom_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_valauctionforman_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valauctionforman_02": [
+        "meta_outfit_casual",
+        1689938120,
+        2911560621,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valbarber_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valbartender_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valbeartrap_01": [
+        1298436321,
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valbutcher_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valdoctor_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valgenstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valgunsmith_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valhotelowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valpokerplayer_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valpokerplayer_02": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valpoopingman_01": [
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valsheriff_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valtheman_01": [
+        3749480488,
+        4073926357,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valtownfolk_01": [
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_valtownfolk_02": [
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_vhtstationclerk_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_m_walgeneralstoreowner_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621
+    ],
+    "u_m_m_wapofficial_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_m_wtccowboy_04": [
+        "meta_outfit_default"
+    ],
+    "u_m_o_armbartender_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_asbsheriff_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_bht_docwormwood": [
+        2656264241
+    ],
+    "u_m_o_blwbartender_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_blwgeneralstoreowner_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_blwphotographer_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_blwpolicechief_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_cmrcivilwarcommando_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_o_mapwiseoldman_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_pshrancher_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_rigtrainstationworker_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_valbartender_01": [
+        "meta_outfit_casual",
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_o_vhtexoticshopkeeper_01": [
+        "meta_outfit_casual",
+        2878942047,
+        "meta_outfit_default",
+        1689938120,
+        2911560621,
+        1653572322,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_y_duellistbounty_01": [
+        "meta_outfit_default"
+    ],
+    "u_m_y_emrson_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_y_htlworker_01": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_y_htlworker_02": [
+        "meta_outfit_default",
+        1689938120,
+        1754194240,
+        "meta_outfit_injured"
+    ],
+    "u_m_y_shackstarvingkid_01": [
+        1202038884,
+        1511738703
+    ],
+    "western_saddle_01": [
+        2475965154,
+        2246221695,
+        3041099320,
+        2680771396,
+        1501644473,
+        3493785072,
+        2649819477,
+        3950290015,
+        3138110346,
+        418938726,
+        1890421461,
+        753159672,
+        1049784660,
+        3409087122,
+        3708169785,
+        3888137133,
+        1870246963,
+        1229121474,
+        924926847,
+        750792381,
+        443648544
+    ],
+    "western_saddle_02": [
+        3170477778,
+        1213250938,
+        377674207,
+        663321580,
+        4055306312,
+        3652125089,
+        3471436823,
+        3173206154,
+        459605260,
+        270331528,
+        215775401,
+        705859801,
+        1003566166,
+        2267728656,
+        2576379867,
+        3754654800,
+        1855614908,
+        1047891835,
+        1277897446,
+        1659623527,
+        1753539481
+    ],
+    "western_saddle_03": [
+        4207113152,
+        134647366,
+        3728784059,
+        3916091663,
+        1859836905,
+        1513338115,
+        1798133494,
+        2243136514,
+        2424414622,
+        2781793336,
+        2522687072,
+        381165278,
+        606190001,
+        2149740977,
+        2505677859,
+        1270712552,
+        3527760682,
+        3631376260,
+        1746634452,
+        1988502441,
+        2353614639
+    ],
+    "western_saddle_04": [
+        4285153452,
+        766745918,
+        1019558753,
+        1258772453,
+        1482683030,
+        1790649039,
+        363428013,
+        131718414,
+        959889355,
+        595825765,
+        3478458617,
+        93379816,
+        3622994348,
+        3001005955,
+        2737084429,
+        3465244378,
+        207985876,
+        1589395840,
+        1877664733,
+        1102645114,
+        1428106822
+    ]
+}

@@ -48,6 +48,11 @@ namespace Features
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	ImVec2 GetScreenSize()
+	{
+		return ImGui::GetMainViewport()->WorkSize;
+	}
+
 	bool WorldToScreen(float X, float Y, float Z, float& OutX, float& OutY)
 	{
 		TRY
@@ -63,10 +68,10 @@ namespace Features
 
 	bool WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
 	{
-		bool result = Pointers::WorldToScreen(&WorldPos, &ScreenX, &ScreenY);
-		ScreenX *= ImGui::GetMainViewport()->WorkSize.x;
-		ScreenY *= ImGui::GetMainViewport()->WorkSize.y;
-		return result;
+		bool Result = Pointers::WorldToScreen(WorldPos, ScreenX, ScreenY);
+		ScreenX *= GetScreenSize().x;
+		ScreenY *= GetScreenSize().y;
+		return Result;
 	}
 
 	bool GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords)
@@ -566,7 +571,7 @@ namespace Features
 		auto l = ImGui::GetBackgroundDrawList();
 		auto Color = GetImGuiRGB32();
 		//auto Color = IM_COL32(0, 255, 255, 255);
-		auto ScreenSize = ImGui::GetMainViewport()->WorkSize;
+		auto ScreenSize = GetScreenSize();
 		auto ScreenCenter = ImVec2(ScreenSize.x / 2 - 0.5f, ScreenSize.y / 2 - 0.5f);
 		auto Gap = 3;
 		//auto Thickness = ((float)2) / 2.0f;

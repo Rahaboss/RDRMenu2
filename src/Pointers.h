@@ -8,7 +8,9 @@
 #include "Rage/CNetGamePlayer.h"
 #include "Rage/CNetworkPlayerMgr.h"
 
-typedef HRESULT(STDMETHODCALLTYPE* SwapChainPresent_t)(IDXGISwapChain3*, UINT, UINT);
+typedef scrNativeHandler (*GetNativeHandler_t)(scrNativeHash);
+typedef bool (*WorldToScreen_t)(const Vector3&, float&, float&);
+typedef HRESULT (STDMETHODCALLTYPE *SwapChainPresent_t)(IDXGISwapChain3*, UINT, UINT);
 
 namespace Pointers
 {
@@ -30,10 +32,10 @@ namespace Pointers
 	inline CPed* (*GetEntityPed)(Entity){};
 	inline void* (*GetEntityAddress)(Entity){};
 	inline int64_t** ScriptGlobals{};
-	inline bool (*WorldToScreen)(const Vector3*, float*, float*){};
+	inline WorldToScreen_t WorldToScreen{};
 	inline void* (*sub_7FF73D8DB3C4)(void*){};
 	inline CPed* (*GetEntityPedReal)(Entity){};
-	inline uint32_t(*FwScriptGuidCreateGuid)(int64_t* base){};
+	inline uint32_t (*FwScriptGuidCreateGuid)(int64_t*){};
 	inline VariableEncryption* PedPoolEncryption{};
 	inline VariableEncryption* ObjectPoolEncryption{};
 	inline VariableEncryption* VehiclePoolEncryption{};

@@ -105,21 +105,24 @@ void CutsceneHelper::AddLocalPlayer()
 		const char* entityName = (b_PlayerArthur ? "ARTHUR" : "JOHN");
 		ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
 
+		Ped Handle;
 		if (g_LocalPlayer.m_Model == joaat(PlayerModel))
 		{
-			if (m_JsonObject.contains("player_outfit_preset"))
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, m_JsonObject["player_outfit_preset"].get<int>(), false);
 			ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, g_LocalPlayer.m_Entity, 0);
 		}
 		else
 		{
-			Ped Handle = Features::SpawnPed(joaat(PlayerModel));
-			if (m_JsonObject.contains("player_outfit_preset"))
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, m_JsonObject["player_outfit_preset"].get<int>(), false);
-			else
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, (b_PlayerArthur ? 3 : 26), false);
+			Handle = Features::SpawnPed(joaat(PlayerModel));
 			AddPedExisting(Handle, entityName);
+			// Apply default outfit
+			if (!m_JsonObject.contains("player_outfit_preset"))
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, (b_PlayerArthur ? 3 : 26), false);
 		}
+
+		if (m_JsonObject.contains("player_outfit_preset"))
+			PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, m_JsonObject["player_outfit_preset"].get<int>(), false);
+		if (m_JsonObject.contains("player_metaped_outfit"))
+			Features::SetMetapedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_metaped_outfit"]));
 	}
 	else
 	{

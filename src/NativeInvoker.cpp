@@ -20,7 +20,7 @@ void NativeContext::Reset()
 	memset(m_ArgStack, 0, sizeof(m_ArgStack));
 }
 
-scrNativeHandler NativeContext::GetHandler(uint64_t hash)
+scrNativeHandler NativeContext::GetHandler(scrNativeHash hash)
 {
 	return Pointers::GetNativeHandler(hash);
 }
@@ -38,7 +38,7 @@ void NativeContext::FixVectors()
 	}
 }
 
-void NativeContext::PrintNativeStackInfo(uint64_t hash, void* Handler)
+void NativeContext::PrintNativeStackInfo(scrNativeHash hash, scrNativeHandler Handler)
 {
 	TRY
 	{
@@ -54,7 +54,7 @@ void NativeContext::PrintNativeStackInfo(uint64_t hash, void* Handler)
 
 extern "C" void _call_asm(void* context, void* function, void* ret);
 
-void NativeContext::EndCall(uint64_t hash)
+void NativeContext::EndCall(scrNativeHash hash)
 {
 	if (const auto Handler = GetHandler(hash))
 	{

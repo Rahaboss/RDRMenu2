@@ -491,7 +491,7 @@ namespace Hooking
 		{
 			if (dlcHash == DLCList[i])
 			{
-				result = ret = ctx->GetRet<BOOL>() = TRUE;
+				result = ctx->GetRet<BOOL>() = TRUE;
 				return result;
 			}
 		}

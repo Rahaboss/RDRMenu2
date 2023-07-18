@@ -48,7 +48,7 @@
                 "extras": [
                     5
                 ],
-                "model": "WAGON05X",
+                "model": "wagon05x",
                 "name": "WAGON05X"
             }
         ]
@@ -74,15 +74,15 @@
                 "name": "CatherineBraithwaite"
             },
             {
-                "model": "CS_GARETHBRAITHWAITE",
+                "model": "cs_garethbraithwaite",
                 "name": "GarethBraithwaite"
             },
             {
-                "model": "CS_BARTHOLOMEWBRAITHWAITE",
+                "model": "cs_bartholomewbraithwaite",
                 "name": "BartholomewBraithwaite"
             },
             {
-                "model": "CS_GERALDBRAITHWAITE",
+                "model": "cs_geraldbraithwaite",
                 "name": "GeraldBraithwaite"
             }
         ],
@@ -92,7 +92,7 @@
                 "extras": [
                     5
                 ],
-                "model": "WAGON05X",
+                "model": "wagon05x",
                 "name": "WAGON05X"
             }
         ]
@@ -1196,7 +1196,7 @@
         "id": "cutscene@mar6_rsc2",
         "peds": [
             {
-                "model": "CS_Uncle",
+                "model": "cs_uncle",
                 "name": "Uncle",
                 "outfit_preset": 5
             }
@@ -1586,22 +1586,22 @@
         "id": "cutscene@mud3_int",
         "peds": [
             {
-                "model": "CS_Karen",
+                "model": "cs_karen",
                 "name": "Karen",
                 "outfit_preset": 2
             },
             {
-                "model": "CS_MaryBeth",
+                "model": "cs_marybeth",
                 "name": "MaryBeth",
                 "outfit_preset": 1
             },
             {
-                "model": "CS_Tilly",
+                "model": "cs_tilly",
                 "name": "Tilly",
                 "outfit_preset": 2
             },
             {
-                "model": "CS_Uncle",
+                "model": "cs_uncle",
                 "name": "Uncle",
                 "outfit_preset": 1
             }
@@ -1609,7 +1609,7 @@
         "player_model": "player_zero",
         "vehicles": [
             {
-                "model": "WAGON03X",
+                "model": "wagon03x",
                 "name": "WAGON03X"
             }
         ]
@@ -1684,7 +1684,7 @@
         "id": "cutscene@mud4_mcs3",
         "objects": [
             {
-                "model": "p_bottleJD01x",
+                "model": "p_bottlejd01x",
                 "name": "p_bottleJD01x"
             },
             {
@@ -1736,47 +1736,47 @@
                 "name": "LeviticusCornwall"
             },
             {
-                "model": "U_M_O_ValBartender_01",
+                "model": "u_m_o_valbartender_01",
                 "name": "U_M_O_ValBartender_01"
             },
             {
-                "model": "A_M_M_VALTOWNFOLK_01",
+                "model": "a_m_m_valtownfolk_01",
                 "name": "A_M_M_VALTOWNFOLK_01"
             },
             {
-                "model": "A_M_M_VALTOWNFOLK_01",
+                "model": "a_m_m_valtownfolk_01",
                 "name": "A_M_M_VALTOWNFOLK_01^1"
             },
             {
-                "model": "G_M_M_UniCornwallGoons_01",
+                "model": "g_m_m_unicornwallgoons_01",
                 "name": "G_M_M_UniCornwallGoons_01"
             },
             {
-                "model": "G_M_M_UniCornwallGoons_01",
+                "model": "g_m_m_unicornwallgoons_01",
                 "name": "G_M_M_UniCornwallGoons_01^1"
             },
             {
-                "model": "G_M_M_UniCornwallGoons_01",
+                "model": "g_m_m_unicornwallgoons_01",
                 "name": "G_M_M_UniCornwallGoons_01^2"
             },
             {
-                "model": "G_M_M_UniCornwallGoons_01",
+                "model": "g_m_m_unicornwallgoons_01",
                 "name": "G_M_M_UniCornwallGoons_01^3"
             },
             {
-                "model": "G_M_M_UniCornwallGoons_01",
+                "model": "g_m_m_unicornwallgoons_01",
                 "name": "G_M_M_UniCornwallGoons_01^4"
             },
             {
-                "model": "G_M_M_UniCornwallGoons_01",
+                "model": "g_m_m_unicornwallgoons_01",
                 "name": "G_M_M_UniCornwallGoons_01^5"
             },
             {
-                "model": "A_C_HORSE_AMERICANSTANDARDBRED_BUCKSKIN",
+                "model": "a_c_horse_americanstandardbred_buckskin",
                 "name": "Horse_01"
             },
             {
-                "model": "A_C_HORSE_HUNGARIANHALFBRED_PIEBALDTOBIANO",
+                "model": "a_c_horse_hungarianhalfbred_piebaldtobiano",
                 "name": "Horse_01^1"
             }
         ],
@@ -1798,17 +1798,17 @@
         "id": "cutscene@mud5_mcs1",
         "peds": [
             {
-                "model": "CS_BILLWILLIAMSON",
+                "model": "cs_billwilliamson",
                 "name": "BillWilliamson",
                 "outfit_preset": 10
             },
             {
-                "model": "CS_KAREN",
+                "model": "cs_karen",
                 "name": "Karen",
                 "outfit_preset": 7
             },
             {
-                "model": "CS_LENNY",
+                "model": "cs_lenny",
                 "name": "Lenny",
                 "outfit_preset": 6
             }
@@ -2056,37 +2056,37 @@
         "id": "cutscene@odr4_ext",
         "objects": [
             {
-                "model": "S_KIERANHEAD01X",
+                "model": "s_kieranhead01x",
                 "name": "S_KIERANHEAD01X"
             }
         ],
         "peds": [
             {
-                "model": "CS_DUTCH",
+                "model": "cs_dutch",
                 "name": "Dutch"
             },
             {
-                "model": "CS_MRSADLER",
+                "model": "cs_mrsadler",
                 "name": "MrsAdler"
             },
             {
-                "model": "CS_JOHNMARSTON",
+                "model": "cs_johnmarston",
                 "name": "JohnMarston"
             },
             {
-                "model": "CS_CHARLESSMITH",
+                "model": "cs_charlessmith",
                 "name": "CharlesSmith"
             },
             {
-                "model": "CS_HOSEAMATTHEWS",
+                "model": "cs_hoseamatthews",
                 "name": "HoseaMatthews"
             },
             {
-                "model": "CS_REVSWANSON",
+                "model": "cs_revswanson",
                 "name": "RevSwanson"
             },
             {
-                "model": "CS_KIERAN",
+                "model": "cs_kieran",
                 "name": "KIERAN"
             }
         ],
@@ -2096,7 +2096,7 @@
         "id": "cutscene@odr4_int",
         "objects": [
             {
-                "model": "S_KIERANHEAD01X",
+                "model": "s_kieranhead01x",
                 "name": "S_KIERANHEAD01X"
             },
             {
@@ -2106,43 +2106,43 @@
         ],
         "peds": [
             {
-                "model": "CS_DUTCH",
+                "model": "cs_dutch",
                 "name": "Dutch"
             },
             {
-                "model": "CS_MRSADLER",
+                "model": "cs_mrsadler",
                 "name": "MrsAdler"
             },
             {
-                "model": "CS_JOHNMARSTON",
+                "model": "cs_johnmarston",
                 "name": "JohnMarston"
             },
             {
-                "model": "CS_KIERAN",
+                "model": "cs_kieran",
                 "name": "KIERAN"
             },
             {
-                "model": "CS_SUSANGRIMSHAW",
+                "model": "cs_susangrimshaw",
                 "name": "SusanGrimshaw"
             },
             {
-                "model": "CS_MARYBETH",
+                "model": "cs_marybeth",
                 "name": "MaryBeth"
             },
             {
-                "model": "CS_LEOSTRAUSS",
+                "model": "cs_leostrauss",
                 "name": "LeoStrauss"
             },
             {
-                "model": "CS_JACKMARSTON",
+                "model": "cs_jackmarston",
                 "name": "JackMarston"
             },
             {
-                "model": "CS_ABIGAILROBERTS",
+                "model": "cs_abigailroberts",
                 "name": "AbigailRoberts"
             },
             {
-                "model": "A_C_HORSE_MORGAN_BAY",
+                "model": "a_c_horse_morgan_bay",
                 "name": "Horse_01"
             }
         ],
@@ -2229,7 +2229,7 @@
         "id": "cutscene@ptl_mcs3",
         "objects": [
             {
-                "model": "p_hayBale03x",
+                "model": "p_haybale03x",
                 "name": "p_hayBale03x"
             }
         ],
@@ -2243,7 +2243,7 @@
         "player_outfit_preset": 4,
         "vehicles": [
             {
-                "model": "CART06",
+                "model": "cart06",
                 "name": "CART06"
             }
         ]
@@ -2252,7 +2252,7 @@
         "id": "cutscene@ptl_mcs4",
         "objects": [
             {
-                "model": "p_brushHorse01x",
+                "model": "p_brushhorse01x",
                 "name": "p_brushHorse01x"
             }
         ],
@@ -2429,7 +2429,7 @@
         "id": "cutscene@rbch1_rsc2",
         "objects": [
             {
-                "model": "P_PEN01X",
+                "model": "p_pen01x",
                 "name": "P_PEN01X"
             },
             {
@@ -2437,19 +2437,19 @@
                 "name": "p_chair06x"
             },
             {
-                "model": "P_WOODENDESKCHAIR01X",
+                "model": "p_woodendeskchair01x",
                 "name": "P_WOODENDESKCHAIR01X"
             },
             {
-                "model": "P_PAPER03X",
+                "model": "p_paper03x",
                 "name": "P_PAPER03X"
             },
             {
-                "model": "P_CS_DEED01X",
+                "model": "p_cs_deed01x",
                 "name": "P_CS_DEED01X"
             },
             {
-                "model": "P_DOOR13X",
+                "model": "p_door13x",
                 "name": "P_DOOR13X"
             }
         ],
@@ -2678,7 +2678,7 @@
                 "name": "p_cs_statue01x"
             },
             {
-                "model": "P_DOOR_SD_CONSERVATORY01X",
+                "model": "p_door_sd_conservatory01x",
                 "name": "P_DOOR_SD_CONSERVATORY01X"
             },
             {
@@ -2710,7 +2710,7 @@
                 "name": "p_teatraycombo01x"
             },
             {
-                "model": "s_inv_Orchid_Ghost_01x",
+                "model": "s_inv_orchid_ghost_01x",
                 "name": "s_inv_Orchid_Ghost_01x"
             }
         ],
@@ -2746,7 +2746,7 @@
                 "name": "p_cs_statue01x"
             },
             {
-                "model": "P_DOOR_SD_CONSERVATORY01X",
+                "model": "p_door_sd_conservatory01x",
                 "name": "P_DOOR_SD_CONSERVATORY01X"
             },
             {
@@ -2778,7 +2778,7 @@
                 "name": "p_teatraycombo01x"
             },
             {
-                "model": "s_inv_Orchid_Ghost_01x",
+                "model": "s_inv_orchid_ghost_01x",
                 "name": "s_inv_Orchid_Ghost_01x"
             }
         ],
@@ -2801,7 +2801,7 @@
                 "name": "p_cs_note01x"
             },
             {
-                "model": "s_inv_Orchid_Ghost_01x",
+                "model": "s_inv_orchid_ghost_01x",
                 "name": "s_inv_Orchid_Ghost_01x"
             },
             {
@@ -2813,7 +2813,7 @@
                 "name": "p_needle02x"
             },
             {
-                "model": "P_CS_LETTERROLLED01X",
+                "model": "p_cs_letterrolled01x",
                 "name": "P_CS_LETTERROLLED01X"
             }
         ],
@@ -2833,7 +2833,7 @@
                 "name": "p_cs_note01x"
             },
             {
-                "model": "P_CS_LETTERROLLED01X",
+                "model": "p_cs_letterrolled01x",
                 "name": "P_CS_LETTERROLLED01X"
             },
             {
@@ -2845,7 +2845,7 @@
                 "name": "p_cs_billstack01x"
             },
             {
-                "model": "p_cs_ExoticCollectorNB",
+                "model": "p_cs_exoticcollectornb",
                 "name": "p_cs_ExoticCollectorNB"
             },
             {
@@ -2857,15 +2857,15 @@
                 "name": "p_mannequinhead01x"
             },
             {
-                "model": "S_GATOREGG01X",
+                "model": "s_gatoregg01x",
                 "name": "S_GATOREGG01X"
             },
             {
-                "model": "S_INV_ORCHID_LS_01X",
+                "model": "s_inv_orchid_ls_01x",
                 "name": "S_INV_ORCHID_LS_01X"
             },
             {
-                "model": "S_INV_ORCHID_MF_01X",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "S_INV_ORCHID_MF_01X"
             }
         ],
@@ -2889,7 +2889,7 @@
                 "name": "p_cs_billstack01x"
             },
             {
-                "model": "p_flamboyantHat_01x",
+                "model": "p_flamboyanthat_01x",
                 "name": "p_flamboyantHat_01x"
             },
             {
@@ -2897,23 +2897,23 @@
                 "name": "p_mannequinhead01x"
             },
             {
-                "model": "S_GATOREGG01X",
+                "model": "s_gatoregg01x",
                 "name": "S_GATOREGG01X"
             },
             {
-                "model": "S_GATOREGG01X",
+                "model": "s_gatoregg01x",
                 "name": "S_GATOREGG01X^1"
             },
             {
-                "model": "S_GATOREGG01X",
+                "model": "s_gatoregg01x",
                 "name": "S_GATOREGG01X^2"
             },
             {
-                "model": "S_GATOREGG01X",
+                "model": "s_gatoregg01x",
                 "name": "S_GATOREGG01X"
             },
             {
-                "model": "s_inv_Orchid_AcunaStar_01x",
+                "model": "s_inv_orchid_acunastar_01x",
                 "name": "s_inv_Orchid_AcunaStar_01x"
             },
             {
@@ -2981,23 +2981,23 @@
                 "name": "p_wateringcansm01x"
             },
             {
-                "model": "s_inv_Orchid_AcunaStar_01x",
+                "model": "s_inv_orchid_acunastar_01x",
                 "name": "s_inv_Orchid_AcunaStar_01x"
             },
             {
-                "model": "s_inv_Orchid_Cigar_01x",
+                "model": "s_inv_orchid_cigar_01x",
                 "name": "s_inv_Orchid_Cigar_01x"
             },
             {
-                "model": "s_inv_Orchid_Ghost_01x",
+                "model": "s_inv_orchid_ghost_01x",
                 "name": "s_inv_Orchid_Ghost_01x"
             },
             {
-                "model": "s_inv_Orchid_NghtScnt_01x",
+                "model": "s_inv_orchid_nghtscnt_01x",
                 "name": "s_inv_Orchid_NghtScnt_01x"
             },
             {
-                "model": "s_inv_Orchid_RatTail_01x",
+                "model": "s_inv_orchid_rattail_01x",
                 "name": "s_inv_Orchid_RatTail_01x"
             }
         ],
@@ -3061,23 +3061,23 @@
                 "name": "p_wateringcansm01x"
             },
             {
-                "model": "s_inv_Orchid_AcunaStar_01x",
+                "model": "s_inv_orchid_acunastar_01x",
                 "name": "s_inv_Orchid_AcunaStar_01x"
             },
             {
-                "model": "s_inv_Orchid_Cigar_01x",
+                "model": "s_inv_orchid_cigar_01x",
                 "name": "s_inv_Orchid_Cigar_01x"
             },
             {
-                "model": "s_inv_Orchid_Ghost_01x",
+                "model": "s_inv_orchid_ghost_01x",
                 "name": "s_inv_Orchid_Ghost_01x"
             },
             {
-                "model": "s_inv_Orchid_NghtScnt_01x",
+                "model": "s_inv_orchid_nghtscnt_01x",
                 "name": "s_inv_Orchid_NghtScnt_01x"
             },
             {
-                "model": "s_inv_Orchid_RatTail_01x",
+                "model": "s_inv_orchid_rattail_01x",
                 "name": "s_inv_Orchid_RatTail_01x"
             }
         ],
@@ -3140,23 +3140,23 @@
                 "name": "p_wateringcansm01x"
             },
             {
-                "model": "s_inv_Orchid_AcunaStar_01x",
+                "model": "s_inv_orchid_acunastar_01x",
                 "name": "s_inv_Orchid_AcunaStar_01x"
             },
             {
-                "model": "s_inv_Orchid_Cigar_01x",
+                "model": "s_inv_orchid_cigar_01x",
                 "name": "s_inv_Orchid_Cigar_01x"
             },
             {
-                "model": "s_inv_Orchid_Ghost_01x",
+                "model": "s_inv_orchid_ghost_01x",
                 "name": "s_inv_Orchid_Ghost_01x"
             },
             {
-                "model": "s_inv_Orchid_NghtScnt_01x",
+                "model": "s_inv_orchid_nghtscnt_01x",
                 "name": "s_inv_Orchid_NghtScnt_01x"
             },
             {
-                "model": "s_inv_Orchid_RatTail_01x",
+                "model": "s_inv_orchid_rattail_01x",
                 "name": "s_inv_Orchid_RatTail_01x"
             }
         ],
@@ -3199,7 +3199,7 @@
                 "name": "p_manaquincorset01x"
             },
             {
-                "model": "P_REGISTER03X",
+                "model": "p_register03x",
                 "name": "P_REGISTER03X"
             },
             {
@@ -3207,15 +3207,15 @@
                 "name": "p_wateringcansm01x"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x^1"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x^2"
             },
             {
@@ -3263,7 +3263,7 @@
                 "name": "p_manaquincorset01x"
             },
             {
-                "model": "P_REGISTER03X",
+                "model": "p_register03x",
                 "name": "P_REGISTER03X"
             },
             {
@@ -3271,15 +3271,15 @@
                 "name": "p_wateringcansm01x"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x^1"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x^2"
             },
             {
@@ -3326,7 +3326,7 @@
                 "name": "p_manaquincorset01x"
             },
             {
-                "model": "P_REGISTER03X",
+                "model": "p_register03x",
                 "name": "P_REGISTER03X"
             },
             {
@@ -3334,15 +3334,15 @@
                 "name": "p_wateringcansm01x"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x^1"
             },
             {
-                "model": "s_inv_orchid_MF_01x",
+                "model": "s_inv_orchid_mf_01x",
                 "name": "s_inv_orchid_MF_01x^2"
             },
             {
@@ -3618,7 +3618,7 @@
         "playback_id": "2-Sick",
         "vehicles": [
             {
-                "model": "WAGONDOC01x",
+                "model": "wagondoc01x",
                 "name": "WAGONDOC01x"
             }
         ]
@@ -3643,7 +3643,7 @@
         ],
         "vehicles": [
             {
-                "model": "WAGONDOC01x",
+                "model": "wagondoc01x",
                 "name": "WAGONDOC01x"
             }
         ]
@@ -4053,7 +4053,7 @@
                 "name": "p_tablecoffee04x"
             },
             {
-                "model": "p_mugCoffee01x",
+                "model": "p_mugcoffee01x",
                 "name": "p_mugCoffee01x"
             },
             {
@@ -4098,7 +4098,7 @@
                 "name": "A_C_DOGcatahoulacur_01"
             },
             {
-                "model": "A_C_SNAKE_01",
+                "model": "a_c_snake_01",
                 "name": "A_C_SNAKE_01"
             }
         ],
@@ -4310,11 +4310,11 @@
                 "outfit_preset": 0
             },
             {
-                "model": "A_C_DEER_01",
+                "model": "a_c_deer_01",
                 "name": "Deer_01"
             },
             {
-                "model": "A_C_DEER_01",
+                "model": "a_c_deer_01",
                 "name": "Deer_01^1"
             }
         ],
@@ -4330,11 +4330,11 @@
                 "name": "p_cs_rabbitfeetless"
             },
             {
-                "model": "p_cs_rabbitMeat01x",
+                "model": "p_cs_rabbitmeat01x",
                 "name": "p_cs_rabbitMeat01x"
             },
             {
-                "model": "p_cs_rabbitMeat02x",
+                "model": "p_cs_rabbitmeat02x",
                 "name": "p_cs_rabbitMeat02x"
             },
             {
@@ -4354,7 +4354,7 @@
                 "name": "p_chair06x"
             },
             {
-                "model": "W_SP_BowArrow",
+                "model": "w_sp_bowarrow",
                 "name": "W_SP_BowArrow"
             },
             {
@@ -4384,12 +4384,12 @@
             },
             {
                 "metaped_outfit": "meta_horse_saddle_only",
-                "model": "A_C_HORSE_JOHN_ENDLESSSUMMER",
+                "model": "a_c_horse_john_endlesssummer",
                 "name": "HORSE_01"
             },
             {
                 "metaped_outfit": "meta_horse_saddle_only",
-                "model": "A_C_HORSE_GANG_CHARLES",
+                "model": "a_c_horse_gang_charles",
                 "name": "HORSE_01^1"
             }
         ],
@@ -4438,11 +4438,11 @@
                 "outfit_preset": 0
             },
             {
-                "model": "A_C_DEER_01",
+                "model": "a_c_deer_01",
                 "name": "Deer_01"
             },
             {
-                "model": "A_C_DEER_01",
+                "model": "a_c_deer_01",
                 "name": "Deer_01^1"
             }
         ],
@@ -4503,11 +4503,11 @@
                 "name": "RevSwanson"
             },
             {
-                "model": "U_M_M_VALPOKERPLAYER_01",
+                "model": "u_m_m_valpokerplayer_01",
                 "name": "U_M_M_VALPOKERPLAYER_01"
             },
             {
-                "model": "U_M_M_VALPOKERPLAYER_02",
+                "model": "u_m_m_valpokerplayer_02",
                 "name": "U_M_M_VALPOKERPLAYER_02"
             }
         ],
@@ -4903,7 +4903,7 @@
                     15,
                     16
                 ],
-                "model": "SMUGGLER02",
+                "model": "smuggler02",
                 "name": "SMUGGLER02"
             }
         ]
@@ -4947,7 +4947,7 @@
         "player_model": "player_zero",
         "vehicles": [
             {
-                "model": "WAGON05X",
+                "model": "wagon05x",
                 "name": "WAGON05X"
             }
         ]
@@ -4969,7 +4969,7 @@
         "player_model": "player_zero",
         "vehicles": [
             {
-                "model": "WAGON05X",
+                "model": "wagon05x",
                 "name": "WAGON05X"
             }
         ]
@@ -5186,37 +5186,37 @@
                 "name": "Dutch"
             },
             {
-                "model": "A_C_HORSE_ARABIAN_WHITE",
+                "model": "a_c_horse_arabian_white",
                 "name": "A_C_Horse_Gang_Arthur",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Dutch",
+                "model": "a_c_horse_gang_dutch",
                 "name": "A_C_Horse_Gang_Dutch",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Bill",
+                "model": "a_c_horse_gang_bill",
                 "name": "A_C_Horse_Gang_Bill",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Javier",
+                "model": "a_c_horse_gang_javier",
                 "name": "A_C_Horse_Gang_Javier",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Micah",
+                "model": "a_c_horse_gang_micah",
                 "name": "A_C_Horse_Gang_Micah",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Charles",
+                "model": "a_c_horse_gang_charles",
                 "name": "A_C_Horse_Gang_Charles",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Lenny",
+                "model": "a_c_horse_gang_lenny",
                 "name": "A_C_Horse_Gang_Lenny",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
@@ -5279,37 +5279,37 @@
                 "name": "Dutch"
             },
             {
-                "model": "A_C_HORSE_ARABIAN_WHITE",
+                "model": "a_c_horse_arabian_white",
                 "name": "A_C_Horse_Gang_Arthur",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Dutch",
+                "model": "a_c_horse_gang_dutch",
                 "name": "A_C_Horse_Gang_Dutch",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Bill",
+                "model": "a_c_horse_gang_bill",
                 "name": "A_C_Horse_Gang_Bill",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Javier",
+                "model": "a_c_horse_gang_javier",
                 "name": "A_C_Horse_Gang_Javier",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Micah",
+                "model": "a_c_horse_gang_micah",
                 "name": "A_C_Horse_Gang_Micah",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Charles",
+                "model": "a_c_horse_gang_charles",
                 "name": "A_C_Horse_Gang_Charles",
                 "metaped_outfit": "meta_horse_saddle_only"
             },
             {
-                "model": "A_C_Horse_Gang_Lenny",
+                "model": "a_c_horse_gang_lenny",
                 "name": "A_C_Horse_Gang_Lenny",
                 "metaped_outfit": "meta_horse_saddle_only"
             }

@@ -27,15 +27,15 @@ public:
 		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
 	}
 
-	static scrNativeHandler GetHandler(uint64_t hash);
+	static scrNativeHandler GetHandler(scrNativeHash hash);
 
 private:
 	void FixVectors();
 
 public:
-	void PrintNativeStackInfo(uint64_t Hash, void* Handler);
+	void PrintNativeStackInfo(scrNativeHash hash, scrNativeHandler Handler);
 
-	void EndCall(uint64_t hash);
+	void EndCall(scrNativeHash hash);
 
 	template <typename T>
 	T GetReturnValue()
@@ -45,7 +45,7 @@ public:
 };
 
 template <typename Ret, typename... Args>
-inline Ret invoke(uint64_t hash, Args&&... args)
+inline Ret invoke(scrNativeHash hash, Args&&... args)
 {
 	NativeContext Context;
 	Context.Reset();
