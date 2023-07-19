@@ -10,4 +10,4 @@ namespace Features
 	ImU32 GetImGuiRGB32();
 }
 
-#define GET_RGB() ::Features::GetRGB()[0], ::Features::GetRGB()[1], ::Features::GetRGB()[2]
+#define GET_RGB() Features::GetRGB()[0], Features::GetRGB()[1], Features::GetRGB()[2]

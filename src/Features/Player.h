@@ -2,7 +2,6 @@
 
 #include "pch.h"
 #include "Rage/natives.h"
-#include "Rage/enums.h"
 
 namespace Features
 {
@@ -15,7 +14,7 @@ namespace Features
 	int GetMoney();
 	Entity GetMountOrVehicle();
 	bool LoadGround(float x, float y, float z);
-	bool LoadGround(Vector3 pos);
+	bool LoadGround(Vector3 Location);
 	void NoSliding();
 	void RemoveMoney(int AmountCents);
 	void ResetPlayerModel();
@@ -24,10 +23,10 @@ namespace Features
 	void SetGodmode(bool Toggle);
 	void SetMaxAttributeValue(Ped ped, int attr);
 	void SetMoney(int AmountCents);
-	void SetPlayerModel(Hash Model = U_F_M_RHDNUDEWOMAN_01);
+	void SetPlayerModel(Hash Model = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
 	void SetNoRagdoll(bool Toggle);
-	void SpawnBadHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
-	void SpawnGoodHonorEnemy(Hash Model = U_F_M_RHDNUDEWOMAN_01);
+	void SpawnBadHonorEnemy(Hash Model = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
+	void SpawnGoodHonorEnemy(Hash Model = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
 	void SuperRun();
 	void Teleport(float x, float y, float z);
 	void Teleport(const Vector3& pos);

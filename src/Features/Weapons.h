@@ -2,7 +2,6 @@
 
 #include "pch.h"
 #include "Rage/natives.h"
-#include "Rage/enums.h"
 
 namespace Features
 {

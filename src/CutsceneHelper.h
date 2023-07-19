@@ -48,3 +48,5 @@ private:
 	std::vector<Vehicle> m_Vehicles;
 	bool m_Loaded = false;
 };
+
+inline nlohmann::json g_Cutscenes;

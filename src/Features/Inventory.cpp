@@ -52,7 +52,7 @@ namespace Features
 
 	void GiveAgedPirateRum()
 	{
-		GiveSingleInventoryItem(CONSUMABLE_AGED_PIRATE_RUM, 1084182731, 1, ADD_REASON_DEFAULT);
+		GiveSingleInventoryItem(RAGE_JOAAT("CONSUMABLE_AGED_PIRATE_RUM"), 1084182731, 1, ADD_REASON_DEFAULT);
 	}
 
 	void GiveAllConsumables()
@@ -83,66 +83,66 @@ namespace Features
 			AddMoney(500); // $5
 
 			// Jack
-			GiveInventoryItem(PROVISION_JACKS_THIMBLE); // Thimble
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_JACKS_THIMBLE")); // Thimble
 
-			GiveInventoryItem(DOCUMENT_BOOK_BOY_NEW_YORK); // Otis Miller and The Boy from New York
+			GiveInventoryItem(RAGE_JOAAT("DOCUMENT_BOOK_BOY_NEW_YORK")); // Otis Miller and The Boy from New York
 
 			// Javier
-			GiveInventoryItem(CONSUMABLE_HERB_OLEANDER_SAGE); // Oleander Sage
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_OLEANDER_SAGE")); // Oleander Sage
 
 			// Mary-Beth
-			GiveInventoryItem(PROVISION_MARYS_FOUNTAIN_PEN); // Fountain Pen
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_MARYS_FOUNTAIN_PEN")); // Fountain Pen
 
 			// Pearson
-			GiveInventoryItem(PROVISION_PEARSONS_NAVAL_COMPASS);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_PEARSONS_NAVAL_COMPASS"));
 			
-			GiveInventoryItem(PROVISION_ANIMAL_CARCASS_RABBIT_HIGH_QUALITY);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_ANIMAL_CARCASS_RABBIT_HIGH_QUALITY"));
 
 			// Sean
-			GiveInventoryItem(CONSUMABLE_WHISKEY);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_WHISKEY"));
 
 			// Bill
-			GiveInventoryItem(CONSUMABLE_HAIR_GREASE);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HAIR_GREASE"));
 			
 			// Charles
-			GiveInventoryItem(CONSUMABLE_MOONSHINE);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_MOONSHINE"));
 			
-			GiveInventoryItem(CONSUMABLE_HERB_OLEANDER_SAGE);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_OLEANDER_SAGE"));
 			
-			GiveInventoryItem(PROVISION_EAGLE_FEATHER);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_EAGLE_FEATHER"));
 
 			// Dutch
-			GiveInventoryItem(PROVISION_COMP_DUTCH_PIPE);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_COMP_DUTCH_PIPE"));
 
 			// Hosea
-			GiveInventoryItem(DOCUMENT_BOOK_SHREW);
+			GiveInventoryItem(RAGE_JOAAT("DOCUMENT_BOOK_SHREW"));
 			
-			GiveInventoryItem(CONSUMABLE_HERB_AMERICAN_GINSENG, 2);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_AMERICAN_GINSENG, 2"));
 
 			// Lenny
-			GiveInventoryItem(PROVISION_POCKET_WATCH_SILVER);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_POCKET_WATCH_SILVER"));
 
 			// Grimshaw
-			GiveInventoryItem(CONSUMABLE_HERB_OREGANO, 2);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_OREGANO, 2"));
 
 			// Tilly
-			GiveInventoryItem(PROVISION_NECKLACE_GOLD);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_NECKLACE_GOLD"));
 
 			// Kieran
-			GiveInventoryItem(CONSUMABLE_HERB_BURDOCK_ROOT, 2);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_BURDOCK_ROOT, 2"));
 
 			// Molly
-			GiveInventoryItem(PROVISION_MOLLYS_POCKET_MIRROR);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_MOLLYS_POCKET_MIRROR"));
 
 			// Sadie
-			GiveInventoryItem(PROVISION_SADIES_HARMONICA);
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_SADIES_HARMONICA"));
 
 			// Uncle
-			GiveInventoryItem(CONSUMABLE_HERB_MILKWEED);
-			GiveInventoryItem(CONSUMABLE_WHISKEY);
-			GiveInventoryItem(CONSUMABLE_PEPPERMINT);
-			GiveInventoryItem(CONSUMABLE_HAIR_GREASE);
-			GiveInventoryItem(PROVISION_STRINGY_MEAT);
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_MILKWEED"));
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_WHISKEY"));
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_PEPPERMINT"));
+			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HAIR_GREASE"));
+			GiveInventoryItem(RAGE_JOAAT("PROVISION_STRINGY_MEAT"));
 		}
 		END_JOB()
 	}
@@ -226,7 +226,7 @@ namespace Features
 	{
 		TRY
 		{
-			GiveSingleInventoryItem(CONSUMABLE_GINSENG_ELIXIER, 1084182731, 1, ADD_REASON_DEFAULT);
+			GiveSingleInventoryItem(RAGE_JOAAT("CONSUMABLE_GINSENG_ELIXIER"), 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -268,7 +268,7 @@ namespace Features
 	{
 		TRY
 		{
-			GiveSingleInventoryItem(CONSUMABLE_VALERIAN_ROOT, 1084182731, 1, ADD_REASON_DEFAULT);
+			GiveSingleInventoryItem(RAGE_JOAAT("CONSUMABLE_VALERIAN_ROOT"), 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

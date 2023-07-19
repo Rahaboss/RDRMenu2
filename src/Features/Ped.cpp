@@ -2,6 +2,7 @@
 #include "Ped.h"
 #include "JobQueue.h"
 #include "Features.h"
+#include "Rage/enums.h"
 
 namespace Features
 {

@@ -5,7 +5,7 @@
 class scrVector
 {
 public:
-	__declspec(align(8)) float x, y, z;
+	alignas(8) float x, y, z;
 
 	scrVector() = default;
 
@@ -48,7 +48,7 @@ public:
 }; //Size: 0x0018
 static_assert(sizeof(scrVector) == 24);
 
-class __declspec(align(16)) scrVec3N
+class alignas(16) scrVec3N
 {
 public:
 	float x, y, z;

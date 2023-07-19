@@ -2,7 +2,6 @@
 #include "Cutscene.h"
 #include "Features.h"
 #include "PlayerInfo.h"
-#include "Rage/enums.h"
 #include "Rage/natives.h"
 #include "JobQueue.h"
 #include "CutsceneHelper.h"
@@ -86,7 +85,7 @@ namespace Features
 				}
 				else
 				{
-					Ped arthur = SpawnPed(PLAYER_ZERO);
+					Ped arthur = SpawnPed(RAGE_JOAAT("PLAYER_ZERO"));
 					PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
 					for (const auto& t : tags)
 						PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
@@ -142,7 +141,7 @@ namespace Features
 		{
 			[]() {
 				CutsceneHelper Cutscene("cutscene@mar6_rsc2");
-				const Ped unc = Features::SpawnPed(CS_UNCLE);
+				const Ped unc = SpawnPed(RAGE_JOAAT("CS_UNCLE"));
 				WEAPON::REMOVE_ALL_PED_WEAPONS(unc, TRUE, TRUE);
 				PED::_EQUIP_META_PED_OUTFIT_PRESET(unc, 5, FALSE);
 				Cutscene.AddPedExisting(unc, "Uncle");

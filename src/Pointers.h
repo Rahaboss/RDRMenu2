@@ -35,7 +35,7 @@ namespace Pointers
 	inline WorldToScreen_t WorldToScreen{};
 	inline void* (*sub_7FF73D8DB3C4)(void*){};
 	inline CPed* (*GetEntityPedReal)(Entity){};
-	inline uint32_t (*FwScriptGuidCreateGuid)(int64_t*){};
+	inline uint32_t (*fwScriptGuidCreateGuid)(int64_t*){};
 	inline VariableEncryption* PedPoolEncryption{};
 	inline VariableEncryption* ObjectPoolEncryption{};
 	inline VariableEncryption* VehiclePoolEncryption{};

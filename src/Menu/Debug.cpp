@@ -425,7 +425,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Ped ped = Features::SpawnPed(CS_MRSADLER);
+				Ped ped = Features::SpawnPed(RAGE_JOAAT("CS_MRSADLER"));
 				Features::SetMetapedOutfit(ped, 0x5F43C3FC);
 			}
 			END_JOB()

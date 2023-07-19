@@ -487,5 +487,3 @@ constexpr inline std::array g_MetaPedTags{
 	joaat("BELT_BUCKLES"),
 	(Hash)4242860191u,
 };
-
-inline nlohmann::json g_Cutscenes;

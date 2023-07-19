@@ -108,6 +108,7 @@ void CutsceneHelper::AddLocalPlayer()
 		Ped Handle;
 		if (g_LocalPlayer.m_Model == joaat(PlayerModel))
 		{
+			Handle = g_LocalPlayer.m_Entity;
 			ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, g_LocalPlayer.m_Entity, 0);
 		}
 		else

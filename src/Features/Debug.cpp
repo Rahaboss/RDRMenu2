@@ -86,7 +86,7 @@ namespace Features
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
 				{
-					Ped ped = Pointers::FwScriptGuidCreateGuid(obj);
+					Ped ped = Pointers::fwScriptGuidCreateGuid(obj);
 					if (CheckEntityValidity)
 					{
 						if (!ENTITY::DOES_ENTITY_EXIST(ped) || !STREAMING::IS_MODEL_A_PED(ENTITY::GET_ENTITY_MODEL(ped)))
@@ -115,7 +115,7 @@ namespace Features
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
 				{
-					Object object = Pointers::FwScriptGuidCreateGuid(obj);
+					Object object = Pointers::fwScriptGuidCreateGuid(obj);
 					if (CheckEntityValidity)
 					{
 						if (!ENTITY::DOES_ENTITY_EXIST(object) || !STREAMING::_IS_MODEL_AN_OBJECT(ENTITY::GET_ENTITY_MODEL(object)))
@@ -144,7 +144,7 @@ namespace Features
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
 				{
-					Vehicle veh = Pointers::FwScriptGuidCreateGuid(obj);
+					Vehicle veh = Pointers::fwScriptGuidCreateGuid(obj);
 					if (CheckEntityValidity)
 					{
 						if (!ENTITY::DOES_ENTITY_EXIST(veh) || !STREAMING::IS_MODEL_A_VEHICLE(ENTITY::GET_ENTITY_MODEL(veh)))
@@ -173,7 +173,7 @@ namespace Features
 			{
 				if (int64_t* obj = pool->GetAt<int64_t>(i))
 				{
-					Pickup pickup = Pointers::FwScriptGuidCreateGuid(obj);
+					Pickup pickup = Pointers::fwScriptGuidCreateGuid(obj);
 					if (CheckEntityValidity)
 					{
 						if (!ENTITY::DOES_ENTITY_EXIST(pickup) || !STREAMING::_IS_MODEL_AN_OBJECT(ENTITY::GET_ENTITY_MODEL(pickup)))

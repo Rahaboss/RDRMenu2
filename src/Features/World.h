@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Rage/enums.h"
+#include "Rage/natives.h"
 
 namespace Features
 {

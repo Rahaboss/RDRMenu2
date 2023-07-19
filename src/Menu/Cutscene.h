@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Lists.h"
+#include "CutsceneHelper.h"
 
 namespace Menu
 {

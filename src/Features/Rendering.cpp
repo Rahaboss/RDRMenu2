@@ -2,6 +2,7 @@
 #include "Rendering.h"
 #include "Features.h"
 #include "PlayerInfo.h"
+#include "Rage/enums.h"
 
 // Features for drawing on the screen
 // \xE2\x88\x91	= Rockstar

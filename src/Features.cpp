@@ -2,9 +2,9 @@
 #include "Features.h"
 #include "Pointers.h"
 #include "PlayerInfo.h"
-#include "Lists.h"
 #include "Menu.h"
 #include "ScriptGlobal.h"
+#include "Lists.h"
 
 namespace Features
 {

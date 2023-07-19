@@ -4,6 +4,7 @@
 #include "PlayerInfo.h"
 #include "JobQueue.h"
 #include "ScriptGlobal.h"
+#include "Rage/enums.h"
 
 namespace Features
 {
@@ -99,7 +100,7 @@ namespace Features
 		return LoadGround(Vector3(x, y, z));
 	}
 
-	bool LoadGround(Vector3 location)
+	bool LoadGround(Vector3 Location)
 	{
 		float groundZ;
 		const uint8_t attempts = 10;
@@ -109,14 +110,14 @@ namespace Features
 			// Only request a collision after the first try failed because the location might already be loaded on first attempt.
 			for (uint16_t z = 0; i && z < 1000; z += 100)
 			{
-				STREAMING::REQUEST_COLLISION_AT_COORD(location.x, location.y, (float)z);
+				STREAMING::REQUEST_COLLISION_AT_COORD(Location.x, Location.y, (float)z);
 
 				YieldThread();
 			}
 
-			if (MISC::GET_GROUND_Z_FOR_3D_COORD(location.x, location.y, 1000.f, &groundZ, false))
+			if (MISC::GET_GROUND_Z_FOR_3D_COORD(Location.x, Location.y, 1000.f, &groundZ, false))
 			{
-				location.z = groundZ + 1.f;
+				Location.z = groundZ + 1.f;
 
 				return true;
 			}
@@ -144,10 +145,10 @@ namespace Features
 			switch (*Global_1946054_f_1)
 			{
 			case -2125499975:
-				SetPlayerModel(PLAYER_ZERO);
+				SetPlayerModel(RAGE_JOAAT("PLAYER_ZERO"));
 				break;
 			case 1160113249:
-				SetPlayerModel(PLAYER_THREE);
+				SetPlayerModel(RAGE_JOAAT("PLAYER_THREE"));
 				break;
 			default:
 				LOG_TO_CONSOLE("%s: Unknown default player model: %d!\n", __FUNCTION__, *Global_1946054_f_1);
@@ -306,7 +307,7 @@ namespace Features
 		{
 			Teleport(x, y, z - 1.0f);
 			YieldThread();
-			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(Features::GetMainEntity(), true);
+			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(GetMainEntity(), true);
 		}
 		END_JOB()
 	}
@@ -382,11 +383,11 @@ namespace Features
 
 	bool IsArthurModel()
 	{
-		return g_LocalPlayer.m_Model == PLAYER_ZERO;
+		return g_LocalPlayer.m_Model == RAGE_JOAAT("PLAYER_ZERO");
 	}
 
 	bool IsJohnModel()
 	{
-		return g_LocalPlayer.m_Model == PLAYER_THREE;
+		return g_LocalPlayer.m_Model == RAGE_JOAAT("PLAYER_THREE");
 	}
 }

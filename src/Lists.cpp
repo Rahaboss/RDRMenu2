@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Lists.h"
 #include "Features.h"
+#include "CutsceneHelper.h"
 
 namespace Lists
 {

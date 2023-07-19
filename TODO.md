@@ -37,3 +37,6 @@ Here is a list of future features that should ideally be implemented. These are 
 * Showing ingame messages on screen as a status text
 * Better documentation of code components
 * More experimentation with game structs like CPed
+* Improve build times
+	* Check includes (Project Properties -> C/C++ -> Advanced -> Show Includes)
+	* Separate enum lists from other lists (Hash enums need to be calculated every time they are included: Lists.h -> Rage/enums.h)

@@ -32,7 +32,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Features::SpawnVehicle(GATLING_GUN);
+				Features::SpawnVehicle(RAGE_JOAAT("GATLING_GUN"));
 			}
 			END_JOB()
 		}

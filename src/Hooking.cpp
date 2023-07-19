@@ -151,7 +151,7 @@ namespace Hooking
 				ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
-				ctx->GetRet<BOOL>() = FALSE; // Spoof return value
+				ctx->SetRet<BOOL>(FALSE); // Spoof return value
 				return FALSE;
 			}
 
@@ -240,10 +240,10 @@ namespace Hooking
 
 			switch (inventoryId)
 			{
-			case CONSUMABLE_BIG_GAME_MEAT_COOKED:
-			case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
-			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
-			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
 			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
 					inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
@@ -280,14 +280,13 @@ namespace Hooking
 			result = GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 			BOOL ret = ctx->GetRet<BOOL>();
 
-			constexpr Hash CLOTHING_SP_CIVIL_WAR_HAT_000_1 = RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 			switch (inventoryId)
 			{
-			case CONSUMABLE_BIG_GAME_MEAT_COOKED:
-			case CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED:
-			case CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED:
-			case CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED:
-			case CLOTHING_SP_CIVIL_WAR_HAT_000_1:
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
+			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
 				LOG_TO_MENU("\tReturned %d\n\n", ret);
 				LOG_TO_MENU("\tguid:\n");
@@ -491,7 +490,8 @@ namespace Hooking
 		{
 			if (dlcHash == DLCList[i])
 			{
-				result = ctx->GetRet<BOOL>() = TRUE;
+				ctx->SetRet<BOOL>(TRUE);
+				result = TRUE;
 				return result;
 			}
 		}

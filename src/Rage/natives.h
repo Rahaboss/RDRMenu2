@@ -6,6 +6,7 @@
 // https://alloc8or.re/rdr3/nativedb/
 
 #define NATIVE_DECL __forceinline
+//#define NATIVE_DECL inline
 
 namespace BUILTIN
 {

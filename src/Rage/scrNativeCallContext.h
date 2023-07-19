@@ -16,40 +16,46 @@ public:
 	uint8_t pad[96]; //0x0080
 
 	template<typename T>
-	T& GetArg(size_t Index)
+	T GetArg(size_t Index)
 	{
 		return *(T*)(&(m_Args[Index]));
 	}
 
 	template<typename T>
-	T& GetRet()
+	T GetRet()
 	{
 		return *(T*)(m_ReturnValue);
+	}
+
+	template<typename T>
+	void SetRet(T Ret)
+	{
+		*(T*)(m_ReturnValue) = Ret;
 	}
 }; //Size: 0x00E0
 static_assert(sizeof(scrNativeCallContext) == 0xE0);
 
-typedef int Any;
-typedef int Blip;
-typedef int Cam;
-typedef int Entity;
-typedef int FireId;
+typedef int32_t Any;
+typedef int32_t Blip;
+typedef int32_t Cam;
+typedef int32_t Entity;
+typedef int32_t FireId;
 typedef joaat_t Hash;
-typedef int Interior;
-typedef int ItemSet;
+typedef int32_t Interior;
+typedef int32_t ItemSet;
 typedef Entity Object;
 typedef Entity Ped;
 typedef Object Pickup;
-typedef int Player;
+typedef int32_t Player;
 typedef Entity ScrHandle;
 typedef Entity Vehicle;
 
-typedef int AnimScene;
-typedef int PersChar;
-typedef int PopZone;
-typedef int Prompt;
-typedef int PropSet;
-typedef int Volume;
+typedef int32_t AnimScene;
+typedef int32_t PersChar;
+typedef int32_t PopZone;
+typedef int32_t Prompt;
+typedef int32_t PropSet;
+typedef int32_t Volume;
 
 typedef scrVector Vector3;
 

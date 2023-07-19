@@ -351,45 +351,45 @@ namespace Menu
 
 		ImGui::BeginChild("player_model_preset_child", ImVec2(0, 200));
 		if (ImGui::Selectable("Arthur"))
-			Features::SetPlayerModel(PLAYER_ZERO);
+			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_ZERO"));
 		if (ImGui::Selectable("John"))
-			Features::SetPlayerModel(PLAYER_THREE);
+			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_THREE"));
 		if (ImGui::Selectable("Dutch"))
-			Features::SetPlayerModel(CS_DUTCH);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_DUTCH"));
 		if (ImGui::Selectable("Robot"))
-			Features::SetPlayerModel(CS_CRACKPOTROBOT);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_CRACKPOTROBOT"));
 		if (ImGui::Selectable("Naked Woman"))
-			Features::SetPlayerModel(U_F_M_RHDNUDEWOMAN_01);
+			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
 		if (ImGui::Selectable("Naked Man"))
-			Features::SetPlayerModel(RE_NAKEDSWIMMER_MALES_01);
+			Features::SetPlayerModel(RAGE_JOAAT("RE_NAKEDSWIMMER_MALES_01"));
 		if (ImGui::Selectable("Clan Member (1)"))
-			Features::SetPlayerModel(RE_RALLY_MALES_01);
+			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLY_MALES_01"));
 		if (ImGui::Selectable("Clan Member (2)"))
-			Features::SetPlayerModel(RE_RALLYDISPUTE_MALES_01);
+			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLYDISPUTE_MALES_01"));
 		if (ImGui::Selectable("Clan Member (3)"))
-			Features::SetPlayerModel(RE_RALLYSETUP_MALES_01);
+			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLYSETUP_MALES_01"));
 		if (ImGui::Selectable("2 Headed Skeleton (1)"))
-			Features::SetPlayerModel(U_M_M_CIRCUSWAGON_01);
+			Features::SetPlayerModel(RAGE_JOAAT("U_M_M_CIRCUSWAGON_01"));
 		if (ImGui::Selectable("2 Headed Skeleton (2)"))
-			Features::SetPlayerModel(U_F_M_CIRCUSWAGON_01);
+			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_CIRCUSWAGON_01"));
 		if (ImGui::Selectable("Magnifico"))
-			Features::SetPlayerModel(CS_MAGNIFICO);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_MAGNIFICO"));
 		if (ImGui::Selectable("Bertram"))
-			Features::SetPlayerModel(CS_ODDFELLOWSPINHEAD);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_ODDFELLOWSPINHEAD"));
 		if (ImGui::Selectable("Strange Man"))
-			Features::SetPlayerModel(CS_MYSTERIOUSSTRANGER);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_MYSTERIOUSSTRANGER"));
 		if (ImGui::Selectable("Vampire"))
-			Features::SetPlayerModel(CS_VAMPIRE);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_VAMPIRE"));
 		if (ImGui::Selectable("Swamp Freak"))
-			Features::SetPlayerModel(CS_SWAMPFREAK);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_SWAMPFREAK"));
 		if (ImGui::Selectable("Jack"))
-			Features::SetPlayerModel(CS_JACKMARSTON);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_JACKMARSTON"));
 		if (ImGui::Selectable("Jack (Teen)"))
-			Features::SetPlayerModel(CS_JACKMARSTON_TEEN);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_JACKMARSTON_TEEN"));
 		if (ImGui::Selectable("Gavin"))
-			Features::SetPlayerModel(CS_GAVIN);
+			Features::SetPlayerModel(RAGE_JOAAT("CS_GAVIN"));
 		if (ImGui::Selectable("Murder Mystery Body"))
-			Features::SetPlayerModel(RE_MURDERCAMP_MALES_01);
+			Features::SetPlayerModel(RAGE_JOAAT("RE_MURDERCAMP_MALES_01"));
 		ImGui::EndChild();
 	}
 }

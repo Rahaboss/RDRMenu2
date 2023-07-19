@@ -14,7 +14,7 @@ private:
 public:
 	NativeContext();
 
-private:
+//private:
 	scrNativeCallContext* GetContext();
 
 public:
@@ -53,5 +53,5 @@ inline Ret invoke(scrNativeHash hash, Args&&... args)
 	Context.EndCall(hash);
 
 	if constexpr (!std::is_same_v<Ret, void>)
-		return Context.GetReturnValue<Ret>();
+		return Context.GetContext()->GetRet<Ret>();
 }
