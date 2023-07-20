@@ -40,3 +40,4 @@ Here is a list of future features that should ideally be implemented. These are 
 * Improve build times
 	* Check includes (Project Properties -> C/C++ -> Advanced -> Show Includes)
 	* Separate enum lists from other lists (Hash enums need to be calculated every time they are included: Lists.h -> Rage/enums.h)
+ * Enums should be precalculated instead (e.g. CS_DUTCH = RAGE_JOAAT("CS_DUTCH") would be CS_DUTCH = 0x...)
