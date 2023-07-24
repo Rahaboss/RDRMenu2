@@ -358,7 +358,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash hash = joaat("blip_cash_bag");
+				constexpr Hash hash = rage::joaat("blip_cash_bag");
 				MAP::BLIP_ADD_FOR_COORDS(hash, g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 			}
 			END_JOB()
@@ -425,7 +425,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Ped ped = Features::SpawnPed(RAGE_JOAAT("CS_MRSADLER"));
+				Ped ped = Features::SpawnPed(rage::joaat("CS_MRSADLER"));
 				Features::SetMetapedOutfit(ped, 0x5F43C3FC);
 			}
 			END_JOB()
@@ -433,22 +433,21 @@ namespace Menu
 		ImGui::SameLine();
 		if (ImGui::Button("Noon And Sunny"))
 		{
-			Features::SetClockTime(12);
-			Features::SetWeatherType(SUNNY);
+			Features::SetNoonAndSunny();
 		}
 
 		if (ImGui::Button("Activate Grand Korrigan Interiors"))
 		{
 			QUEUE_JOB(=)
 			{
-				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2552.205f, -1170.773f, 52.6838f, joaat("NEW_TAILOR01_INT_MAIN")), 0);
-				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2552.205f, -1170.773f, 52.6838f, joaat("NEW_TAILOR01_INT_MAIN")), 0);
-				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2654.253f, -1179.118f, 52.2785f, joaat("NEW_BARBER_INT")), 0);
-				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2654.533f, -1178.978f, 52.2785f, joaat("NEW_BARBER_INT")), 0);
-				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3286.869f, -1304.827f, 50.7904f, joaat("SER_GRANDKOR_L2_INT")), 0);
-				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3288.151f, -1300.511f, 50.9101f, joaat("SER_GRANDKOR_L2_INT")), 0);
-				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3288.815f, -1309.385f, 41.7978f, joaat("SER_GRANDKOR_L1_INT")), "korrigan_props_poker", 0);
-				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3289.768f, -1309.406f, 41.792f, joaat("SER_GRANDKOR_L1_INT")), "korrigan_props_default", 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2552.205f, -1170.773f, 52.6838f, rage::joaat("NEW_TAILOR01_INT_MAIN")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2552.205f, -1170.773f, 52.6838f, rage::joaat("NEW_TAILOR01_INT_MAIN")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2654.253f, -1179.118f, 52.2785f, rage::joaat("NEW_BARBER_INT")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(2654.533f, -1178.978f, 52.2785f, rage::joaat("NEW_BARBER_INT")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3286.869f, -1304.827f, 50.7904f, rage::joaat("SER_GRANDKOR_L2_INT")), 0);
+				//INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3288.151f, -1300.511f, 50.9101f, rage::joaat("SER_GRANDKOR_L2_INT")), 0);
+				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3288.815f, -1309.385f, 41.7978f, rage::joaat("SER_GRANDKOR_L1_INT")), "korrigan_props_poker", 0);
+				INTERIOR::ACTIVATE_INTERIOR_ENTITY_SET(INTERIOR::GET_INTERIOR_AT_COORDS_WITH_TYPEHASH(3289.768f, -1309.406f, 41.792f, rage::joaat("SER_GRANDKOR_L1_INT")), "korrigan_props_default", 0);
 			}
 			END_JOB()
 		}
@@ -552,7 +551,7 @@ namespace Menu
 			std::vector<const char*> names{};
 			std::vector<Hash> hashes;
 			for (const auto& n : names)
-				hashes.push_back(joaat(n));
+				hashes.push_back(rage::joaat(n));
 
 			std::filesystem::path Path(Features::GetConfigPath().append("lists2.json"));
 			//std::fstream File(Path, std::fstream::out | std::fstream::trunc);
@@ -1037,7 +1036,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				HUD::_ENABLE_HUD_CONTEXT(joaat(HUDContextList[CurCtx]));
+				HUD::_ENABLE_HUD_CONTEXT(rage::joaat(HUDContextList[CurCtx]));
 			}
 			END_JOB()
 		}
@@ -1046,7 +1045,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				HUD::_DISABLE_HUD_CONTEXT(joaat(HUDContextList[CurCtx]));
+				HUD::_DISABLE_HUD_CONTEXT(rage::joaat(HUDContextList[CurCtx]));
 			}
 			END_JOB()
 		}
@@ -1054,7 +1053,7 @@ namespace Menu
 	
 	void RenderCPedDebug()
 	{
-		static CPed* CurrentPed{};
+		static rage::CPed* CurrentPed{};
 		static Entity CurrentPedIndex{};
 
 		bool Update = false;

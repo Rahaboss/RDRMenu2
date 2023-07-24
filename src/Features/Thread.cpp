@@ -7,7 +7,7 @@
 
 namespace Features
 {
-	void ExecuteAsThread(joaat_t ScriptHash, void(*Function)())
+	void ExecuteAsThread(rage::joaat_t ScriptHash, void(*Function)())
 	{
 		TRY
 		{
@@ -15,12 +15,12 @@ namespace Features
 
 			for (uint16_t i = 0; i < Pointers::ThreadCollection->m_pCount; i++)
 			{
-				GtaThread* Thread = Pointers::ThreadCollection->m_pData[i];
+				rage::GtaThread* Thread = Pointers::ThreadCollection->m_pData[i];
 				if (!Thread || !Thread->m_ThreadID || Thread->m_ScriptHash != ScriptHash)
 					continue;
 
 				// Backup and change thread
-				scrThread* OriginalThread = *Pointers::ActiveThread;
+				rage::scrThread* OriginalThread = *Pointers::ActiveThread;
 				*Pointers::ActiveThread = Thread;
 
 				// Execute

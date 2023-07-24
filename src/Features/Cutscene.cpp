@@ -2,7 +2,7 @@
 #include "Cutscene.h"
 #include "Features.h"
 #include "PlayerInfo.h"
-#include "Rage/natives.h"
+#include "Rage/Natives.h"
 #include "JobQueue.h"
 #include "CutsceneHelper.h"
 
@@ -36,7 +36,8 @@ namespace Features
 				Cutscene1.LoadCutscene();
 				Cutscene1.TeleportToOrigin();
 
-				Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(ENTITY::_GET_ENTITY_BY_DOORHASH(-1056329818, 0));
+				Object rdoor1 = ENTITY::GET_OBJECT_INDEX_FROM_ENTITY_INDEX(
+					ENTITY::_GET_ENTITY_BY_DOORHASH(-1056329818, 0));
 				if (ENTITY::DOES_ENTITY_EXIST(rdoor1))
 					ENTITY::SET_ENTITY_VISIBLE(rdoor1, false);
 
@@ -66,13 +67,13 @@ namespace Features
 		{
 			[]() {
 				constexpr Hash tags[]{
-					joaat("GUNBELTS"),
-					joaat("HATS"),
-					joaat("HOLSTERS_KNIFE"),
-					joaat("HOLSTERS_LEFT"),
-					joaat("HOLSTERS_RIGHT"),
-					joaat("SATCHELS"),
-					joaat("SATCHEL_STRAPS")
+					rage::joaat("GUNBELTS"),
+					rage::joaat("HATS"),
+					rage::joaat("HOLSTERS_KNIFE"),
+					rage::joaat("HOLSTERS_LEFT"),
+					rage::joaat("HOLSTERS_RIGHT"),
+					rage::joaat("SATCHELS"),
+					rage::joaat("SATCHEL_STRAPS")
 				};
 
 				CutsceneHelper Cutscene("cutscene@jbo6_ext");
@@ -85,7 +86,7 @@ namespace Features
 				}
 				else
 				{
-					Ped arthur = SpawnPed(RAGE_JOAAT("PLAYER_ZERO"));
+					Ped arthur = SpawnPed(rage::joaat("PLAYER_ZERO"));
 					PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
 					for (const auto& t : tags)
 						PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
@@ -141,7 +142,7 @@ namespace Features
 		{
 			[]() {
 				CutsceneHelper Cutscene("cutscene@mar6_rsc2");
-				const Ped unc = SpawnPed(RAGE_JOAAT("CS_UNCLE"));
+				const Ped unc = SpawnPed(rage::joaat("CS_UNCLE"));
 				WEAPON::REMOVE_ALL_PED_WEAPONS(unc, TRUE, TRUE);
 				PED::_EQUIP_META_PED_OUTFIT_PRESET(unc, 5, FALSE);
 				Cutscene.AddPedExisting(unc, "Uncle");

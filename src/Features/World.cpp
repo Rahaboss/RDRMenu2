@@ -35,6 +35,11 @@ namespace Features
 		}
 		END_JOB()
 	}
+
+	void SetSnowType(eSnowCoverageType Type)
+	{
+		SetSnowType(static_cast<int>(Type));
+	}
 	
 	void SetWeatherType(Hash Type)
 	{
@@ -43,5 +48,16 @@ namespace Features
 			MISC::SET_WEATHER_TYPE(Type, true, true, false, 0.0f, false);
 		}
 		END_JOB()
+	}
+	
+	void SetWeatherType(eWeatherType Type)
+	{
+		SetWeatherType(static_cast<Hash>(Type));
+	}
+	
+	void SetNoonAndSunny()
+	{
+		SetClockTime(12);
+		SetWeatherType(eWeatherType::SUNNY);
 	}
 }

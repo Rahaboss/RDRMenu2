@@ -8,7 +8,7 @@ NativeContext::NativeContext()
 	GetContext()->m_Args = m_ArgStack;
 }
 
-scrNativeCallContext* NativeContext::GetContext()
+rage::scrNativeCallContext* NativeContext::GetContext()
 {
 	return &m_Context;
 }
@@ -20,7 +20,7 @@ void NativeContext::Reset()
 	memset(m_ArgStack, 0, sizeof(m_ArgStack));
 }
 
-scrNativeHandler NativeContext::GetHandler(scrNativeHash hash)
+rage::scrNativeHandler NativeContext::GetHandler(rage::scrNativeHash hash)
 {
 	return Pointers::GetNativeHandler(hash);
 }
@@ -38,7 +38,7 @@ void NativeContext::FixVectors()
 	}
 }
 
-void NativeContext::PrintNativeStackInfo(scrNativeHash hash, scrNativeHandler Handler)
+void NativeContext::PrintNativeStackInfo(rage::scrNativeHash hash, rage::scrNativeHandler Handler)
 {
 	TRY
 	{
@@ -54,7 +54,7 @@ void NativeContext::PrintNativeStackInfo(scrNativeHash hash, scrNativeHandler Ha
 
 extern "C" void _call_asm(void* context, void* function, void* ret);
 
-void NativeContext::EndCall(scrNativeHash hash)
+void NativeContext::EndCall(rage::scrNativeHash hash)
 {
 	if (const auto Handler = GetHandler(hash))
 	{

@@ -32,7 +32,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Features::SpawnVehicle(RAGE_JOAAT("GATLING_GUN"));
+				Features::SpawnVehicle(rage::joaat("GATLING_GUN"));
 			}
 			END_JOB()
 		}
@@ -68,7 +68,7 @@ namespace Menu
 		ImGui::Text("Weapon List");
 		ImGui::BeginChild("weapon_list_menu", ImVec2(270, 0));
 
-		static Hash CurrentWeapon = RAGE_JOAAT("WEAPON_KIT_CAMERA_ADVANCED");
+		static Hash CurrentWeapon = rage::joaat("WEAPON_KIT_CAMERA_ADVANCED");
 		for (const auto& w : g_WeaponList)
 		{
 			if (ImGui::Selectable(w.first.c_str(), CurrentWeapon == w.second))

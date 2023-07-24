@@ -163,10 +163,7 @@ namespace Menu
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Noon And Sunny"))
-			{
-				Features::SetClockTime(12);
-				Features::SetWeatherType(SUNNY);
-			}
+				Features::SetNoonAndSunny();
 			ImGui::Separator();
 
 #if 0

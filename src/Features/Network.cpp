@@ -13,7 +13,7 @@ namespace Features
 		return false;
 	}
 	
-	CNetGamePlayer* GetNetPlayer(Player player)
+	rage::CNetGamePlayer* GetNetPlayer(Player player)
 	{
 		if (Pointers::GetNetworkPlayer)
 			return Pointers::GetNetworkPlayer(player);
@@ -21,7 +21,7 @@ namespace Features
 		return nullptr;
 	}
 	
-	CPlayerInfo* GetNetPlayerInfo(Player player)
+	rage::CPlayerInfo* GetNetPlayerInfo(Player player)
 	{
 		if (auto NetPlayer = GetNetPlayer(player))
 			return NetPlayer->m_PlayerInfo;
@@ -29,7 +29,7 @@ namespace Features
 		return nullptr;
 	}
 	
-	CPed* GetNetPlayerPed(Player player)
+	rage::CPed* GetNetPlayerPed(Player player)
 	{
 		if (auto NetPlayerInfo = GetNetPlayerInfo(player))
 			return NetPlayerInfo->m_Ped;
@@ -37,7 +37,7 @@ namespace Features
 		return nullptr;
 	}
 	
-	CNetworkPlayerMgr* GetNetworkPlayerMgr()
+	rage::CNetworkPlayerMgr* GetNetworkPlayerMgr()
 	{
 		if (auto NetPlayerMgr = Pointers::NetworkPlayerMgr)
 			return *NetPlayerMgr;

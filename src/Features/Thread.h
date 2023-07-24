@@ -5,7 +5,7 @@
 
 namespace Features
 {
-	void ExecuteAsThread(joaat_t ScriptHash, void (*Function)());
+	void ExecuteAsThread(rage::joaat_t ScriptHash, void (*Function)());
 	void RunJobQueue();
 	void YieldThread(uint32_t DurationMS = 0);
 	void RunScriptCleanupAndExit();

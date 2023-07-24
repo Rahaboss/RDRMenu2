@@ -7,7 +7,7 @@
 class NativeContext
 {
 private:
-	scrNativeCallContext m_Context;
+	rage::scrNativeCallContext m_Context;
 	uint64_t m_ArgStack[81];
 	uint64_t m_ReturnStack[32];
 
@@ -15,7 +15,7 @@ public:
 	NativeContext();
 
 //private:
-	scrNativeCallContext* GetContext();
+	rage::scrNativeCallContext* GetContext();
 
 public:
 	void Reset();
@@ -27,15 +27,15 @@ public:
 		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
 	}
 
-	static scrNativeHandler GetHandler(scrNativeHash hash);
+	static rage::scrNativeHandler GetHandler(rage::scrNativeHash hash);
 
 private:
 	void FixVectors();
 
 public:
-	void PrintNativeStackInfo(scrNativeHash hash, scrNativeHandler Handler);
+	void PrintNativeStackInfo(rage::scrNativeHash hash, rage::scrNativeHandler Handler);
 
-	void EndCall(scrNativeHash hash);
+	void EndCall(rage::scrNativeHash hash);
 
 	template <typename T>
 	T GetReturnValue()
@@ -45,7 +45,7 @@ public:
 };
 
 template <typename Ret, typename... Args>
-inline Ret invoke(scrNativeHash hash, Args&&... args)
+inline Ret invoke(rage::scrNativeHash hash, Args&&... args)
 {
 	NativeContext Context;
 	Context.Reset();

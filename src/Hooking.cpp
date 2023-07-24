@@ -96,17 +96,15 @@ namespace Hooking
 		s_Enabled = false;
 	}
 
-	bool RunScriptThreadsHook(pgPtrCollection* this_, uint32_t ops)
+	static constexpr rage::joaat_t s_MainHash = rage::joaat("main");
+	bool RunScriptThreadsHook(rage::pgPtrCollection* this_, uint32_t ops)
 	{
 		TRY
 		{
 			bool Result = RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 			
 			if (g_Running)
-			{
-				constexpr joaat_t MainHash = RAGE_JOAAT("main");
-				Features::ExecuteAsThread(MainHash, ScriptThreadTick);
-			}
+				Features::ExecuteAsThread(s_MainHash, ScriptThreadTick);
 			
 			return Result;
 		}
@@ -120,12 +118,9 @@ namespace Hooking
 		TRY
 		{
 			bool Result = RunScriptThreads2.GetOriginal<decltype(&RunScriptThreadsHook2)>()(ops);
-
+			
 			if (g_Running)
-			{
-				constexpr joaat_t MainHash = RAGE_JOAAT("main");
-				Features::ExecuteAsThread(MainHash, ScriptThreadTick);
-			}
+				Features::ExecuteAsThread(s_MainHash, ScriptThreadTick);
 
 			return Result;
 		}
@@ -134,7 +129,7 @@ namespace Hooking
 		return false;
 	}
 
-	void ShootBulletHook(scrNativeCallContext* ctx)
+	void ShootBulletHook(rage::scrNativeCallContext* ctx)
 	{
 		if (ctx && g_Settings["no_snipers"].get<bool>() &&
 			ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
@@ -143,7 +138,7 @@ namespace Hooking
 		ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
 	}
 
-	BOOL IsEntityInAreaHook(scrNativeCallContext* ctx)
+	BOOL IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
 	{
 		TRY
 		{
@@ -182,7 +177,7 @@ namespace Hooking
 	}
 #endif
 
-	void DecreaseAmmoHook(uint64_t a1, CPed* a2, uint64_t a3, uint32_t a4)
+	void DecreaseAmmoHook(uint64_t a1, rage::CPed* a2, uint64_t a3, uint32_t a4)
 	{
 		TRY
 		{
@@ -194,7 +189,7 @@ namespace Hooking
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
-	Ped CreatePedHook(scrNativeCallContext* ctx)
+	Ped CreatePedHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
 			return CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
@@ -206,7 +201,7 @@ namespace Hooking
 		return result;
 	}
 	
-	Vehicle CreateVehicleHook(scrNativeCallContext* ctx)
+	Vehicle CreateVehicleHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
 			return CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
@@ -218,7 +213,7 @@ namespace Hooking
 		return result;
 	}
 	
-	BOOL InventoryAddItemHook(scrNativeCallContext* ctx)
+	BOOL InventoryAddItemHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["added_inventory_item"].get<bool>())
 			return InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
@@ -240,11 +235,11 @@ namespace Hooking
 
 			switch (inventoryId)
 			{
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
-			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
+			case rage::joaat("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
 					inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
 				LOG_TO_MENU("\tReturned %d\n\n", ret);
@@ -262,7 +257,7 @@ namespace Hooking
 		return result;
 	}
 	
-	BOOL GetGUIDFromItemIDHook(scrNativeCallContext* ctx)
+	BOOL GetGUIDFromItemIDHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["added_inventory_item"].get<bool>())
 			return GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
@@ -282,11 +277,11 @@ namespace Hooking
 
 			switch (inventoryId)
 			{
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
-			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
-			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
+			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
+			case rage::joaat("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
 				LOG_TO_MENU("\tReturned %d\n\n", ret);
 				LOG_TO_MENU("\tguid:\n");
@@ -340,7 +335,7 @@ namespace Hooking
 		return Result;
 	}
 
-	PersChar CreatePersCharHook(scrNativeCallContext* ctx)
+	PersChar CreatePersCharHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
 			return CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
@@ -362,7 +357,7 @@ namespace Hooking
 		return result;
 	}
 
-	AnimScene CreateAnimSceneHook(scrNativeCallContext* ctx)
+	AnimScene CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["created_cutscene"].get<bool>())
 			return CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
@@ -389,7 +384,7 @@ namespace Hooking
 		return result;
 	}
 
-	BOOL DecorSetBoolHook(scrNativeCallContext* ctx)
+	BOOL DecorSetBoolHook(rage::scrNativeCallContext* ctx)
 	{
 		BOOL result = 0;
 
@@ -418,7 +413,7 @@ namespace Hooking
 		return result;
 	}
 
-	BOOL DecorSetIntHook(scrNativeCallContext* ctx)
+	BOOL DecorSetIntHook(rage::scrNativeCallContext* ctx)
 	{
 		BOOL result = 0;
 
@@ -447,7 +442,7 @@ namespace Hooking
 		return result;
 	}
 
-	void SetAnimSceneEntityHook(scrNativeCallContext* ctx)
+	void SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 	{
 		if (g_Settings["logging"]["added_cutscene_entity"].get<bool>())
 		{
@@ -460,7 +455,7 @@ namespace Hooking
 			std::string modelStr = Features::GetModelName(model);
 			if (modelStr.empty())
 			{
-				if (joaat(entityName) == model)
+				if (rage::joaat(entityName) == model)
 					modelStr = entityName;
 				else
 					modelStr = std::to_string(model);
@@ -472,18 +467,18 @@ namespace Hooking
 		SetAnimSceneEntity.GetOriginal<decltype(&SetAnimSceneEntityHook)>()(ctx);
 	}
 	
-	BOOL IsDlcPresentHook(scrNativeCallContext* ctx)
+	BOOL IsDlcPresentHook(rage::scrNativeCallContext* ctx)
 	{
 		Hash dlcHash = ctx->GetArg<Hash>(0);
 		BOOL result = IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
 		BOOL ret = ctx->GetRet<BOOL>();
 
 		constexpr Hash DLCList[]{
-			joaat("DLC_PREORDERCONTENT"),
-			joaat("DLC_PHYSPREORDERCONTENT"),
-			joaat("DLC_SPECIALEDITION"),
-			joaat("DLC_ULTIMATEEDITION"),
-			joaat("DLC_TREASUREMAP"),
+			rage::joaat("DLC_PREORDERCONTENT"),
+			rage::joaat("DLC_PHYSPREORDERCONTENT"),
+			rage::joaat("DLC_SPECIALEDITION"),
+			rage::joaat("DLC_ULTIMATEEDITION"),
+			rage::joaat("DLC_TREASUREMAP"),
 		};
 
 		for (int i = 0; i < ARRAYSIZE(DLCList); i++)
@@ -501,7 +496,7 @@ namespace Hooking
 		return result;
 	}
 	
-	Object CreateObjectHook(scrNativeCallContext* ctx)
+	Object CreateObjectHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
 			return CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
@@ -522,7 +517,7 @@ namespace Hooking
 		return result;
 	}
 	
-	Object CreateObjectNoOffsetHook(scrNativeCallContext* ctx)
+	Object CreateObjectNoOffsetHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
 			return CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
@@ -542,7 +537,7 @@ namespace Hooking
 		return result;
 	}
 	
-	const char* GetLabelText2Hook(scrNativeCallContext* ctx)
+	const char* GetLabelText2Hook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
 			return GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
@@ -557,7 +552,7 @@ namespace Hooking
 		return result;
 	}
 	
-	const char* GetCharFromAudioConvFilenameHook(scrNativeCallContext* ctx)
+	const char* GetCharFromAudioConvFilenameHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
 			return GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);

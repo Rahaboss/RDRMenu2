@@ -35,10 +35,7 @@ namespace Menu
 		if (ImGui::Button("Reveal Map"))
 			Features::RevealMap();
 		if (ImGui::Button("Noon And Sunny"))
-		{
-			Features::SetClockTime(12);
-			Features::SetWeatherType(SUNNY);
-		}
+			Features::SetNoonAndSunny();
 
 		ImGui::EndGroup();
 		ImGui::Separator();
@@ -88,7 +85,7 @@ namespace Menu
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		ImGui::Text("Set Snow Type");
+		ImGui::Text("Set Snow Coverage Type");
 		ImGui::BeginChild("snow_list_menu", ImVec2(200, 0));
 		for (const auto& s : g_SnowTypeList)
 		{

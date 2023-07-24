@@ -21,7 +21,7 @@ namespace Lists
 
 		for (const auto& c : j)
 		{
-			Hash hash = joaat(c.get<std::string>());
+			Hash hash = rage::joaat(c.get<std::string>());
 			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
 
 			if (!Features::IsStringValid(name))
@@ -64,7 +64,7 @@ namespace Lists
 
 		for (const auto& d : j)
 		{
-			Hash hash = joaat(d.get<std::string>());
+			Hash hash = rage::joaat(d.get<std::string>());
 			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
 
 			if (!Features::IsStringValid(name))
@@ -94,7 +94,7 @@ namespace Lists
 		for (const auto& p : j)
 		{
 			auto name = p.get<std::string>();
-			Hash model = joaat(name);
+			Hash model = rage::joaat(name);
 
 			if (!Features::IsModelValid(model) && STREAMING::IS_MODEL_A_PED(model))
 			{
@@ -123,7 +123,7 @@ namespace Lists
 		
 		for (const auto& p : j)
 		{
-			Hash hash = joaat(p.get<std::string>());
+			Hash hash = rage::joaat(p.get<std::string>());
 			std::string name = std::string(HUD::GET_STRING_FROM_HASH_KEY(hash));
 
 			if (!Features::IsStringValid(name))
@@ -152,7 +152,7 @@ namespace Lists
 
 		for (const auto& w : j)
 		{
-			Hash model = joaat(w.get<std::string>());
+			Hash model = rage::joaat(w.get<std::string>());
 			auto name = HUD::GET_STRING_FROM_HASH_KEY(model);
 
 			if (!Features::IsStringValid(name))
@@ -182,7 +182,7 @@ namespace Lists
 		for (const auto& v : j)
 		{
 			auto name = v.get<std::string>();
-			Hash model = joaat(name);
+			Hash model = rage::joaat(name);
 
 			if (!Features::IsModelValid(model) && STREAMING::IS_MODEL_A_VEHICLE(model))
 			{
@@ -212,7 +212,7 @@ namespace Lists
 		for (const auto& o : j)
 		{
 			auto name = o.get<std::string>();
-			Hash model = joaat(name);
+			Hash model = rage::joaat(name);
 
 			if (!Features::IsModelValid(model) && STREAMING::_IS_MODEL_AN_OBJECT(model))
 			{

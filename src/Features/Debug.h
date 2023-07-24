@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Rage/natives.h"
+#include "Rage/Natives.h"
 #include "Rage/fwBasePool.h"
 
 namespace Features

@@ -9,9 +9,9 @@
 namespace Features
 {
 	bool IsSessionStarted();
-	CNetGamePlayer* GetNetPlayer(Player player);
-	CPlayerInfo* GetNetPlayerInfo(Player player);
-	CPed* GetNetPlayerPed(Player player);
-	CNetworkPlayerMgr* GetNetworkPlayerMgr();
+	rage::CNetGamePlayer* GetNetPlayer(Player player);
+	rage::CPlayerInfo* GetNetPlayerInfo(Player player);
+	rage::CPed* GetNetPlayerPed(Player player);
+	rage::CNetworkPlayerMgr* GetNetworkPlayerMgr();
 	std::vector<Player> GetNetPlayerList();
 }

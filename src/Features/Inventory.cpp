@@ -28,11 +28,11 @@ namespace Features
 		{
 			switch (GetInventoryItemType(ItemHash))
 			{
-			case RAGE_JOAAT("CLOTHING"):
-			case RAGE_JOAAT("WEAPON"):
-			case RAGE_JOAAT("HORSE"):
-			case RAGE_JOAAT("EMOTE"):
-			case RAGE_JOAAT("UPGRADE"):
+			case rage::joaat("CLOTHING"):
+			case rage::joaat("WEAPON"):
+			case rage::joaat("HORSE"):
+			case rage::joaat("EMOTE"):
+			case rage::joaat("UPGRADE"):
 			default:
 				if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1084182731))
 					ItemSlot = 1084182731;
@@ -41,7 +41,7 @@ namespace Features
 				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, -833319691))
 					ItemSlot = -833319691;
 				else
-					ItemSlot = INVENTORY::_GET_DEFAULT_ITEM_SLOT_INFO(ItemHash, RAGE_JOAAT("CHARACTER"));
+					ItemSlot = INVENTORY::_GET_DEFAULT_ITEM_SLOT_INFO(ItemHash, rage::joaat("CHARACTER"));
 				break;
 			}
 		}
@@ -52,7 +52,7 @@ namespace Features
 
 	void GiveAgedPirateRum()
 	{
-		GiveSingleInventoryItem(RAGE_JOAAT("CONSUMABLE_AGED_PIRATE_RUM"), 1084182731, 1, ADD_REASON_DEFAULT);
+		GiveSingleInventoryItem(rage::joaat("CONSUMABLE_AGED_PIRATE_RUM"), 1084182731, 1, ADD_REASON_DEFAULT);
 	}
 
 	void GiveAllConsumables()
@@ -83,66 +83,66 @@ namespace Features
 			AddMoney(500); // $5
 
 			// Jack
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_JACKS_THIMBLE")); // Thimble
+			GiveInventoryItem(rage::joaat("PROVISION_JACKS_THIMBLE")); // Thimble
 
-			GiveInventoryItem(RAGE_JOAAT("DOCUMENT_BOOK_BOY_NEW_YORK")); // Otis Miller and The Boy from New York
+			GiveInventoryItem(rage::joaat("DOCUMENT_BOOK_BOY_NEW_YORK")); // Otis Miller and The Boy from New York
 
 			// Javier
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_OLEANDER_SAGE")); // Oleander Sage
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HERB_OLEANDER_SAGE")); // Oleander Sage
 
 			// Mary-Beth
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_MARYS_FOUNTAIN_PEN")); // Fountain Pen
+			GiveInventoryItem(rage::joaat("PROVISION_MARYS_FOUNTAIN_PEN")); // Fountain Pen
 
 			// Pearson
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_PEARSONS_NAVAL_COMPASS"));
+			GiveInventoryItem(rage::joaat("PROVISION_PEARSONS_NAVAL_COMPASS"));
 			
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_ANIMAL_CARCASS_RABBIT_HIGH_QUALITY"));
+			GiveInventoryItem(rage::joaat("PROVISION_ANIMAL_CARCASS_RABBIT_HIGH_QUALITY"));
 
 			// Sean
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_WHISKEY"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_WHISKEY"));
 
 			// Bill
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HAIR_GREASE"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HAIR_GREASE"));
 			
 			// Charles
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_MOONSHINE"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_MOONSHINE"));
 			
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_OLEANDER_SAGE"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HERB_OLEANDER_SAGE"));
 			
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_EAGLE_FEATHER"));
+			GiveInventoryItem(rage::joaat("PROVISION_EAGLE_FEATHER"));
 
 			// Dutch
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_COMP_DUTCH_PIPE"));
+			GiveInventoryItem(rage::joaat("PROVISION_COMP_DUTCH_PIPE"));
 
 			// Hosea
-			GiveInventoryItem(RAGE_JOAAT("DOCUMENT_BOOK_SHREW"));
+			GiveInventoryItem(rage::joaat("DOCUMENT_BOOK_SHREW"));
 			
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_AMERICAN_GINSENG, 2"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HERB_AMERICAN_GINSENG, 2"));
 
 			// Lenny
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_POCKET_WATCH_SILVER"));
+			GiveInventoryItem(rage::joaat("PROVISION_POCKET_WATCH_SILVER"));
 
 			// Grimshaw
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_OREGANO, 2"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HERB_OREGANO, 2"));
 
 			// Tilly
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_NECKLACE_GOLD"));
+			GiveInventoryItem(rage::joaat("PROVISION_NECKLACE_GOLD"));
 
 			// Kieran
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_BURDOCK_ROOT, 2"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HERB_BURDOCK_ROOT, 2"));
 
 			// Molly
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_MOLLYS_POCKET_MIRROR"));
+			GiveInventoryItem(rage::joaat("PROVISION_MOLLYS_POCKET_MIRROR"));
 
 			// Sadie
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_SADIES_HARMONICA"));
+			GiveInventoryItem(rage::joaat("PROVISION_SADIES_HARMONICA"));
 
 			// Uncle
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HERB_MILKWEED"));
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_WHISKEY"));
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_PEPPERMINT"));
-			GiveInventoryItem(RAGE_JOAAT("CONSUMABLE_HAIR_GREASE"));
-			GiveInventoryItem(RAGE_JOAAT("PROVISION_STRINGY_MEAT"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HERB_MILKWEED"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_WHISKEY"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_PEPPERMINT"));
+			GiveInventoryItem(rage::joaat("CONSUMABLE_HAIR_GREASE"));
+			GiveInventoryItem(rage::joaat("PROVISION_STRINGY_MEAT"));
 		}
 		END_JOB()
 	}
@@ -176,7 +176,7 @@ namespace Features
 		//INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(1, guid1, guid2, 2772348781, 2884296223, 1, ADD_REASON_DEFAULT);
 		//INVENTORY::_INVENTORY_ARE_LOCAL_CHANGES_ALLOWED(1);
 
-		constexpr Hash ItemHash = 2134589549;// RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
+		constexpr Hash ItemHash = 2134589549;// rage::joaat("CLOTHING_SP_CIVIL_WAR_HAT_000_1");
 		const Hash ItemSlot = 2884296223;
 		//const int ItemSlot2 = 2884296223; //-1410671073
 		if (!INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, ItemSlot))
@@ -226,7 +226,7 @@ namespace Features
 	{
 		TRY
 		{
-			GiveSingleInventoryItem(RAGE_JOAAT("CONSUMABLE_GINSENG_ELIXIER"), 1084182731, 1, ADD_REASON_DEFAULT);
+			GiveSingleInventoryItem(rage::joaat("CONSUMABLE_GINSENG_ELIXIER"), 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -245,7 +245,7 @@ namespace Features
 		Any dummy[5 * 2]; memset(dummy, 0, sizeof(dummy));
 
 		bool fail1 = false;
-		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, RAGE_JOAAT("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
+		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, rage::joaat("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
 		{
 			//return;
 		}
@@ -268,7 +268,7 @@ namespace Features
 	{
 		TRY
 		{
-			GiveSingleInventoryItem(RAGE_JOAAT("CONSUMABLE_VALERIAN_ROOT"), 1084182731, 1, ADD_REASON_DEFAULT);
+			GiveSingleInventoryItem(rage::joaat("CONSUMABLE_VALERIAN_ROOT"), 1084182731, 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

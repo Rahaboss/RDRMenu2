@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Debug.h"
 #include "Features.h"
-#include "Rage/natives.h"
+#include "Rage/Natives.h"
 #include "PlayerInfo.h"
 
 namespace Features
@@ -67,7 +67,7 @@ namespace Features
 	Hash GetHashFromJson(const nlohmann::json& JsonObject)
 	{
 		if (JsonObject.is_string())
-			return joaat(JsonObject.get_ref<const std::string&>());
+			return rage::joaat(JsonObject.get_ref<const std::string&>());
 		
 		return JsonObject.get<Hash>();
 	}
@@ -75,7 +75,7 @@ namespace Features
 	std::vector<Ped> GetAllPeds(bool CheckEntityValidity)
 	{
 		std::vector<Ped> result{};
-		const auto pool = fwBasePool::GetPedPool();
+		const auto pool = rage::fwBasePool::GetPedPool();
 
 		if (!pool)
 			return result;
@@ -104,7 +104,7 @@ namespace Features
 	std::vector<Object> GetAllObjects(bool CheckEntityValidity)
 	{
 		std::vector<Object> result{};
-		const auto pool = fwBasePool::GetObjectPool();
+		const auto pool = rage::fwBasePool::GetObjectPool();
 
 		if (!pool)
 			return result;
@@ -133,7 +133,7 @@ namespace Features
 	std::vector<Vehicle> GetAllVehicles(bool CheckEntityValidity)
 	{
 		std::vector<Vehicle> result{};
-		const auto pool = fwBasePool::GetVehiclePool();
+		const auto pool = rage::fwBasePool::GetVehiclePool();
 
 		if (!pool)
 			return result;
@@ -162,7 +162,7 @@ namespace Features
 	std::vector<Pickup> GetAllPickups(bool CheckEntityValidity)
 	{
 		std::vector<Pickup> result{};
-		const auto pool = fwBasePool::GetPickupPool();
+		const auto pool = rage::fwBasePool::GetPickupPool();
 
 		if (!pool)
 			return result;

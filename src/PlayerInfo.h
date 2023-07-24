@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Rage/natives.h"
+#include "Rage/Natives.h"
 #include "Rage/CPed.h"
 
 struct PlayerInfo
@@ -14,5 +14,5 @@ struct PlayerInfo
 	Vector3 m_Pos; // ENTITY::GET_ENTITY_COORDS
 	float m_Heading; // ENTITY::GET_ENTITY_HEADING
 	Hash m_Model; // ENTITY::GET_ENTITY_MODEL
-	CPed* m_Ped; // CPedFactory::GetLocalPed / Pointers::GetPlayerPed
+	rage::CPed* m_Ped; // CPedFactory::GetLocalPed / Pointers::GetPlayerPed
 } inline g_LocalPlayer;

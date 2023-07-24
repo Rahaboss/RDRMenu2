@@ -106,14 +106,14 @@ void CutsceneHelper::AddLocalPlayer()
 		ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
 
 		Ped Handle;
-		if (g_LocalPlayer.m_Model == joaat(PlayerModel))
+		if (g_LocalPlayer.m_Model == rage::joaat(PlayerModel))
 		{
 			Handle = g_LocalPlayer.m_Entity;
 			ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, g_LocalPlayer.m_Entity, 0);
 		}
 		else
 		{
-			Handle = Features::SpawnPed(joaat(PlayerModel));
+			Handle = Features::SpawnPed(rage::joaat(PlayerModel));
 			AddPedExisting(Handle, entityName);
 			// Apply default outfit
 			if (!m_JsonObject.contains("player_outfit_preset"))

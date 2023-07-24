@@ -2,49 +2,50 @@
 
 #include "pch.h"
 
-typedef uint32_t joaat_t;
-
-constexpr char joaat_to_lower(char c)
+namespace rage
 {
-	return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;
-}
+	typedef uint32_t joaat_t;
 
-constexpr joaat_t joaat(const char* str)
-{
-	joaat_t hash = 0;
-
-	while (*str)
+	constexpr char joaat_to_lower(char c)
 	{
-		hash += joaat_to_lower(*(str++));
-		hash += (hash << 10);
-		hash ^= (hash >> 6);
+		return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;
 	}
 
-	hash += (hash << 3);
-	hash ^= (hash >> 11);
-	hash += (hash << 15);
-
-	return hash;
-}
-
-inline joaat_t joaat(const std::string& str)
-{
-	joaat_t hash = 0;
-
-	for (const char& c : str)
+	constexpr joaat_t joaat(const char* str)
 	{
-		hash += joaat_to_lower(c);
-		hash += (hash << 10);
-		hash ^= (hash >> 6);
+		joaat_t hash = 0;
+
+		while (*str)
+		{
+			hash += joaat_to_lower(*(str++));
+			hash += (hash << 10);
+			hash ^= (hash >> 6);
+		}
+
+		hash += (hash << 3);
+		hash ^= (hash >> 11);
+		hash += (hash << 15);
+
+		return hash;
 	}
 
-	hash += (hash << 3);
-	hash ^= (hash >> 11);
-	hash += (hash << 15);
+	inline joaat_t joaat(const std::string& str)
+	{
+		joaat_t hash = 0;
 
-	return hash;
+		for (const char& c : str)
+		{
+			hash += joaat_to_lower(c);
+			hash += (hash << 10);
+			hash ^= (hash >> 6);
+		}
+
+		hash += (hash << 3);
+		hash ^= (hash >> 11);
+		hash += (hash << 15);
+
+		return hash;
+	}
+
+	static_assert(joaat("main") == 669725655);
 }
-
-#define RAGE_JOAAT joaat
-
-static_assert(joaat("main") == 669725655);

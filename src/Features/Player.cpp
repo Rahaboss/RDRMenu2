@@ -63,7 +63,7 @@ namespace Features
 			g_LocalPlayer.m_Pos = ENTITY::GET_ENTITY_COORDS(g_LocalPlayer.m_Entity, true, true);
 			g_LocalPlayer.m_Heading = ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity);
 			g_LocalPlayer.m_Model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
-			g_LocalPlayer.m_Ped = CPedFactory::GetLocalPed();
+			g_LocalPlayer.m_Ped = rage::CPedFactory::GetLocalPed();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -145,10 +145,10 @@ namespace Features
 			switch (*Global_1946054_f_1)
 			{
 			case -2125499975:
-				SetPlayerModel(RAGE_JOAAT("PLAYER_ZERO"));
+				SetPlayerModel(rage::joaat("PLAYER_ZERO"));
 				break;
 			case 1160113249:
-				SetPlayerModel(RAGE_JOAAT("PLAYER_THREE"));
+				SetPlayerModel(rage::joaat("PLAYER_THREE"));
 				break;
 			default:
 				LOG_TO_CONSOLE("%s: Unknown default player model: %d!\n", __FUNCTION__, *Global_1946054_f_1);
@@ -383,11 +383,11 @@ namespace Features
 
 	bool IsArthurModel()
 	{
-		return g_LocalPlayer.m_Model == RAGE_JOAAT("PLAYER_ZERO");
+		return g_LocalPlayer.m_Model == rage::joaat("PLAYER_ZERO");
 	}
 
 	bool IsJohnModel()
 	{
-		return g_LocalPlayer.m_Model == RAGE_JOAAT("PLAYER_THREE");
+		return g_LocalPlayer.m_Model == rage::joaat("PLAYER_THREE");
 	}
 }
