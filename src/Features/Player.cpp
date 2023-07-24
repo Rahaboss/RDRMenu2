@@ -144,10 +144,10 @@ namespace Features
 			// medium_update.c: func_392
 			switch (*Global_1946054_f_1)
 			{
-			case -2125499975:
+			case rage::joaat("mpc_player_type_sp_arthur"): // 2169467321
 				SetPlayerModel(rage::joaat("PLAYER_ZERO"));
 				break;
-			case 1160113249:
+			case rage::joaat("mpc_player_type_sp_marston"): // 1160113249
 				SetPlayerModel(rage::joaat("PLAYER_THREE"));
 				break;
 			default:

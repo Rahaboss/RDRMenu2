@@ -13,7 +13,7 @@ cd RDRMenu2
 generate_vs2019.bat
 ```
 
-## Debugging
+## Debugging (Currently unavailable)
 In Visual Studio, right click on the project in the Solution Explorer. Click on Properties > Debugging. Set "Command" to the .exe path. Set "Attach" to Yes. Set your breakpoints, start the debugger and inject.
 
 ## Features

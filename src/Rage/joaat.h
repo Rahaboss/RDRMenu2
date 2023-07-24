@@ -46,6 +46,6 @@ namespace rage
 
 		return hash;
 	}
-
-	static_assert(joaat("main") == 669725655);
 }
+
+static_assert(rage::joaat("main") == 669725655);
