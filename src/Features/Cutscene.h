@@ -15,6 +15,6 @@ namespace Features
 	void PlayBareKnuckleFriendshipsCutscene();
 	void PlayANewFutureImaginedCutscene();
 	void PlayEndingStrawberryCutscene();
-	void PlayCutsceneFromJson(const nlohmann::json& JsonObject);
+	void PlayCutsceneFromJson(const json& JsonObject);
 	void PlayCutsceneFromID(const char* animDict);
 }

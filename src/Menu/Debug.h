@@ -32,7 +32,7 @@ namespace Menu
 	struct _PedDebug
 	{
 		Entity ent = 0;
-		Hash model = rage::joaat("A_C_FISHCHANNELCATFISH_01_XL");
+		Hash model = RAGE_JOAAT("A_C_FISHCHANNELCATFISH_01_XL");
 		Vector3 pos{};
 		float head{};
 		int health{}, max_health{};

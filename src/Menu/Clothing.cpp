@@ -40,8 +40,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("GUNBELTS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("GUNBELTS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -50,8 +49,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("HOLSTERS_KNIFE");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("HOLSTERS_KNIFE"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -60,8 +58,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("HOLSTERS_RIGHT");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("HOLSTERS_RIGHT"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -70,8 +67,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("SATCHEL_STRAPS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("SATCHEL_STRAPS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -84,8 +80,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("HATS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("HATS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -94,8 +89,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("HOLSTERS_LEFT");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("HOLSTERS_LEFT"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -104,8 +98,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("SATCHELS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("SATCHELS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -126,8 +119,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("ACCESSORIES");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("ACCESSORIES"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -136,8 +128,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("BELTS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("BELTS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -146,8 +137,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("EYEWEAR");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("EYEWEAR"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -156,8 +146,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("GLOVES");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("GLOVES"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -169,8 +158,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("HAIR");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("HAIR"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -179,8 +167,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("HOLSTERS_CROSSDRAW");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("HOLSTERS_CROSSDRAW"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -189,8 +176,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("LOADOUTS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("LOADOUTS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -199,8 +185,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("MASKS_LARGE");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("MASKS_LARGE"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -213,8 +198,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("NECKWEAR");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("NECKWEAR"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -223,8 +207,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash Tag = rage::joaat("WEARABLE_MASKS");
-				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, Tag, 1);
+				PED::REMOVE_TAG_FROM_META_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("WEARABLE_MASKS"), 1);
 				PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, true);
 			}
 			END_JOB()
@@ -275,7 +258,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash model = 813051418;
+				constexpr Hash model = RAGE_JOAAT("COLLISION_HAT");
 				Features::RequestModel(model);
 				Object stick = OBJECT::CREATE_OBJECT_NO_OFFSET(model, 196.386f, 988.0386f, 189.1274f, true, true, false, true);
 			}
@@ -351,45 +334,45 @@ namespace Menu
 
 		ImGui::BeginChild("player_model_preset_child", ImVec2(0, 200));
 		if (ImGui::Selectable("Arthur"))
-			Features::SetPlayerModel(rage::joaat("PLAYER_ZERO"));
+			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_ZERO"));
 		if (ImGui::Selectable("John"))
-			Features::SetPlayerModel(rage::joaat("PLAYER_THREE"));
+			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_THREE"));
 		if (ImGui::Selectable("Dutch"))
-			Features::SetPlayerModel(rage::joaat("CS_DUTCH"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_DUTCH"));
 		if (ImGui::Selectable("Robot"))
-			Features::SetPlayerModel(rage::joaat("CS_CRACKPOTROBOT"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_CRACKPOTROBOT"));
 		if (ImGui::Selectable("Naked Woman"))
-			Features::SetPlayerModel(rage::joaat("U_F_M_RHDNUDEWOMAN_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
 		if (ImGui::Selectable("Naked Man"))
-			Features::SetPlayerModel(rage::joaat("RE_NAKEDSWIMMER_MALES_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("RE_NAKEDSWIMMER_MALES_01"));
 		if (ImGui::Selectable("Clan Member (1)"))
-			Features::SetPlayerModel(rage::joaat("RE_RALLY_MALES_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLY_MALES_01"));
 		if (ImGui::Selectable("Clan Member (2)"))
-			Features::SetPlayerModel(rage::joaat("RE_RALLYDISPUTE_MALES_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLYDISPUTE_MALES_01"));
 		if (ImGui::Selectable("Clan Member (3)"))
-			Features::SetPlayerModel(rage::joaat("RE_RALLYSETUP_MALES_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLYSETUP_MALES_01"));
 		if (ImGui::Selectable("2 Headed Skeleton (1)"))
-			Features::SetPlayerModel(rage::joaat("U_M_M_CIRCUSWAGON_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("U_M_M_CIRCUSWAGON_01"));
 		if (ImGui::Selectable("2 Headed Skeleton (2)"))
-			Features::SetPlayerModel(rage::joaat("U_F_M_CIRCUSWAGON_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_CIRCUSWAGON_01"));
 		if (ImGui::Selectable("Magnifico"))
-			Features::SetPlayerModel(rage::joaat("CS_MAGNIFICO"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_MAGNIFICO"));
 		if (ImGui::Selectable("Bertram"))
-			Features::SetPlayerModel(rage::joaat("CS_ODDFELLOWSPINHEAD"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_ODDFELLOWSPINHEAD"));
 		if (ImGui::Selectable("Strange Man"))
-			Features::SetPlayerModel(rage::joaat("CS_MYSTERIOUSSTRANGER"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_MYSTERIOUSSTRANGER"));
 		if (ImGui::Selectable("Vampire"))
-			Features::SetPlayerModel(rage::joaat("CS_VAMPIRE"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_VAMPIRE"));
 		if (ImGui::Selectable("Swamp Freak"))
-			Features::SetPlayerModel(rage::joaat("CS_SWAMPFREAK"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_SWAMPFREAK"));
 		if (ImGui::Selectable("Jack"))
-			Features::SetPlayerModel(rage::joaat("CS_JACKMARSTON"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_JACKMARSTON"));
 		if (ImGui::Selectable("Jack (Teen)"))
-			Features::SetPlayerModel(rage::joaat("CS_JACKMARSTON_TEEN"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_JACKMARSTON_TEEN"));
 		if (ImGui::Selectable("Gavin"))
-			Features::SetPlayerModel(rage::joaat("CS_GAVIN"));
+			Features::SetPlayerModel(RAGE_JOAAT("CS_GAVIN"));
 		if (ImGui::Selectable("Murder Mystery Body"))
-			Features::SetPlayerModel(rage::joaat("RE_MURDERCAMP_MALES_01"));
+			Features::SetPlayerModel(RAGE_JOAAT("RE_MURDERCAMP_MALES_01"));
 		ImGui::EndChild();
 	}
 }

@@ -48,4 +48,38 @@ namespace rage
 	}
 }
 
-static_assert(rage::joaat("main") == 669725655);
+// Dont ask...
+template <size_t CharCount>
+class ConstexprJoaat
+{
+public:
+	char Data[CharCount];
+
+	template <size_t... Indices>
+	constexpr ConstexprJoaat(const char* str, std::index_sequence<Indices...>) :
+		Data{ (str[Indices])... }
+	{
+	}
+
+	constexpr rage::joaat_t operator()()
+	{
+		rage::joaat_t hash = 0;
+
+		for (size_t i = 0; i < CharCount; ++i)
+		{
+			hash += rage::joaat_to_lower(Data[i]);
+			hash += (hash << 10);
+			hash ^= (hash >> 6);
+		}
+
+		hash += (hash << 3);
+		hash ^= (hash >> 11);
+		hash += (hash << 15);
+
+		return hash;
+	}
+};
+
+#define RAGE_JOAAT(str) (std::integral_constant<rage::joaat_t, (ConstexprJoaat<sizeof(str) - 1>((str), std::make_index_sequence<sizeof(str) - 1>())())>::value)
+
+static_assert(RAGE_JOAAT("main") == 669725655);

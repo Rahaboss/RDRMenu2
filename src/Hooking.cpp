@@ -96,7 +96,6 @@ namespace Hooking
 		s_Enabled = false;
 	}
 
-	static constexpr rage::joaat_t s_MainHash = rage::joaat("main");
 	bool RunScriptThreadsHook(rage::pgPtrCollection* this_, uint32_t ops)
 	{
 		TRY
@@ -104,7 +103,7 @@ namespace Hooking
 			bool Result = RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 			
 			if (g_Running)
-				Features::ExecuteAsThread(s_MainHash, ScriptThreadTick);
+				Features::ExecuteAsThread(RAGE_JOAAT("main"), ScriptThreadTick);
 			
 			return Result;
 		}
@@ -120,7 +119,7 @@ namespace Hooking
 			bool Result = RunScriptThreads2.GetOriginal<decltype(&RunScriptThreadsHook2)>()(ops);
 			
 			if (g_Running)
-				Features::ExecuteAsThread(s_MainHash, ScriptThreadTick);
+				Features::ExecuteAsThread(RAGE_JOAAT("main"), ScriptThreadTick);
 
 			return Result;
 		}
@@ -235,11 +234,11 @@ namespace Hooking
 
 			switch (inventoryId)
 			{
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
-			case rage::joaat("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
+			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, 0x%llX, 0x%llX, %d, %d, %d, %d)\n",
 					inventoryId, guid1, guid2, item, inventoryItemSlot, p5, addReason);
 				LOG_TO_MENU("\tReturned %d\n\n", ret);
@@ -277,11 +276,11 @@ namespace Hooking
 
 			switch (inventoryId)
 			{
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
-			case rage::joaat("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
-			case rage::joaat("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_OREGANO_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_THYME_COOKED"):
+			case RAGE_JOAAT("CONSUMABLE_BIG_GAME_MEAT_WILD_MINT_COOKED"):
+			case RAGE_JOAAT("CLOTHING_SP_CIVIL_WAR_HAT_000_1"):
 				LOG_TO_MENU("_INVENTORY_ADD_ITEM_WITH_GUID(%d, %p, %u, %u, %p)\n", inventoryId, guid, p2, slotId, outGuid);
 				LOG_TO_MENU("\tReturned %d\n\n", ret);
 				LOG_TO_MENU("\tguid:\n");
@@ -474,11 +473,11 @@ namespace Hooking
 		BOOL ret = ctx->GetRet<BOOL>();
 
 		constexpr Hash DLCList[]{
-			rage::joaat("DLC_PREORDERCONTENT"),
-			rage::joaat("DLC_PHYSPREORDERCONTENT"),
-			rage::joaat("DLC_SPECIALEDITION"),
-			rage::joaat("DLC_ULTIMATEEDITION"),
-			rage::joaat("DLC_TREASUREMAP"),
+			RAGE_JOAAT("DLC_PREORDERCONTENT"),
+			RAGE_JOAAT("DLC_PHYSPREORDERCONTENT"),
+			RAGE_JOAAT("DLC_SPECIALEDITION"),
+			RAGE_JOAAT("DLC_ULTIMATEEDITION"),
+			RAGE_JOAAT("DLC_TREASUREMAP"),
 		};
 
 		for (int i = 0; i < ARRAYSIZE(DLCList); i++)

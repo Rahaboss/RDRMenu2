@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <type_traits>
 
 // Windows
 #include <Windows.h>

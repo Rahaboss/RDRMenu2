@@ -363,12 +363,12 @@ namespace Features
 
 	bool IsArthurModel()
 	{
-		return g_LocalPlayer.m_Model == rage::joaat("PLAYER_ZERO");
+		return g_LocalPlayer.m_Model == RAGE_JOAAT("PLAYER_ZERO");
 	}
 
 	bool IsJohnModel()
 	{
-		return g_LocalPlayer.m_Model == rage::joaat("PLAYER_THREE");
+		return g_LocalPlayer.m_Model == RAGE_JOAAT("PLAYER_THREE");
 	}
 	
 	Hash GetDefaultPlayerModel()
@@ -379,21 +379,21 @@ namespace Features
 			// medium_update.c: func_392
 			switch (*Global_1946054_f_1)
 			{
-			case rage::joaat("MPC_PLAYER_TYPE_SP_ARTHUR"): // 2169467321
-				return rage::joaat("PLAYER_ZERO");
-			case rage::joaat("MPC_PLAYER_TYPE_SP_MARSTON"): // 1160113249
-				return rage::joaat("PLAYER_THREE");
-			case rage::joaat("MPC_PLAYER_TYPE_MP_MALE"):
-				return rage::joaat("MP_MALE");
-			case rage::joaat("MPC_PLAYER_TYPE_MP_FEMALE"):
-				return rage::joaat("MP_FEMALE");
+			case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_ARTHUR"): // 2169467321
+				return RAGE_JOAAT("PLAYER_ZERO");
+			case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_MARSTON"): // 1160113249
+				return RAGE_JOAAT("PLAYER_THREE");
+			case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_MALE"):
+				return RAGE_JOAAT("MP_MALE");
+			case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_FEMALE"):
+				return RAGE_JOAAT("MP_FEMALE");
 			default:
 				LOG_TO_CONSOLE(__FUNCTION__": Unknown default player model: %d!\n", *Global_1946054_f_1);
 				break;
 			}
 		}
 
-		return rage::joaat("PLAYER_ZERO");
+		return RAGE_JOAAT("PLAYER_ZERO");
 	}
 	
 	void DisableSprintBlocking()

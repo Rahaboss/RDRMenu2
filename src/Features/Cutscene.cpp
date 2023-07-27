@@ -67,13 +67,13 @@ namespace Features
 		{
 			[]() {
 				constexpr Hash tags[]{
-					rage::joaat("GUNBELTS"),
-					rage::joaat("HATS"),
-					rage::joaat("HOLSTERS_KNIFE"),
-					rage::joaat("HOLSTERS_LEFT"),
-					rage::joaat("HOLSTERS_RIGHT"),
-					rage::joaat("SATCHELS"),
-					rage::joaat("SATCHEL_STRAPS")
+					RAGE_JOAAT("GUNBELTS"),
+					RAGE_JOAAT("HATS"),
+					RAGE_JOAAT("HOLSTERS_KNIFE"),
+					RAGE_JOAAT("HOLSTERS_LEFT"),
+					RAGE_JOAAT("HOLSTERS_RIGHT"),
+					RAGE_JOAAT("SATCHELS"),
+					RAGE_JOAAT("SATCHEL_STRAPS")
 				};
 
 				CutsceneHelper Cutscene("cutscene@jbo6_ext");
@@ -86,7 +86,7 @@ namespace Features
 				}
 				else
 				{
-					Ped arthur = SpawnPed(rage::joaat("PLAYER_ZERO"));
+					Ped arthur = SpawnPed(RAGE_JOAAT("PLAYER_ZERO"));
 					PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
 					for (const auto& t : tags)
 						PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
@@ -142,7 +142,7 @@ namespace Features
 		{
 			[]() {
 				CutsceneHelper Cutscene("cutscene@mar6_rsc2");
-				const Ped unc = SpawnPed(rage::joaat("CS_UNCLE"));
+				const Ped unc = SpawnPed(RAGE_JOAAT("CS_UNCLE"));
 				WEAPON::REMOVE_ALL_PED_WEAPONS(unc, TRUE, TRUE);
 				PED::_EQUIP_META_PED_OUTFIT_PRESET(unc, 5, FALSE);
 				Cutscene.AddPedExisting(unc, "Uncle");
