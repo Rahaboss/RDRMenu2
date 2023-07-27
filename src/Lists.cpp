@@ -15,7 +15,7 @@ namespace Lists
 			return;
 		}
 
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 
@@ -58,7 +58,7 @@ namespace Lists
 			return;
 		}
 
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 
@@ -87,7 +87,7 @@ namespace Lists
 			return;
 		}
 
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 
@@ -117,7 +117,7 @@ namespace Lists
 			return;
 		}
 		
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 		
@@ -146,7 +146,7 @@ namespace Lists
 			return;
 		}
 
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 
@@ -175,7 +175,7 @@ namespace Lists
 			return;
 		}
 
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 
@@ -205,7 +205,7 @@ namespace Lists
 			return;
 		}
 
-		nlohmann::json j;
+		json j;
 		File >> j;
 		File.close();
 
@@ -253,6 +253,7 @@ namespace Lists
 	void Reload()
 	{
 		LOG_TO_CONSOLE("Clearing lists.\n");
+
 		g_ObjectList.clear();
 		g_ObjectModelNameList.clear();
 		g_VehicleList.clear();
@@ -270,6 +271,7 @@ namespace Lists
 	void ReloadCutscenesList()
 	{
 		LOG_TO_CONSOLE("Reloading cutscenes.\n");
+
 		g_Cutscenes.clear();
 		InitCutscenesList("Cutscenes.json");
 	}

@@ -42,6 +42,7 @@ namespace Pointers
 		PickupPoolEncryption = Signature("0F 84 ? ? ? ? 8A 05 ? ? ? ? 48 85").Add(8).Rip().Get<decltype(PickupPoolEncryption)>();
 		GetNetworkPlayer = Signature("48 83 EC 28 33 C0 38 05 ? ? ? ? 74 0A").Get<decltype(GetNetworkPlayer)>();
 		NetworkPlayerMgr = Signature("E8 ? ? ? ? 40 0F B6 D5").Add(1).Rip().Add(13).Rip().Get<decltype(NetworkPlayerMgr)>();
+		ReturnAddressSpoof = Signature("FF E3").Get<decltype(ReturnAddressSpoof)>();
 
 		// D3D12 Renderer Stuff
 		SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(SwapChain)>();

@@ -1,5 +1,6 @@
 .vs/
 bin/
+int/
 *.exe
 *.sln
 *.vcxproj*

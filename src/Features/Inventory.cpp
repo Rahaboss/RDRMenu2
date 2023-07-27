@@ -10,7 +10,7 @@ namespace Features
 	{
 		TRY
 		{
-			Any ItemInfo[3 * 2]; memset(ItemInfo, 0, sizeof(ItemInfo));
+			Any ItemInfo[3 * 2]{};
 			if (!ITEMDATABASE::ITEMDATABASE_FILLOUT_ITEM_INFO(ItemHash, ItemInfo))
 				return 0;
 			return static_cast<Hash>(ItemInfo[2 * 2]);
@@ -34,12 +34,12 @@ namespace Features
 			case rage::joaat("EMOTE"):
 			case rage::joaat("UPGRADE"):
 			default:
-				if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1084182731))
-					ItemSlot = 1084182731;
-				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, 1034665895))
-					ItemSlot = 1034665895;
-				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, -833319691))
-					ItemSlot = -833319691;
+				if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, rage::joaat("SLOTID_SATCHEL")))
+					ItemSlot = rage::joaat("SLOTID_SATCHEL");
+				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, rage::joaat("SLOTID_WARDROBE")))
+					ItemSlot = rage::joaat("SLOTID_WARDROBE");
+				else if (INVENTORY::_INVENTORY_FITS_SLOT_ID(ItemHash, rage::joaat("SLOTID_CURRENCY")))
+					ItemSlot = rage::joaat("SLOTID_CURRENCY");
 				else
 					ItemSlot = INVENTORY::_GET_DEFAULT_ITEM_SLOT_INFO(ItemHash, rage::joaat("CHARACTER"));
 				break;
@@ -52,7 +52,7 @@ namespace Features
 
 	void GiveAgedPirateRum()
 	{
-		GiveSingleInventoryItem(rage::joaat("CONSUMABLE_AGED_PIRATE_RUM"), 1084182731, 1, ADD_REASON_DEFAULT);
+		GiveSingleInventoryItem(rage::joaat("CONSUMABLE_AGED_PIRATE_RUM"), rage::joaat("SLOTID_SATCHEL"), 1, ADD_REASON_DEFAULT);
 	}
 
 	void GiveAllConsumables()
@@ -226,7 +226,7 @@ namespace Features
 	{
 		TRY
 		{
-			GiveSingleInventoryItem(rage::joaat("CONSUMABLE_GINSENG_ELIXIER"), 1084182731, 1, ADD_REASON_DEFAULT);
+			GiveSingleInventoryItem(rage::joaat("CONSUMABLE_GINSENG_ELIXIER"), rage::joaat("SLOTID_SATCHEL"), 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -240,18 +240,16 @@ namespace Features
 
 	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot, int InventoryID, Hash AddReason)
 	{
-		Any guid1[4 * 2]; memset(guid1, 0, sizeof(guid1));
-		Any guid2[5 * 2]; memset(guid2, 0, sizeof(guid2));
-		Any dummy[5 * 2]; memset(dummy, 0, sizeof(dummy));
+		Any guid1[4 * 2]{};
+		Any guid2[5 * 2]{};
+		Any dummy[5 * 2]{};
 
-		bool fail1 = false;
-		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, rage::joaat("CHARACTER"), 0xA1212100 /* -1591664384 */, guid2))
+		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy, rage::joaat("CHARACTER"), rage::joaat("SLOTID_NONE"), guid2))
 		{
 			//return;
 		}
 		guid2[4 * 2] = ItemSlot;
 
-		bool fail2 = false;
 		// Could return false but still work
 		if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2, ItemHash, guid2[4 * 2], guid1))
 		{
@@ -268,7 +266,7 @@ namespace Features
 	{
 		TRY
 		{
-			GiveSingleInventoryItem(rage::joaat("CONSUMABLE_VALERIAN_ROOT"), 1084182731, 1, ADD_REASON_DEFAULT);
+			GiveSingleInventoryItem(rage::joaat("CONSUMABLE_VALERIAN_ROOT"), rage::joaat("SLOTID_SATCHEL"), 1, ADD_REASON_DEFAULT);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

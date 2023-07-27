@@ -133,20 +133,17 @@ namespace Menu
 		ImGui::PopButtonRepeat();
 		ImGui::PopItemWidth();
 		if (DebugTeleport)
+			Features::Teleport(DebugPos);
+		if (ImGui::Checkbox("Freeze Position", g_Settings["freeze_player"].get<bool*>()))
 		{
-			QUEUE_JOB(=)
+			if (!g_Settings["freeze_player"].get<bool>())
 			{
-				ENTITY::SET_ENTITY_COORDS(g_LocalPlayer.m_Entity, DebugPos.x, DebugPos.y, DebugPos.z - 1, false, false, false, false);
+				QUEUE_JOB(=)
+				{
+					ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Entity, false);
+				}
+				END_JOB()
 			}
-			END_JOB()
-		}
-		if (ImGui::Checkbox("Freeze Position", g_Settings["freeze_player"].get<bool*>()) && !g_Settings["freeze_player"].get<bool>())
-		{
-			QUEUE_JOB(=)
-			{
-				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Entity, false);
-			}
-			END_JOB()
 		}
 
 		if (ImGui::Button("Copy Coords"))
@@ -1180,7 +1177,7 @@ namespace Menu
 				continue;
 
 			std::string Text = Features::GetObjectModelName(model);
-			if (Text == "Unknown")
+			if (Text.empty())
 				Text = std::to_string(model);
 
 			const auto pos = ENTITY::GET_ENTITY_COORDS(p, TRUE, TRUE);

@@ -15,6 +15,6 @@ namespace Features
 
 		float num = abs(cos(x));
 
-		return Vector3{ -sin(z) * num, cos(z) * num, sin(x) };
+		return Vector3(-sin(z) * num, cos(z) * num, sin(x));
 	}
 }

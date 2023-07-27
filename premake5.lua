@@ -14,7 +14,7 @@ workspace "RDRMenu2"
 	-- Locations
 	startproject "RDRMenu2"
 	targetdir "bin/%{cfg.buildcfg}/%{prj.name}"
-	objdir "bin/%{cfg.buildcfg}/%{prj.name}"
+	objdir "int/%{cfg.buildcfg}/%{prj.name}"
 
 	-- Optimizations
 	vectorextensions "SSE4.2"
@@ -86,6 +86,7 @@ workspace "RDRMenu2"
 			"4838", -- Narrowing conversion
 			"26812", -- Prefer "enum class"
 			"26819", -- Unannotated fallthrough between switch labels
+			"28020", -- The expression 'expr' is not true at this call
 			"33011" -- Unchecked lower bound for enum key/source as index
 		}
 

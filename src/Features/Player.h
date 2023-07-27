@@ -37,4 +37,6 @@ namespace Features
 
 	bool IsArthurModel();
 	bool IsJohnModel();
+	Hash GetDefaultPlayerModel();
+	void DisableSprintBlocking();
 }

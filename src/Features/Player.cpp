@@ -135,27 +135,7 @@ namespace Features
 
 	void ResetPlayerModel()
 	{
-		QUEUE_JOB(=)
-		{
-			int* Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<int*>();
-			if (!Global_1946054_f_1)
-				return;
-
-			// medium_update.c: func_392
-			switch (*Global_1946054_f_1)
-			{
-			case rage::joaat("mpc_player_type_sp_arthur"): // 2169467321
-				SetPlayerModel(rage::joaat("PLAYER_ZERO"));
-				break;
-			case rage::joaat("mpc_player_type_sp_marston"): // 1160113249
-				SetPlayerModel(rage::joaat("PLAYER_THREE"));
-				break;
-			default:
-				LOG_TO_CONSOLE("%s: Unknown default player model: %d!\n", __FUNCTION__, *Global_1946054_f_1);
-				break;
-			}
-		}
-		END_JOB()
+		SetPlayerModel(GetDefaultPlayerModel());
 	}
 
 	void RestoreHorseCores()
@@ -292,7 +272,6 @@ namespace Features
 
 	void Teleport(float x, float y, float z)
 	{
-		LoadGround(x, y, z);
 		ENTITY::SET_ENTITY_COORDS(GetMainEntity(), x, y, z, false, false, false, false);
 	}
 
@@ -305,6 +284,7 @@ namespace Features
 	{
 		QUEUE_JOB(=)
 		{
+			LoadGround(x, y, z);
 			Teleport(x, y, z - 1.0f);
 			YieldThread();
 			ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(GetMainEntity(), true);
@@ -389,5 +369,36 @@ namespace Features
 	bool IsJohnModel()
 	{
 		return g_LocalPlayer.m_Model == rage::joaat("PLAYER_THREE");
+	}
+	
+	Hash GetDefaultPlayerModel()
+	{
+		int* Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<int*>();
+		if (Global_1946054_f_1)
+		{
+			// medium_update.c: func_392
+			switch (*Global_1946054_f_1)
+			{
+			case rage::joaat("MPC_PLAYER_TYPE_SP_ARTHUR"): // 2169467321
+				return rage::joaat("PLAYER_ZERO");
+			case rage::joaat("MPC_PLAYER_TYPE_SP_MARSTON"): // 1160113249
+				return rage::joaat("PLAYER_THREE");
+			case rage::joaat("MPC_PLAYER_TYPE_MP_MALE"):
+				return rage::joaat("MP_MALE");
+			case rage::joaat("MPC_PLAYER_TYPE_MP_FEMALE"):
+				return rage::joaat("MP_FEMALE");
+			default:
+				LOG_TO_CONSOLE(__FUNCTION__": Unknown default player model: %d!\n", *Global_1946054_f_1);
+				break;
+			}
+		}
+
+		return rage::joaat("PLAYER_ZERO");
+	}
+	
+	void DisableSprintBlocking()
+	{
+		if (int* PlayerFlag = ScriptGlobal(1935630).Get<int*>())
+			*PlayerFlag |= PF_DISABLE_MOVE_LIMIT_INDOORS;
 	}
 }

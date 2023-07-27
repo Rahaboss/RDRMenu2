@@ -2,9 +2,7 @@
 
 #include "pch.h"
 
-// lmao
-// https://uspto.report/patent/grant/11273380
-
+// lmao https://uspto.report/patent/grant/11273380
 class VariableEncryption
 {
 public:
@@ -14,5 +12,3 @@ public:
 }; //Size: 0x0018
 
 static_assert(sizeof(VariableEncryption) == 0x18);
-static_assert(offsetof(VariableEncryption, m_First) == 0x8);
-static_assert(offsetof(VariableEncryption, m_Second) == 0x10);

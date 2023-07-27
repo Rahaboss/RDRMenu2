@@ -52,7 +52,8 @@ void NativeContext::PrintNativeStackInfo(rage::scrNativeHash hash, rage::scrNati
 	EXCEPT{ LOG_EXCEPTION(); }
 }
 
-extern "C" void _call_asm(void* context, void* function, void* ret);
+extern "C" void _call_asm(rage::scrNativeCallContext* Context,
+	rage::scrNativeHandler Handler, void* Return);
 
 void NativeContext::EndCall(rage::scrNativeHash hash)
 {
@@ -60,8 +61,11 @@ void NativeContext::EndCall(rage::scrNativeHash hash)
 	{
 		TRY
 		{
-			//_call_asm(GetContext(), Handler, GetContext()->m_ReturnValue); // Not sure why this causes a crash
+#if 0
 			Handler(GetContext());
+#else
+			_call_asm(GetContext(), Handler, Pointers::ReturnAddressSpoof);
+#endif
 
 			FixVectors();
 		}

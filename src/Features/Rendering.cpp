@@ -292,7 +292,7 @@ namespace Features
 					continue;
 
 				std::string Text = GetObjectModelName(model);
-				if (Text == "Unknown")
+				if (Text.empty())
 					Text = std::to_string(model);
 
 				ImVec2 TextPos;
@@ -316,7 +316,7 @@ namespace Features
 				//	continue;
 
 				std::string Text = GetObjectModelName(model);
-				if (Text == "Unknown")
+				if (Text.empty())
 					Text = std::to_string(model);
 
 				ImVec2 TextPos;
@@ -341,7 +341,7 @@ namespace Features
 				Hash model = ENTITY::GET_ENTITY_MODEL(v);
 
 				std::string Text = GetVehicleModelName(model);
-				if (Text == "Unknown")
+				if (Text.empty())
 					Text = std::to_string(model);
 
 				ImVec2 TextPos;
@@ -520,7 +520,7 @@ namespace Features
 			label = "OBJECT:\n";
 			Hash model = ENTITY::GET_ENTITY_MODEL(o);
 			std::string name = GetObjectModelName(model);
-			if (name == "Unknown")
+			if (name.empty())
 				label += std::to_string(model);
 			else
 				label += name;

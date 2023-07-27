@@ -15,6 +15,6 @@ namespace Features
 	void GiveCivilWarHat();
 	void GiveGinsengElixir(); // Health XP
 	void GiveInventoryItem(Hash ItemHash, int Amount = 1);
-	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot = 1084182731, int InventoryID = 1, Hash AddReason = rage::joaat("ADD_REASON_DEFAULT"));
+	void GiveSingleInventoryItem(Hash ItemHash, Hash ItemSlot = rage::joaat("SLOTID_SATCHEL"), int InventoryID = 1, Hash AddReason = rage::joaat("ADD_REASON_DEFAULT"));
 	void GiveValerianRoot(); // Dead Eye XP
 }

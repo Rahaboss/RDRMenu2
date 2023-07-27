@@ -105,12 +105,8 @@ namespace Features
 						return;
 					
 					Hash hash = ENTITY::GET_ENTITY_MODEL(out);
-					std::string name = Features::GetPedModelName(hash);
-					if (name == "Unknown")
-						name = Features::GetVehicleModelName(hash);
-					if (name == "Unknown")
-						name = Features::GetObjectModelName(hash);
-					if (name == "Unknown")
+					std::string name = Features::GetModelName(hash);
+					if (name.empty())
 						name = std::to_string(hash);
 
 					RenderTextOnEntity(out, name.c_str());

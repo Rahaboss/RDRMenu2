@@ -29,7 +29,7 @@ namespace Features
 		if (it != g_PedModelNameList.end())
 			return it->second;
 
-		return "Unknown";
+		return std::string();
 	}
 
 	std::string GetVehicleModelName(Hash hash)
@@ -38,7 +38,7 @@ namespace Features
 		if (it != g_VehicleModelNameList.end())
 			return it->second;
 		
-		return "Unknown";
+		return std::string();
 	}
 
 	std::string GetObjectModelName(Hash hash)
@@ -47,7 +47,7 @@ namespace Features
 		if (it != g_ObjectModelNameList.end())
 			return it->second;
 
-		return "Unknown";
+		return std::string();
 	}
 	
 	bool IsModelValid(Hash Model)
@@ -172,7 +172,7 @@ namespace Features
 
 	void LogSpawnedEntity(Entity ent)
 	{
-		if (ent == 0 || ((int)ent) == -1 || !ENTITY::DOES_ENTITY_EXIST(ent))
+		if (!ENTITY::DOES_ENTITY_EXIST(ent))
 			return;
 
 		Hash Model = ENTITY::GET_ENTITY_MODEL(ent);
@@ -216,7 +216,7 @@ namespace Features
 		}
 
 		// Display the model name as unsigned decimal if unknown
-		if (Name == "Unknown")
+		if (Name.empty())
 			Name = std::to_string(Model);
 
 		LOG_TO_MENU("Creating %s %s (ID: %u / 0x%X) at %.2f, %.2f, %.2f\n",
