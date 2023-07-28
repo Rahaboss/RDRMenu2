@@ -7,14 +7,14 @@ class CutsceneHelper
 {
 public:
 	CutsceneHelper() = delete;
-	CutsceneHelper(const nlohmann::json& JsonObject);
+	CutsceneHelper(const json& JsonObject);
 	CutsceneHelper(const char* animDict);
 
 	AnimScene CreateCutscene();
 
 	void AddPedExisting(Ped Handle, const char* entityName);
 	Ped AddPedNew(Hash Model, const char* entityName);
-	void AddPedFromPedJson(const nlohmann::json& PedJsonObject);
+	void AddPedFromPedJson(const json& PedJsonObject);
 	void AddPeds();
 	void AddLocalPlayer();
 
@@ -23,7 +23,7 @@ public:
 	void AddObjects();
 
 	void AddVehicleExisting(Vehicle Handle, const char* entityName);
-	void AddVehicleFromVehicleJson(const nlohmann::json& VehicleJsonObject);
+	void AddVehicleFromVehicleJson(const json& VehicleJsonObject);
 	void AddVehicleNew(Hash Model, const char* entityName);
 	void AddVehicles();
 
@@ -41,7 +41,7 @@ public:
 	void PlayAutomatically();
 
 private:
-	nlohmann::json m_JsonObject;
+	json m_JsonObject;
 	AnimScene m_Scene;
 	std::vector<Object> m_Objects;
 	std::vector<Ped> m_Peds;
@@ -49,4 +49,4 @@ private:
 	bool m_Loaded = false;
 };
 
-inline nlohmann::json g_Cutscenes;
+inline json g_Cutscenes;

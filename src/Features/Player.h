@@ -23,7 +23,7 @@ namespace Features
 	void SetGodmode(bool Toggle);
 	void SetMaxAttributeValue(Ped ped, int attr);
 	void SetMoney(int AmountCents);
-	void SetPlayerModel(Hash Model = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
+	void SetPlayerModel(Hash Model);
 	void SetNoRagdoll(bool Toggle);
 	void SpawnBadHonorEnemy(Hash Model = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
 	void SpawnGoodHonorEnemy(Hash Model = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));

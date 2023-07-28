@@ -4,7 +4,7 @@
 
 namespace Settings
 {
-	static nlohmann::json s_DefaultSettings{
+	static json s_DefaultSettings{
 	R"({
 		"clean_player": false,
 		"disable_default_cutscenes": false,

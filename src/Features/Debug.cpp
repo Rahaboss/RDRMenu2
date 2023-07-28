@@ -64,7 +64,7 @@ namespace Features
 		SetClipboardText(Text.c_str());
 	}
 	
-	Hash GetHashFromJson(const nlohmann::json& JsonObject)
+	Hash GetHashFromJson(const json& JsonObject)
 	{
 		if (JsonObject.is_string())
 			return rage::joaat(JsonObject.get_ref<const std::string&>());

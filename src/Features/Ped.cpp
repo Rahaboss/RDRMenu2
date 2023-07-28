@@ -76,7 +76,7 @@ namespace Features
 		END_JOB()
 	}
 
-	void SetMetapedOutfit(Ped ped, Hash outfit)
+	void SetMetaPedOutfit(Ped ped, Hash outfit)
 	{
 		TRY
 		{

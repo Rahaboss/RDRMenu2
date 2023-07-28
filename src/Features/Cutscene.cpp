@@ -170,7 +170,7 @@ namespace Features
 		END_JOB()
 	}
 
-	void PlayCutsceneFromJson(const nlohmann::json& JsonObject)
+	void PlayCutsceneFromJson(const json& JsonObject)
 	{
 		CutsceneHelper Cutscene(JsonObject);
 		Cutscene.PlayAutomatically();

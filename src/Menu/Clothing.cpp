@@ -232,10 +232,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				if (Features::IsArthurModel())
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 14, false);
-				else if (Features::IsJohnModel())
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 28, false);
+				Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, RAGE_JOAAT("META_OUTFIT_NUDE"));
 			}
 			END_JOB()
 		}
@@ -246,8 +243,7 @@ namespace Menu
 			{
 				QUEUE_JOB(=)
 				{
-					if (Features::IsArthurModel())
-						PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, false);
+					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, false);
 				}
 				END_JOB()
 			}
@@ -326,7 +322,7 @@ namespace Menu
 			if (p.first.find(ModBuffer) == std::string::npos)
 				continue;
 
-			if (ImGui::Selectable(p.first.c_str()))
+			if (ImGui::Selectable(p.first.c_str()), p.second == g_LocalPlayer.m_Model)
 				Features::SetPlayerModel(p.second);
 		}
 		ImGui::EndChild();

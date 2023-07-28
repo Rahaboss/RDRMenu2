@@ -5,7 +5,7 @@
 #include "Lists.h"
 #include "Menu.h"
 
-CutsceneHelper::CutsceneHelper(const nlohmann::json& JsonObject):
+CutsceneHelper::CutsceneHelper(const json& JsonObject):
 	m_Scene(0),
 	m_JsonObject(JsonObject)
 {
@@ -61,7 +61,7 @@ Ped CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 	return Handle;
 }
 
-void CutsceneHelper::AddPedFromPedJson(const nlohmann::json& PedJsonObject)
+void CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 {
 	Ped Handle = AddPedNew(Features::GetHashFromJson(PedJsonObject["model"]), PedJsonObject["name"].get_ref<const std::string&>().c_str());
 
@@ -70,7 +70,7 @@ void CutsceneHelper::AddPedFromPedJson(const nlohmann::json& PedJsonObject)
 
 	// https://github.com/femga/rdr3_discoveries/blob/master/clothes/metaped_outfits.lua
 	if (PedJsonObject.contains("metaped_outfit"))
-		Features::SetMetapedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["metaped_outfit"]));
+		Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["metaped_outfit"]));
 
 	if (PedJsonObject.contains("remove_weapons") && PedJsonObject["remove_weapons"].get<bool>())
 		Features::RemoveAllPedWeapons(Handle);
@@ -123,7 +123,7 @@ void CutsceneHelper::AddLocalPlayer()
 		if (m_JsonObject.contains("player_outfit_preset"))
 			PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, m_JsonObject["player_outfit_preset"].get<int>(), false);
 		if (m_JsonObject.contains("player_metaped_outfit"))
-			Features::SetMetapedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_metaped_outfit"]));
+			Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_metaped_outfit"]));
 	}
 	else
 	{
@@ -166,7 +166,7 @@ void CutsceneHelper::AddVehicleExisting(Vehicle Handle, const char* entityName)
 	m_Vehicles.push_back(Handle);
 }
 
-void CutsceneHelper::AddVehicleFromVehicleJson(const nlohmann::json& VehicleJsonObject)
+void CutsceneHelper::AddVehicleFromVehicleJson(const json& VehicleJsonObject)
 {
 	Vehicle Handle = Features::SpawnVehicle(Features::GetHashFromJson(VehicleJsonObject["model"]), false);
 	

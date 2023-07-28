@@ -66,7 +66,7 @@ namespace Menu
 			ImGui::Checkbox("Disable Cinematic Black Borders", g_Settings["no_black_borders"].get<bool*>());
 			ImGui::Separator();
 
-			const nlohmann::json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
+			const json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
 			if (ImGui::Button("Play"))
 			{
 				QUEUE_JOB(&)
@@ -143,7 +143,7 @@ namespace Menu
 			ImGui::Checkbox("Disable Cinematic Black Borders", g_Settings["no_black_borders"].get<bool*>());
 			ImGui::Separator();
 
-			const nlohmann::json& CurrentJson = g_Cutscenes[SelectedCutscene];
+			const json& CurrentJson = g_Cutscenes[SelectedCutscene];
 			if (ImGui::Button("Play"))
 			{
 				QUEUE_JOB(&)

@@ -40,3 +40,6 @@ Here is a list of future features that should ideally be implemented. These are 
 * Improve build times
 	* Check includes (Project Properties -> C/C++ -> Advanced -> Show Includes)
 	* Move function definitions into .cpp files
+* Fix game bugs, possibly by changing game files
+	* Remove the timer text overlay during five finger fillet minigame
+	* Add back removed outfits (https://www.youtube.com/watch?v=VJ9yV-4tJj8)

@@ -2,10 +2,10 @@
 
 #include "pch.h"
 
-inline nlohmann::json g_Settings;
-
 namespace Settings
 {
 	void Create();
 	void Destroy();
 }
+
+inline json g_Settings;

@@ -209,7 +209,7 @@ namespace Menu
 			ImGui::Checkbox("Disable Cinematic Black Borders", g_Settings["no_black_borders"].get<bool*>());
 			ImGui::Separator();
 
-			const nlohmann::json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
+			const json& CurrentJson = g_Cutscenes[s_CurrentCutscene];
 			if (ImGui::Button("Play"))
 			{
 				QUEUE_JOB(&)
@@ -313,7 +313,7 @@ namespace Menu
 	void RenderDebugButtons()
 	{
 		if (ImGui::Button("Change Player Model"))
-			Features::SetPlayerModel();
+			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
 		ImGui::SameLine();
 		if (ImGui::Button("Reset Player Model"))
 			Features::ResetPlayerModel();
@@ -355,8 +355,8 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				constexpr Hash hash = RAGE_JOAAT("blip_cash_bag");
-				MAP::BLIP_ADD_FOR_COORDS(hash, g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
+				MAP::BLIP_ADD_FOR_COORDS(RAGE_JOAAT("BLIP_CASH_BAG"), g_LocalPlayer.m_Pos.x,
+					g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 			}
 			END_JOB()
 		}
@@ -408,7 +408,7 @@ namespace Menu
 
 		if (ImGui::Button("Sort Cutscenes JSON"))
 		{
-			std::sort(g_Cutscenes.begin(), g_Cutscenes.end(), [](const nlohmann::json& a, const nlohmann::json& b) {
+			std::sort(g_Cutscenes.begin(), g_Cutscenes.end(), [](const json& a, const json& b) {
 				return a["id"].get_ref<const std::string&>() < b["id"].get_ref<const std::string&>();
 			});
 
@@ -423,7 +423,7 @@ namespace Menu
 			QUEUE_JOB(=)
 			{
 				Ped ped = Features::SpawnPed(RAGE_JOAAT("CS_MRSADLER"));
-				Features::SetMetapedOutfit(ped, 0x5F43C3FC);
+				Features::SetMetaPedOutfit(ped, 0x5F43C3FC);
 			}
 			END_JOB()
 		}
@@ -471,11 +471,11 @@ namespace Menu
 			
 			if (File.good())
 			{
-				nlohmann::json j;
+				json j;
 				File >> j;
 				File.close();
 
-				nlohmann::json jj;
+				json jj;
 				jj["obj"] = std::vector<std::string>{};
 				jj["peds"] = std::vector<std::string>{};
 				jj["unknown"] = std::vector<std::string>{};
@@ -556,7 +556,7 @@ namespace Menu
 
 			if (File.good())
 			{
-				nlohmann::json j, jj;
+				json j, jj;
 				File >> j;
 				File.close();
 
@@ -611,7 +611,7 @@ namespace Menu
 
 			        if (File.good())
 			        {
-				        nlohmann::json j;
+				        json j;
 				        j["peds"] = std::vector<Hash>{};
 				        j["vehicles"] = std::vector<Hash>{};
 				        j["obj"] = std::vector<Hash>{};

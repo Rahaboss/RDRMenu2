@@ -32,6 +32,8 @@
 #include <imgui_impl_win32.h>
 #include <json.hpp>
 
+typedef nlohmann::json json;
+
 // User headers
 #include "Settings.h"
 #include "Logger.h"
@@ -47,8 +49,6 @@ inline std::atomic_bool g_Running = true; // Set to false to eject
 using namespace std::literals::chrono_literals;
 using namespace std::literals::string_literals;
 using namespace std::literals::string_view_literals;
-
-using json = nlohmann::json;
 
 // Shortcut Macros
 #define LOG_HEX(v) std::hex << std::uppercase << "0x" << (uintptr_t)v << std::dec << std::nouppercase
