@@ -97,4 +97,16 @@ namespace Features
 		}
 		END_JOB()
 	}
+	
+	void StartPedScenario(Ped ped, Hash scenario, int duration, Hash conditional)
+	{
+		TASK::TASK_START_SCENARIO_IN_PLACE_HASH(ped, scenario, duration, TRUE,
+			conditional, ENTITY::GET_ENTITY_HEADING(ped), FALSE);
+	}
+	
+	void StopPedScenario(Ped ped)
+	{
+		//TASK::CLEAR_PED_TASKS(ped, TRUE, FALSE);
+		TASK::CLEAR_PED_SECONDARY_TASK(ped);
+	}
 }

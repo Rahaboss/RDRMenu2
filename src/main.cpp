@@ -10,6 +10,8 @@ void MainLoop()
 {
 	TRY
 	{
+		Features::CreateConfigPath();
+
 		Console::Create();
 
 		Settings::Create();

@@ -26,7 +26,7 @@ Here is a list of future features that should ideally be implemented. These are 
 	* Custom styling, proper RDR font from game files
 * More debugging tools / access to game features
 	* YSC Script locals access, list of all running scripts and their management
-	* Animation playback support
+	* Animation playback support (TASK::TASK_START_SCENARIO_IN_PLACE_HASH)
 	* List of interiors
 * Better logging of menu and game events
 	* Logging to external file and log file rotation

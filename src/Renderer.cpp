@@ -350,22 +350,8 @@ namespace Renderer
 		Style.WindowRounding = Style.ChildRounding = Style.FrameRounding = Style.PopupRounding =
 			Style.ScrollbarRounding = Style.GrabRounding = Style.TabRounding = 4.0f;
 
-		std::filesystem::path Path(Features::GetConfigPath());
-
-		if (!std::filesystem::exists(Path))
-		{
-			std::filesystem::create_directory(Path);
-		}
-		else if (!std::filesystem::is_directory(Path))
-		{
-			std::filesystem::remove(Path);
-			std::filesystem::create_directory(Path);
-		}
-
-		Path.append("imgui.ini");
-
 		// Made static so it persists until end of the program
-		static std::string IniPath(Path.string());
+		static std::string IniPath(Features::GetConfigPath().append("imgui.ini").string());
 		io.IniFilename = IniPath.c_str();
 
 		ImFontConfig FontCfg{};

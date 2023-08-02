@@ -1,21 +1,21 @@
 .DATA
-    return_address	dq	0
-    real_rbx		dq	0
-     
+	ReturnAddress	dq	0
+	RealRBX			dq	0
+	 
 .CODE
-    _call_asm PROC
-    	mov real_rbx, rbx
-    	mov r9, [rsp]
-    	mov return_address, r9
-    	lea rbx, _ret_asm
-    	mov [rsp], r8
-    	jmp rdx
-    _call_asm ENDP
-    	
-    _ret_asm PROC
-    	mov rbx, real_rbx
-    	mov rcx, return_address
-    	jmp rcx
-    _ret_asm ENDP
-     
+	CallASM PROC
+		mov RealRBX, rbx		; Back up rbx
+		mov r9, [rsp]			; Move real return address (NativeContext::EndCall) to r9
+		mov ReturnAddress, r9	; Backup real return address (NativeContext::EndCall)
+		lea rbx, RetASM			; Copy RetASM function address to rbx
+		mov [rsp], r8			; Overwrite real return address with "jmp rbx" address
+		jmp rdx					; Jump to native handler (return to "jmp rbx" to RetASM)
+	CallASM ENDP
+
+	RetASM PROC
+		mov rbx, RealRBX		; Restore rbx
+		mov rcx, ReturnAddress	; Move NativeContext::EndCall return address to rcx
+		jmp rcx					; Jump back to NativeContext::EndCall
+	RetASM ENDP
+	 
 END

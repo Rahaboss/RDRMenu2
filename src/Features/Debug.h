@@ -11,6 +11,7 @@ namespace Features
 
 	bool IsStringValid(const char* String);
 	bool IsStringValid(const std::string& String);
+	void CreateConfigPath();
 	std::filesystem::path GetConfigPath();
 	void SetClipboardText(const char* Text);
 	void SetClipboardText(const std::string& Text);

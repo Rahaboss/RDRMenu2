@@ -225,20 +225,33 @@ namespace Lists
 		}
 	}
 
+	void InitScenarioList(const std::string& FileName)
+	{
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
+			return;
+		}
+
+		json ScenarioList;
+		File >> ScenarioList;
+		File.close();
+
+		for (const json& Scenario : ScenarioList)
+		{
+			const std::string& Name = Scenario.get_ref<const std::string&>();
+			Hash Model = rage::joaat(Name);
+
+			g_ScenarioList[Name] = Model;
+		}
+	}
+
 	void Create()
 	{
 		LOG_TO_CONSOLE("Creating lists.\n");
-
-		std::filesystem::path Path(Features::GetConfigPath());
-		if (!std::filesystem::exists(Path))
-		{
-			std::filesystem::create_directory(Path);
-		}
-		else if (!std::filesystem::is_directory(Path))
-		{
-			std::filesystem::remove(Path);
-			std::filesystem::create_directory(Path);
-		}
 
 		InitConsumableList("Consumables.json");
 		InitCutscenesList("Cutscenes.json");
@@ -248,6 +261,7 @@ namespace Lists
 		InitWeaponList("Weapons.json");
 		InitVehicleList("Vehicles.json");
 		InitObjectList("Objects.json");
+		InitScenarioList("Scenarios.json");
 	}
 
 	void Reload()

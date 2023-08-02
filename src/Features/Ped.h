@@ -10,4 +10,6 @@ namespace Features
 	void GiveGoldCores(Ped ped);
 	void SetMetaPedOutfit(Ped ped, Hash outfit);
 	void RemoveAllPedWeapons(Ped ped);
+	void StartPedScenario(Ped ped, Hash scenario, int duration = -1, Hash conditional = 0);
+	void StopPedScenario(Ped ped);
 }

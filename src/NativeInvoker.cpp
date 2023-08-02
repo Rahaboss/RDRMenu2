@@ -42,17 +42,33 @@ void NativeContext::PrintNativeStackInfo(rage::scrNativeHash hash, rage::scrNati
 {
 	TRY
 	{
+		// General native info
 		//LOG_TO_CONSOLE("=== Native Stack Info ===\n");
 		LOG_TO_CONSOLE("Caught exception in native 0x%llX!\n", hash);
 		LOG_TO_CONSOLE("Handler: 0x%llX\n", (uint64_t)Handler);
-		LOG_TO_CONSOLE("Return Value: 0x%llX / %.2f\n", m_Context.GetRet<uint64_t>(), m_Context.GetRet<float>());
+		
+		// Return value info
+		if (m_Context.GetRet<uint64_t>() == 0)
+			LOG_TO_CONSOLE("Return Value: 0\n");
+		else
+			LOG_TO_CONSOLE("Return Value: 0x%llX / %.2f\n", m_Context.GetRet<uint64_t>(),
+				m_Context.GetRet<float>());
+
+		// Argument info
 		for (uint32_t i = 0; i < m_Context.m_ArgCount; i++)
-			LOG_TO_CONSOLE("Arg[%u] = 0x%llX\n", i, m_Context.GetArg<uint64_t>(i));
+		{
+			if (m_Context.GetArg<uint64_t>(i) == 0)
+				LOG_TO_CONSOLE("Arg[%u] = 0\n", i);
+			else
+				LOG_TO_CONSOLE("Arg[%u] = 0x%llX / %.2f\n", i, m_Context.GetArg<uint64_t>(i),
+					m_Context.GetArg<float>(i));
+		}
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
 
-extern "C" void _call_asm(rage::scrNativeCallContext* Context,
+// extern "C" disables C++ name mangling
+extern "C" void CallASM(rage::scrNativeCallContext* Context,
 	rage::scrNativeHandler Handler, void* Return);
 
 void NativeContext::EndCall(rage::scrNativeHash hash)
@@ -64,7 +80,7 @@ void NativeContext::EndCall(rage::scrNativeHash hash)
 #if 0
 			Handler(GetContext());
 #else
-			_call_asm(GetContext(), Handler, Pointers::ReturnAddressSpoof);
+			CallASM(GetContext(), Handler, Pointers::ReturnAddressSpoof);
 #endif
 
 			FixVectors();

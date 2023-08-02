@@ -38,20 +38,36 @@ namespace Features
 		return !String.empty();
 	}
 
-	std::filesystem::path GetConfigPath()
+	static std::filesystem::path s_ConfigPath;
+	void CreateConfigPath()
 	{
 		// Get Windows %APPDATA% environment variable
 		char* Buffer = nullptr;
 		size_t BufferCount = 0;
 		_dupenv_s(&Buffer, &BufferCount, "APPDATA");
 		assert(Buffer); // Fix _dupenv_s warning
-		std::filesystem::path Path(Buffer);
+		s_ConfigPath = Buffer;
 		delete Buffer;
 
 		// Change path to %APPDATA%\RDRMenu2
-		Path.append("RDRMenu2");
+		s_ConfigPath.append("RDRMenu2");
 
-		return Path;
+		// Create folder at path if it doesn't exist
+		if (!std::filesystem::exists(s_ConfigPath))
+		{
+			std::filesystem::create_directory(s_ConfigPath);
+		}
+		// If a file not a folder at that path exists, replace with folder
+		else if (!std::filesystem::is_directory(s_ConfigPath))
+		{
+			std::filesystem::remove(s_ConfigPath);
+			std::filesystem::create_directory(s_ConfigPath);
+		}
+	}
+
+	std::filesystem::path GetConfigPath()
+	{
+		return s_ConfigPath;
 	}
 
 	void SetClipboardText(const char* Text)

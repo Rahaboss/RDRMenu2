@@ -80,20 +80,7 @@ namespace Settings
 
 	void Create()
 	{
-		std::filesystem::path Path(Features::GetConfigPath());
-
-		if (!std::filesystem::exists(Path))
-		{
-			std::filesystem::create_directory(Path);
-		}
-		else if (!std::filesystem::is_directory(Path))
-		{
-			std::filesystem::remove(Path);
-			std::filesystem::create_directory(Path);
-		}
-
-		Path.append("Settings.json");
-
+		std::filesystem::path Path(Features::GetConfigPath().append("Settings.json"));
 		std::fstream File(Path, std::fstream::in);
 
 		if (!File.good())
@@ -128,8 +115,7 @@ namespace Settings
 
 	void Destroy()
 	{
-		std::filesystem::path Path(Features::GetConfigPath());
-		Path.append("Settings.json");
+		std::filesystem::path Path(Features::GetConfigPath().append("Settings.json"));
 		Save(Path);
 	}
 }

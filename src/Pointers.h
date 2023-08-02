@@ -42,7 +42,7 @@ namespace Pointers
 	inline VariableEncryption* PickupPoolEncryption{};
 	inline rage::CNetGamePlayer* (*GetNetworkPlayer)(Player){};
 	inline rage::CNetworkPlayerMgr** NetworkPlayerMgr{};
-	inline void* ReturnAddressSpoof{};
+	inline void* ReturnAddressSpoof{}; // jmp rbx
 
 	// D3D12 Renderer Stuff
 	inline IDXGISwapChain3** SwapChain{};
