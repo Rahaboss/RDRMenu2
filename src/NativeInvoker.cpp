@@ -68,8 +68,7 @@ void NativeContext::PrintNativeStackInfo(rage::scrNativeHash hash, rage::scrNati
 }
 
 // extern "C" disables C++ name mangling
-extern "C" void CallASM(rage::scrNativeCallContext* Context,
-	rage::scrNativeHandler Handler, void* Return);
+extern "C" void CallASM(rage::scrNativeCallContext* Context, rage::scrNativeHandler Handler, void* Return);
 
 void NativeContext::EndCall(rage::scrNativeHash hash)
 {
@@ -77,11 +76,7 @@ void NativeContext::EndCall(rage::scrNativeHash hash)
 	{
 		TRY
 		{
-#if 0
-			Handler(GetContext());
-#else
 			CallASM(GetContext(), Handler, Pointers::ReturnAddressSpoof);
-#endif
 
 			FixVectors();
 		}

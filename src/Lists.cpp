@@ -248,6 +248,21 @@ namespace Lists
 			g_ScenarioList[Name] = Model;
 		}
 	}
+	
+	void InitMetaPedOutfitList(const std::string& FileName)
+	{
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
+		{
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
+			return;
+		}
+
+		File >> g_MetaPedOutfits;
+		File.close();
+	}
 
 	void Create()
 	{
@@ -262,6 +277,7 @@ namespace Lists
 		InitVehicleList("Vehicles.json");
 		InitObjectList("Objects.json");
 		InitScenarioList("Scenarios.json");
+		InitMetaPedOutfitList("MetaPedOutfits.json");
 	}
 
 	void Reload()
@@ -279,6 +295,8 @@ namespace Lists
 		g_PedModelNameList.clear();
 		g_WeaponList.clear();
 		g_Cutscenes.clear();
+		g_ScenarioList.clear();
+		g_MetaPedOutfits.clear();
 		Create();
 	}
 	

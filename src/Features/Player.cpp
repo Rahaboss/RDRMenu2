@@ -201,6 +201,9 @@ namespace Features
 			if (!IsModelValid(Model) || g_LocalPlayer.m_Model == Model)
 				return;
 
+			// Clean up current model
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(g_LocalPlayer.m_Model);
+
 			// Request the new model
 			RequestModel(Model);
 
@@ -208,6 +211,8 @@ namespace Features
 			ScriptGlobal(40).At(39).Get<Hash&>() = Model; // medium_update.c: Global_40.f_39
 			ScriptGlobal(1935630).At(2).Get<Hash&>() = Model; // medium_update.c: Global_1935630.f_2
 			PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, Model, false);
+			//ScriptGlobal(35).Get<Ped&>() = PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID());
+			//YieldThread();
 
 			// Get the player info again, because a new player model will be created
 			GetLocalPlayerInfo();
@@ -215,16 +220,18 @@ namespace Features
 			// Clean up
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
 			PED::_SET_RANDOM_OUTFIT_VARIATION(g_LocalPlayer.m_Entity, true);
+
+			// Set up ped info and stats
 			PED::SET_PED_RANDOM_COMPONENT_VARIATION(g_LocalPlayer.m_Entity, 0);
-			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
-			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
-			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);
 			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
 			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
 			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
 			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
 			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
 			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
+			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
+			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
+			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);
 			RestorePlayerCores();
 			GiveWeapon(WEAPON_UNARMED);
 		}

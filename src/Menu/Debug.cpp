@@ -133,7 +133,10 @@ namespace Menu
 		ImGui::PopButtonRepeat();
 		ImGui::PopItemWidth();
 		if (DebugTeleport)
+		{
+			DebugPos.z -= 1.0f;
 			Features::Teleport(DebugPos);
+		}
 		if (ImGui::Checkbox("Freeze Position", g_Settings["freeze_player"].get<bool*>()))
 		{
 			if (!g_Settings["freeze_player"].get<bool>())

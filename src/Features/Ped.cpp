@@ -78,7 +78,7 @@ namespace Features
 
 	void SetMetaPedOutfit(Ped ped, Hash outfit)
 	{
-		TRY
+		QUEUE_JOB(=)
 		{
 			int requestId = PED::_REQUEST_META_PED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), outfit);
 			while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
@@ -86,7 +86,7 @@ namespace Features
 			PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
 			PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		END_JOB()
 	}
 	
 	void RemoveAllPedWeapons(Ped ped)
@@ -106,7 +106,16 @@ namespace Features
 	
 	void StopPedScenario(Ped ped)
 	{
-		//TASK::CLEAR_PED_TASKS(ped, TRUE, FALSE);
+		TASK::CLEAR_PED_TASKS(ped, true, false);
 		TASK::CLEAR_PED_SECONDARY_TASK(ped);
+	}
+	
+	void SetPedScale(Ped ped, float scale)
+	{
+		QUEUE_JOB(=)
+		{
+			PED::_SET_PED_SCALE(ped, scale);
+		}
+		END_JOB()
 	}
 }

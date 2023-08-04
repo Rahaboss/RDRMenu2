@@ -5,36 +5,53 @@
 #include "PlayerInfo.h"
 #include "Lists.h"
 
+// These menus have a weird bug. When the Clothing menu is open and you change
+// the player's model an exception is thrown in the native 0xED40380076A31506 (PLAYER::SET_PLAYER_MODEL).
+// For example in Menu::RenderScaleTab if you remove the call to ImGui::SliderFloat
+// then there is no exception. The exception is thrown in the native, not in the menu code...
+
 namespace Menu
 {
 	void RenderClothingMenu()
 	{
-		if (!ImGui::Begin("Clothing", g_Settings["render_clothing_menu"].get<bool*>()))
-			ImGui::End();
+		ImGui::Begin("Clothing", g_Settings["render_clothing_menu"].get<bool*>());
+
+		ImGui::BeginTabBar("###clothing_menu_tab_bar");
+		RenderScaleTab();
+		RenderRemoveItemTab();
+		RenderPlayerModelChanger();
+		RenderPlayerOutfitChanger();
+		RenderScenarioTab();
+		ImGui::EndTabBar();
 		
-		ImGui::Text("Scale");
-		static float PlayerScale = 1.0f;
+		ImGui::End();
+	}
+
+	void RenderScaleTab()
+	{
+		if (!ImGui::BeginTabItem("Scale"))
+			return;
+		
 		ImGui::PushItemWidth(300.0f);
-		if (ImGui::SliderFloat("###player_scale", &PlayerScale, 0.01f, 10.0f, "%.2f"))
-		{
-			QUEUE_JOB(=)
-			{
-				PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, PlayerScale);
-			}
-			END_JOB()
-		}
-		ImGui::SameLine();
+		static float s_PlayerScale = 1.0f;
+		// This line causes an exception in PLAYER::SET_PLAYER_MODEL for some reason
+		if (ImGui::SliderFloat("###player_scale", &s_PlayerScale, 0.01f, 10.0f, "%.2f"))
+			Features::SetPedScale(g_LocalPlayer.m_Entity, s_PlayerScale);
+		ImGui::PopItemWidth();
 		if (ImGui::Button("Reset"))
 		{
-			QUEUE_JOB(=)
-			{
-				PlayerScale = 1.0f;
-				PED::_SET_PED_SCALE(g_LocalPlayer.m_Entity, PlayerScale);
-			}
-			END_JOB()
+			s_PlayerScale = 1.0f;
+			Features::SetPedScale(g_LocalPlayer.m_Entity, s_PlayerScale);
 		}
-		ImGui::Separator();
-		
+
+		ImGui::EndTabItem();
+	}
+
+	void RenderRemoveItemTab()
+	{
+		if (!ImGui::BeginTabItem("Remove Item"))
+			return;
+
 		ImGui::BeginGroup();
 		if (ImGui::Button("Remove Gunbelt", ImVec2(180, 0)))
 		{
@@ -115,7 +132,7 @@ namespace Menu
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		if (ImGui::Button("Remove Accessories", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Accessories"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -124,7 +141,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Belt", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Belt"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -133,7 +150,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Eyewear", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Eyewear"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -142,7 +159,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Gloves", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Gloves"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -154,7 +171,7 @@ namespace Menu
 		ImGui::EndGroup();
 		
 		ImGui::BeginGroup();
-		if (ImGui::Button("Remove Hair", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Hair"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -163,7 +180,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Crossdraw Holster", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Crossdraw Holster"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -172,7 +189,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Loadouts", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Loadouts"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -181,7 +198,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Large Mask", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Large Mask"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -194,7 +211,7 @@ namespace Menu
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		if (ImGui::Button("Remove Neckwear", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Neckwear"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -203,7 +220,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Mask", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Mask"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -212,7 +229,7 @@ namespace Menu
 			}
 			END_JOB()
 		}
-		if (ImGui::Button("Remove Everything", ImVec2(0, 0)))
+		if (ImGui::Button("Remove Everything"))
 		{
 			QUEUE_JOB(=)
 			{
@@ -227,81 +244,15 @@ namespace Menu
 			END_JOB()
 		}
 		ImGui::EndGroup();
-		
-		if (ImGui::Button("Set Naked Outfit"))
-		{
-			QUEUE_JOB(=)
-			{
-				Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, RAGE_JOAAT("META_OUTFIT_NUDE"));
-			}
-			END_JOB()
-		}
-		if (Features::IsArthurModel())
-		{
-			ImGui::SameLine();
-			if (ImGui::Button("Set Legend Of The East Outfit"))
-			{
-				QUEUE_JOB(=)
-				{
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, 13, false);
-				}
-				END_JOB()
-			}
-		}
-		ImGui::Separator();
-		
-		if (ImGui::Button("Spawn Hat"))
-		{
-			QUEUE_JOB(=)
-			{
-				constexpr Hash model = RAGE_JOAAT("COLLISION_HAT");
-				Features::RequestModel(model);
-				Object stick = OBJECT::CREATE_OBJECT_NO_OFFSET(model, 196.386f, 988.0386f, 189.1274f, true, true, false, true);
-			}
-			END_JOB()
-		}
-		ImGui::Separator();
 
-		ImGui::Text("Set Outfit");
-		static int Outfit = 0;
-		static bool KeepAcc = false;
-		ImGui::PushButtonRepeat(true);
-		if (ImGui::ArrowButton("###lof", ImGuiDir_Left))
-		{
-			QUEUE_JOB(=)
-			{
-				if (Outfit == 0)
-					++Outfit;
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, --Outfit, KeepAcc);
-			}
-			END_JOB()
-		}
-		ImGui::SameLine();
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("%d", Outfit);
-		ImGui::SameLine();
-		if (ImGui::ArrowButton("###rof", ImGuiDir_Right))
-		{
-			QUEUE_JOB(=)
-			{
-				if (Outfit == PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1)
-					--Outfit;
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, ++Outfit, KeepAcc);
-			}
-			END_JOB()
-		}
-		ImGui::PopButtonRepeat();
-		ImGui::SameLine();
-		ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
-		ImGui::Separator();
-		
-		RenderPlayerModelChanger();
-
-		ImGui::End();
+		ImGui::EndTabItem();
 	}
 
 	void RenderPlayerModelChanger()
 	{
+		if (!ImGui::BeginTabItem("Change Model"))
+			return;
+
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Set Player Model");
 		ImGui::SameLine();
@@ -316,19 +267,19 @@ namespace Menu
 			Features::ResetPlayerModel();
 
 		const float width = ImGui::GetContentRegionAvail().x / 2;
-		ImGui::BeginChild("player_model_child", ImVec2(width, 200));
+		ImGui::BeginChild("player_model_child", ImVec2(width, 0));
 		for (const auto& p : g_PedList)
 		{
 			if (p.first.find(ModBuffer) == std::string::npos)
 				continue;
 
-			if (ImGui::Selectable(p.first.c_str()), p.second == g_LocalPlayer.m_Model)
+			if (ImGui::Selectable(p.first.c_str(), p.second == g_LocalPlayer.m_Model))
 				Features::SetPlayerModel(p.second);
 		}
 		ImGui::EndChild();
 		ImGui::SameLine();
 
-		ImGui::BeginChild("player_model_preset_child", ImVec2(0, 200));
+		ImGui::BeginChild("player_model_preset_child");
 		if (ImGui::Selectable("Arthur"))
 			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_ZERO"));
 		if (ImGui::Selectable("John"))
@@ -370,5 +321,121 @@ namespace Menu
 		if (ImGui::Selectable("Murder Mystery Body"))
 			Features::SetPlayerModel(RAGE_JOAAT("RE_MURDERCAMP_MALES_01"));
 		ImGui::EndChild();
+		
+		ImGui::EndTabItem();
+	}
+	
+	void RenderPlayerOutfitChanger()
+	{
+		if (!ImGui::BeginTabItem("Change Outfit"))
+			return;
+		
+		ImGui::BeginChild("meta_ped_outfit_child", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
+		
+		static Hash s_SelectedModel = 0;
+		static json s_SelectedOutfits;
+		if (s_SelectedModel != g_LocalPlayer.m_Model)
+		{
+			s_SelectedModel = g_LocalPlayer.m_Model;
+
+			std::string ModelName(Features::GetPedModelName(s_SelectedModel));
+			Features::StringToLower(ModelName);
+
+			s_SelectedOutfits = g_MetaPedOutfits[ModelName];
+		}
+
+		for (const auto& o : s_SelectedOutfits)
+		{
+			if (o.is_string())
+			{
+				const auto& name = o.get_ref<const std::string&>();
+				Hash model = rage::joaat(name);
+
+				if (ImGui::Selectable(name.c_str()))
+					Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, model);
+			}
+			else if (o.is_number())
+			{
+				Hash model = o.get<uint32_t>();
+
+				if (ImGui::Selectable(std::to_string(model).c_str()))
+					Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, model);
+			}
+		}
+		
+		ImGui::EndChild();
+		ImGui::SameLine();
+		
+		ImGui::BeginGroup();
+		ImGui::Text("Set Outfit");
+		static int Outfit = 0;
+		static bool KeepAcc = false;
+		
+		ImGui::PushButtonRepeat(true);
+		if (ImGui::ArrowButton("###lof", ImGuiDir_Left))
+		{
+			QUEUE_JOB(=)
+			{
+				if (Outfit == 0)
+					++Outfit;
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, --Outfit, KeepAcc);
+			}
+			END_JOB()
+		}
+		ImGui::SameLine();
+		
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("%d", Outfit);
+		ImGui::SameLine();
+		
+		if (ImGui::ArrowButton("###rof", ImGuiDir_Right))
+		{
+			QUEUE_JOB(=)
+			{
+				if (Outfit == PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1)
+					--Outfit;
+				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, ++Outfit, KeepAcc);
+			}
+			END_JOB()
+		}
+		ImGui::PopButtonRepeat();
+		
+		ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
+		ImGui::EndGroup();
+
+		ImGui::EndTabItem();
+	}
+
+	void RenderScenarioTab()
+	{
+		if (!ImGui::BeginTabItem("Scenarios"))
+			return;
+
+		static Hash s_SelectedScenario = g_ScenarioList.begin()->second;
+		ImGui::BeginChild("###scenario_left", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
+		for (const auto& s : g_ScenarioList)
+		{
+			if (ImGui::Selectable(s.first.c_str(), s.second == s_SelectedScenario))
+				s_SelectedScenario = s.second;
+		}
+		ImGui::EndChild();
+		ImGui::SameLine();
+
+		ImGui::BeginChild("###scenario_right");
+		if (ImGui::Button("Play Scenario"))
+			Features::StartPedScenario(g_LocalPlayer.m_Entity, s_SelectedScenario);
+		if (ImGui::Button("Stop Scenario"))
+			Features::StopPedScenario(g_LocalPlayer.m_Entity);
+		if (ImGui::Button("Stop Scenario Immediately/Clear Props"))
+		{
+			QUEUE_JOB(=)
+			{
+				TASK::CLEAR_PED_TASKS_IMMEDIATELY(g_LocalPlayer.m_Entity, true, true);
+			}
+			END_JOB()
+		}
+		ImGui::EndChild();
+
+		ImGui::EndTabItem();
 	}
 }

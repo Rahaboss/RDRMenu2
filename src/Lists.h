@@ -489,3 +489,5 @@ constexpr inline std::array g_MetaPedTags{
 	RAGE_JOAAT("BELT_BUCKLES"),
 	(Hash)4242860191,
 };
+
+inline json g_MetaPedOutfits;

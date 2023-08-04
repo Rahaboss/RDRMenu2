@@ -22,4 +22,6 @@ namespace Features
 	std::vector<Object> GetAllObjects(bool CheckEntityValidity = false);
 	std::vector<Vehicle> GetAllVehicles(bool CheckEntityValidity = false);
 	std::vector<Pickup> GetAllPickups(bool CheckEntityValidity = false);
+
+	void StringToLower(std::string& String);
 }

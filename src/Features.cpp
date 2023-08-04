@@ -252,6 +252,8 @@ namespace Features
 			if (g_Settings["disable_west_elizabeth_pinkertons"].get<bool>())
 				if (auto b = ScriptGlobal(1934266).At(56).Get<bool*>())
 					*b = true;
+
+			DisableSprintBlocking();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

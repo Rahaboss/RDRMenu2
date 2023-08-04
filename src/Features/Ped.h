@@ -12,4 +12,5 @@ namespace Features
 	void RemoveAllPedWeapons(Ped ped);
 	void StartPedScenario(Ped ped, Hash scenario, int duration = -1, Hash conditional = 0);
 	void StopPedScenario(Ped ped);
+	void SetPedScale(Ped ped, float scale = 1.0f);
 }

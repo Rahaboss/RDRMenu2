@@ -203,4 +203,9 @@ namespace Features
 
 		return result;
 	}
+	
+	void StringToLower(std::string& String)
+	{
+		std::transform(String.cbegin(), String.cend(), String.begin(), ::tolower);
+	}
 }

@@ -35,7 +35,7 @@ namespace Hooking
 		GetGUIDFromItemID.Create(NativeContext::GetHandler(0x886DFD3E185C8A89), GetGUIDFromItemIDHook);
 		CreatePersChar.Create(NativeContext::GetHandler(0x4F76E3676583D951), CreatePersCharHook);
 		CreateAnimScene.Create(NativeContext::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
-		DecorSetBool.Create(NativeContext::GetHandler(0xFE26E4609B1C3772), DecorSetIntHook);
+		DecorSetBool.Create(NativeContext::GetHandler(0xFE26E4609B1C3772), DecorSetBoolHook);
 		DecorSetInt.Create(NativeContext::GetHandler(0xE88F4D7F52A6090F), DecorSetIntHook);
 		SetAnimSceneEntity.Create(NativeContext::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 		IsDlcPresent.Create(NativeContext::GetHandler(0x2763DC12BBE2BB6F), IsDlcPresentHook);
@@ -132,7 +132,27 @@ namespace Hooking
 	{
 		if (ctx && g_Settings["no_snipers"].get<bool>() &&
 			ctx->GetArg<Hash>(8) == WEAPON_SNIPERRIFLE_CARCANO)
+		{
+			float x1 = ctx->GetArg<float>(0);
+			float y1 = ctx->GetArg<float>(1);
+			float z1 = ctx->GetArg<float>(2);
+			float x2 = ctx->GetArg<float>(3);
+			float y2 = ctx->GetArg<float>(4);
+			float z2 = ctx->GetArg<float>(5);
+			int damage = ctx->GetArg<int>(6);
+			BOOL p7 = ctx->GetArg<BOOL>(7);
+			Hash weaponHash = ctx->GetArg<Hash>(8);
+			Ped ownerPed = ctx->GetArg<Ped>(9);
+			BOOL isAudible = ctx->GetArg<BOOL>(10);
+			BOOL isInvisible = ctx->GetArg<BOOL>(11);
+			float speed = ctx->GetArg<float>(12);
+			BOOL p13 = ctx->GetArg<BOOL>(13);
+
+			LOG_TO_CONSOLE(__FUNCTION__"(%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %d, %d, %u, %d, %d, %d, %.2f, %d)\n",
+				x1, y1, z1, x2, y2, z2, damage, p7, weaponHash, ownerPed, isAudible, isInvisible, speed, p13);
+
 			return;
+		}
 			
 		ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
 	}
@@ -145,6 +165,21 @@ namespace Hooking
 				ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
 				ctx->GetArg<uint32_t>(1) == 0x44BBD654) // 1502.69775391f
 			{
+				Entity entity = ctx->GetArg<Entity>(0);
+				float originX = ctx->GetArg<float>(1);
+				float originY = ctx->GetArg<float>(2);
+				float originZ = ctx->GetArg<float>(3);
+				float edgeX = ctx->GetArg<float>(4);
+				float edgeY = ctx->GetArg<float>(5);
+				float edgeZ = ctx->GetArg<float>(6);
+				float angle = ctx->GetArg<float>(7);
+				BOOL p8 = ctx->GetArg<BOOL>(8);
+				BOOL p9 = ctx->GetArg<BOOL>(9);
+				Any p10 = ctx->GetArg<Any>(10);
+
+				LOG_TO_CONSOLE(__FUNCTION__"(%d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %d, %d, %d)\n",
+					entity, originX, originY, originZ, edgeX, edgeY, edgeZ, angle, p8, p9, p10);
+
 				ctx->SetRet<BOOL>(FALSE); // Spoof return value
 				return FALSE;
 			}
