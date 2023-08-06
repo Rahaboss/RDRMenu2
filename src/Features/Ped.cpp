@@ -78,15 +78,11 @@ namespace Features
 
 	void SetMetaPedOutfit(Ped ped, Hash outfit)
 	{
-		QUEUE_JOB(=)
-		{
-			int requestId = PED::_REQUEST_META_PED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), outfit);
-			while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
-				YieldThread();
-			PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
-			PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
-		}
-		END_JOB()
+		int requestId = PED::_REQUEST_META_PED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), outfit);
+		while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
+			YieldThread();
+		PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
+		PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
 	}
 	
 	void RemoveAllPedWeapons(Ped ped)
@@ -94,6 +90,9 @@ namespace Features
 		QUEUE_JOB(=)
 		{
 			WEAPON::REMOVE_ALL_PED_WEAPONS(ped, true, true);
+			for (int i = 0; i < MAX_WEAPON_ATTACH_POINTS; i++)
+				WEAPON::GIVE_WEAPON_TO_PED(ped, WEAPON_UNARMED, 1, true, false, i, true,
+					0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		}
 		END_JOB()
 	}

@@ -166,9 +166,6 @@ namespace Features
 					vecPosition = CAM::GET_GAMEPLAY_CAM_COORD();
 					vecRot = CAM::GET_GAMEPLAY_CAM_ROT(2);
 
-					ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Vehicle, true);
-					ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Mount, true);
-
 					CAM::SET_CAM_COORD(Menu::CamEntity, vecPosition.x, vecPosition.y, vecPosition.z);
 					CAM::SET_CAM_ROT(Menu::CamEntity, vecRot.x, vecRot.y, vecRot.z, 2);
 					CAM::SET_CAM_ACTIVE(Menu::CamEntity, true);
@@ -213,6 +210,11 @@ namespace Features
 
 				vecRot = CAM::GET_GAMEPLAY_CAM_ROT(2);
 				CAM::SET_CAM_ROT(Menu::CamEntity, vecRot.x, vecRot.y, vecRot.z, 2);
+
+				TASK::CLEAR_PED_TASKS(g_LocalPlayer.m_Entity, false, true);
+				TASK::CLEAR_PED_SECONDARY_TASK(g_LocalPlayer.m_Entity);
+				TASK::CLEAR_PED_TASKS_IMMEDIATELY(g_LocalPlayer.m_Entity, true, true);
+				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Entity, true);
 
 				if (!Menu::IsOpen)
 				{

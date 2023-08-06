@@ -57,6 +57,7 @@ using namespace std::literals::string_view_literals;
 #define LOG_EXCEPTION() LOG_TO_CONSOLE("Caught exception in:\n\tFile: %s:%d\n\tFunction: %s\n", __FILE__, __LINE__, __FUNCTION__);
 #define __ROL8__ _rotl64
 #define __ROR8__ _rotr64
+#define DO_AND_LOG(line) LOG_TO_CONSOLE(###line " (" __FILE__ ":%u)\n", __LINE__); line
 
 // Toggles
 #define ENABLE_ANTI_ANTI_DEBUG 0

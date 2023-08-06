@@ -126,9 +126,10 @@ namespace Features
 		
 		YieldThread();
 
+		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, true);
+		YieldThread();
 		ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(ped, true);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
-		PED::_SET_RANDOM_OUTFIT_VARIATION(ped, true);
 		
 		return ped;
 	}

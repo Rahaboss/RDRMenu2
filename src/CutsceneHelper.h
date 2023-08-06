@@ -46,7 +46,6 @@ private:
 	std::vector<Object> m_Objects;
 	std::vector<Ped> m_Peds;
 	std::vector<Vehicle> m_Vehicles;
-	bool m_Loaded = false;
 };
 
 inline json g_Cutscenes;

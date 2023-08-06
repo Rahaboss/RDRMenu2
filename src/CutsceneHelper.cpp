@@ -5,6 +5,8 @@
 #include "Lists.h"
 #include "Menu.h"
 
+// DON'T USE OR CALL FUNCTIONS THAT USE THE JOB QUEUE !!! (unless you know what you are doing)
+
 CutsceneHelper::CutsceneHelper(const json& JsonObject):
 	m_Scene(0),
 	m_JsonObject(JsonObject)
@@ -64,30 +66,34 @@ Ped CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 void CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 {
 	Ped Handle = AddPedNew(Features::GetHashFromJson(PedJsonObject["model"]), PedJsonObject["name"].get_ref<const std::string&>().c_str());
+	Features::YieldThread();
 
 	if (PedJsonObject.contains("outfit_preset"))
 		PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, PedJsonObject["outfit_preset"].get<int>(), false);
 
 	// https://github.com/femga/rdr3_discoveries/blob/master/clothes/metaped_outfits.lua
-	if (PedJsonObject.contains("metaped_outfit"))
-		Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["metaped_outfit"]));
+	if (PedJsonObject.contains("meta_ped_outfit"))
+		Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["meta_ped_outfit"]));
+
+	if (PedJsonObject.contains("meta_ped_wearable"))
+		Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(PedJsonObject["meta_ped_wearable"]));
 
 	if (PedJsonObject.contains("remove_weapons") && PedJsonObject["remove_weapons"].get<bool>())
-		Features::RemoveAllPedWeapons(Handle);
+		WEAPON::REMOVE_ALL_PED_WEAPONS(Handle, true, true);
 }
 
 void CutsceneHelper::AddPeds()
 {
-	AddLocalPlayer();
-
 	if (!m_JsonObject.contains("peds"))
 		return;
 
 	for (const auto& j : m_JsonObject["peds"])
 	{
+		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
 			continue;
 
+		// Don't add if already added
 		if (ENTITY::DOES_ENTITY_EXIST(ANIMSCENE::_GET_ANIM_SCENE_PED(m_Scene, j["name"].get_ref<const std::string&>().c_str(), FALSE)))
 			continue;
 
@@ -100,30 +106,32 @@ void CutsceneHelper::AddLocalPlayer()
 	if (m_JsonObject.contains("player_model"))
 	{
 		// Known ped model (from JSON)
-		const auto& PlayerModel = m_JsonObject["player_model"].get_ref<const std::string&>();
-		const bool b_PlayerArthur = PlayerModel == "player_zero";
+		const Hash PlayerModel = rage::joaat(m_JsonObject["player_model"].get_ref<const std::string&>());
+		const bool b_PlayerArthur = PlayerModel == RAGE_JOAAT("player_zero");
 		const char* entityName = (b_PlayerArthur ? "ARTHUR" : "JOHN");
 		ANIMSCENE::SET_ANIM_SCENE_BOOL(m_Scene, "b_PlayerArthur", b_PlayerArthur, false);
 
 		Ped Handle;
-		if (g_LocalPlayer.m_Model == rage::joaat(PlayerModel))
+		if (g_LocalPlayer.m_Model == PlayerModel)
 		{
 			Handle = g_LocalPlayer.m_Entity;
 			ANIMSCENE::SET_ANIM_SCENE_ENTITY(m_Scene, entityName, g_LocalPlayer.m_Entity, 0);
 		}
 		else
 		{
-			Handle = Features::SpawnPed(rage::joaat(PlayerModel));
+			Handle = Features::SpawnPed(PlayerModel);
 			AddPedExisting(Handle, entityName);
 			// Apply default outfit
-			if (!m_JsonObject.contains("player_outfit_preset"))
+			if (!m_JsonObject.contains("player_outfit_preset") && !m_JsonObject.contains("player_meta_ped_outfit"))
 				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, (b_PlayerArthur ? 3 : 26), false);
 		}
 
 		if (m_JsonObject.contains("player_outfit_preset"))
 			PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, m_JsonObject["player_outfit_preset"].get<int>(), false);
-		if (m_JsonObject.contains("player_metaped_outfit"))
-			Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_metaped_outfit"]));
+		if (m_JsonObject.contains("player_meta_ped_outfit"))
+			Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_meta_ped_outfit"]));
+		if (m_JsonObject.contains("player_meta_ped_wearable"))
+			Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_meta_ped_wearable"]));
 	}
 	else
 	{
@@ -153,6 +161,7 @@ void CutsceneHelper::AddObjects()
 
 	for (const auto& j : m_JsonObject["objects"])
 	{
+		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
 			continue;
 
@@ -192,6 +201,7 @@ void CutsceneHelper::AddVehicles()
 
 	for (const auto& j : m_JsonObject["vehicles"])
 	{
+		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
 			continue;
 
@@ -217,15 +227,12 @@ void CutsceneHelper::TeleportToOrigin()
 
 	Vector3 position, rotation;
 	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &position, &rotation, 2);
+	Features::LoadGround(position);
 	Features::Teleport(position);
-	Features::YieldThread(1000); // Try to load more of the map
 }
 
 void CutsceneHelper::LoadCutscene()
 {
-	if (m_Loaded)
-		return;
-
 	while (true)
 	{
 		ANIMSCENE::LOAD_ANIM_SCENE(m_Scene);
@@ -238,7 +245,6 @@ void CutsceneHelper::LoadCutscene()
 
 void CutsceneHelper::PlayCutscene()
 {
-	LoadCutscene();
 	ANIMSCENE::START_ANIM_SCENE(m_Scene);
 }
 
@@ -250,7 +256,10 @@ void CutsceneHelper::SkipCutscene()
 
 void CutsceneHelper::WaitForCutsceneEnd()
 {
-	while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(m_Scene, false))
+	uint32_t Time = (uint32_t)(ANIMSCENE::_GET_ANIM_SCENE_DURATION(m_Scene) * 1000.0f);
+	uint64_t StartTime = GetTickCount64();
+
+	while (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(m_Scene, false) && GetTickCount64() < (StartTime + Time))
 		Features::YieldThread();
 }
 
@@ -268,7 +277,8 @@ void CutsceneHelper::CleanupCutscene()
 		Features::DeleteVehicle(v);
 	m_Vehicles.clear();
 
-	ANIMSCENE::_DELETE_ANIM_SCENE(m_Scene);
+	if (m_Scene)
+		ANIMSCENE::_DELETE_ANIM_SCENE(m_Scene);
 }
 
 void CutsceneHelper::PlayAutomatically()
@@ -280,12 +290,13 @@ void CutsceneHelper::PlayAutomatically()
 	{
 		LoadCutscene();
 		TeleportToOrigin();
-		Features::YieldThread();
 
-		AddObjects();
+		AddLocalPlayer();
 		AddPeds();
+		AddObjects();
 		AddVehicles();
-		Features::YieldThread();
+		
+		Features::YieldThread(1000); // Try to load more of the map
 
 		PlayCutscene();
 		WaitForCutsceneEnd();
@@ -295,7 +306,6 @@ void CutsceneHelper::PlayAutomatically()
 	TRY
 	{
 		CleanupCutscene();
-		Features::YieldThread();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

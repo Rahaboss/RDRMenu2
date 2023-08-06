@@ -43,3 +43,6 @@ Here is a list of future features that should ideally be implemented. These are 
 * Fix game bugs, possibly by changing game files
 	* Remove the timer text overlay during five finger fillet minigame
 	* Add back removed outfits (https://www.youtube.com/watch?v=VJ9yV-4tJj8)
+* Make it clear when the job queue is supposed to be used (probably by user).
+	* Features functions shouldn't use the job queue, the user (menu code for example) should be responsible for this.
+	* Otherwise things can get very confusing, like in which order code actually runs.

@@ -352,14 +352,26 @@ namespace Menu
 				Hash model = rage::joaat(name);
 
 				if (ImGui::Selectable(name.c_str()))
-					Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, model);
+				{
+					QUEUE_JOB(model)
+					{
+						Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, model);
+					}
+					END_JOB()
+				}
 			}
 			else if (o.is_number())
 			{
 				Hash model = o.get<uint32_t>();
 
 				if (ImGui::Selectable(std::to_string(model).c_str()))
-					Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, model);
+				{
+					QUEUE_JOB(model)
+					{
+						Features::SetMetaPedOutfit(g_LocalPlayer.m_Entity, model);
+					}
+					END_JOB()
+				}
 			}
 		}
 		

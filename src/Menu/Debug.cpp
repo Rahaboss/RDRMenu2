@@ -411,14 +411,20 @@ namespace Menu
 
 		if (ImGui::Button("Sort Cutscenes JSON"))
 		{
+			Lists::ReloadCutscenesList();
+
 			std::sort(g_Cutscenes.begin(), g_Cutscenes.end(), [](const json& a, const json& b) {
 				return a["id"].get_ref<const std::string&>() < b["id"].get_ref<const std::string&>();
 			});
 
-			std::fstream File(Features::GetConfigPath().append("cut.json"), std::fstream::out | std::fstream::trunc);
-			assert(File.good());
-			File << g_Cutscenes.dump(4);
-			File.close();
+			//std::ofstream File(Features::GetConfigPath().append("cut.json"));
+			std::ofstream File(Features::GetConfigPath().append("Cutscenes.json"));
+			if (File)
+			{
+				File << g_Cutscenes.dump(1, '\t') << '\n';
+				File.close();
+			}
+			constexpr auto asd = RAGE_JOAAT("meta_wearable_shawl");
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Mrs. Adler"))
@@ -746,7 +752,7 @@ namespace Menu
 				CAM::DESTROY_CAM(CamEntity, false);
 				STREAMING::SET_FOCUS_ENTITY(g_LocalPlayer.m_Entity);
 
-				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Vehicle, false);
+				ENTITY::FREEZE_ENTITY_POSITION(g_LocalPlayer.m_Entity, false);
 
 				CamEntity = 0;
 			}
