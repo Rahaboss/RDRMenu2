@@ -3,7 +3,7 @@ A trainer for Red Dead Redemption 2.
 
 ## Building this project
 You will need:
-* Visual Studio 2017/2019/2022
+* Visual Studio 2019/2022
 * Git
 * [Vulkan SDK](https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe)
 
