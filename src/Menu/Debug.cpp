@@ -316,10 +316,22 @@ namespace Menu
 	void RenderDebugButtons()
 	{
 		if (ImGui::Button("Change Player Model"))
-			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
+		{
+			QUEUE_JOB(=)
+			{
+				Features::SetPlayerModel(RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
+			}
+			END_JOB()
+		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset Player Model"))
-			Features::ResetPlayerModel();
+		{
+			QUEUE_JOB(=)
+			{
+				Features::ResetPlayerModel();
+			}
+			END_JOB()
+		}
 
 		if (ImGui::Button("Knock Off Ped Prop"))
 		{

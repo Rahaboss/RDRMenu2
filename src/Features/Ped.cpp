@@ -84,6 +84,11 @@ namespace Features
 		PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
 		PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
 	}
+
+	void SetPedOutfitPreset(Ped ped, int preset, bool keep_acc)
+	{
+		PED::_EQUIP_META_PED_OUTFIT_PRESET(ped, preset, false);
+	}
 	
 	void RemoveAllPedWeapons(Ped ped)
 	{

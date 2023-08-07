@@ -195,47 +195,46 @@ namespace Features
 
 	void SetPlayerModel(Hash Model)
 	{
-		QUEUE_JOB(=)
-		{
-			// Check model validity or if model is already set
-			if (!IsModelValid(Model) || g_LocalPlayer.m_Model == Model)
-				return;
+		LOG_TO_CONSOLE(__FUNCTION__": Setting player model is very buggy.\n");
+		return;
 
-			// Clean up current model
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(g_LocalPlayer.m_Model);
+		// Check model validity or if model is already set
+		if (!IsModelValid(Model) || g_LocalPlayer.m_Model == Model)
+			return;
 
-			// Request the new model
-			RequestModel(Model);
+		// Clean up current model
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(g_LocalPlayer.m_Model);
 
-			// Set the model
-			ScriptGlobal(40).At(39).Get<Hash&>() = Model; // medium_update.c: Global_40.f_39
-			ScriptGlobal(1935630).At(2).Get<Hash&>() = Model; // medium_update.c: Global_1935630.f_2
-			PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, Model, false);
-			//ScriptGlobal(35).Get<Ped&>() = PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID());
-			//YieldThread();
+		// Request the new model
+		RequestModel(Model);
 
-			// Get the player info again, because a new player model will be created
-			GetLocalPlayerInfo();
+		// Set the model
+		ScriptGlobal(40).At(39).Get<Hash&>() = Model; // medium_update.c: Global_40.f_39
+		ScriptGlobal(1935630).At(2).Get<Hash&>() = Model; // medium_update.c: Global_1935630.f_2
+		PLAYER::SET_PLAYER_MODEL(g_LocalPlayer.m_Index, Model, false);
+		//ScriptGlobal(35).Get<Ped&>() = PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID());
+		//YieldThread();
 
-			// Clean up
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
-			PED::_SET_RANDOM_OUTFIT_VARIATION(g_LocalPlayer.m_Entity, true);
+		// Get the player info again, because a new player model will be created
+		GetLocalPlayerInfo();
 
-			// Set up ped info and stats
-			PED::SET_PED_RANDOM_COMPONENT_VARIATION(g_LocalPlayer.m_Entity, 0);
-			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
-			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
-			ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
-			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
-			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
-			ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
-			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
-			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
-			SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);
-			RestorePlayerCores();
-			GiveWeapon(WEAPON_UNARMED);
-		}
-		END_JOB()
+		// Clean up
+		PED::_SET_RANDOM_OUTFIT_VARIATION(g_LocalPlayer.m_Entity, true);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Model);
+
+		// Set up ped info and stats
+		PED::SET_PED_RANDOM_COMPONENT_VARIATION(g_LocalPlayer.m_Entity, 0);
+		/*ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
+		ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
+		ATTRIBUTE::SET_ATTRIBUTE_BASE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
+		ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_HEALTH, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_HEALTH));
+		ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_STAMINA, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_STAMINA));
+		ATTRIBUTE::SET_ATTRIBUTE_BONUS_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY, ATTRIBUTE::GET_MAX_ATTRIBUTE_RANK(g_LocalPlayer.m_Entity, PA_SPECIALABILITY));
+		SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_HEALTH);
+		SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_STAMINA);
+		SetMaxAttributeValue(g_LocalPlayer.m_Entity, PA_SPECIALABILITY);
+		RestorePlayerCores();
+		GiveWeapon(WEAPON_UNARMED);*/
 	}
 
 	void SetNoRagdoll(bool Toggle)

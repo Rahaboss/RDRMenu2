@@ -87,7 +87,7 @@ namespace Features
 				else
 				{
 					Ped arthur = SpawnPed(RAGE_JOAAT("PLAYER_ZERO"));
-					PED::_EQUIP_META_PED_OUTFIT_PRESET(arthur, 0, false);
+					SetMetaPedOutfit(arthur, 0);
 					for (const auto& t : tags)
 						PED::REMOVE_TAG_FROM_META_PED(arthur, t, 1);
 					PED::_UPDATE_PED_VARIATION(arthur, false, true, true, true, true);
@@ -144,7 +144,7 @@ namespace Features
 				CutsceneHelper Cutscene("cutscene@mar6_rsc2");
 				const Ped unc = SpawnPed(RAGE_JOAAT("CS_UNCLE"));
 				WEAPON::REMOVE_ALL_PED_WEAPONS(unc, TRUE, TRUE);
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(unc, 5, FALSE);
+				SetMetaPedOutfit(unc, 5);
 				Cutscene.AddPedExisting(unc, "Uncle");
 				Cutscene.PlayAutomatically();
 			}();

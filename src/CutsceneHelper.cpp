@@ -69,7 +69,7 @@ void CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 	Features::YieldThread();
 
 	if (PedJsonObject.contains("outfit_preset"))
-		PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, PedJsonObject["outfit_preset"].get<int>(), false);
+		Features::SetPedOutfitPreset(Handle, PedJsonObject["outfit_preset"].get<int>());
 
 	// https://github.com/femga/rdr3_discoveries/blob/master/clothes/metaped_outfits.lua
 	if (PedJsonObject.contains("meta_ped_outfit"))
@@ -119,15 +119,15 @@ void CutsceneHelper::AddLocalPlayer()
 		}
 		else
 		{
-			Handle = Features::SpawnPed(PlayerModel);
-			AddPedExisting(Handle, entityName);
+			Handle = AddPedNew(PlayerModel, entityName);
+		
 			// Apply default outfit
 			if (!m_JsonObject.contains("player_outfit_preset") && !m_JsonObject.contains("player_meta_ped_outfit"))
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, (b_PlayerArthur ? 3 : 26), false);
+				Features::SetMetaPedOutfit(Handle, (b_PlayerArthur ? RAGE_JOAAT("META_OUTFIT_COOL_WEATHER") : RAGE_JOAAT("META_OUTFIT_GUNSLINGER")));
 		}
 
 		if (m_JsonObject.contains("player_outfit_preset"))
-			PED::_EQUIP_META_PED_OUTFIT_PRESET(Handle, m_JsonObject["player_outfit_preset"].get<int>(), false);
+			Features::SetMetaPedOutfit(Handle, m_JsonObject["player_outfit_preset"].get<int>());
 		if (m_JsonObject.contains("player_meta_ped_outfit"))
 			Features::SetMetaPedOutfit(Handle, Features::GetHashFromJson(m_JsonObject["player_meta_ped_outfit"]));
 		if (m_JsonObject.contains("player_meta_ped_wearable"))

@@ -261,10 +261,23 @@ namespace Menu
 		ImGui::InputText("###filter_ped", ModBuffer, 200, ImGuiInputTextFlags_CharsUppercase);
 		ImGui::SameLine();
 		if (ImGui::Button("Set###set_model_manually"))
-			Features::SetPlayerModel(rage::joaat(ModBuffer));
+		{
+			Hash model = rage::joaat(ModBuffer);
+			QUEUE_JOB(=)
+			{
+				Features::SetPlayerModel(model);
+			}
+			END_JOB()
+		}
 		ImGui::SameLine();
 		if (ImGui::Button("Reset###reset_model"))
-			Features::ResetPlayerModel();
+		{
+			QUEUE_JOB(=)
+			{
+				Features::ResetPlayerModel();
+			}
+			END_JOB()
+		}
 
 		const float width = ImGui::GetContentRegionAvail().x / 2;
 		ImGui::BeginChild("player_model_child", ImVec2(width, 0));
@@ -274,52 +287,71 @@ namespace Menu
 				continue;
 
 			if (ImGui::Selectable(p.first.c_str(), p.second == g_LocalPlayer.m_Model))
-				Features::SetPlayerModel(p.second);
+			{
+				Hash model = p.second;
+				QUEUE_JOB(=)
+				{
+					Features::SetPlayerModel(model);
+				}
+				END_JOB()
+			}
 		}
 		ImGui::EndChild();
 		ImGui::SameLine();
 
-		ImGui::BeginChild("player_model_preset_child");
-		if (ImGui::Selectable("Arthur"))
-			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_ZERO"));
-		if (ImGui::Selectable("John"))
-			Features::SetPlayerModel(RAGE_JOAAT("PLAYER_THREE"));
-		if (ImGui::Selectable("Dutch"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_DUTCH"));
-		if (ImGui::Selectable("Robot"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_CRACKPOTROBOT"));
-		if (ImGui::Selectable("Naked Woman"))
-			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01"));
-		if (ImGui::Selectable("Naked Man"))
-			Features::SetPlayerModel(RAGE_JOAAT("RE_NAKEDSWIMMER_MALES_01"));
-		if (ImGui::Selectable("Clan Member (1)"))
-			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLY_MALES_01"));
-		if (ImGui::Selectable("Clan Member (2)"))
-			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLYDISPUTE_MALES_01"));
-		if (ImGui::Selectable("Clan Member (3)"))
-			Features::SetPlayerModel(RAGE_JOAAT("RE_RALLYSETUP_MALES_01"));
-		if (ImGui::Selectable("2 Headed Skeleton (1)"))
-			Features::SetPlayerModel(RAGE_JOAAT("U_M_M_CIRCUSWAGON_01"));
-		if (ImGui::Selectable("2 Headed Skeleton (2)"))
-			Features::SetPlayerModel(RAGE_JOAAT("U_F_M_CIRCUSWAGON_01"));
-		if (ImGui::Selectable("Magnifico"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_MAGNIFICO"));
-		if (ImGui::Selectable("Bertram"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_ODDFELLOWSPINHEAD"));
-		if (ImGui::Selectable("Strange Man"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_MYSTERIOUSSTRANGER"));
-		if (ImGui::Selectable("Vampire"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_VAMPIRE"));
-		if (ImGui::Selectable("Swamp Freak"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_SWAMPFREAK"));
-		if (ImGui::Selectable("Jack"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_JACKMARSTON"));
-		if (ImGui::Selectable("Jack (Teen)"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_JACKMARSTON_TEEN"));
-		if (ImGui::Selectable("Gavin"))
-			Features::SetPlayerModel(RAGE_JOAAT("CS_GAVIN"));
-		if (ImGui::Selectable("Murder Mystery Body"))
-			Features::SetPlayerModel(RAGE_JOAAT("RE_MURDERCAMP_MALES_01"));
+		if (ImGui::BeginChild("player_model_preset_child"))
+		{
+			Hash ChangeModel = 0;
+			if (ImGui::Selectable("Arthur"))
+				ChangeModel = RAGE_JOAAT("PLAYER_ZERO");
+			if (ImGui::Selectable("John"))
+				ChangeModel = RAGE_JOAAT("PLAYER_THREE");
+			if (ImGui::Selectable("Dutch"))
+				ChangeModel = RAGE_JOAAT("CS_DUTCH");
+			if (ImGui::Selectable("Robot"))
+				ChangeModel = RAGE_JOAAT("CS_CRACKPOTROBOT");
+			if (ImGui::Selectable("Naked Woman"))
+				ChangeModel = RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01");
+			if (ImGui::Selectable("Naked Man"))
+				ChangeModel = RAGE_JOAAT("RE_NAKEDSWIMMER_MALES_01");
+			if (ImGui::Selectable("Clan Member (1)"))
+				ChangeModel = RAGE_JOAAT("RE_RALLY_MALES_01");
+			if (ImGui::Selectable("Clan Member (2)"))
+				ChangeModel = RAGE_JOAAT("RE_RALLYDISPUTE_MALES_01");
+			if (ImGui::Selectable("Clan Member (3)"))
+				ChangeModel = RAGE_JOAAT("RE_RALLYSETUP_MALES_01");
+			if (ImGui::Selectable("2 Headed Skeleton (1)"))
+				ChangeModel = RAGE_JOAAT("U_M_M_CIRCUSWAGON_01");
+			if (ImGui::Selectable("2 Headed Skeleton (2)"))
+				ChangeModel = RAGE_JOAAT("U_F_M_CIRCUSWAGON_01");
+			if (ImGui::Selectable("Magnifico"))
+				ChangeModel = RAGE_JOAAT("CS_MAGNIFICO");
+			if (ImGui::Selectable("Bertram"))
+				ChangeModel = RAGE_JOAAT("CS_ODDFELLOWSPINHEAD");
+			if (ImGui::Selectable("Strange Man"))
+				ChangeModel = RAGE_JOAAT("CS_MYSTERIOUSSTRANGER");
+			if (ImGui::Selectable("Vampire"))
+				ChangeModel = RAGE_JOAAT("CS_VAMPIRE");
+			if (ImGui::Selectable("Swamp Freak"))
+				ChangeModel = RAGE_JOAAT("CS_SWAMPFREAK");
+			if (ImGui::Selectable("Jack"))
+				ChangeModel = RAGE_JOAAT("CS_JACKMARSTON");
+			if (ImGui::Selectable("Jack (Teen)"))
+				ChangeModel = RAGE_JOAAT("CS_JACKMARSTON_TEEN");
+			if (ImGui::Selectable("Gavin"))
+				ChangeModel = RAGE_JOAAT("CS_GAVIN");
+			if (ImGui::Selectable("Murder Mystery Body"))
+				ChangeModel = RAGE_JOAAT("RE_MURDERCAMP_MALES_01");
+
+			if (ChangeModel)
+			{
+				QUEUE_JOB(=)
+				{
+					Features::SetPlayerModel(ChangeModel);
+				}
+				END_JOB()
+			}
+		}
 		ImGui::EndChild();
 		
 		ImGui::EndTabItem();
@@ -379,40 +411,50 @@ namespace Menu
 		ImGui::SameLine();
 		
 		ImGui::BeginGroup();
-		ImGui::Text("Set Outfit");
-		static int Outfit = 0;
-		static bool KeepAcc = false;
+		static int s_Outfit = 0;
+		static bool s_KeepAcc = false;
+		/*
+		if (s_SelectedOutfits.size() - 1 < s_Outfit)
+			s_Outfit = 0;
+		const json& temp = s_SelectedOutfits[s_Outfit];
+		if (temp.is_number())
+			ImGui::Text("Set Outfit (%u)", temp.get<uint32_t>());
+		else
+			ImGui::Text("Set Outfit (%s)", temp.get_ref<const std::string&>().c_str());
+		*/
 		
+		ImGui::Text("Set Outfit");
+
+		bool ChangeOutfit = false;
 		ImGui::PushButtonRepeat(true);
 		if (ImGui::ArrowButton("###lof", ImGuiDir_Left))
 		{
-			QUEUE_JOB(=)
-			{
-				if (Outfit == 0)
-					++Outfit;
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, --Outfit, KeepAcc);
-			}
-			END_JOB()
+			ChangeOutfit = true;
+			s_Outfit--;
 		}
 		ImGui::SameLine();
 		
 		ImGui::AlignTextToFramePadding();
-		ImGui::Text("%d", Outfit);
+		ImGui::Text("%d", s_Outfit);
 		ImGui::SameLine();
 		
 		if (ImGui::ArrowButton("###rof", ImGuiDir_Right))
 		{
-			QUEUE_JOB(=)
-			{
-				if (Outfit == PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1)
-					--Outfit;
-				PED::_EQUIP_META_PED_OUTFIT_PRESET(g_LocalPlayer.m_Entity, ++Outfit, KeepAcc);
-			}
-			END_JOB()
+			ChangeOutfit = true;
+			s_Outfit++;
 		}
 		ImGui::PopButtonRepeat();
 		
-		ImGui::Checkbox("p2 (Keep Accessories)", &KeepAcc);
+		ImGui::Checkbox("p2 (Keep Accessories)", &s_KeepAcc);
+		if (ChangeOutfit)
+		{
+			QUEUE_JOB(=)
+			{
+				s_Outfit = std::clamp(s_Outfit, 0, PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1);
+				Features::SetPedOutfitPreset(g_LocalPlayer.m_Entity, s_Outfit, s_KeepAcc);
+			}
+			END_JOB()
+		}
 		ImGui::EndGroup();
 
 		ImGui::EndTabItem();

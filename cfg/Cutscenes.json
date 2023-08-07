@@ -556,6 +556,7 @@
 	},
 	{
 		"id": "cutscene@fin2_ext_p4",
+		"player_meta_ped_outfit": "meta_outfit_wedding",
 		"player_model": "player_three"
 	},
 	{
@@ -564,6 +565,7 @@
 	},
 	{
 		"id": "cutscene@fin2_ext_p5",
+		"player_meta_ped_outfit": "meta_outfit_wedding",
 		"player_model": "player_three"
 	},
 	{
@@ -712,6 +714,12 @@
 	},
 	{
 		"id": "cutscene@gng2_int",
+		"peds": [
+			{
+				"model": "cs_mrsadler",
+				"name": "MrsAdler"
+			}	
+		],
 		"player_model": "player_zero"
 	},
 	{
