@@ -154,7 +154,7 @@ Signature& Signature::Rip()
 	return Add(*Get<int32_t*>()).Add(4);
 }
 
-uintptr_t Signature::GetRaw()
+uintptr_t Signature::GetRaw() const
 {
 	assert(m_Result);
 	return m_Result;

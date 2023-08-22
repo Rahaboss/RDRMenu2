@@ -240,6 +240,6 @@ namespace Features
 		if (it != g_ObjectModelNameList.end())
 			return it->second;
 
-		return std::string();
+		return std::string{};
 	}
 }

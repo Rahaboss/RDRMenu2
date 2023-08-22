@@ -17,6 +17,7 @@
 #include <fstream>
 #include <sstream>
 #include <type_traits>
+#include <cmath>
 
 // Windows
 #include <Windows.h>

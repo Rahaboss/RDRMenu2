@@ -28,7 +28,7 @@ namespace Hooking
 
 	// No Snipers: Guarma
 	inline DetourHook IsEntityInArea;
-	BOOL IsEntityInAreaHook(rage::scrNativeCallContext* ctx);
+	void IsEntityInAreaHook(rage::scrNativeCallContext* ctx);
 
 #if ENABLE_ANTI_ANTI_DEBUG
 	inline DetourHook DebuggerCheck1;
@@ -45,16 +45,16 @@ namespace Hooking
 	void DecreaseAmmoHook(uint64_t this_, rage::CPed* a2, uint64_t a3, uint32_t a4);
 
 	inline DetourHook CreatePed;
-	Ped CreatePedHook(rage::scrNativeCallContext* ctx);
+	void CreatePedHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook CreateVehicle;
-	Vehicle CreateVehicleHook(rage::scrNativeCallContext* ctx);
+	void CreateVehicleHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook InventoryAddItem;
-	BOOL InventoryAddItemHook(rage::scrNativeCallContext* ctx);
+	void InventoryAddItemHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook GetGUIDFromItemID;
-	BOOL GetGUIDFromItemIDHook(rage::scrNativeCallContext* ctx);
+	void GetGUIDFromItemIDHook(rage::scrNativeCallContext* ctx);
 
 	inline VMTHook SwapChain;
 	inline constexpr size_t SwapChainMethodCount = 41, SwapChainPresentIndex = 8, SwapChainResizeBuffersIndex = 13;
@@ -62,32 +62,32 @@ namespace Hooking
 	HRESULT STDMETHODCALLTYPE SwapChainResizeBuffersHook(IDXGISwapChain* SwapChain, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags);
 
 	inline DetourHook CreatePersChar;
-	PersChar CreatePersCharHook(rage::scrNativeCallContext* ctx);
+	void CreatePersCharHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook CreateAnimScene;
-	AnimScene CreateAnimSceneHook(rage::scrNativeCallContext* ctx);
+	void CreateAnimSceneHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook DecorSetBool;
-	BOOL DecorSetBoolHook(rage::scrNativeCallContext* ctx);
+	void DecorSetBoolHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook DecorSetInt;
-	BOOL DecorSetIntHook(rage::scrNativeCallContext* ctx);
+	void DecorSetIntHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook SetAnimSceneEntity;
 	void SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook IsDlcPresent;
-	BOOL IsDlcPresentHook(rage::scrNativeCallContext* ctx);
+	void IsDlcPresentHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook CreateObject;
-	Object CreateObjectHook(rage::scrNativeCallContext* ctx);
+	void CreateObjectHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook CreateObjectNoOffset;
-	Object CreateObjectNoOffsetHook(rage::scrNativeCallContext* ctx);
+	void CreateObjectNoOffsetHook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook GetLabelText2;
-	const char* GetLabelText2Hook(rage::scrNativeCallContext* ctx);
+	void GetLabelText2Hook(rage::scrNativeCallContext* ctx);
 
 	inline DetourHook GetCharFromAudioConvFilename;
-	const char* GetCharFromAudioConvFilenameHook(rage::scrNativeCallContext* ctx);
+	void GetCharFromAudioConvFilenameHook(rage::scrNativeCallContext* ctx);
 }

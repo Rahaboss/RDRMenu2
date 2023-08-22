@@ -20,7 +20,7 @@ namespace Features
 	void ResetPlayerModel();
 	void RestoreHorseCores();
 	void RestorePlayerCores();
-	void SetGodmode(bool Toggle);
+	void SetGodMode(bool Toggle);
 	void SetMaxAttributeValue(Ped ped, int attr);
 	void SetMoney(int AmountCents);
 	void SetPlayerModel(Hash Model);

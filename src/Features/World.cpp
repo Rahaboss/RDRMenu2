@@ -2,6 +2,7 @@
 #include "World.h"
 #include "Features.h"
 #include "JobQueue.h"
+#include "ScriptGlobal.h"
 
 namespace Features
 {
@@ -59,5 +60,11 @@ namespace Features
 	{
 		SetClockTime(12);
 		SetWeatherType(eWeatherType::SUNNY);
+	}
+	
+	void SetDisableWestElizabethPinkertonPatrols(bool Toggle)
+	{
+		if (bool* const b = ScriptGlobal(1934266).At(56).Get<bool*>())
+			*b = Toggle;
 	}
 }

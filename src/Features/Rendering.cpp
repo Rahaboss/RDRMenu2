@@ -595,4 +595,18 @@ namespace Features
 		l->AddLine(ImVec2(ScreenCenter.x + Gap, ScreenCenter.y), ImVec2(ScreenCenter.x + Gap + Size, ScreenCenter.y), Color, Thickness);
 		l->AddLine(ImVec2(ScreenCenter.x - Gap, ScreenCenter.y), ImVec2(ScreenCenter.x - Gap - Size, ScreenCenter.y), Color, Thickness);
 	}
+	
+	void RenderModelDebugGun()
+	{
+		Entity Ent;
+		if (!PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(g_LocalPlayer.m_Index, &Ent))
+			return;
+
+		Hash Model = ENTITY::GET_ENTITY_MODEL(Ent);
+		std::string Name = GetModelName(Model);
+		if (Name.empty())
+			Name = std::to_string(Model);
+
+		RenderTextOnEntity(Ent, Name.c_str());
+	}
 }

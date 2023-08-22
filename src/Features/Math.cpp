@@ -5,7 +5,7 @@ namespace Features
 {
 	float DegreeToRadian(float f)
 	{
-		return (3.14159265359f / 180.0f) * f;
+		return f * static_cast<float>(M_PI / 180.0);
 	}
 	
 	Vector3 RotationToDirection(const Vector3& v)
@@ -15,6 +15,6 @@ namespace Features
 
 		float num = abs(cos(x));
 
-		return Vector3(-sin(z) * num, cos(z) * num, sin(x));
+		return Vector3{ -sin(z) * num, cos(z) * num, sin(x) };
 	}
 }

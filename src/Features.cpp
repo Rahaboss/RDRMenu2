@@ -35,7 +35,7 @@ namespace Features
 			}
 			
 			// Disable godmode
-			//SetGodmode(false);
+			//SetGodMode(false);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
@@ -60,7 +60,7 @@ namespace Features
 				NoSliding();
 
 			if (g_Settings["god_mode"].get<bool>())
-				SetGodmode(true);
+				SetGodMode(true);
 			
 			if (g_Settings["gold_cores"].get<bool>())
 				GiveGoldCores(g_LocalPlayer.m_Entity);
@@ -98,20 +98,7 @@ namespace Features
 			}
 
 			if (g_Settings["render_model_debug_gun"].get<bool>())
-			{
-				[=](){
-					Entity out;
-					if (!PLAYER::GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(g_LocalPlayer.m_Index, &out))
-						return;
-					
-					Hash hash = ENTITY::GET_ENTITY_MODEL(out);
-					std::string name = Features::GetModelName(hash);
-					if (name.empty())
-						name = std::to_string(hash);
-
-					RenderTextOnEntity(out, name.c_str());
-				}();
-			}
+				RenderModelDebugGun();
 
 			// Local player mount options
 			if (g_LocalPlayer.m_Mount && ENTITY::DOES_ENTITY_EXIST(g_LocalPlayer.m_Mount))
@@ -172,7 +159,7 @@ namespace Features
 					CAM::RENDER_SCRIPT_CAMS(true, true, 500, true, true, 0);
 				}
 				
-				Vector3 vecChange = { 0.f, 0.f, 0.f };
+				Vector3 vecChange{};
 
 				// Left Shift
 				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_JUMP))
@@ -252,8 +239,7 @@ namespace Features
 				RapidFire();
 
 			if (g_Settings["disable_west_elizabeth_pinkertons"].get<bool>())
-				if (auto b = ScriptGlobal(1934266).At(56).Get<bool*>())
-					*b = true;
+				SetDisableWestElizabethPinkertonPatrols(true);
 
 			DisableSprintBlocking();
 		}

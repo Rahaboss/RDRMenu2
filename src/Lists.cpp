@@ -7,11 +7,12 @@ namespace Lists
 {
 	void InitConsumableList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 
@@ -36,11 +37,12 @@ namespace Lists
 
 	void InitCutscenesList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 
@@ -50,11 +52,12 @@ namespace Lists
 
 	void InitDocumentList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 
@@ -79,11 +82,12 @@ namespace Lists
 
 	void InitPedList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 
@@ -109,11 +113,12 @@ namespace Lists
 
 	void InitProvisionList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 		
@@ -138,11 +143,12 @@ namespace Lists
 
 	void InitWeaponList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 
@@ -167,11 +173,12 @@ namespace Lists
 
 	void InitVehicleList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 
@@ -197,11 +204,12 @@ namespace Lists
 
 	void InitObjectList(const std::string& FileName)
 	{
-		std::filesystem::path Path(Features::GetConfigPath().append(FileName));
-		std::fstream File(Path, std::fstream::in);
-		if (!File.good())
+		std::filesystem::path FilePath(Features::GetConfigPath().append(FileName));
+		std::ifstream File(FilePath);
+		
+		if (!File)
 		{
-			LOG_TO_CONSOLE("Can't find file: %s.\n", Path.filename().string().c_str());
+			LOG_TO_CONSOLE("Can't find file: %s.\n", FilePath.filename().string().c_str());
 			return;
 		}
 

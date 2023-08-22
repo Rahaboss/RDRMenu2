@@ -10,7 +10,7 @@ You will need:
 ```cmd
 git clone --recurse-submodules git@github.com:Rahaboss/RDRMenu2.git
 cd RDRMenu2
-generate_vs2019.bat
+GenerateVS2019
 ```
 
 ## Debugging (Currently unavailable)

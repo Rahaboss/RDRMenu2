@@ -243,7 +243,7 @@ namespace Menu
 		{
 			QUEUE_JOB(=)
 			{
-				Features::SetGodmode(false);
+				Features::SetGodMode(false);
 			}
 			END_JOB()
 		}

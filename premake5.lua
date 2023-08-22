@@ -7,6 +7,7 @@ workspace "RDRMenu2"
 
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
+		"_USE_MATH_DEFINES",
 		"NOMINMAX", -- std::min, std::max
 		"WIN32_LEAN_AND_MEAN" -- Exclude rarely used stuff
 	}

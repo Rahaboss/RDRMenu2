@@ -174,8 +174,8 @@ namespace Features
 		if (Menu::IsOpen)
 			return;
 
-		PAD::DISABLE_CONTROL_ACTION(0, INPUT_ATTACK, TRUE);
-		PAD::DISABLE_CONTROL_ACTION(0, INPUT_ATTACK2, TRUE);
+		PAD::DISABLE_CONTROL_ACTION(0, INPUT_ATTACK, true);
+		PAD::DISABLE_CONTROL_ACTION(0, INPUT_ATTACK2, true);
 
 		if (!PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_ATTACK))
 			return;
@@ -183,7 +183,9 @@ namespace Features
 		Vector3 direction = RotationToDirection(CAM::GET_GAMEPLAY_CAM_ROT(0));
 		Vector3 start = CAM::GET_GAMEPLAY_CAM_COORD() + direction;
 		Vector3 end = start + (direction * 200);
-		MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, TRUE, GetCurrentWeapon(), g_LocalPlayer.m_Entity, TRUE, FALSE, -1.0f, FALSE);
-		MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, TRUE, GetCurrentWeapon(), g_LocalPlayer.m_Entity, TRUE, FALSE, -1.0f, FALSE);
+
+		// Shoot twice
+		for (int i = 0; i < 2; i++)
+			MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, true, GetCurrentWeapon(), g_LocalPlayer.m_Entity, true, false, -1.0f, false);
 	}
 }

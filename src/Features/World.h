@@ -13,4 +13,5 @@ namespace Features
 	void SetWeatherType(Hash Type);
 	void SetWeatherType(eWeatherType Type);
 	void SetNoonAndSunny();
+	void SetDisableWestElizabethPinkertonPatrols(bool Toggle);
 }

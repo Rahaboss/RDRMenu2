@@ -157,7 +157,7 @@ namespace Hooking
 		ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
 	}
 
-	BOOL IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
+	void IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
 	{
 		TRY
 		{
@@ -181,32 +181,30 @@ namespace Hooking
 					entity, originX, originY, originZ, edgeX, edgeY, edgeZ, angle, p8, p9, p10);
 
 				ctx->SetRet<BOOL>(FALSE); // Spoof return value
-				return FALSE;
+				return;
 			}
 
-			return IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
+			IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-
-		return FALSE;
 	}
 
 #if ENABLE_ANTI_ANTI_DEBUG
 	void DebuggerCheck1Hook(uint32_t a1)
 	{
-		LOG_TO_CONSOLE("%s(%u)\n", __FUNCTION__, a1);
+		LOG_TO_CONSOLE(__FUNCTION__"(%u)\n", a1);
 		return;
 	}
 
 	void DebuggerCheck2Hook(int32_t a1, int32_t a2, int32_t a3)
 	{
-		LOG_TO_CONSOLE("%s(%d, %d, %d)\n", __FUNCTION__, a1, a2, a3);
+		LOG_TO_CONSOLE(__FUNCTION__"(%d, %d, %d)\n", a1, a2, a3);
 		return;
 	}
 
 	BOOL WINAPI IsDebuggerPresentHook()
 	{
-		LOG_TO_CONSOLE("%s()\n", __FUNCTION__);
+		LOG_TO_CONSOLE(__FUNCTION__"()\n");
 		return FALSE;
 	}
 #endif
@@ -223,37 +221,30 @@ namespace Hooking
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
-	Ped CreatePedHook(rage::scrNativeCallContext* ctx)
+	void CreatePedHook(rage::scrNativeCallContext* ctx)
 	{
-		if (!ctx)
-			return CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
+		CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
 
-		Ped result = CreatePed.GetOriginal<decltype(&CreatePedHook)>()(ctx);
-
-		Features::LogSpawnedEntity(ctx->GetRet<Ped>());
-
-		return result;
+		if (ctx)
+			Features::LogSpawnedEntity(ctx->GetRet<Ped>());
 	}
 	
-	Vehicle CreateVehicleHook(rage::scrNativeCallContext* ctx)
+	void CreateVehicleHook(rage::scrNativeCallContext* ctx)
 	{
-		if (!ctx)
-			return CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
+		CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
 
-		Vehicle result = CreateVehicle.GetOriginal<decltype(&CreateVehicleHook)>()(ctx);
-
-		Features::LogSpawnedEntity(ctx->GetRet<Vehicle>());
-
-		return result;
+		if (ctx)
+			Features::LogSpawnedEntity(ctx->GetRet<Vehicle>());
 	}
 	
-	BOOL InventoryAddItemHook(rage::scrNativeCallContext* ctx)
+	void InventoryAddItemHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["added_inventory_item"].get<bool>())
-			return InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+		{
+			InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+			return;
+		}
 			
-		BOOL result = 0;
-
 		TRY
 		{
 			int inventoryId = ctx->GetArg<int>(0);
@@ -264,7 +255,7 @@ namespace Hooking
 			int p5 = ctx->GetArg<int>(5);
 			Hash addReason = ctx->GetArg<Hash>(6);
 
-			result = InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
+			InventoryAddItem.GetOriginal<decltype(&InventoryAddItemHook)>()(ctx);
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			switch (inventoryId)
@@ -287,16 +278,15 @@ namespace Hooking
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-
-		return result;
 	}
 	
-	BOOL GetGUIDFromItemIDHook(rage::scrNativeCallContext* ctx)
+	void GetGUIDFromItemIDHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["added_inventory_item"].get<bool>())
-			return GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
-
-		BOOL result = 0;
+		{
+			GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
+			return;
+		}
 
 		TRY
 		{
@@ -306,7 +296,7 @@ namespace Hooking
 			Hash slotId = ctx->GetArg<Hash>(3);
 			Any* outGuid = ctx->GetArg<Any*>(4);
 
-			result = GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
+			GetGUIDFromItemID.GetOriginal<decltype(&GetGUIDFromItemIDHook)>()(ctx);
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			switch (inventoryId)
@@ -328,8 +318,6 @@ namespace Hooking
 			}
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-
-		return result;
 	}
 
 	HRESULT STDMETHODCALLTYPE SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags)
@@ -369,39 +357,40 @@ namespace Hooking
 		return Result;
 	}
 
-	PersChar CreatePersCharHook(rage::scrNativeCallContext* ctx)
+	void CreatePersCharHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["spawned_human"].get<bool>())
-			return CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
+			CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
 
 		Hash hash = ctx->GetArg<Hash>(0);
-		PersChar result = CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
+		CreatePersChar.GetOriginal<decltype(&CreatePersCharHook)>()(ctx);
 		PersChar ret = ctx->GetRet<PersChar>();
 		Hash model = PERSCHAR::_GET_PERSCHAR_MODEL_NAME(hash);
 
 		if (!model)
-			return result;
+			return;
 		
 		const auto it = g_PedModelNameList.find(model);
 		if (it == g_PedModelNameList.end())
-			return result;
+			return;
 		
 		LOG_TO_MENU("Creating persistent character %s (0x%X) hash: 0x%X, ID: 0x%X\n", it->second.data(), model, hash, ret);
-
-		return result;
 	}
 
-	AnimScene CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
+	void CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx || !g_Settings["logging"]["created_cutscene"].get<bool>())
-			return CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+		{
+			CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+			return;
+		}
 		
 		const char* animDict = ctx->GetArg<const char*>(0);
 		int flags = ctx->GetArg<int>(1);
 		const char* playbackListName = ctx->GetArg<const char*>(2);
 		bool p3 = ctx->GetArg<BOOL>(3);
 		bool p4 = ctx->GetArg<BOOL>(4);
-		AnimScene result = CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+		CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
 		AnimScene ret = ctx->GetRet<AnimScene>();
 
 		if (!playbackListName)
@@ -414,23 +403,22 @@ namespace Hooking
 			LOG_TO_MENU("CREATE_ANIM_SCENE(\"%s\", %d, \"%s\", %s, %s) = %d\n", animDict, flags, playbackListName,
 				(p3 ? "true" : "false"), (p4 ? "true" : "false"), ret);
 		}
-		
-		return result;
 	}
 
-	BOOL DecorSetBoolHook(rage::scrNativeCallContext* ctx)
+	void DecorSetBoolHook(rage::scrNativeCallContext* ctx)
 	{
-		BOOL result = 0;
-
 		TRY
 		{
 			if (!ctx || !g_Settings["logging"]["set_decor"].get<bool>())
-				return DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
+			{
+				DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
+				return;
+			}
 
 			Entity entity = ctx->GetArg<Entity>(0);
 			const char* propertyName = ctx->GetArg<const char*>(1);
 			BOOL value = ctx->GetArg<BOOL>(2);
-			result = DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
+			DecorSetBool.GetOriginal<decltype(&DecorSetBoolHook)>()(ctx);
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			if (entity == g_LocalPlayer.m_Entity)
@@ -443,23 +431,22 @@ namespace Hooking
 				LOG_TO_MENU("DECOR_SET_BOOL(%u, \"%s\", %s)\n", entity, propertyName, (value ? "true" : "false"));
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-
-		return result;
 	}
 
-	BOOL DecorSetIntHook(rage::scrNativeCallContext* ctx)
+	void DecorSetIntHook(rage::scrNativeCallContext* ctx)
 	{
-		BOOL result = 0;
-
 		TRY
 		{
 			if (!ctx || !g_Settings["logging"]["set_decor"].get<bool>())
-				return DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
+			{
+				DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
+				return;
+			}
 
 			Entity entity = ctx->GetArg<Entity>(0);
 			const char* propertyName = ctx->GetArg<const char*>(1);
 			int value = ctx->GetArg<int>(2);
-			result = DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
+			DecorSetInt.GetOriginal<decltype(&DecorSetIntHook)>()(ctx);
 			BOOL ret = ctx->GetRet<BOOL>();
 
 			if (entity == g_LocalPlayer.m_Entity)
@@ -472,8 +459,6 @@ namespace Hooking
 				LOG_TO_MENU("DECOR_SET_INT(%u, \"%s\", %d)\n", entity, propertyName, value);
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
-
-		return result;
 	}
 
 	void SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
@@ -501,39 +486,56 @@ namespace Hooking
 		SetAnimSceneEntity.GetOriginal<decltype(&SetAnimSceneEntityHook)>()(ctx);
 	}
 	
-	BOOL IsDlcPresentHook(rage::scrNativeCallContext* ctx)
+	void IsDlcPresentHook(rage::scrNativeCallContext* ctx)
 	{
 		Hash dlcHash = ctx->GetArg<Hash>(0);
-		BOOL result = IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
-		BOOL ret = ctx->GetRet<BOOL>();
+		IsDlcPresent.GetOriginal<decltype(&IsDlcPresentHook)>()(ctx);
 
-		constexpr Hash DLCList[]{
-			RAGE_JOAAT("DLC_PREORDERCONTENT"),
-			RAGE_JOAAT("DLC_PHYSPREORDERCONTENT"),
-			RAGE_JOAAT("DLC_SPECIALEDITION"),
-			RAGE_JOAAT("DLC_ULTIMATEEDITION"),
-			RAGE_JOAAT("DLC_TREASUREMAP"),
-		};
-
-		for (int i = 0; i < ARRAYSIZE(DLCList); i++)
+		// Spoof selected DLCs
+		switch (dlcHash)
 		{
-			if (dlcHash == DLCList[i])
-			{
-				ctx->SetRet<BOOL>(TRUE);
-				result = TRUE;
-				return result;
-			}
+		case RAGE_JOAAT("DLC_PREORDERCONTENT"):
+		case RAGE_JOAAT("DLC_PHYSPREORDERCONTENT"):
+		case RAGE_JOAAT("DLC_SPECIALEDITION"):
+		case RAGE_JOAAT("DLC_ULTIMATEEDITION"):
+		case RAGE_JOAAT("DLC_TREASUREMAP"):
+			ctx->SetRet<BOOL>(TRUE);
+			return;
 		}
 
-		LOG_TO_MENU("IS_DLC_PRESENT(%u) = %s\n", dlcHash, (ret ? "true" : "false"));
-		
-		return result;
+		// Log unspoofed DLC
+		LOG_TO_MENU(__FUNCTION__"(%u) = %s\n", dlcHash, (ctx->GetRet<BOOL>() ? "true" : "false"));
 	}
 	
-	Object CreateObjectHook(rage::scrNativeCallContext* ctx)
+	void CreateObjectHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
-			return CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
+		{
+			CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
+			return;
+		}
+
+		//Hash modelHash = ctx->GetArg<Hash>(0);
+		//Vector3 pos = ctx->GetArg<Vector3>(1);
+		//BOOL isNetwork = ctx->GetArg<BOOL>(4);
+		//BOOL bScriptHostObj = ctx->GetArg<BOOL>(5);
+		//BOOL dynamic = ctx->GetArg<BOOL>(6);
+		//BOOL p7 = ctx->GetArg<BOOL>(7);
+		//BOOL p8 = ctx->GetArg<BOOL>(8);
+
+		CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
+		Object ret = ctx->GetRet<Object>();
+
+		Features::LogSpawnedEntity(ret);
+	}
+	
+	void CreateObjectNoOffsetHook(rage::scrNativeCallContext* ctx)
+	{
+		if (!ctx)
+		{
+			CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
+			return;
+		}
 
 		Hash modelHash = ctx->GetArg<Hash>(0);
 		Vector3 pos = ctx->GetArg<Vector3>(1);
@@ -541,64 +543,43 @@ namespace Hooking
 		BOOL bScriptHostObj = ctx->GetArg<BOOL>(5);
 		BOOL dynamic = ctx->GetArg<BOOL>(6);
 		BOOL p7 = ctx->GetArg<BOOL>(7);
-		BOOL p8 = ctx->GetArg<BOOL>(8);
 
-		Object result = CreateObject.GetOriginal<decltype(&CreateObjectHook)>()(ctx);
+		CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
 		Object ret = ctx->GetRet<Object>();
 
 		Features::LogSpawnedEntity(ret);
-
-		return result;
 	}
 	
-	Object CreateObjectNoOffsetHook(rage::scrNativeCallContext* ctx)
+	void GetLabelText2Hook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
-			return CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
-
-		Hash modelHash = ctx->GetArg<Hash>(0);
-		Vector3 pos = ctx->GetArg<Vector3>(1);
-		BOOL isNetwork = ctx->GetArg<BOOL>(4);
-		BOOL bScriptHostObj = ctx->GetArg<BOOL>(5);
-		BOOL dynamic = ctx->GetArg<BOOL>(6);
-		BOOL p7 = ctx->GetArg<BOOL>(7);
-
-		Object result = CreateObjectNoOffset.GetOriginal<decltype(&CreateObjectNoOffsetHook)>()(ctx);
-		Object ret = ctx->GetRet<Object>();
-
-		Features::LogSpawnedEntity(ret);
-
-		return result;
-	}
-	
-	const char* GetLabelText2Hook(rage::scrNativeCallContext* ctx)
-	{
-		if (!ctx)
-			return GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
+		{
+			GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
+			return;
+		}
 
 		const char* label = ctx->GetArg<const char*>(0);
-		const char* result = GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
+		GetLabelText2.GetOriginal<decltype(&GetLabelText2Hook)>()(ctx);
 		const char* ret = ctx->GetRet<const char*>();
 
 		//ret = result = ctx->GetRet<const char*>() = "RDRMenu2";
 		LOG_TO_MENU("_GET_LABEL_TEXT_2(\"%s\") = \"%s\"\n", label, (ret ? ret : ""));
-		
-		return result;
 	}
 	
-	const char* GetCharFromAudioConvFilenameHook(rage::scrNativeCallContext* ctx)
+	void GetCharFromAudioConvFilenameHook(rage::scrNativeCallContext* ctx)
 	{
 		if (!ctx)
-			return GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);
+		{
+			GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);
+			return;
+		}
 
 		const char* text = ctx->GetArg<const char*>(0);
 		int position = ctx->GetArg<int>(1);
 		int length = ctx->GetArg<int>(2);
-		const char* result = GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);
+		GetCharFromAudioConvFilename.GetOriginal<decltype(&GetCharFromAudioConvFilenameHook)>()(ctx);
 		const char* ret = ctx->GetRet<const char*>();
 
 		LOG_TO_MENU("_GET_TEXT_SUBSTRING(\"%s\", %d, %d) = \"%s\"\n", text, position, length, (ret ? ret : ""));
-
-		return result;
 	}
 }

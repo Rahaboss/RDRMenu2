@@ -97,7 +97,7 @@ namespace Features
 
 	bool LoadGround(float x, float y, float z)
 	{
-		return LoadGround(Vector3(x, y, z));
+		return LoadGround(Vector3{ x, y, z });
 	}
 
 	bool LoadGround(Vector3 Location)
@@ -169,7 +169,7 @@ namespace Features
 		END_JOB()
 	}
 
-	void SetGodmode(bool Toggle)
+	void SetGodMode(bool Toggle)
 	{
 		if (g_LocalPlayer.m_Entity)
 			ENTITY::SET_ENTITY_INVINCIBLE(g_LocalPlayer.m_Entity, static_cast<BOOL>(Toggle));
@@ -186,11 +186,15 @@ namespace Features
 
 	void SetMoney(int AmountCents)
 	{
-		int amount = AmountCents - GetMoney();
-		if (amount > 0)
-			AddMoney(amount);
-		else if (amount < 0)
-			RemoveMoney(-amount);
+		TRY
+		{
+			int Amount = AmountCents - GetMoney();
+			if (Amount > 0)
+				AddMoney(Amount);
+			else if (Amount < 0)
+				RemoveMoney(-Amount);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
 	void SetPlayerModel(Hash Model)
@@ -379,8 +383,7 @@ namespace Features
 	
 	Hash GetDefaultPlayerModel()
 	{
-		int* Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<int*>();
-		if (Global_1946054_f_1)
+		if (int* const Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<int*>())
 		{
 			// medium_update.c: func_392
 			switch (*Global_1946054_f_1)
@@ -404,7 +407,7 @@ namespace Features
 	
 	void DisableSprintBlocking()
 	{
-		if (int* PlayerFlag = ScriptGlobal(1935630).Get<int*>())
+		if (int* const PlayerFlag = ScriptGlobal(1935630).Get<int*>())
 			*PlayerFlag |= PF_DISABLE_MOVE_LIMIT_INDOORS;
 	}
 }

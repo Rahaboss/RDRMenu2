@@ -19,7 +19,7 @@ ScriptGlobal& ScriptGlobal::At(ptrdiff_t Index, uintptr_t Size)
 	return *this;
 }
 
-void* ScriptGlobal::GetAddress()
+void* ScriptGlobal::GetAddress() const
 {
 	int64_t* Temp = Pointers::ScriptGlobals[m_Index >> 0x12 & 0x3F];
 	//assert(Temp && "Script globals are not loaded!");

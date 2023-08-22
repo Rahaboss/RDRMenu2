@@ -25,4 +25,5 @@ namespace Features
 	bool GetBoxCoords(Ped ped, ImVec2& TopLeft, ImVec2& BottomRight);
 	void RenderEntityPoolDebugESP();
 	void RenderCrosshair();
+	void RenderModelDebugGun();
 }
