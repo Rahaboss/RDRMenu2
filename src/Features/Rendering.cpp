@@ -130,7 +130,7 @@ namespace Features
 		TRY
 		{
 			if (vec.size() < 2)
-			return;
+				return;
 
 			for (const auto& p : vec)
 			{

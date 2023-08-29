@@ -76,7 +76,11 @@ void NativeContext::EndCall(rage::scrNativeHash hash)
 	{
 		TRY
 		{
+#if ENABLE_NATIVE_RETURN_SPOOFING
 			CallASM(GetContext(), Handler, Pointers::ReturnAddressSpoof);
+#else
+			Handler(GetContext());
+#endif
 
 			FixVectors();
 		}

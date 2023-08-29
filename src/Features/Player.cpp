@@ -199,8 +199,10 @@ namespace Features
 
 	void SetPlayerModel(Hash Model)
 	{
+#if ENABLE_NATIVE_RETURN_SPOOFING
 		LOG_TO_CONSOLE(__FUNCTION__": Setting player model is very buggy.\n");
 		return;
+#endif
 
 		// Check model validity or if model is already set
 		if (!IsModelValid(Model) || g_LocalPlayer.m_Model == Model)

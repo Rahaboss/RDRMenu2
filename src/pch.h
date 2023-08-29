@@ -63,3 +63,4 @@ using namespace std::literals::string_view_literals;
 // Toggles
 #define ENABLE_ANTI_ANTI_DEBUG 0
 #define ENABLE_VULKAN_RENDERER 0
+#define ENABLE_NATIVE_RETURN_SPOOFING 0 // Return address spoofing breaks SetPlayerModel

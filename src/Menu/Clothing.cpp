@@ -306,6 +306,8 @@ namespace Menu
 				ChangeModel = RAGE_JOAAT("PLAYER_ZERO");
 			if (ImGui::Selectable("John"))
 				ChangeModel = RAGE_JOAAT("PLAYER_THREE");
+			if (ImGui::Selectable("John (Story)"))
+				ChangeModel = RAGE_JOAAT("CS_JOHNMARSTON");
 			if (ImGui::Selectable("Dutch"))
 				ChangeModel = RAGE_JOAAT("CS_DUTCH");
 			if (ImGui::Selectable("Robot"))
