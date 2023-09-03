@@ -1,0 +1,57 @@
+#include "pch.h"
+#include "NativeInvoker.h"
+
+NativeContext::NativeContext()
+{
+	memset(this, 0, sizeof(NativeContext));
+	GetContext()->m_ReturnValue = m_ReturnStack;
+	GetContext()->m_Args = m_ArgStack;
+}
+
+rage::scrNativeCallContext* NativeContext::GetContext()
+{
+	return &m_Context;
+}
+
+void NativeContext::Reset()
+{
+	GetContext()->m_ArgCount = 0;
+	GetContext()->m_DataCount = 0;
+	memset(m_ArgStack, 0, sizeof(m_ArgStack));
+}
+
+rage::scrNativeHandler NativeContext::GetHandler(rage::scrNativeHash hash)
+{
+	return Pointers::GetNativeHandler(hash);
+}
+
+void NativeContext::FixVectors()
+{
+	for (uint32_t i = 0; i < GetContext()->m_DataCount; i++)
+	{
+		auto& out = *(GetContext()->m_OutVectors[i]);
+		auto& in = GetContext()->m_InVectors[i];
+
+		out.x = in.x;
+		out.y = in.y;
+		out.z = in.z;
+	}
+}
+
+void NativeContext::EndCall(rage::scrNativeHash hash)
+{
+	if (const auto Handler = GetHandler(hash))
+	{
+		TRY
+		{
+			Handler(GetContext());
+
+			FixVectors();
+		}
+		EXCEPT { LOG_EXCEPTION(); }
+	}
+	else
+	{
+		std::cout << "Failed to find native " << LOG_HEX(hash);
+	}
+}

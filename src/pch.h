@@ -36,3 +36,6 @@ using namespace std::literals::chrono_literals;
 #define LOG_HEX(v) std::hex << std::uppercase << "0x" << (uintptr_t)v << std::dec << std::nouppercase
 
 // Toggles
+#define TRY __try
+#define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
+#define LOG_EXCEPTION() std::cout << "Caught exception in:\n\tFile: " << __FILE__ << ':' << __LINE__ << "\n\tFunction: " << __FUNCTION__ << ".\n";

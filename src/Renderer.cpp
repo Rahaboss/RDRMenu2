@@ -2,6 +2,11 @@
 #include "Menu.h"
 #include "Pointers.h"
 
+bool IsUsingD3D12()
+{
+	return Pointers::SwapChain && *Pointers::SwapChain && Pointers::CommandQueue && *Pointers::CommandQueue;
+}
+
 void Renderer::Create()
 {
 	CreateImGui();
@@ -83,11 +88,6 @@ void Renderer::CreateImGui()
 void Renderer::DestroyImGui()
 {
 	SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
-}
-
-bool Renderer::IsUsingD3D12()
-{
-	return Pointers::SwapChain && *Pointers::SwapChain && Pointers::CommandQueue && *Pointers::CommandQueue;
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

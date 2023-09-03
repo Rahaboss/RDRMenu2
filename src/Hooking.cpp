@@ -1,18 +1,24 @@
 #include "pch.h"
 #include "Hooking.h"
-#include "Signature.h"
+#include "Pointers.h"
 #include "Renderer.h"
+#include "Features.h"
+#include "Fiber.h"
 
 void Hooking::Create()
 {
 	std::cout << "Creating hooks.\n";
 
 	assert(MH_Initialize() == MH_OK);
+
+	RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 }
 
 void Hooking::Destroy()
 {
 	std::cout << "Destroying hooks.\n";
+	
+	RunScriptThreads.Destroy();
 
 	assert(MH_Uninitialize() == MH_OK);
 }
@@ -48,4 +54,14 @@ HRESULT STDMETHODCALLTYPE Hooking::SwapChainPresentHook(IDXGISwapChain3* SwapCha
 		RendererD3D12::Present(SwapChain);
 
 	return Hooking::SwapChain.GetOriginal<decltype(&SwapChainPresentHook)>(SwapChainPresentIndex)(SwapChain, SyncInterval, Flags);
+}
+
+bool Hooking::RunScriptThreadsHook(rage::pgPtrCollection* this_, uint32_t ops)
+{
+	bool Result = RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
+
+	if (g_Running)
+		Features::ExecuteAsThread(RAGE_JOAAT("main"), ScriptThreadTick);
+
+	return Result;
 }

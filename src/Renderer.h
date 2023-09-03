@@ -10,7 +10,6 @@ namespace Renderer
 	void Destroy();
 	void CreateImGui();
 	void DestroyImGui();
-	bool IsUsingD3D12();
 
 	inline bool Setup = false;
 

@@ -8,9 +8,6 @@ void MainLoop()
 {
 	Console::Create();
 
-	std::cout << "Base address: " << LOG_HEX(g_BaseAddress) << ".\n";
-	std::cout << "Press END to eject.\n";
-
 	Pointers::Create();
 
 	Hooking::Create();

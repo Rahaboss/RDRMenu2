@@ -4,6 +4,7 @@
 void VMTHook::Create(void* Object, size_t NumFuncs)
 {
 	m_Object = static_cast<void***>(Object);
+	std::cout << "Creating hook " << LOG_HEX(m_Object) << ".\n";
 	m_NumFuncs = NumFuncs;
 	m_OriginalTable = *m_Object;
 	m_NewTable = new void* [m_NumFuncs];
@@ -12,6 +13,7 @@ void VMTHook::Create(void* Object, size_t NumFuncs)
 
 void VMTHook::Destroy()
 {
+	std::cout << "Destroying hook " << LOG_HEX(m_Object) << ".\n";
 	delete m_NewTable;
 }
 
