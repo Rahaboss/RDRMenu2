@@ -1,13 +1,14 @@
 workspace "RDRMenu2"
-	architecture "x86_64" -- x86 for 32-bit
+	architecture "x86_64"
 	configurations {
-		-- "Debug", -- Regular debug build
-		"Release" -- Build with optimization
+		"Debug", -- Regular debug build
+		"Release", -- Build with optimizations and debug information
+		"Dist" -- Build with maximum optimization and no debug information meant for distribution
 	}
 
 	defines {
 		"_CRT_SECURE_NO_WARNINGS",
-		"_USE_MATH_DEFINES",
+		"_USE_MATH_DEFINES", -- Enable macros like M_PI in cmath
 		"NOMINMAX", -- std::min, std::max
 		"WIN32_LEAN_AND_MEAN" -- Exclude rarely used stuff
 	}
@@ -18,7 +19,7 @@ workspace "RDRMenu2"
 	objdir "int/%{cfg.buildcfg}/%{prj.name}"
 
 	-- Optimizations
-	vectorextensions "SSE4.2"
+	vectorextensions "AVX2"
 	floatingpoint "Fast"
 	staticruntime "Off" -- Sets Run-Time Library to MultiThreadedDLL
 	flags {
@@ -33,6 +34,13 @@ workspace "RDRMenu2"
 
 	filter "configurations:Release"
 		symbols "On"
+		optimize "Speed" -- All optimizations favoring speed
+		flags {
+			"LinkTimeOptimization"
+		}
+
+	filter "configurations:Dist"
+		symbols "Off" -- Completely disable debug information
 		optimize "Speed" -- All optimizations favoring speed
 		flags {
 			"LinkTimeOptimization"

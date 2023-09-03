@@ -1,76 +1,73 @@
 #include "pch.h"
 #include "Console.h"
 #include "Pointers.h"
-#include "Features.h"
-#include "Fiber.h"
 #include "Hooking.h"
 #include "Renderer.h"
 
 void MainLoop()
 {
-	TRY
+	Console::Create();
+
+	std::cout << "Base address: " << LOG_HEX(g_BaseAddress) << ".\n";
+	std::cout << "Press END to eject.\n";
+
+	Pointers::Create();
+
+	Hooking::Create();
+	Hooking::Enable();
+
+	Renderer::Create();
+
+	// Main loop
+	while (g_Running)
 	{
-		Features::CreateConfigPath();
+		if (GetAsyncKeyState(VK_END))
+			g_Running = false;
 
-		Console::Create();
-
-		Settings::Create();
-
-		Pointers::Scan();
-
-		Fiber MainFiber(Features::OnTick);
-		g_FiberCollection.push_back(&MainFiber);
-
-		Fiber JobQueueFiber(Features::RunJobQueue);
-		g_FiberCollection.emplace_back(&JobQueueFiber);
-
-		Hooking::Create();
-
-		Renderer::Create();
-		
-		Hooking::Enable();
-
-		while (g_Running)
-		{
-			if (Features::IsKeyHeld(VK_LCONTROL) && Features::IsKeyHeld(VK_END))
-				Features::RunScriptCleanupAndExit();
-			std::this_thread::sleep_for(25ms);
-		}
-
-		Hooking::Disable();
-
-		Renderer::Destroy();
-		
-		Hooking::Destroy();
-
-		JobQueueFiber.Destroy();
-
-		MainFiber.Destroy();
-
-		Settings::Destroy();
-
-		Console::Destroy();
+		std::this_thread::sleep_for(10ms);
 	}
-	EXCEPT{ LOG_EXCEPTION(); }
+	
+	Renderer::Destroy();
+
+	Hooking::Disable();
+	Hooking::Destroy();
+
+	Console::Destroy();
+
+	// Close handle to main thread
+	CloseHandle(g_MainThread);
+
+	// Exit thread
+	FreeLibraryAndExitThread(g_Module, 0);
 }
 
-BOOL WINAPI DllMain(HMODULE Module, DWORD Reason, LPVOID)
+BOOL WINAPI DllMain(HMODULE hModule, DWORD fdwReason, LPVOID)
 {
-	if (Reason == DLL_PROCESS_ATTACH)
+	if (fdwReason == DLL_PROCESS_ATTACH)
 	{
-		DisableThreadLibraryCalls(Module);
-		
-		g_Module = Module;
+		// Disable DLL_THREAD_ATTACH and DLL_THREAD_DETACH
+		DisableThreadLibraryCalls(hModule);
+
+		// Set up global variables
+		g_Module = hModule;
 		g_GameModule = GetModuleHandle(NULL);
 		g_BaseAddress = reinterpret_cast<uintptr_t>(g_GameModule);
+
+		// You can pass a DWORD WINAPI main_thread(LPVOID) function
+		// to CreateThread instead of an inline lambda if you like
 		g_MainThread = CreateThread(NULL, 0, [](LPVOID) -> DWORD
 			{
 				MainLoop();
+
+				// Close handle to main thread
 				CloseHandle(g_MainThread);
+
+				// Exit thread
 				FreeLibraryAndExitThread(g_Module, 0);
 			},
 			NULL, 0, NULL);
 
+		// Check if CreateThread failed
 		if (!g_MainThread)
 			return FALSE;
 	}

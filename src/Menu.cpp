@@ -1,50 +1,32 @@
-#include "pch.h"
 #include "Menu.h"
-#include "Features.h"
 
-namespace Menu
+void Menu::RenderMenu()
 {
-	void RenderMenu()
+	if (IsOpen)
 	{
-		TRY
+		if (ImGui::Begin("RDRMenu2", &IsOpen))
 		{
-			if (IsOpen)
+			ImGui::BeginTabBar("tab_bar");
+			RenderTestTab();
+			if (ImGui::BeginTabItem("Exit"))
 			{
-				ImGui::SetNextWindowSize(ImVec2(1000, 750), ImGuiCond_FirstUseEver);
-				ImGui::SetNextWindowPos(ImVec2(200, 100), ImGuiCond_FirstUseEver);
-				if (ImGui::Begin("RDRMenu2", &IsOpen))
-				{
-					ImGui::BeginTabBar("tab_bar");
-					RenderPlayerTab();
-					RenderTeleportTab();
-					RenderWeaponTab();
-					RenderInventoryTab();
-					RenderWorldTab();
-					RenderSpawningTab();
-					RenderRenderingTab();
-					RenderCutsceneTab();
-					RenderDebugTab();
-					RenderLoggerTab();
-					RenderMemoryTab();
-					if (ImGui::BeginTabItem("Exit"))
-					{
-						Features::RunScriptCleanupAndExit();
-						ImGui::EndTabItem();
-					}
-					ImGui::EndTabBar();
-				}
-				ImGui::End();
-
-				if (g_Settings["enable_imgui_demo"].get<bool>())
-					ImGui::ShowDemoWindow(g_Settings["enable_imgui_demo"].get<bool*>());
-
-				if (g_Settings["render_clothing_menu"].get<bool>())
-					RenderClothingMenu();
+				g_Running = false;
+				ImGui::EndTabItem();
 			}
-
-			if (g_Settings["enable_overlay"].get<bool>())
-				RenderOverlay();
+			ImGui::EndTabBar();
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
+		ImGui::End();
 	}
+}
+
+void Menu::RenderTestTab()
+{
+	if (!ImGui::BeginTabItem("Test"))
+		return;
+
+	ImGui::BeginChild("test_child");
+	ImGui::Text("Test");
+	
+	ImGui::EndChild();
+	ImGui::EndTabItem();
 }

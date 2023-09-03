@@ -1,39 +1,20 @@
 #pragma once
 
 #include "pch.h"
+#include "RendererD3D12.h"
+#include "RendererVulkan.h"
 
 namespace Renderer
 {
 	void Create();
-	void CreateD3D12();
-	void CreateVulkan();
 	void Destroy();
-	void Present();
-	void NewFrame();
-	void EndFrame();
-	void SetupD3D12();
-	void SetupVulkan();
-	void SetupImGui();
+	void CreateImGui();
+	void DestroyImGui();
+	bool IsUsingD3D12();
 
-	inline WNDPROC WndProc;
+	inline bool Setup = false;
+
+	inline HWND hWnd{};
+	inline WNDPROC WndProc{};
 	LRESULT CALLBACK WndProcHook(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-	struct _FrameContext
-	{
-		ID3D12CommandAllocator* CommandAllocator;
-		ID3D12Resource* Resource;
-		D3D12_CPU_DESCRIPTOR_HANDLE DescriptorHandle;
-	};
-
-	inline IDXGISwapChain3* SwapChain;
-	inline ID3D12CommandQueue* CommandQueue;
-	inline ID3D12Device* Device;
-	inline HWND Hwnd;
-	inline UINT BuffersCounts;
-	inline _FrameContext* FrameContext;
-	inline ID3D12DescriptorHeap* DescriptorHeapImGuiRender;
-	inline ID3D12GraphicsCommandList* CommandList;
-	inline ID3D12DescriptorHeap* DescriptorHeapBackBuffers;
-
-	inline ImFont* DefaultFont;
 }

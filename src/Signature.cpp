@@ -4,14 +4,14 @@
 Signature::Signature(std::string_view IDAPattern)
 {
 	// Helper functions
-	auto to_upper = [](char c) -> char
+	auto ToUpper = [](char c) -> char
 	{
 		return ((c >= 'a' && c <= 'z') ? c + ('A' - 'a') : c);
 	};
 
-	auto to_hex = [&](char c) -> uint8_t
+	auto ToHex = [&](char c) -> uint8_t
 	{
-		switch (to_upper(c))
+		switch (ToUpper(c))
 		{
 		case '0': return static_cast<uint8_t>(0x0);
 		case '1': return static_cast<uint8_t>(0x1);
@@ -55,8 +55,8 @@ Signature::Signature(std::string_view IDAPattern)
 			break;
 
 		// Construct whole byte from two characters
-		uint8_t c1 = to_hex(IDAPattern[i]);
-		uint8_t c2 = to_hex(IDAPattern[i + 1]);
+		uint8_t c1 = ToHex(IDAPattern[i]);
+		uint8_t c2 = ToHex(IDAPattern[i + 1]);
 		m_Bytes.push_back((c1 * 0x10) + c2);
 		// Skip over the second part of the byte
 		i++;
@@ -81,7 +81,7 @@ Signature::Signature(void* CodePattern, std::string_view Mask)
 	Scan();
 }
 
-Signature::Signature(uintptr_t Address):
+Signature::Signature(uintptr_t Address) :
 	m_Result(Address)
 {
 	assert(m_Result);
@@ -90,7 +90,7 @@ Signature::Signature(uintptr_t Address):
 Signature& Signature::Scan()
 {
 	// Helper function to scan for pattern
-	auto check_pattern = [this](uintptr_t Location) -> bool
+	auto CheckPattern = [this](uintptr_t Location) -> bool
 	{
 		for (size_t i = 0; i < m_Bytes.size(); i++)
 		{
@@ -124,7 +124,7 @@ Signature& Signature::Scan()
 		for (size_t i = 0; i < Size; ++i)
 		{
 			// Check if pattern matches at current location
-			if (check_pattern(curr + i))
+			if (CheckPattern(curr + i))
 			{
 				m_Result = curr + i;
 				return *this;
@@ -157,6 +157,7 @@ Signature& Signature::Rip()
 	return Add(*Get<int32_t*>()).Add(4);
 }
 
+// Get pointer address
 uintptr_t Signature::GetRaw() const
 {
 	assert(m_Result);
