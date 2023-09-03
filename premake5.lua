@@ -122,9 +122,9 @@ workspace "RDRMenu2"
 		location "src" -- Project file location
 
 		files {
-			"lib/MinHook/src/**.c",
-			"lib/MinHook/src/**.h",
-			"lib/MinHook/src/include/*"
+			"lib/%{prj.name}/src/**.c",
+			"lib/%{prj.name}/src/**.h",
+			"lib/%{prj.name}/src/include/*"
 		}
 
 		includedirs {

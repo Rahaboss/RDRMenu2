@@ -39,6 +39,6 @@ public:
 	}
 
 private:
-	std::vector<int32_t> m_Bytes; // -1 equals unknown byte
 	uintptr_t m_Result = 0;
+	std::vector<int32_t> m_Bytes; // -1 equals unknown byte
 };

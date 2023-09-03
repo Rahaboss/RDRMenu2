@@ -54,7 +54,7 @@ void MainLoop()
 	EXCEPT{ LOG_EXCEPTION(); }
 }
 
-BOOL WINAPI DllMain(HMODULE Module, DWORD Reason, LPVOID Reserved)
+BOOL WINAPI DllMain(HMODULE Module, DWORD Reason, LPVOID)
 {
 	if (Reason == DLL_PROCESS_ATTACH)
 	{

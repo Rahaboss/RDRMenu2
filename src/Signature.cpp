@@ -137,18 +137,21 @@ Signature& Signature::Scan()
 	return *this;
 }
 
+// Add an offset
 Signature& Signature::Add(ptrdiff_t n)
 {
 	m_Result += n;
 	return *this;
 }
 
+// Subtract an offset
 Signature& Signature::Sub(ptrdiff_t n)
 {
 	m_Result -= n;
 	return *this;
 }
 
+// Follow instruction pointer register (rip) offset
 Signature& Signature::Rip()
 {
 	return Add(*Get<int32_t*>()).Add(4);

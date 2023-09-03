@@ -3,14 +3,14 @@ A trainer for Red Dead Redemption 2.
 
 ## Building this project
 You will need:
-* Visual Studio 2019/2022
-* Git
+* [Visual Studio 2019/2022](https://visualstudio.microsoft.com/)
+* [Git](https://git-scm.com/download/win
 * [Vulkan SDK](https://sdk.lunarg.com/sdk/download/latest/windows/vulkan-sdk.exe)
 
 ```cmd
 git clone --recurse-submodules git@github.com:Rahaboss/RDRMenu2.git
 cd RDRMenu2
-GenerateVS2019
+GenerateVS2019.bat
 ```
 
 ## Debugging (Currently unavailable)
