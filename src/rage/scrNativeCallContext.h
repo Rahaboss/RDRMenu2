@@ -18,19 +18,19 @@ namespace rage
 		uint8_t pad[96]; //0x0080
 
 		template<typename T>
-		T GetArg(size_t Index)
+		inline T GetArg(size_t Index)
 		{
 			return *(T*)(&(m_Args[Index]));
 		}
 
 		template<typename T>
-		T GetRet()
+		inline T GetRet()
 		{
 			return *(T*)(m_ReturnValue);
 		}
 
 		template<typename T>
-		void SetRet(T Ret)
+		inline void SetRet(T Ret)
 		{
 			*(T*)(m_ReturnValue) = Ret;
 		}

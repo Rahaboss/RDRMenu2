@@ -20,7 +20,7 @@ public:
 	void Reset();
 
 	template <typename T>
-	void PushArg(T&& arg)
+	inline void PushArg(T&& arg)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t));
 		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
@@ -35,7 +35,7 @@ public:
 	void EndCall(rage::scrNativeHash hash);
 
 	template <typename T>
-	T GetReturnValue()
+	inline T GetReturnValue()
 	{
 		return *reinterpret_cast<T*>(GetContext()->m_ReturnValue);
 	}

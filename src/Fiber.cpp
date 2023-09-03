@@ -2,9 +2,9 @@
 #include "Fiber.h"
 #include "Features.h"
 
-Fiber::Fiber(void(*Function)()) :
-	m_ScriptFiber(nullptr),
-	m_MainFiber(nullptr),
+Fiber::Fiber(void (*Function)()) :
+	m_ScriptFiber(),
+	m_MainFiber(),
 	m_Function(Function)
 {
 	std::cout << "Creating fiber " << LOG_HEX(m_Function) << ".\n";
@@ -44,14 +44,14 @@ void Fiber::Tick()
 }
 
 static bool s_Initialized = false;
-void ScriptThreadTick()
+void Fiber::ScriptThreadTick()
 {
 	if (!s_Initialized)
 	{
 		if (!IsThreadAFiber())
 			ConvertThreadToFiber(NULL);
 
-		Features::Setup();
+		Features::OnSetup();
 
 		s_Initialized = true;
 	}

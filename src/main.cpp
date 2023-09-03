@@ -2,13 +2,18 @@
 #include "Console.h"
 #include "Pointers.h"
 #include "Hooking.h"
-#include "Renderer.h"
+#include "Renderer/Renderer.h"
+#include "Fiber.h"
+#include "Features.h"
 
 void MainLoop()
 {
 	Console::Create();
 
 	Pointers::Create();
+
+	Fiber MainFiber{ &Features::OnTick };
+	g_FiberCollection.push_back(&MainFiber);
 
 	Hooking::Create();
 	Hooking::Enable();
@@ -28,6 +33,8 @@ void MainLoop()
 
 	Hooking::Disable();
 	Hooking::Destroy();
+	
+	std::this_thread::sleep_for(3s);
 
 	Console::Destroy();
 
@@ -38,9 +45,9 @@ void MainLoop()
 	FreeLibraryAndExitThread(g_Module, 0);
 }
 
-BOOL WINAPI DllMain(HMODULE hModule, DWORD fdwReason, LPVOID)
+BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID)
 {
-	if (fdwReason == DLL_PROCESS_ATTACH)
+	if (dwReason == DLL_PROCESS_ATTACH)
 	{
 		// Disable DLL_THREAD_ATTACH and DLL_THREAD_DETACH
 		DisableThreadLibraryCalls(hModule);
@@ -50,10 +57,9 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD fdwReason, LPVOID)
 		g_GameModule = GetModuleHandle(NULL);
 		g_BaseAddress = reinterpret_cast<uintptr_t>(g_GameModule);
 
-		// You can pass a DWORD WINAPI main_thread(LPVOID) function
-		// to CreateThread instead of an inline lambda if you like
 		g_MainThread = CreateThread(NULL, 0, [](LPVOID) -> DWORD
 			{
+				// Start the main thread code
 				MainLoop();
 
 				// Close handle to main thread

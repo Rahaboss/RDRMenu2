@@ -14,8 +14,8 @@ public:
 	void* m_ScriptFiber;
 	void* m_MainFiber;
 	void (*m_Function)();
+
+	static void ScriptThreadTick();
 };
 
 inline std::vector<Fiber*> g_FiberCollection;
-
-void ScriptThreadTick();

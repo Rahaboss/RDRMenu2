@@ -6,5 +6,7 @@
 namespace Features
 {
 	void ExecuteAsThread(rage::joaat_t ScriptHash, void (*Function)());
-	void Setup();
+	void OnSetup();
+	void OnTick();
+	void OnExit();
 }

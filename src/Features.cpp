@@ -24,8 +24,15 @@ void Features::ExecuteAsThread(rage::joaat_t ScriptHash, void (*Function)())
 	}
 }
 
-void Features::Setup()
+void Features::OnSetup()
 {
-	std::cout << __FUNCTION__ << ".\n";
 	std::cout << PLAYER::GET_PLAYER_NAME(PLAYER::PLAYER_ID()) << "\n";
+}
+
+void Features::OnTick()
+{
+}
+
+void Features::OnExit()
+{
 }

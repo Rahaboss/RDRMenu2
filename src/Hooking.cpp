@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Hooking.h"
 #include "Pointers.h"
-#include "Renderer.h"
+#include "Renderer/Renderer.h"
 #include "Features.h"
 #include "Fiber.h"
 
@@ -26,25 +26,23 @@ void Hooking::Destroy()
 static bool s_Enabled = false;
 void Hooking::Enable()
 {
-	std::cout << "Enabling hooks.\n";
-
 	if (s_Enabled)
 		return;
 
-	assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
+	std::cout << "Enabling hooks.\n";
 
+	assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
 	s_Enabled = true;
 }
 
 void Hooking::Disable()
 {
-	std::cout << "Disabling hooks.\n";
-
 	if (!s_Enabled)
 		return;
 
-	assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
+	std::cout << "Disabling hooks.\n";
 
+	assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
 	s_Enabled = false;
 }
 
@@ -61,7 +59,7 @@ bool Hooking::RunScriptThreadsHook(rage::pgPtrCollection* this_, uint32_t ops)
 	bool Result = RunScriptThreads.GetOriginal<decltype(&RunScriptThreadsHook)>()(this_, ops);
 
 	if (g_Running)
-		Features::ExecuteAsThread(RAGE_JOAAT("main"), ScriptThreadTick);
+		Features::ExecuteAsThread(RAGE_JOAAT("main"), &Fiber::ScriptThreadTick);
 
 	return Result;
 }
