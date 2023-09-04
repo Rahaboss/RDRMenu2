@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "Menu.h"
-#include "Pointers.h"
+#include "Memory/Pointers.h"
 #include "Features.h"
 #include "Fonts.h"
 #include "Config.h"

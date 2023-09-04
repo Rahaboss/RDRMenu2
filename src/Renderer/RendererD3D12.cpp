@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "RendererD3D12.h"
 #include "Renderer.h"
-#include "Hooking.h"
-#include "Pointers.h"
+#include "Memory/Hooking.h"
+#include "Memory/Pointers.h"
 #include "Menu.h"
 
 void RendererD3D12::Create()

@@ -2,7 +2,7 @@
 
 #include "pch.h"
 #include "rage/scrNativeCallContext.h"
-#include "Pointers.h"
+#include "Memory/Pointers.h"
 
 class NativeContext
 {

@@ -1,19 +1,19 @@
 #include "pch.h"
 #include "Console.h"
 #include "Config.h"
-#include "Pointers.h"
-#include "Fiber.h"
-#include "Hooking.h"
+#include "Memory/Pointers.h"
+#include "Thread/Fiber.h"
+#include "Memory/Hooking.h"
 #include "Renderer/Renderer.h"
 #include "Features.h"
-#include "JobQueue.h"
+#include "Thread/JobQueue.h"
+#include "Input.h"
 
 void MainLoop()
 {
 	Console::Create();
 
 	Config::Create();
-	std::cout << Config::GetConfigPath().make_preferred().string() << std::endl;
 
 	Pointers::Create();
 
@@ -31,7 +31,7 @@ void MainLoop()
 	// Main loop
 	while (g_Running)
 	{
-		if (GetAsyncKeyState(VK_END))
+		if (Input::IsKeyHeld(VK_LCONTROL) && Input::IsKeyHeld(VK_END))
 			g_Running = false;
 
 		std::this_thread::sleep_for(10ms);

@@ -1,6 +1,9 @@
 #include "Menu.h"
-#include "JobQueue.h"
+#include "Thread/JobQueue.h"
 #include "rage/natives.h"
+#include "Features.h"
+#include "Thread/Thread.h"
+#include "Script/World.h"
 
 void Menu::RenderMenu()
 {
@@ -34,11 +37,10 @@ void Menu::RenderTestTab()
 	static float f = 0.0f;
 	static int counter = 0;
 
-	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-	if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+	ImGui::Text("This is some useful text.");
+	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+	
+	if (ImGui::Button("Button"))
 		counter++;
 	ImGui::SameLine();
 	ImGui::Text("counter = %d", counter);
@@ -47,15 +49,8 @@ void Menu::RenderTestTab()
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 
 	if (ImGui::Button("Noon + Sunny"))
-	{
-		QUEUE_JOB(=)
-		{
-			CLOCK::SET_CLOCK_TIME(12, 0, 0);
-			MISC::SET_WEATHER_TYPE(RAGE_JOAAT("SUNNY"), true, true, false, 0.0f, false);
-		}
-		END_JOB()
-	}
-	
+		JobQueue::Add(Script::NoonAndSunny);
+
 	ImGui::EndChild();
 	ImGui::EndTabItem();
 }
