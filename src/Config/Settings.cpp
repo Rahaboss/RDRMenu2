@@ -6,7 +6,8 @@ static json s_DefaultSettings{
 R"({
 	"disable_pinkerton_patrols": false,
 	"enable_dlcs": false,
-	"infinite_ammo": false
+	"infinite_ammo": false,
+	"player_godmode": false
 })"_json
 };
 

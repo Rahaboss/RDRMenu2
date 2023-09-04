@@ -5,9 +5,9 @@ namespace Menu
 	inline bool IsOpen = false;
 
 	void RenderMenu();
-	void RenderTestTab();
-	void RenderDebugTab();
-	void RenderWorldTab();
+	void RenderPlayerTab();
 	void RenderWeaponTab();
+	void RenderWorldTab();
 	void RenderTeleportTab();
+	void RenderDebugTab();
 }

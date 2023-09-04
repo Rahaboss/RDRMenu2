@@ -6,6 +6,8 @@
 #include "Script/World.h"
 #include "Thread/JobQueue.h"
 #include "Script/Player.h"
+#include "Script/Entity.h"
+#include "PlayerInfo.h"
 
 void Features::OnSetup()
 {
@@ -21,6 +23,9 @@ void Features::OnTick()
 
 	if (g_Settings["disable_pinkerton_patrols"].get<bool>())
 		Script::DisablePinkertonPatrols();
+
+	if (g_Settings["player_godmode"].get<bool>())
+		Script::SetInvincible(g_LocalPlayer.m_Entity, true);
 }
 
 void Features::OnExit()
