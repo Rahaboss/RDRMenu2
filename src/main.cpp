@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "Console.h"
-#include "Config.h"
+#include "Config/Config.h"
+#include "Config/Settings.h"
 #include "Memory/Pointers.h"
 #include "Thread/Fiber.h"
 #include "Memory/Hooking.h"
 #include "Renderer/Renderer.h"
-#include "Features.h"
 #include "Thread/JobQueue.h"
+#include "Features.h"
 #include "Input.h"
 
 void MainLoop()
@@ -14,6 +15,8 @@ void MainLoop()
 	Console::Create();
 
 	Config::Create();
+
+	Settings::Create();
 
 	Pointers::Create();
 
@@ -32,7 +35,7 @@ void MainLoop()
 	while (g_Running)
 	{
 		if (Input::IsKeyHeld(VK_LCONTROL) && Input::IsKeyHeld(VK_END))
-			g_Running = false;
+			Features::StartExit();
 
 		std::this_thread::sleep_for(10ms);
 	}
@@ -41,7 +44,9 @@ void MainLoop()
 
 	Hooking::Disable();
 	Hooking::Destroy();
-	
+
+	Settings::Destroy();
+
 	Console::Destroy();
 }
 

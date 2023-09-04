@@ -7,7 +7,7 @@ Fiber::Fiber(void (*Function)()) :
 	m_MainFiber(),
 	m_Function(Function)
 {
-	std::cout << "Creating fiber " << LOG_HEX(m_Function) << ".\n";
+	LOG_TEXT("Creating fiber 0x%llX.\n", (uintptr_t)m_Function);
 
 	m_ScriptFiber = CreateFiber(0, [](void* FiberParam)
 		{
@@ -26,7 +26,7 @@ Fiber::Fiber(void (*Function)()) :
 
 void Fiber::Destroy()
 {
-	std::cout << "Destroying fiber " << LOG_HEX(m_Function) << ".\n";
+	LOG_TEXT("Destroying fiber 0x%llX.\n", (uintptr_t)m_Function);
 
 	if (m_ScriptFiber)
 		DeleteFiber(m_ScriptFiber);

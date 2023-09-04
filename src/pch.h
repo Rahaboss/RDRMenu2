@@ -10,6 +10,7 @@
 #include <atomic>
 #include <filesystem>
 #include <queue>
+#include <fstream>
 
 // Windows
 #include <Windows.h>
@@ -35,10 +36,10 @@ inline std::atomic_bool g_Running{ true }; // Set to false to eject
 // Enable literal macros
 using namespace std::literals::chrono_literals;
 
-// Shortcut macros
-#define LOG_HEX(v) std::hex << std::uppercase << "0x" << (uintptr_t)v << std::dec << std::nouppercase
+typedef nlohmann::json json;
 
-// Toggles
+// Shortcut macros
+#define LOG_TEXT(...) printf_s(__VA_ARGS__)
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
-#define LOG_EXCEPTION() std::cout << "Caught exception in:\n\tFile: " << __FILE__ << ':' << __LINE__ << "\n\tFunction: " << __FUNCTION__ << ".\n";
+#define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.\n", __FILE__, __LINE__, __FUNCTION__)

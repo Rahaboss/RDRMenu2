@@ -3,7 +3,7 @@
 #include "Memory/Pointers.h"
 #include "Features.h"
 #include "Fonts.h"
-#include "Config.h"
+#include "Config/Config.h"
 
 static bool IsUsingD3D12()
 {
@@ -16,12 +16,12 @@ void Renderer::Create()
 
 	if (IsUsingD3D12())
 	{
-		std::cout << "Creating D3D12 renderer.\n";
+		LOG_TEXT("Creating D3D12 renderer.\n");
 		RendererD3D12::Create();
 	}
 	else
 	{
-		std::cout << "Creating Vulkan renderer.\n";
+		LOG_TEXT("Creating Vulkan renderer.\n");
 		return;
 
 		RendererVulkan::Create();
@@ -37,12 +37,12 @@ void Renderer::Destroy()
 	
 	if (IsUsingD3D12())
 	{
-		std::cout << "Destroying D3D12 renderer.\n";
+		LOG_TEXT("Destroying D3D12 renderer.\n");
 		RendererD3D12::Destroy();
 	}
 	else
 	{
-		std::cout << "Destroying Vulkan renderer.\n";
+		LOG_TEXT("Destroying Vulkan renderer.\n");
 		return;
 
 		RendererVulkan::Destroy();
@@ -77,6 +77,8 @@ void Renderer::CreateImGui()
 	// Main font
 	strcpy_s(FontCfg.Name, "Chalet London 1960");
 	io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+	
+	DefaultFont = io.Fonts->AddFontDefault();
 
 	hWnd = FindWindow(L"sgaWindow", NULL);
 	WndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)WndProcHook);

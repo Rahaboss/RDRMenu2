@@ -4,6 +4,7 @@
 #include "DetourHook.h"
 #include "VMTHook.h"
 #include "Rage/scrThread.h"
+#include "Rage/scrNativeCallContext.h"
 
 namespace Hooking
 {
@@ -18,4 +19,7 @@ namespace Hooking
 
 	inline DetourHook RunScriptThreads;
 	bool RunScriptThreadsHook(rage::pgPtrCollection* this_, uint32_t ops);
+
+	inline DetourHook IsDLCPresent;
+	void IsDLCPresentHook(rage::scrNativeCallContext* ctx);
 }

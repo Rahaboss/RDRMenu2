@@ -17,4 +17,5 @@ namespace Pointers
 	inline void* RunScriptThreads{};
 	inline rage::scrThread** ActiveThread{};
 	inline rage::scrNativeHandler (*GetNativeHandler)(rage::scrNativeHash){};
+	inline int64_t** ScriptGlobals{};
 }

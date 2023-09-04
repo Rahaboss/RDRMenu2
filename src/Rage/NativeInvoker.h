@@ -4,7 +4,7 @@
 #include "Rage/scrNativeCallContext.h"
 #include "Memory/Pointers.h"
 
-class NativeContext
+class NativeInvoker
 {
 private:
 	rage::scrNativeCallContext m_Context;
@@ -12,7 +12,7 @@ private:
 	uint64_t m_ReturnStack[32];
 
 public:
-	NativeContext();
+	NativeInvoker();
 
 	rage::scrNativeCallContext* GetContext();
 
@@ -44,7 +44,7 @@ public:
 template <typename Ret, typename... Args>
 inline Ret invoke(rage::scrNativeHash hash, Args&&... args)
 {
-	NativeContext Context;
+	NativeInvoker Context;
 	Context.Reset();
 	(Context.PushArg(std::move(args)), ...); // Parameter pack expansion
 	Context.EndCall(hash);

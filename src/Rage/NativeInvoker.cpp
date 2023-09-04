@@ -1,31 +1,31 @@
 #include "pch.h"
 #include "NativeInvoker.h"
 
-NativeContext::NativeContext()
+NativeInvoker::NativeInvoker()
 {
-	memset(this, 0, sizeof(NativeContext));
+	memset(this, 0, sizeof(NativeInvoker));
 	GetContext()->m_ReturnValue = m_ReturnStack;
 	GetContext()->m_Args = m_ArgStack;
 }
 
-rage::scrNativeCallContext* NativeContext::GetContext()
+rage::scrNativeCallContext* NativeInvoker::GetContext()
 {
 	return &m_Context;
 }
 
-void NativeContext::Reset()
+void NativeInvoker::Reset()
 {
 	GetContext()->m_ArgCount = 0;
 	GetContext()->m_DataCount = 0;
 	memset(m_ArgStack, 0, sizeof(m_ArgStack));
 }
 
-rage::scrNativeHandler NativeContext::GetHandler(rage::scrNativeHash hash)
+rage::scrNativeHandler NativeInvoker::GetHandler(rage::scrNativeHash hash)
 {
 	return Pointers::GetNativeHandler(hash);
 }
 
-void NativeContext::FixVectors()
+void NativeInvoker::FixVectors()
 {
 	for (uint32_t i = 0; i < GetContext()->m_DataCount; i++)
 	{
@@ -38,7 +38,7 @@ void NativeContext::FixVectors()
 	}
 }
 
-void NativeContext::EndCall(rage::scrNativeHash hash)
+void NativeInvoker::EndCall(rage::scrNativeHash hash)
 {
 	if (const auto Handler = GetHandler(hash))
 	{
@@ -52,6 +52,6 @@ void NativeContext::EndCall(rage::scrNativeHash hash)
 	}
 	else
 	{
-		std::cout << "Failed to find native " << LOG_HEX(hash);
+		LOG_TEXT("Failed to find native 0x%llX.\n", hash);
 	}
 }

@@ -10,5 +10,14 @@ namespace JobQueue
 	void Run();
 }
 
-#define QUEUE_JOB(...) JobQueue::Add([__VA_ARGS__]() { __try
-#define END_JOB() __except (EXCEPTION_EXECUTE_HANDLER) { std::cout << "Caught exception in queued job:\n\tFile " << __FILE__ << ':' << __LINE__ << ".\n"; } });
+#define QUEUE_JOB(...)\
+	JobQueue::Add([__VA_ARGS__]()\
+	{\
+		__try
+
+#define END_JOB()\
+		__except (EXCEPTION_EXECUTE_HANDLER)\
+		{\
+			LOG_EXCEPTION();\
+		}\
+	});

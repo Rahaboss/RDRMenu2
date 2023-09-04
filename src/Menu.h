@@ -6,4 +6,6 @@ namespace Menu
 
 	void RenderMenu();
 	void RenderTestTab();
+	void RenderDebugTab();
+	void RenderWorldTab();
 }

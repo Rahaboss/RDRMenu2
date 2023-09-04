@@ -5,4 +5,5 @@
 namespace Script
 {
 	void NoonAndSunny();
+	void DisablePinkertonPatrols();
 }

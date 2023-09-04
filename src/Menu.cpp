@@ -4,6 +4,8 @@
 #include "Features.h"
 #include "Thread/Thread.h"
 #include "Script/World.h"
+#include "Renderer/Renderer.h"
+#include "Config/Settings.h"
 
 void Menu::RenderMenu()
 {
@@ -15,9 +17,11 @@ void Menu::RenderMenu()
 		{
 			ImGui::BeginTabBar("tab_bar");
 			RenderTestTab();
+			RenderDebugTab();
+			RenderWorldTab();
 			if (ImGui::BeginTabItem("Exit"))
 			{
-				g_Running = false;
+				Features::StartExit();
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();
@@ -50,6 +54,40 @@ void Menu::RenderTestTab()
 
 	if (ImGui::Button("Noon + Sunny"))
 		JobQueue::Add(Script::NoonAndSunny);
+
+	ImGui::EndChild();
+	ImGui::EndTabItem();
+}
+
+void Menu::RenderDebugTab()
+{
+	if (!ImGui::BeginTabItem("Debug"))
+		return;
+
+	ImGui::BeginChild("debug_child");
+
+	if (ImGui::CollapsingHeader("Settings JSON"))
+	{
+		ImGui::PushFont(Renderer::DefaultFont);
+
+		ImGui::Text(g_Settings.dump(4).c_str());
+
+		ImGui::PopFont();
+	}
+
+	ImGui::EndChild();
+	ImGui::EndTabItem();
+}
+
+void Menu::RenderWorldTab()
+{
+	if (!ImGui::BeginTabItem("World"))
+		return;
+
+	ImGui::BeginChild("world_child");
+
+	ImGui::Checkbox("Disable West Elizabeth Pinkerton Patrols", g_Settings["disable_pinkerton_patrols"].get<bool*>());
+	ImGui::Checkbox("Enable All DLCs", g_Settings["enable_dlcs"].get<bool*>());
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

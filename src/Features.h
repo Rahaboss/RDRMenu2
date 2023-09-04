@@ -7,4 +7,5 @@ namespace Features
 	void OnSetup();
 	void OnTick();
 	void OnExit();
+	void StartExit();
 }

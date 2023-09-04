@@ -13,6 +13,7 @@ namespace Renderer
 
 	inline bool Setup = false;
 
+	inline ImFont* DefaultFont{};
 	inline HWND hWnd{};
 	inline WNDPROC WndProc{};
 	LRESULT CALLBACK WndProcHook(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

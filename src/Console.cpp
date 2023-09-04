@@ -20,12 +20,12 @@ void Console::Create()
 #endif
 	);
 
-	std::cout << "Console created.\n";
+	LOG_TEXT("Console created.\n");
 }
 
 void Console::Destroy()
 {
-	std::cout << "Destroying console.\n";
+	LOG_TEXT("Destroying console.\n");
 
 	fclose(s_ErrFile);
 	fclose(s_OutFile);
