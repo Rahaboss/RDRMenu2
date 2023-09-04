@@ -2,15 +2,17 @@
 
 // C++ standard library
 #include <iostream>
-#include <string_view>
 #include <vector>
+#include <string>
+#include <string_view>
+#include <filesystem>
+#include <fstream>
+#include <queue>
+#include <array>
 #include <cassert>
 #include <chrono>
 #include <thread>
 #include <atomic>
-#include <filesystem>
-#include <queue>
-#include <fstream>
 
 // Windows
 #include <Windows.h>

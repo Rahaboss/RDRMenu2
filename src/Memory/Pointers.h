@@ -3,6 +3,8 @@
 #include "pch.h"
 #include "Rage/scrThread.h"
 #include "Rage/scrNativeCallContext.h"
+#include "Rage/Obfuscation.h"
+#include "Rage/CPed.h"
 
 namespace Pointers
 {
@@ -18,4 +20,7 @@ namespace Pointers
 	inline rage::scrThread** ActiveThread{};
 	inline rage::scrNativeHandler (*GetNativeHandler)(rage::scrNativeHash){};
 	inline int64_t** ScriptGlobals{};
+	inline rage::CPed* (*GetPlayerPed)(Player) {};
+	inline VariableEncryption* PedFactoryEncryption{};
+	inline void (*DecreaseAmmo)(void*, rage::CPed*, uint64_t, uint32_t){};
 }

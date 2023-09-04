@@ -5,13 +5,17 @@
 #include "Config/Settings.h"
 #include "Script/World.h"
 #include "Thread/JobQueue.h"
+#include "Script/Player.h"
 
 void Features::OnSetup()
 {
+	LOG_TEXT("Running script setup.\n");
 }
 
 void Features::OnTick()
 {
+	Script::GetLocalPlayerInfo();
+
 	if (Menu::IsOpen)
 		PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 

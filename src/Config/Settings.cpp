@@ -5,7 +5,8 @@
 static json s_DefaultSettings{
 R"({
 	"disable_pinkerton_patrols": false,
-	"enable_dlcs": false
+	"enable_dlcs": false,
+	"infinite_ammo": false
 })"_json
 };
 

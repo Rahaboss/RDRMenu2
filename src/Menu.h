@@ -8,4 +8,6 @@ namespace Menu
 	void RenderTestTab();
 	void RenderDebugTab();
 	void RenderWorldTab();
+	void RenderWeaponTab();
+	void RenderTeleportTab();
 }

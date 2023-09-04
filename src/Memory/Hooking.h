@@ -5,6 +5,7 @@
 #include "VMTHook.h"
 #include "Rage/scrThread.h"
 #include "Rage/scrNativeCallContext.h"
+#include "Rage/CPed.h"
 
 namespace Hooking
 {
@@ -22,4 +23,7 @@ namespace Hooking
 
 	inline DetourHook IsDLCPresent;
 	void IsDLCPresentHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook DecreaseAmmo;
+	void DecreaseAmmoHook(void* a1, rage::CPed* a2, uint64_t a3, uint32_t a4);
 }

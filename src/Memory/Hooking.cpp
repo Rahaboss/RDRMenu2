@@ -7,6 +7,7 @@
 #include "Thread/Thread.h"
 #include "Config/Settings.h"
 #include "Rage/NativeInvoker.h"
+#include "PlayerInfo.h"
 
 void Hooking::Create()
 {
@@ -16,12 +17,14 @@ void Hooking::Create()
 
 	RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 	IsDLCPresent.Create(NativeInvoker::GetHandler(0x2763DC12BBE2BB6F), IsDLCPresentHook);
+	DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.\n");
 	
+	DecreaseAmmo.Destroy();
 	IsDLCPresent.Destroy();
 	RunScriptThreads.Destroy();
 
@@ -81,4 +84,12 @@ void Hooking::IsDLCPresentHook(rage::scrNativeCallContext* ctx)
 	}
 
 	LOG_TEXT("%s: Unknown DLC hash %u / 0x%X.\n", __FUNCTION__, dlcHash, dlcHash);
+}
+
+void Hooking::DecreaseAmmoHook(void* a1, rage::CPed* a2, uint64_t a3, uint32_t a4)
+{
+	if (a2 == g_LocalPlayer.m_Ped && g_Settings["infinite_ammo"].get<bool>())
+		return;
+
+	DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);
 }

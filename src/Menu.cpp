@@ -6,28 +6,36 @@
 #include "Script/World.h"
 #include "Renderer/Renderer.h"
 #include "Config/Settings.h"
+#include "Config/Lists.h"
+#include "Script/Player.h"
 
 void Menu::RenderMenu()
 {
-	ImGui::GetIO().MouseDrawCursor = Menu::IsOpen;
-
-	if (IsOpen)
+	TRY
 	{
-		if (ImGui::Begin("RDRMenu2", &IsOpen))
+		ImGui::GetIO().MouseDrawCursor = Menu::IsOpen;
+
+		if (IsOpen)
 		{
-			ImGui::BeginTabBar("tab_bar");
-			RenderTestTab();
-			RenderDebugTab();
-			RenderWorldTab();
-			if (ImGui::BeginTabItem("Exit"))
+			if (ImGui::Begin("RDRMenu2", &IsOpen))
 			{
-				Features::StartExit();
-				ImGui::EndTabItem();
+				ImGui::BeginTabBar("tab_bar");
+				RenderTestTab();
+				RenderDebugTab();
+				RenderWorldTab();
+				RenderWeaponTab();
+				RenderTeleportTab();
+				if (ImGui::BeginTabItem("Exit"))
+				{
+					Features::StartExit();
+					ImGui::EndTabItem();
+				}
+				ImGui::EndTabBar();
 			}
-			ImGui::EndTabBar();
+			ImGui::End();
 		}
-		ImGui::End();
 	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }
 
 void Menu::RenderTestTab()
@@ -88,6 +96,42 @@ void Menu::RenderWorldTab()
 
 	ImGui::Checkbox("Disable West Elizabeth Pinkerton Patrols", g_Settings["disable_pinkerton_patrols"].get<bool*>());
 	ImGui::Checkbox("Enable All DLCs", g_Settings["enable_dlcs"].get<bool*>());
+
+	ImGui::EndChild();
+	ImGui::EndTabItem();
+}
+
+void Menu::RenderWeaponTab()
+{
+	if (!ImGui::BeginTabItem("Weapon"))
+		return;
+
+	ImGui::BeginChild("weapon_child");
+
+	ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
+
+	ImGui::EndChild();
+	ImGui::EndTabItem();
+}
+
+void Menu::RenderTeleportTab()
+{
+	if (!ImGui::BeginTabItem("Teleport"))
+		return;
+
+	ImGui::BeginChild("teleport_child");
+
+	for (size_t i = 0; i < Lists::TeleportList.size(); i++)
+	{
+		if (ImGui::Selectable(Lists::TeleportList[i].first.c_str()))
+		{
+			QUEUE_JOB(=)
+			{
+				Script::TeleportOnGround(Lists::TeleportList[i].second);
+			}
+			END_JOB()
+		}
+	}
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();
