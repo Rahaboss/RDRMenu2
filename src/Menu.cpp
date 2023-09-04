@@ -1,6 +1,6 @@
 #include "Menu.h"
 #include "Thread/JobQueue.h"
-#include "rage/natives.h"
+#include "Rage/natives.h"
 #include "Features.h"
 #include "Thread/Thread.h"
 #include "Script/World.h"

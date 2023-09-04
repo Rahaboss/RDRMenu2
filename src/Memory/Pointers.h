@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/scrThread.h"
+#include "Rage/scrThread.h"
 #include "Rage/scrNativeCallContext.h"
 
 namespace Pointers

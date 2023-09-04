@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Features.h"
 #include "Menu.h"
-#include "rage/natives.h"
+#include "Rage/natives.h"
 
 void Features::OnSetup()
 {

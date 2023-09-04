@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "rage/joaat.h"
+#include "Rage/joaat.h"
 
 namespace Thread
 {

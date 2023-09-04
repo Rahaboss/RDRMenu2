@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "DetourHook.h"
 #include "VMTHook.h"
-#include "rage/scrThread.h"
+#include "Rage/scrThread.h"
 
 namespace Hooking
 {

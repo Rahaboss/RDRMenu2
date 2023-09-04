@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "World.h"
-#include "rage/natives.h"
+#include "Rage/natives.h"
 
 void Script::NoonAndSunny()
 {

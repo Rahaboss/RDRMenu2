@@ -1,5 +1,5 @@
 #include "Thread.h"
-#include "rage/scrThread.h"
+#include "Rage/scrThread.h"
 #include "Memory/Pointers.h"
 #include "Fiber.h"
 
