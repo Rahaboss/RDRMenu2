@@ -1,8 +1,11 @@
 #include "Renderer.h"
 #include "Menu.h"
 #include "Pointers.h"
+#include "Features.h"
+#include "Fonts.h"
+#include "Config.h"
 
-bool IsUsingD3D12()
+static bool IsUsingD3D12()
 {
 	return Pointers::SwapChain && *Pointers::SwapChain && Pointers::CommandQueue && *Pointers::CommandQueue;
 }
@@ -62,11 +65,10 @@ void Renderer::CreateImGui()
 	Style.WindowRounding = Style.ChildRounding = Style.FrameRounding = Style.PopupRounding =
 		Style.ScrollbarRounding = Style.GrabRounding = Style.TabRounding = 4.0f;
 
-#if 0
 	ImGuiIO& io = ImGui::GetIO();
 	
 	// Made static so it persists until end of the program
-	static std::string IniPath(Features::GetConfigPath().append("imgui.ini").string());
+	static std::string IniPath(Config::GetConfigPath().append("imgui.ini").string());
 	io.IniFilename = IniPath.c_str();
 
 	ImFontConfig FontCfg{};
@@ -75,9 +77,6 @@ void Renderer::CreateImGui()
 	// Main font
 	strcpy_s(FontCfg.Name, "Chalet London 1960");
 	io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
-
-	DefaultFont = io.Fonts->AddFontDefault();
-#endif
 
 	hWnd = FindWindow(L"sgaWindow", NULL);
 	WndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)WndProcHook);

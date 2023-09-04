@@ -2,6 +2,7 @@
 #include "Features.h"
 #include "Pointers.h"
 #include "rage/natives.h"
+#include "Menu.h"
 
 void Features::ExecuteAsThread(rage::joaat_t ScriptHash, void (*Function)())
 {
@@ -26,11 +27,12 @@ void Features::ExecuteAsThread(rage::joaat_t ScriptHash, void (*Function)())
 
 void Features::OnSetup()
 {
-	std::cout << PLAYER::GET_PLAYER_NAME(PLAYER::PLAYER_ID()) << "\n";
 }
 
 void Features::OnTick()
 {
+	if (Menu::IsOpen)
+		PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 }
 
 void Features::OnExit()

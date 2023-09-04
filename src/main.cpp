@@ -1,19 +1,27 @@
 #include "pch.h"
 #include "Console.h"
+#include "Config.h"
 #include "Pointers.h"
+#include "Fiber.h"
 #include "Hooking.h"
 #include "Renderer/Renderer.h"
-#include "Fiber.h"
 #include "Features.h"
+#include "JobQueue.h"
 
 void MainLoop()
 {
 	Console::Create();
 
+	Config::Create();
+	std::cout << Config::GetConfigPath().make_preferred().string() << std::endl;
+
 	Pointers::Create();
 
 	Fiber MainFiber{ &Features::OnTick };
 	g_FiberCollection.push_back(&MainFiber);
+
+	Fiber JobQueueFiber{ &JobQueue::Run };
+	g_FiberCollection.push_back(&JobQueueFiber);
 
 	Hooking::Create();
 	Hooking::Enable();
@@ -34,15 +42,7 @@ void MainLoop()
 	Hooking::Disable();
 	Hooking::Destroy();
 	
-	std::this_thread::sleep_for(3s);
-
 	Console::Destroy();
-
-	// Close handle to main thread
-	CloseHandle(g_MainThread);
-
-	// Exit thread
-	FreeLibraryAndExitThread(g_Module, 0);
 }
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID)

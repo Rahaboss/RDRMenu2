@@ -1,0 +1,14 @@
+#pragma once
+
+#include "pch.h"
+
+namespace JobQueue
+{
+	typedef std::function<void()> Job_t;
+
+	void Add(Job_t Job);
+	void Run();
+}
+
+#define QUEUE_JOB(...) JobQueue::Add([__VA_ARGS__]() { __try
+#define END_JOB() __except (EXCEPTION_EXECUTE_HANDLER) { std::cout << "Caught exception in queued job:\n\tFile " << __FILE__ << ':' << __LINE__ << ".\n"; } });

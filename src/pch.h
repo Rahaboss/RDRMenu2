@@ -8,6 +8,8 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <filesystem>
+#include <queue>
 
 // Windows
 #include <Windows.h>
@@ -20,6 +22,7 @@
 #include <json.hpp>
 #include <imgui.h>
 #include <imgui_impl_dx12.h>
+#include <imgui_impl_vulkan.h>
 #include <imgui_impl_win32.h>
 
 // Global variables
