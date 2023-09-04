@@ -10,6 +10,7 @@ struct PlayerInfo
 	Ped m_Entity;
 	Ped m_Mount;
 	Vehicle m_Vehicle;
+	Hash m_Model;
 	rage::CPed* m_Ped;
 };
 

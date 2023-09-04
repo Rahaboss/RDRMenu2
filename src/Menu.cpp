@@ -11,6 +11,7 @@
 #include "Script/Ped.h"
 #include "Script/Entity.h"
 #include "PlayerInfo.h"
+#include "Script/Spawning.h"
 
 void Menu::RenderMenu()
 {
@@ -149,6 +150,57 @@ void Menu::RenderDebugTab()
 		ImGui::Text(g_Settings.dump(4).c_str());
 
 		ImGui::PopFont();
+	}
+
+	ImGui::SeparatorText("Buttons");
+	if (ImGui::Button("Spawn Ped"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SpawnPed(RAGE_JOAAT("CS_DUTCH"));
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Vehicle"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SpawnVehicle(RAGE_JOAAT("WAGON02X"));
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Object"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SpawnObject(RAGE_JOAAT("P_STOOL01X"));
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Pickup"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SpawnPickup(RAGE_JOAAT("PICKUP_WEAPON_PISTOL_M1899"));
+		}
+		END_JOB()
+	}
+
+	if (ImGui::Button("Change Player Model"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SetPlayerModel(RAGE_JOAAT("CS_DUTCH"));
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Reset Player Model"))
+	{
+		JobQueue::Add(Script::ResetPlayerModel);
 	}
 
 	ImGui::EndChild();
