@@ -22,3 +22,22 @@ void Script::FillCores(Ped ped)
 	for (int i = 0; i < 3; i++)
 		ATTRIBUTE::_SET_ATTRIBUTE_CORE_VALUE(ped, i, 100);
 }
+
+bool Script::DoesPedBoneExist(Ped ped, int boneId)
+{
+	TRY
+	{
+		if (void* temp = Pointers::sub_7FF669910FEC(ped))
+			return Pointers::GetPedBoneIndex(temp, boneId) != -1;
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+	
+	return false;
+}
+
+Vector3 Script::GetPedBoneCoords(Ped ped, int boneId)
+{
+	Vector3 Result{};
+	Pointers::GetPedBoneCoords(Result, ped, boneId, Vector3{});
+	return Result;
+}

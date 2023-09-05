@@ -19,4 +19,8 @@ void Pointers::Create()
 	GetPlayerPed = Signature("40 53 48 83 EC 20 33 DB 38 1D ? ? ? ? 74 1C").Get<decltype(GetPlayerPed)>();
 	PedFactoryEncryption = Signature("40 53 48 83 EC 20 33 DB 38 1D ? ? ? ? 74 1C").Add(0x3D).Rip().Sub(0x10).Get<decltype(PedFactoryEncryption)>();
 	DecreaseAmmo = Signature("0F 57 DB 0F 57 D2 8B").Sub(0x3D).Get<decltype(DecreaseAmmo)>();
+	WorldToScreen = Signature("E8 ? ? ? ? 0F B6 D0 48 8B 03 89 10 48 83 C4 20 5B C3 48 8B 41 10 48 8B 48 08").Add(1).Rip().Get<decltype(WorldToScreen)>();
+	GetPedBoneCoords = Signature("4C 8D 48 10 8B 10").Add(7).Rip().Get<decltype(GetPedBoneCoords)>();
+	sub_7FF669910FEC = Signature("E8 ? ? ? ? 41 8D 7D 09").Add(1).Rip().Get<decltype(sub_7FF669910FEC)>();
+	GetPedBoneIndex = Signature("E8 ? ? ? ? 8A 4D 65").Add(1).Rip().Get<decltype(GetPedBoneIndex)>();
 }

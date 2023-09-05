@@ -12,12 +12,18 @@
 #include "Script/Entity.h"
 #include "PlayerInfo.h"
 #include "Script/Spawning.h"
+#include "Renderer/RGB.h"
+#include "Script/Rendering.h"
+#include "ESP/ESP.h"
+#include "Rage/ScriptGlobal.h"
 
 void Menu::RenderMenu()
 {
 	TRY
 	{
 		ImGui::GetIO().MouseDrawCursor = Menu::IsOpen;
+		Renderer::RGBTick();
+		ESP::RenderPedBoneESP(ScriptGlobal(35).Get<Ped>());
 
 		if (IsOpen)
 		{
@@ -202,6 +208,8 @@ void Menu::RenderDebugTab()
 	{
 		JobQueue::Add(Script::ResetPlayerModel);
 	}
+
+	ImGui::ColorButton("RGB", Renderer::GetImGuiRGB());
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

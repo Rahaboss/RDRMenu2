@@ -5,15 +5,12 @@
 
 static rage::scrThread* GetActiveThread()
 {
-	if (Pointers::ActiveThread)
-		return *Pointers::ActiveThread;
-	return nullptr;
+	return *Pointers::ActiveThread;
 }
 
 static void SetActiveThread(rage::scrThread* Thread)
 {
-	if (Pointers::ActiveThread)
-		*Pointers::ActiveThread = Thread;
+	*Pointers::ActiveThread = Thread;
 }
 
 void Thread::ExecuteAsThread(rage::joaat_t ScriptHash, void (*Function)())

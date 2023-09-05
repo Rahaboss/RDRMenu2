@@ -15,7 +15,7 @@ static void WriteDefaultSettings(const std::filesystem::path& FilePath)
 {
 	std::fstream File(FilePath, std::fstream::out | std::fstream::trunc);
 	assert(File.good());
-	File << s_DefaultSettings.dump(1, '\t');
+	File << s_DefaultSettings.dump(1, '\t') << std::endl;
 	File.close();
 
 	g_Settings.clear();
@@ -26,7 +26,7 @@ static void Save(const std::filesystem::path& FilePath)
 {
 	std::fstream File(FilePath, std::fstream::out | std::fstream::trunc);
 	assert(File.good());
-	File << g_Settings.dump(1, '\t');
+	File << g_Settings.dump(1, '\t') << std::endl;
 	File.close();
 }
 

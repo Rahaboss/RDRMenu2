@@ -23,4 +23,8 @@ namespace Pointers
 	inline rage::CPed* (*GetPlayerPed)(Player) {};
 	inline VariableEncryption* PedFactoryEncryption{};
 	inline void (*DecreaseAmmo)(void*, rage::CPed*, uint64_t, uint32_t){};
+	inline bool (*WorldToScreen)(const Vector3&, float&, float&){};
+	inline Vector3* (*GetPedBoneCoords)(Vector3&, Ped, int, const Vector3&){};
+	inline void* (*sub_7FF669910FEC)(Ped ped){};
+	inline int (*GetPedBoneIndex)(void*, int){};
 }

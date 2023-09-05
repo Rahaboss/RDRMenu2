@@ -8,6 +8,11 @@
 #include "Script/Player.h"
 #include "Script/Entity.h"
 #include "PlayerInfo.h"
+#include "Script/Rendering.h"
+#include "Renderer/RGB.h"
+#include "Script/Ped.h"
+#include "Rage/enums.h"
+#include "ESP/Screen.h"
 
 void Features::OnSetup()
 {
