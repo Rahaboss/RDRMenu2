@@ -13,16 +13,24 @@
 #include "Script/Ped.h"
 #include "Rage/enums.h"
 #include "ESP/Screen.h"
+#include "Config/Lists.h"
+#include "Timer.h"
 
+static bool s_ScriptsSetup = false;
 void Features::OnSetup()
 {
 	LOG_TEXT("Running script setup.\n");
+	Lists::Create();
+
+	s_ScriptsSetup = true;
 }
 
 void Features::OnTick()
 {
-	Script::GetLocalPlayerInfo();
+	Timer t;
 
+	Script::GetLocalPlayerInfo();
+	
 	if (Menu::IsOpen)
 		PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 
@@ -31,6 +39,8 @@ void Features::OnTick()
 
 	if (g_Settings["player_godmode"].get<bool>())
 		Script::SetInvincible(g_LocalPlayer.m_Entity, true);
+
+	Timer::s_ScriptThreadTime = t.GetMillis();
 }
 
 void Features::OnExit()

@@ -23,4 +23,12 @@ void Pointers::Create()
 	GetPedBoneCoords = Signature("4C 8D 48 10 8B 10").Add(7).Rip().Get<decltype(GetPedBoneCoords)>();
 	sub_7FF669910FEC = Signature("E8 ? ? ? ? 41 8D 7D 09").Add(1).Rip().Get<decltype(sub_7FF669910FEC)>();
 	GetPedBoneIndex = Signature("E8 ? ? ? ? 8A 4D 65").Add(1).Rip().Get<decltype(GetPedBoneIndex)>();
+	fwScriptGuidCreateGuid = Signature("E8 ? ? ? ? B3 01 8B 15").Sub(0x8D).Get<decltype(fwScriptGuidCreateGuid)>();
+	PedPoolEncryption = Signature("0F 28 F0 48 85 DB 74 56 8A 05 ? ? ? ? 84 C0 75 05").Add(0xA).Rip().Get<decltype(PedPoolEncryption)>();
+	ObjectPoolEncryption = Signature("3C 05 75 67").Add(0x14).Rip().Get<decltype(ObjectPoolEncryption)>();
+	VehiclePoolEncryption = Signature("48 83 EC 20 8A 05 ? ? ? ? 45 33 E4").Add(6).Rip().Get<decltype(VehiclePoolEncryption)>();
+	PickupPoolEncryption = Signature("0F 84 ? ? ? ? 8A 05 ? ? ? ? 48 85").Add(8).Rip().Get<decltype(PickupPoolEncryption)>();
+	DoesEntityExist = Signature("40 53 48 83 EC 20 83 F9 FF 75 04").Get<decltype(DoesEntityExist)>();
+	GetEntityModel = Signature("40 53 48 83 EC 20 33 DB E8 ? ? ? ? 48 85 C0 74 25").Get<decltype(GetEntityModel)>();
+	GetEntityCoords = Signature("48 89 5C 24 ? 57 48 83 EC 20 48 8B F9 41 8A D9").Get<decltype(GetEntityCoords)>();
 }

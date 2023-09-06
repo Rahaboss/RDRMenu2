@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "JobQueue.h"
+#include "Timer.h"
 
 static std::queue<JobQueue::Job_t> s_Queue;
 void JobQueue::Add(Job_t Job)
@@ -9,6 +10,8 @@ void JobQueue::Add(Job_t Job)
 
 void JobQueue::Run()
 {
+	Timer t;
+
 	while (!s_Queue.empty())
 	{
 		TRY
@@ -18,4 +21,6 @@ void JobQueue::Run()
 		EXCEPT{ LOG_EXCEPTION(); }
 		s_Queue.pop();
 	}
+
+	Timer::s_JobQueueTime = t.GetMillis();
 }

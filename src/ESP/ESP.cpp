@@ -3,6 +3,11 @@
 #include "Screen.h"
 #include "Renderer/RGB.h"
 #include "Rage/enums.h"
+#include "Script/Entity.h"
+#include "Config/Lists.h"
+#include "Menu.h"
+#include "Timer.h"
+#include "Rage/ScriptGlobal.h"
 
 void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness)
 {
@@ -68,4 +73,61 @@ bool ESP::RenderPedBoneESP(Ped ped)
 	RenderLineArray({ Spine, RHip, RKnee, RFoot, RToe }, Color, Thickness);
 
 	return true;
+}
+
+bool ESP::RenderTextOnEntity(Entity ent, const char* Text)
+{
+	ImVec2 Pos;
+	if (ESP::WorldToScreenScaled(Script::GetEntityCoords(ent), Pos.x, Pos.y))
+	{
+		RenderTextCentered(Text, Pos, Renderer::GetImGuiRGB32());
+		
+		return true;
+	}
+
+	return false;
+}
+
+void ESP::RenderText(const char* Text, ImVec2 Pos, ImU32 Color)
+{
+	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
+}
+
+void ESP::RenderTextCentered(const char* Text, ImVec2 Pos, ImU32 Color)
+{
+	ImVec2 Size = ImGui::CalcTextSize(Text);
+	Pos.x -= (Size.x / 2);
+	Pos.y -= (Size.y / 2);
+
+	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
+}
+
+void ESP::RenderPedESP()
+{
+	const auto peds = Script::GetAllPeds();
+	for (size_t i = 0; i < peds.size(); i++)
+	{
+		for (const auto& p : Lists::PedList)
+		{
+			if (p.second == Script::GetEntityModel(peds[i]))
+			{
+				RenderTextOnEntity(peds[i], p.first.c_str());
+				break;
+			}
+		}
+	}
+}
+
+void ESP::RenderESP()
+{
+	Timer t;
+
+	TRY
+	{
+		RenderPedESP();
+		ESP::RenderPedBoneESP(ScriptGlobal(35).Get<Ped>());
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	Timer::s_ESPTime = t.GetMillis();
 }

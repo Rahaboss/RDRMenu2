@@ -5,6 +5,14 @@
 
 namespace Lists
 {
+	void Create();
+
+	inline std::map<std::string, Hash>
+		ObjectList,
+		PedList,
+		WeaponList,
+		VehicleList;
+
 	inline const std::vector<std::pair<std::string, Vector3>> TeleportList{
 		{ "Aberdeen Pig Farm", Vector3{ 1815.1f, -115.187f, 56.7297f } },
 		{ "Adler Ranch", Vector3{ -567.54f, 2682.85f, 319.871f } },

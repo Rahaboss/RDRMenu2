@@ -9,5 +9,6 @@ namespace Menu
 	void RenderWeaponTab();
 	void RenderWorldTab();
 	void RenderTeleportTab();
+	void RenderSpawningTab();
 	void RenderDebugTab();
 }

@@ -3,6 +3,7 @@
 #include "Rage/natives.h"
 #include "Rage/ScriptGlobal.h"
 #include "Thread/Thread.h"
+#include "Player.h"
 
 void Script::NoonAndSunny()
 {
@@ -12,7 +13,8 @@ void Script::NoonAndSunny()
 
 void Script::DisablePinkertonPatrols()
 {
-	ScriptGlobal(1934266).At(56).Get<bool&>() = true;
+	if (GetDefaultPlayerModel() == RAGE_JOAAT("PLAYER_ZERO"))
+		ScriptGlobal(1934266).At(56).Get<bool&>() = true;
 }
 
 bool Script::LoadGround(Vector3 pos)

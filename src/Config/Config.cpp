@@ -34,3 +34,17 @@ std::filesystem::path Config::GetConfigPath()
 {
 	return s_ConfigPath;
 }
+
+Hash Config::HashFromJSON(const json& j)
+{
+	TRY
+	{
+		if (j.is_string())
+			return rage::joaat(j.get_ref<const std::string&>());
+
+		return j.get<Hash>();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	return 0;
+}

@@ -14,8 +14,8 @@
 #include "Script/Spawning.h"
 #include "Renderer/RGB.h"
 #include "Script/Rendering.h"
-#include "ESP/ESP.h"
 #include "Rage/ScriptGlobal.h"
+#include "Timer.h"
 
 void Menu::RenderMenu()
 {
@@ -23,7 +23,6 @@ void Menu::RenderMenu()
 	{
 		ImGui::GetIO().MouseDrawCursor = Menu::IsOpen;
 		Renderer::RGBTick();
-		ESP::RenderPedBoneESP(ScriptGlobal(35).Get<Ped>());
 
 		if (IsOpen)
 		{
@@ -34,6 +33,7 @@ void Menu::RenderMenu()
 				RenderWeaponTab();
 				RenderWorldTab();
 				RenderTeleportTab();
+				RenderSpawningTab();
 				RenderDebugTab();
 				if (ImGui::BeginTabItem("Exit"))
 				{
@@ -55,6 +55,7 @@ void Menu::RenderPlayerTab()
 
 	ImGui::BeginChild("player_child");
 
+	ImGui::SeparatorText("Buttons");
 	if (ImGui::Button("Fill Cores"))
 	{
 		QUEUE_JOB(=)
@@ -73,6 +74,16 @@ void Menu::RenderPlayerTab()
 		END_JOB()
 	}
 
+	if (ImGui::Button("Explode Head"))
+	{
+		QUEUE_JOB(=)
+		{
+			PED::EXPLODE_PED_HEAD(g_LocalPlayer.m_Entity, RAGE_JOAAT("WEAPON_SNIPERRIFLE_CARCANO"));
+		}
+		END_JOB()
+	}
+
+	ImGui::SeparatorText("Toggles");
 	if (ImGui::Checkbox("Godmode", g_Settings["player_godmode"].get<bool*>()))
 	{
 		if (!g_Settings["player_godmode"].get<bool>())
@@ -136,6 +147,98 @@ void Menu::RenderTeleportTab()
 			}
 			END_JOB()
 		}
+	}
+
+	ImGui::EndChild();
+	ImGui::EndTabItem();
+}
+
+void Menu::RenderSpawningTab()
+{
+	if (!ImGui::BeginTabItem("Spawning"))
+		return;
+
+	ImGui::BeginChild("spawning_child");
+
+	static int s_SeletectedList = 0;
+	const char* ComboLabels[]{
+		"Objects",
+		"Peds",
+		"Vehicles",
+	};
+
+	ImGui::AlignTextToFramePadding();
+	ImGui::Text("Select List");
+	ImGui::SameLine();
+
+	ImGui::SetNextItemWidth(100.0f);
+	if (ImGui::BeginCombo("##list_select", ComboLabels[s_SeletectedList]))
+	{
+		for (int i = 0; i < IM_ARRAYSIZE(ComboLabels); i++)
+		{
+			if (ImGui::Selectable(ComboLabels[i], i == s_SeletectedList))
+				s_SeletectedList = i;
+		}
+
+		ImGui::EndCombo();
+	}
+
+	if (s_SeletectedList == 0)
+	{
+		if (ImGui::BeginChild("##object_list"))
+		{
+			for (const auto& [Name, Model] : Lists::ObjectList)
+			{
+				if (ImGui::Selectable(Name.c_str()))
+				{
+					Hash m = Model;
+					QUEUE_JOB(=)
+					{
+						Script::SpawnObject(m);
+					}
+					END_JOB()
+				}
+			}
+		}
+		ImGui::EndChild();
+	}
+	else if (s_SeletectedList == 1)
+	{
+		if (ImGui::BeginChild("##ped_list"))
+		{
+			for (const auto& [Name, Model] : Lists::PedList)
+			{
+				if (ImGui::Selectable(Name.c_str()))
+				{
+					Hash m = Model;
+					QUEUE_JOB(=)
+					{
+						Script::SpawnPed(m);
+					}
+					END_JOB()
+				}
+			}
+		}
+		ImGui::EndChild();
+	}
+	else if (s_SeletectedList == 2)
+	{
+		if (ImGui::BeginChild("##vehicle_list"))
+		{
+			for (const auto& [Name, Model] : Lists::VehicleList)
+			{
+				if (ImGui::Selectable(Name.c_str()))
+				{
+					Hash m = Model;
+					QUEUE_JOB(=)
+					{
+						Script::SpawnVehicle(m);
+					}
+					END_JOB()
+				}
+			}
+		}
+		ImGui::EndChild();
 	}
 
 	ImGui::EndChild();
@@ -210,6 +313,51 @@ void Menu::RenderDebugTab()
 	}
 
 	ImGui::ColorButton("RGB", Renderer::GetImGuiRGB());
+
+	if (ImGui::CollapsingHeader("Object List"))
+	{
+		ImGui::Text("Total Objects: %u", Lists::ObjectList.size());
+		if (ImGui::BeginChild("##object_list"))
+		{
+			for (const auto& [Name, Model] : Lists::ObjectList)
+				ImGui::Text(Name.c_str());
+		}
+		ImGui::EndChild();
+	}
+	if (ImGui::CollapsingHeader("Ped List"))
+	{
+		ImGui::Text("Total Peds: %u", Lists::PedList.size());
+		if (ImGui::BeginChild("##ped_list"))
+		{
+			for (const auto& [Name, Model] : Lists::PedList)
+				ImGui::Text(Name.c_str());
+		}
+		ImGui::EndChild();
+	}
+	if (ImGui::CollapsingHeader("Weapon List"))
+	{
+		ImGui::Text("Total Weapons: %u", Lists::WeaponList.size());
+		if (ImGui::BeginChild("##weapon_list"))
+		{
+			for (const auto& [Name, Model] : Lists::WeaponList)
+				ImGui::Text(Name.c_str());
+		}
+		ImGui::EndChild();
+	}
+	if (ImGui::CollapsingHeader("Vehicle List"))
+	{
+		ImGui::Text("Total Vehicles: %u", Lists::VehicleList.size());
+		if (ImGui::BeginChild("##vehicle_list"))
+		{
+			for (const auto& [Name, Model] : Lists::VehicleList)
+				ImGui::Text(Name.c_str());
+		}
+		ImGui::EndChild();
+	}
+
+	ImGui::Text("ESP Time: %.3fms", Timer::s_ESPTime);
+	ImGui::Text("Script Thread Time: %.3fms", Timer::s_ScriptThreadTime);
+	ImGui::Text("Job Queue Time: %.3fms", Timer::s_JobQueueTime);
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();
