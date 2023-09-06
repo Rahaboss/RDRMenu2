@@ -2,12 +2,12 @@
 #include "Hooking.h"
 #include "Pointers.h"
 #include "Renderer/Renderer.h"
-#include "Features.h"
+#include "Script/Features.h"
 #include "Thread/Fiber.h"
 #include "Thread/Thread.h"
 #include "Config/Settings.h"
 #include "Rage/NativeInvoker.h"
-#include "PlayerInfo.h"
+#include "Script/PlayerInfo.h"
 
 void Hooking::Create()
 {

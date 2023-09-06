@@ -5,9 +5,11 @@
 #include "Rage/enums.h"
 #include "Script/Entity.h"
 #include "Config/Lists.h"
-#include "Menu.h"
-#include "Timer.h"
+#include "Menu/Menu.h"
+#include "Util/Timer.h"
 #include "Rage/ScriptGlobal.h"
+#include "Config/Settings.h"
+#include "Script/PlayerInfo.h"
 
 void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness)
 {
@@ -102,19 +104,101 @@ void ESP::RenderTextCentered(const char* Text, ImVec2 Pos, ImU32 Color)
 	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
 }
 
+void ESP::RenderObjectESP()
+{
+	const auto objs = Script::GetAllObjects();
+	for (Object obj : objs)
+	{
+		std::string ESPText{};
+
+		Hash Model = Script::GetEntityModel(obj);
+
+		if (g_Settings["esp"]["object"]["model"].get<bool>())
+		{
+			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
+			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+		}
+
+		if (!ESPText.empty())
+			RenderTextOnEntity(obj, ESPText.c_str());
+	}
+}
+
 void ESP::RenderPedESP()
 {
 	const auto peds = Script::GetAllPeds();
-	for (size_t i = 0; i < peds.size(); i++)
+	for (Ped ped : peds)
+	{
+		if (ped == g_LocalPlayer.m_Entity)
+			continue;
+
+		std::string ESPText{};
+
+		Hash Model = Script::GetEntityModel(ped);
+
+		if (g_Settings["esp"]["ped"]["model"].get<bool>())
+		{
+			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(ped));
+			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+		}
+
+		if (!ESPText.empty())
+			RenderTextOnEntity(ped, ESPText.c_str());
+	}
+}
+
+void ESP::RenderPickupESP()
+{
+	const auto objs = Script::GetAllPickups();
+	for (Object obj : objs)
+	{
+		std::string ESPText{};
+
+		Hash Model = Script::GetEntityModel(obj);
+
+		if (g_Settings["esp"]["pickup"]["model"].get<bool>())
+		{
+			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
+			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+		}
+
+		if (!ESPText.empty())
+			RenderTextOnEntity(obj, ESPText.c_str());
+	}
+}
+
+void ESP::RenderLocalPlayerESP()
+{
+	if (g_Settings["esp"]["player"]["bone"].get<bool>())
+		RenderPedBoneESP(g_LocalPlayer.m_Entity);
+
+	if (g_Settings["esp"]["player"]["model"].get<bool>())
 	{
 		for (const auto& p : Lists::PedList)
 		{
-			if (p.second == Script::GetEntityModel(peds[i]))
-			{
-				RenderTextOnEntity(peds[i], p.first.c_str());
-				break;
-			}
+			if (p.second == Script::GetEntityModel(g_LocalPlayer.m_Entity))
+				RenderTextOnEntity(g_LocalPlayer.m_Entity, p.first.c_str());
 		}
+	}
+}
+
+void ESP::RenderVehicleESP()
+{
+	const auto vehs = Script::GetAllVehicles();
+	for (Vehicle veh : vehs)
+	{
+		std::string ESPText{};
+
+		Hash Model = Script::GetEntityModel(veh);
+
+		if (g_Settings["esp"]["vehicle"]["model"].get<bool>())
+		{
+			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(veh));
+			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+		}
+
+		if (!ESPText.empty())
+			RenderTextOnEntity(veh, ESPText.c_str());
 	}
 }
 
@@ -124,8 +208,20 @@ void ESP::RenderESP()
 
 	TRY
 	{
-		RenderPedESP();
-		ESP::RenderPedBoneESP(ScriptGlobal(35).Get<Ped>());
+		if (g_Settings["esp"]["object"]["enable"].get<bool>())
+			RenderObjectESP();
+
+		if (g_Settings["esp"]["ped"]["enable"].get<bool>())
+			RenderPedESP();
+
+		if (g_Settings["esp"]["pickup"]["enable"].get<bool>())
+			RenderPickupESP();
+
+		if (g_Settings["esp"]["player"]["enable"].get<bool>())
+			RenderLocalPlayerESP();
+
+		if (g_Settings["esp"]["vehicle"]["enable"].get<bool>())
+			RenderVehicleESP();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 

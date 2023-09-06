@@ -6,6 +6,29 @@ static json s_DefaultSettings{
 R"({
 	"disable_pinkerton_patrols": false,
 	"enable_dlcs": false,
+	"esp": {
+		"object": {
+			"enable": false,
+			"model": false
+		},
+		"ped": {
+			"enable": false,
+			"model": false
+		},
+		"pickup": {
+			"enable": false,
+			"model": false
+		},
+		"player": {
+			"bone": false,
+			"enable": false,
+			"model": false
+		},
+		"vehicle": {
+			"enable": false,
+			"model": false
+		}
+	},
 	"infinite_ammo": false,
 	"player_godmode": false
 })"_json
@@ -30,12 +53,26 @@ static void Save(const std::filesystem::path& FilePath)
 	File.close();
 }
 
+static void AddMissingItemsInObject(json& Object, const json& DefaultObject, bool& HasChanged)
+{
+	for (const auto& e : DefaultObject.items())
+	{
+		if (!Object.contains(e.key()))
+		{
+			HasChanged = true;
+			Object[e.key()] = e.value();
+		}
+		else if (e.value().is_object())
+			AddMissingItemsInObject(Object[e.key()], DefaultObject[e.key()], HasChanged);
+	}
+}
+
 void Settings::Create()
 {
-	std::filesystem::path Path(Config::GetConfigPath().append("Settings.json"));
-	std::fstream File(Path, std::fstream::in);
+	std::filesystem::path Path{ Config::GetConfigPath().append("Settings.json") };
+	std::ifstream File{ Path };
 
-	if (!File.good())
+	if (!File)
 	{
 		WriteDefaultSettings(Path);
 		File.open(Path, std::fstream::in);
@@ -43,17 +80,9 @@ void Settings::Create()
 
 	assert(File.good());
 	File >> g_Settings;
-	File.close();
 
 	bool UpdateFile = false;
-	for (const auto& e : s_DefaultSettings.items())
-	{
-		if (!g_Settings.contains(e.key()))
-		{
-			UpdateFile = true;
-			g_Settings[e.key()] = e.value();
-		}
-	}
+	AddMissingItemsInObject(g_Settings, s_DefaultSettings, UpdateFile);
 
 	if (UpdateFile)
 	{
@@ -64,6 +93,6 @@ void Settings::Create()
 
 void Settings::Destroy()
 {
-	std::filesystem::path Path(Config::GetConfigPath().append("Settings.json"));
+	std::filesystem::path Path{ Config::GetConfigPath().append("Settings.json") };
 	Save(Path);
 }

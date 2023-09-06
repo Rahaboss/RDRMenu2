@@ -1,7 +1,7 @@
 #include "Menu.h"
 #include "Thread/JobQueue.h"
 #include "Rage/natives.h"
-#include "Features.h"
+#include "Script/Features.h"
 #include "Thread/Thread.h"
 #include "Script/World.h"
 #include "Renderer/Renderer.h"
@@ -10,12 +10,13 @@
 #include "Script/Player.h"
 #include "Script/Ped.h"
 #include "Script/Entity.h"
-#include "PlayerInfo.h"
+#include "Script/PlayerInfo.h"
 #include "Script/Spawning.h"
 #include "Renderer/RGB.h"
 #include "Script/Rendering.h"
 #include "Rage/ScriptGlobal.h"
-#include "Timer.h"
+#include "Util/Timer.h"
+#include "Rendering.h"
 
 void Menu::RenderMenu()
 {
@@ -34,6 +35,7 @@ void Menu::RenderMenu()
 				RenderWorldTab();
 				RenderTeleportTab();
 				RenderSpawningTab();
+				RenderRenderingMenu();
 				RenderDebugTab();
 				if (ImGui::BeginTabItem("Exit"))
 				{

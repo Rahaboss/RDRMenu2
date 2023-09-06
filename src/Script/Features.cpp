@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Features.h"
-#include "Menu.h"
+#include "Menu/Menu.h"
 #include "Rage/natives.h"
 #include "Config/Settings.h"
 #include "Script/World.h"
@@ -14,7 +14,7 @@
 #include "Rage/enums.h"
 #include "ESP/Screen.h"
 #include "Config/Lists.h"
-#include "Timer.h"
+#include "Util/Timer.h"
 
 static bool s_ScriptsSetup = false;
 void Features::OnSetup()

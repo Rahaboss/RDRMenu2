@@ -6,12 +6,15 @@
 namespace Lists
 {
 	void Create();
+	const std::string& GetHashName(Hash h);
 
 	inline std::map<std::string, Hash>
 		ObjectList,
 		PedList,
 		WeaponList,
 		VehicleList;
+
+	inline std::map<Hash, std::string> HashNameList;
 
 	inline const std::vector<std::pair<std::string, Vector3>> TeleportList{
 		{ "Aberdeen Pig Farm", Vector3{ 1815.1f, -115.187f, 56.7297f } },

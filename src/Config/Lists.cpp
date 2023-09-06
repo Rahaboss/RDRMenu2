@@ -23,13 +23,16 @@ static void InitObjectList()
 		const std::string& Name = o.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		if (!Script::IsModelValid(Model) || !STREAMING::_IS_MODEL_AN_OBJECT(Model))
+#if 0
+		if (!Script::IsModelValid(Model))
 		{
 			LOG_TEXT("%s: %s is invalid!\n", __FUNCTION__, Name.c_str());
 			continue;
 		}
+#endif
 
 		Lists::ObjectList[Name] = Model;
+		Lists::HashNameList[Model] = Name;
 	}
 }
 
@@ -52,13 +55,14 @@ static void InitPedList()
 		const std::string& Name = p.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		if (!Script::IsModelValid(Model) || !STREAMING::IS_MODEL_A_PED(Model))
+		if (!Script::IsModelValid(Model))
 		{
 			LOG_TEXT("%s: %s is invalid!\n", __FUNCTION__, Name.c_str());
 			continue;
 		}
 
 		Lists::PedList[Name] = Model;
+		Lists::HashNameList[Model] = Name;
 	}
 }
 
@@ -82,6 +86,7 @@ static void InitWeaponList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::WeaponList[Name] = Model;
+		Lists::HashNameList[Model] = Name;
 	}
 }
 
@@ -104,13 +109,14 @@ static void InitVehicleList()
 		const std::string& Name = v.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		if (!Script::IsModelValid(Model) || !STREAMING::IS_MODEL_A_VEHICLE(Model))
+		if (!Script::IsModelValid(Model))
 		{
 			LOG_TEXT("%s: %s is invalid!\n", __FUNCTION__, Name.c_str());
 			continue;
 		}
 
 		Lists::VehicleList[Name] = Model;
+		Lists::HashNameList[Model] = Name;
 	}
 }
 
@@ -121,4 +127,14 @@ void Lists::Create()
 	InitPedList();
 	InitWeaponList();
 	InitVehicleList();
+}
+
+static std::string empty{};
+const std::string& Lists::GetHashName(Hash h)
+{
+	const auto it = HashNameList.find(h);
+	if (it != HashNameList.end())
+		return it->second;
+
+	return empty;
 }

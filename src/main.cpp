@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Console.h"
+#include "Util/Console.h"
 #include "Config/Config.h"
 #include "Config/Settings.h"
 #include "Memory/Pointers.h"
@@ -7,8 +7,8 @@
 #include "Memory/Hooking.h"
 #include "Renderer/Renderer.h"
 #include "Thread/JobQueue.h"
-#include "Features.h"
-#include "Input.h"
+#include "Script/Features.h"
+#include "Util/Input.h"
 
 void MainLoop()
 {

@@ -5,6 +5,7 @@
 #include "Renderer/RGB.h"
 #include "Rage/enums.h"
 #include "Ped.h"
+#include "..\Menu\Rendering.h"
 
 void Script::RenderText(const char* Text, float PosX, float PosY, uint8_t ColR, uint8_t ColG, uint8_t ColB, uint8_t ColA, float Scale)
 {

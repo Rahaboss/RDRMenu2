@@ -1,7 +1,7 @@
 #include "Renderer.h"
-#include "Menu.h"
+#include "Menu/Menu.h"
 #include "Memory/Pointers.h"
-#include "Features.h"
+#include "Script/Features.h"
 #include "Fonts.h"
 #include "Config/Config.h"
 
