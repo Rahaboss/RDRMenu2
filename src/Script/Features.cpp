@@ -15,6 +15,7 @@
 #include "ESP/Screen.h"
 #include "Config/Lists.h"
 #include "Util/Timer.h"
+#include "Script/Weapon.h"
 
 static bool s_ScriptsSetup = false;
 void Features::OnSetup()
@@ -39,6 +40,9 @@ void Features::OnTick()
 
 	if (g_Settings["player_godmode"].get<bool>())
 		Script::SetInvincible(g_LocalPlayer.m_Entity, true);
+
+	if (g_Settings["rapid_fire"].get<bool>())
+		Script::RapidFire();
 
 	Timer::s_ScriptThreadTime = t.GetMillis();
 }

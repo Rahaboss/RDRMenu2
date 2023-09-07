@@ -1,37 +1,44 @@
 #include "pch.h"
 #include "RGB.h"
 
+static float s_RGBf[3]{ 1.0f, 0, 0 };
 static uint8_t s_RGB[3]{ 255, 0, 0 };
 void Renderer::RGBTick()
 {
-	constexpr int Speed = 2;
-	for (int i = 0; i < Speed; i++)
+	static bool Increasing = true;
+	static int iC = 1, dC = 0;
+
+	// Change increasing color (iC) and decreasing color (dC)
+	if (Increasing && s_RGBf[iC] >= 1.0f)
 	{
-		static bool Increasing = true;
-		static int iC = 1, dC = 0;
-
-		// Change increasing color (iC) and decreasing color (dC)
-		if (Increasing && s_RGB[iC] == 255)
-		{
-			Increasing = false;
-			iC++;
-			if (iC == 3)
-				iC = 0;
-		}
-		else if (s_RGB[dC] == 0)
-		{
-			Increasing = true;
-			dC++;
-			if (dC == 3)
-				dC = 0;
-		}
-
-		// Increase and decrease values
-		if (Increasing)
-			s_RGB[iC]++;
-		else
-			s_RGB[dC]--;
+		Increasing = false;
+		iC++;
+		if (iC == 3)
+			iC = 0;
 	}
+	else if (s_RGBf[dC] <= 0.0f)
+	{
+		Increasing = true;
+		dC++;
+		if (dC == 3)
+			dC = 0;
+	}
+
+	// Increase and decrease values
+	if (Increasing)
+	{
+		s_RGBf[iC] += ImGui::GetIO().DeltaTime;
+		s_RGBf[iC] = std::clamp(s_RGBf[iC], 0.0f, 1.0f);
+	}
+	else
+	{
+		s_RGBf[dC] -= ImGui::GetIO().DeltaTime;
+		s_RGBf[dC] = std::clamp(s_RGBf[dC], 0.0f, 1.0f);
+	}
+
+	s_RGB[0] = (uint8_t)(s_RGBf[0] * 255.0f);
+	s_RGB[1] = (uint8_t)(s_RGBf[1] * 255.0f);
+	s_RGB[2] = (uint8_t)(s_RGBf[2] * 255.0f);
 }
 
 const uint8_t* Renderer::GetRGB()
@@ -39,14 +46,12 @@ const uint8_t* Renderer::GetRGB()
 	return s_RGB;
 }
 
-ImVec4 Renderer::GetImGuiRGB()
+ImVec4 Renderer::GetImGuiRGBA(float a)
 {
-	const uint8_t* RGB = GetRGB();
-	return ImVec4(RGB[0] / 255.0f, RGB[1] / 255.0f, RGB[2] / 255.0f, 1.0f);
+	return ImVec4(s_RGBf[0], s_RGBf[1], s_RGBf[2], a);
 }
 
-ImU32 Renderer::GetImGuiRGB32()
+ImU32 Renderer::GetImGuiRGBA32(uint32_t a)
 {
-	const uint8_t* RGB = GetRGB();
-	return IM_COL32((int)RGB[0], (int)RGB[1], (int)RGB[2], 255);
+	return IM_COL32(s_RGBf[0], s_RGBf[1], s_RGBf[2], a);
 }

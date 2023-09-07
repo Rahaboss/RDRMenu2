@@ -24,10 +24,12 @@ void Menu::RenderMenu()
 	{
 		ImGui::GetIO().MouseDrawCursor = Menu::IsOpen;
 		Renderer::RGBTick();
+		ImVec4 title_bg = Renderer::GetImGuiRGBA(); title_bg.x *= 0.6f; title_bg.y *= 0.6f; title_bg.z *= 0.6f;
+		ImGui::GetStyle().Colors[ImGuiCol_TitleBgActive] = title_bg;
 
 		if (IsOpen)
 		{
-			if (ImGui::Begin("RDRMenu2", &IsOpen))
+			if (ImGui::Begin("RDRMenu2", &IsOpen, ImGuiWindowFlags_NoCollapse))
 			{
 				ImGui::BeginTabBar("tab_bar");
 				RenderPlayerTab();
@@ -110,6 +112,7 @@ void Menu::RenderWeaponTab()
 	ImGui::BeginChild("weapon_child");
 
 	ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
+	ImGui::Checkbox("Rapid Fire", g_Settings["rapid_fire"].get<bool*>());
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();
@@ -314,7 +317,7 @@ void Menu::RenderDebugTab()
 		JobQueue::Add(Script::ResetPlayerModel);
 	}
 
-	ImGui::ColorButton("RGB", Renderer::GetImGuiRGB());
+	ImGui::ColorButton("RGB", Renderer::GetImGuiRGBA());
 
 	if (ImGui::CollapsingHeader("Object List"))
 	{

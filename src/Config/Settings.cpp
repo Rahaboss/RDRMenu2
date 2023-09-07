@@ -30,7 +30,8 @@ R"({
 		}
 	},
 	"infinite_ammo": false,
-	"player_godmode": false
+	"player_godmode": false,
+	"rapid_fire": false
 })"_json
 };
 

@@ -35,7 +35,7 @@ void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thi
 
 bool ESP::RenderPedBoneESP(Ped ped)
 {
-	const ImU32 Color = Renderer::GetImGuiRGB32();
+	const ImU32 Color = Renderer::GetImGuiRGBA32();
 	constexpr float Thickness = 5.0f;
 
 	ImVec2 Head, Neck, Spine, LShoulder, RShoulder, LElbow, RElbow, LHand,
@@ -82,7 +82,7 @@ bool ESP::RenderTextOnEntity(Entity ent, const char* Text)
 	ImVec2 Pos;
 	if (ESP::WorldToScreenScaled(Script::GetEntityCoords(ent), Pos.x, Pos.y))
 	{
-		RenderTextCentered(Text, Pos, Renderer::GetImGuiRGB32());
+		RenderTextCentered(Text, Pos, Renderer::GetImGuiRGBA32());
 		
 		return true;
 	}
