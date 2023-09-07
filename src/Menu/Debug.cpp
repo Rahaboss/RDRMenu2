@@ -119,9 +119,14 @@ void Menu::RenderDebugTab()
 		ImGui::EndChild();
 	}
 
-	ImGui::Text("ESP Time: %.3fms", Timer::s_ESPTime);
-	ImGui::Text("Script Thread Time: %.3fms", Timer::s_ScriptThreadTime);
-	ImGui::Text("Job Queue Time: %.3fms", Timer::s_JobQueueTime);
+	ImGui::SeparatorText("Benchmark Times");
+	ImGui::Text("Render Thread: %.3fms", Timer::s_RenderThreadTime);
+	ImGui::Text("\tESP: %.3fms", Timer::s_ESPTime);
+	ImGui::Text("\tMenu: %.3fms", Timer::s_MenuTime);
+
+	ImGui::Text("Render Thread Time: %.3fms", Timer::s_ScriptThreadTime);
+	ImGui::Text("\tScript Thread Tick: %.3fms", Timer::s_ScriptThreadTickTime);
+	ImGui::Text("\tJob Queue: %.3fms", Timer::s_JobQueueTime);
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

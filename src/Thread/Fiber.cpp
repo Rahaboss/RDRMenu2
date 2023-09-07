@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Fiber.h"
 #include "Script/Features.h"
+#include "Util/Timer.h"
 
 Fiber::Fiber(void (*Function)()) :
 	m_ScriptFiber(),
@@ -46,6 +47,8 @@ void Fiber::Tick()
 static bool s_Initialized = false;
 void Fiber::ScriptThreadTick()
 {
+	Timer t;
+
 	if (!s_Initialized)
 	{
 		if (!IsThreadAFiber())
@@ -64,4 +67,6 @@ void Fiber::ScriptThreadTick()
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
+
+	Timer::s_ScriptThreadTime = t.GetMillis();
 }

@@ -44,7 +44,7 @@ void Features::OnTick()
 	if (g_Settings["rapid_fire"].get<bool>())
 		Script::RapidFire();
 
-	Timer::s_ScriptThreadTime = t.GetMillis();
+	Timer::s_ScriptThreadTickTime = t.GetMillis();
 }
 
 void Features::OnExit()

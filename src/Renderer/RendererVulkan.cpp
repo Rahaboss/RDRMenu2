@@ -2,6 +2,7 @@
 #include "RendererVulkan.h"
 #include "Renderer.h"
 #include "Menu/Menu.h"
+#include "Util/Timer.h"
 
 void RendererVulkan::Create()
 {
@@ -13,12 +14,20 @@ void RendererVulkan::Destroy()
 
 void RendererVulkan::Present()
 {
-	if (Renderer::Setup)
+	TRY
 	{
-		NewFrame();
-		Menu::Render();
-		EndFrame();
+		Timer t;
+
+		if (Renderer::Setup)
+		{
+			NewFrame();
+			Menu::Render();
+			EndFrame();
+		}
+
+		Timer::s_RenderThreadTime = t.GetMillis();
 	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }
 
 void RendererVulkan::NewFrame()

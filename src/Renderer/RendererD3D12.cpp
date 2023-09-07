@@ -4,6 +4,7 @@
 #include "Memory/Hooking.h"
 #include "Memory/Pointers.h"
 #include "Menu/Menu.h"
+#include "Util/Timer.h"
 
 void RendererD3D12::Create()
 {
@@ -78,12 +79,20 @@ void RendererD3D12::Destroy()
 
 void RendererD3D12::Present(IDXGISwapChain3* SwapChain)
 {
-	if (Renderer::Setup)
+	TRY
 	{
-		NewFrame();
-		Menu::Render();
-		EndFrame();
+		Timer t;
+
+		if (Renderer::Setup)
+		{
+			NewFrame();
+			Menu::Render();
+			EndFrame();
+		}
+
+		Timer::s_RenderThreadTime = t.GetMillis();
 	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }
 
 void RendererD3D12::NewFrame()
