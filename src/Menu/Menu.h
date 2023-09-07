@@ -6,11 +6,7 @@ namespace Menu
 {
 	inline bool IsOpen = false;
 
+	void Render();
+	void UpdateMenu();
 	void RenderMenu();
-	void RenderPlayerTab();
-	void RenderWeaponTab();
-	void RenderWorldTab();
-	void RenderTeleportTab();
-	void RenderSpawningTab();
-	void RenderDebugTab();
 }

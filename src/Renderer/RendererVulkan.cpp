@@ -16,7 +16,7 @@ void RendererVulkan::Present()
 	if (Renderer::Setup)
 	{
 		NewFrame();
-		Menu::RenderMenu();
+		Menu::Render();
 		EndFrame();
 	}
 }

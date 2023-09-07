@@ -4,7 +4,6 @@
 #include "Memory/Hooking.h"
 #include "Memory/Pointers.h"
 #include "Menu/Menu.h"
-#include "ESP/ESP.h"
 
 void RendererD3D12::Create()
 {
@@ -82,10 +81,7 @@ void RendererD3D12::Present(IDXGISwapChain3* SwapChain)
 	if (Renderer::Setup)
 	{
 		NewFrame();
-
-		Menu::RenderMenu();
-		ESP::RenderESP();
-
+		Menu::Render();
 		EndFrame();
 	}
 }
