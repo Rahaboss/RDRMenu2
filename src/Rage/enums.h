@@ -1822,3 +1822,11 @@ enum eAmmoType : Hash
 	AMMO_TOMAHAWK_HOMING = 2883044353, // Tomahawk - Homing
 	AMMO_TOMAHAWK_IMPROVED = 3460864052, // Tomahawk - Improved
 };
+
+enum eEntityType
+{
+	ET_NONE,
+	ET_PED,
+	ET_VEHICLE,
+	ET_OBJECT,
+};

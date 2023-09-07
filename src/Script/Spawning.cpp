@@ -4,6 +4,7 @@
 #include "Thread/Thread.h"
 #include "PlayerInfo.h"
 #include "Entity.h"
+#include "Rage/enums.h"
 
 bool Script::IsModelValid(Hash Model)
 {
@@ -151,4 +152,27 @@ Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 		ReleaseModel(Model);
 
 	return pickup;
+}
+
+void Script::SetEntityAsNoLongerNeeded(Entity ent)
+{
+	ENTITY::SET_ENTITY_AS_NO_LONGER_NEEDED(&ent);
+}
+
+void Script::DeleteEntity(Entity Handle)
+{
+	ENTITY::SET_ENTITY_AS_MISSION_ENTITY(Handle, true, true);
+
+	switch (ENTITY::GET_ENTITY_TYPE(Handle))
+	{
+	case ET_PED:
+		PED::DELETE_PED(&Handle);
+		break;
+	case ET_VEHICLE:
+		VEHICLE::DELETE_VEHICLE(&Handle);
+		break;
+	case ET_OBJECT:
+		OBJECT::DELETE_OBJECT(&Handle);
+		break;
+	}
 }

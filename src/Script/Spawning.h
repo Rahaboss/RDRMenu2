@@ -12,4 +12,7 @@ namespace Script
 	Vehicle SpawnVehicle(Hash Model, bool WarpInside = true);
 	Object SpawnObject(Hash Model);
 	Pickup SpawnPickup(Hash PickupHash, Hash Model = 0);
+	// Set entity for automatic removal by engine
+	void SetEntityAsNoLongerNeeded(Entity ent);
+	void DeleteEntity(Entity Handle);
 }

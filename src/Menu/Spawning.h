@@ -4,5 +4,8 @@
 
 namespace Menu
 {
+	void RenderVehicleSpawner();
+	void RenderPedSpawner();
+	void RenderObjectSpawner();
 	void RenderSpawningTab();
 }
