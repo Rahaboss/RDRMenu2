@@ -41,4 +41,5 @@ namespace Pointers
 	inline Hash (*GetEntityModel)(Entity){};
 	// ENTITY::GET_ENTITY_COORDS
 	inline Vector3* (*GetEntityCoords)(Vector3&, Entity, bool, bool){};
+	inline const char* (*GetStringFromHashKey)(Hash){};
 }

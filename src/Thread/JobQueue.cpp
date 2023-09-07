@@ -24,3 +24,8 @@ void JobQueue::Run()
 
 	Timer::s_JobQueueTime = t.GetMillis();
 }
+
+size_t JobQueue::GetJobsQueued()
+{
+	return s_Queue.size();
+}

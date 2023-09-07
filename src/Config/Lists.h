@@ -6,7 +6,7 @@
 namespace Lists
 {
 	void Create();
-	const std::string& GetHashName(Hash h);
+	std::string GetHashName(Hash h);
 
 	inline std::map<std::string, Hash>
 		ObjectList,

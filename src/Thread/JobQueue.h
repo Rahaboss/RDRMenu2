@@ -8,6 +8,7 @@ namespace JobQueue
 
 	void Add(Job_t Job);
 	void Run();
+	size_t GetJobsQueued();
 }
 
 #define QUEUE_JOB(...)\

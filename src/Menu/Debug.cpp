@@ -126,7 +126,7 @@ void Menu::RenderDebugTab()
 
 	ImGui::Text("Render Thread Time: %.3fms", Timer::s_ScriptThreadTime);
 	ImGui::Text("\tScript Thread Tick: %.3fms", Timer::s_ScriptThreadTickTime);
-	ImGui::Text("\tJob Queue: %.3fms", Timer::s_JobQueueTime);
+	ImGui::Text("\tJob Queue: %.3fms (%llu jobs)", Timer::s_JobQueueTime, JobQueue::GetJobsQueued());
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

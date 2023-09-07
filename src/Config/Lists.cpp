@@ -3,6 +3,7 @@
 #include "Config.h"
 #include "Script/Spawning.h"
 #include "Rage/natives.h"
+#include "Memory/Pointers.h"
 
 static void InitObjectList()
 {
@@ -85,7 +86,7 @@ static void InitWeaponList()
 		const std::string& Name = w.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		Lists::WeaponList[Name] = Model;
+		Lists::WeaponList[Pointers::GetStringFromHashKey(Model)] = Model;
 		Lists::HashNameList[Model] = Name;
 	}
 }
@@ -129,12 +130,15 @@ void Lists::Create()
 	InitVehicleList();
 }
 
-static std::string empty{};
-const std::string& Lists::GetHashName(Hash h)
+std::string Lists::GetHashName(Hash h)
 {
+	//const char* str = Pointers::GetStringFromHashKey(h);
+	//if (str[0])
+	//	return std::string{ str };
+
 	const auto it = HashNameList.find(h);
 	if (it != HashNameList.end())
 		return it->second;
 
-	return empty;
+	return std::string{};
 }

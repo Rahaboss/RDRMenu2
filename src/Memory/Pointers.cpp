@@ -31,4 +31,5 @@ void Pointers::Create()
 	DoesEntityExist = Signature("40 53 48 83 EC 20 83 F9 FF 75 04").Get<decltype(DoesEntityExist)>();
 	GetEntityModel = Signature("40 53 48 83 EC 20 33 DB E8 ? ? ? ? 48 85 C0 74 25").Get<decltype(GetEntityModel)>();
 	GetEntityCoords = Signature("48 89 5C 24 ? 57 48 83 EC 20 48 8B F9 41 8A D9").Get<decltype(GetEntityCoords)>();
+	GetStringFromHashKey = Signature("40 53 48 83 EC 40 8B D9 48 8D 15").Get<decltype(GetStringFromHashKey)>();
 }
