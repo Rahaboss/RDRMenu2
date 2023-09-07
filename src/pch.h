@@ -41,7 +41,11 @@ using namespace std::literals::chrono_literals;
 typedef nlohmann::json json;
 
 // Shortcut macros
+#ifndef _DIST
 #define LOG_TEXT(...) printf_s(__VA_ARGS__)
+#else
+#define LOG_TEXT(x, ...) ((void)x)
+#endif // !_DIST
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
 #define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.\n", __FILE__, __LINE__, __FUNCTION__)

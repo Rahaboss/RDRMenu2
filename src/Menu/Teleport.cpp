@@ -9,6 +9,7 @@ void Menu::RenderTeleportTab()
 	if (!ImGui::BeginTabItem("Teleport"))
 		return;
 
+	ImGui::SeparatorText("Teleport To Location");
 	ImGui::BeginChild("teleport_child");
 
 	for (size_t i = 0; i < Lists::TeleportList.size(); i++)

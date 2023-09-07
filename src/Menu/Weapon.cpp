@@ -13,15 +13,19 @@ void Menu::RenderWeaponTab()
 
 	ImGui::BeginChild("weapon_child");
 
-	ImGui::BeginChild("##left_half", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
+	ImGui::BeginChild("left_half", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
 
+	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
 	ImGui::Checkbox("Rapid Fire", g_Settings["rapid_fire"].get<bool*>());
 
 	ImGui::EndChild();
 	ImGui::SameLine();
-	ImGui::BeginChild("##right_half");
 
+	ImGui::BeginChild("right_half");
+	ImGui::SeparatorText("Give Weapon");
+
+	ImGui::BeginChild("right_half_inner");
 	for (const auto& w : Lists::WeaponList)
 	{
 		if (ImGui::Selectable(w.first.c_str()))
@@ -33,7 +37,8 @@ void Menu::RenderWeaponTab()
 			END_JOB()
 		}
 	}
-	
+	ImGui::EndChild();
+
 	ImGui::EndChild();
 
 	ImGui::EndChild();

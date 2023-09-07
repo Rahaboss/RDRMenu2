@@ -24,46 +24,6 @@ void Menu::RenderDebugTab()
 
 		ImGui::PopFont();
 	}
-	if (ImGui::CollapsingHeader("Object List"))
-	{
-		ImGui::Text("Total Objects: %u", Lists::ObjectList.size());
-		if (ImGui::BeginChild("##object_list"))
-		{
-			for (const auto& [Name, Model] : Lists::ObjectList)
-				ImGui::Text(Name.c_str());
-		}
-		ImGui::EndChild();
-	}
-	if (ImGui::CollapsingHeader("Ped List"))
-	{
-		ImGui::Text("Total Peds: %u", Lists::PedList.size());
-		if (ImGui::BeginChild("##ped_list"))
-		{
-			for (const auto& [Name, Model] : Lists::PedList)
-				ImGui::Text(Name.c_str());
-		}
-		ImGui::EndChild();
-	}
-	if (ImGui::CollapsingHeader("Weapon List"))
-	{
-		ImGui::Text("Total Weapons: %u", Lists::WeaponList.size());
-		if (ImGui::BeginChild("##weapon_list"))
-		{
-			for (const auto& [Name, Model] : Lists::WeaponList)
-				ImGui::Text(Name.c_str());
-		}
-		ImGui::EndChild();
-	}
-	if (ImGui::CollapsingHeader("Vehicle List"))
-	{
-		ImGui::Text("Total Vehicles: %u", Lists::VehicleList.size());
-		if (ImGui::BeginChild("##vehicle_list"))
-		{
-			for (const auto& [Name, Model] : Lists::VehicleList)
-				ImGui::Text(Name.c_str());
-		}
-		ImGui::EndChild();
-	}
 
 	ImGui::SeparatorText("Buttons");
 	if (ImGui::Button("Spawn Ped"))

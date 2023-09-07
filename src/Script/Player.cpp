@@ -8,6 +8,8 @@
 #include "Spawning.h"
 #include "Rage/ScriptGlobal.h"
 #include "Ped.h"
+#include "Rage/enums.h"
+#include "Config/Settings.h"
 
 void Script::GetLocalPlayerInfo()
 {
@@ -100,4 +102,43 @@ Hash Script::GetDefaultPlayerModel()
 void Script::ResetPlayerModel()
 {
 	SetPlayerModel(GetDefaultPlayerModel());
+}
+
+void Script::AddMoney(int AmountCents)
+{
+	MONEY::_MONEY_INCREMENT_CASH_BALANCE(AmountCents, ADD_REASON_DEFAULT);
+}
+
+void Script::RemoveMoney(int AmountCents)
+{
+	MONEY::_MONEY_DECREMENT_CASH_BALANCE(AmountCents);
+}
+
+int Script::GetMoney()
+{
+	return MONEY::_MONEY_GET_CASH_BALANCE();
+}
+
+void Script::SetMoney(int AmountCents)
+{
+	int Amount = AmountCents - GetMoney();
+	if (Amount > 0)
+		AddMoney(Amount);
+	else if (Amount < 0)
+		RemoveMoney(-Amount);
+}
+
+void Script::ProcessPlayerFeatures()
+{
+	TRY
+	{
+		GetLocalPlayerInfo();
+
+		if (g_Settings["player_godmode"].get<bool>())
+			SetInvincible(g_LocalPlayer.m_Entity, true);
+
+		if (g_Settings["player_gold_cores"].get<bool>())
+			GiveGoldCores(g_LocalPlayer.m_Entity);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }

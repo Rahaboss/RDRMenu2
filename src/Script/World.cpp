@@ -7,8 +7,8 @@
 
 void Script::NoonAndSunny()
 {
-	CLOCK::SET_CLOCK_TIME(12, 0, 0);
-	MISC::SET_WEATHER_TYPE(RAGE_JOAAT("SUNNY"), true, true, false, 0.0f, false);
+	SetClock(12);
+	SetWeather(RAGE_JOAAT("SUNNY"));
 }
 
 void Script::DisablePinkertonPatrols()
@@ -43,4 +43,20 @@ bool Script::LoadGround(Vector3 pos)
 	}
 
 	return false;
+}
+
+void Script::SetWeather(Hash Weather)
+{
+	MISC::SET_WEATHER_TYPE(Weather, true, true, false, 0.0f, false);
+}
+
+void Script::SetSnow(int Snow)
+{
+	GRAPHICS::_SET_SNOW_COVERAGE_TYPE(Snow);
+}
+
+void Script::SetClock(int Hour, int Minute, int Second)
+{
+	if (Hour >= 0 && Hour < 24 && Minute >= 0 && Minute < 60 && Second >= 0 && Second < 60)
+		CLOCK::SET_CLOCK_TIME(Hour, Minute, Second);
 }

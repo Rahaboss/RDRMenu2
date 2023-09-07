@@ -31,6 +31,7 @@ R"({
 	},
 	"infinite_ammo": false,
 	"player_godmode": false,
+	"player_gold_cores": false,
 	"rapid_fire": false
 })"_json
 };

@@ -46,6 +46,9 @@ void Menu::RenderVehicleSpawner()
 
 		ImGui::SetNextItemWidth(300.0f);
 		ImGui::InputText("Filter Vehicles", s_VehicleFilter, IM_ARRAYSIZE(s_VehicleFilter));
+		ImGui::SameLine();
+		if (ImGui::Button("Clear Filter"))
+			s_VehicleFilter[0] = '\0';
 	}
 	ImGui::Separator();
 	
@@ -72,30 +75,6 @@ void Menu::RenderVehicleSpawner()
 
 	ImGui::EndChild();
 }
-
-static std::map<std::string, Hash> s_PresetPedList{
-	{ "Arthur", RAGE_JOAAT("PLAYER_ZERO") },
-	{ "John", RAGE_JOAAT("PLAYER_THREE") },
-	{ "John (Story)", RAGE_JOAAT("CS_JOHNMARSTON") },
-	{ "Dutch", RAGE_JOAAT("CS_DUTCH") },
-	{ "Robot", RAGE_JOAAT("CS_CRACKPOTROBOT") },
-	{ "Naked Woman", RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01") },
-	{ "Naked Man", RAGE_JOAAT("RE_NAKEDSWIMMER_MALES_01") },
-	{ "Clan Member (1)", RAGE_JOAAT("RE_RALLY_MALES_01") },
-	{ "Clan Member (2)", RAGE_JOAAT("RE_RALLYDISPUTE_MALES_01") },
-	{ "Clan Member (3)", RAGE_JOAAT("RE_RALLYSETUP_MALES_01") },
-	{ "2 Headed Skeleton (1)", RAGE_JOAAT("U_M_M_CIRCUSWAGON_01") },
-	{ "2 Headed Skeleton (2)", RAGE_JOAAT("U_F_M_CIRCUSWAGON_01") },
-	{ "Magnifico", RAGE_JOAAT("CS_MAGNIFICO") },
-	{ "Bertram", RAGE_JOAAT("CS_ODDFELLOWSPINHEAD") },
-	{ "Strange Man", RAGE_JOAAT("CS_MYSTERIOUSSTRANGER") },
-	{ "Vampire", RAGE_JOAAT("CS_VAMPIRE") },
-	{ "Swamp Freak", RAGE_JOAAT("CS_SWAMPFREAK") },
-	{ "Jack", RAGE_JOAAT("CS_JACKMARSTON") },
-	{ "Jack (Teen)", RAGE_JOAAT("CS_JACKMARSTON_TEEN") },
-	{ "Gavin", RAGE_JOAAT("CS_GAVIN") },
-	{ "Murder Mystery Body", RAGE_JOAAT("RE_MURDERCAMP_MALES_01") },
-};
 
 void Menu::RenderPedSpawner()
 {
@@ -124,6 +103,9 @@ void Menu::RenderPedSpawner()
 
 		ImGui::SetNextItemWidth(300.0f);
 		ImGui::InputText("Filter Peds", s_PedFilter, IM_ARRAYSIZE(s_PedFilter));
+		ImGui::SameLine();
+		if (ImGui::Button("Clear Filter"))
+			s_PedFilter[0] = '\0';
 	}
 
 	ImGui::Separator();
@@ -156,7 +138,7 @@ void Menu::RenderPedSpawner()
 	if (s_SelectedPedList == 0)
 		RenderSpawnerList(s_SelectedPed, s_PedFilter, Lists::PedList);
 	else
-		RenderSpawnerList(s_SelectedPed, s_PedFilter, s_PresetPedList);
+		RenderSpawnerList(s_SelectedPed, s_PedFilter, Lists::PresetPedList);
 
 	ImGui::EndChild();
 }
@@ -179,6 +161,9 @@ void Menu::RenderObjectSpawner()
 
 		ImGui::SetNextItemWidth(300.0f);
 		ImGui::InputText("Filter Objects", s_ObjectFilter, IM_ARRAYSIZE(s_ObjectFilter));
+		ImGui::SameLine();
+		if (ImGui::Button("Clear Filter"))
+			s_ObjectFilter[0] = '\0';
 	}
 	ImGui::Separator();
 	
@@ -238,89 +223,6 @@ void Menu::RenderSpawningTab()
 		RenderObjectSpawner();
 		break;
 	}
-
-#if 0
-	static int s_SelectedList = 0;
-	const char* ComboLabels[]{
-		"Objects",
-		"Peds",
-		"Vehicles",
-	};
-
-	ImGui::AlignTextToFramePadding();
-	ImGui::Text("Select List");
-	ImGui::SameLine();
-
-	ImGui::SetNextItemWidth(100.0f);
-	if (ImGui::BeginCombo("##list_select", ComboLabels[s_SelectedList]))
-	{
-		for (int i = 0; i < IM_ARRAYSIZE(ComboLabels); i++)
-		{
-			if (ImGui::Selectable(ComboLabels[i], i == s_SelectedList))
-				s_SelectedList = i;
-		}
-
-		ImGui::EndCombo();
-	}
-
-	if (s_SelectedList == 0)
-	{
-		if (ImGui::BeginChild("##object_list"))
-		{
-			for (const auto& [Name, Model] : Lists::ObjectList)
-			{
-				if (ImGui::Selectable(Name.c_str()))
-				{
-					Hash m = Model;
-					QUEUE_JOB(=)
-					{
-						Script::SpawnObject(m);
-					}
-					END_JOB()
-				}
-			}
-		}
-		ImGui::EndChild();
-	}
-	else if (s_SelectedList == 1)
-	{
-		if (ImGui::BeginChild("##ped_list"))
-		{
-			for (const auto& [Name, Model] : Lists::PedList)
-			{
-				if (ImGui::Selectable(Name.c_str()))
-				{
-					Hash m = Model;
-					QUEUE_JOB(=)
-					{
-						Script::SpawnPed(m);
-					}
-					END_JOB()
-				}
-			}
-		}
-		ImGui::EndChild();
-	}
-	else if (s_SelectedList == 2)
-	{
-		if (ImGui::BeginChild("##vehicle_list"))
-		{
-			for (const auto& [Name, Model] : Lists::VehicleList)
-			{
-				if (ImGui::Selectable(Name.c_str()))
-				{
-					Hash m = Model;
-					QUEUE_JOB(=)
-					{
-						Script::SpawnVehicle(m);
-					}
-					END_JOB()
-				}
-			}
-		}
-		ImGui::EndChild();
-	}
-#endif
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

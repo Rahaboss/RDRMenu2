@@ -176,4 +176,60 @@ namespace Lists
 		{ "Willard's Rest", Vector3{ 2972.77f, 2199.92f, 167.324f } },
 		{ "Window Rock", Vector3{ -153.06f, 1592.36f, 175.35f } },
 	};
+
+	inline const std::map<std::string, Hash> PresetPedList{
+		{ "Arthur", RAGE_JOAAT("PLAYER_ZERO") },
+		{ "John", RAGE_JOAAT("PLAYER_THREE") },
+		{ "John (Story)", RAGE_JOAAT("CS_JOHNMARSTON") },
+		{ "Dutch", RAGE_JOAAT("CS_DUTCH") },
+		{ "Robot", RAGE_JOAAT("CS_CRACKPOTROBOT") },
+		{ "Naked Woman", RAGE_JOAAT("U_F_M_RHDNUDEWOMAN_01") },
+		{ "Naked Man", RAGE_JOAAT("RE_NAKEDSWIMMER_MALES_01") },
+		{ "Clan Member (1)", RAGE_JOAAT("RE_RALLY_MALES_01") },
+		{ "Clan Member (2)", RAGE_JOAAT("RE_RALLYDISPUTE_MALES_01") },
+		{ "Clan Member (3)", RAGE_JOAAT("RE_RALLYSETUP_MALES_01") },
+		{ "2 Headed Skeleton (1)", RAGE_JOAAT("U_M_M_CIRCUSWAGON_01") },
+		{ "2 Headed Skeleton (2)", RAGE_JOAAT("U_F_M_CIRCUSWAGON_01") },
+		{ "Magnifico", RAGE_JOAAT("CS_MAGNIFICO") },
+		{ "Bertram", RAGE_JOAAT("CS_ODDFELLOWSPINHEAD") },
+		{ "Strange Man", RAGE_JOAAT("CS_MYSTERIOUSSTRANGER") },
+		{ "Vampire", RAGE_JOAAT("CS_VAMPIRE") },
+		{ "Swamp Freak", RAGE_JOAAT("CS_SWAMPFREAK") },
+		{ "Jack", RAGE_JOAAT("CS_JACKMARSTON") },
+		{ "Jack (Teen)", RAGE_JOAAT("CS_JACKMARSTON_TEEN") },
+		{ "Gavin", RAGE_JOAAT("CS_GAVIN") },
+		{ "Murder Mystery Body", RAGE_JOAAT("RE_MURDERCAMP_MALES_01") },
+	};
+
+	inline const std::map<std::string, Hash> WeatherList{
+		{ "Blizzard", RAGE_JOAAT("BLIZZARD") },
+		{ "Clouds", RAGE_JOAAT("CLOUDS") },
+		{ "Drizzle", RAGE_JOAAT("DRIZZLE") },
+		{ "Fog", RAGE_JOAAT("FOG") },
+		{ "Ground Blizzard", RAGE_JOAAT("GROUNDBLIZZARD") },
+		{ "Hail", RAGE_JOAAT("HAIL") },
+		{ "High Pressure", RAGE_JOAAT("HIGHPRESSURE") },
+		{ "Hurricane", RAGE_JOAAT("HURRICANE") },
+		{ "Misty", RAGE_JOAAT("MISTY") },
+		{ "Overcast", RAGE_JOAAT("OVERCAST") },
+		{ "Overcast Dark", RAGE_JOAAT("OVERCASTDARK") },
+		{ "Rain", RAGE_JOAAT("RAIN") },
+		{ "Sandstorm", RAGE_JOAAT("SANDSTORM") },
+		{ "Shower", RAGE_JOAAT("SHOWER") },
+		{ "Sleet", RAGE_JOAAT("SLEET") },
+		{ "Snow", RAGE_JOAAT("SNOW") },
+		{ "Snow Light", RAGE_JOAAT("SNOWLIGHT") },
+		{ "Sunny", RAGE_JOAAT("SUNNY") },
+		{ "Thunder", RAGE_JOAAT("THUNDER") },
+		{ "Thunderstorm", RAGE_JOAAT("THUNDERSTORM") },
+		{ "Whiteout", RAGE_JOAAT("WHITEOUT") },
+		{ "Snow Clearing", RAGE_JOAAT("SNOWCLEARING") },
+	};
+
+	inline const std::vector<std::string> SnowList{
+		"Primary",
+		"Secondary",
+		"Xmas",
+		"Xmas Secondary",
+	};
 }

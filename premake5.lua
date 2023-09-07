@@ -45,6 +45,11 @@ workspace "RDRMenu2"
 		flags {
 			"LinkTimeOptimization"
 		}
+		defines {
+			"_DIST",
+			"IMGUI_DISABLE_DEMO_WINDOWS",
+			"IMGUI_DISABLE_DEBUG_TOOLS"
+		}
 
 	project "RDRMenu2"
 		kind "SharedLib" -- .dll

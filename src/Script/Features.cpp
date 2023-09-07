@@ -20,31 +20,34 @@
 static bool s_ScriptsSetup = false;
 void Features::OnSetup()
 {
-	LOG_TEXT("Running script setup.\n");
-	Lists::Create();
+	TRY
+	{
+		LOG_TEXT("Running script setup.\n");
+		Lists::Create();
 
-	s_ScriptsSetup = true;
+		s_ScriptsSetup = true;
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }
 
 void Features::OnTick()
 {
-	Timer t;
+	TRY
+	{
+		Timer t;
 
-	Script::GetLocalPlayerInfo();
-	
-	if (Menu::IsOpen)
-		PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
+		if (Menu::IsOpen)
+			PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 
-	if (g_Settings["disable_pinkerton_patrols"].get<bool>())
-		Script::DisablePinkertonPatrols();
+		if (g_Settings["rapid_fire"].get<bool>())
+			Script::RapidFire();
 
-	if (g_Settings["player_godmode"].get<bool>())
-		Script::SetInvincible(g_LocalPlayer.m_Entity, true);
+		if (g_Settings["disable_pinkerton_patrols"].get<bool>())
+			Script::DisablePinkertonPatrols();
 
-	if (g_Settings["rapid_fire"].get<bool>())
-		Script::RapidFire();
-
-	Timer::s_ScriptThreadTickTime = t.GetMillis();
+		Timer::s_ScriptThreadTickTime = t.GetMillis();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }
 
 void Features::OnExit()

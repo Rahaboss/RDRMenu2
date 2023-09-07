@@ -12,4 +12,9 @@ namespace Script
 	void SetPlayerModel(Hash Model);
 	Hash GetDefaultPlayerModel();
 	void ResetPlayerModel();
+	void AddMoney(int AmountCents);
+	void RemoveMoney(int AmountCents);
+	int GetMoney();
+	void SetMoney(int AmountCents);
+	void ProcessPlayerFeatures();
 }

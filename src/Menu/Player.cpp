@@ -6,6 +6,50 @@
 #include "Script/Ped.h"
 #include "Rage/natives.h"
 #include "Script/Entity.h"
+#include "Script/Player.h"
+
+static void RenderMoneyChanger()
+{
+	static float s_MoneyAmount = 10000.0f;
+	ImGui::SetNextItemWidth(200.0f);
+	ImGui::InputFloat("##money_input", &s_MoneyAmount, 0, 0, "$%.2f");
+	ImGui::SameLine();
+	if (ImGui::Button("Get###get_money"))
+	{
+		QUEUE_JOB(=)
+		{
+			s_MoneyAmount = (float)Script::GetMoney() / 100.f;
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Set###set_money"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SetMoney((int)(s_MoneyAmount * 100.f));
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Add###add_money"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::AddMoney((int)(s_MoneyAmount * 100.f));
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Remove###remove_money"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::RemoveMoney((int)(s_MoneyAmount * 100.f));
+		}
+		END_JOB()
+	}
+}
 
 void Menu::RenderPlayerTab()
 {
@@ -32,7 +76,7 @@ void Menu::RenderPlayerTab()
 		}
 		END_JOB()
 	}
-
+	ImGui::SameLine();
 	if (ImGui::Button("Explode Head"))
 	{
 		QUEUE_JOB(=)
@@ -54,6 +98,11 @@ void Menu::RenderPlayerTab()
 			END_JOB()
 		}
 	}
+	ImGui::SameLine();
+	ImGui::Checkbox("Gold Cores", g_Settings["player_gold_cores"].get<bool*>());
+
+	ImGui::SeparatorText("Money");
+	RenderMoneyChanger();
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

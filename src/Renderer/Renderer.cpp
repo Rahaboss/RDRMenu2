@@ -78,7 +78,12 @@ void Renderer::CreateImGui()
 	strcpy_s(FontCfg.Name, "Chalet London 1960");
 	io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
 	
+#ifndef _DIST
+	// Add ProggyClean font
 	DefaultFont = io.Fonts->AddFontDefault();
+#else
+	DefaultFont = io.FontDefault;
+#endif // _DIST
 
 	hWnd = FindWindow(L"sgaWindow", NULL);
 	WndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)WndProcHook);
