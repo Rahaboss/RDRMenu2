@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "scrNativeCallContext.h"
 
 enum eBoneID
 {

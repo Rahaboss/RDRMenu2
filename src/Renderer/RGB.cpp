@@ -25,14 +25,15 @@ void Renderer::RGBTick()
 	}
 
 	// Increase and decrease values
+	constexpr float Speed = 0.5f;
 	if (Increasing)
 	{
-		s_RGBf[iC] += ImGui::GetIO().DeltaTime;
+		s_RGBf[iC] += ImGui::GetIO().DeltaTime * Speed;
 		s_RGBf[iC] = std::clamp(s_RGBf[iC], 0.0f, 1.0f);
 	}
 	else
 	{
-		s_RGBf[dC] -= ImGui::GetIO().DeltaTime;
+		s_RGBf[dC] -= ImGui::GetIO().DeltaTime * Speed;
 		s_RGBf[dC] = std::clamp(s_RGBf[dC], 0.0f, 1.0f);
 	}
 
@@ -53,5 +54,5 @@ ImVec4 Renderer::GetImGuiRGBA(float a)
 
 ImU32 Renderer::GetImGuiRGBA32(uint32_t a)
 {
-	return IM_COL32(s_RGBf[0], s_RGBf[1], s_RGBf[2], a);
+	return IM_COL32(s_RGB[0], s_RGB[1], s_RGB[2], a);
 }
