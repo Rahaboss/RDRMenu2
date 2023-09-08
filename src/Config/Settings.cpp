@@ -29,10 +29,20 @@ R"({
 			"model": false
 		}
 	},
-	"infinite_ammo": false,
-	"player_godmode": false,
-	"player_gold_cores": false,
-	"rapid_fire": false
+	"mount": {
+		"godmode": false,
+		"gold_cores": false
+	},
+	"never_wanted": false,
+	"player": {
+		"godmode": false,
+		"gold_cores": false,
+		"no_ragdoll": false
+	},
+	"weapon": {
+		"infinite_ammo": false,
+		"rapid_fire": false
+	}
 })"_json
 };
 
@@ -59,11 +69,13 @@ static void AddMissingItemsInObject(json& Object, const json& DefaultObject, boo
 {
 	for (const auto& e : DefaultObject.items())
 	{
-		if (!Object.contains(e.key()))
+		// Set to default if missing or type doesn't match in loaded settings
+		if (!Object.contains(e.key()) || e.value().type() != Object[e.key()].type())
 		{
 			HasChanged = true;
 			Object[e.key()] = e.value();
 		}
+		// Recurse if type is object
 		else if (e.value().is_object())
 			AddMissingItemsInObject(Object[e.key()], DefaultObject[e.key()], HasChanged);
 	}

@@ -11,4 +11,5 @@ namespace Script
 	void SetWeather(Hash Weather);
 	void SetSnow(int Snow);
 	void SetClock(int Hour, int Minute = 0, int Second = 0);
+	void ClearWanted();
 }

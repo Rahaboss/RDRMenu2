@@ -4,6 +4,7 @@
 #include "Rage/ScriptGlobal.h"
 #include "Thread/Thread.h"
 #include "Player.h"
+#include "PlayerInfo.h"
 
 void Script::NoonAndSunny()
 {
@@ -59,4 +60,11 @@ void Script::SetClock(int Hour, int Minute, int Second)
 {
 	if (Hour >= 0 && Hour < 24 && Minute >= 0 && Minute < 60 && Second >= 0 && Second < 60)
 		CLOCK::SET_CLOCK_TIME(Hour, Minute, Second);
+}
+
+void Script::ClearWanted()
+{
+	LAW::SET_BOUNTY(g_LocalPlayer.m_Index, 0);
+	LAW::_SET_BOUNTY_HUNTER_PURSUIT_CLEARED();
+	LAW::SET_WANTED_SCORE(g_LocalPlayer.m_Index, 0);
 }

@@ -85,21 +85,46 @@ void Menu::RenderPlayerTab()
 		}
 		END_JOB()
 	}
+	ImGui::SameLine();
+
+	const bool DisableSetOntoLastMount = !g_LocalPlayer.m_LastMount || g_LocalPlayer.m_Mount == g_LocalPlayer.m_LastMount;
+	if (DisableSetOntoLastMount)
+		ImGui::BeginDisabled();
+
+	if (ImGui::Button("Set Onto Mount"))
+		JobQueue::Add(Script::SetOnLastMount);
+
+	if (DisableSetOntoLastMount)
+		ImGui::EndDisabled();
 
 	ImGui::SeparatorText("Toggles");
-	if (ImGui::Checkbox("Godmode", g_Settings["player_godmode"].get<bool*>()))
+	if (ImGui::Checkbox("Godmode", g_Settings["player"]["godmode"].get<bool*>()))
 	{
-		if (!g_Settings["player_godmode"].get<bool>())
+		if (!g_Settings["player"]["godmode"].get<bool>())
 		{
 			QUEUE_JOB(=)
 			{
-				Script::SetInvincible(g_LocalPlayer.m_Entity, false);
+				Script::SetEntityInvincible(g_LocalPlayer.m_Entity, false);
 			}
 			END_JOB()
 		}
 	}
 	ImGui::SameLine();
-	ImGui::Checkbox("Gold Cores", g_Settings["player_gold_cores"].get<bool*>());
+	ImGui::Checkbox("Gold Cores", g_Settings["player"]["gold_cores"].get<bool*>());
+	ImGui::SameLine();
+	if (ImGui::Checkbox("No Ragdoll", g_Settings["player"]["no_ragdoll"].get<bool*>()))
+	{
+		if (!g_Settings["player"]["no_ragdoll"].get<bool>())
+		{
+			QUEUE_JOB(=)
+			{
+				Script::SetPedNoRagdoll(g_LocalPlayer.m_Entity, false);
+			}
+			END_JOB()
+		}
+	}
+
+	ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
 
 	ImGui::SeparatorText("Money");
 	RenderMoneyChanger();

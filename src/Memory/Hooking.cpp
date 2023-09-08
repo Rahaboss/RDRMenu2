@@ -88,7 +88,7 @@ void Hooking::IsDLCPresentHook(rage::scrNativeCallContext* ctx)
 
 void Hooking::DecreaseAmmoHook(void* a1, rage::CPed* a2, uint64_t a3, uint32_t a4)
 {
-	if (a2 == g_LocalPlayer.m_Ped && g_Settings["infinite_ammo"].get<bool>())
+	if (a2 == g_LocalPlayer.m_Ped && g_Settings["weapon"]["infinite_ammo"].get<bool>())
 		return;
 
 	DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);

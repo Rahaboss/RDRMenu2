@@ -38,14 +38,19 @@ void Features::OnTick()
 		
 		Script::ProcessPlayerFeatures();
 
+		Script::ProcessMountFeatures();
+
 		if (Menu::IsOpen)
 			PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 
-		if (g_Settings["rapid_fire"].get<bool>())
+		if (g_Settings["weapon"]["rapid_fire"].get<bool>())
 			Script::RapidFire();
 
 		if (g_Settings["disable_pinkerton_patrols"].get<bool>())
 			Script::DisablePinkertonPatrols();
+
+		if (g_Settings["never_wanted"].get<bool>())
+			Script::ClearWanted();
 
 		Timer::s_ScriptThreadTickTime = t.GetMillis();
 	}

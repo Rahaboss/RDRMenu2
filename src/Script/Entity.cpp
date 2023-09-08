@@ -13,7 +13,7 @@ void Script::PlaceEntityOnGround(Entity ent)
 	ENTITY::PLACE_ENTITY_ON_GROUND_PROPERLY(ent, true);
 }
 
-void Script::SetInvincible(Ped ped, bool Toggle)
+void Script::SetEntityInvincible(Ped ped, bool Toggle)
 {
 	ENTITY::SET_ENTITY_INVINCIBLE(ped, Toggle);
 }

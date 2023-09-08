@@ -75,6 +75,9 @@ void Menu::RenderDebugTab()
 	{
 		JobQueue::Add(Script::ResetPlayerModel);
 	}
+
+	if (ImGui::Button("Reload Settings"))
+		JobQueue::Add(Settings::Create);
 	
 	ImGui::SeparatorText("Toggles");
 	static bool s_ExampleToggle = true;

@@ -8,7 +8,7 @@ struct PlayerInfo
 {
 	Player m_Index;
 	Ped m_Entity;
-	Ped m_Mount;
+	Ped m_Mount, m_LastMount;
 	Vehicle m_Vehicle;
 	Hash m_Model;
 	rage::CPed* m_Ped;

@@ -7,6 +7,7 @@
 #include "Script/PlayerInfo.h"
 #include "Util/String.h"
 #include "Thread/Thread.h"
+#include "Script/Ped.h"
 
 static void RenderSpawnerList(Hash& OutModel, const char* Filter, const std::map<std::string, Hash>& List)
 {
@@ -117,7 +118,7 @@ void Menu::RenderPedSpawner()
 			s_LastSpawnedPed = Script::SpawnPed(s_SelectedPed);
 
 			if (s_SetOntoMount && PED::_IS_MOUNT_SEAT_FREE(s_LastSpawnedPed, -1))
-				PED::SET_PED_ONTO_MOUNT(g_LocalPlayer.m_Entity, s_LastSpawnedPed, -1, true);
+				Script::SetPedOntoMount(g_LocalPlayer.m_Entity, s_LastSpawnedPed);
 
 			if (s_SpawnDead)
 				ENTITY::SET_ENTITY_HEALTH(s_LastSpawnedPed, 0, 0);

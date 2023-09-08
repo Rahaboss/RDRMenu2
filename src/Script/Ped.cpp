@@ -41,3 +41,17 @@ Vector3 Script::GetPedBoneCoords(Ped ped, int boneId)
 	Pointers::GetPedBoneCoords(Result, ped, boneId, Vector3{});
 	return Result;
 }
+
+void Script::SetPedOntoMount(Ped ped, Ped Mount, int Seat)
+{
+	if (ped && Mount)
+		PED::SET_PED_ONTO_MOUNT(ped, Mount, -1, true);
+}
+
+void Script::SetPedNoRagdoll(Ped ped, bool Toggle)
+{
+	if (Toggle)
+		PED::SET_RAGDOLL_BLOCKING_FLAGS(ped, -1);
+	else
+		PED::CLEAR_RAGDOLL_BLOCKING_FLAGS(ped, -1);
+}

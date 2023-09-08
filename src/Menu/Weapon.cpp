@@ -16,8 +16,9 @@ void Menu::RenderWeaponTab()
 	ImGui::BeginChild("left_half", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
 
 	ImGui::SeparatorText("Toggles");
-	ImGui::Checkbox("Infinite Ammo", g_Settings["infinite_ammo"].get<bool*>());
-	ImGui::Checkbox("Rapid Fire", g_Settings["rapid_fire"].get<bool*>());
+	ImGui::Checkbox("Infinite Ammo", g_Settings["weapon"]["infinite_ammo"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Rapid Fire", g_Settings["weapon"]["rapid_fire"].get<bool*>());
 
 	ImGui::EndChild();
 	ImGui::SameLine();

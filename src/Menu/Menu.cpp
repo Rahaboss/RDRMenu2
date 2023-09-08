@@ -2,6 +2,7 @@
 #include "Menu.h"
 #include "Rendering.h"
 #include "Player.h"
+#include "Mount.h"
 #include "Weapon.h"
 #include "World.h"
 #include "Teleport.h"
@@ -69,6 +70,7 @@ void Menu::RenderMenu()
 			if (ImGui::BeginTabBar("tab_bar"))
 			{
 				RenderPlayerTab();
+				RenderMountTab();
 				RenderWeaponTab();
 				RenderWorldTab();
 				RenderTeleportTab();

@@ -17,4 +17,8 @@ namespace Script
 	int GetMoney();
 	void SetMoney(int AmountCents);
 	void ProcessPlayerFeatures();
+	void SetOnLastMount();
+	void ProcessMountFeatures();
+	void TeleportToWaypoint();
+	void TeleportThroughDoor();
 }

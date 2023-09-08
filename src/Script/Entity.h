@@ -7,7 +7,7 @@ namespace Script
 {
 	void SetEntityCoords(Entity ent, const Vector3& pos);
 	void PlaceEntityOnGround(Entity ent);
-	void SetInvincible(Ped ped, bool Toggle);
+	void SetEntityInvincible(Ped ped, bool Toggle);
 	std::vector<Ped> GetAllPeds();
 	std::vector<Object> GetAllObjects();
 	std::vector<Vehicle> GetAllVehicles();

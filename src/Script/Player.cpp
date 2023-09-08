@@ -10,14 +10,16 @@
 #include "Ped.h"
 #include "Rage/enums.h"
 #include "Config/Settings.h"
+#include "Rage/ScriptGlobal.h"
 
 void Script::GetLocalPlayerInfo()
 {
 	g_LocalPlayer.m_Index = PLAYER::PLAYER_ID();
-	g_LocalPlayer.m_Entity = PLAYER::PLAYER_PED_ID();
+	g_LocalPlayer.m_Entity = ScriptGlobal(35).Get<Ped>(); // PLAYER::PLAYER_PED_ID()
 	g_LocalPlayer.m_Mount = PED::GET_MOUNT(g_LocalPlayer.m_Entity);
+	g_LocalPlayer.m_LastMount = PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER(g_LocalPlayer.m_Index);
 	g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, false);
-	g_LocalPlayer.m_Model = ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity);
+	g_LocalPlayer.m_Model = GetEntityModel(g_LocalPlayer.m_Entity); // ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity)
 	g_LocalPlayer.m_Ped = rage::CPedFactory::GetLocalPed();
 }
 
@@ -134,11 +136,96 @@ void Script::ProcessPlayerFeatures()
 	{
 		GetLocalPlayerInfo();
 
-		if (g_Settings["player_godmode"].get<bool>())
-			SetInvincible(g_LocalPlayer.m_Entity, true);
+		if (g_Settings["player"]["godmode"].get<bool>())
+			SetEntityInvincible(g_LocalPlayer.m_Entity, true);
 
-		if (g_Settings["player_gold_cores"].get<bool>())
+		if (g_Settings["player"]["gold_cores"].get<bool>())
 			GiveGoldCores(g_LocalPlayer.m_Entity);
+
+		if (g_Settings["player"]["no_ragdoll"].get<bool>())
+			SetPedNoRagdoll(g_LocalPlayer.m_Entity, true);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
+}
+
+void Script::SetOnLastMount()
+{
+	SetPedOntoMount(g_LocalPlayer.m_Entity, g_LocalPlayer.m_LastMount);
+}
+
+void Script::ProcessMountFeatures()
+{
+	TRY
+	{
+		if (g_Settings["mount"]["godmode"].get<bool>())
+			SetEntityInvincible(g_LocalPlayer.m_Mount, true);
+
+		if (g_Settings["mount"]["gold_cores"].get<bool>())
+			GiveGoldCores(g_LocalPlayer.m_Mount);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+}
+
+void Script::TeleportToWaypoint()
+{
+	TRY
+	{
+		Vector3 Coords{};
+		bool Found = false, PlayerBlip = false;
+		if (MAP::IS_WAYPOINT_ACTIVE())
+		{
+			Coords = MAP::_GET_WAYPOINT_COORDS();
+			Found = true;
+			PlayerBlip = true;
+		}
+#if 0
+		else
+		{
+			//for (int i = 0; i < 3; i++)
+			{
+				Blip blip = 0;// MAP::GET_FIRST_BLIP_INFO_ID(i);
+				if (MAP::DOES_BLIP_EXIST(blip))
+				{
+					coords = MAP::GET_BLIP_COORDS(blip);
+					found = true;
+					//break;
+				}
+			}
+		}
+#endif
+
+		if (!Found)
+		{
+			LOG_TEXT("Waypoint not active.\n");
+			return;
+		}
+
+		if (PlayerBlip)
+		{
+			float GroundZ;
+			bool UseGroundZ;
+			for (int i = 0; i < 100; i++)
+			{
+				float TestZ = (i * 10.f) - 100.f;
+
+				Teleport(Vector3{ Coords.x, Coords.y, TestZ });
+				if (i % 5 == 0)
+					Thread::YieldThread();
+
+				UseGroundZ = MISC::GET_GROUND_Z_FOR_3D_COORD(Coords.x, Coords.y, TestZ, &GroundZ, false);
+				if (UseGroundZ)
+					break;
+			}
+
+			Coords.z = (UseGroundZ ? GroundZ : GetEntityCoords(g_LocalPlayer.m_Entity).z);
+		}
+
+		Teleport(Coords);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+}
+
+void Script::TeleportThroughDoor()
+{
+	Teleport(ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(GetMainPlayerEntity(), 0.0, 3.0, -0.3));
 }
