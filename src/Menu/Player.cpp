@@ -10,15 +10,15 @@
 
 static void RenderMoneyChanger()
 {
-	static float s_MoneyAmount = 10000.0f;
+	static double s_MoneyAmount = 10000.00;
 	ImGui::SetNextItemWidth(200.0f);
-	ImGui::InputFloat("##money_input", &s_MoneyAmount, 0, 0, "$%.2f");
+	ImGui::InputDouble("##money_input", &s_MoneyAmount, 0, 0, "$%.2f");
 	ImGui::SameLine();
 	if (ImGui::Button("Get###get_money"))
 	{
 		QUEUE_JOB(=)
 		{
-			s_MoneyAmount = (float)Script::GetMoney() / 100.f;
+			s_MoneyAmount = (double)Script::GetMoney() / 100.0;
 		}
 		END_JOB()
 	}
@@ -27,7 +27,7 @@ static void RenderMoneyChanger()
 	{
 		QUEUE_JOB(=)
 		{
-			Script::SetMoney((int)(s_MoneyAmount * 100.f));
+			Script::SetMoney((int)(s_MoneyAmount * 100.0));
 		}
 		END_JOB()
 	}
@@ -36,7 +36,7 @@ static void RenderMoneyChanger()
 	{
 		QUEUE_JOB(=)
 		{
-			Script::AddMoney((int)(s_MoneyAmount * 100.f));
+			Script::AddMoney((int)(s_MoneyAmount * 100.0));
 		}
 		END_JOB()
 	}
@@ -45,7 +45,7 @@ static void RenderMoneyChanger()
 	{
 		QUEUE_JOB(=)
 		{
-			Script::RemoveMoney((int)(s_MoneyAmount * 100.f));
+			Script::RemoveMoney((int)(s_MoneyAmount * 100.0));
 		}
 		END_JOB()
 	}

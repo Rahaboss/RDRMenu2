@@ -174,11 +174,8 @@ void ESP::RenderLocalPlayerESP()
 
 	if (g_Settings["esp"]["player"]["model"].get<bool>())
 	{
-		for (const auto& p : Lists::PedList)
-		{
-			if (p.second == Script::GetEntityModel(g_LocalPlayer.m_Entity))
-				RenderTextOnEntity(g_LocalPlayer.m_Entity, p.first.c_str());
-		}
+		std::string Name = Lists::GetHashName(Script::GetEntityModel(g_LocalPlayer.m_Entity));
+		RenderTextOnEntity(g_LocalPlayer.m_Entity, Name.c_str());
 	}
 }
 

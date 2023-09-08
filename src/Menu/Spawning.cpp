@@ -42,16 +42,15 @@ void Menu::RenderVehicleSpawner()
 		ImGui::SameLine();
 		ImGui::Checkbox("Remove Previous", &s_RemovePrevious);
 
-		ImGui::Separator();
-
 		ImGui::SetNextItemWidth(300.0f);
 		ImGui::InputText("Filter Vehicles", s_VehicleFilter, IM_ARRAYSIZE(s_VehicleFilter));
 		ImGui::SameLine();
 		if (ImGui::Button("Clear Filter"))
 			s_VehicleFilter[0] = '\0';
 	}
-	ImGui::Separator();
 	
+	ImGui::SeparatorText("Select Vehicle");
+
 	if (ImGui::Button("Spawn Vehicle"))
 	{
 		QUEUE_JOB(=)
@@ -99,8 +98,6 @@ void Menu::RenderPedSpawner()
 		ImGui::SameLine();
 		ImGui::Checkbox("Spawn Dead", &s_SpawnDead);
 
-		ImGui::Separator();
-
 		ImGui::SetNextItemWidth(300.0f);
 		ImGui::InputText("Filter Peds", s_PedFilter, IM_ARRAYSIZE(s_PedFilter));
 		ImGui::SameLine();
@@ -108,7 +105,7 @@ void Menu::RenderPedSpawner()
 			s_PedFilter[0] = '\0';
 	}
 
-	ImGui::Separator();
+	ImGui::SeparatorText("Select Ped");
 
 	if (ImGui::Button("Spawn Ped"))
 	{
@@ -157,16 +154,15 @@ void Menu::RenderObjectSpawner()
 		ImGui::SameLine();
 		ImGui::Checkbox("Remove Previous", &s_RemovePrevious);
 
-		ImGui::Separator();
-
 		ImGui::SetNextItemWidth(300.0f);
 		ImGui::InputText("Filter Objects", s_ObjectFilter, IM_ARRAYSIZE(s_ObjectFilter));
 		ImGui::SameLine();
 		if (ImGui::Button("Clear Filter"))
 			s_ObjectFilter[0] = '\0';
 	}
-	ImGui::Separator();
 	
+	ImGui::SeparatorText("Select Object");
+
 	if (ImGui::Button("Spawn Object"))
 	{
 		QUEUE_JOB(=)

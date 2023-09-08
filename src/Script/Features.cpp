@@ -35,6 +35,8 @@ void Features::OnTick()
 	TRY
 	{
 		Timer t;
+		
+		Script::ProcessPlayerFeatures();
 
 		if (Menu::IsOpen)
 			PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
