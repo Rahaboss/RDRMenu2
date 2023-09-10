@@ -15,7 +15,7 @@ bool Script::RequestModel(Hash Model)
 {
 	if (!IsModelValid(Model))
 	{
-		LOG_TEXT("%s: 0x%X is not a valid model hash!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: 0x%X is not a valid model hash!", __FUNCTION__, Model);
 		return false;
 	}
 
@@ -40,7 +40,7 @@ Ped Script::SpawnPed(Hash Model)
 {
 	if (!RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request ped 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't request ped 0x%X!", __FUNCTION__, Model);
 		return 0;
 	}
 
@@ -51,7 +51,7 @@ Ped Script::SpawnPed(Hash Model)
 
 	if (!ped)
 	{
-		LOG_TEXT("%s: Couldn't spawn ped 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't spawn ped 0x%X!", __FUNCTION__, Model);
 		ReleaseModel(Model);
 		return 0;
 	}
@@ -71,7 +71,7 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 {
 	if (!RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request vehicle 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't request vehicle 0x%X!", __FUNCTION__, Model);
 		return 0;
 	}
 
@@ -82,7 +82,7 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 
 	if (!veh)
 	{
-		LOG_TEXT("%s: Couldn't spawn vehicle 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't spawn vehicle 0x%X!", __FUNCTION__, Model);
 		ReleaseModel(Model);
 		return 0;
 	}
@@ -103,7 +103,7 @@ Object Script::SpawnObject(Hash Model)
 {
 	if (!RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request object 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't request object 0x%X!", __FUNCTION__, Model);
 		return 0;
 	}
 
@@ -113,7 +113,7 @@ Object Script::SpawnObject(Hash Model)
 
 	if (!obj)
 	{
-		LOG_TEXT("%s: Couldn't spawn object 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't spawn object 0x%X!", __FUNCTION__, Model);
 		ReleaseModel(Model);
 		return 0;
 	}
@@ -130,7 +130,7 @@ Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 {
 	if (Model && !RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request pickup 0x%X!\n", __FUNCTION__, Model);
+		LOG_TEXT("%s: Couldn't request pickup 0x%X!", __FUNCTION__, Model);
 		return 0;
 	}
 
@@ -140,7 +140,7 @@ Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 
 	if (!pickup)
 	{
-		LOG_TEXT("%s: Couldn't spawn pickup 0x%X!\n", __FUNCTION__, PickupHash);
+		LOG_TEXT("%s: Couldn't spawn pickup 0x%X!", __FUNCTION__, PickupHash);
 		ReleaseModel(Model);
 		return 0;
 	}

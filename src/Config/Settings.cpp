@@ -100,7 +100,7 @@ void Settings::Create()
 
 	if (UpdateFile)
 	{
-		LOG_TEXT("Updating settings.\n");
+		LOG_TEXT("Updating settings.");
 		Save(Path);
 	}
 }

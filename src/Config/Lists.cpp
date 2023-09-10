@@ -12,7 +12,7 @@ static void InitObjectList()
 
 	if (!File)
 	{
-		LOG_TEXT("Can't open file: %s.\n", Path.string().c_str());
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
 		return;
 	}
 
@@ -27,7 +27,7 @@ static void InitObjectList()
 #if 0
 		if (!Script::IsModelValid(Model))
 		{
-			LOG_TEXT("%s: %s is invalid!\n", __FUNCTION__, Name.c_str());
+			LOG_TEXT("%s: %s is invalid!", __FUNCTION__, Name.c_str());
 			continue;
 		}
 #endif
@@ -44,7 +44,7 @@ static void InitPedList()
 
 	if (!File)
 	{
-		LOG_TEXT("Can't open file: %s.\n", Path.string().c_str());
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
 		return;
 	}
 
@@ -58,7 +58,7 @@ static void InitPedList()
 
 		if (!Script::IsModelValid(Model))
 		{
-			LOG_TEXT("%s: %s is invalid!\n", __FUNCTION__, Name.c_str());
+			LOG_TEXT("%s: %s is invalid!", __FUNCTION__, Name.c_str());
 			continue;
 		}
 
@@ -74,7 +74,7 @@ static void InitWeaponList()
 
 	if (!File)
 	{
-		LOG_TEXT("Can't open file: %s.\n", Path.string().c_str());
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
 		return;
 	}
 
@@ -98,7 +98,7 @@ static void InitVehicleList()
 
 	if (!File)
 	{
-		LOG_TEXT("Can't open file: %s.\n", Path.string().c_str());
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
 		return;
 	}
 
@@ -112,7 +112,7 @@ static void InitVehicleList()
 
 		if (!Script::IsModelValid(Model))
 		{
-			LOG_TEXT("%s: %s is invalid!\n", __FUNCTION__, Name.c_str());
+			LOG_TEXT("%s: %s is invalid!", __FUNCTION__, Name.c_str());
 			continue;
 		}
 
@@ -123,7 +123,7 @@ static void InitVehicleList()
 
 void Lists::Create()
 {
-	LOG_TEXT("Creating lists.\n");
+	LOG_TEXT("Creating lists.");
 	InitObjectList();
 	InitPedList();
 	InitWeaponList();

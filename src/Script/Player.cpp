@@ -35,7 +35,7 @@ void Script::Teleport(const Vector3& pos)
 	SetEntityCoords(GetMainPlayerEntity(), pos);
 }
 
-void Script::TeleportOnGround(const Vector3& pos)
+void Script::TeleportOnGround(Vector3 pos)
 {
 	LoadGround(pos);
 	Teleport(pos);
@@ -97,7 +97,7 @@ Hash Script::GetDefaultPlayerModel()
 		return RAGE_JOAAT("MP_FEMALE");
 	}
 
-	LOG_TEXT("%s: Unknown default player model: %d!\n", __FUNCTION__, Global_1946054_f_1);
+	LOG_TEXT("%s: Unknown default player model: %d!", __FUNCTION__, Global_1946054_f_1);
 	return RAGE_JOAAT("PLAYER_ZERO");
 }
 
@@ -123,7 +123,7 @@ int Script::GetMoney()
 
 void Script::SetMoney(int AmountCents)
 {
-	int Amount = AmountCents - GetMoney();
+	const int Amount = AmountCents - GetMoney();
 	if (Amount > 0)
 		AddMoney(Amount);
 	else if (Amount < 0)
@@ -170,56 +170,30 @@ void Script::TeleportToWaypoint()
 {
 	TRY
 	{
-		Vector3 Coords{};
-		bool Found = false, PlayerBlip = false;
-		if (MAP::IS_WAYPOINT_ACTIVE())
+		if (!MAP::IS_WAYPOINT_ACTIVE())
 		{
-			Coords = MAP::_GET_WAYPOINT_COORDS();
-			Found = true;
-			PlayerBlip = true;
-		}
-#if 0
-		else
-		{
-			//for (int i = 0; i < 3; i++)
-			{
-				Blip blip = 0;// MAP::GET_FIRST_BLIP_INFO_ID(i);
-				if (MAP::DOES_BLIP_EXIST(blip))
-				{
-					coords = MAP::GET_BLIP_COORDS(blip);
-					found = true;
-					//break;
-				}
-			}
-		}
-#endif
-
-		if (!Found)
-		{
-			LOG_TEXT("Waypoint not active.\n");
+			LOG_TEXT("Waypoint not active.");
 			return;
 		}
-
-		if (PlayerBlip)
+		
+		Vector3 Coords{ MAP::_GET_WAYPOINT_COORDS() };
+		float GroundZ;
+		bool UseGroundZ;
+		
+		for (int i = 0; i < 100; i++)
 		{
-			float GroundZ;
-			bool UseGroundZ;
-			for (int i = 0; i < 100; i++)
-			{
-				float TestZ = (i * 10.f) - 100.f;
+			const float TestZ = (i * 10.0f) - 100.0f;
 
-				Teleport(Vector3{ Coords.x, Coords.y, TestZ });
-				if (i % 5 == 0)
-					Thread::YieldThread();
+			Teleport(Vector3{ Coords.x, Coords.y, TestZ });
+			if (i % 5 == 0)
+				Thread::YieldThread();
 
-				UseGroundZ = MISC::GET_GROUND_Z_FOR_3D_COORD(Coords.x, Coords.y, TestZ, &GroundZ, false);
-				if (UseGroundZ)
-					break;
-			}
-
-			Coords.z = (UseGroundZ ? GroundZ : GetEntityCoords(g_LocalPlayer.m_Entity).z);
+			UseGroundZ = MISC::GET_GROUND_Z_FOR_3D_COORD(Coords.x, Coords.y, TestZ, &GroundZ, false);
+			if (UseGroundZ)
+				break;
 		}
 
+		Coords.z = (UseGroundZ ? GroundZ : GetEntityCoords(GetMainPlayerEntity()).z);
 		Teleport(Coords);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }

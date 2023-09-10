@@ -8,7 +8,7 @@ Fiber::Fiber(void (*Function)()) :
 	m_MainFiber(),
 	m_Function(Function)
 {
-	LOG_TEXT("Creating fiber 0x%llX.\n", (uintptr_t)m_Function);
+	LOG_TEXT("Creating fiber 0x%llX.", (uintptr_t)m_Function);
 
 	m_ScriptFiber = CreateFiber(0, [](void* FiberParam)
 		{
@@ -27,7 +27,7 @@ Fiber::Fiber(void (*Function)()) :
 
 void Fiber::Destroy()
 {
-	LOG_TEXT("Destroying fiber 0x%llX.\n", (uintptr_t)m_Function);
+	LOG_TEXT("Destroying fiber 0x%llX.", (uintptr_t)m_Function);
 
 	if (m_ScriptFiber)
 		DeleteFiber(m_ScriptFiber);

@@ -28,6 +28,9 @@
 #include <imgui_impl_vulkan.h>
 #include <imgui_impl_win32.h>
 
+// User headers
+#include "Util/Logging.h"
+
 // Global variables
 inline HMODULE g_Module{}; // DLL handle (used to exit thread)
 inline HMODULE g_GameModule{}; // Game handle
@@ -41,12 +44,7 @@ using namespace std::literals::chrono_literals;
 typedef nlohmann::json json;
 
 // Shortcut macros
-#ifndef _DIST
-#define LOG_TEXT(...) printf_s(__VA_ARGS__)
-#else
-#define LOG_TEXT(x, ...) ((void)x)
-#endif // !_DIST
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
-#define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.\n", __FILE__, __LINE__, __FUNCTION__)
+#define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.", __FILE__, __LINE__, __FUNCTION__)
 #define TO_IDA(x) ((uintptr_t)x - g_BaseAddress + 0x7FF6694A0000)

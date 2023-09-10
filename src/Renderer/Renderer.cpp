@@ -16,12 +16,12 @@ void Renderer::Create()
 
 	if (IsUsingD3D12())
 	{
-		LOG_TEXT("Creating D3D12 renderer.\n");
+		LOG_TEXT("Creating D3D12 renderer.");
 		RendererD3D12::Create();
 	}
 	else
 	{
-		LOG_TEXT("Creating Vulkan renderer.\n");
+		LOG_TEXT("Creating Vulkan renderer.");
 		return;
 
 		RendererVulkan::Create();
@@ -37,12 +37,12 @@ void Renderer::Destroy()
 	
 	if (IsUsingD3D12())
 	{
-		LOG_TEXT("Destroying D3D12 renderer.\n");
+		LOG_TEXT("Destroying D3D12 renderer.");
 		RendererD3D12::Destroy();
 	}
 	else
 	{
-		LOG_TEXT("Destroying Vulkan renderer.\n");
+		LOG_TEXT("Destroying Vulkan renderer.");
 		return;
 
 		RendererVulkan::Destroy();

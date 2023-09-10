@@ -23,14 +23,14 @@ void Console::Create()
 #endif
 	);
 
-	LOG_TEXT("Console created.\n");
+	LOG_TEXT("Console created.");
 #endif // !_DIST
 }
 
 void Console::Destroy()
 {
 #ifndef _DIST
-	LOG_TEXT("Destroying console.\n");
+	LOG_TEXT("Destroying console.");
 
 	fclose(s_ErrFile);
 	fclose(s_OutFile);

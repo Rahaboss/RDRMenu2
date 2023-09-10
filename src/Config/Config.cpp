@@ -4,7 +4,7 @@
 static std::filesystem::path s_ConfigPath;
 void Config::Create()
 {
-	LOG_TEXT("Creating configuration.\n");
+	LOG_TEXT("Creating configuration.");
 
 	// Get Windows %APPDATA% environment variable (C:\Users\...\AppData\Roaming)
 	char* Buffer = nullptr;

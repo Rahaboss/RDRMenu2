@@ -8,7 +8,7 @@ namespace Script
 	void GetLocalPlayerInfo();
 	Entity GetMainPlayerEntity();
 	void Teleport(const Vector3& pos);
-	void TeleportOnGround(const Vector3& pos);
+	void TeleportOnGround(Vector3 pos);
 	void SetPlayerModel(Hash Model);
 	Hash GetDefaultPlayerModel();
 	void ResetPlayerModel();

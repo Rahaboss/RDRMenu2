@@ -11,7 +11,7 @@
 
 void Hooking::Create()
 {
-	LOG_TEXT("Creating hooks.\n");
+	LOG_TEXT("Creating hooks.");
 
 	assert(MH_Initialize() == MH_OK);
 
@@ -22,7 +22,7 @@ void Hooking::Create()
 
 void Hooking::Destroy()
 {
-	LOG_TEXT("Destroying hooks.\n");
+	LOG_TEXT("Destroying hooks.");
 	
 	DecreaseAmmo.Destroy();
 	IsDLCPresent.Destroy();
@@ -33,14 +33,14 @@ void Hooking::Destroy()
 
 void Hooking::Enable()
 {
-	LOG_TEXT("Enabling hooks.\n");
+	LOG_TEXT("Enabling hooks.");
 
 	assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
 }
 
 void Hooking::Disable()
 {
-	LOG_TEXT("Disabling hooks.\n");
+	LOG_TEXT("Disabling hooks.");
 
 	assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
 }
@@ -83,7 +83,7 @@ void Hooking::IsDLCPresentHook(rage::scrNativeCallContext* ctx)
 		return;
 	}
 
-	LOG_TEXT("%s: Unknown DLC hash %u / 0x%X.\n", __FUNCTION__, dlcHash, dlcHash);
+	LOG_TEXT("%s: Unknown DLC hash %u / 0x%X.", __FUNCTION__, dlcHash, dlcHash);
 }
 
 void Hooking::DecreaseAmmoHook(void* a1, rage::CPed* a2, uint64_t a3, uint32_t a4)

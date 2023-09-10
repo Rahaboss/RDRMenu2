@@ -9,43 +9,46 @@ namespace rage
 	public:
 		alignas(8) float x, y, z;
 
-		scrVector() = default;
+		inline constexpr scrVector() :
+			x(0.0f), y(0.0f), z(0.0f)
+		{
+		}
 
-		constexpr scrVector(float _x, float _y, float _z) :
+		inline constexpr scrVector(float _x, float _y, float _z) :
 			x(_x), y(_y), z(_z)
 		{
 		}
 
-		scrVector operator+(const scrVector& other)
+		inline constexpr scrVector operator+(const scrVector& Other)
 		{
 			return scrVector{
-				this->x + other.x,
-				this->y + other.y,
-				this->z + other.z
+				x + Other.x,
+				y + Other.y,
+				z + Other.z
 			};
 		}
 
-		scrVector& operator+=(const scrVector& other)
+		inline scrVector& operator+=(const scrVector& Other)
 		{
-			this->x += other.x;
-			this->y += other.y;
-			this->z += other.z;
+			x += Other.x;
+			y += Other.y;
+			z += Other.z;
 		}
 
-		scrVector operator*(float f)
+		inline constexpr scrVector operator*(float f)
 		{
 			return scrVector{
-				this->x * f,
-				this->y * f,
-				this->z * f
+				x * f,
+				y * f,
+				z * f
 			};
 		}
 
-		scrVector& operator*=(float f)
+		inline scrVector& operator*=(float f)
 		{
-			this->x *= f;
-			this->y *= f;
-			this->z *= f;
+			x *= f;
+			y *= f;
+			z *= f;
 		}
 	}; //Size: 0x0018
 	static_assert(sizeof(scrVector) == 24);

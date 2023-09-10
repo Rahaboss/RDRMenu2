@@ -52,6 +52,6 @@ void NativeInvoker::EndCall(rage::scrNativeHash hash)
 	}
 	else
 	{
-		LOG_TEXT("Failed to find native 0x%llX.\n", hash);
+		LOG_TEXT("Failed to find native 0x%llX.", hash);
 	}
 }

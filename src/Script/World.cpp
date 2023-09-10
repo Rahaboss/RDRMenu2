@@ -18,14 +18,14 @@ void Script::DisablePinkertonPatrols()
 		ScriptGlobal(1934266).At(56).Get<bool&>() = true;
 }
 
-bool Script::LoadGround(Vector3 pos)
+bool Script::LoadGround(Vector3& pos)
 {
-	float groundZ;
-	const uint8_t attempts = 10;
+	float GroundZ;
+	const uint8_t Attempts = 10;
 
-	for (uint8_t i = 0; i < attempts; i++)
+	for (uint8_t i = 0; i < Attempts; i++)
 	{
-		// Only request a collision after the first try failed because the location might already be loaded on first attempt.
+		// Only request a collision after the first try failed because the location might already be loaded on first attempt
 		for (uint16_t z = 0; i && z < 1000; z += 100)
 		{
 			STREAMING::REQUEST_COLLISION_AT_COORD(pos.x, pos.y, (float)z);
@@ -33,9 +33,9 @@ bool Script::LoadGround(Vector3 pos)
 			Thread::YieldThread();
 		}
 
-		if (MISC::GET_GROUND_Z_FOR_3D_COORD(pos.x, pos.y, 1000.f, &groundZ, false))
+		if (MISC::GET_GROUND_Z_FOR_3D_COORD(pos.x, pos.y, 1000.0f, &GroundZ, false))
 		{
-			pos.z = groundZ + 1.f;
+			pos.z = GroundZ + 1.0f;
 
 			return true;
 		}

@@ -10,9 +10,9 @@
 void Script::RenderText(const char* Text, float PosX, float PosY, uint8_t ColR, uint8_t ColG, uint8_t ColB, uint8_t ColA, float Scale)
 {
 	if (PosX < 0.0f || PosX >= 1.0f)
-		LOG_TEXT("%s: Invalid argument PosX: %.2f.\n", __FUNCTION__, PosX);
+		LOG_TEXT("%s: Invalid argument PosX: %.2f.", __FUNCTION__, PosX);
 	if (PosY < 0.0f || PosY >= 1.0f)
-		LOG_TEXT("%s: Invalid argument PosY: %.2f.\n", __FUNCTION__, PosY);
+		LOG_TEXT("%s: Invalid argument PosY: %.2f.", __FUNCTION__, PosY);
 
 	TRY
 	{

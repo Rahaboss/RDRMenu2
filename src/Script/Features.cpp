@@ -22,7 +22,7 @@ void Features::OnSetup()
 {
 	TRY
 	{
-		LOG_TEXT("Running script setup.\n");
+		LOG_TEXT("Running script setup.");
 		Lists::Create();
 
 		s_ScriptsSetup = true;
@@ -59,7 +59,7 @@ void Features::OnTick()
 
 void Features::OnExit()
 {
-	LOG_TEXT("Running script cleanup.\n");
+	LOG_TEXT("Running script cleanup.");
 }
 
 void Features::StartExit()
