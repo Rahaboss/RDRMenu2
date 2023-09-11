@@ -3,34 +3,27 @@
 #include "Script/Features.h"
 #include "Util/Timer.h"
 
-Fiber::Fiber(void (*Function)()) :
+Fiber::Fiber(std::function<void()> Function, LPFIBER_START_ROUTINE FiberFunction) :
 	m_ScriptFiber(),
 	m_MainFiber(),
-	m_Function(Function)
+	m_Function(Function),
+	m_ExtraData()
 {
-	LOG_TEXT("Creating fiber 0x%llX.", (uintptr_t)m_Function);
+	m_ScriptFiber = CreateFiber(0, FiberFunction, this);
+}
 
-	m_ScriptFiber = CreateFiber(0, [](void* FiberParam)
-		{
-			Fiber* ThisFiber = static_cast<Fiber*>(FiberParam);
-			while (true)
-			{
-				TRY
-				{
-					ThisFiber->m_Function();
-				}
-				EXCEPT{ LOG_EXCEPTION(); }
-				ThisFiber->YieldThread();
-			}
-		}, this);
+Fiber::~Fiber()
+{
+	Destroy();
 }
 
 void Fiber::Destroy()
 {
-	LOG_TEXT("Destroying fiber 0x%llX.", (uintptr_t)m_Function);
-
 	if (m_ScriptFiber)
+	{
 		DeleteFiber(m_ScriptFiber);
+		m_ScriptFiber = 0;
+	}
 }
 
 void Fiber::YieldThread()
@@ -40,7 +33,7 @@ void Fiber::YieldThread()
 
 void Fiber::Tick()
 {
-	m_MainFiber = GetCurrentFiber();
+	m_MainFiber = (IsThreadAFiber() ? GetCurrentFiber() : ConvertThreadToFiber(NULL));
 	SwitchToFiber(m_ScriptFiber);
 }
 
@@ -51,9 +44,6 @@ void Fiber::ScriptThreadTick()
 
 	if (!s_Initialized)
 	{
-		if (!IsThreadAFiber())
-			ConvertThreadToFiber(NULL);
-
 		Features::OnSetup();
 
 		s_Initialized = true;
@@ -68,5 +58,37 @@ void Fiber::ScriptThreadTick()
 		EXCEPT{ LOG_EXCEPTION(); }
 	}
 
+	TRY
+	{
+		JobQueue::Run();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
 	Timer::s_ScriptThreadTime = t.GetMillis();
+}
+
+void Fiber::MainFiberFunction(void* FiberParam)
+{
+	Fiber* ThisFiber = static_cast<Fiber*>(FiberParam);
+	while (true)
+	{
+		TRY
+		{
+			ThisFiber->m_Function();
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+		ThisFiber->YieldThread();
+	}
+}
+
+void Fiber::JobQueueFiberFunction(void* FiberParam)
+{
+	Fiber* ThisFiber = static_cast<Fiber*>(FiberParam);
+	TRY
+	{
+		ThisFiber->m_Function();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+	*(bool*)ThisFiber->m_ExtraData = true;
+	ThisFiber->YieldThread();
 }

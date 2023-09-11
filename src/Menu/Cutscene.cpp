@@ -5,9 +5,8 @@
 #include "Thread/JobQueue.h"
 #include "Rage/natives.h"
 
-static bool s_CutsceneRunning = false;
 static AnimScene s_CutsceneIndex = 0;
-static void QueuePlayCutscene(const json& CutsceneInfo)
+static void QueuePlayCutscene(const char* CutsceneName)
 {
 	if (s_CutsceneIndex)
 	{
@@ -15,8 +14,8 @@ static void QueuePlayCutscene(const json& CutsceneInfo)
 		return;
 	}
 
-	s_CutsceneRunning = true;
-	const char* CutsceneName = CutsceneInfo["id"].get_ref<const std::string&>().c_str();
+	s_CutsceneIndex = -1;
+
 	QUEUE_JOB(=)
 	{
 		[=]() {
@@ -31,15 +30,9 @@ static void QueuePlayCutscene(const json& CutsceneInfo)
 
 static void QueueSkipCutscene()
 {
-	if (!s_CutsceneIndex)
-	{
-		LOG_TEXT("%s: Cutscene not running.\n", __FUNCTION__);
-		return;
-	}
-
 	QUEUE_JOB(=)
 	{
-		if (!ANIMSCENE::HAS_ANIM_SCENE_EXITED(s_CutsceneIndex, false))
+		if (s_CutsceneIndex != -1 && !ANIMSCENE::HAS_ANIM_SCENE_EXITED(s_CutsceneIndex, false))
 			ANIMSCENE::TRIGGER_ANIM_SCENE_SKIP(s_CutsceneIndex);
 	}
 	END_JOB()
@@ -49,11 +42,23 @@ static void RenderCutsceneInfo(json& SelectedCutscene)
 {
 	ImGui::SeparatorText("Cutscene Controls");
 
+	const bool IsCutscenePlaying = s_CutsceneIndex != 0;
+
+	if (IsCutscenePlaying)
+		ImGui::BeginDisabled();
 	if (ImGui::Button("Play Cutscene"))
-		QueuePlayCutscene(SelectedCutscene);
+		QueuePlayCutscene(SelectedCutscene["id"].get_ref<const std::string&>().c_str());
+	if (IsCutscenePlaying)
+		ImGui::EndDisabled();
+
 	ImGui::SameLine();
+
+	if (!IsCutscenePlaying)
+		ImGui::BeginDisabled();
 	if (ImGui::Button("Skip Cutscene"))
 		QueueSkipCutscene();
+	if (!IsCutscenePlaying)
+		ImGui::EndDisabled();
 
 	ImGui::BeginChild("cutscene_info_inner");
 

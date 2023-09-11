@@ -295,7 +295,7 @@ void Script::CutsceneHelper::PlayAutomatically()
 	TRY
 	{
 		LoadCutscene();
-		//TeleportToOrigin();
+		TeleportToOrigin();
 
 		AddLocalPlayer();
 		AddPeds();

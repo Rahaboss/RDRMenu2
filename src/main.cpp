@@ -20,11 +20,8 @@ void MainLoop()
 
 	Pointers::Create();
 
-	Fiber MainFiber{ &Features::OnTick };
+	Fiber MainFiber{ &Features::OnTick, &Fiber::MainFiberFunction };
 	g_FiberCollection.push_back(&MainFiber);
-
-	Fiber JobQueueFiber{ &JobQueue::Run };
-	g_FiberCollection.push_back(&JobQueueFiber);
 
 	Hooking::Create();
 	Hooking::Enable();

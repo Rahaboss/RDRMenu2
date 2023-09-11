@@ -1,25 +1,35 @@
 #include "pch.h"
 #include "JobQueue.h"
 #include "Util/Timer.h"
+#include "Fiber.h"
 
-static std::queue<JobQueue::Job_t> s_Queue;
+static std::list<Fiber*> s_Queue;
 void JobQueue::Add(Job_t Job)
 {
-	s_Queue.push(Job);
+	s_Queue.push_back(new Fiber{ Job, &Fiber::JobQueueFiberFunction });
 }
 
 void JobQueue::Run()
 {
 	Timer t;
 
-	while (!s_Queue.empty())
+	auto it = s_Queue.begin();
+	while (it != s_Queue.end())
 	{
-		TRY
+		Fiber* f = *it;
+
+		bool Done = false;
+
+		f->m_ExtraData = &Done;
+		f->Tick();
+
+		if (Done)
 		{
-			s_Queue.front()();
+			delete f;
+			it = s_Queue.erase(it);
 		}
-		EXCEPT{ LOG_EXCEPTION(); }
-		s_Queue.pop();
+		else
+			++it;
 	}
 
 	Timer::s_JobQueueTime = t.GetMillis();

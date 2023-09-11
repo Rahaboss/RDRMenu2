@@ -1,11 +1,15 @@
 #pragma once
 
 #include "pch.h"
+#include "JobQueue.h"
 
 class Fiber
 {
 public:
-	Fiber(void (*Function)());
+	Fiber(std::function<void()> Function, LPFIBER_START_ROUTINE FiberFunction);
+	Fiber(const Fiber&) = delete;
+	Fiber(Fiber&&) = delete;
+	~Fiber();
 	void Destroy();
 	void YieldThread();
 	void Tick();
@@ -13,9 +17,12 @@ public:
 
 	void* m_ScriptFiber;
 	void* m_MainFiber;
-	void (*m_Function)();
+	std::function<void()> m_Function;
+	void* m_ExtraData;
 
 	static void ScriptThreadTick();
+	static void MainFiberFunction(void* FiberParam);
+	static void JobQueueFiberFunction(void* FiberParam);
 };
 
 inline std::vector<Fiber*> g_FiberCollection;
