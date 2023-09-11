@@ -71,7 +71,7 @@ void Features::StartExit()
 	}
 	END_JOB()
 	
-	const auto EndTime = std::chrono::system_clock::now() + 1s;
+	const auto EndTime = std::chrono::system_clock::now() + 200ms;
 	while (g_Running && std::chrono::system_clock::now() < EndTime)
 		std::this_thread::sleep_for(10ms);
 	

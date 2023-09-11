@@ -21,6 +21,7 @@ void Script::GetLocalPlayerInfo()
 	g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, false);
 	g_LocalPlayer.m_Model = GetEntityModel(g_LocalPlayer.m_Entity); // ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity)
 	g_LocalPlayer.m_Ped = rage::CPedFactory::GetLocalPed();
+	g_LocalPlayer.m_Pos = GetEntityCoords(g_LocalPlayer.m_Entity);
 }
 
 Entity Script::GetMainPlayerEntity()

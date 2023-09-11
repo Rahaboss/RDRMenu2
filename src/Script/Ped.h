@@ -11,4 +11,6 @@ namespace Script
 	Vector3 GetPedBoneCoords(Ped ped, int boneId);
 	void SetPedOntoMount(Ped ped, Ped Mount, int Seat = -1);
 	void SetPedNoRagdoll(Ped ped, bool Toggle);
+	void SetPedOutfitPreset(Ped ped, int Preset, bool KeepAccessories = false);
+	void SetMetaPedOutfit(Ped ped, Hash Outfit);
 }

@@ -7,12 +7,15 @@ namespace Lists
 {
 	void Create();
 	std::string GetHashName(Hash h);
+	Hash GetHashFromJSON(const json& Object);
 
 	inline std::map<std::string, Hash>
 		ObjectList,
 		PedList,
 		WeaponList,
 		VehicleList;
+	
+	inline json CutsceneList;
 
 	inline std::map<Hash, std::string> HashNameList;
 

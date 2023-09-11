@@ -12,7 +12,7 @@ void LogText(const char* const Text, ...)
 	vsprintf_s(Buffer, Length, Text, Args);
 
 	char tt[9]{};
-	if (!_strtime_s(tt) && tt[0] && false)
+	if (!_strtime_s(tt) && tt[0])
 	{
 		std::string str("[");
 		str.append(tt);

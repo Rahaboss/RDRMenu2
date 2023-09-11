@@ -4,6 +4,7 @@
 #include "Script/Spawning.h"
 #include "Rage/natives.h"
 #include "Memory/Pointers.h"
+#include "Rage/joaat.h"
 
 static void InitObjectList()
 {
@@ -121,6 +122,21 @@ static void InitVehicleList()
 	}
 }
 
+static void InitCutsceneList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Cutscenes.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	File >> Lists::CutsceneList;
+	File.close();
+}
+
 void Lists::Create()
 {
 	LOG_TEXT("Creating lists.");
@@ -128,6 +144,7 @@ void Lists::Create()
 	InitPedList();
 	InitWeaponList();
 	InitVehicleList();
+	InitCutsceneList();
 }
 
 std::string Lists::GetHashName(Hash h)
@@ -141,4 +158,14 @@ std::string Lists::GetHashName(Hash h)
 		return it->second;
 
 	return std::string{};
+}
+
+Hash Lists::GetHashFromJSON(const json& Object)
+{
+	if (Object.is_string())
+		return rage::joaat(Object.get_ref<const std::string&>());
+	if (Object.is_number())
+		return Object.get<Hash>();
+
+	return 0;
 }

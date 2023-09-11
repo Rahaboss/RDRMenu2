@@ -20,7 +20,7 @@ void Menu::RenderDebugTab()
 	{
 		ImGui::PushFont(Renderer::DefaultFont);
 
-		ImGui::Text(g_Settings.dump(4).c_str());
+		ImGui::Text(Lists::CutsceneList.dump(4).c_str());
 
 		ImGui::PopFont();
 	}
@@ -80,8 +80,7 @@ void Menu::RenderDebugTab()
 		JobQueue::Add(Settings::Create);
 	
 	ImGui::SeparatorText("Toggles");
-	static bool s_ExampleToggle = true;
-	ImGui::Checkbox("Example", &s_ExampleToggle);
+	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
 
 	ImGui::SeparatorText("Benchmark Times");
 	ImGui::Text("Render Thread: %.3fms", Timer::s_RenderThreadTime);

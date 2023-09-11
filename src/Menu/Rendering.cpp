@@ -2,7 +2,7 @@
 #include "Rendering.h"
 #include "Config/Settings.h"
 
-void Menu::RenderRenderingMenu()
+void Menu::RenderRenderingTab()
 {
 	if (!ImGui::BeginTabItem("Rendering"))
 		return;

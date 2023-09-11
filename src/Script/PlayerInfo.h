@@ -12,6 +12,7 @@ struct PlayerInfo
 	Vehicle m_Vehicle;
 	Hash m_Model;
 	rage::CPed* m_Ped;
+	Vector3 m_Pos;
 };
 
 inline PlayerInfo g_LocalPlayer{};

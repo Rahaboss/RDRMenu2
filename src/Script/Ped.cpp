@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Ped.h"
 #include "Rage/natives.h"
+#include "Thread/Thread.h"
 
 void Script::GiveGoldCores(Ped ped)
 {
@@ -54,4 +55,18 @@ void Script::SetPedNoRagdoll(Ped ped, bool Toggle)
 		PED::SET_RAGDOLL_BLOCKING_FLAGS(ped, -1);
 	else
 		PED::CLEAR_RAGDOLL_BLOCKING_FLAGS(ped, -1);
+}
+
+void Script::SetPedOutfitPreset(Ped ped, int Preset, bool KeepAccessories)
+{
+	PED::_EQUIP_META_PED_OUTFIT_PRESET(ped, Preset, KeepAccessories);
+}
+
+void Script::SetMetaPedOutfit(Ped ped, Hash Outfit)
+{
+	int requestId = PED::_REQUEST_META_PED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), Outfit);
+	while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
+		Thread::YieldThread();
+	PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
+	PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
 }

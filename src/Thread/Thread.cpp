@@ -39,3 +39,12 @@ void Thread::YieldThread()
 {
 	Fiber::GetCurrent()->YieldThread();
 }
+
+void Thread::YieldThread(size_t Milliseconds)
+{
+	const size_t EndTime = GetTickCount64() + Milliseconds;
+	do
+	{
+		Fiber::GetCurrent()->YieldThread();
+	} while (GetTickCount64() < EndTime);
+}

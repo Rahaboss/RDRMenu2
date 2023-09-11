@@ -39,6 +39,7 @@ R"({
 		"gold_cores": false,
 		"no_ragdoll": false
 	},
+	"render_imgui_demo": false,
 	"weapon": {
 		"infinite_ammo": false,
 		"rapid_fire": false

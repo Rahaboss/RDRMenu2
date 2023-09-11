@@ -4,5 +4,5 @@
 
 namespace Menu
 {
-	void RenderRenderingTab();
+	void RenderCutsceneTab();
 }

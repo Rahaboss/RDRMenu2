@@ -8,10 +8,12 @@
 #include "Teleport.h"
 #include "Spawning.h"
 #include "Debug.h"
+#include "Cutscene.h"
 #include "Renderer/RGB.h"
 #include "Script/Features.h"
 #include "ESP/ESP.h"
 #include "Util/Timer.h"
+#include "Config/Settings.h"
 
 void Menu::Render()
 {
@@ -61,8 +63,7 @@ void Menu::RenderMenu()
 		{
 			constexpr float f = 850.0f;
 			ImGui::SetNextWindowSize(ImVec2(f, 600), ImGuiCond_FirstUseEver);
-			ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->WorkSize.x - 100 - f, 100), ImGuiCond_FirstUseEver, ImVec2());
-			s_WindowSetup = true;
+			ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->WorkSize.x - 100 - f, 100), ImGuiCond_FirstUseEver);
 		}
 
 		if (ImGui::Begin("RDRMenu2", &IsOpen, ImGuiWindowFlags_NoCollapse))
@@ -75,13 +76,23 @@ void Menu::RenderMenu()
 				RenderWorldTab();
 				RenderTeleportTab();
 				RenderSpawningTab();
-				RenderRenderingMenu();
+				RenderCutsceneTab();
+				RenderRenderingTab();
 				RenderDebugTab();
 				RenderExitTab();
 			}
 			ImGui::EndTabBar();
 		}
 		ImGui::End();
+
+		if (!s_WindowSetup)
+		{
+			ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
+			s_WindowSetup = true;
+		}
+
+		if (g_Settings["render_imgui_demo"].get<bool>())
+			ImGui::ShowDemoWindow(g_Settings["render_imgui_demo"].get<bool*>());
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
