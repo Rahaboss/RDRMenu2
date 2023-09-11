@@ -5,6 +5,7 @@
 #include "PlayerInfo.h"
 #include "Entity.h"
 #include "Rage/enums.h"
+#include "Config/Lists.h"
 
 bool Script::IsModelValid(Hash Model)
 {
@@ -40,7 +41,12 @@ Ped Script::SpawnPed(Hash Model)
 {
 	if (!RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request ped 0x%X!", __FUNCTION__, Model);
+		auto Name = Lists::GetHashName(Model);
+		if (!Name.empty())
+			LOG_TEXT("%s: Couldn't request ped %s!", __FUNCTION__, Name.c_str());
+		else
+			LOG_TEXT("%s: Couldn't request ped 0x%llX!", __FUNCTION__, Model);
+
 		return 0;
 	}
 
@@ -53,6 +59,7 @@ Ped Script::SpawnPed(Hash Model)
 	{
 		LOG_TEXT("%s: Couldn't spawn ped 0x%X!", __FUNCTION__, Model);
 		ReleaseModel(Model);
+
 		return 0;
 	}
 
@@ -71,7 +78,12 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 {
 	if (!RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request vehicle 0x%X!", __FUNCTION__, Model);
+		auto Name = Lists::GetHashName(Model);
+		if (!Name.empty())
+			LOG_TEXT("%s: Couldn't request vehicle %s!", __FUNCTION__, Name.c_str());
+		else
+			LOG_TEXT("%s: Couldn't request vehicle 0x%llX!", __FUNCTION__, Model);
+		
 		return 0;
 	}
 
@@ -84,6 +96,7 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 	{
 		LOG_TEXT("%s: Couldn't spawn vehicle 0x%X!", __FUNCTION__, Model);
 		ReleaseModel(Model);
+
 		return 0;
 	}
 
@@ -103,7 +116,12 @@ Object Script::SpawnObject(Hash Model)
 {
 	if (!RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request object 0x%X!", __FUNCTION__, Model);
+		auto Name = Lists::GetHashName(Model);
+		if (!Name.empty())
+			LOG_TEXT("%s: Couldn't request object %s!", __FUNCTION__, Name.c_str());
+		else
+			LOG_TEXT("%s: Couldn't request object 0x%llX!", __FUNCTION__, Model);
+
 		return 0;
 	}
 
@@ -115,6 +133,7 @@ Object Script::SpawnObject(Hash Model)
 	{
 		LOG_TEXT("%s: Couldn't spawn object 0x%X!", __FUNCTION__, Model);
 		ReleaseModel(Model);
+
 		return 0;
 	}
 
@@ -130,7 +149,12 @@ Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 {
 	if (Model && !RequestModel(Model))
 	{
-		LOG_TEXT("%s: Couldn't request pickup 0x%X!", __FUNCTION__, Model);
+		auto Name = Lists::GetHashName(Model);
+		if (!Name.empty())
+			LOG_TEXT("%s: Couldn't request pickup %s!", __FUNCTION__, Name.c_str());
+		else
+			LOG_TEXT("%s: Couldn't request pickup 0x%llX!", __FUNCTION__, Model);
+		
 		return 0;
 	}
 
@@ -142,6 +166,7 @@ Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 	{
 		LOG_TEXT("%s: Couldn't spawn pickup 0x%X!", __FUNCTION__, PickupHash);
 		ReleaseModel(Model);
+
 		return 0;
 	}
 	

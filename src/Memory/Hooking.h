@@ -26,4 +26,10 @@ namespace Hooking
 
 	inline DetourHook DecreaseAmmo;
 	void DecreaseAmmoHook(void* a1, rage::CPed* a2, uint64_t a3, uint32_t a4);
+
+	inline DetourHook ShootBullet;
+	void ShootBulletHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook IsEntityInArea;
+	void IsEntityInAreaHook(rage::scrNativeCallContext* ctx);
 }

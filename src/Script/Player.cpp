@@ -145,6 +145,18 @@ void Script::ProcessPlayerFeatures()
 
 		if (g_Settings["player"]["no_ragdoll"].get<bool>())
 			SetPedNoRagdoll(g_LocalPlayer.m_Entity, true);
+
+		if (g_Settings["player"]["clean"].get<bool>())
+			CleanPed(g_LocalPlayer.m_Entity);
+
+		if (g_Settings["player"]["super_jump"].get<bool>())
+			SuperJump();
+
+		if (g_Settings["player"]["no_sliding"].get<bool>())
+			NoSliding(g_LocalPlayer.m_Entity);
+
+		if (g_Settings["player"]["super_run"].get<bool>())
+			SuperRun(g_LocalPlayer.m_Entity);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
@@ -163,6 +175,18 @@ void Script::ProcessMountFeatures()
 
 		if (g_Settings["mount"]["gold_cores"].get<bool>())
 			GiveGoldCores(g_LocalPlayer.m_Mount);
+
+		if (g_Settings["mount"]["clean"].get<bool>())
+			CleanPed(g_LocalPlayer.m_Mount);
+
+		if (g_Settings["mount"]["no_sliding"].get<bool>())
+			NoSliding(g_LocalPlayer.m_Mount);
+
+		if (g_Settings["mount"]["no_ragdoll"].get<bool>())
+			Script::SetPedNoRagdoll(g_LocalPlayer.m_Mount, true);
+
+		if (g_Settings["mount"]["super_run"].get<bool>())
+			SuperRun(g_LocalPlayer.m_Mount);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
@@ -203,4 +227,9 @@ void Script::TeleportToWaypoint()
 void Script::TeleportThroughDoor()
 {
 	Teleport(ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(GetMainPlayerEntity(), 0.0, 3.0, -0.3));
+}
+
+void Script::SuperJump()
+{
+	MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
 }

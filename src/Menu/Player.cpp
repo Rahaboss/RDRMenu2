@@ -126,6 +126,14 @@ void Menu::RenderPlayerTab()
 	ImGui::SameLine();
 	ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
 
+	ImGui::Checkbox("Clean", g_Settings["player"]["clean"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Super Jump", g_Settings["player"]["super_jump"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Super Run", g_Settings["player"]["super_run"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("No Sliding", g_Settings["player"]["no_sliding"].get<bool*>());
+
 	ImGui::SeparatorText("Money");
 	RenderMoneyChanger();
 

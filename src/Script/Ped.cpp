@@ -2,6 +2,7 @@
 #include "Ped.h"
 #include "Rage/natives.h"
 #include "Thread/Thread.h"
+#include "Rage/enums.h"
 
 void Script::GiveGoldCores(Ped ped)
 {
@@ -69,4 +70,34 @@ void Script::SetMetaPedOutfit(Ped ped, Hash Outfit)
 		Thread::YieldThread();
 	PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
 	PED::_RELEASE_META_PED_OUTFIT_REQUEST(requestId);
+}
+
+void Script::CleanPed(Ped ped)
+{
+	PED::CLEAR_PED_BLOOD_DAMAGE(ped);
+	PED::CLEAR_PED_WETNESS(ped);
+	PED::CLEAR_PED_ENV_DIRT(ped);
+	PED::CLEAR_PED_DECORATIONS(ped);
+	PED::_SET_PED_DIRT_CLEANED(ped, 0.0f, -1, true, true);
+	for (int i = 0; i < 10; i++)
+	{
+		PED::_CLEAR_PED_BLOOD_DAMAGE_FACIAL(ped, i);
+		PED::CLEAR_PED_BLOOD_DAMAGE_BY_ZONE(ped, i);
+		PED::CLEAR_PED_DAMAGE_DECAL_BY_ZONE(ped, i, "ALL");
+	}
+}
+
+void Script::NoSliding(Ped ped)
+{
+	// PCF_0x435F091E = set ped can run into steep slope
+	PED::SET_PED_RESET_FLAG(ped, PCF_0x435F091E, true);
+}
+
+void Script::SuperRun(Ped ped)
+{
+	if (PED::IS_PED_RAGDOLL(ped))
+		return;
+
+	if (TASK::IS_PED_RUNNING(ped) || TASK::IS_PED_SPRINTING(ped))
+		ENTITY::APPLY_FORCE_TO_ENTITY(ped, 1, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1, true, true, true, false, true);
 }

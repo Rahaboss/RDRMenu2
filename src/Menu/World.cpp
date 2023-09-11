@@ -4,6 +4,7 @@
 #include "Thread/JobQueue.h"
 #include "Script/World.h"
 #include "Config/Lists.h"
+#include "Script/Freecam.h"
 
 static void RenderWeatherChanger()
 {
@@ -65,12 +66,43 @@ void Menu::RenderWorldTab()
 
 	// Left Pane
 	ImGui::SeparatorText("Buttons");
-	if (ImGui::Button("Noon + Sunny"))
+	if (ImGui::Button("Noon And Sunny"))
 		JobQueue::Add(Script::NoonAndSunny);
 
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Disable West Elizabeth Pinkerton Patrols", g_Settings["disable_pinkerton_patrols"].get<bool*>());
+	ImGui::Checkbox("Disable Invisible Snipers", g_Settings["disable_invisible_snipers"].get<bool*>());
 	ImGui::Checkbox("Enable All DLCs", g_Settings["enable_dlcs"].get<bool*>());
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Freecam", &Script::FreecamEnabled))
+	{
+		if (!Script::FreecamEnabled)
+			JobQueue::Add(Script::DestroyFreecam);
+	}
+
+	ImGui::SeparatorText("Sliders");
+	ImGui::TextUnformatted("Time Scale");
+	static float s_TimeScale = 1.0f;
+	ImGui::SetNextItemWidth(250.0f);
+	if (ImGui::SliderFloat("##timescale", &s_TimeScale, 0.0f, 1.0f, "%.2f"))
+	{
+		s_TimeScale = std::clamp(s_TimeScale, 0.0f, 1.0f);
+		QUEUE_JOB(=)
+		{
+			Script::SetTimeScale(s_TimeScale);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Reset##reset_timescale"))
+	{
+		s_TimeScale = 1.0f;
+		QUEUE_JOB(=)
+		{
+			Script::SetTimeScale(s_TimeScale);
+		}
+		END_JOB()
+	}
 
 	ImGui::EndChild();
 	ImGui::SameLine();

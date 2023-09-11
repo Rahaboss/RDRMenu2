@@ -86,6 +86,11 @@ void Menu::RenderRenderingTab()
 			if (ObjectDisabled)
 				ImGui::EndDisabled();
 		}
+
+		{
+			ImGui::SeparatorText("Other");
+			ImGui::Checkbox("RGB Electric Lantern", g_Settings["weapon"]["rgb_electric_lantern"].get<bool*>());
+		}
 	}
 	ImGui::EndChild();
 

@@ -20,6 +20,8 @@ void Menu::RenderWeaponTab()
 	ImGui::SameLine();
 	ImGui::Checkbox("Rapid Fire", g_Settings["weapon"]["rapid_fire"].get<bool*>());
 
+	ImGui::Checkbox("RGB Electric Lantern", g_Settings["weapon"]["rgb_electric_lantern"].get<bool*>());
+
 	ImGui::EndChild();
 	ImGui::SameLine();
 

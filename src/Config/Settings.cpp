@@ -4,7 +4,9 @@
 
 static json s_DefaultSettings{
 R"({
+	"disable_black_borders": false,
 	"disable_pinkerton_patrols": false,
+	"disable_invisible_snipers": false,
 	"enable_dlcs": false,
 	"esp": {
 		"object": {
@@ -30,19 +32,28 @@ R"({
 		}
 	},
 	"mount": {
+		"clean": false,
 		"godmode": false,
-		"gold_cores": false
+		"gold_cores": false,
+		"no_ragdoll": false,
+		"no_sliding": false,
+		"super_run": false
 	},
 	"never_wanted": false,
 	"player": {
+		"clean": false,
 		"godmode": false,
 		"gold_cores": false,
-		"no_ragdoll": false
+		"no_ragdoll": false,
+		"no_sliding": false,
+		"super_jump": false,
+		"super_run": false
 	},
 	"render_imgui_demo": false,
 	"weapon": {
 		"infinite_ammo": false,
-		"rapid_fire": false
+		"rapid_fire": false,
+		"rgb_electric_lantern": false
 	}
 })"_json
 };

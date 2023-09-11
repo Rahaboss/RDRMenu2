@@ -18,12 +18,16 @@ void Hooking::Create()
 	RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 	IsDLCPresent.Create(NativeInvoker::GetHandler(0x2763DC12BBE2BB6F), IsDLCPresentHook);
 	DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
+	ShootBullet.Create(NativeInvoker::GetHandler(0x867654CBC7606F2C), ShootBulletHook);
+	IsEntityInArea.Create(NativeInvoker::GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.");
 	
+	IsEntityInArea.Destroy();
+	ShootBullet.Destroy();
 	DecreaseAmmo.Destroy();
 	IsDLCPresent.Destroy();
 	RunScriptThreads.Destroy();
@@ -92,4 +96,24 @@ void Hooking::DecreaseAmmoHook(void* a1, rage::CPed* a2, uint64_t a3, uint32_t a
 		return;
 
 	DecreaseAmmo.GetOriginal<decltype(&DecreaseAmmoHook)>()(a1, a2, a3, a4);
+}
+
+void Hooking::ShootBulletHook(rage::scrNativeCallContext* ctx)
+{
+	if (g_Settings["disable_invisible_snipers"].get<bool>() && ctx->GetArg<Hash>(8) == RAGE_JOAAT("WEAPON_SNIPERRIFLE_CARCANO"))
+		return;
+
+	ShootBullet.GetOriginal<decltype(&ShootBulletHook)>()(ctx);
+}
+
+void Hooking::IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
+{
+	if (g_Settings["disable_invisible_snipers"].get<bool>() && ctx->GetArg<Entity>(0) == g_LocalPlayer.m_Entity &&
+		ctx->GetArg<uint32_t>(1) == 0x44BBD654)
+	{
+		ctx->SetRet<BOOL>(FALSE); // Spoof return value
+		return;
+	}
+
+	IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
 }

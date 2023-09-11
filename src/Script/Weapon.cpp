@@ -5,6 +5,7 @@
 #include "PlayerInfo.h"
 #include "Rage/enums.h"
 #include "Math.h"
+#include "Renderer/RGB.h"
 
 Hash Script::GetCurrentWeapon()
 {
@@ -109,4 +110,22 @@ void Script::GiveWeapon(Ped ped, Hash WeaponHash)
 			0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		break;
 	}
+}
+
+void Script::RGBElectricLantern()
+{
+	if (GetCurrentWeapon() != WEAPON_MELEE_LANTERN_ELECTRIC)
+		return;
+
+	Entity WeapEnt = WEAPON::GET_CURRENT_PED_WEAPON_ENTITY_INDEX(g_LocalPlayer.m_Entity, WEAPON_ATTACH_POINT_HAND_PRIMARY);
+
+	GRAPHICS::_SET_LIGHTS_TYPE_FOR_ENTITY(WeapEnt, 1);
+	GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(WeapEnt, 5.0f);
+	GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(WeapEnt, Renderer::GetRGB()[0], Renderer::GetRGB()[1], Renderer::GetRGB()[2]);
+	GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(WeapEnt);
+
+	// GRAPHICS::_SET_LIGHTS_TYPE_FOR_ENTITY(g_LocalPlayer.m_Entity, 1);
+	// GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(g_LocalPlayer.m_Entity, 5.0f);
+	// GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(g_LocalPlayer.m_Entity, Renderer::GetRGB()[0], Renderer::GetRGB()[1], Renderer::GetRGB()[2]);
+	// GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(g_LocalPlayer.m_Entity);
 }

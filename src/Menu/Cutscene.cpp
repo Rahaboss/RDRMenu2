@@ -5,6 +5,7 @@
 #include "Thread/JobQueue.h"
 #include "Rage/natives.h"
 #include "Util/String.h"
+#include "Config/Settings.h"
 
 static AnimScene s_CutsceneIndex = 0;
 static void QueuePlayCutscene(const char* CutsceneName)
@@ -60,6 +61,8 @@ static void RenderCutsceneInfo(json& SelectedCutscene)
 		QueueSkipCutscene();
 	if (!IsCutscenePlaying)
 		ImGui::EndDisabled();
+
+	ImGui::Checkbox("Disable Black Borders", g_Settings["disable_black_borders"].get<bool*>());
 
 	ImGui::BeginChild("cutscene_info_inner");
 

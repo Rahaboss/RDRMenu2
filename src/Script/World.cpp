@@ -68,3 +68,14 @@ void Script::ClearWanted()
 	LAW::_SET_BOUNTY_HUNTER_PURSUIT_CLEARED();
 	LAW::SET_WANTED_SCORE(g_LocalPlayer.m_Index, 0);
 }
+
+void Script::DisableBlackBorders()
+{
+	CAM::_REQUEST_LETTER_BOX_OVERTIME(-1, -1, false, 17, true, false);
+	CAM::_FORCE_LETTER_BOX_THIS_UPDATE();
+}
+
+void Script::SetTimeScale(float Scale)
+{
+	MISC::SET_TIME_SCALE(std::clamp(Scale, 0.0f, 1.0f));
+}

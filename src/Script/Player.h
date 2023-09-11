@@ -21,4 +21,5 @@ namespace Script
 	void ProcessMountFeatures();
 	void TeleportToWaypoint();
 	void TeleportThroughDoor();
+	void SuperJump();
 }

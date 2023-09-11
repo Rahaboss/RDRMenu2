@@ -13,4 +13,7 @@ namespace Script
 	void SetPedNoRagdoll(Ped ped, bool Toggle);
 	void SetPedOutfitPreset(Ped ped, int Preset, bool KeepAccessories = false);
 	void SetMetaPedOutfit(Ped ped, Hash Outfit);
+	void CleanPed(Ped ped);
+	void NoSliding(Ped ped);
+	void SuperRun(Ped ped);
 }

@@ -78,7 +78,9 @@ void Menu::RenderMenu()
 				RenderSpawningTab();
 				RenderCutsceneTab();
 				RenderRenderingTab();
+#if !_DIST
 				RenderDebugTab();
+#endif // _DIST
 				RenderExitTab();
 			}
 			ImGui::EndTabBar();
@@ -91,8 +93,10 @@ void Menu::RenderMenu()
 			s_WindowSetup = true;
 		}
 
+#if !_DIST
 		if (g_Settings["render_imgui_demo"].get<bool>())
 			ImGui::ShowDemoWindow(g_Settings["render_imgui_demo"].get<bool*>());
+#endif // _DIST
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

@@ -16,6 +16,7 @@
 #include "Config/Lists.h"
 #include "Util/Timer.h"
 #include "Script/Weapon.h"
+#include "Script/Freecam.h"
 
 static bool s_ScriptsSetup = false;
 void Features::OnSetup()
@@ -35,22 +36,31 @@ void Features::OnTick()
 	TRY
 	{
 		Timer t;
-		
-		Script::ProcessPlayerFeatures();
-
-		Script::ProcessMountFeatures();
 
 		if (Menu::IsOpen)
 			PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
 
+		Script::ProcessPlayerFeatures();
+
+		Script::ProcessMountFeatures();
+
 		if (g_Settings["weapon"]["rapid_fire"].get<bool>())
 			Script::RapidFire();
+
+		if (g_Settings["weapon"]["rgb_electric_lantern"].get<bool>())
+			Script::RGBElectricLantern();
 
 		if (g_Settings["disable_pinkerton_patrols"].get<bool>())
 			Script::DisablePinkertonPatrols();
 
 		if (g_Settings["never_wanted"].get<bool>())
 			Script::ClearWanted();
+
+		if (g_Settings["disable_black_borders"].get<bool>())
+			Script::DisableBlackBorders();
+
+		if (Script::FreecamEnabled)
+			Script::TickFreecam();
 
 		Timer::s_ScriptThreadTickTime = t.GetMillis();
 	}
@@ -60,6 +70,8 @@ void Features::OnTick()
 void Features::OnExit()
 {
 	LOG_TEXT("Running script cleanup.");
+	
+	Script::DestroyFreecam();
 }
 
 void Features::StartExit()
@@ -71,7 +83,7 @@ void Features::StartExit()
 	}
 	END_JOB()
 	
-	const auto EndTime = std::chrono::system_clock::now() + 200ms;
+	const auto EndTime = std::chrono::system_clock::now() + 500ms;
 	while (g_Running && std::chrono::system_clock::now() < EndTime)
 		std::this_thread::sleep_for(10ms);
 	

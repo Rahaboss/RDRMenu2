@@ -12,4 +12,6 @@ namespace Script
 	void SetSnow(int Snow);
 	void SetClock(int Hour, int Minute = 0, int Second = 0);
 	void ClearWanted();
+	void DisableBlackBorders();
+	void SetTimeScale(float Scale);
 }
