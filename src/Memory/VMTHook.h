@@ -14,7 +14,7 @@ public:
 	void Enable();
 	void Disable();
 
-	template <typename T>
+	template<typename T>
 	inline T GetOriginal(size_t Index)
 	{
 		return reinterpret_cast<T>(m_OriginalTable[Index]);

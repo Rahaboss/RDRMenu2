@@ -19,7 +19,7 @@ public:
 public:
 	void Reset();
 
-	template <typename T>
+	template<typename T>
 	inline void PushArg(T&& arg)
 	{
 		static_assert(sizeof(T) <= sizeof(uint64_t));
@@ -34,14 +34,14 @@ private:
 public:
 	void EndCall(rage::scrNativeHash hash);
 
-	template <typename T>
+	template<typename T>
 	inline T GetReturnValue()
 	{
 		return *reinterpret_cast<T*>(GetContext()->m_ReturnValue);
 	}
 };
 
-template <typename Ret, typename... Args>
+template<typename Ret, typename... Args>
 inline Ret invoke(rage::scrNativeHash hash, Args&&... args)
 {
 	NativeInvoker Context;

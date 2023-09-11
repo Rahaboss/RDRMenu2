@@ -17,19 +17,19 @@ namespace rage
 		scrVec3N m_InVectors[4]; //0x0040
 		uint8_t pad[96]; //0x0080
 
-		template <typename T>
+		template<typename T>
 		inline T GetArg(size_t Index)
 		{
 			return *(T*)(&(m_Args[Index]));
 		}
 
-		template <typename T>
+		template<typename T>
 		inline T GetRet()
 		{
 			return *(T*)(m_ReturnValue);
 		}
 
-		template <typename T>
+		template<typename T>
 		inline void SetRet(T Ret)
 		{
 			*(T*)(m_ReturnValue) = Ret;

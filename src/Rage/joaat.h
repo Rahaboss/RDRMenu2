@@ -49,13 +49,13 @@ namespace rage
 }
 
 // Dont ask...
-template <size_t CharCount>
+template<size_t CharCount>
 class ConstexprJoaat
 {
 public:
 	char Data[CharCount];
 
-	template <size_t... Indices>
+	template<size_t... Indices>
 	constexpr ConstexprJoaat(const char* str, std::index_sequence<Indices...>) :
 		Data{ (str[Indices])... }
 	{

@@ -7,11 +7,11 @@ class Timer
 public:
 	inline float GetMillis() const
 	{
-		auto now = std::chrono::high_resolution_clock::now();
-		auto milliseconds_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_Start).count();
-		auto microseconds_elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - m_Start).count() % 1000;
+		auto Now = std::chrono::high_resolution_clock::now();
+		auto Milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(Now - m_Start).count();
+		auto Microseconds = std::chrono::duration_cast<std::chrono::microseconds>(Now - m_Start).count() % 1000;
 
-		return (float)milliseconds_elapsed + (float)microseconds_elapsed / 1000.0f;
+		return (float)Milliseconds + (float)Microseconds / 1000.0f;
 	}
 
 public:
