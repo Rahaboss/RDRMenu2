@@ -1399,7 +1399,7 @@ namespace DATABINDING
 	NATIVE_DECL Any _0xF47E33F8D2523825(Any p0, int p1) { return invoke<Any>(0xF47E33F8D2523825, p0, p1); } // 0xF47E33F8D2523825 b1207
 	NATIVE_DECL void _0x3BF0767CF33FCC88(Hash entryId) { invoke<void>(0x3BF0767CF33FCC88, entryId); } // 0x3BF0767CF33FCC88 b1207
 	NATIVE_DECL Any _DATABINDING_GET_ARRAY_COUNT(Hash entryId) { return invoke<Any>(0xD23F5DE04FE717E2, entryId); } // 0xD23F5DE04FE717E2 b1207
-	template<typename... Args> NATIVE_DECL void _DATABINDING_WRITE_DATA_SCRIPT_VARIABLES(int p0, int p1, Args... args) { invoke<void>(0xAB888B4B91046771, p0, p1, args...); } // 0xAB888B4B91046771 b1207
+	template <typename... Args> NATIVE_DECL void _DATABINDING_WRITE_DATA_SCRIPT_VARIABLES(int p0, int p1, Args... args) { invoke<void>(0xAB888B4B91046771, p0, p1, args...); } // 0xAB888B4B91046771 b1207
 	NATIVE_DECL void _DATABINDING_WRITE_DATA_BOOL(Any p0, BOOL p1) { invoke<void>(0xAB888B4B91046770, p0, p1); } // 0xAB888B4B91046770 b1207
 	NATIVE_DECL void _DATABINDING_WRITE_DATA_BOOL_FROM_PARENT(Any p0, const char* p1, BOOL p2) { invoke<void>(0xBDFE546E4C2D0E21, p0, p1, p2); } // 0xBDFE546E4C2D0E21 b1207
 	// _DATABINDING_WRITE_DATA_*
@@ -4132,7 +4132,7 @@ namespace MISC
 	// Note: The first bit in 'flags' must not be set.
 	// It is also required to pass at least one extra argument (this must be a text label string or hash).
 	// When passing a hash, flags should be 0.
-	template<typename... Args> NATIVE_DECL const char* VAR_STRING(int flags, Args... args) { return invoke<const char*>(0xFA925AC00EB830B9, flags, args...); } // 0xFA925AC00EB830B9 b1207
+	template <typename... Args> NATIVE_DECL const char* VAR_STRING(int flags, Args... args) { return invoke<const char*>(0xFA925AC00EB830B9, flags, args...); } // 0xFA925AC00EB830B9 b1207
 	// Returns a formatted string (0x%x)
 	NATIVE_DECL const char* _CREATE_COLOR_STRING(int rgb) { return invoke<const char*>(0xBCC2CFADEA1AEA6C, rgb); } // 0xBCC2CFADEA1AEA6C b1207
 	NATIVE_DECL void SET_BITS_IN_RANGE(int* var, int rangeStart, int rangeEnd, int p3) { invoke<void>(0x324DC1CEF57F31E6, var, rangeStart, rangeEnd, p3); } // 0x324DC1CEF57F31E6 0x32094719 b1207

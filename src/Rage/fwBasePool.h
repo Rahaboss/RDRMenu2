@@ -22,7 +22,7 @@ namespace rage
 		int32_t GetIndex(int32_t ScriptGuid) const;
 		bool IsValid(int32_t Index) const;
 
-		template<typename T>
+		template <typename T>
 		inline T* GetAt(size_t Index)
 		{
 			if (m_Flags[Index])
