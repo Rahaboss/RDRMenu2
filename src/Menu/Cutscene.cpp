@@ -4,6 +4,7 @@
 #include "Script/Cutscene.h"
 #include "Thread/JobQueue.h"
 #include "Rage/natives.h"
+#include "Util/String.h"
 
 static AnimScene s_CutsceneIndex = 0;
 static void QueuePlayCutscene(const char* CutsceneName)
@@ -102,11 +103,24 @@ static void RenderCutsceneInfo(json& SelectedCutscene)
 
 static void RenderCutsceneList(json& SelectedCutscene)
 {
+	ImGui::SeparatorText("Filter Cutscenes");
+	static char s_CutsceneFilter[200]{};
+	ImGui::InputText("##cutscene_filter", s_CutsceneFilter, IM_ARRAYSIZE(s_CutsceneFilter));
+	ImGui::SameLine();
+	if (ImGui::Button("Clear##clear_cutscene_filter"))
+		*s_CutsceneFilter = '\0';
+
 	ImGui::SeparatorText("Cutscenes");
 	ImGui::BeginChild("cutscene_list_inner");
 
+	std::string CutsceneFilterLower{ s_CutsceneFilter };
+	Util::StringToLower(CutsceneFilterLower);
+
 	for (const json& Cutscene : Lists::CutsceneList)
 	{
+		if (Cutscene["id"].get_ref<const std::string&>().find(CutsceneFilterLower) == std::string::npos)
+			continue;
+
 		if (ImGui::Selectable(Cutscene["id"].get_ref<const std::string&>().c_str(),
 			Cutscene["id"].get_ref<const std::string&>() == SelectedCutscene["id"].get_ref<const std::string&>()))
 			SelectedCutscene = Cutscene;

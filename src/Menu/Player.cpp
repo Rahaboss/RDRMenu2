@@ -123,7 +123,7 @@ void Menu::RenderPlayerTab()
 			END_JOB()
 		}
 	}
-
+	ImGui::SameLine();
 	ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
 
 	ImGui::SeparatorText("Money");
