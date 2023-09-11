@@ -14,11 +14,12 @@ public:
 	void Enable();
 	void Disable();
 
-	template <typename T>
-	T GetOriginal(size_t Index)
+	template<typename T>
+	inline T GetOriginal(size_t Index)
 	{
-		return static_cast<T>(m_OriginalTable[Index]);
+		return reinterpret_cast<T>(m_OriginalTable[Index]);
 	}
+
 private:
 	void*** m_Object;
 	size_t m_NumFuncs;
