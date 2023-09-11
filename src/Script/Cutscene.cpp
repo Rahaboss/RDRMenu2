@@ -27,13 +27,13 @@ Script::CutsceneHelper::CutsceneHelper(const char* animDict):
 {
 	for (const auto& Cutscene : Lists::CutsceneList)
 	{
-		if (Cutscene["id"].get_ref<const std::string&>() != std::string(animDict))
-			continue;
-		
-		m_JsonObject = Cutscene;
-		m_Scene = CreateCutscene();
-		
-		return;
+		if (Cutscene["id"].get_ref<const std::string&>() == animDict)
+		{
+			m_JsonObject = Cutscene;
+			m_Scene = CreateCutscene();
+			
+			return;
+		}
 	}
 
 	// m_Scene will be 0 at this point
@@ -314,4 +314,9 @@ void Script::CutsceneHelper::PlayAutomatically()
 		CleanupCutscene();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
+}
+
+AnimScene Script::CutsceneHelper::GetCutscene() const
+{
+	return m_Scene;
 }

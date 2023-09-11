@@ -38,9 +38,10 @@ namespace Script
 		// [!] WILL PAUSE EVERYTHING ELSE MENU-WIDE (JOB QUEUES AND SCRIPT THREAD)
 		void WaitForCutsceneEnd();
 		void CleanupCutscene();
-		// Loads, teleports, plays, waits and cleans up
-		// Recommended to use
+		// Loads, teleports, plays, waits and cleans up. Recommended to use
 		void PlayAutomatically();
+
+		AnimScene GetCutscene() const;
 
 	private:
 		json m_JsonObject;
