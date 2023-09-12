@@ -78,6 +78,9 @@ void Menu::RenderDebugTab()
 
 	if (ImGui::Button("Reload Settings"))
 		JobQueue::Add(Settings::Create);
+	ImGui::SameLine();
+	if (ImGui::Button("Reload Lists"))
+		JobQueue::Add(Lists::Create);
 	
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());

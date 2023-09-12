@@ -10,4 +10,6 @@ namespace Script
 	void GiveAmmo(Ped ped, Hash AmmoHash);
 	void GiveWeapon(Ped ped, Hash WeaponHash);
 	void RGBElectricLantern();
+	void GiveAllWeapons();
+	void GiveAllAmmo();
 }

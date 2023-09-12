@@ -188,6 +188,53 @@ void Menu::RenderObjectSpawner()
 	ImGui::EndChild();
 }
 
+void Menu::RenderPickupSpawner()
+{
+	static Hash s_SelectedPickup = RAGE_JOAAT("PICKUP_WEAPON_PISTOL_M1899");
+	static bool s_AutoRemove = true, s_RemovePrevious = true;
+	static Pickup s_LastSpawnedPickup = 0;
+	static char s_PickupFilter[200]{};
+
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+	if (ImGui::CollapsingHeader("Spawning Settings"))
+	{
+		ImGui::Checkbox("Remove Automatically", &s_AutoRemove);
+		ImGui::SameLine();
+		ImGui::Checkbox("Remove Previous", &s_RemovePrevious);
+
+		ImGui::SetNextItemWidth(300.0f);
+		ImGui::InputText("Filter Pickups", s_PickupFilter, IM_ARRAYSIZE(s_PickupFilter));
+		ImGui::SameLine();
+		if (ImGui::Button("Clear Filter"))
+			s_PickupFilter[0] = '\0';
+	}
+	
+	ImGui::SeparatorText("Select Pickup");
+
+	if (ImGui::Button("Spawn Pickup"))
+	{
+		QUEUE_JOB(=)
+		{
+			if (s_RemovePrevious)
+				Script::DeleteEntity(s_LastSpawnedPickup);
+
+			s_LastSpawnedPickup = OBJECT::GET_PICKUP_OBJECT(Script::SpawnPickup(s_SelectedPickup));
+
+			if (s_AutoRemove)
+				Script::SetEntityAsNoLongerNeeded(s_LastSpawnedPickup);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	ImGui::Text("Selected Object: %s", Lists::GetHashName(s_SelectedPickup).c_str());
+
+	ImGui::BeginChild("pickup_child");
+
+	RenderSpawnerList(s_SelectedPickup, s_PickupFilter, Lists::PickupList);
+
+	ImGui::EndChild();
+}
+
 void Menu::RenderSpawningTab()
 {
 	if (!ImGui::BeginTabItem("Spawning"))
@@ -205,6 +252,8 @@ void Menu::RenderSpawningTab()
 	ImGui::RadioButton("Ped", &s_CurrentList, 1);
 	ImGui::SameLine();
 	ImGui::RadioButton("Object", &s_CurrentList, 2);
+	ImGui::SameLine();
+	ImGui::RadioButton("Pickup", &s_CurrentList, 3);
 
 	ImGui::Separator();
 
@@ -218,6 +267,9 @@ void Menu::RenderSpawningTab()
 		break;
 	case 2:
 		RenderObjectSpawner();
+		break;
+	case 3:
+		RenderPickupSpawner();
 		break;
 	}
 

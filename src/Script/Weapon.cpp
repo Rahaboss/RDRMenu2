@@ -6,6 +6,7 @@
 #include "Rage/enums.h"
 #include "Math.h"
 #include "Renderer/RGB.h"
+#include "Config/Lists.h"
 
 Hash Script::GetCurrentWeapon()
 {
@@ -37,7 +38,7 @@ void Script::RapidFire()
 	};
 
 	bool IsAiming = false;
-	for (auto Input : s_AimInputs)
+	for (Hash Input : s_AimInputs)
 	{
 		if (PAD::IS_DISABLED_CONTROL_PRESSED(0, Input))
 		{
@@ -68,10 +69,10 @@ void Script::RapidFire()
 		INPUT_VEH_PASSENGER_ATTACK,
 	};
 
-	for (auto Input : s_AttackInputs)
+	for (Hash Input : s_AttackInputs)
 		PAD::DISABLE_CONTROL_ACTION(0, Input, true);
 
-	for (auto Input : s_AttackInputs)
+	for (Hash Input : s_AttackInputs)
 	{
 		if (PAD::IS_DISABLED_CONTROL_PRESSED(0, Input))
 		{
@@ -128,4 +129,16 @@ void Script::RGBElectricLantern()
 	// GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(g_LocalPlayer.m_Entity, 5.0f);
 	// GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(g_LocalPlayer.m_Entity, Renderer::GetRGB()[0], Renderer::GetRGB()[1], Renderer::GetRGB()[2]);
 	// GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(g_LocalPlayer.m_Entity);
+}
+
+void Script::GiveAllWeapons()
+{
+	for (const auto& [_, Model] : Lists::WeaponList)
+		GiveWeapon(g_LocalPlayer.m_Entity, Model);
+}
+
+void Script::GiveAllAmmo()
+{
+	for (const auto& [_, Model] : Lists::AmmoList)
+		GiveAmmo(g_LocalPlayer.m_Entity, Model);
 }

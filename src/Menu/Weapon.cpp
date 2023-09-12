@@ -15,6 +15,13 @@ void Menu::RenderWeaponTab()
 
 	ImGui::BeginChild("left_half", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
 
+	ImGui::SeparatorText("Buttons");
+	if (ImGui::Button("Give All Weapons"))
+		JobQueue::Add(Script::GiveAllWeapons);
+	ImGui::SameLine();
+	if (ImGui::Button("Give All Ammo"))
+		JobQueue::Add(Script::GiveAllAmmo);
+
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Infinite Ammo", g_Settings["weapon"]["infinite_ammo"].get<bool*>());
 	ImGui::SameLine();

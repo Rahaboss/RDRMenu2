@@ -10,8 +10,10 @@ namespace Lists
 	Hash GetHashFromJSON(const json& Object);
 
 	inline std::map<std::string, Hash>
+		AmmoList,
 		ObjectList,
 		PedList,
+		PickupList,
 		WeaponList,
 		VehicleList;
 	

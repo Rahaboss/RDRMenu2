@@ -6,6 +6,30 @@
 #include "Memory/Pointers.h"
 #include "Rage/joaat.h"
 
+static void InitAmmoList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Ammo.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const auto& a : j)
+	{
+		const std::string& Name = a.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::AmmoList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::HashNameList[Model] = Pointers::GetStringFromHashKey(Model);
+	}
+}
+
 static void InitObjectList()
 {
 	std::filesystem::path Path{ Config::GetConfigPath().append("Objects.json") };
@@ -64,6 +88,30 @@ static void InitPedList()
 		}
 
 		Lists::PedList[Name] = Model;
+		Lists::HashNameList[Model] = Name;
+	}
+}
+
+static void InitPickupList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Pickups.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const auto& p : j)
+	{
+		const std::string& Name = p.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::PickupList[Name] = Model;
 		Lists::HashNameList[Model] = Name;
 	}
 }
@@ -140,8 +188,10 @@ static void InitCutsceneList()
 void Lists::Create()
 {
 	LOG_TEXT("Creating lists.");
+	InitAmmoList();
 	InitObjectList();
 	InitPedList();
+	InitPickupList();
 	InitWeaponList();
 	InitVehicleList();
 	InitCutsceneList();

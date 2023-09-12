@@ -26,6 +26,7 @@ In Visual Studio, right click on the project in the Solution Explorer. Click on 
 * ✔ Entity pool access (peds, objects, vehicles, pickups)
 * ✔ D3D12 ImGui renderer
 * ❌ Vulkan ImGui renderer
+* ❌ Debugging support
 
 ## Screenshots
 ![ss2](https://user-images.githubusercontent.com/39026217/231996834-dbc09397-a0a8-4cad-b573-c7c36d304487.png)
