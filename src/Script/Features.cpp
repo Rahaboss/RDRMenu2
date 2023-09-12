@@ -62,6 +62,9 @@ void Features::OnTick()
 		if (Script::FreecamEnabled)
 			Script::TickFreecam();
 
+		if (g_Settings["disable_hud"].get<bool>())
+			Script::DisableHUD(true);
+
 		Timer::s_ScriptThreadTickTime = t.GetMillis();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }

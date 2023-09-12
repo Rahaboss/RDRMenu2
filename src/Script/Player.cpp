@@ -83,22 +83,25 @@ void Script::SetPlayerModel(Hash Model)
 
 Hash Script::GetDefaultPlayerModel()
 {
-	Hash Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<Hash>();
-	
-	// medium_update.c: func_392
-	switch (Global_1946054_f_1)
+	if (Hash* Global_1946054_f_1 = ScriptGlobal(1946054).At(1).Get<Hash*>())
 	{
-	case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_ARTHUR"):
-		return RAGE_JOAAT("PLAYER_ZERO");
-	case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_MARSTON"):
-		return RAGE_JOAAT("PLAYER_THREE");
-	case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_MALE"):
-		return RAGE_JOAAT("MP_MALE");
-	case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_FEMALE"):
-		return RAGE_JOAAT("MP_FEMALE");
+		// medium_update.c: func_392
+		switch (*Global_1946054_f_1)
+		{
+		case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_ARTHUR"):
+			return RAGE_JOAAT("PLAYER_ZERO");
+		case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_MARSTON"):
+			return RAGE_JOAAT("PLAYER_THREE");
+		case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_MALE"):
+			return RAGE_JOAAT("MP_MALE");
+		case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_FEMALE"):
+			return RAGE_JOAAT("MP_FEMALE");
+		default:
+			LOG_TEXT("%s: Unknown default player model: %d!", __FUNCTION__, *Global_1946054_f_1);
+			break;
+		}
 	}
 
-	LOG_TEXT("%s: Unknown default player model: %d!", __FUNCTION__, Global_1946054_f_1);
 	return RAGE_JOAAT("PLAYER_ZERO");
 }
 

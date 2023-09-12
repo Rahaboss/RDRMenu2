@@ -17,7 +17,7 @@ namespace Lists
 		WeaponList,
 		VehicleList;
 	
-	inline json CutsceneList;
+	inline json CutsceneList, MetaPedOutfits;
 
 	inline std::map<Hash, std::string> HashNameList;
 

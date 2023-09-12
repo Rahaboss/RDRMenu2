@@ -175,14 +175,21 @@ static void InitCutsceneList()
 	std::filesystem::path Path{ Config::GetConfigPath().append("Cutscenes.json") };
 	std::ifstream File{ Path };
 
-	if (!File)
-	{
+	if (File)
+		File >> Lists::CutsceneList;
+	else
 		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
-		return;
-	}
+}
 
-	File >> Lists::CutsceneList;
-	File.close();
+static void InitOutfitList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("MetaPedOutfits.json") };
+	std::ifstream File{ Path };
+
+	if (File)
+		File >> Lists::MetaPedOutfits;
+	else
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
 }
 
 void Lists::Create()
@@ -195,6 +202,7 @@ void Lists::Create()
 	InitWeaponList();
 	InitVehicleList();
 	InitCutsceneList();
+	InitOutfitList();
 }
 
 std::string Lists::GetHashName(Hash h)

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Rendering.h"
 #include "Config/Settings.h"
+#include "Thread/JobQueue.h"
+#include "Script/Rendering.h"
 
 void Menu::RenderRenderingTab()
 {
@@ -90,6 +92,18 @@ void Menu::RenderRenderingTab()
 		{
 			ImGui::SeparatorText("Other");
 			ImGui::Checkbox("RGB Electric Lantern", g_Settings["weapon"]["rgb_electric_lantern"].get<bool*>());
+			if (ImGui::Checkbox("Disable HUD", g_Settings["disable_hud"].get<bool*>()))
+			{
+				if (!g_Settings["disable_hud"].get<bool>())
+				{
+					QUEUE_JOB(=)
+					{
+						Script::DisableHUD(false);
+					}
+					END_JOB()
+				}
+			}
+			ImGui::Checkbox("Disable Black Borders", g_Settings["disable_black_borders"].get<bool*>());
 		}
 	}
 	ImGui::EndChild();

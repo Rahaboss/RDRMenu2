@@ -22,3 +22,8 @@ void Script::RenderText(const char* Text, float PosX, float PosY, uint8_t ColR, 
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
+
+void Script::DisableHUD(bool Toggle)
+{
+	HUD::DISPLAY_HUD(!Toggle);
+}

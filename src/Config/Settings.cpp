@@ -5,8 +5,9 @@
 static json s_DefaultSettings{
 R"({
 	"disable_black_borders": false,
-	"disable_pinkerton_patrols": false,
+	"disable_hud": false,
 	"disable_invisible_snipers": false,
+	"disable_pinkerton_patrols": false,
 	"enable_dlcs": false,
 	"esp": {
 		"object": {
