@@ -18,15 +18,12 @@
 #include "Script/Weapon.h"
 #include "Script/Freecam.h"
 
-static bool s_ScriptsSetup = false;
 void Features::OnSetup()
 {
 	TRY
 	{
 		LOG_TEXT("Running script setup.");
 		Lists::Create();
-
-		s_ScriptsSetup = true;
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

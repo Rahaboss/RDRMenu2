@@ -13,7 +13,8 @@ void Hooking::Create()
 {
 	LOG_TEXT("Creating hooks.");
 
-	assert(MH_Initialize() == MH_OK);
+	const MH_STATUS Status = MH_Initialize();
+	assert(Status == MH_OK);
 
 	RunScriptThreads.Create(Pointers::RunScriptThreads, RunScriptThreadsHook);
 	IsDLCPresent.Create(NativeInvoker::GetHandler(0x2763DC12BBE2BB6F), IsDLCPresentHook);
@@ -32,21 +33,24 @@ void Hooking::Destroy()
 	IsDLCPresent.Destroy();
 	RunScriptThreads.Destroy();
 
-	assert(MH_Uninitialize() == MH_OK);
+	const MH_STATUS Status = MH_Uninitialize();
+	assert(Status == MH_OK);
 }
 
 void Hooking::Enable()
 {
 	LOG_TEXT("Enabling hooks.");
 
-	assert(MH_EnableHook(MH_ALL_HOOKS) == MH_OK);
+	const MH_STATUS Status = MH_EnableHook(MH_ALL_HOOKS);
+	assert(Status == MH_OK);
 }
 
 void Hooking::Disable()
 {
 	LOG_TEXT("Disabling hooks.");
 
-	assert(MH_DisableHook(MH_ALL_HOOKS) == MH_OK);
+	const MH_STATUS Status = MH_DisableHook(MH_ALL_HOOKS);
+	assert(Status == MH_OK);
 }
 
 HRESULT STDMETHODCALLTYPE Hooking::SwapChainPresentHook(IDXGISwapChain3* SwapChain, UINT SyncInterval, UINT Flags)

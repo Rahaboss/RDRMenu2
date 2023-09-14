@@ -173,7 +173,7 @@ static void RenderModelChanger()
 		if (p.first.find(FilterUpper) == std::string::npos)
 			continue;
 
-		if (ImGui::Selectable(p.first.c_str()))
+		if (ImGui::Selectable(p.first.c_str(), g_LocalPlayer.m_Model == p.second))
 		{
 			QUEUE_JOB(=)
 			{

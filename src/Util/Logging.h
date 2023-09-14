@@ -10,5 +10,5 @@ void LogText(const char* const Text, ...);
 #define LOG_TEXT(...) LogText(__VA_ARGS__)
 #else
 // Disabled logging in distribution build
-#define LOG_TEXT(x, ...) ((void)x)
+#define LOG_TEXT(...) ((void)0)
 #endif // !_DIST
