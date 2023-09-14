@@ -22,7 +22,7 @@ void Menu::RenderDebugTab()
 	{
 		ImGui::PushFont(Renderer::DefaultFont);
 
-		ImGui::Text(Lists::MetaPedOutfits.dump(4).c_str());
+		ImGui::Text(g_Settings.dump(2).c_str());
 
 		ImGui::PopFont();
 	}

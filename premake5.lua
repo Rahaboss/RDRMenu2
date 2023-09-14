@@ -47,6 +47,7 @@ workspace "RDRMenu2"
 		}
 		defines {
 			"_DIST",
+			"NDEBUG",
 			"IMGUI_DISABLE_DEMO_WINDOWS",
 			"IMGUI_DISABLE_DEBUG_TOOLS"
 		}

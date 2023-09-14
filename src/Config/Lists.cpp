@@ -49,13 +49,7 @@ static void InitObjectList()
 		const std::string& Name = o.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-#if 0
-		if (!Script::IsModelValid(Model))
-		{
-			LOG_TEXT("%s: %s is invalid!", __FUNCTION__, Name.c_str());
-			continue;
-		}
-#endif
+		// Don't perform any checks as some objects like water vfx don't pass for some reason
 
 		Lists::ObjectList[Name] = Model;
 		Lists::HashNameList[Model] = Name;

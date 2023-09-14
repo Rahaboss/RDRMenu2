@@ -20,7 +20,7 @@ void Menu::RenderOverlay()
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
 
-	if (ImGui::Begin("Overlay", g_Settings["enable_overlay"].get<bool*>(), window_flags))
+	if (ImGui::Begin("Overlay", g_Settings["render_overlay"].get<bool*>(), window_flags))
 		RenderOverlayMain();
 	ImGui::End();
 }

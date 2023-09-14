@@ -2703,10 +2703,31 @@
 		"id": "cutscene@rbwcg_rc5"
 	},
 	{
-		"id": "cutscene@rcal_rc1"
+		"id": "cutscene@rcal_rc1",
+		"peds": [
+			{
+				"model": "cs_theodorelevin",
+				"name": "TheodoreLevin"
+			},
+			{
+				"model": "cs_jimcalloway",
+				"name": "JimCalloway"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rcal_rc2"
+		"id": "cutscene@rcal_rc2",
+		"peds": [
+			{
+				"model": "cs_theodorelevin",
+				"name": "TheodoreLevin"
+			},
+			{
+				"model": "cs_jimcalloway",
+				"name": "JimCalloway"
+			}
+		],
+		"playback_id": "1-NormalVersion"
 	},
 	{
 		"id": "cutscene@rcal_rc3"
@@ -4002,16 +4023,50 @@
 		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@rgun1_s1_int"
+		"id": "cutscene@rgun1_s1_int",
+		"objects": [
+			{
+				"model": "P_WHEELBARROW_02X",
+				"name": "P_WHEELBARROW_02X"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "CS_FAMOUSGUNSLINGER_01",
+				"name": "CS_FAMOUSGUNSLINGER_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rgun1_s2_mcs1"
+		"id": "cutscene@rgun1_s2_mcs1",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "CS_FAMOUSGUNSLINGER_01",
+				"name": "CS_FAMOUSGUNSLINGER_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rgun1_s2_mcs2"
+		"id": "cutscene@rgun1_s2_mcs2",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "CS_FAMOUSGUNSLINGER_01",
+				"name": "CS_FAMOUSGUNSLINGER_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rgun2_s1_mcs1"
+		"id": "cutscene@rgun2_s1_mcs1",
+		"peds": [
+			{
+				"model": "CS_FAMOUSGUNSLINGER_02",
+				"name": "CS_FAMOUSGUNSLINGER_02"
+			}
+		],
+		"playback_id": "1-StayedBack"
 	},
 	{
 		"id": "cutscene@rgun3_s1_mcs1"
