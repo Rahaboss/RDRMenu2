@@ -29,8 +29,7 @@ In Visual Studio, right click on the project in the Solution Explorer. Click on 
 * ❌ Debugging support
 
 ## Screenshots
-![ss2](https://user-images.githubusercontent.com/39026217/231996834-dbc09397-a0a8-4cad-b573-c7c36d304487.png)
-![ss1](https://user-images.githubusercontent.com/39026217/231996787-314d0d50-9144-40f1-9ae8-1548ee12e369.png)
-![ss3](https://user-images.githubusercontent.com/39026217/231996887-671c9cb2-1adf-44c4-b414-5c308daebebf.png)
-![ss4](https://github.com/Rahaboss/RDRMenu2/assets/39026217/c9889213-ad6e-4fbd-944b-4c927b795c3a)
-![ss7](https://github.com/Rahaboss/RDRMenu2/assets/39026217/6a0897e2-350d-4b37-86a3-fe0a4fca81c2)
+![SS1](https://github.com/Rahaboss/RDRMenu2/assets/39026217/64612c30-a37d-4f7c-92e0-406e92eb3d50)
+![SS2](https://github.com/Rahaboss/RDRMenu2/assets/39026217/ac2fb102-7ac1-4f86-ae5f-6cf6c8bfdffe)
+![SS3](https://github.com/Rahaboss/RDRMenu2/assets/39026217/73f269c1-30e9-4178-a1e3-07fa123d8471)
+![SS4](https://github.com/Rahaboss/RDRMenu2/assets/39026217/3954e869-b06b-4f8c-b203-ed4ca68e5ef4)
