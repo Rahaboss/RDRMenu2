@@ -15,4 +15,6 @@ namespace Script
 	// Set entity for automatic removal by engine
 	void SetEntityAsNoLongerNeeded(Entity ent);
 	void DeleteEntity(Entity Handle);
+	void SpawnGoodHonorEnemy();
+	void SpawnBadHonorEnemy();
 }

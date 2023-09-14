@@ -9,6 +9,7 @@
 #include "Script/Player.h"
 #include "Config/Lists.h"
 #include "Util/String.h"
+#include "Script/Spawning.h"
 
 static void RenderPlayerButtons()
 {
@@ -61,6 +62,15 @@ static void RenderPlayerButtons()
 
 	if (DisableResetModel)
 		ImGui::EndDisabled();
+
+	if (ImGui::Button("Suicide"))
+		JobQueue::Add(Script::Suicide);
+	ImGui::SameLine();
+	if (ImGui::Button("Good Honor"))
+		JobQueue::Add(Script::SpawnGoodHonorEnemy);
+	ImGui::SameLine();
+	if (ImGui::Button("Bad Honor"))
+		JobQueue::Add(Script::SpawnBadHonorEnemy);
 }
 
 static void RenderPlayerToggles()
@@ -153,6 +163,7 @@ static void RenderModelChanger()
 	ImGui::SameLine();
 	if (ImGui::Button("Clear##clear_model"))
 		s_ModelFilter[0] = '\0';
+	ImGui::Separator();
 
 	ImGui::BeginChild("##app_left_inner");
 	std::string FilterUpper{ s_ModelFilter };
@@ -176,6 +187,10 @@ static void RenderModelChanger()
 
 static void RenderOutfitPresetList()
 {
+	ImGui::AlignTextToFramePadding();
+	ImGui::TextUnformatted("Set Outfit Preset:");
+	ImGui::SameLine();
+
 	ImGui::PushButtonRepeat(true);
 
 	static int s_OutfitPreset = 0;
@@ -218,9 +233,9 @@ static void RenderMetaPedOutfitList()
 	{
 		s_SelectedModel = g_LocalPlayer.m_Model;
 		s_SelectedModelName = Lists::GetHashName(s_SelectedModel);
-		Util::StringToLower(s_SelectedModelName);
+		Util::StringToUpper(s_SelectedModelName);
 	}
-
+	constexpr Hash asdasd = RAGE_JOAAT("META_OUTFIT_DEFAULT");
 	const json& Outfits{ Lists::MetaPedOutfits[s_SelectedModelName] };
 	if (Outfits.is_array())
 	{
@@ -268,10 +283,10 @@ static void RenderPlayerAppearance()
 	ImGui::SameLine();
 	ImGui::BeginChild("##app_right");
 
-	ImGui::SeparatorText("Set Outfit Preset");
-	RenderOutfitPresetList();
-
 	ImGui::SeparatorText("Set Outfit");
+	RenderOutfitPresetList();
+	ImGui::Separator();
+
 	ImGui::BeginChild("##app_right_inner");
 	RenderMetaPedOutfitList();
 	ImGui::EndChild(); // ##app_right_inner

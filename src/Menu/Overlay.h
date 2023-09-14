@@ -4,7 +4,5 @@
 
 namespace Menu
 {
-	inline bool IsOpen = false;
-
-	void Render();
+	void RenderOverlay();
 }

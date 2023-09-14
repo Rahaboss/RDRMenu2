@@ -57,8 +57,7 @@ Ped Script::SpawnPed(Hash Model)
 
 	const Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
 
-	const Ped ped = PED::CREATE_PED(Model, coords.x, coords.y, coords.z, ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity),
-		false, false, false, false);
+	const Ped ped = PED::CREATE_PED(Model, coords.x, coords.y, coords.z, g_LocalPlayer.m_Heading, false, false, false, false);
 
 	if (!ped)
 	{
@@ -74,8 +73,6 @@ Ped Script::SpawnPed(Hash Model)
 	Thread::YieldThread();
 
 	PED::_SET_RANDOM_OUTFIT_VARIATION(ped, true);
-	Thread::YieldThread();
-
 	PlaceEntityOnGround(ped);
 	ReleaseModel(Model);
 
@@ -97,8 +94,7 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 
 	const Vector3 coords = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
 
-	const Vehicle veh = VEHICLE::CREATE_VEHICLE(Model, coords.x, coords.y, coords.z, ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity),
-		false, false, false, false);
+	const Vehicle veh = VEHICLE::CREATE_VEHICLE(Model, coords.x, coords.y, coords.z, g_LocalPlayer.m_Heading, false, false, false, false);
 
 	if (!veh)
 	{
@@ -216,5 +212,23 @@ void Script::DeleteEntity(Entity Handle)
 	case ET_OBJECT:
 		OBJECT::DELETE_OBJECT(&Handle);
 		break;
+	}
+}
+
+void Script::SpawnGoodHonorEnemy()
+{
+	if (Ped ped = SpawnPed(RAGE_JOAAT("CS_FAMOUSGUNSLINGER_04")))
+	{
+		DECORATOR::DECOR_SET_INT(ped, "HONOR_OVERRIDE", -9999);
+		TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
+	}
+}
+
+void Script::SpawnBadHonorEnemy()
+{
+	if (Ped ped = SpawnPed(RAGE_JOAAT("CS_FAMOUSGUNSLINGER_04")))
+	{
+		DECORATOR::DECOR_SET_INT(ped, "HONOR_OVERRIDE", 9999);
+		TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
 	}
 }

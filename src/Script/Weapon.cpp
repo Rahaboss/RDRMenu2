@@ -8,11 +8,9 @@
 #include "Renderer/RGB.h"
 #include "Config/Lists.h"
 
-Hash Script::GetCurrentWeapon()
+bool Script::GetCurrentWeapon(Hash& OutWeapon)
 {
-	Hash CurWeap = 0;
-	WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &CurWeap, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, false);
-	return CurWeap;
+	return WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &OutWeapon, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, false);
 }
 
 void Script::RapidFire()
@@ -20,8 +18,8 @@ void Script::RapidFire()
 	if (Menu::IsOpen)
 		return;
 
-	Hash CurrentWeapon = GetCurrentWeapon();
-	if (!WEAPON::IS_WEAPON_A_GUN(CurrentWeapon))
+	Hash CurrentWeapon;
+	if (!GetCurrentWeapon(CurrentWeapon) || !WEAPON::IS_WEAPON_A_GUN(CurrentWeapon))
 		return;
 
 	static Hash s_AimInputs[]{
@@ -115,7 +113,8 @@ void Script::GiveWeapon(Ped ped, Hash WeaponHash)
 
 void Script::RGBElectricLantern()
 {
-	if (GetCurrentWeapon() != WEAPON_MELEE_LANTERN_ELECTRIC)
+	Hash CurrentWeapon;
+	if (!GetCurrentWeapon(CurrentWeapon) || CurrentWeapon != WEAPON_MELEE_LANTERN_ELECTRIC)
 		return;
 
 	Entity WeapEnt = WEAPON::GET_CURRENT_PED_WEAPON_ENTITY_INDEX(g_LocalPlayer.m_Entity, WEAPON_ATTACH_POINT_HAND_PRIMARY);
@@ -124,11 +123,6 @@ void Script::RGBElectricLantern()
 	GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(WeapEnt, 5.0f);
 	GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(WeapEnt, Renderer::GetRGB()[0], Renderer::GetRGB()[1], Renderer::GetRGB()[2]);
 	GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(WeapEnt);
-
-	// GRAPHICS::_SET_LIGHTS_TYPE_FOR_ENTITY(g_LocalPlayer.m_Entity, 1);
-	// GRAPHICS::_SET_LIGHTS_INTENSITY_FOR_ENTITY(g_LocalPlayer.m_Entity, 5.0f);
-	// GRAPHICS::_SET_LIGHTS_COLOR_FOR_ENTITY(g_LocalPlayer.m_Entity, Renderer::GetRGB()[0], Renderer::GetRGB()[1], Renderer::GetRGB()[2]);
-	// GRAPHICS::UPDATE_LIGHTS_ON_ENTITY(g_LocalPlayer.m_Entity);
 }
 
 void Script::GiveAllWeapons()
@@ -141,4 +135,11 @@ void Script::GiveAllAmmo()
 {
 	for (const auto& [_, Model] : Lists::AmmoList)
 		GiveAmmo(g_LocalPlayer.m_Entity, Model);
+}
+
+void Script::DropCurrentWeapon()
+{
+	Hash CurrentWeapon;
+	if (GetCurrentWeapon(CurrentWeapon) && WEAPON::IS_WEAPON_VALID(CurrentWeapon) && CurrentWeapon != WEAPON_UNARMED)
+		WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(g_LocalPlayer.m_Entity, CurrentWeapon, 0.0, 0.0, 0.0, 1);
 }

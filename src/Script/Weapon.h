@@ -5,11 +5,12 @@
 
 namespace Script
 {
-	Hash GetCurrentWeapon();
+	bool GetCurrentWeapon(Hash& OutWeapon);
 	void RapidFire();
 	void GiveAmmo(Ped ped, Hash AmmoHash);
 	void GiveWeapon(Ped ped, Hash WeaponHash);
 	void RGBElectricLantern();
 	void GiveAllWeapons();
 	void GiveAllAmmo();
+	void DropCurrentWeapon();
 }

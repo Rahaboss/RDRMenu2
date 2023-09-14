@@ -79,3 +79,9 @@ void Script::SetTimeScale(float Scale)
 {
 	MISC::SET_TIME_SCALE(std::clamp(Scale, 0.0f, 1.0f));
 }
+
+void Script::RevealMap()
+{
+	MAP::SET_MINIMAP_HIDE_FOW(true);
+	MAP::_REVEAL_MINIMAP_FOW(0);
+}

@@ -14,4 +14,5 @@ namespace Script
 	void ClearWanted();
 	void DisableBlackBorders();
 	void SetTimeScale(float Scale);
+	void RevealMap();
 }

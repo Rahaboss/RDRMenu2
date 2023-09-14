@@ -22,6 +22,7 @@ void Script::GetLocalPlayerInfo()
 	g_LocalPlayer.m_Model = GetEntityModel(g_LocalPlayer.m_Entity); // ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity)
 	g_LocalPlayer.m_Ped = rage::CPedFactory::GetLocalPed();
 	g_LocalPlayer.m_Pos = GetEntityCoords(g_LocalPlayer.m_Entity);
+	g_LocalPlayer.m_Heading = ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity);
 }
 
 Entity Script::GetMainPlayerEntity()
@@ -235,4 +236,10 @@ void Script::TeleportThroughDoor()
 void Script::SuperJump()
 {
 	MISC::SET_SUPER_JUMP_THIS_FRAME(g_LocalPlayer.m_Index);
+}
+
+void Script::Suicide()
+{
+	SetEntityInvincible(g_LocalPlayer.m_Entity, false);
+	ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, 0, 0);
 }

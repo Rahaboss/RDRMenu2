@@ -5,6 +5,7 @@
 
 namespace Lists
 {
+	void InitCutsceneList();
 	void Create();
 	std::string GetHashName(Hash h);
 	Hash GetHashFromJSON(const json& Object);

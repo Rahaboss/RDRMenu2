@@ -61,8 +61,14 @@ static void RenderCutsceneInfo(json& SelectedCutscene)
 		QueueSkipCutscene();
 	if (!IsCutscenePlaying)
 		ImGui::EndDisabled();
+	
+	ImGui::SameLine();
+
+	if (ImGui::Button("Reload List"))
+		Lists::InitCutsceneList();
 
 	ImGui::Checkbox("Disable Black Borders", g_Settings["disable_black_borders"].get<bool*>());
+	ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>());
 
 	ImGui::BeginChild("cutscene_info_inner");
 
@@ -123,6 +129,13 @@ static void RenderCutsceneList(json& SelectedCutscene)
 	{
 		if (Cutscene["id"].get_ref<const std::string&>().find(CutsceneFilterLower) == std::string::npos)
 			continue;
+
+		if (g_Settings["disable_default_cutscenes"].get<bool>())
+		{
+			size_t ElemCount = Cutscene.size() - 1;
+			if (Cutscene.contains("player_model")) { ElemCount--; }
+			if (ElemCount == 0) { continue; }
+		}
 
 		if (ImGui::Selectable(Cutscene["id"].get_ref<const std::string&>().c_str(),
 			Cutscene["id"].get_ref<const std::string&>() == SelectedCutscene["id"].get_ref<const std::string&>()))

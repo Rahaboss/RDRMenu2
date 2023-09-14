@@ -9,31 +9,15 @@
 #include "Spawning.h"
 #include "Debug.h"
 #include "Cutscene.h"
+#include "Overlay.h"
 #include "Renderer/RGB.h"
 #include "Script/Features.h"
 #include "ESP/ESP.h"
 #include "Util/Timer.h"
 #include "Config/Settings.h"
 
-void Menu::Render()
-{
-	TRY
-	{
-		Timer t;
-
-		UpdateMenu();
-
-		if (IsOpen)
-			RenderMenu();
-
-		Timer::s_MenuTime = t.GetMillis();
-
-		ESP::RenderESP();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-}
-
-void Menu::UpdateMenu()
+static bool s_WindowSetup = false;
+static void UpdateMenu()
 {
 	TRY
 	{
@@ -54,11 +38,10 @@ static void RenderExitTab()
 	}
 }
 
-void Menu::RenderMenu()
+static void RenderMenu()
 {
 	TRY
 	{
-		static bool s_WindowSetup = false;
 		if (!s_WindowSetup)
 		{
 			constexpr float f = 850.0f;
@@ -66,37 +49,57 @@ void Menu::RenderMenu()
 			ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->WorkSize.x - 100 - f, 100), ImGuiCond_FirstUseEver);
 		}
 
-		if (ImGui::Begin("RDRMenu2", &IsOpen, ImGuiWindowFlags_NoCollapse))
+		if (ImGui::Begin("RDRMenu2", &Menu::IsOpen, ImGuiWindowFlags_NoCollapse))
 		{
 			if (ImGui::BeginTabBar("tab_bar"))
 			{
-				RenderPlayerTab();
-				RenderMountTab();
-				RenderWeaponTab();
-				RenderWorldTab();
-				RenderTeleportTab();
-				RenderSpawningTab();
-				RenderCutsceneTab();
-				RenderRenderingTab();
+				Menu::RenderPlayerTab();
+				Menu::RenderMountTab();
+				Menu::RenderWeaponTab();
+				Menu::RenderWorldTab();
+				Menu::RenderTeleportTab();
+				Menu::RenderSpawningTab();
+				Menu::RenderCutsceneTab();
+				Menu::RenderRenderingTab();
 #if !_DIST
-				RenderDebugTab();
+				Menu::RenderDebugTab();
 #endif // _DIST
 				RenderExitTab();
 			}
 			ImGui::EndTabBar();
 		}
 		ImGui::End();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+}
 
-		if (!s_WindowSetup)
-		{
-			ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
-			s_WindowSetup = true;
-		}
+void Menu::Render()
+{
+	TRY
+	{
+		Timer t;
+
+		UpdateMenu();
+
+		if (IsOpen)
+			RenderMenu();
+
+		if (g_Settings["render_overlay"].get<bool>())
+			RenderOverlay();
 
 #if !_DIST
+		if (!s_WindowSetup)
+			ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
+
 		if (g_Settings["render_imgui_demo"].get<bool>())
 			ImGui::ShowDemoWindow(g_Settings["render_imgui_demo"].get<bool*>());
 #endif // _DIST
+
+		s_WindowSetup = true;
+
+		Timer::s_MenuTime = t.GetMillis();
+
+		ESP::RenderESP();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

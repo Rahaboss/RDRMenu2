@@ -68,6 +68,9 @@ void Menu::RenderWorldTab()
 	ImGui::SeparatorText("Buttons");
 	if (ImGui::Button("Noon And Sunny"))
 		JobQueue::Add(Script::NoonAndSunny);
+	ImGui::SameLine();
+	if (ImGui::Button("Reveal Map"))
+		JobQueue::Add(Script::RevealMap);
 
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Disable West Elizabeth Pinkerton Patrols", g_Settings["disable_pinkerton_patrols"].get<bool*>());

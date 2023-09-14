@@ -8,6 +8,8 @@
 #include "Script/Spawning.h"
 #include "Script/Player.h"
 #include "Util/Timer.h"
+#include "Script/Ped.h"
+#include "Script/PlayerInfo.h"
 
 void Menu::RenderDebugTab()
 {
@@ -81,7 +83,27 @@ void Menu::RenderDebugTab()
 	ImGui::SameLine();
 	if (ImGui::Button("Reload Lists"))
 		JobQueue::Add(Lists::Create);
-	
+	ImGui::SameLine();
+	if (ImGui::Button("Test"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SetPlayerModel(RAGE_JOAAT("MSP_SALOON1_FEMALES_01"));
+			Script::SetMetaPedOutfit(g_LocalPlayer.m_Entity, 1467286073);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Test2"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::SetPlayerModel(RAGE_JOAAT("MSP_SALOON1_MALES_01"));
+			Script::SetMetaPedOutfit(g_LocalPlayer.m_Entity, 1467286073);
+		}
+		END_JOB()
+	}
+
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
 

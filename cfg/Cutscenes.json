@@ -716,10 +716,12 @@
 		"id": "cutscene@gng2_int",
 		"peds": [
 			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
 				"model": "cs_mrsadler",
 				"name": "MrsAdler"
-			}	
+			}
 		],
+		"player_meta_ped_outfit": "meta_outfit_warm_weather",
 		"player_model": "player_zero"
 	},
 	{
@@ -2515,7 +2517,7 @@
                 "meta_ped_wearable": "meta_wearable_default",
                 "model": "cs_davidgeddes",
                 "name": "DavidGeddes"
-            }	
+            }
 		],
 		"player_model": "player_three"
 	},
@@ -4685,7 +4687,7 @@
 				"model": "cs_lenny",
 				"name": "Lenny",
 				"remove_weapons": false
-			}	
+			}
 		],
 		"player_model": "player_zero"
 	},

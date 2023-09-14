@@ -22,4 +22,5 @@ namespace Script
 	void TeleportToWaypoint();
 	void TeleportThroughDoor();
 	void SuperJump();
+	void Suicide();
 }

@@ -38,14 +38,21 @@ void NativeInvoker::FixVectors()
 	}
 }
 
+// extern "C" disables C++ name mangling
+extern "C" void CallASM(rage::scrNativeCallContext* Context, rage::scrNativeHandler Handler, void* Return);
+
 void NativeInvoker::EndCall(rage::scrNativeHash hash)
 {
-	if (const auto Handler = GetHandler(hash))
+	if (const rage::scrNativeHandler Handler = GetHandler(hash))
 	{
 		TRY
 		{
+#if ENABLE_NATIVE_RETURN_SPOOFING
+			CallASM(GetContext(), Handler, Pointers::ReturnAddressSpoof);
+#else
 			Handler(GetContext());
-
+#endif
+			
 			FixVectors();
 		}
 		EXCEPT { LOG_EXCEPTION(); }

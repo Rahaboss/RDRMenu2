@@ -5,6 +5,7 @@
 static json s_DefaultSettings{
 R"({
 	"disable_black_borders": false,
+	"disable_default_cutscenes": false,
 	"disable_hud": false,
 	"disable_invisible_snipers": false,
 	"disable_pinkerton_patrols": false,
@@ -51,6 +52,7 @@ R"({
 		"super_run": false
 	},
 	"render_imgui_demo": false,
+	"render_overlay": false,
 	"weapon": {
 		"infinite_ammo": false,
 		"rapid_fire": false,

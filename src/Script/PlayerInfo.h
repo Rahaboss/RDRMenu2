@@ -13,6 +13,7 @@ struct PlayerInfo
 	Hash m_Model;
 	rage::CPed* m_Ped;
 	Vector3 m_Pos;
+	float m_Heading;
 };
 
 inline PlayerInfo g_LocalPlayer{};

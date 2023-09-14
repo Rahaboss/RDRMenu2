@@ -22,6 +22,9 @@ void Menu::RenderWeaponTab()
 	if (ImGui::Button("Give All Ammo"))
 		JobQueue::Add(Script::GiveAllAmmo);
 
+	if (ImGui::Button("Drop Current Weapon"))
+		JobQueue::Add(Script::DropCurrentWeapon);
+
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Infinite Ammo", g_Settings["weapon"]["infinite_ammo"].get<bool*>());
 	ImGui::SameLine();
