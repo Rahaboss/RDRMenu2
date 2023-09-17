@@ -7,10 +7,13 @@
 #include "Math.h"
 #include "Renderer/RGB.h"
 #include "Config/Lists.h"
+#include "Rage/ScriptGlobal.h"
 
 bool Script::GetCurrentWeapon(Hash& OutWeapon)
 {
-	return WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &OutWeapon, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, false);
+	OutWeapon = ScriptGlobal(1935630).At(44).Get<Hash>();
+	return true;
+	// return WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &OutWeapon, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, false);
 }
 
 void Script::RapidFire()

@@ -16,12 +16,12 @@ void Script::GetLocalPlayerInfo()
 {
 	g_LocalPlayer.m_Index = PLAYER::PLAYER_ID();
 	g_LocalPlayer.m_Entity = ScriptGlobal(35).Get<Ped>(); // PLAYER::PLAYER_PED_ID()
-	g_LocalPlayer.m_Mount = PED::GET_MOUNT(g_LocalPlayer.m_Entity);
+	g_LocalPlayer.m_Mount = ScriptGlobal(1935630).At(40).Get<Ped>(); // PED::GET_MOUNT(g_LocalPlayer.m_Entity);
 	g_LocalPlayer.m_LastMount = PLAYER::_GET_ACTIVE_HORSE_FOR_PLAYER(g_LocalPlayer.m_Index);
 	g_LocalPlayer.m_Vehicle = PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer.m_Entity, false);
 	g_LocalPlayer.m_Model = GetEntityModel(g_LocalPlayer.m_Entity); // ENTITY::GET_ENTITY_MODEL(g_LocalPlayer.m_Entity)
 	g_LocalPlayer.m_Ped = rage::CPedFactory::GetLocalPed();
-	g_LocalPlayer.m_Pos = GetEntityCoords(g_LocalPlayer.m_Entity);
+	g_LocalPlayer.m_Pos = ScriptGlobal(36).Get<const Vector3&>(); // GetEntityCoords(g_LocalPlayer.m_Entity);
 	g_LocalPlayer.m_Heading = ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity);
 }
 
