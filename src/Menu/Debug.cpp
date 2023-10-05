@@ -10,6 +10,8 @@
 #include "Util/Timer.h"
 #include "Script/Ped.h"
 #include "Script/PlayerInfo.h"
+#include "Rage/natives.h"
+#include "Thread/Thread.h"
 
 void Menu::RenderDebugTab()
 {
@@ -103,7 +105,7 @@ void Menu::RenderDebugTab()
 		}
 		END_JOB()
 	}
-
+	
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
 
@@ -121,7 +123,7 @@ void Menu::RenderDebugTab()
 	ImGui::Text("RGB");
 	ImGui::SameLine();
 	ImGui::ColorButton("##RGB", Renderer::GetImGuiRGBA());
-
+	
 	ImGui::EndChild();
 	ImGui::EndTabItem();
 }

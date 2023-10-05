@@ -1001,6 +1001,13 @@
 	},
 	{
 		"id": "cutscene@lcmp_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "u_m_m_bivforeman_01",
+				"name": "U_M_M_BiVForeman_01"
+			}	
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -2231,19 +2238,55 @@
 		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@prhmr_mcs1"
+		"id": "cutscene@prhmr_mcs1",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_rockyseven_widow",
+				"name": "U_F_M_RKSHOMESTEADTENANT_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@prhmr_mcs2"
+		"id": "cutscene@prhmr_mcs2",
+		"peds": [
+			{
+				"meta_ped_outfit": 657023538,
+				"model": "cs_rockyseven_widow",
+				"name": "U_F_M_RKSHOMESTEADTENANT_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@prhmr_mcs3"
+		"id": "cutscene@prhmr_mcs3",
+		"peds": [
+			{
+				"meta_ped_outfit": 657023538,
+				"model": "cs_rockyseven_widow",
+				"name": "U_F_M_RKSHOMESTEADTENANT_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@prhmr_mcs5"
+		"id": "cutscene@prhmr_mcs5",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_healthy",
+				"model": "cs_rockyseven_widow",
+				"name": "U_F_M_RKSHOMESTEADTENANT_01"
+			}
+		],
+		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@prhmr_mcs6",
+		"peds": [
+			{
+				"meta_ped_outfit": 3234613462,
+				"model": "cs_rockyseven_widow",
+				"name": "U_F_M_RKSHOMESTEADTENANT_01"
+			}
+		],
 		"player_model": "player_three"
 	},
 	{
@@ -2688,19 +2731,79 @@
 		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@rbwcg_rc1"
+		"id": "cutscene@rbwcg_rc1",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_chainprisoner_01",
+				"name": "CHAINPRISONER_01"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_chainprisoner_02",
+				"name": "CHAINPRISONER_02"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rbwcg_rc2"
+		"id": "cutscene@rbwcg_rc2",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_chainprisoner_01",
+				"name": "CHAINPRISONER_01"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_chainprisoner_02",
+				"name": "CHAINPRISONER_02"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rbwcg_rc3"
+		"id": "cutscene@rbwcg_rc3",
+		"peds": [
+			{
+				"meta_ped_outfit": 334248914,
+				"model": "cs_chainprisoner_01",
+				"name": "CHAINPRISONER_01"
+			},
+			{
+				"meta_ped_outfit": 334248914,
+				"model": "cs_chainprisoner_02",
+				"name": "CHAINPRISONER_02"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rbwcg_rc4"
+		"id": "cutscene@rbwcg_rc4",
+		"peds": [
+			{
+				"meta_ped_outfit": 334248914,
+				"model": "cs_chainprisoner_01",
+				"name": "CHAINPRISONER_01"
+			},
+			{
+				"meta_ped_outfit": 334248914,
+				"model": "cs_chainprisoner_02",
+				"name": "CHAINPRISONER_02"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rbwcg_rc5"
+		"id": "cutscene@rbwcg_rc5",
+		"peds": [
+			{
+				"meta_ped_outfit": 3122711688,
+				"model": "cs_chainprisoner_01",
+				"name": "CHAINPRISONER_01"
+			},
+			{
+				"meta_ped_outfit": 3122711688,
+				"model": "cs_chainprisoner_02",
+				"name": "CHAINPRISONER_02"
+			}
+		]
 	},
 	{
 		"id": "cutscene@rcal_rc1",
@@ -3642,19 +3745,59 @@
 		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@rckpt_s1_ext"
+		"id": "cutscene@rckpt_s1_ext",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_crackpotinventor",
+				"name": "cs_crackpotinventor"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rckpt_s1_int"
+		"id": "cutscene@rckpt_s1_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_crackpotinventor",
+				"name": "cs_crackpotinventor"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rckpt_s2_ext"
+		"id": "cutscene@rckpt_s2_ext",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_lab",
+				"model": "cs_crackpotinventor",
+				"name": "cs_crackpotinventor"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_crackpotrobot",
+				"name": "cs_crackpotrobot"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rckpt_s2_int"
+		"id": "cutscene@rckpt_s2_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_lab",
+				"model": "cs_crackpotinventor",
+				"name": "cs_crackpotinventor"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rckpt_s2_mcs1"
+		"id": "cutscene@rckpt_s2_mcs1",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_lab",
+				"model": "cs_crackpotinventor",
+				"name": "cs_crackpotinventor"
+			}
+		]
 	},
 	{
 		"id": "cutscene@rcld2_rsc1",
@@ -3989,22 +4132,155 @@
 		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@rfma_rc1"
+		"id": "cutscene@rfma_rc1",
+		"objects": [
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x"
+			},
+			{
+				"model": "p_cs_barrag01x",
+				"name": "p_cs_barrag01x"
+			},
+			{
+				"model": "p_nutBowl01x",
+				"name": "p_nutBowl01x"
+			},
+			{
+				"model": "p_sketchbook01x",
+				"name": "p_sketchbook01x"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_frenchartist",
+				"name": "CS_FrenchArtist"
+			},
+			{
+				"model": "u_m_m_nbxbartender_02",
+				"name": "U_M_M_NBXBARTENDER_02"
+			}
+		],
+		"playback_id": "1-Arthur-MultiStart"
 	},
 	{
-		"id": "cutscene@rfma_rc1_p1a1_t08"
+		"id": "cutscene@rfma_rc1_p1a1_t08",
+		"objects": [
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x"
+			},
+			{
+				"model": "p_cs_barrag01x",
+				"name": "p_cs_barrag01x"
+			},
+			{
+				"model": "p_nutBowl01x",
+				"name": "p_nutBowl01x"
+			},
+			{
+				"model": "p_sketchbook01x",
+				"name": "p_sketchbook01x"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_frenchartist",
+				"name": "CS_FrenchArtist"
+			},
+			{
+				"model": "u_m_m_nbxbartender_02",
+				"name": "U_M_M_NBXBARTENDER_02"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rfma_rc2"
+		"id": "cutscene@rfma_rc2",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_frenchartist",
+				"name": "CS_FrenchArtist"
+			},
+			{
+				"model": "cs_angryhusband",
+				"name": "cs_angryhusband"
+			}
+		],
+		"playback_id": "pbl_threaten01"
 	},
 	{
-		"id": "cutscene@rfma_rc4"
+		"id": "cutscene@rfma_rc4",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_frenchartist",
+				"name": "CS_FrenchArtist"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^1"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^2"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^3"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^4"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^5"
+			},
+			{
+				"model": "A_M_M_NBXUPPERCLASS_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^6"
+			},
+			{
+				"model": "CS_FORMYARTBIGWOMAN",
+				"name": "A_F_M_NBXUPPERCLASS_01"
+			},
+			{
+				"model": "A_F_M_NBXUPPERCLASS_01",
+				"name": "A_F_M_NBXUPPERCLASS_01^1"
+			},
+			{
+				"model": "A_F_M_NBXUPPERCLASS_01",
+				"name": "A_F_M_NBXUPPERCLASS_01^2"
+			}
+		],
+		"playback_id": "1-Standard-Multi"
 	},
 	{
-		"id": "cutscene@rfma_rc6"
+		"id": "cutscene@rfma_rc6",
+		"peds": [
+			{
+				"meta_ped_outfit": 37289196,
+				"model": "cs_frenchartist",
+				"name": "CS_FrenchArtist"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rfma_rc7"
+		"id": "cutscene@rfma_rc7",
+		"peds": [
+			{
+				"meta_ped_outfit": 37289196,
+				"model": "cs_frenchartist",
+				"name": "CS_FrenchArtist"
+			}
+		]
 	},
 	{
 		"id": "cutscene@rfud2_rsc_2",
@@ -4277,34 +4553,105 @@
 		"id": "cutscene@rktty_s5_int"
 	},
 	{
-		"id": "cutscene@rmasn_rc1"
+		"id": "cutscene@rmasn_rc1",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc2"
+		"id": "cutscene@rmasn_rc2",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc3"
+		"id": "cutscene@rmasn_rc3",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc4"
+		"id": "cutscene@rmasn_rc4",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc4_p1a1_t05"
+		"id": "cutscene@rmasn_rc4_p1a1_t05",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc5"
+		"id": "cutscene@rmasn_rc5",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		],
+		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@rmasn_rc6"
+		"id": "cutscene@rmasn_rc6",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc7"
+		"id": "cutscene@rmasn_rc7",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc8"
+		"id": "cutscene@rmasn_rc8",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
-		"id": "cutscene@rmasn_rc9"
+		"id": "cutscene@rmasn_rc9",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_albertmason",
+				"name": "AlbertMason"
+			}
+		]
 	},
 	{
 		"id": "cutscene@rmayr_s1_ext"

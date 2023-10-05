@@ -18,7 +18,7 @@ public:
 	void* m_ScriptFiber;
 	void* m_MainFiber;
 	std::function<void()> m_Function;
-	void* m_ExtraData;
+	void* m_ExtraData = nullptr;
 
 	static void ScriptThreadTick();
 	static void MainFiberFunction(void* FiberParam);

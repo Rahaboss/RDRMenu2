@@ -5,7 +5,7 @@
 
 namespace Script
 {
-	bool GetCurrentWeapon(Hash& OutWeapon);
+	Hash GetCurrentWeapon();
 	void RapidFire();
 	void GiveAmmo(Ped ped, Hash AmmoHash);
 	void GiveWeapon(Ped ped, Hash WeaponHash);

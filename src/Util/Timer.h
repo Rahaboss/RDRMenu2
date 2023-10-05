@@ -14,9 +14,9 @@ public:
 		return (float)Milliseconds + (float)Microseconds / 1000.0f;
 	}
 
-public:
-	inline static float s_ESPTime{}, s_ScriptThreadTime{}, s_JobQueueTime{}, s_MenuTime{}, s_RenderThreadTime{}, s_ScriptThreadTickTime{};
-
 private:
 	std::chrono::high_resolution_clock::time_point m_Start = std::chrono::high_resolution_clock::now();
+
+public:
+	inline static float s_ESPTime{}, s_ScriptThreadTime{}, s_JobQueueTime{}, s_MenuTime{}, s_RenderThreadTime{}, s_ScriptThreadTickTime{};
 };

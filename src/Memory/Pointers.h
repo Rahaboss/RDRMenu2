@@ -30,7 +30,7 @@ namespace Pointers
 	inline void* (*sub_7FF669910FEC)(Ped ped){};
 	// PED::GET_PED_BONE_INDEX
 	inline int (*GetPedBoneIndex)(void*, int){};
-	inline uint32_t (*fwScriptGuidCreateGuid)(int64_t*){};
+	inline uint32_t (*fwScriptGuidCreateGuid)(void*){};
 	inline VariableEncryption* PedPoolEncryption{};
 	inline VariableEncryption* ObjectPoolEncryption{};
 	inline VariableEncryption* VehiclePoolEncryption{};

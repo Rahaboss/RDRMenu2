@@ -29,6 +29,26 @@ namespace rage
 		return !(m_Flags[Index] & 0x80);
 	}
 
+	// Helper class to check object validity (m_0010)
+	class _fwObj
+	{
+	public:
+		virtual ~_fwObj() = 0;
+		uint64_t m_0008;
+		void* m_0010;
+	};
+
+	void* fwBasePool::GetAt(size_t Index) const
+	{
+		if (m_Flags[Index])
+		{
+			if (_fwObj* obj = reinterpret_cast<_fwObj*>(m_Entries + Index * m_ItemSize); obj->m_0010)
+				return obj;
+		}
+
+		return nullptr;
+	}
+
 	fwBasePool* fwBasePool::GetPedPool()
 	{
 		if (Pointers::PedPoolEncryption->m_IsSet)

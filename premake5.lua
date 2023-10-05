@@ -10,7 +10,8 @@ workspace "RDRMenu2"
 		"_CRT_SECURE_NO_WARNINGS",
 		"_USE_MATH_DEFINES", -- Enable macros like M_PI in cmath
 		"NOMINMAX", -- std::min, std::max
-		"WIN32_LEAN_AND_MEAN" -- Exclude rarely used stuff
+		"WIN32_LEAN_AND_MEAN", -- Exclude rarely used stuff
+		"SOLUTION_DIR=R\"($(SolutionDir))\""
 	}
 
 	-- Locations

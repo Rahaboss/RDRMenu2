@@ -11,8 +11,6 @@
 #include "Script/World.h"
 #include "Script/Player.h"
 
-// DON'T USE OR CALL FUNCTIONS THAT USE THE JOB QUEUE !!! (unless you know what you are doing)
-
 Script::CutsceneHelper::CutsceneHelper(const json& JsonObject):
 	m_Scene(0),
 	m_JsonObject(JsonObject)
@@ -72,7 +70,8 @@ Ped Script::CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 {
 	Ped Handle = AddPedNew(Lists::GetHashFromJSON(PedJsonObject["model"]), PedJsonObject["name"].get_ref<const std::string&>().c_str());
-	Thread::YieldThread();
+	if (!Handle)
+		return;
 
 	if (PedJsonObject.contains("outfit_preset"))
 		Script::SetPedOutfitPreset(Handle, PedJsonObject["outfit_preset"].get<int>());
@@ -97,10 +96,6 @@ void Script::CutsceneHelper::AddPeds()
 	{
 		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
-			continue;
-
-		// Don't add if already added
-		if (ENTITY::DOES_ENTITY_EXIST(ANIMSCENE::_GET_ANIM_SCENE_PED(m_Scene, j["name"].get_ref<const std::string&>().c_str(), FALSE)))
 			continue;
 
 		AddPedFromPedJson(j);
@@ -231,10 +226,13 @@ void Script::CutsceneHelper::TeleportToOrigin()
 		return;
 	}
 
-	Vector3 position, rotation;
-	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &position, &rotation, 2);
-	Script::LoadGround(position);
-	Script::Teleport(position);
+	Vector3 Position, Rotation;
+	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &Position, &Rotation, 2);
+	Script::LoadGround(Position);
+	Script::Teleport(Position);
+
+	if (PATHFIND::GET_NTH_CLOSEST_VEHICLE_NODE(Position.x, Position.y, Position.z, 1, &Position, 1, 3.0f, 0))
+		Script::TeleportOnGround(Position);
 }
 
 void Script::CutsceneHelper::LoadCutscene()
@@ -303,7 +301,7 @@ void Script::CutsceneHelper::PlayAutomatically()
 		AddVehicles();
 		
 		Thread::YieldThread(1s); // Try to load more of the map
-
+		
 		PlayCutscene();
 		WaitForCutsceneEnd();
 	}

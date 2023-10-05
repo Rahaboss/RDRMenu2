@@ -9,11 +9,14 @@
 #include "Config/Lists.h"
 #include "Rage/ScriptGlobal.h"
 
-bool Script::GetCurrentWeapon(Hash& OutWeapon)
+Hash Script::GetCurrentWeapon()
 {
-	OutWeapon = ScriptGlobal(1935630).At(44).Get<Hash>();
-	return true;
 	// return WEAPON::GET_CURRENT_PED_WEAPON(g_LocalPlayer.m_Entity, &OutWeapon, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, false);
+
+	if (Hash* w = ScriptGlobal(1935630).At(44).Get<Hash*>())
+		return *w;
+
+	return 0;
 }
 
 void Script::RapidFire()
@@ -21,8 +24,8 @@ void Script::RapidFire()
 	if (Menu::IsOpen)
 		return;
 
-	Hash CurrentWeapon;
-	if (!GetCurrentWeapon(CurrentWeapon) || !WEAPON::IS_WEAPON_A_GUN(CurrentWeapon))
+	Hash CurrentWeapon = GetCurrentWeapon();
+	if (!CurrentWeapon || !WEAPON::IS_WEAPON_A_GUN(CurrentWeapon))
 		return;
 
 	static Hash s_AimInputs[]{
@@ -116,8 +119,8 @@ void Script::GiveWeapon(Ped ped, Hash WeaponHash)
 
 void Script::RGBElectricLantern()
 {
-	Hash CurrentWeapon;
-	if (!GetCurrentWeapon(CurrentWeapon) || CurrentWeapon != WEAPON_MELEE_LANTERN_ELECTRIC)
+	Hash CurrentWeapon = GetCurrentWeapon();
+	if (!CurrentWeapon || CurrentWeapon != WEAPON_MELEE_LANTERN_ELECTRIC)
 		return;
 
 	Entity WeapEnt = WEAPON::GET_CURRENT_PED_WEAPON_ENTITY_INDEX(g_LocalPlayer.m_Entity, WEAPON_ATTACH_POINT_HAND_PRIMARY);
@@ -142,7 +145,6 @@ void Script::GiveAllAmmo()
 
 void Script::DropCurrentWeapon()
 {
-	Hash CurrentWeapon;
-	if (GetCurrentWeapon(CurrentWeapon) && WEAPON::IS_WEAPON_VALID(CurrentWeapon) && CurrentWeapon != WEAPON_UNARMED)
-		WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(g_LocalPlayer.m_Entity, CurrentWeapon, 0.0, 0.0, 0.0, 1);
+	if (Hash CurrentWeapon = GetCurrentWeapon(); WEAPON::IS_WEAPON_VALID(CurrentWeapon) && CurrentWeapon != WEAPON_UNARMED)
+		WEAPON::SET_PED_DROPS_INVENTORY_WEAPON(g_LocalPlayer.m_Entity, CurrentWeapon, 0.0f, 0.0f, 0.0f, 1);
 }

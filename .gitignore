@@ -5,3 +5,5 @@ int/
 *.sln
 *.vcxproj*
 *.ipch
+cfg/*.ini
+cfg/Settings.json

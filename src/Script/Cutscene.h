@@ -35,7 +35,6 @@ namespace Script
 		void LoadCutscene();
 		void PlayCutscene();
 		void SkipCutscene();
-		// [!] WILL PAUSE EVERYTHING ELSE MENU-WIDE (JOB QUEUES AND SCRIPT THREAD)
 		void WaitForCutsceneEnd();
 		void CleanupCutscene();
 		// Loads, teleports, plays, waits and cleans up. Recommended to use

@@ -76,7 +76,7 @@ void Menu::RenderRenderingTab()
 		}
 
 		{
-			ImGui::SeparatorText("Object ESP (Crashing Likely)");
+			ImGui::SeparatorText("Object ESP");
 			ImGui::Checkbox("Enable##enable_object", g_Settings["esp"]["object"]["enable"].get<bool*>());
 			const bool ObjectDisabled = !g_Settings["esp"]["object"]["enable"].get<bool>();
 

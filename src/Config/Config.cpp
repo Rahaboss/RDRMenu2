@@ -6,6 +6,10 @@ void Config::Create()
 {
 	LOG_TEXT("Creating configuration.");
 
+#if USE_SOLUTION_DIR_AS_CONFIG_DIR
+	s_ConfigPath = SOLUTION_DIR;
+	s_ConfigPath.append("cfg");
+#else
 	// Get Windows %APPDATA% environment variable (C:\Users\...\AppData\Roaming)
 	char* Buffer = nullptr;
 	size_t BufferCount = 0;
@@ -16,6 +20,7 @@ void Config::Create()
 
 	// Change path to %APPDATA%\RDRMenu2
 	s_ConfigPath.append("RDRMenu2");
+#endif
 
 	// Create folder at path if it doesn't exist
 	if (!std::filesystem::exists(s_ConfigPath))

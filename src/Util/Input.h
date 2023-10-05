@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-namespace Input
+namespace Util
 {
 	bool IsKeyClicked(DWORD vKey);
 	bool IsKeyHeld(DWORD vKey);

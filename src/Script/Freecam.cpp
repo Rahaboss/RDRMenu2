@@ -81,7 +81,7 @@ void Script::TickFreecam()
 			PAD::ENABLE_CONTROL_ACTION(1, c, true);
 		}
 
-		if (Input::IsKeyClicked(VK_RETURN))
+		if (Util::IsKeyClicked(VK_RETURN))
 			Teleport(s_Position);
 	}
 }

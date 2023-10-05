@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Logging.h"
 
-void LogText(const char* const Text, ...)
+void Util::LogText(const char* const Text, ...)
 {
 	va_list Args;
 	va_start(Args, Text);
@@ -12,12 +12,11 @@ void LogText(const char* const Text, ...)
 	vsprintf_s(Buffer, Length, Text, Args);
 
 	char tt[9]{};
-	if (!_strtime_s(tt) && tt[0])
+	if (!_strtime_s(tt, 9) && tt[0])
 	{
-		std::string str("[");
-		str.append(tt);
-		str.append("] ");
-		str.append(Buffer);
+		std::string str;
+		str.reserve(1 + 9 + 2 + Length + 1);
+		str.append("[").append(tt).append("] ").append(Buffer);
 
 		puts(str.c_str());
 	}

@@ -90,6 +90,7 @@ Hash Script::GetDefaultPlayerModel()
 		switch (*Global_1946054_f_1)
 		{
 		case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_ARTHUR"):
+		case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_ARTHUR_SICK"):
 			return RAGE_JOAAT("PLAYER_ZERO");
 		case RAGE_JOAAT("MPC_PLAYER_TYPE_SP_MARSTON"):
 			return RAGE_JOAAT("PLAYER_THREE");
@@ -108,7 +109,18 @@ Hash Script::GetDefaultPlayerModel()
 
 void Script::ResetPlayerModel()
 {
-	SetPlayerModel(GetDefaultPlayerModel());
+	Hash Model = GetDefaultPlayerModel();
+	SetPlayerModel(Model);
+
+	switch (Model)
+	{
+	case RAGE_JOAAT("PLAYER_ZERO"):
+		SetMetaPedOutfit(g_LocalPlayer.m_Entity, RAGE_JOAAT("META_OUTFIT_COOL_WEATHER"));
+		break;
+	case RAGE_JOAAT("PLAYER_THREE"):
+		SetMetaPedOutfit(g_LocalPlayer.m_Entity, RAGE_JOAAT("META_OUTFIT_GUNSLINGER"));
+		break;
+	}
 }
 
 void Script::AddMoney(int AmountCents)

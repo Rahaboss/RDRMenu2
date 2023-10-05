@@ -31,7 +31,7 @@ void MainLoop()
 	// Main loop
 	while (g_Running)
 	{
-		if (Input::IsKeyHeld(VK_LCONTROL) && Input::IsKeyHeld(VK_END))
+		if (Util::IsKeyHeld(VK_LCONTROL) && Util::IsKeyHeld(VK_END))
 			Features::StartExit();
 
 		std::this_thread::sleep_for(10ms);

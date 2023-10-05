@@ -21,15 +21,7 @@ namespace rage
 		int32_t GetScriptGuid(int32_t Index) const;
 		int32_t GetIndex(int32_t ScriptGuid) const;
 		bool IsValid(int32_t Index) const;
-
-		template<typename T>
-		inline T* GetAt(size_t Index)
-		{
-			if (m_Flags[Index])
-				return reinterpret_cast<T*>(m_Entries + Index * m_ItemSize);
-
-			return nullptr;
-		}
+		void* GetAt(size_t Index) const;
 
 		static fwBasePool* GetPedPool();
 		static fwBasePool* GetObjectPool();

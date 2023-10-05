@@ -6,8 +6,7 @@
 Fiber::Fiber(std::function<void()> Function, LPFIBER_START_ROUTINE FiberFunction) :
 	m_ScriptFiber(),
 	m_MainFiber(),
-	m_Function(Function),
-	m_ExtraData()
+	m_Function(Function)
 {
 	m_ScriptFiber = CreateFiber(0, FiberFunction, this);
 }

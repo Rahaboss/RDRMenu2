@@ -109,9 +109,9 @@ void ESP::RenderObjectESP()
 	const auto objs = Script::GetAllObjects();
 	for (Object obj : objs)
 	{
-		std::string ESPText{};
-
 		Hash Model = Script::GetEntityModel(obj);
+		
+		std::string ESPText;
 
 		if (g_Settings["esp"]["object"]["model"].get<bool>())
 		{
@@ -207,7 +207,11 @@ void ESP::RenderESP()
 	{
 		if (g_Settings["esp"]["object"]["enable"].get<bool>())
 			RenderObjectESP();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 
+	TRY
+	{
 		if (g_Settings["esp"]["ped"]["enable"].get<bool>())
 			RenderPedESP();
 
