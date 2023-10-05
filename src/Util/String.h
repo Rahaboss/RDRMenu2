@@ -6,4 +6,5 @@ namespace Util
 {
 	void StringToUpper(std::string& String);
 	void StringToLower(std::string& String);
+	bool IsStringValid(const char* String);
 }

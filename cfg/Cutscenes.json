@@ -778,6 +778,24 @@
 	},
 	{
 		"id": "cutscene@gry1_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "CS_DUTCH",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "CS_LEIGHGRAY",
+				"name": "LeighGray"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "CS_BILLWILLIAMSON",
+				"name": "BillWilliamson",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -1006,7 +1024,7 @@
 				"meta_ped_outfit": "meta_outfit_default",
 				"model": "u_m_m_bivforeman_01",
 				"name": "U_M_M_BiVForeman_01"
-			}	
+			}
 		],
 		"player_model": "player_zero"
 	},
@@ -2470,11 +2488,11 @@
 					1,
 					2,
 					3,
-					5  
+					5
 				],
 				"model": "wagon02x",
 				"name": "wagon02x"
-			}  
+			}
 		]
 	},
 	{
@@ -2533,6 +2551,10 @@
 				"meta_ped_wearable": "meta_wearable_shawl",
 				"model": "cs_abigailroberts",
 				"name": "AbigailRoberts"
+			},
+			{
+				"model": "cs_blwphotographer",
+				"name": "Photographer"
 			}
 		],
 		"player_model": "player_three"
@@ -2542,8 +2564,13 @@
 		"peds": [
 			{
 				"meta_ped_outfit": 1689938120,
+				"meta_ped_wearable": "meta_wearable_shawl",
 				"model": "cs_abigailroberts",
 				"name": "AbigailRoberts"
+			},
+			{
+				"model": "cs_blwphotographer",
+				"name": "Photographer"
 			}
 		],
 		"player_model": "player_three"
@@ -2552,15 +2579,15 @@
 		"id": "cutscene@rbch1_rsc1",
 		"peds": [
 			{
-                "meta_ped_wearable": "meta_wearable_hat",
-                "model": "cs_angusgeddes",
-                "name": "ANGUSGEDDES"
-            },
-            {
-                "meta_ped_wearable": "meta_wearable_default",
-                "model": "cs_davidgeddes",
-                "name": "DavidGeddes"
-            }
+				"meta_ped_wearable": "meta_wearable_hat",
+				"model": "cs_angusgeddes",
+				"name": "ANGUSGEDDES"
+			},
+			{
+				"meta_ped_wearable": "meta_wearable_default",
+				"model": "cs_davidgeddes",
+				"name": "DavidGeddes"
+			}
 		],
 		"player_model": "player_three"
 	},
@@ -2617,6 +2644,14 @@
 	},
 	{
 		"id": "cutscene@rbch1_rsc6",
+		"peds": [
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_uncle",
+				"name": "Uncle",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_three"
 	},
 	{
@@ -2625,18 +2660,74 @@
 	},
 	{
 		"id": "cutscene@rbch2_rsc1",
+		"peds": [
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_uncle",
+				"name": "Uncle",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_three"
 	},
 	{
 		"id": "cutscene@rbch2_rsc11",
+		"peds": [
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_uncle",
+				"name": "Uncle",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_three"
 	},
 	{
 		"id": "cutscene@rbch2_rsc2",
+		"peds": [
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_uncle",
+				"name": "Uncle",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_three"
 	},
 	{
 		"id": "cutscene@rbch2_rsc3",
+		"peds": [
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_uncle",
+				"name": "Uncle",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 1689938120,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_three"
 	},
 	{
@@ -2645,12 +2736,14 @@
 			{
 				"meta_ped_outfit": 1689938120,
 				"model": "cs_uncle",
-				"name": "Uncle"
+				"name": "Uncle",
+				"remove_weapons": true
 			},
 			{
 				"meta_ped_outfit": 1689938120,
 				"model": "cs_charlessmith",
-				"name": "CharlesSmith"
+				"name": "CharlesSmith",
+				"remove_weapons": true
 			}
 		],
 		"player_model": "player_three"
@@ -4046,10 +4139,166 @@
 	},
 	{
 		"id": "cutscene@rdtc2_rsc1",
+		"peds": [
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_johnmarston",
+				"name": "JohnMarston",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 744097966,
+				"model": "cs_lenny",
+				"name": "Lenny",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 744097966,
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_mollyoshea",
+				"name": "MollyOshea"
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_susangrimshaw",
+				"name": "SusanGrimshaw"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_kieran",
+				"name": "KIERAN"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_mrsadler",
+				"name": "MrsAdler",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_miltonandrews",
+				"name": "MILTONANDREWS"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_edgarross",
+				"name": "EdgarRoss"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rdtc2_rsc3a",
+		"peds": [
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_johnmarston",
+				"name": "JohnMarston",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 744097966,
+				"model": "cs_lenny",
+				"name": "Lenny",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 744097966,
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_mollyoshea",
+				"name": "MollyOshea"
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_susangrimshaw",
+				"name": "SusanGrimshaw"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_kieran",
+				"name": "KIERAN"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_mrsadler",
+				"name": "MrsAdler",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -4058,26 +4307,150 @@
 	},
 	{
 		"id": "cutscene@rdtc3_rsc1",
+		"peds": [
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_dutch",
+				"name": "Dutch"
+			}
+		],
+		"playback_id": "1-HighHonor-MultiStart",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rdtc3_rsc1_p1a1_t07",
+		"peds": [
+			{
+				"meta_ped_outfit": 464906090,
+				"model": "cs_dutch",
+				"name": "Dutch"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rdtc3_rsc2",
+		"peds": [
+			{
+				"meta_ped_outfit": 869636257,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rdtc3_rsc3",
+		"objects": [
+			{
+				"model": "p_prisoncage02x",
+				"name": "P_PRISONCAGE02X"
+			},
+			{
+				"model": "p_cs_ropehandssplit",
+				"name": "P_CS_ROPEHANDSSPLIT"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": 869636257,
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			},
+			{
+				"model": "cs_meredith",
+				"name": "Meredith"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_arabian_white",
+				"name": "HORSE_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rdtc3_rsc4",
+		"peds": [
+			{
+				"model": "cs_meredith",
+				"name": "Meredith"
+			},
+			{
+				"model": "cs_meredithsmother",
+				"name": "MEREDITHSMOTHER"
+			}
+		],
+		"playback_id": "RDTC3_RSC4_BEFORE_CHOICE",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rdtc3_rsc5",
+		"peds": [
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_arabian_white",
+				"name": "Horse_01"
+			},
+			{
+				"model": "cs_tilly",
+				"name": "Tilly"
+			},
+			{
+				"model": "cs_karen",
+				"name": "Karen"
+			},
+			{
+				"model": "cs_uncle",
+				"name": "Uncle"
+			},
+			{
+				"model": "cs_mrsadler",
+				"name": "MrsAdler"
+			},
+			{
+				"model": "cs_micahbell",
+				"name": "MicahBell"
+			},
+			{
+				"model": "cs_mollyoshea",
+				"name": "MollyOshea"
+			},
+			{
+				"model": "cs_marybeth",
+				"name": "Marybeth"
+			},
+			{
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			},
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"model": "cs_abigailroberts",
+				"name": "AbigailRoberts"
+			},
+			{
+				"model": "cs_susangrimshaw",
+				"name": "SusanGrimshaw"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -4143,7 +4516,7 @@
 				"name": "p_cs_barrag01x"
 			},
 			{
-				"model": "p_nutBowl01x",
+				"model": "p_nutbowl01x",
 				"name": "p_nutBowl01x"
 			},
 			{
@@ -4176,7 +4549,7 @@
 				"name": "p_cs_barrag01x"
 			},
 			{
-				"model": "p_nutBowl01x",
+				"model": "p_nutbowl01x",
 				"name": "p_nutBowl01x"
 			},
 			{
@@ -4220,43 +4593,43 @@
 				"name": "CS_FrenchArtist"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01^1"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01^2"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01^3"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01^4"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01^5"
 			},
 			{
-				"model": "A_M_M_NBXUPPERCLASS_01",
+				"model": "a_m_m_nbxupperclass_01",
 				"name": "A_M_M_NBXUPPERCLASS_01^6"
 			},
 			{
-				"model": "CS_FORMYARTBIGWOMAN",
+				"model": "cs_formyartbigwoman",
 				"name": "A_F_M_NBXUPPERCLASS_01"
 			},
 			{
-				"model": "A_F_M_NBXUPPERCLASS_01",
+				"model": "a_f_m_nbxupperclass_01",
 				"name": "A_F_M_NBXUPPERCLASS_01^1"
 			},
 			{
-				"model": "A_F_M_NBXUPPERCLASS_01",
+				"model": "a_f_m_nbxupperclass_01",
 				"name": "A_F_M_NBXUPPERCLASS_01^2"
 			}
 		],
@@ -4302,14 +4675,14 @@
 		"id": "cutscene@rgun1_s1_int",
 		"objects": [
 			{
-				"model": "P_WHEELBARROW_02X",
+				"model": "p_wheelbarrow_02x",
 				"name": "P_WHEELBARROW_02X"
 			}
 		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
-				"model": "CS_FAMOUSGUNSLINGER_01",
+				"model": "cs_famousgunslinger_01",
 				"name": "CS_FAMOUSGUNSLINGER_01"
 			}
 		]
@@ -4319,7 +4692,7 @@
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
-				"model": "CS_FAMOUSGUNSLINGER_01",
+				"model": "cs_famousgunslinger_01",
 				"name": "CS_FAMOUSGUNSLINGER_01"
 			}
 		]
@@ -4329,7 +4702,7 @@
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
-				"model": "CS_FAMOUSGUNSLINGER_01",
+				"model": "cs_famousgunslinger_01",
 				"name": "CS_FAMOUSGUNSLINGER_01"
 			}
 		]
@@ -4338,7 +4711,7 @@
 		"id": "cutscene@rgun2_s1_mcs1",
 		"peds": [
 			{
-				"model": "CS_FAMOUSGUNSLINGER_02",
+				"model": "cs_famousgunslinger_02",
 				"name": "CS_FAMOUSGUNSLINGER_02"
 			}
 		],
@@ -5634,11 +6007,159 @@
 	},
 	{
 		"id": "cutscene@wnt1_int_cabin",
+		"peds": [
+			{
+				"model": "cs_abigailroberts",
+				"name": "AbigailRoberts"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			},
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_karen",
+				"name": "KAREN"
+			},
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_marybeth",
+				"name": "MARYBETH"
+			},
+			{
+				"model": "cs_mollyoshea",
+				"name": "MollyOshea"
+			},
+			{
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			},
+			{
+				"model": "cs_revswanson",
+				"name": "RevSwanson"
+			},
+			{
+				"model": "cs_susangrimshaw",
+				"name": "SusanGrimshaw"
+			},
+			{
+				"model": "cs_tilly",
+				"name": "TILLY"
+			},
+			{
+				"model": "cs_uncle",
+				"name": "UNCLE"
+			},
+			{
+				"model": "cs_lenny",
+				"name": "lenny"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_jackmarston",
+				"name": "JackMarston"
+			},
+			{
+				"model": "a_c_horse_gang_charles",
+				"name": "Horse_01"
+			},
+			{
+				"model": "a_c_horse_gang_dutch",
+				"name": "Horse_01^1"
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@wnt1_int_wagon",
+		"peds": [
+			{
+				"model": "cs_abigailroberts",
+				"name": "AbigailRoberts"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			},
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_karen",
+				"name": "KAREN"
+			},
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_marybeth",
+				"name": "MARYBETH"
+			},
+			{
+				"model": "cs_mollyoshea",
+				"name": "MollyOshea"
+			},
+			{
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			},
+			{
+				"model": "cs_revswanson",
+				"name": "RevSwanson"
+			},
+			{
+				"model": "cs_susangrimshaw",
+				"name": "SusanGrimshaw"
+			},
+			{
+				"model": "cs_tilly",
+				"name": "TILLY"
+			},
+			{
+				"model": "cs_uncle",
+				"name": "UNCLE"
+			},
+			{
+				"model": "cs_lenny",
+				"name": "lenny"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_micahbell",
+				"name": "MicahBell"
+			},
+			{
+				"model": "a_c_horse_gang_charles",
+				"name": "Horse_01"
+			},
+			{
+				"model": "a_c_horse_gang_dutch",
+				"name": "Horse_01^1"
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},

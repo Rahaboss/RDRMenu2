@@ -10,3 +10,8 @@ void Util::StringToLower(std::string& String)
 {
 	std::transform(String.cbegin(), String.cend(), String.begin(), ::tolower);
 }
+
+bool Util::IsStringValid(const char* String)
+{
+	return String && String[0];
+}

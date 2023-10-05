@@ -32,4 +32,12 @@ namespace Hooking
 
 	inline DetourHook IsEntityInArea;
 	void IsEntityInAreaHook(rage::scrNativeCallContext* ctx);
+
+#ifndef _DIST
+	inline DetourHook CreateAnimScene;
+	void CreateAnimSceneHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook SetAnimSceneEntity;
+	void SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx);
+#endif // !_DIST
 }

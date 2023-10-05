@@ -104,19 +104,27 @@ void ESP::RenderTextCentered(const char* Text, ImVec2 Pos, ImU32 Color)
 	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
 }
 
+static std::vector<Hash> s_UnknownModels;
 void ESP::RenderObjectESP()
 {
 	const auto objs = Script::GetAllObjects();
 	for (Object obj : objs)
 	{
-		Hash Model = Script::GetEntityModel(obj);
-		
 		std::string ESPText;
 
+		Hash Model = Script::GetEntityModel(obj);
 		if (g_Settings["esp"]["object"]["model"].get<bool>())
 		{
 			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+			if (ModelName.empty())
+			{
+				if (std::find(s_UnknownModels.begin(), s_UnknownModels.end(), Model) == s_UnknownModels.end())
+				{
+					s_UnknownModels.push_back(Model);
+					LOG_TEXT(__FUNCTION__": Unknown object %u.", Model);
+				}
+			}
 		}
 
 		if (!ESPText.empty())
@@ -207,11 +215,7 @@ void ESP::RenderESP()
 	{
 		if (g_Settings["esp"]["object"]["enable"].get<bool>())
 			RenderObjectESP();
-	}
-	EXCEPT{ LOG_EXCEPTION(); }
-
-	TRY
-	{
+		
 		if (g_Settings["esp"]["ped"]["enable"].get<bool>())
 			RenderPedESP();
 

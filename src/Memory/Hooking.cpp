@@ -6,8 +6,11 @@
 #include "Thread/Fiber.h"
 #include "Thread/Thread.h"
 #include "Config/Settings.h"
-#include "Rage/NativeInvoker.h"
+#include "Rage/natives.h"
 #include "Script/PlayerInfo.h"
+#include "Util/String.h"
+#include "Config/Lists.h"
+#include "Script/Entity.h"
 
 void Hooking::Create()
 {
@@ -21,12 +24,20 @@ void Hooking::Create()
 	DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
 	ShootBullet.Create(NativeInvoker::GetHandler(0x867654CBC7606F2C), ShootBulletHook);
 	IsEntityInArea.Create(NativeInvoker::GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
+#ifndef _DIST
+	CreateAnimScene.Create(NativeInvoker::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
+	SetAnimSceneEntity.Create(NativeInvoker::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
+#endif // !_DIST
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.");
 	
+#ifndef _DIST
+	SetAnimSceneEntity.Destroy();
+	CreateAnimScene.Destroy();
+#endif // !_DIST
 	IsEntityInArea.Destroy();
 	ShootBullet.Destroy();
 	DecreaseAmmo.Destroy();
@@ -121,3 +132,52 @@ void Hooking::IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
 
 	IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
 }
+
+#ifndef _DIST
+static std::unordered_map<AnimScene, std::string> s_AnimScenes;
+void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
+{
+	const char* animDict = ctx->GetArg<const char*>(0);
+	const char* playbackListName = ctx->GetArg<const char*>(2);
+
+	CreateAnimScene.GetOriginal<decltype(&CreateAnimSceneHook)>()(ctx);
+
+	AnimScene animScene = ctx->GetRet<AnimScene>();
+
+	if (Util::IsStringValid(playbackListName))
+		LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
+	else
+		LOG_TEXT("Created AnimScene \"%s\", ID: %u.", animDict, animScene);
+
+	s_AnimScenes[animScene] = std::string{ animDict };
+}
+
+void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
+{
+	AnimScene animScene = ctx->GetArg<AnimScene>(0);
+	const char* entityName = ctx->GetArg<const char*>(1);
+	Entity entity = ctx->GetArg<Entity>(2);
+
+	if (ANIMSCENE::_GET_ANIM_SCENE_PED(animScene, entityName, false) != entity)
+	{
+		Hash model = Script::GetEntityModel(entity);
+		std::string ModelName = Lists::GetHashName(model);
+
+		if (ModelName.empty())
+			ModelName = std::to_string(model);
+		else
+		{
+			Util::StringToLower(ModelName);
+			ModelName = '\"' + ModelName + '\"';
+		}
+
+		const auto it = s_AnimScenes.find(animScene);
+		if (it != s_AnimScenes.end())
+			LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\", ID: %u.", ModelName.c_str(), entityName, it->second.c_str(), animScene);
+		else
+			LOG_TEXT("Added entity %s (\"%s\") to AnimScene ID: %u.", ModelName.c_str(), entityName, animScene);
+	}
+	
+	SetAnimSceneEntity.GetOriginal<decltype(&SetAnimSceneEntityHook)>()(ctx);
+}
+#endif // !_DIST
