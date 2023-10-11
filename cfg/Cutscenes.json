@@ -872,6 +872,12 @@
 	},
 	{
 		"id": "cutscene@ind1_extb",
+		"peds": [
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -903,11 +909,14 @@
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_gala",
-				"model": "cs_dutch"
+				"model": "cs_dutch",
+				"name": "Dutch"
 			},
 			{
 				"meta_ped_outfit": "meta_outfit_gala",
-				"model": "cs_hoseamatthews"
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
 			}
 		],
 		"player_meta_ped_outfit": 4145310139,
@@ -915,15 +924,46 @@
 	},
 	{
 		"id": "cutscene@ind3_ext",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_heist",
+				"model": "cs_josiahtrelawny",
+				"name": "JosiahTrelawny"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_heist",
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_heist",
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_heist",
+				"model": "cs_josiahtrelawny",
+				"name": "JosiahTrelawny"
+			}
+		],
 		"playback_id": "MultiStart_ALT_2",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_mcs1",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_heist",
+				"model": "cs_josiahtrelawny",
+				"name": "JosiahTrelawny"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -940,6 +980,13 @@
 	},
 	{
 		"id": "cutscene@ind3_mcs5",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_heist",
+				"model": "cs_josiahtrelawny",
+				"name": "JosiahTrelawny"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -983,7 +1030,8 @@
 		"peds": [
 			{
 				"model": "cs_charlessmith",
-				"name": "CharlesSmith"
+				"name": "CharlesSmith",
+				"remove_weapons": true
 			},
 			{
 				"model": "s_m_m_ambientlawrural_01",
@@ -2028,7 +2076,8 @@
 			},
 			{
 				"model": "cs_charlessmith",
-				"name": "CharlesSmith"
+				"name": "CharlesSmith",
+				"remove_weapons": true
 			},
 			{
 				"model": "cs_captainmonroe",
@@ -2765,12 +2814,14 @@
 			{
 				"meta_ped_outfit": 1689938120,
 				"model": "cs_uncle",
-				"name": "Uncle"
+				"name": "Uncle",
+				"remove_weapons": true
 			},
 			{
 				"meta_ped_outfit": 1689938120,
 				"model": "cs_charlessmith",
-				"name": "CharlesSmith"
+				"name": "CharlesSmith",
+				"remove_weapons": true
 			}
 		],
 		"player_meta_ped_outfit": 2090237806,
@@ -3766,7 +3817,22 @@
 		"peds": [
 			{
 				"model": "cs_hoseamatthews",
-				"name": "HoseaMatthews"
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_arabian_white",
+				"name": "Horse_01"
+			},
+			{
+				"model": "a_c_horse_shire_darkbay",
+				"name": "Horse_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_hosea",
+				"name": "Horse_01^2"
 			}
 		],
 		"player_model": "player_zero"
@@ -5890,6 +5956,41 @@
 	},
 	{
 		"id": "cutscene@tre1_mcs0",
+		"objects": [
+			{
+				"model": "p_cane01bx",
+				"name": "p_cane01bx"
+			},
+			{
+				"model": "s_skippingstone01x",
+				"name": "s_skippingstone01x"
+			},
+			{
+				"model": "p_cs_pillow01x",
+				"name": "p_cs_pillow01x"
+			},
+			{
+				"model": "p_stoolfolding01x",
+				"name": "Stool"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			},
+			{
+				"model": "u_m_m_unibountyhunter_01",
+				"name": "U_M_M_UNIBOUNTYHUNTER_01",
+				"remove_weapons": true
+			},
+			{
+				"model": "u_m_m_unibountyhunter_02",
+				"name": "U_M_M_UNIBOUNTYHUNTER_02",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -6190,8 +6291,53 @@
 	},
 	{
 		"id": "cutscene@wnt4_ext2",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_arabian_white",
+				"name": "Horse_01"
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "wintersteamer",
+				"name": "WINTERSTEAMER"
+			},
+			{
+				"model": "wintercoalcar",
+				"name": "wintercoalcar"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x"
+			},
+			{
+				"model": "privateboxcar01x",
+				"name": "privateboxcar01x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x^1"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x^1"
+			},
+			{
+				"model": "privateobservationcar",
+				"name": "privateobservationcar"
+			},
+			{
+				"model": "privatearmoured",
+				"name": "privatearmoured"
+			}
+		]
 	},
 	{
 		"id": "cutscene@wnt4_int",
@@ -6283,11 +6429,151 @@
 	},
 	{
 		"id": "cutscene@wnt4_mcs7",
+		"objects": [
+			{
+				"model": "p_cs_railroadbond01x",
+				"name": "p_cs_railroadbond01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith",
+				"remove_weapons": true
+			},
+			{
+				"model": "cs_lenny",
+				"name": "Lenny",
+				"remove_weapons": true
+			},
+			{
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella",
+				"remove_weapons": true
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson",
+				"remove_weapons": true
+			},
+			{
+				"model": "cs_micahbell",
+				"name": "MicahBell",
+				"remove_weapons": true
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_arabian_white",
+				"name": "A_C_Horse_Gang_Arthur"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_dutch",
+				"name": "A_C_Horse_Gang_Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_bill",
+				"name": "A_C_Horse_Gang_Bill"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_javier",
+				"name": "A_C_Horse_Gang_Javier"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_micah",
+				"name": "A_C_Horse_Gang_Micah"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_charles",
+				"name": "A_C_Horse_Gang_Charles"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_lenny",
+				"name": "A_C_Horse_Gang_Lenny"
+			},
+			{
+				"model": "g_m_m_unicornwallgoons_01",
+				"name": "G_M_M_UNICORNWALLGOONS_01",
+				"remove_weapons": true
+			},
+			{
+				"model": "g_m_m_unicornwallgoons_01",
+				"name": "G_M_M_UNICORNWALLGOONS_01^1",
+				"remove_weapons": true
+			},
+			{
+				"model": "g_m_m_unicornwallgoons_01",
+				"name": "G_M_M_UNICORNWALLGOONS_01^2",
+				"remove_weapons": true
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "wintersteamer",
+				"name": "WINTERSTEAMER"
+			},
+			{
+				"model": "wintercoalcar",
+				"name": "wintercoalcar"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x"
+			},
+			{
+				"model": "privateboxcar01x",
+				"name": "privateboxcar01x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x^1"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x^1"
+			},
+			{
+				"model": "privateobservationcar",
+				"name": "privateobservationcar"
+			},
+			{
+				"model": "privatearmoured",
+				"name": "privatearmoured"
+			}
+		]
 	},
 	{
 		"id": "cutscene@wnt4_mcs_3",
+		"objects": [
+			{
+				"model": "p_dynamite01x",
+				"name": "p_dynamite01x"
+			},
+			{
+				"model": "s_cs_detonator02x",
+				"name": "s_cs_detonator02x"
+			},
+			{
+				"model": "p_binoculars01x",
+				"name": "p_binoculars01x"
+			}
+		],
 		"peds": [
 			{
 				"model": "cs_charlessmith",
@@ -6350,16 +6636,191 @@
 			}
 		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "wintersteamer",
+				"name": "WINTERSTEAMER"
+			},
+			{
+				"model": "wintercoalcar",
+				"name": "wintercoalcar"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x"
+			},
+			{
+				"model": "privateboxcar01x",
+				"name": "privateboxcar01x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x^1"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x^1"
+			},
+			{
+				"model": "privateobservationcar",
+				"name": "privateobservationcar"
+			},
+			{
+				"model": "privatearmoured",
+				"name": "privatearmoured"
+			}
+		]
 	},
 	{
 		"id": "cutscene@wnt4_mcs_5",
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "wintersteamer",
+				"name": "WINTERSTEAMER"
+			},
+			{
+				"model": "wintercoalcar",
+				"name": "wintercoalcar"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x"
+			},
+			{
+				"model": "privateboxcar01x",
+				"name": "privateboxcar01x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x^1"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x^1"
+			},
+			{
+				"model": "privateobservationcar",
+				"name": "privateobservationcar"
+			},
+			{
+				"model": "privatearmoured",
+				"name": "privatearmoured"
+			}
+		]
 	},
 	{
 		"id": "cutscene@wnt4_mcs_6",
+		"peds": [
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"model": "cs_lenny",
+				"name": "Lenny"
+			},
+			{
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			},
+			{
+				"model": "cs_micahbell",
+				"name": "MicahBell"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_arabian_white",
+				"name": "A_C_Horse_Gang_Arthur"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_dutch",
+				"name": "A_C_Horse_Gang_Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_bill",
+				"name": "A_C_Horse_Gang_Bill"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_javier",
+				"name": "A_C_Horse_Gang_Javier"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_micah",
+				"name": "A_C_Horse_Gang_Micah"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_charles",
+				"name": "A_C_Horse_Gang_Charles"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_lenny",
+				"name": "A_C_Horse_Gang_Lenny"
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "wintersteamer",
+				"name": "WINTERSTEAMER"
+			},
+			{
+				"model": "wintercoalcar",
+				"name": "wintercoalcar"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x"
+			},
+			{
+				"model": "privateboxcar01x",
+				"name": "privateboxcar01x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x"
+			},
+			{
+				"model": "privateboxcar04x",
+				"name": "privateboxcar04x^1"
+			},
+			{
+				"model": "privateflatcar01x",
+				"name": "privateflatcar01x^1"
+			},
+			{
+				"model": "privateobservationcar",
+				"name": "privateobservationcar"
+			},
+			{
+				"model": "privatearmoured",
+				"name": "privatearmoured"
+			}
+		]
 	}
 ]

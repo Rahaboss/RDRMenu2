@@ -15,4 +15,5 @@ namespace Script
 	std::vector<Pickup> GetAllPickups();
 	bool DoesEntityExist(Entity ent);
 	Hash GetEntityModel(Entity ent);
+	int GetEntityHealth(Entity ent);
 }

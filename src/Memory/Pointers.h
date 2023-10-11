@@ -5,6 +5,7 @@
 #include "Rage/scrNativeCallContext.h"
 #include "Rage/Obfuscation.h"
 #include "Rage/CPed.h"
+#include "Rage/enums.h"
 
 namespace Pointers
 {
@@ -27,9 +28,9 @@ namespace Pointers
 	inline bool (*WorldToScreen)(const Vector3&, float&, float&){};
 	// PED::GET_PED_BONE_COORDS
 	inline Vector3* (*GetPedBoneCoords)(Vector3&, Ped, int, const Vector3&){};
-	inline void* (*sub_7FF669910FEC)(Ped ped){};
+	inline rage::CPed* (*GetPedAddress)(Ped) {};
 	// PED::GET_PED_BONE_INDEX
-	inline int (*GetPedBoneIndex)(void*, int){};
+	inline int (*GetPedBoneIndex)(rage::CPed*, int){};
 	inline uint32_t (*fwScriptGuidCreateGuid)(void*){};
 	inline VariableEncryption* PedPoolEncryption{};
 	inline VariableEncryption* ObjectPoolEncryption{};
@@ -43,4 +44,8 @@ namespace Pointers
 	inline Vector3* (*GetEntityCoords)(Vector3&, Entity, bool, bool){};
 	inline const char* (*GetStringFromHashKey)(Hash){};
 	inline void* ReturnAddressSpoof{};
+	// PED::_GET_META_PED_TYPE
+	inline eMetaPedType (*GetMetaPedType)(Ped){};
+	// ENTITY::GET_ENTITY_HEALTH
+	inline int (*GetEntityHealth)(Entity){};
 }

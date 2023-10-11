@@ -9,6 +9,7 @@ namespace Lists
 	void Create();
 	std::string GetHashName(Hash h);
 	Hash GetHashFromJSON(const json& Object);
+	json::iterator GetCutscene(const std::string& ID);
 
 	inline std::map<std::string, Hash>
 		AmmoList,

@@ -22,6 +22,8 @@ void Menu::RenderRenderingTab()
 				ImGui::BeginDisabled();
 
 			ImGui::Checkbox("Model##enable_ped_model", g_Settings["esp"]["ped"]["model"].get<bool*>());
+			ImGui::Checkbox("Bone##enable_ped_bone", g_Settings["esp"]["ped"]["bone"].get<bool*>());
+			ImGui::Checkbox("Ignore Dead##enable_ped_ignore_dead", g_Settings["esp"]["ped"]["ignore_dead"].get<bool*>());
 
 			if (PedDisabled)
 				ImGui::EndDisabled();
@@ -43,6 +45,26 @@ void Menu::RenderRenderingTab()
 		}
 
 		{
+			ImGui::SeparatorText("Animal ESP");
+			ImGui::Checkbox("Enable##enable_animal", g_Settings["esp"]["animal"]["enable"].get<bool*>());
+			const bool AnimalDisabled = !g_Settings["esp"]["animal"]["enable"].get<bool>();
+
+			if (AnimalDisabled)
+				ImGui::BeginDisabled();
+
+			ImGui::Checkbox("Model##enable_animal_model", g_Settings["esp"]["animal"]["model"].get<bool*>());
+			ImGui::Checkbox("Ignore Dead##enable_animal_ignore_dead", g_Settings["esp"]["animal"]["ignore_dead"].get<bool*>());
+
+			if (AnimalDisabled)
+				ImGui::EndDisabled();
+		}
+	}
+	ImGui::EndChild();
+	ImGui::SameLine();
+
+	if (ImGui::BeginChild("right_half"))
+	{
+		{
 			ImGui::SeparatorText("Pickup ESP");
 			ImGui::Checkbox("Enable##enable_pickup", g_Settings["esp"]["pickup"]["enable"].get<bool*>());
 			const bool PickupDisabled = !g_Settings["esp"]["pickup"]["enable"].get<bool>();
@@ -55,12 +77,7 @@ void Menu::RenderRenderingTab()
 			if (PickupDisabled)
 				ImGui::EndDisabled();
 		}
-	}
-	ImGui::EndChild();
-	ImGui::SameLine();
 
-	if (ImGui::BeginChild("right_half"))
-	{
 		{
 			ImGui::SeparatorText("Vehicle ESP");
 			ImGui::Checkbox("Enable##enable_vehicle", g_Settings["esp"]["vehicle"]["enable"].get<bool*>());

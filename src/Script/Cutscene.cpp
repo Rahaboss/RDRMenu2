@@ -23,19 +23,8 @@ Script::CutsceneHelper::CutsceneHelper(const json& JsonObject):
 Script::CutsceneHelper::CutsceneHelper(const char* animDict):
 	m_Scene(0)
 {
-	for (const auto& Cutscene : Lists::CutsceneList)
-	{
-		if (Cutscene["id"].get_ref<const std::string&>() == animDict)
-		{
-			m_JsonObject = Cutscene;
-			m_Scene = CreateCutscene();
-			
-			return;
-		}
-	}
-
-	// m_Scene will be 0 at this point
-	assert(m_Scene);
+	m_JsonObject = *Lists::GetCutscene(animDict);
+	m_Scene = CreateCutscene();
 }
 
 AnimScene Script::CutsceneHelper::CreateCutscene()

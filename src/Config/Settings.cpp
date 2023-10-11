@@ -11,12 +11,19 @@ R"({
 	"disable_pinkerton_patrols": false,
 	"enable_dlcs": false,
 	"esp": {
+		"animal": {
+			"enable": false,
+			"ignore_dead": false,
+			"model": false
+		},
 		"object": {
 			"enable": false,
 			"model": false
 		},
 		"ped": {
+			"bone": false,
 			"enable": false,
+			"ignore_dead": false,
 			"model": false
 		},
 		"pickup": {
@@ -33,6 +40,7 @@ R"({
 			"model": false
 		}
 	},
+	"log_animscene": false,
 	"mount": {
 		"clean": false,
 		"godmode": false,

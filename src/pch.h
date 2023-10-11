@@ -13,6 +13,7 @@
 #include <chrono>
 #include <thread>
 #include <atomic>
+#include <sstream>
 
 // Windows
 #include <Windows.h>

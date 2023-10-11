@@ -2457,3 +2457,12 @@ enum ePedScriptConfigFlags
 	PCF_DisableScenarioWarpWeaponDestruction,
 	PCF_SkipOwnershipCheckForHorseToEquipWeapons
 };
+
+enum eMetaPedType
+{
+	MPT_MALE,
+	MPT_FEMALE,
+	MPT_TEEN,
+	MPT_ANIMAL,
+	MPT_NONE
+};

@@ -128,7 +128,7 @@ workspace "RDRMenu2"
 		disablewarnings {
 			"26812", -- Prefer "enum class"
 			"28020", -- The expression ... is not true at this call
-			"33011" -- Unchecked lower bound for enum key/source as index
+			"33010", "33011" -- Unchecked lower bound for enum key/source as index
 		}
 
 	project "MinHook"

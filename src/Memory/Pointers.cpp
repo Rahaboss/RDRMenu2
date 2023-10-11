@@ -21,7 +21,7 @@ void Pointers::Create()
 	DecreaseAmmo = Signature("0F 57 DB 0F 57 D2 8B").Sub(0x3D).Get<decltype(DecreaseAmmo)>();
 	WorldToScreen = Signature("E8 ? ? ? ? 0F B6 D0 48 8B 03 89 10 48 83 C4 20 5B C3 48 8B 41 10 48 8B 48 08").Add(1).Rip().Get<decltype(WorldToScreen)>();
 	GetPedBoneCoords = Signature("4C 8D 48 10 8B 10").Add(7).Rip().Get<decltype(GetPedBoneCoords)>();
-	sub_7FF669910FEC = Signature("E8 ? ? ? ? 41 8D 7D 09").Add(1).Rip().Get<decltype(sub_7FF669910FEC)>();
+	GetPedAddress = Signature("E8 ? ? ? ? 41 8D 7D 09").Add(1).Rip().Get<decltype(GetPedAddress)>();
 	GetPedBoneIndex = Signature("E8 ? ? ? ? 8A 4D 65").Add(1).Rip().Get<decltype(GetPedBoneIndex)>();
 	fwScriptGuidCreateGuid = Signature("E8 ? ? ? ? B3 01 8B 15").Sub(0x8D).Get<decltype(fwScriptGuidCreateGuid)>();
 	PedPoolEncryption = Signature("0F 28 F0 48 85 DB 74 56 8A 05 ? ? ? ? 84 C0 75 05").Add(0xA).Rip().Get<decltype(PedPoolEncryption)>();
@@ -33,4 +33,6 @@ void Pointers::Create()
 	GetEntityCoords = Signature("48 89 5C 24 ? 57 48 83 EC 20 48 8B F9 41 8A D9").Get<decltype(GetEntityCoords)>();
 	GetStringFromHashKey = Signature("40 53 48 83 EC 40 8B D9 48 8D 15").Get<decltype(GetStringFromHashKey)>();
 	ReturnAddressSpoof = Signature("FF E3").Get<decltype(ReturnAddressSpoof)>();
+	GetMetaPedType = Signature("48 83 EC 28 85 C9 74 29").Get<decltype(GetMetaPedType)>();
+	GetEntityHealth = Signature("33 DB E8 ? ? ? ? 48 8B F8 48 85 C0 74 3C 48 8B C8").Sub(10).Get<decltype(GetEntityHealth)>();
 }

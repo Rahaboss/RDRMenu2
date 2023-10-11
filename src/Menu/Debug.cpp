@@ -12,6 +12,8 @@
 #include "Script/PlayerInfo.h"
 #include "Rage/natives.h"
 #include "Thread/Thread.h"
+#include "Renderer/ImGuiExtras.h"
+#include "Script/Entity.h"
 
 void Menu::RenderDebugTab()
 {
@@ -108,6 +110,8 @@ void Menu::RenderDebugTab()
 	
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Log AnimScene Functions", g_Settings["log_animscene"].get<bool*>());
 
 	ImGui::SeparatorText("Benchmark Times");
 	ImGui::Text("Render Thread: %.3fms", Timer::s_RenderThreadTime);
@@ -123,7 +127,21 @@ void Menu::RenderDebugTab()
 	ImGui::Text("RGB");
 	ImGui::SameLine();
 	ImGui::ColorButton("##RGB", Renderer::GetImGuiRGBA());
+
+	ImGui::SeparatorText("Native Debug");
+	static uint64_t s_NativeInput = 0xEC9A1261BF0CE510;
+	ImGui::InputU64("Native Hash", &s_NativeInput, 1, 100, ImGuiInputTextFlags_CharsHexadecimal);
 	
+	const auto NativeHandler = TO_IDA(NativeInvoker::GetHandler(s_NativeInput));
+	ImGui::Text("IDA Address: 0x%llX", NativeHandler);
+	ImGui::SameLine();
+	if (ImGui::SmallButton("Copy##copy_ida_native"))
+	{
+		std::stringstream NativeAddress;
+		NativeAddress << std::hex << std::uppercase << NativeHandler;
+		ImGui::SetClipboardText(NativeAddress.str().c_str());
+	}
+
 	ImGui::EndChild();
 	ImGui::EndTabItem();
 }

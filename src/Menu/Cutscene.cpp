@@ -74,109 +74,139 @@ static bool EntityExistsInJSONArray(const json& Array, const std::string& Name)
 
 static bool IsNewEntityValid(json& SelectedCutscene, const char* Model, const char* Name)
 {
-	return Util::IsStringValid(Model) || Util::IsStringValid(Name)
-		|| (SelectedCutscene.contains("peds") && EntityExistsInJSONArray(SelectedCutscene["peds"], Name))
-		|| (SelectedCutscene.contains("objects") && EntityExistsInJSONArray(SelectedCutscene["objects"], Name))
-		|| (SelectedCutscene.contains("vehicles") && EntityExistsInJSONArray(SelectedCutscene["vehicles"], Name));
+	if (!Util::IsStringValid(Model) || !Util::IsStringValid(Name))
+		return false;
+
+	if (SelectedCutscene.contains("peds")
+		&& EntityExistsInJSONArray(SelectedCutscene["peds"], Name))
+		return false;
+
+	if (SelectedCutscene.contains("objects")
+		&& EntityExistsInJSONArray(SelectedCutscene["objects"], Name))
+		return false;
+
+	if (SelectedCutscene.contains("vehicles")
+		&& EntityExistsInJSONArray(SelectedCutscene["vehicles"], Name))
+		return false;
+
+	return true;
 }
 
-static void RenderAddPed(json& SelectedCutscene)
+static char s_PedModelInput[0x100]{};
+static char s_PedNameInput[0x100]{};
+static char s_PedMetaPedOutfitInput[0x100]{};
+static char s_PedMetaPedWearableInput[0x100]{};
+static bool s_PedRemoveWeapons = false;
+static std::string s_PedSelectedPedName;
+
+static bool RenderPedEditor(json& SelectedCutscene, json& PedObject)
 {
+	bool Result = false;
+
 	if (!ImGui::BeginPopup("Add Ped##ped_popup"))
-		return;
+		return Result;
 
 	ImGui::SeparatorText("Add Cutscene Ped");
 
-	static char s_ModelInput[0x100]{};
-	ImGui::InputText("Model", s_ModelInput, IM_ARRAYSIZE(s_ModelInput));
+	ImGui::InputText("Model", s_PedModelInput, IM_ARRAYSIZE(s_PedModelInput));
+	ImGui::InputText("Name", s_PedNameInput, IM_ARRAYSIZE(s_PedNameInput));
+	ImGui::InputText("Meta Ped Outfit", s_PedMetaPedOutfitInput, IM_ARRAYSIZE(s_PedMetaPedOutfitInput));
+	ImGui::InputText("Meta Ped Wearable", s_PedMetaPedWearableInput, IM_ARRAYSIZE(s_PedMetaPedWearableInput));
+	ImGui::Checkbox("Remove Weapons", &s_PedRemoveWeapons);
 
-	static char s_NameInput[0x100]{};
-	ImGui::InputText("Name", s_NameInput, IM_ARRAYSIZE(s_NameInput));
-
-	static char s_MetaPedOutfitInput[0x100]{};
-	ImGui::InputText("Meta Ped Outfit", s_MetaPedOutfitInput, IM_ARRAYSIZE(s_MetaPedOutfitInput));
-
-	static char s_MetaPedWearableInput[0x100]{};
-	ImGui::InputText("Meta Ped Wearable", s_MetaPedWearableInput, IM_ARRAYSIZE(s_MetaPedWearableInput));
-
-	static bool s_RemoveWeapons = false;
-	ImGui::Checkbox("Remove Weapons", &s_RemoveWeapons);
-
-	const bool IsInvalid = IsNewEntityValid(SelectedCutscene, s_ModelInput, s_NameInput);
+	const bool IsInvalid = !(s_PedSelectedPedName == s_PedNameInput
+		? (Util::IsStringValid(s_PedModelInput) && Util::IsStringValid(s_PedNameInput))
+		: IsNewEntityValid(SelectedCutscene, s_PedModelInput, s_PedNameInput));
 
 	if (IsInvalid)
 		ImGui::BeginDisabled();
 	if (ImGui::Button("Add##add_ped_btn"))
 	{
-		json j;
-		std::string ModelName = s_ModelInput;
+		Result = true;
+
+		json& j = PedObject;
+		j.clear();
+		std::string ModelName = s_PedModelInput;
 		Util::StringToLower(ModelName);
-		j["name"] = s_NameInput;
+		j["name"] = s_PedNameInput;
 
 		if (Hash h = StringToHash(ModelName.c_str()))
 			j["model"] = h;
 		else
 			j["model"] = ModelName;
 
-		if (Util::IsStringValid(s_MetaPedOutfitInput))
+		if (Util::IsStringValid(s_PedMetaPedOutfitInput))
 		{
-			if (Hash h = StringToHash(s_MetaPedOutfitInput))
+			if (Hash h = StringToHash(s_PedMetaPedOutfitInput))
 				j["meta_ped_outfit"] = h;
 			else
-				j["meta_ped_outfit"] = s_MetaPedOutfitInput;
+			{
+				std::string MetaPedOutfit = s_PedMetaPedOutfitInput;
+				Util::StringToLower(MetaPedOutfit);
+				j["meta_ped_outfit"] = MetaPedOutfit;
+			}
 		}
 
-		if (Util::IsStringValid(s_MetaPedWearableInput))
+		if (Util::IsStringValid(s_PedMetaPedWearableInput))
 		{
-			if (Hash h = StringToHash(s_MetaPedWearableInput))
+			if (Hash h = StringToHash(s_PedMetaPedWearableInput))
 				j["meta_ped_wearable"] = h;
 			else
-				j["meta_ped_wearable"] = s_MetaPedWearableInput;
+			{
+				std::string MetaPedWearable = s_PedMetaPedWearableInput;
+				Util::StringToLower(MetaPedWearable);
+				j["meta_ped_wearable"] = MetaPedWearable;
+			}
 		}
 
-		if (s_RemoveWeapons)
-			j["remove_weapons"] = s_RemoveWeapons;
-
-		SelectedCutscene["peds"].push_back(j);
+		if (s_PedRemoveWeapons)
+			j["remove_weapons"] = s_PedRemoveWeapons;
 
 		ImGui::CloseCurrentPopup();
 	}
 	if (IsInvalid)
 		ImGui::EndDisabled();
-	
+
 	ImGui::EndPopup();
+
+	return Result;
 }
 
-static void RenderAddObject(json& SelectedCutscene)
+static char s_ObjectModelInput[0x100]{};
+static char s_ObjectNameInput[0x100]{};
+static std::string s_ObjectSelectedObjectName;
+
+static bool RenderObjectEditor(json& SelectedCutscene, json& ObjectObject)
 {
+	bool Result = false;
+
 	if (!ImGui::BeginPopup("Add Object##obj_popup"))
-		return;
+		return Result;
 
 	ImGui::SeparatorText("Add Cutscene Object");
 
-	static char s_ModelInput[0x100]{};
-	ImGui::InputText("Model", s_ModelInput, IM_ARRAYSIZE(s_ModelInput));
+	ImGui::InputText("Model", s_ObjectModelInput, IM_ARRAYSIZE(s_ObjectModelInput));
+	ImGui::InputText("Name", s_ObjectNameInput, IM_ARRAYSIZE(s_ObjectNameInput));
 
-	static char s_NameInput[0x100]{};
-	ImGui::InputText("Name", s_NameInput, IM_ARRAYSIZE(s_NameInput));
-
-	const bool IsInvalid = IsNewEntityValid(SelectedCutscene, s_ModelInput, s_NameInput);
+	const bool IsInvalid = !(s_ObjectSelectedObjectName == s_ObjectNameInput
+		? (Util::IsStringValid(s_ObjectModelInput) && Util::IsStringValid(s_ObjectNameInput))
+		: IsNewEntityValid(SelectedCutscene, s_ObjectModelInput, s_ObjectNameInput));
 
 	if (IsInvalid)
 		ImGui::BeginDisabled();
 	if (ImGui::Button("Add##add_obj_btn"))
 	{
-		json j;
-		std::string ModelName = s_ModelInput;
+		Result = true;
+
+		json& j = ObjectObject;
+		std::string ModelName = s_ObjectModelInput;
 		Util::StringToLower(ModelName);
-		j["name"] = s_NameInput;
+		j["name"] = s_ObjectNameInput;
 
 		if (Hash h = StringToHash(ModelName.c_str()))
 			j["model"] = h;
 		else
 			j["model"] = ModelName;
-
-		SelectedCutscene["objects"].push_back(j);
 
 		ImGui::CloseCurrentPopup();
 	}
@@ -184,73 +214,80 @@ static void RenderAddObject(json& SelectedCutscene)
 		ImGui::EndDisabled();
 
 	ImGui::EndPopup();
+
+	return Result;
 }
 
-static void RenderAddVehicle(json& SelectedCutscene)
+static char s_VehicleModelInput[0x100]{};
+static char s_VehicleNameInput[0x100]{};
+static std::vector<int> s_VehicleExtras;
+static std::string s_VehicleSelectedVehicleName;
+
+static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 {
+	bool Result = false;
+
 	if (!ImGui::BeginPopup("Add Vehicle##veh_popup"))
-		return;
+		return Result;
 
 	ImGui::SeparatorText("Add Cutscene Vehicle");
 
-	static char s_ModelInput[0x100]{};
-	ImGui::InputText("Model", s_ModelInput, IM_ARRAYSIZE(s_ModelInput));
-
-	static char s_NameInput[0x100]{};
-	ImGui::InputText("Name", s_NameInput, IM_ARRAYSIZE(s_NameInput));
+	ImGui::InputText("Model", s_VehicleModelInput, IM_ARRAYSIZE(s_VehicleModelInput));
+	ImGui::InputText("Name", s_VehicleNameInput, IM_ARRAYSIZE(s_VehicleNameInput));
 
 	ImGui::TextUnformatted("Extras");
-	static std::vector<int> s_Extras;
-	for (auto it = s_Extras.begin(); it < s_Extras.end(); it++)
+	for (auto it = s_VehicleExtras.begin(); it < s_VehicleExtras.end(); it++)
 	{
 		ImGui::BulletText("%d", *it);
 		ImGui::SameLine();
 		std::string DelBtnStr{ "X##" };
 		DelBtnStr.append(std::to_string(*it));
 		if (ImGui::SmallButton(DelBtnStr.c_str()))
-			it = s_Extras.erase(it);
+			it = s_VehicleExtras.erase(it);
 	}
 
-	if (s_Extras.size() < 16)
+	if (s_VehicleExtras.size() < 16)
 	{
 		if (ImGui::BeginCombo("Add Extra", "Add Extra"))
 		{
 			for (int i = 1; i <= 16; i++)
 			{
-				if (std::find(s_Extras.begin(), s_Extras.end(), i) == s_Extras.end())
+				if (std::find(s_VehicleExtras.begin(), s_VehicleExtras.end(), i) == s_VehicleExtras.end())
 				{
 					if (ImGui::Selectable(std::to_string(i).c_str()))
-						s_Extras.push_back(i);
+						s_VehicleExtras.push_back(i);
 				}
 			}
 			ImGui::EndCombo();
 		}
 	}
 
-	const bool IsInvalid = IsNewEntityValid(SelectedCutscene, s_ModelInput, s_NameInput);
+	const bool IsInvalid = !(s_VehicleSelectedVehicleName == s_VehicleNameInput
+		? (Util::IsStringValid(s_VehicleModelInput) && Util::IsStringValid(s_VehicleNameInput))
+		: IsNewEntityValid(SelectedCutscene, s_VehicleModelInput, s_VehicleNameInput));
 
 	if (IsInvalid)
 		ImGui::BeginDisabled();
 	if (ImGui::Button("Add##add_veh_btn"))
 	{
-		json j;
-		std::string ModelName = s_ModelInput;
+		Result = true;
+
+		json& j = VehicleObject;
+		std::string ModelName = s_VehicleModelInput;
 		Util::StringToLower(ModelName);
-		j["name"] = s_NameInput;
+		j["name"] = s_VehicleNameInput;
 
 		if (Hash h = StringToHash(ModelName.c_str()))
 			j["model"] = h;
 		else
 			j["model"] = ModelName;
 
-		if (!s_Extras.empty())
+		if (!s_VehicleExtras.empty())
 		{
-			auto Temp = s_Extras;
+			auto Temp = s_VehicleExtras;
 			std::sort(Temp.begin(), Temp.end());
 			j["extras"] = Temp;
 		}
-
-		SelectedCutscene["vehicles"].push_back(j);
 
 		ImGui::CloseCurrentPopup();
 	}
@@ -258,19 +295,18 @@ static void RenderAddVehicle(json& SelectedCutscene)
 		ImGui::EndDisabled();
 
 	ImGui::EndPopup();
+	
+	return Result;
 }
 
-static void RenderCutsceneInfo(json::iterator& SelectedCutscene)
+static void RenderCutsceneControls(json::iterator& SelectedCutscene)
 {
-	json& Cutscene = *SelectedCutscene;
-	ImGui::SeparatorText("Cutscene Controls");
-
 	const bool IsCutscenePlaying = s_CutsceneIndex != 0;
 
 	if (IsCutscenePlaying)
 		ImGui::BeginDisabled();
 	if (ImGui::Button("Play Cutscene"))
-		QueuePlayCutscene(Cutscene["id"].get_ref<const std::string&>().c_str());
+		QueuePlayCutscene((*SelectedCutscene)["id"].get_ref<const std::string&>().c_str());
 	if (IsCutscenePlaying)
 		ImGui::EndDisabled();
 
@@ -282,15 +318,12 @@ static void RenderCutsceneInfo(json::iterator& SelectedCutscene)
 		QueueSkipCutscene();
 	if (!IsCutscenePlaying)
 		ImGui::EndDisabled();
-	
+
 	if (ImGui::Button("Reload List"))
 	{
+		const std::string CutsceneName = (*SelectedCutscene)["id"].get_ref<const std::string&>();
 		Lists::InitCutsceneList();
-		for (json::iterator it = Lists::CutsceneList.begin(); it < Lists::CutsceneList.end(); it++)
-		{
-			if ((*it)["id"] == Cutscene["id"])
-				SelectedCutscene = it;
-		}
+		SelectedCutscene = Lists::GetCutscene(CutsceneName);
 	}
 
 	ImGui::SameLine();
@@ -307,103 +340,304 @@ static void RenderCutsceneInfo(json::iterator& SelectedCutscene)
 	}
 
 	ImGui::Checkbox("Disable Black Borders", g_Settings["disable_black_borders"].get<bool*>());
+}
 
-	ImGui::BeginChild("cutscene_info_inner");
+static void RenderCutsceneGeneralInfo(json& Cutscene)
+{
+	TRY
+	{
+		ImGui::Text("Name: %s", Cutscene["id"].get_ref<const std::string&>().c_str());
 
-	ImGui::SeparatorText("Cutscene Info");
-	ImGui::Text("Name: %s", Cutscene["id"].get_ref<const std::string&>().c_str());
+		if (Cutscene.contains("playback_id"))
+			ImGui::Text("playbackListName: %s", Cutscene["playback_id"].get_ref<const std::string&>().c_str());
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+}
 
-	if (Cutscene.contains("playback_id"))
-		ImGui::Text("playbackListName: %s", Cutscene["playback_id"].get_ref<const std::string&>().c_str());
-
+static void RenderCutsceneEntities(json& Cutscene)
+{
 	if (Cutscene.contains("player_model"))
 		ImGui::Text("Player Model: %s", Cutscene["player_model"].get_ref<const std::string&>().c_str());
 
-	ImGui::Text("Peds:");
-	ImGui::SameLine();
-	if (ImGui::SmallButton("Add Ped"))
-		ImGui::OpenPopup("Add Ped##ped_popup");
-
-	RenderAddPed(Cutscene);
-
-	if (Cutscene.contains("peds"))
+	if (Cutscene.contains("player_meta_ped_outfit"))
 	{
-		for (json::iterator it = Cutscene["peds"].begin(); it < Cutscene["peds"].end(); it++)
+		if (Cutscene["player_meta_ped_outfit"].is_number())
+			ImGui::Text("Player Meta Ped Outfit: %u", Cutscene["player_meta_ped_outfit"].get<Hash>());
+		else
+			ImGui::Text("Player Meta Ped Outfit: %s", Cutscene["player_meta_ped_outfit"].get_ref<const std::string&>().c_str());
+	}
+	
+	{
+		ImGui::Text("Peds:");
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Add Ped"))
 		{
-			const json& ped = *it;
-			ImGui::BulletText(ped["name"].get_ref<const std::string&>().c_str());
-			ImGui::SameLine();
-			std::string DelBtnStr{ "X##" };
-			DelBtnStr.append(ped["name"].get_ref<const std::string&>());
-			if (ImGui::SmallButton(DelBtnStr.c_str()))
+			s_PedSelectedPedName.clear();
+			ImGui::OpenPopup("Add Ped##ped_popup");
+		}
+
+		if (Cutscene.contains("peds"))
+		{
+			for (json::iterator it = Cutscene["peds"].begin(); it < Cutscene["peds"].end(); it++)
 			{
-				it = Cutscene["peds"].erase(it);
-				if (Cutscene["peds"].empty())
+				const json& ped = *it;
+				ImGui::BulletText(ped["name"].get_ref<const std::string&>().c_str());
+				ImGui::SameLine();
+
+				std::string DelBtnStr{ "X##" };
+				DelBtnStr.append(ped["name"].get_ref<const std::string&>());
+				if (ImGui::SmallButton(DelBtnStr.c_str()))
 				{
-					Cutscene.erase("peds");
-					break;
+					it = Cutscene["peds"].erase(it);
+					if (Cutscene["peds"].empty())
+					{
+						Cutscene.erase("peds");
+						break;
+					}
+					continue;
+				}
+				ImGui::SameLine();
+
+				std::string EditBtnStr{ "Edit##" };
+				EditBtnStr.append(ped["name"].get_ref<const std::string&>());
+				if (ImGui::SmallButton(EditBtnStr.c_str()))
+				{
+					strcpy_s(s_PedModelInput, ped["model"].get_ref<const std::string&>().c_str());
+					strcpy_s(s_PedNameInput, ped["name"].get_ref<const std::string&>().c_str());
+					s_PedRemoveWeapons = ped.contains("remove_weapons") && ped["remove_weapons"].get<bool>();
+					if (ped.contains("meta_ped_outfit"))
+					{
+						if (ped["meta_ped_outfit"].is_number())
+						{
+							std::string Outfit = std::to_string(ped["meta_ped_outfit"].get<Hash>());
+							strcpy_s(s_PedMetaPedOutfitInput, Outfit.c_str());
+						}
+						else
+						{
+							strcpy_s(s_PedMetaPedOutfitInput, ped["meta_ped_outfit"].get_ref<const std::string&>().c_str());
+						}
+					}
+					else
+					{
+						s_PedMetaPedOutfitInput[0] = '\0';
+					}
+					if (ped.contains("meta_ped_wearable"))
+					{
+						if (ped["meta_ped_wearable"].is_number())
+						{
+							std::string Wearable = std::to_string(ped["meta_ped_wearable"].get<Hash>());
+							strcpy_s(s_PedMetaPedWearableInput, Wearable.c_str());
+						}
+						else
+						{
+							strcpy_s(s_PedMetaPedWearableInput, ped["meta_ped_wearable"].get_ref<const std::string&>().c_str());
+						}
+					}
+					else
+					{
+						s_PedMetaPedWearableInput[0] = '\0';
+					}
+					s_PedSelectedPedName = ped["name"].get_ref<const std::string&>();
+
+					ImGui::OpenPopup("Add Ped##ped_popup");
 				}
 			}
 		}
-	}
 
-	ImGui::Text("Objects:");
-	ImGui::SameLine();
-	if (ImGui::SmallButton("Add Object"))
-		ImGui::OpenPopup("Add Object##obj_popup");
+		static json EditingPed;
 
-	RenderAddObject(Cutscene);
-
-	if (Cutscene.contains("objects"))
-	{
-		for (json::iterator it = Cutscene["objects"].begin(); it < Cutscene["objects"].end(); it++)
+		if (RenderPedEditor(Cutscene, EditingPed))
 		{
-			const json& obj = *it;
-			ImGui::BulletText(obj["name"].get_ref<const std::string&>().c_str());
-			ImGui::SameLine();
-			std::string DelBtnStr{ "X##" };
-			DelBtnStr.append(obj["name"].get_ref<const std::string&>());
-			if (ImGui::SmallButton(DelBtnStr.c_str()))
+			bool Changed = false;
+
+			if (!s_PedSelectedPedName.empty() && Cutscene.contains("peds"))
 			{
-				it = Cutscene["objects"].erase(it);
-				if (Cutscene["objects"].empty())
+				for (json::iterator it = Cutscene["peds"].begin(); it < Cutscene["peds"].end(); it++)
 				{
-					Cutscene.erase("objects");
-					break;
+					if ((*it)["name"] == s_PedSelectedPedName)
+					{
+						*it = EditingPed;
+						Changed = true;
+						break;
+					}
 				}
 			}
+
+			if (!Changed)
+				Cutscene["peds"].push_back(EditingPed);
 		}
 	}
 
-	ImGui::Text("Vehicles:");
-	ImGui::SameLine();
-	if (ImGui::SmallButton("Add Vehicle"))
-		ImGui::OpenPopup("Add Vehicle##veh_popup");
-
-	RenderAddVehicle(Cutscene);
-
-	if (Cutscene.contains("vehicles"))
 	{
-		for (json::iterator it = Cutscene["vehicles"].begin(); it < Cutscene["vehicles"].end(); it++)
+		ImGui::Text("Objects:");
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Add Object"))
 		{
-			const json& veh = *it;
-			ImGui::BulletText(veh["name"].get_ref<const std::string&>().c_str());
-			ImGui::SameLine();
-			std::string DelBtnStr{ "X##" };
-			DelBtnStr.append(veh["name"].get_ref<const std::string&>());
-			if (ImGui::SmallButton(DelBtnStr.c_str()))
+			s_ObjectSelectedObjectName.clear();
+			ImGui::OpenPopup("Add Object##obj_popup");
+		}
+
+		if (Cutscene.contains("objects"))
+		{
+			for (json::iterator it = Cutscene["objects"].begin(); it < Cutscene["objects"].end(); it++)
 			{
-				it = Cutscene["vehicles"].erase(it);
-				if (Cutscene["vehicles"].empty())
+				const json& obj = *it;
+				ImGui::BulletText(obj["name"].get_ref<const std::string&>().c_str());
+				ImGui::SameLine();
+
+				std::string DelBtnStr{ "X##" };
+				DelBtnStr.append(obj["name"].get_ref<const std::string&>());
+				if (ImGui::SmallButton(DelBtnStr.c_str()))
 				{
-					Cutscene.erase("vehicles");
-					break;
+					it = Cutscene["objects"].erase(it);
+					if (Cutscene["objects"].empty())
+					{
+						Cutscene.erase("objects");
+						break;
+					}
+					continue;
+				}
+				ImGui::SameLine();
+
+				std::string EditBtnStr{ "Edit##" };
+				EditBtnStr.append(obj["name"].get_ref<const std::string&>());
+				if (ImGui::SmallButton(EditBtnStr.c_str()))
+				{
+					strcpy_s(s_ObjectModelInput, obj["model"].get_ref<const std::string&>().c_str());
+					strcpy_s(s_ObjectNameInput, obj["name"].get_ref<const std::string&>().c_str());
+					s_ObjectSelectedObjectName = obj["name"].get_ref<const std::string&>();
+
+					ImGui::OpenPopup("Add Object##obj_popup");
 				}
 			}
+		}
+
+		static json EditingObject;
+
+		if (RenderObjectEditor(Cutscene, EditingObject))
+		{
+			bool Changed = false;
+
+			if (!s_ObjectSelectedObjectName.empty() && Cutscene.contains("objects"))
+			{
+				for (json::iterator it = Cutscene["objects"].begin(); it < Cutscene["objects"].end(); it++)
+				{
+					if ((*it)["objects"] == s_ObjectSelectedObjectName)
+					{
+						*it = EditingObject;
+						Changed = true;
+						break;
+					}
+				}
+			}
+
+			if (!Changed)
+				Cutscene["objects"].push_back(EditingObject);
 		}
 	}
 	
-	ImGui::EndChild();
+	{
+		ImGui::Text("Vehicles:");
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Add Vehicle"))
+		{
+			s_VehicleSelectedVehicleName.clear();
+			ImGui::OpenPopup("Add Vehicle##veh_popup");
+		}
+
+		if (Cutscene.contains("vehicles"))
+		{
+			for (json::iterator it = Cutscene["vehicles"].begin(); it < Cutscene["vehicles"].end(); it++)
+			{
+				const json& veh = *it;
+				ImGui::BulletText(veh["name"].get_ref<const std::string&>().c_str());
+				ImGui::SameLine();
+
+				std::string DelBtnStr{ "X##" };
+				DelBtnStr.append(veh["name"].get_ref<const std::string&>());
+				if (ImGui::SmallButton(DelBtnStr.c_str()))
+				{
+					it = Cutscene["vehicles"].erase(it);
+					if (Cutscene["vehicles"].empty())
+					{
+						Cutscene.erase("vehicles");
+						break;
+					}
+				}
+				ImGui::SameLine();
+
+				std::string EditBtnStr{ "Edit##" };
+				EditBtnStr.append(veh["name"].get_ref<const std::string&>());
+				if (ImGui::SmallButton(EditBtnStr.c_str()))
+				{
+					strcpy_s(s_VehicleModelInput, veh["model"].get_ref<const std::string&>().c_str());
+					strcpy_s(s_VehicleNameInput, veh["name"].get_ref<const std::string&>().c_str());
+					if (veh.contains("extras"))
+						s_VehicleExtras = veh["extras"].get<std::vector<int>>();
+					else
+						s_VehicleExtras.clear();
+					s_VehicleSelectedVehicleName = veh["name"].get_ref<const std::string&>();
+					
+					ImGui::OpenPopup("Add Vehicle##veh_popup");
+				}
+			}
+		}
+
+		static json EditingVehicle;
+
+		if (RenderVehicleEditor(Cutscene, EditingVehicle))
+		{
+			bool Changed = false;
+
+			if (!s_VehicleSelectedVehicleName.empty() && Cutscene.contains("vehicles"))
+			{
+				for (json::iterator it = Cutscene["vehicles"].begin(); it < Cutscene["vehicles"].end(); it++)
+				{
+					if ((*it)["vehicles"] == s_VehicleSelectedVehicleName)
+					{
+						*it = EditingVehicle;
+						Changed = true;
+						break;
+					}
+				}
+			}
+
+			if (!Changed)
+				Cutscene["vehicles"].push_back(EditingVehicle);
+		}
+	}
+}
+
+static void RenderCutsceneInfo(json::iterator& SelectedCutscene)
+{
+	ImGui::SeparatorText("Cutscene Controls");
+
+	TRY
+	{
+		RenderCutsceneControls(SelectedCutscene);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	ImGui::SeparatorText("Cutscene Info");
+
+	if (ImGui::BeginChild("cutscene_info_inner"))
+	{
+		json& Cutscene = *SelectedCutscene;
+
+		TRY
+		{
+			RenderCutsceneGeneralInfo(Cutscene);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+
+		TRY
+		{
+			RenderCutsceneEntities(Cutscene);
+		}
+		EXCEPT{ LOG_EXCEPTION(); }
+	}
+	
+	ImGui::EndChild(); // cutscene_info_inner
 }
 
 class CutsceneCategory
@@ -836,8 +1070,35 @@ static void RenderFullCutsceneList(json::iterator& SelectedCutscene)
 	ImGui::EndChild();
 }
 
+static std::map<std::string, std::string> s_CutsceneList{
+	{ "A Fisher of Fish II", "cutscene@rcfsh_rsc2" },
+	{ "A New Future Imagined", "cutscene@rabi3_rsc2" },
+	{ "A Test of Faith II", "cutscene@rcdin_rsc2" },
+	{ "Annesburg Jail Breakout With Charles", "cutscene@jbo6_ext" },
+	{ "Bare Knuckle Friendships", "cutscene@mar6_rsc2" },
+	{ "Beecher's Hope", "cutscene@rbch5_rsc4" },
+	{ "Charles Leaving To Help Natives", "cutscene@ntv0_int" },
+	{ "Ending Strawberry", "cutscene@fin2_ext_p7" },
+	{ "Jack Cutscene", "cutscene@rjck1_rsc5" },
+	{ "Money Lending and Other Sins", "cutscene@rdown_rsc_2" },
+	{ "The Fine Art of Conversation", "cutscene@ntv2_ext" },
+	{ "The Gilded Cage", "cutscene@ind1_mcs_1" },
+};
 static void RenderPresetCutsceneList(json::iterator& SelectedCutscene)
 {
+	ImGui::SeparatorText("Cutscenes");
+	ImGui::BeginChild("cutscene_list_inner");
+
+	for (const auto& [CutsceneLabel, CutsceneName] : s_CutsceneList)
+	{
+		const auto it = Lists::GetCutscene(CutsceneName);
+		const json& Cutscene = *it;
+
+		if (ImGui::Selectable(CutsceneLabel.c_str(), (*SelectedCutscene)["id"].get_ref<const std::string&>() == CutsceneName))
+			SelectedCutscene = it;
+	}
+
+	ImGui::EndChild();
 }
 
 static void RenderCutsceneList(json::iterator& SelectedCutscene)

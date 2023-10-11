@@ -221,3 +221,22 @@ Hash Lists::GetHashFromJSON(const json& Object)
 
 	return 0;
 }
+
+json::iterator Lists::GetCutscene(const std::string& ID)
+{
+	json::iterator it = Lists::CutsceneList.begin();
+
+	while (it < Lists::CutsceneList.end())
+	{
+		const json& Cutscene = *it;
+		
+		if (Cutscene["id"].get_ref<const std::string&>() == ID)
+			break;
+
+		it++;
+	}
+
+	assert(it != Lists::CutsceneList.end());
+
+	return it;
+}

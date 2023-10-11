@@ -10,6 +10,7 @@
 #include "Rage/ScriptGlobal.h"
 #include "Config/Settings.h"
 #include "Script/PlayerInfo.h"
+#include "Script/Ped.h"
 
 void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness)
 {
@@ -104,6 +105,35 @@ void ESP::RenderTextCentered(const char* Text, ImVec2 Pos, ImU32 Color)
 	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
 }
 
+void ESP::RenderAnimalESP()
+{
+	const auto peds = Script::GetAllPeds();
+	for (Ped ped : peds)
+	{
+		if (ped == g_LocalPlayer.m_Entity)
+			continue;
+
+		if (Script::GetPedType(ped) != MPT_ANIMAL)
+			continue;
+
+		if (Script::GetEntityHealth(ped) == 0 && g_Settings["esp"]["animal"]["ignore_dead"].get<bool>())
+			continue;
+
+		std::string ESPText;
+
+		Hash Model = Script::GetEntityModel(ped);
+
+		if (g_Settings["esp"]["animal"]["model"].get<bool>())
+		{
+			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(ped));
+			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+		}
+
+		if (!ESPText.empty())
+			RenderTextOnEntity(ped, ESPText.c_str());
+	}
+}
+
 static std::vector<Hash> s_UnknownModels;
 void ESP::RenderObjectESP()
 {
@@ -115,7 +145,7 @@ void ESP::RenderObjectESP()
 		Hash Model = Script::GetEntityModel(obj);
 		if (g_Settings["esp"]["object"]["model"].get<bool>())
 		{
-			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
+			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
 			if (ModelName.empty())
 			{
@@ -140,15 +170,24 @@ void ESP::RenderPedESP()
 		if (ped == g_LocalPlayer.m_Entity)
 			continue;
 
-		std::string ESPText{};
+		if (Script::GetPedType(ped) == MPT_ANIMAL)
+			continue;
+
+		if (Script::GetEntityHealth(ped) == 0 && g_Settings["esp"]["ped"]["ignore_dead"].get<bool>())
+			continue;
+
+		std::string ESPText;
 
 		Hash Model = Script::GetEntityModel(ped);
 
 		if (g_Settings["esp"]["ped"]["model"].get<bool>())
 		{
-			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(ped));
+			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(ped));
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
 		}
+
+		if (g_Settings["esp"]["ped"]["bone"].get<bool>())
+			RenderPedBoneESP(ped);
 
 		if (!ESPText.empty())
 			RenderTextOnEntity(ped, ESPText.c_str());
@@ -166,7 +205,7 @@ void ESP::RenderPickupESP()
 
 		if (g_Settings["esp"]["pickup"]["model"].get<bool>())
 		{
-			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
+			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
 		}
 
@@ -182,8 +221,8 @@ void ESP::RenderLocalPlayerESP()
 
 	if (g_Settings["esp"]["player"]["model"].get<bool>())
 	{
-		std::string Name = Lists::GetHashName(g_LocalPlayer.m_Model);
-		RenderTextOnEntity(g_LocalPlayer.m_Entity, Name.c_str());
+		std::string ModelName = Lists::GetHashName(g_LocalPlayer.m_Model);
+		RenderTextOnEntity(g_LocalPlayer.m_Entity, ModelName.c_str());
 	}
 }
 
@@ -198,7 +237,7 @@ void ESP::RenderVehicleESP()
 
 		if (g_Settings["esp"]["vehicle"]["model"].get<bool>())
 		{
-			const std::string& ModelName = Lists::GetHashName(Script::GetEntityModel(veh));
+			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(veh));
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
 		}
 
@@ -213,6 +252,9 @@ void ESP::RenderESP()
 
 	TRY
 	{
+		if (g_Settings["esp"]["animal"]["enable"].get<bool>())
+			RenderAnimalESP();
+
 		if (g_Settings["esp"]["object"]["enable"].get<bool>())
 			RenderObjectESP();
 		

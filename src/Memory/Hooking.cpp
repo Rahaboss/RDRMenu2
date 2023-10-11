@@ -27,6 +27,7 @@ void Hooking::Create()
 #ifndef _DIST
 	CreateAnimScene.Create(NativeInvoker::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
 	SetAnimSceneEntity.Create(NativeInvoker::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
+	StartAnimScene.Create(NativeInvoker::GetHandler(0xF4D94AF761768700), StartAnimSceneHook);
 #endif // !_DIST
 }
 
@@ -35,6 +36,7 @@ void Hooking::Destroy()
 	LOG_TEXT("Destroying hooks.");
 	
 #ifndef _DIST
+	StartAnimScene.Destroy();
 	SetAnimSceneEntity.Destroy();
 	CreateAnimScene.Destroy();
 #endif // !_DIST
@@ -144,10 +146,13 @@ void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 
 	AnimScene animScene = ctx->GetRet<AnimScene>();
 
-	if (Util::IsStringValid(playbackListName))
-		LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
-	else
-		LOG_TEXT("Created AnimScene \"%s\", ID: %u.", animDict, animScene);
+	if (g_Settings["log_animscene"].get<bool>())
+	{
+		if (Util::IsStringValid(playbackListName))
+			LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
+		else
+			LOG_TEXT("Created AnimScene \"%s\", ID: %u.", animDict, animScene);
+	}
 
 	s_AnimScenes[animScene] = std::string{ animDict };
 }
@@ -171,13 +176,34 @@ void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 			ModelName = '\"' + ModelName + '\"';
 		}
 
-		const auto it = s_AnimScenes.find(animScene);
-		if (it != s_AnimScenes.end())
-			LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\", ID: %u.", ModelName.c_str(), entityName, it->second.c_str(), animScene);
-		else
-			LOG_TEXT("Added entity %s (\"%s\") to AnimScene ID: %u.", ModelName.c_str(), entityName, animScene);
+		if (g_Settings["log_animscene"].get<bool>())
+		{
+			const auto it = s_AnimScenes.find(animScene);
+			if (it != s_AnimScenes.end())
+				LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\", ID: %u.", ModelName.c_str(), entityName, it->second.c_str(), animScene);
+			else
+				LOG_TEXT("Added entity %s (\"%s\") to AnimScene ID: %u.", ModelName.c_str(), entityName, animScene);
+		}
 	}
 	
 	SetAnimSceneEntity.GetOriginal<decltype(&SetAnimSceneEntityHook)>()(ctx);
+}
+
+void Hooking::StartAnimSceneHook(rage::scrNativeCallContext* ctx)
+{
+	AnimScene animScene = ctx->GetArg<AnimScene>(0);
+	Vector3 position, rotation;
+	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(animScene, &position, &rotation, 2);
+
+	if (g_Settings["log_animscene"].get<bool>())
+	{
+		const auto it = s_AnimScenes.find(animScene);
+		if (it != s_AnimScenes.end())
+			LOG_TEXT("Starting AnimScene \"%s\", ID: %u at: %.2f, %.2f, %.2f.", it->second.c_str(), animScene, position.x, position.y, position.z);
+		else
+			LOG_TEXT("Starting AnimScene ID: %u at: %.2f, %.2f, %.2f.", animScene, position.x, position.y, position.z);
+	}
+
+	StartAnimScene.GetOriginal<decltype(&StartAnimSceneHook)>()(ctx);
 }
 #endif // !_DIST

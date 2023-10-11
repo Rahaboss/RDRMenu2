@@ -66,7 +66,7 @@ static void RenderMenu()
 		}
 		ImGui::End();
 	}
-	EXCEPT{ LOG_EXCEPTION(); }
+	EXCEPT{ LOG_EXCEPTION(); Menu::IsOpen = false; }
 }
 
 void Menu::Render()

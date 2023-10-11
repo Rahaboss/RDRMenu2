@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "Rage/scrNativeCallContext.h"
+#include "Rage/enums.h"
 
 namespace Script
 {
@@ -16,4 +17,5 @@ namespace Script
 	void CleanPed(Ped ped);
 	void NoSliding(Ped ped);
 	void SuperRun(Ped ped);
+	eMetaPedType GetPedType(Ped ped);
 }

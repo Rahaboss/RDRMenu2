@@ -29,7 +29,7 @@ bool Script::DoesPedBoneExist(Ped ped, int boneId)
 {
 	TRY
 	{
-		if (void* temp = Pointers::sub_7FF669910FEC(ped))
+		if (rage::CPed* temp = Pointers::GetPedAddress(ped))
 			return Pointers::GetPedBoneIndex(temp, boneId) != -1;
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
@@ -100,4 +100,9 @@ void Script::SuperRun(Ped ped)
 
 	if (TASK::IS_PED_RUNNING(ped) || TASK::IS_PED_SPRINTING(ped))
 		ENTITY::APPLY_FORCE_TO_ENTITY(ped, 1, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1, true, true, true, false, true);
+}
+
+eMetaPedType Script::GetPedType(Ped ped)
+{
+	return Pointers::GetMetaPedType(ped);
 }

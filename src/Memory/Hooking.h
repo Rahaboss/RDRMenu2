@@ -39,5 +39,8 @@ namespace Hooking
 
 	inline DetourHook SetAnimSceneEntity;
 	void SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook StartAnimScene;
+	void StartAnimSceneHook(rage::scrNativeCallContext* ctx);
 #endif // !_DIST
 }

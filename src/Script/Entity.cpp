@@ -142,3 +142,8 @@ Hash Script::GetEntityModel(Entity ent)
 
 	return 0;
 }
+
+int Script::GetEntityHealth(Entity ent)
+{
+	return Pointers::GetEntityHealth(ent);
+}
