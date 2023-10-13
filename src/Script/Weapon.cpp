@@ -120,7 +120,7 @@ void Script::GiveWeapon(Ped ped, Hash WeaponHash)
 void Script::RGBElectricLantern()
 {
 	Hash CurrentWeapon = GetCurrentWeapon();
-	if (!CurrentWeapon || CurrentWeapon != WEAPON_MELEE_LANTERN_ELECTRIC)
+	if (CurrentWeapon != WEAPON_MELEE_LANTERN_ELECTRIC)
 		return;
 
 	Entity WeapEnt = WEAPON::GET_CURRENT_PED_WEAPON_ENTITY_INDEX(g_LocalPlayer.m_Entity, WEAPON_ATTACH_POINT_HAND_PRIMARY);

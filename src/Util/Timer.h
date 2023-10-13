@@ -5,6 +5,9 @@
 class Timer
 {
 public:
+#if _DIST
+	inline constexpr float GetMillis() const { return 0; }
+#else
 	inline float GetMillis() const
 	{
 		auto Now = std::chrono::high_resolution_clock::now();
@@ -16,6 +19,7 @@ public:
 
 private:
 	std::chrono::high_resolution_clock::time_point m_Start = std::chrono::high_resolution_clock::now();
+#endif // _DIST
 
 public:
 	inline static float s_ESPTime{}, s_ScriptThreadTime{}, s_JobQueueTime{}, s_MenuTime{}, s_RenderThreadTime{}, s_ScriptThreadTickTime{};

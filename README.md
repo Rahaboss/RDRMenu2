@@ -27,9 +27,3 @@ In Visual Studio, right click on the project in the Solution Explorer. Click on 
 * ✔ D3D12 ImGui renderer
 * ❌ Vulkan ImGui renderer
 * ❌ Debugging support
-
-## Screenshots
-![SS1](https://github.com/Rahaboss/RDRMenu2/assets/39026217/64612c30-a37d-4f7c-92e0-406e92eb3d50)
-![SS2](https://github.com/Rahaboss/RDRMenu2/assets/39026217/ac2fb102-7ac1-4f86-ae5f-6cf6c8bfdffe)
-![SS3](https://github.com/Rahaboss/RDRMenu2/assets/39026217/73f269c1-30e9-4178-a1e3-07fa123d8471)
-![SS4](https://github.com/Rahaboss/RDRMenu2/assets/39026217/3954e869-b06b-4f8c-b203-ed4ca68e5ef4)

@@ -13,7 +13,33 @@
 	},
 	{
 		"id": "cutscene@brt1_ext",
-		"player_model": "player_zero"
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"model": "a_c_horse_belgian_mealychestnut",
+				"name": "Horse_01"
+			},
+			{
+				"model": "a_c_horse_belgian_blondchestnut",
+				"name": "Horse_01^1"
+			}
+		],
+		"playback_id": "pl2_hatless",
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					5
+				],
+				"model": "wagon05x",
+				"name": "WAGON05X"
+			}
+		]
 	},
 	{
 		"id": "cutscene@brt1_int",
@@ -37,9 +63,10 @@
 				"name": "JohnMarston"
 			},
 			{
-				"meta_ped_outfit": "meta_outfit_fishing",
+				"meta_ped_outfit": "meta_outfit_warm_weather",
 				"model": "cs_hoseamatthews",
-				"name": "HoseaMatthews"
+				"name": "HoseaMatthews",
+				"remove_weapons": true
 			}
 		],
 		"player_model": "player_zero",
@@ -55,19 +82,232 @@
 	},
 	{
 		"id": "cutscene@brt1_mcs2",
+		"objects": [
+			{
+				"model": "p_bottlecrate05x",
+				"name": "p_bottlecrate05x"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^1"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^2"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^3"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^4"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^5"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^6"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^7"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^8"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^9"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottleBeer01x^10"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdForeman_01"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdForeman_01^1"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdForeman_01^2"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdForeman_01^4"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdUpperClass_01"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdUpperClass_01^3"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdUpperClass_01^4"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdUpperClass_01^5"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdUpperClass_01^6"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdUpperClass_01^7"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdUpperClass_01^8"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdUpperClass_01^9"
+			},
+			{
+				"model": "msp_braithwaites1_males_01",
+				"name": "U_M_M_RhdDoctor_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@brt1_mcs3",
+		"objects": [
+			{
+				"model": "p_cs_shotglass02x",
+				"name": "p_beermugglass01x"
+			},
+			{
+				"model": "p_jug01x",
+				"name": "p_jug01x"
+			},
+			{
+				"model": "p_moonshinebtl02x",
+				"name": "p_moonshinebtl02x"
+			},
+			{
+				"model": "p_cs_shotglass02x",
+				"name": "p_cs_shotglass01x^1"
+			},
+			{
+				"model": "p_cs_shotglass02x",
+				"name": "p_cs_shotglass01x^2"
+			},
+			{
+				"model": "p_cs_shotglass02x",
+				"name": "p_cs_shotglass01x^6"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"model": "g_m_o_uniexconfeds_01",
+				"name": "A_M_M_RhdTownFolk_01"
+			},
+			{
+				"model": "g_m_y_uniexconfeds_01",
+				"name": "A_M_M_RhdTownFolk_01^1"
+			},
+			{
+				"model": "g_m_y_uniexconfeds_01",
+				"name": "A_M_M_RhdTownFolk_01^2"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdTownFolk_01^4"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdTownFolk_01^5"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdTownFolk_01^6"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdTownFolk_01^7"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdTownFolk_01^8"
+			},
+			{
+				"model": "a_m_m_rhdupperclass_01",
+				"name": "A_M_M_RhdTownFolk_01^9"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdTownFolk_01^10"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdTownFolk_01^11"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdTownFolk_01^12"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdTownFolk_01^13"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdTownFolk_01^14"
+			},
+			{
+				"model": "a_m_m_rhdforeman_01",
+				"name": "A_M_M_RhdTownFolk_01^15"
+			},
+			{
+				"model": "msp_braithwaites1_males_01",
+				"name": "U_M_M_RhdFiddlePlayer_01"
+			},
+			{
+				"model": "msp_braithwaites1_males_01",
+				"name": "U_M_M_RhdDoctor_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@brt1_mcs_1",
 		"peds": [
 			{
-				"meta_ped_outfit": "meta_outfit_fishing",
+				"meta_ped_outfit": "meta_outfit_warm_weather",
 				"model": "cs_hoseamatthews",
-				"name": "HoseaMatthews"
+				"name": "HoseaMatthews",
+				"remove_weapons": true
 			},
 			{
 				"model": "cs_catherinebraithwaite",
@@ -84,6 +324,34 @@
 			{
 				"model": "cs_geraldbraithwaite",
 				"name": "GeraldBraithwaite"
+			},
+			{
+				"model": "g_m_m_unibraithwaites_01",
+				"name": "GenStoryMale"
+			},
+			{
+				"model": "a_c_horse_kentuckysaddle_grey",
+				"name": "Horse_01"
+			},
+			{
+				"model": "a_c_horse_morgan_bayroan",
+				"name": "Horse_01^1"
+			},
+			{
+				"model": "a_c_horse_morgan_flaxenchestnut",
+				"name": "Horse_01^2"
+			},
+			{
+				"model": "g_m_m_unibraithwaites_01",
+				"name": "GenStoryMale^2"
+			},
+			{
+				"model": "g_m_m_unibraithwaites_01",
+				"name": "GenStoryMale^3"
+			},
+			{
+				"model": "g_m_m_unibraithwaites_01",
+				"name": "GenStoryMale^4"
 			}
 		],
 		"player_model": "player_zero",
@@ -670,18 +938,201 @@
 	},
 	{
 		"id": "cutscene@fus1_ext",
+		"player_meta_ped_outfit": "meta_outfit_island_holster",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@fus1_int",
+		"objects": [
+			{
+				"model": "s_interact_torch",
+				"name": "s_interact_torch^1"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_island_holster",
+				"model": "cs_dutch",
+				"name": "Dutch"
+			}
+		],
+		"player_meta_ped_outfit": "meta_outfit_island_holster",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@fus1_mcs1",
+		"objects": [
+			{
+				"model": "p_inv_treasuregoldbar01x",
+				"name": "p_inv_treasuregoldbar01x"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_island_holster",
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_gloria",
+				"name": "Gloria"
+			}
+		],
+		"player_meta_ped_outfit": "meta_outfit_island_holster",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@fus1_mcs2",
+		"objects": [
+			{
+				"model": "w_repeater_carbine01",
+				"name": "w_repeater_carbine01"
+			},
+			{
+				"model": "w_repeater_carbine01",
+				"name": "w_repeater_carbine01^1"
+			},
+			{
+				"model": "w_repeater_carbine01",
+				"name": "w_repeater_carbine01^2"
+			},
+			{
+				"model": "w_repeater_carbine01",
+				"name": "w_repeater_carbine01^3"
+			},
+			{
+				"model": "w_repeater_carbine01",
+				"name": "w_repeater_carbine01^4"
+			},
+			{
+				"model": "w_revolver_cattleman01",
+				"name": "w_revolver_cattleman01"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottlebeer01x"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottlebeer01x^1"
+			},
+			{
+				"model": "p_bottlebeer01x",
+				"name": "p_bottlebeer01x^2"
+			},
+			{
+				"model": "p_bottlejd01x",
+				"name": "p_bottleJD01x"
+			},
+			{
+				"model": "p_cigar01x",
+				"name": "p_cigar01x"
+			},
+			{
+				"model": "p_cs_rope02x",
+				"name": "p_cs_rope02x"
+			},
+			{
+				"model": "p_cs_ropelegsplit",
+				"name": "p_cs_ropelegsplit"
+			},
+			{
+				"model": "s_ropehogtielegsmedium01x",
+				"name": "s_ropehogtielegsmedium01x"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_island_holster",
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_default",
+				"model": "cs_gloria",
+				"name": "Gloria"
+			},
+			{
+				"meta_ped_outfit": 2378822218,
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"model": "a_c_donkey_01",
+				"name": "A_C_Donkey_01"
+			},
+			{
+				"model": "cs_fussar",
+				"name": "Fussar"
+			},
+			{
+				"model": "cs_levisimon",
+				"name": "LeviSimon"
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^1",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^2",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^3",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^4",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^5",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^6",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^7",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^8",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^9",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^10",
+				"remove_weapons": true
+			},
+			{
+				"model": "s_m_m_fussarhenchman_01",
+				"name": "S_M_M_FussarHenchman_01^11",
+				"remove_weapons": true
+			}
+		],
+		"playback_id": "1-HighHonor",
+		"player_meta_ped_outfit": "meta_outfit_island_holster",
 		"player_model": "player_zero"
 	},
 	{
@@ -4723,6 +5174,30 @@
 	},
 	{
 		"id": "cutscene@rfud2_rsc_2",
+		"objects": [
+			{
+				"model": "p_cs_book02x",
+				"name": "p_cs_book02x"
+			},
+			{
+				"model": "p_pen01x",
+				"name": "p_pen01x"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_dutch",
+				"name": "Dutch",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_warm_weather",
+				"model": "cs_micahbell",
+				"name": "MicahBell",
+				"remove_weapons": true
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
