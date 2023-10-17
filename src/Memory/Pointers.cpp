@@ -35,6 +35,4 @@ void Pointers::Create()
 	ReturnAddressSpoof = Signature("FF E3").Get<decltype(ReturnAddressSpoof)>();
 	GetMetaPedType = Signature("48 83 EC 28 85 C9 74 29").Get<decltype(GetMetaPedType)>();
 	GetEntityHealth = Signature("33 DB E8 ? ? ? ? 48 8B F8 48 85 C0 74 3C 48 8B C8").Sub(10).Get<decltype(GetEntityHealth)>();
-	// Signature("E9 ? ? ? ? 48 8D 15 ? ? ? ? E9 ? ? ? ? 48 89 45 38").Add(1).Rip(); // Debugger Check (cmp [rbx+2], al)
-	// memset(Signature("48 83 C9 FF FF 15").Add(4).Get<void*>(), 0x90, 6); // Patch Anti-Debugger (TerminateProcess)
 }

@@ -7,7 +7,7 @@ namespace Lists
 {
 	void InitCutsceneList();
 	void Create();
-	std::string GetHashName(Hash h);
+	const std::string& GetHashName(Hash h);
 	Hash GetHashFromJSON(const json& Object);
 	json::iterator GetCutscene(const std::string& ID);
 

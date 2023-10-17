@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Util/Console.h"
+#include "Memory/Debugging.h"
 #include "Config/Config.h"
 #include "Config/Settings.h"
 #include "Memory/Pointers.h"
@@ -13,6 +14,8 @@
 void MainLoop()
 {
 	Console::Create();
+
+	Debugging::Create();
 
 	Config::Create();
 
@@ -43,6 +46,8 @@ void MainLoop()
 	Hooking::Destroy();
 
 	Settings::Destroy();
+	
+	Debugging::Destroy();
 
 	Console::Destroy();
 }

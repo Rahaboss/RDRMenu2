@@ -13,17 +13,5 @@ cd RDRMenu2
 GenerateVS2019.bat
 ```
 
-## Debugging (Currently unavailable)
-In Visual Studio, right click on the project in the Solution Explorer. Click on Properties > Debugging. Set "Command" to the .exe path. Set "Attach" to Yes. Set your breakpoints, start the debugger and inject.
-
-## Features
-* ✔ Signature scanning
-* ✔ Detour hooks
-* ✔ Native invoker
-* ✔ Job queue
-* ✔ JSON file support
-* ✔ YSC script global access
-* ✔ Entity pool access (peds, objects, vehicles, pickups)
-* ✔ D3D12 ImGui renderer
-* ❌ Vulkan ImGui renderer
-* ❌ Debugging support
+## Debugging (partial support)
+In Visual Studio, right click on the project in the Solution Explorer. Click on Properties > Debugging. Set "Command" to the RDR2.exe path. Set "Attach" to Yes. Set your breakpoints, inject and then start the debugger.

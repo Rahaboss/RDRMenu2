@@ -199,17 +199,15 @@ void Lists::Create()
 	InitOutfitList();
 }
 
-std::string Lists::GetHashName(Hash h)
+const std::string& Lists::GetHashName(Hash h)
 {
-	//const char* str = Pointers::GetStringFromHashKey(h);
-	//if (str[0])
-	//	return std::string{ str };
-
 	const auto it = HashNameList.find(h);
 	if (it != HashNameList.end())
 		return it->second;
 
-	return std::string{};
+	// Don't return temporary variable as reference
+	static const std::string s{};
+	return s;
 }
 
 Hash Lists::GetHashFromJSON(const json& Object)
@@ -235,8 +233,6 @@ json::iterator Lists::GetCutscene(const std::string& ID)
 
 		it++;
 	}
-
-	assert(it != Lists::CutsceneList.end());
 
 	return it;
 }

@@ -4,6 +4,7 @@
 
 static json s_DefaultSettings{
 R"({
+	"add_cutscene_info_automatically": false,
 	"disable_black_borders": false,
 	"disable_default_cutscenes": false,
 	"disable_hud": false,

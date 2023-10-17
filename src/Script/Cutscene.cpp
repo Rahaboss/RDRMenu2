@@ -10,6 +10,8 @@
 #include "Script/PlayerInfo.h"
 #include "Script/World.h"
 #include "Script/Player.h"
+#include "Config/Settings.h"
+#include "Util/String.h"
 
 Script::CutsceneHelper::CutsceneHelper(const json& JsonObject):
 	m_Scene(0),
@@ -73,7 +75,10 @@ void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 		Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_wearable"]));
 
 	if (PedJsonObject.contains("remove_weapons") && PedJsonObject["remove_weapons"].get<bool>())
-		WEAPON::REMOVE_ALL_PED_WEAPONS(Handle, true, true);
+	{
+		WEAPON::_SET_PED_WEAPON_ATTACH_POINT_VISIBILITY(Handle, WEAPON_ATTACH_POINT_RIFLE, false);
+		WEAPON::_SET_PED_WEAPON_ATTACH_POINT_VISIBILITY(Handle, WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, false);
+	}
 }
 
 void Script::CutsceneHelper::AddPeds()
@@ -306,4 +311,125 @@ void Script::CutsceneHelper::PlayAutomatically()
 AnimScene Script::CutsceneHelper::GetCutscene() const
 {
 	return m_Scene;
+}
+
+void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const char* EntityName)
+{
+	if (!g_Settings["add_cutscene_info_automatically"].get<bool>())
+		return;
+	
+	if (!ENTITY::DOES_ENTITY_EXIST(ent))
+		return;
+
+	Hash model = ENTITY::GET_ENTITY_MODEL(ent);
+	std::string ModelName = Lists::GetHashName(model);
+
+	if (!Util::IsStringValid(ModelName) || ModelName.empty())
+		return;
+
+	Util::StringToLower(ModelName);
+
+	std::string CutsceneNameLower = CutsceneName;
+	Util::StringToLower(CutsceneNameLower);
+	auto it = Lists::GetCutscene(CutsceneNameLower);
+	if (it == Lists::CutsceneList.end())
+		return;
+
+	auto& Cutscene = *it;
+
+	json j;
+	j["name"] = EntityName;
+	j["model"] = ModelName;
+
+	std::string EntityNameLower = EntityName;
+	Util::StringToLower(EntityNameLower);
+
+	if (ENTITY::IS_ENTITY_A_PED(ent))
+	{
+		if (!Cutscene.contains("peds"))
+			Cutscene["peds"].push_back(j);
+		else
+		{
+			bool Found = false;
+
+			for (const json& ped : Cutscene["peds"])
+			{
+				std::string CurrentPedNameLower = ped["name"].get_ref<const std::string&>();
+				Util::StringToLower(CurrentPedNameLower);
+
+				if (CurrentPedNameLower == EntityNameLower)
+				{
+					Found = true;
+					break;
+				}
+			}
+
+			if (!Found)
+				Cutscene["peds"].push_back(j);
+		}
+	}
+	else if (ENTITY::IS_ENTITY_AN_OBJECT(ent))
+	{
+		if (!Cutscene.contains("objects"))
+			Cutscene["objects"].push_back(j);
+		else
+		{
+			bool Found = false;
+
+			for (const json& obj : Cutscene["objects"])
+			{
+				std::string CurrentObjectNameLower = obj["objects"].get_ref<const std::string&>();
+				Util::StringToLower(CurrentObjectNameLower);
+
+				if (CurrentObjectNameLower == EntityNameLower)
+				{
+					Found = true;
+					break;
+				}
+			}
+
+			if (!Found)
+				Cutscene["objects"].push_back(j);
+		}
+	}
+	else if (ENTITY::IS_ENTITY_A_VEHICLE(ent))
+	{
+		std::vector<int> Extras;
+
+		for (int i = 1; i <= 16; i++)
+		{
+			if (VEHICLE::DOES_EXTRA_EXIST(ent, i) && VEHICLE::IS_VEHICLE_EXTRA_TURNED_ON(ent, i))
+				Extras.push_back(i);
+		}
+
+		if (!Extras.empty())
+			j["extras"] = Extras;
+
+		if (!Cutscene.contains("vehicles"))
+			Cutscene["vehicles"].push_back(j);
+		else
+		{
+			bool Found = false;
+
+			for (const json& veh : Cutscene["vehicles"])
+			{
+				std::string CurrentVehicleNameLower = veh["vehicles"].get_ref<const std::string&>();
+				Util::StringToLower(CurrentVehicleNameLower);
+
+				if (CurrentVehicleNameLower == EntityNameLower)
+				{
+					Found = true;
+					break;
+				}
+			}
+
+			if (!Found)
+				Cutscene["vehicles"].push_back(j);
+		}
+	}
+	else
+	{
+		LOG_TEXT(__FUNCTION__": Unknown type of entity \"%s\".", EntityName);
+		return;
+	}
 }

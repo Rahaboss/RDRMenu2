@@ -49,4 +49,6 @@ namespace Script
 		std::vector<Ped> m_Peds;
 		std::vector<Vehicle> m_Vehicles;
 	};
+
+	void AddEntityToCutscene(const char* CutsceneName, Entity ent, const char* EntityName);
 }

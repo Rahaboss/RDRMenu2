@@ -48,4 +48,6 @@ namespace Pointers
 	inline eMetaPedType (*GetMetaPedType)(Ped){};
 	// ENTITY::GET_ENTITY_HEALTH
 	inline int (*GetEntityHealth)(Entity){};
+	inline void* CheckForDebugger{}; // cmp [rbx+2], al
+	inline void* TerminateProcess{};
 }

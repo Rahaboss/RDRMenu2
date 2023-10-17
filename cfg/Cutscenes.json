@@ -2604,14 +2604,49 @@
 	},
 	{
 		"id": "cutscene@odr1_ext",
+		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@odr1_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_dutch",
+				"name": "Dutch",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_lenny",
+				"name": "Lenny",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_micahbell",
+				"name": "MicahBell",
+				"remove_weapons": true
+			}
+		],
+		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@odr1_mcs1",
+		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},
 	{
@@ -6751,16 +6786,141 @@
 	},
 	{
 		"id": "cutscene@wnt2_ext",
+		"peds": [
+			{
+				"meta_ped_outfit": 2899584503,
+				"model": "cs_johnmarston",
+				"name": "JohnMarston",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_abigailroberts",
+				"name": "AbigailRoberts"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_lenny",
+				"name": "Lenny",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_javier",
+				"name": "Horse_01"
+			}
+		],
+		"playback_id": "PBL2_NormalStart_Bridge_to_WNT4",
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@wnt2_int",
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_abigailroberts",
+				"name": "AbigailRoberts"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_marybeth",
+				"name": "MaryBeth"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_tilly",
+				"name": "Tilly"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_jackmarston",
+				"name": "JackMarston"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_uncle",
+				"name": "Uncle",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_karen",
+				"name": "Karen"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_mrsadler",
+				"name": "MrsAdler",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_susangrimshaw",
+				"name": "SusanGrimshaw"
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_revswanson",
+				"name": "RevSwanson"
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@wnt2_mcs_2",
+		"peds": [
+			{
+				"meta_ped_outfit": 2899584503,
+				"model": "cs_johnmarston",
+				"name": "JohnMarston",
+				"remove_weapons": true
+			},
+			{
+				"meta_ped_outfit": "meta_outfit_cold_weather",
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			}
+		],
 		"player_meta_ped_outfit": "meta_outfit_cold_weather",
 		"player_model": "player_zero"
 	},

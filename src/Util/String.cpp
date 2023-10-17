@@ -15,3 +15,8 @@ bool Util::IsStringValid(const char* String)
 {
 	return String && String[0];
 }
+
+bool Util::IsStringValid(const std::string& String)
+{
+	return !String.empty();
+}

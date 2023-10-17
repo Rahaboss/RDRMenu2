@@ -19,13 +19,6 @@ public:
 public:
 	void Reset();
 
-	template<typename T>
-	inline void PushArg(T&& arg)
-	{
-		static_assert(sizeof(T) <= sizeof(uint64_t));
-		*reinterpret_cast<T*>(GetContext()->m_Args + GetContext()->m_ArgCount++) = std::move(arg);
-	}
-
 	static rage::scrNativeHandler GetHandler(rage::scrNativeHash hash);
 
 private:
@@ -46,7 +39,7 @@ inline Ret invoke(rage::scrNativeHash hash, Args&&... args)
 {
 	NativeInvoker Context;
 	Context.Reset();
-	(Context.PushArg(std::move(args)), ...); // Parameter pack expansion
+	(Context.GetContext()->PushArg(std::move(args)), ...); // Parameter pack expansion
 	Context.EndCall(hash);
 
 	if constexpr (!std::is_same_v<Ret, void>)

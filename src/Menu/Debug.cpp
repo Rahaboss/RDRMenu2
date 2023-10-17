@@ -112,6 +112,8 @@ void Menu::RenderDebugTab()
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
 	ImGui::SameLine();
 	ImGui::Checkbox("Log AnimScene Functions", g_Settings["log_animscene"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Add Cutscene Info Automatically", g_Settings["add_cutscene_info_automatically"].get<bool*>());
 
 	ImGui::SeparatorText("Benchmark Times");
 	ImGui::Text("Render Thread: %.3fms", Timer::s_RenderThreadTime);

@@ -18,8 +18,16 @@ namespace rage
 		uint8_t pad[96]; //0x0080
 
 		template<typename T>
+		inline void PushArg(T&& arg)
+		{
+			static_assert(sizeof(T) <= sizeof(uint64_t));
+			*reinterpret_cast<T*>(m_Args + m_ArgCount++) = std::move(arg);
+		}
+
+		template<typename T>
 		inline T GetArg(size_t Index)
 		{
+			static_assert(sizeof(T) <= sizeof(uint64_t));
 			return *(T*)(&(m_Args[Index]));
 		}
 

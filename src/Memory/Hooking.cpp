@@ -11,6 +11,7 @@
 #include "Util/String.h"
 #include "Config/Lists.h"
 #include "Script/Entity.h"
+#include "Script/Cutscene.h"
 
 void Hooking::Create()
 {
@@ -149,7 +150,25 @@ void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 	if (g_Settings["log_animscene"].get<bool>())
 	{
 		if (Util::IsStringValid(playbackListName))
+		{
 			LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
+
+			if (g_Settings["add_cutscene_info_automatically"].get<bool>())
+			{
+				std::string PlaybackIDLower = playbackListName;
+				Util::StringToLower(PlaybackIDLower);
+
+				if (PlaybackIDLower != "normalstart" && PlaybackIDLower != "multistart")
+				{
+					if (auto it = Lists::GetCutscene(animDict); it != Lists::CutsceneList.end())
+					{
+						json& Cutscene = *it;
+						if (!Cutscene.contains("playback_id"))
+							Cutscene["playback_id"] = playbackListName;
+					}
+				}
+			}
+		}
 		else
 			LOG_TEXT("Created AnimScene \"%s\", ID: %u.", animDict, animScene);
 	}
@@ -180,7 +199,10 @@ void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 		{
 			const auto it = s_AnimScenes.find(animScene);
 			if (it != s_AnimScenes.end())
+			{
 				LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\", ID: %u.", ModelName.c_str(), entityName, it->second.c_str(), animScene);
+				Script::AddEntityToCutscene(it->second.c_str(), entity, entityName);
+			}
 			else
 				LOG_TEXT("Added entity %s (\"%s\") to AnimScene ID: %u.", ModelName.c_str(), entityName, animScene);
 		}
