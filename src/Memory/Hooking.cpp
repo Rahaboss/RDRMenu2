@@ -155,12 +155,10 @@ void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 
 			if (g_Settings["add_cutscene_info_automatically"].get<bool>())
 			{
-				std::string PlaybackIDLower = playbackListName;
-				Util::StringToLower(PlaybackIDLower);
-
-				if (PlaybackIDLower != "normalstart" && PlaybackIDLower != "multistart")
+				if (const auto it = Lists::GetCutscene(Util::StringToLowerCopy(animDict)); it != Lists::CutsceneList.end())
 				{
-					if (auto it = Lists::GetCutscene(animDict); it != Lists::CutsceneList.end())
+					std::string PlaybackIDLower = Util::StringToLowerCopy(playbackListName);
+					if (PlaybackIDLower != "normalstart" && PlaybackIDLower != "multistart")
 					{
 						json& Cutscene = *it;
 						if (!Cutscene.contains("playback_id"))
@@ -197,8 +195,7 @@ void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 
 		if (g_Settings["log_animscene"].get<bool>())
 		{
-			const auto it = s_AnimScenes.find(animScene);
-			if (it != s_AnimScenes.end())
+			if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
 			{
 				LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\", ID: %u.", ModelName.c_str(), entityName, it->second.c_str(), animScene);
 				Script::AddEntityToCutscene(it->second.c_str(), entity, entityName);
@@ -219,8 +216,7 @@ void Hooking::StartAnimSceneHook(rage::scrNativeCallContext* ctx)
 
 	if (g_Settings["log_animscene"].get<bool>())
 	{
-		const auto it = s_AnimScenes.find(animScene);
-		if (it != s_AnimScenes.end())
+		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
 			LOG_TEXT("Starting AnimScene \"%s\", ID: %u at: %.2f, %.2f, %.2f.", it->second.c_str(), animScene, position.x, position.y, position.z);
 		else
 			LOG_TEXT("Starting AnimScene ID: %u at: %.2f, %.2f, %.2f.", animScene, position.x, position.y, position.z);

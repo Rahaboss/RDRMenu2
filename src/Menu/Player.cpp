@@ -166,8 +166,7 @@ static void RenderModelChanger()
 	ImGui::Separator();
 
 	ImGui::BeginChild("##app_left_inner");
-	std::string FilterUpper{ s_ModelFilter };
-	Util::StringToUpper(FilterUpper);
+	std::string FilterUpper = Util::StringToUpperCopy(s_ModelFilter);
 	for (const auto& p : Lists::PedList)
 	{
 		if (p.first.find(FilterUpper) == std::string::npos)
@@ -232,10 +231,9 @@ static void RenderMetaPedOutfitList()
 	if (s_SelectedModel != g_LocalPlayer.m_Model)
 	{
 		s_SelectedModel = g_LocalPlayer.m_Model;
-		s_SelectedModelName = Lists::GetHashName(s_SelectedModel);
-		Util::StringToUpper(s_SelectedModelName);
+		s_SelectedModelName = Util::StringToUpperCopy(Lists::GetHashName(s_SelectedModel));
 	}
-	constexpr Hash asdasd = RAGE_JOAAT("META_OUTFIT_DEFAULT");
+	
 	const json& Outfits{ Lists::MetaPedOutfits[s_SelectedModelName] };
 	if (Outfits.is_array())
 	{
@@ -257,7 +255,7 @@ static void RenderMetaPedOutfitList()
 
 			if (!Name.empty())
 			{
-				if (ImGui::Selectable(Name.c_str()))
+				if (ImGui::Selectable(Name.c_str(), PED::_IS_META_PED_OUTFIT_EQUIPPED(g_LocalPlayer.m_Entity, Model)))
 				{
 					QUEUE_JOB(=)
 					{

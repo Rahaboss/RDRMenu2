@@ -317,21 +317,24 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 {
 	if (!g_Settings["add_cutscene_info_automatically"].get<bool>())
 		return;
-	
+
 	if (!ENTITY::DOES_ENTITY_EXIST(ent))
 		return;
 
 	Hash model = ENTITY::GET_ENTITY_MODEL(ent);
+
+	if (model == RAGE_JOAAT("PLAYER_ZERO") || model == RAGE_JOAAT("PLAYER_THREE"))
+		return;
+
 	std::string ModelName = Lists::GetHashName(model);
 
-	if (!Util::IsStringValid(ModelName) || ModelName.empty())
+	if (!Util::IsStringValid(ModelName))
 		return;
 
 	Util::StringToLower(ModelName);
 
-	std::string CutsceneNameLower = CutsceneName;
-	Util::StringToLower(CutsceneNameLower);
-	auto it = Lists::GetCutscene(CutsceneNameLower);
+	std::string CutsceneNameLower = Util::StringToLowerCopy(CutsceneName);
+	const auto it = Lists::GetCutscene(CutsceneNameLower);
 	if (it == Lists::CutsceneList.end())
 		return;
 
@@ -341,56 +344,41 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	j["name"] = EntityName;
 	j["model"] = ModelName;
 
-	std::string EntityNameLower = EntityName;
-	Util::StringToLower(EntityNameLower);
-
+	std::string EntityNameLower = Util::StringToLowerCopy(EntityName);
 	if (ENTITY::IS_ENTITY_A_PED(ent))
 	{
-		if (!Cutscene.contains("peds"))
-			Cutscene["peds"].push_back(j);
-		else
+		if (ModelName.find("horse") != std::string::npos || EntityNameLower.find("horse") != std::string::npos)
+			j["meta_ped_outfit"] = "meta_horse_saddle_only";
+
+		bool Found = false;
+
+		for (const json& ped : Cutscene["peds"])
 		{
-			bool Found = false;
-
-			for (const json& ped : Cutscene["peds"])
+			if (Util::StringToLowerCopy(ped["name"].get_ref<const std::string&>()) == EntityNameLower)
 			{
-				std::string CurrentPedNameLower = ped["name"].get_ref<const std::string&>();
-				Util::StringToLower(CurrentPedNameLower);
-
-				if (CurrentPedNameLower == EntityNameLower)
-				{
-					Found = true;
-					break;
-				}
+				Found = true;
+				break;
 			}
-
-			if (!Found)
-				Cutscene["peds"].push_back(j);
 		}
+
+		if (!Found)
+			Cutscene["peds"].push_back(j);
 	}
 	else if (ENTITY::IS_ENTITY_AN_OBJECT(ent))
 	{
-		if (!Cutscene.contains("objects"))
-			Cutscene["objects"].push_back(j);
-		else
+		bool Found = false;
+
+		for (const json& obj : Cutscene["objects"])
 		{
-			bool Found = false;
-
-			for (const json& obj : Cutscene["objects"])
+			if (Util::StringToLowerCopy(obj["name"].get_ref<const std::string&>()) == EntityNameLower)
 			{
-				std::string CurrentObjectNameLower = obj["objects"].get_ref<const std::string&>();
-				Util::StringToLower(CurrentObjectNameLower);
-
-				if (CurrentObjectNameLower == EntityNameLower)
-				{
-					Found = true;
-					break;
-				}
+				Found = true;
+				break;
 			}
-
-			if (!Found)
-				Cutscene["objects"].push_back(j);
 		}
+
+		if (!Found)
+			Cutscene["objects"].push_back(j);
 	}
 	else if (ENTITY::IS_ENTITY_A_VEHICLE(ent))
 	{
@@ -405,31 +393,25 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 		if (!Extras.empty())
 			j["extras"] = Extras;
 
-		if (!Cutscene.contains("vehicles"))
-			Cutscene["vehicles"].push_back(j);
-		else
+		bool Found = false;
+
+		for (const json& veh : Cutscene["vehicles"])
 		{
-			bool Found = false;
-
-			for (const json& veh : Cutscene["vehicles"])
+			if (Util::StringToLowerCopy(veh["name"].get_ref<const std::string&>()) == EntityNameLower)
 			{
-				std::string CurrentVehicleNameLower = veh["vehicles"].get_ref<const std::string&>();
-				Util::StringToLower(CurrentVehicleNameLower);
-
-				if (CurrentVehicleNameLower == EntityNameLower)
-				{
-					Found = true;
-					break;
-				}
+				Found = true;
+				break;
 			}
-
-			if (!Found)
-				Cutscene["vehicles"].push_back(j);
 		}
+
+		if (!Found)
+			Cutscene["vehicles"].push_back(j);
 	}
 	else
 	{
 		LOG_TEXT(__FUNCTION__": Unknown type of entity \"%s\".", EntityName);
 		return;
 	}
+
+	LOG_TEXT("Added entity \"%s\" (\"%s\") to cutscene \"%s\" in database.", Lists::GetHashName(model).c_str(), EntityName, CutsceneName);
 }

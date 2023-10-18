@@ -54,16 +54,12 @@ static bool EntityExistsInJSONArray(const json& Array, const std::string& Name)
 {
 	if (Array.is_array())
 	{
-		auto Temp2 = Name;
-		Util::StringToLower(Temp2);
+		auto Temp = Util::StringToLowerCopy(Name);
 		for (const auto& j : Array)
 		{
 			if (j.contains("name"))
 			{
-				auto Temp = j["name"].get_ref<const std::string&>();
-				Util::StringToLower(Temp);
-
-				if (Temp == Temp2)
+				if (Util::StringToLowerCopy(j["name"].get_ref<const std::string&>()) == Temp)
 					return true;
 			}
 		}
@@ -126,8 +122,7 @@ static bool RenderPedEditor(json& SelectedCutscene, json& PedObject)
 
 		json& j = PedObject;
 		j.clear();
-		std::string ModelName = s_PedModelInput;
-		Util::StringToLower(ModelName);
+		std::string ModelName = Util::StringToLowerCopy(s_PedModelInput);
 		j["name"] = s_PedNameInput;
 
 		if (Hash h = StringToHash(ModelName.c_str()))
@@ -140,11 +135,7 @@ static bool RenderPedEditor(json& SelectedCutscene, json& PedObject)
 			if (Hash h = StringToHash(s_PedMetaPedOutfitInput))
 				j["meta_ped_outfit"] = h;
 			else
-			{
-				std::string MetaPedOutfit = s_PedMetaPedOutfitInput;
-				Util::StringToLower(MetaPedOutfit);
-				j["meta_ped_outfit"] = MetaPedOutfit;
-			}
+				j["meta_ped_outfit"] = Util::StringToLowerCopy(s_PedMetaPedOutfitInput);
 		}
 
 		if (Util::IsStringValid(s_PedMetaPedWearableInput))
@@ -152,11 +143,7 @@ static bool RenderPedEditor(json& SelectedCutscene, json& PedObject)
 			if (Hash h = StringToHash(s_PedMetaPedWearableInput))
 				j["meta_ped_wearable"] = h;
 			else
-			{
-				std::string MetaPedWearable = s_PedMetaPedWearableInput;
-				Util::StringToLower(MetaPedWearable);
-				j["meta_ped_wearable"] = MetaPedWearable;
-			}
+				j["meta_ped_wearable"] = Util::StringToLowerCopy(s_PedMetaPedWearableInput);
 		}
 
 		if (s_PedRemoveWeapons)
@@ -199,8 +186,7 @@ static bool RenderObjectEditor(json& SelectedCutscene, json& ObjectObject)
 		Result = true;
 
 		json& j = ObjectObject;
-		std::string ModelName = s_ObjectModelInput;
-		Util::StringToLower(ModelName);
+		std::string ModelName = Util::StringToLowerCopy(s_ObjectModelInput);
 		j["name"] = s_ObjectNameInput;
 
 		if (Hash h = StringToHash(ModelName.c_str()))
@@ -273,8 +259,7 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 		Result = true;
 
 		json& j = VehicleObject;
-		std::string ModelName = s_VehicleModelInput;
-		Util::StringToLower(ModelName);
+		std::string ModelName = Util::StringToLowerCopy(s_VehicleModelInput);
 		j["name"] = s_VehicleNameInput;
 
 		if (Hash h = StringToHash(ModelName.c_str()))
@@ -1046,8 +1031,7 @@ static void RenderFullCutsceneList(json::iterator& SelectedCutscene)
 	ImGui::SeparatorText("Cutscenes");
 	ImGui::BeginChild("cutscene_list_inner");
 
-	std::string CutsceneFilterLower{ s_CutsceneFilter };
-	Util::StringToLower(CutsceneFilterLower);
+	std::string CutsceneFilterLower{ Util::StringToLowerCopy(s_CutsceneFilter) };
 
 	for (json::iterator it = Lists::CutsceneList.begin(); it < Lists::CutsceneList.end(); it++)
 	{
@@ -1091,11 +1075,11 @@ static void RenderPresetCutsceneList(json::iterator& SelectedCutscene)
 
 	for (const auto& [CutsceneLabel, CutsceneName] : s_CutsceneList)
 	{
-		const auto it = Lists::GetCutscene(CutsceneName);
-		const json& Cutscene = *it;
-
-		if (ImGui::Selectable(CutsceneLabel.c_str(), (*SelectedCutscene)["id"].get_ref<const std::string&>() == CutsceneName))
-			SelectedCutscene = it;
+		if (const auto it = Lists::GetCutscene(CutsceneName); it != Lists::CutsceneList.end())
+		{
+			if (ImGui::Selectable(CutsceneLabel.c_str(), (*SelectedCutscene)["id"].get_ref<const std::string&>() == CutsceneName))
+				SelectedCutscene = it;
+		}
 	}
 
 	ImGui::EndChild();

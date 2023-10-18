@@ -201,8 +201,7 @@ void Lists::Create()
 
 const std::string& Lists::GetHashName(Hash h)
 {
-	const auto it = HashNameList.find(h);
-	if (it != HashNameList.end())
+	if (const auto it = HashNameList.find(h); it != HashNameList.end())
 		return it->second;
 
 	// Don't return temporary variable as reference

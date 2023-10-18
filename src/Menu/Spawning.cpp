@@ -11,15 +11,11 @@
 
 static void RenderSpawnerList(Hash& OutModel, const char* Filter, const std::map<std::string, Hash>& List)
 {
-	std::string FilterUpper{ Filter };
-	Util::StringToUpper(FilterUpper);
+	std::string FilterUpper = Util::StringToUpperCopy(Filter);
 
 	for (const auto& [Name, Model] : List)
 	{
-		std::string NameUpper{ Name };
-		Util::StringToUpper(NameUpper);
-
-		if (NameUpper.find(FilterUpper) == std::string::npos)
+		if (Util::StringToUpperCopy(Name).find(FilterUpper) == std::string::npos)
 			continue;
 
 		if (ImGui::Selectable(Name.c_str(), Model == OutModel))
