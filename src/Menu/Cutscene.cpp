@@ -7,6 +7,7 @@
 #include "Util/String.h"
 #include "Config/Settings.h"
 #include "Config/Config.h"
+#include "Util/Container.h"
 
 static AnimScene s_CutsceneIndex = 0;
 static void QueuePlayCutscene(const char* CutsceneName)
@@ -238,7 +239,7 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 		{
 			for (int i = 1; i <= 16; i++)
 			{
-				if (std::find(s_VehicleExtras.begin(), s_VehicleExtras.end(), i) == s_VehicleExtras.end())
+				if (Util::ContainerContains(s_VehicleExtras, i))
 				{
 					if (ImGui::Selectable(std::to_string(i).c_str()))
 						s_VehicleExtras.push_back(i);
@@ -270,7 +271,7 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 		if (!s_VehicleExtras.empty())
 		{
 			auto Temp = s_VehicleExtras;
-			std::sort(Temp.begin(), Temp.end());
+			Util::ContainerSort(Temp);
 			j["extras"] = Temp;
 		}
 
@@ -309,6 +310,7 @@ static void RenderCutsceneControls(json::iterator& SelectedCutscene)
 		const std::string CutsceneName = (*SelectedCutscene)["id"].get_ref<const std::string&>();
 		Lists::InitCutsceneList();
 		SelectedCutscene = Lists::GetCutscene(CutsceneName);
+		assert(SelectedCutscene != Lists::CutsceneList.end());
 	}
 
 	ImGui::SameLine();
@@ -729,7 +731,6 @@ inline const std::vector<CutsceneCategory> s_Categories{
 			"rcmp",
 			"rcrle",
 			"rehc",
-			"reth",
 			"rfma",
 			"rhntn",
 			"rktty",
@@ -753,6 +754,7 @@ inline const std::vector<CutsceneCategory> s_Categories{
 			"rcfsh",
 			"rcrkf",
 			"rctxd",
+			"reth",
 		}
 	},
 	{

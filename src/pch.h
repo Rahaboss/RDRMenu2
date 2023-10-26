@@ -52,10 +52,10 @@ typedef nlohmann::json json;
 
 // Code toggles
 #define ENABLE_NATIVE_RETURN_SPOOFING 0
-#define USE_SOLUTION_DIR_AS_CONFIG_DIR 1
 #define ENABLE_DEBUGGING 0
 
 #if _DIST
-#undef USE_SOLUTION_DIR_AS_CONFIG_DIR
 #define USE_SOLUTION_DIR_AS_CONFIG_DIR 0
+#else
+#define USE_SOLUTION_DIR_AS_CONFIG_DIR 1
 #endif // _DIST

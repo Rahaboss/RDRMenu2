@@ -2,7 +2,7 @@
 
 namespace Util
 {
-	void LogText(const char* const Text, ...);
+	void LogText(_Printf_format_string_ const char* const Text, ...);
 }
 
 #ifndef _DIST

@@ -11,6 +11,7 @@
 #include "Util/String.h"
 #include "Script/Spawning.h"
 
+static int s_OutfitPreset = 0;
 static void RenderPlayerButtons()
 {
 	if (ImGui::Button("Fill Cores"))
@@ -58,7 +59,10 @@ static void RenderPlayerButtons()
 		ImGui::BeginDisabled();
 
 	if (ImGui::Button("Reset Model"))
+	{
 		JobQueue::Add(Script::ResetPlayerModel);
+		s_OutfitPreset = 0;
+	}
 
 	if (DisableResetModel)
 		ImGui::EndDisabled();
@@ -89,6 +93,8 @@ static void RenderPlayerToggles()
 	ImGui::SameLine();
 	ImGui::Checkbox("Gold Cores", g_Settings["player"]["gold_cores"].get<bool*>());
 	ImGui::SameLine();
+	ImGui::Checkbox("Clean", g_Settings["player"]["clean"].get<bool*>());
+	ImGui::SameLine();
 	if (ImGui::Checkbox("No Ragdoll", g_Settings["player"]["no_ragdoll"].get<bool*>()))
 	{
 		if (!g_Settings["player"]["no_ragdoll"].get<bool>())
@@ -101,15 +107,13 @@ static void RenderPlayerToggles()
 		}
 	}
 	ImGui::SameLine();
-	ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
-
-	ImGui::Checkbox("Clean", g_Settings["player"]["clean"].get<bool*>());
-	ImGui::SameLine();
-	ImGui::Checkbox("Super Jump", g_Settings["player"]["super_jump"].get<bool*>());
+	ImGui::Checkbox("No Sliding", g_Settings["player"]["no_sliding"].get<bool*>());
 	ImGui::SameLine();
 	ImGui::Checkbox("Super Run", g_Settings["player"]["super_run"].get<bool*>());
+
+	ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
 	ImGui::SameLine();
-	ImGui::Checkbox("No Sliding", g_Settings["player"]["no_sliding"].get<bool*>());
+	ImGui::Checkbox("Super Jump", g_Settings["player"]["super_jump"].get<bool*>());
 }
 
 static void RenderMoneyChanger()
@@ -177,6 +181,7 @@ static void RenderModelChanger()
 			QUEUE_JOB(=)
 			{
 				Script::SetPlayerModel(p.second);
+				s_OutfitPreset = 0;
 			}
 			END_JOB()
 		}
@@ -192,7 +197,6 @@ static void RenderOutfitPresetList()
 
 	ImGui::PushButtonRepeat(true);
 
-	static int s_OutfitPreset = 0;
 	if (ImGui::ArrowButton("##outfit_left", ImGuiDir_Left))
 	{
 		QUEUE_JOB(=)
@@ -240,7 +244,7 @@ static void RenderMetaPedOutfitList()
 		for (size_t i = 0; i < Outfits.size(); i++)
 		{
 			std::string Name;
-			Hash Model;
+			Hash Model = 0;
 
 			if (Outfits[i].is_string())
 			{

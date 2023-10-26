@@ -108,6 +108,26 @@ void Menu::RenderDebugTab()
 		END_JOB()
 	}
 	
+	if (ImGui::Button("Start Music"))
+	{
+		QUEUE_JOB(=)
+		{
+			AUDIO::PREPARE_MUSIC_EVENT("SAL1_START");
+			AUDIO::TRIGGER_MUSIC_EVENT("SAL1_START");
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("End Music"))
+	{
+		QUEUE_JOB(=)
+		{
+			AUDIO::PREPARE_MUSIC_EVENT("SAL1_STOP");
+			AUDIO::TRIGGER_MUSIC_EVENT("SAL1_STOP");
+		}
+		END_JOB()
+	}
+	
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
 	ImGui::SameLine();

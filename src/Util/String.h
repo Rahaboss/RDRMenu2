@@ -12,4 +12,5 @@ namespace Util
 	std::string StringToLowerCopy(const char* String);
 	bool IsStringValid(const char* String);
 	bool IsStringValid(const std::string& String);
+	bool StringContains(const std::string& String, const std::string& Key);
 }

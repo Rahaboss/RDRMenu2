@@ -42,7 +42,7 @@ static void RenderMountToggles()
 	}
 	ImGui::SameLine();
 	ImGui::Checkbox("No Sliding", g_Settings["mount"]["no_sliding"].get<bool*>());
-
+	ImGui::SameLine();
 	ImGui::Checkbox("Super Run", g_Settings["mount"]["super_run"].get<bool*>());
 }
 

@@ -11,6 +11,7 @@
 #include "Config/Settings.h"
 #include "Script/PlayerInfo.h"
 #include "Script/Ped.h"
+#include "Util/Container.h"
 
 void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness)
 {
@@ -149,7 +150,7 @@ void ESP::RenderObjectESP()
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
 			if (ModelName.empty())
 			{
-				if (std::find(s_UnknownModels.begin(), s_UnknownModels.end(), Model) == s_UnknownModels.end())
+				if (Util::ContainerContains(s_UnknownModels, Model))
 				{
 					s_UnknownModels.push_back(Model);
 					LOG_TEXT(__FUNCTION__": Unknown object %u.", Model);

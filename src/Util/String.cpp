@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "String.h"
+#include "Container.h"
 
 void Util::StringToUpper(std::string& String)
 {
@@ -47,4 +48,9 @@ bool Util::IsStringValid(const char* String)
 bool Util::IsStringValid(const std::string& String)
 {
 	return !String.empty();
+}
+
+bool Util::StringContains(const std::string& String, const std::string& Key)
+{
+	return String.find(Key) != std::string::npos;
 }

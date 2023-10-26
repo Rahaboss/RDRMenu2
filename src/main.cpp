@@ -36,7 +36,7 @@ void MainLoop()
 	{
 		if (Util::IsKeyHeld(VK_LCONTROL) && Util::IsKeyHeld(VK_END))
 			Features::StartExit();
-
+		
 		std::this_thread::sleep_for(10ms);
 	}
 	

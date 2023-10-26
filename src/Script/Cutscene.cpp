@@ -25,7 +25,9 @@ Script::CutsceneHelper::CutsceneHelper(const json& JsonObject):
 Script::CutsceneHelper::CutsceneHelper(const char* animDict):
 	m_Scene(0)
 {
-	m_JsonObject = *Lists::GetCutscene(animDict);
+	const auto it = Lists::GetCutscene(animDict);
+	assert(it != Lists::CutsceneList.end());
+	m_JsonObject = *it;
 	m_Scene = CreateCutscene();
 }
 
@@ -321,12 +323,11 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	if (!ENTITY::DOES_ENTITY_EXIST(ent))
 		return;
 
-	Hash model = ENTITY::GET_ENTITY_MODEL(ent);
-
-	if (model == RAGE_JOAAT("PLAYER_ZERO") || model == RAGE_JOAAT("PLAYER_THREE"))
+	const Hash Model = ENTITY::GET_ENTITY_MODEL(ent);
+	if (Model == RAGE_JOAAT("PLAYER_ZERO") || Model == RAGE_JOAAT("PLAYER_THREE"))
 		return;
 
-	std::string ModelName = Lists::GetHashName(model);
+	std::string ModelName = Lists::GetHashName(Model);
 
 	if (!Util::IsStringValid(ModelName))
 		return;
@@ -347,41 +348,35 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	std::string EntityNameLower = Util::StringToLowerCopy(EntityName);
 	if (ENTITY::IS_ENTITY_A_PED(ent))
 	{
-		if (ModelName.find("horse") != std::string::npos || EntityNameLower.find("horse") != std::string::npos)
-			j["meta_ped_outfit"] = "meta_horse_saddle_only";
-
-		bool Found = false;
-
 		for (const json& ped : Cutscene["peds"])
 		{
 			if (Util::StringToLowerCopy(ped["name"].get_ref<const std::string&>()) == EntityNameLower)
-			{
-				Found = true;
-				break;
-			}
+				return;
 		}
 
-		if (!Found)
-			Cutscene["peds"].push_back(j);
+		if (Util::StringContains(ModelName, "horse") || Util::StringContains(EntityNameLower, "horse"))
+			j["meta_ped_outfit"] = "meta_horse_saddle_only";
+
+		Cutscene["peds"].push_back(j);
 	}
 	else if (ENTITY::IS_ENTITY_AN_OBJECT(ent))
 	{
-		bool Found = false;
-
 		for (const json& obj : Cutscene["objects"])
 		{
 			if (Util::StringToLowerCopy(obj["name"].get_ref<const std::string&>()) == EntityNameLower)
-			{
-				Found = true;
-				break;
-			}
+				return;
 		}
 
-		if (!Found)
-			Cutscene["objects"].push_back(j);
+		Cutscene["objects"].push_back(j);
 	}
 	else if (ENTITY::IS_ENTITY_A_VEHICLE(ent))
 	{
+		for (const json& veh : Cutscene["vehicles"])
+		{
+			if (Util::StringToLowerCopy(veh["name"].get_ref<const std::string&>()) == EntityNameLower)
+				return;
+		}
+
 		std::vector<int> Extras;
 
 		for (int i = 1; i <= 16; i++)
@@ -393,25 +388,39 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 		if (!Extras.empty())
 			j["extras"] = Extras;
 
-		bool Found = false;
-
-		for (const json& veh : Cutscene["vehicles"])
-		{
-			if (Util::StringToLowerCopy(veh["name"].get_ref<const std::string&>()) == EntityNameLower)
-			{
-				Found = true;
-				break;
-			}
-		}
-
-		if (!Found)
-			Cutscene["vehicles"].push_back(j);
+		Cutscene["vehicles"].push_back(j);
 	}
 	else
 	{
-		LOG_TEXT(__FUNCTION__": Unknown type of entity \"%s\".", EntityName);
+		if (g_Settings["log_animscene"].get<bool>())
+			LOG_TEXT("Added unknown type of entity \"%s\" (model: %u) to AnimScene \"%s\".", EntityName, Model, CutsceneName);
 		return;
 	}
 
-	LOG_TEXT("Added entity \"%s\" (\"%s\") to cutscene \"%s\" in database.", Lists::GetHashName(model).c_str(), EntityName, CutsceneName);
+	if (g_Settings["log_animscene"].get<bool>())
+		LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\" in database.", Lists::GetHashName(Model).c_str(), EntityName, CutsceneName);
+}
+
+void Script::AddEntityPlaybackID(const char* CutsceneName, const char* PlaybackID)
+{
+	if (!Util::IsStringValid(CutsceneName) || !Util::IsStringValid(PlaybackID))
+		return;
+
+	const std::string PlaybackIDLower = Util::StringToLowerCopy(PlaybackID);
+	if (PlaybackIDLower == "normalstart" || PlaybackIDLower == "multistart")
+		return;
+	
+	const std::string CutsceneNameLower = Util::StringToLowerCopy(CutsceneName);
+	const auto it = Lists::GetCutscene(CutsceneNameLower);
+	if (it == Lists::CutsceneList.end())
+		return;
+
+	json& Cutscene = *it;
+	if (Cutscene.contains("playback_id"))
+		return;
+
+	Cutscene["playback_id"] = PlaybackID;
+	
+	if (g_Settings["log_animscene"].get<bool>())
+		LOG_TEXT("Added Playback ID \"%s\" to AnimScene \"%s\" in database.", PlaybackID, CutsceneName);
 }

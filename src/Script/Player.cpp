@@ -98,9 +98,6 @@ Hash Script::GetDefaultPlayerModel()
 			return RAGE_JOAAT("MP_MALE");
 		case RAGE_JOAAT("MPC_PLAYER_TYPE_MP_FEMALE"):
 			return RAGE_JOAAT("MP_FEMALE");
-		default:
-			LOG_TEXT("%s: Unknown default player model: %d!", __FUNCTION__, *Global_1946054_f_1);
-			break;
 		}
 	}
 

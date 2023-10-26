@@ -29,6 +29,7 @@ void Hooking::Create()
 	CreateAnimScene.Create(NativeInvoker::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
 	SetAnimSceneEntity.Create(NativeInvoker::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 	StartAnimScene.Create(NativeInvoker::GetHandler(0xF4D94AF761768700), StartAnimSceneHook);
+	SetAnimScenePlayList.Create(NativeInvoker::GetHandler(0x15598CFB25F3DC7E), SetAnimScenePlayListHook);
 #endif // !_DIST
 }
 
@@ -37,6 +38,7 @@ void Hooking::Destroy()
 	LOG_TEXT("Destroying hooks.");
 	
 #ifndef _DIST
+	SetAnimScenePlayList.Destroy();
 	StartAnimScene.Destroy();
 	SetAnimSceneEntity.Destroy();
 	CreateAnimScene.Destroy();
@@ -137,7 +139,7 @@ void Hooking::IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
 }
 
 #ifndef _DIST
-static std::unordered_map<AnimScene, std::string> s_AnimScenes;
+static std::unordered_map<AnimScene, std::string> s_AnimScenes; // Cutscene -> Cutscene Name
 void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 {
 	const char* animDict = ctx->GetArg<const char*>(0);
@@ -149,29 +151,19 @@ void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 
 	if (g_Settings["log_animscene"].get<bool>())
 	{
-		if (Util::IsStringValid(playbackListName))
+		if (Util::StringContains(animDict, "cutscene@"))
 		{
-			LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
-
-			if (g_Settings["add_cutscene_info_automatically"].get<bool>())
-			{
-				if (const auto it = Lists::GetCutscene(Util::StringToLowerCopy(animDict)); it != Lists::CutsceneList.end())
-				{
-					std::string PlaybackIDLower = Util::StringToLowerCopy(playbackListName);
-					if (PlaybackIDLower != "normalstart" && PlaybackIDLower != "multistart")
-					{
-						json& Cutscene = *it;
-						if (!Cutscene.contains("playback_id"))
-							Cutscene["playback_id"] = playbackListName;
-					}
-				}
-			}
+			if (Util::IsStringValid(playbackListName))
+				LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
+			else
+				LOG_TEXT("Created AnimScene \"%s\", ID: %u.", animDict, animScene);
 		}
-		else
-			LOG_TEXT("Created AnimScene \"%s\", ID: %u.", animDict, animScene);
 	}
 
-	s_AnimScenes[animScene] = std::string{ animDict };
+	if (g_Settings["add_cutscene_info_automatically"].get<bool>() && Util::IsStringValid(playbackListName))
+		Script::AddEntityPlaybackID(animDict, playbackListName);
+
+	s_AnimScenes[animScene] = animDict;
 }
 
 void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
@@ -197,11 +189,9 @@ void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 		{
 			if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
 			{
-				LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\", ID: %u.", ModelName.c_str(), entityName, it->second.c_str(), animScene);
-				Script::AddEntityToCutscene(it->second.c_str(), entity, entityName);
+				if (Util::StringContains(it->second, "cutscene@"))
+					Script::AddEntityToCutscene(it->second.c_str(), entity, entityName);
 			}
-			else
-				LOG_TEXT("Added entity %s (\"%s\") to AnimScene ID: %u.", ModelName.c_str(), entityName, animScene);
 		}
 	}
 	
@@ -214,14 +204,27 @@ void Hooking::StartAnimSceneHook(rage::scrNativeCallContext* ctx)
 	Vector3 position, rotation;
 	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(animScene, &position, &rotation, 2);
 
+	StartAnimScene.GetOriginal<decltype(&StartAnimSceneHook)>()(ctx);
+
 	if (g_Settings["log_animscene"].get<bool>())
 	{
 		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
-			LOG_TEXT("Starting AnimScene \"%s\", ID: %u at: %.2f, %.2f, %.2f.", it->second.c_str(), animScene, position.x, position.y, position.z);
-		else
-			LOG_TEXT("Starting AnimScene ID: %u at: %.2f, %.2f, %.2f.", animScene, position.x, position.y, position.z);
+			if (Util::StringContains(it->second, "cutscene@"))
+				LOG_TEXT("Starting AnimScene \"%s\", ID: %u at: %.2f, %.2f, %.2f.", it->second.c_str(), animScene, position.x, position.y, position.z);
 	}
+}
 
-	StartAnimScene.GetOriginal<decltype(&StartAnimSceneHook)>()(ctx);
+void Hooking::SetAnimScenePlayListHook(rage::scrNativeCallContext* ctx)
+{
+	AnimScene animScene = ctx->GetArg<AnimScene>(0);
+	const char* playlistName = ctx->GetArg<const char*>(1);
+
+	SetAnimScenePlayList.GetOriginal<decltype(&SetAnimScenePlayListHook)>()(ctx);
+
+	if (g_Settings["add_cutscene_info_automatically"].get<bool>())
+	{
+		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
+			Script::AddEntityPlaybackID(it->second.c_str(), playlistName);
+	}
 }
 #endif // !_DIST

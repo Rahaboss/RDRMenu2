@@ -51,4 +51,5 @@ namespace Script
 	};
 
 	void AddEntityToCutscene(const char* CutsceneName, Entity ent, const char* EntityName);
+	void AddEntityPlaybackID(const char* CutsceneName, const char* PlaybackID);
 }
