@@ -14,24 +14,10 @@
 #include "Thread/Thread.h"
 #include "Renderer/ImGuiExtras.h"
 #include "Script/Entity.h"
+#include "Rage/ScriptGlobal.h"
 
-void Menu::RenderDebugTab()
+static void RenderDebugButtons()
 {
-	if (!ImGui::BeginTabItem("Debug"))
-		return;
-
-	ImGui::BeginChild("debug_child");
-
-	if (ImGui::CollapsingHeader("Settings JSON"))
-	{
-		ImGui::PushFont(Renderer::DefaultFont);
-
-		ImGui::Text(g_Settings.dump(2).c_str());
-
-		ImGui::PopFont();
-	}
-
-	ImGui::SeparatorText("Buttons");
 	if (ImGui::Button("Spawn Ped"))
 	{
 		QUEUE_JOB(=)
@@ -78,9 +64,7 @@ void Menu::RenderDebugTab()
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Reset Player Model"))
-	{
 		JobQueue::Add(Script::ResetPlayerModel);
-	}
 
 	if (ImGui::Button("Reload Settings"))
 		JobQueue::Add(Settings::Create);
@@ -127,6 +111,127 @@ void Menu::RenderDebugTab()
 		}
 		END_JOB()
 	}
+
+	if (ImGui::Button("Hair Test 1"))
+	{
+		QUEUE_JOB(=)
+		{
+			//PED::_APPLY_SHOP_ITEM_TO_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("CLOTHING_ITEM_HAIR_SWEPT_BACK"), true, false, false);
+			Script::SetHairStyle(RAGE_JOAAT("CLOTHING_ITEM_HAIR_SWEPT_BACK"), 7);
+			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
+			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Hair Test 2"))
+	{
+		QUEUE_JOB(=)
+		{
+			//PED::_APPLY_SHOP_ITEM_TO_PED(g_LocalPlayer.m_Entity, 933586678, true, false, false);
+			Script::SetHairStyle(933586678, 9);
+			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
+			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Hair Test 3"))
+	{
+		QUEUE_JOB(=)
+		{
+			//PED::_APPLY_SHOP_ITEM_TO_PED(g_LocalPlayer.m_Entity, 1156231582, true, false, false);
+			Script::SetHairStyle(1156231582, 2);
+			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
+			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
+		}
+		END_JOB()
+	}
+}
+
+static void RenderGlobalDebug()
+{
+	//Hash* Hair = ScriptGlobal(1946054).At(1497).At(1).At(1, 3).Get<Hash*>();
+	Hash* Hair = ScriptGlobal(40).At(7748).At(2).Get<Hash*>();
+	
+	ImGui::SetNextItemWidth(200);
+	ImGui::InputU32("Hair Type", Hair);
+	
+	Hash* Length = ScriptGlobal(40).At(7748).At(1).Get<Hash*>();
+
+	ImGui::SetNextItemWidth(200);
+	ImGui::InputU32("Hair Length", Length);
+
+	ImGui::Separator();
+
+	static std::vector<int> s_Offsets{ 1946054, 1497, 1, 1, 3 };
+
+	std::string GlobalString = "Global";
+	GlobalString += '_';
+	GlobalString += std::to_string(s_Offsets[0]);
+
+	for (size_t i = 1; i < s_Offsets.size(); i++)
+	{
+		GlobalString += ".f_";
+		GlobalString += std::to_string(s_Offsets[i]);
+	}
+
+	int offset = 0;
+	for (size_t i = 0; i < s_Offsets.size(); i++)
+		offset += s_Offsets[i];
+	
+	if (void* mem = ScriptGlobal(offset).Get<void*>())
+	{
+		ImGui::TextUnformatted(GlobalString.c_str());
+
+		ImGui::Text("int: %d", *(int*)mem);
+		ImGui::SameLine();
+		if (ImGui::SmallButton((std::string{ "Copy##int_global" } + std::to_string((uintptr_t)mem)).c_str()))
+			ImGui::SetClipboardText(std::to_string(*(int*)mem).c_str());
+
+		ImGui::Text("float: %f", *(float*)mem);
+		ImGui::SameLine();
+		if (ImGui::SmallButton((std::string{ "Copy##float_global" } + std::to_string((uintptr_t)mem)).c_str()))
+			ImGui::SetClipboardText(std::to_string(*(float*)mem).c_str());
+	}
+
+	int i = 0;
+	for (auto it = s_Offsets.begin(); it < s_Offsets.end(); it++)
+	{
+		ImGui::SetNextItemWidth(300);
+		ImGui::InputInt((std::string{ "##input_global" } + std::to_string(i)).c_str(), &(*it));
+		if (s_Offsets.size() != 1)
+		{
+			ImGui::SameLine();
+			if (ImGui::Button((std::string{ "Remove##global" } + std::to_string(i)).c_str()))
+				it = s_Offsets.erase(it);
+		}
+
+		i++;
+	}
+
+	if (ImGui::Button("Add Offset"))
+		s_Offsets.push_back(0);
+}
+
+void Menu::RenderDebugTab()
+{
+	if (!ImGui::BeginTabItem("Debug"))
+		return;
+
+	ImGui::BeginChild("debug_child");
+
+	if (ImGui::CollapsingHeader("Settings JSON"))
+	{
+		ImGui::PushFont(Renderer::DefaultFont);
+
+		ImGui::Text(g_Settings.dump(2).c_str());
+
+		ImGui::PopFont();
+	}
+
+	ImGui::SeparatorText("Buttons");
+	RenderDebugButtons();
 	
 	ImGui::SeparatorText("Toggles");
 	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
@@ -163,6 +268,9 @@ void Menu::RenderDebugTab()
 		NativeAddress << std::hex << std::uppercase << NativeHandler;
 		ImGui::SetClipboardText(NativeAddress.str().c_str());
 	}
+
+	ImGui::SeparatorText("Global Debug");
+	RenderGlobalDebug();
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

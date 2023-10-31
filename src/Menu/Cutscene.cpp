@@ -12,12 +12,6 @@
 static AnimScene s_CutsceneIndex = 0;
 static void QueuePlayCutscene(const char* CutsceneName)
 {
-	if (s_CutsceneIndex)
-	{
-		LOG_TEXT("%s: Cutscene already running.", __FUNCTION__);
-		return;
-	}
-
 	s_CutsceneIndex = -1;
 
 	QUEUE_JOB(=)
@@ -105,13 +99,16 @@ static bool RenderPedEditor(json& SelectedCutscene, json& PedObject)
 
 	ImGui::SeparatorText("Add Cutscene Ped");
 
-	ImGui::InputText("Model", s_PedModelInput, IM_ARRAYSIZE(s_PedModelInput));
+	if (ImGui::InputText("Model", s_PedModelInput, IM_ARRAYSIZE(s_PedModelInput)))
+		Util::StringToLower(s_PedModelInput);
 	ImGui::InputText("Name", s_PedNameInput, IM_ARRAYSIZE(s_PedNameInput));
-	ImGui::InputText("Meta Ped Outfit", s_PedMetaPedOutfitInput, IM_ARRAYSIZE(s_PedMetaPedOutfitInput));
-	ImGui::InputText("Meta Ped Wearable", s_PedMetaPedWearableInput, IM_ARRAYSIZE(s_PedMetaPedWearableInput));
+	if (ImGui::InputText("Meta Ped Outfit", s_PedMetaPedOutfitInput, IM_ARRAYSIZE(s_PedMetaPedOutfitInput)))
+		Util::StringToLower(s_PedMetaPedOutfitInput);
+	if (ImGui::InputText("Meta Ped Wearable", s_PedMetaPedWearableInput, IM_ARRAYSIZE(s_PedMetaPedWearableInput)))
+		Util::StringToLower(s_PedMetaPedWearableInput);
 	ImGui::Checkbox("Remove Weapons", &s_PedRemoveWeapons);
 
-	const bool IsInvalid = !(s_PedSelectedPedName == s_PedNameInput
+	const bool IsInvalid = !(Util::StringToLowerCopy(s_PedSelectedPedName) == Util::StringToLowerCopy(s_PedNameInput)
 		? (Util::IsStringValid(s_PedModelInput) && Util::IsStringValid(s_PedNameInput))
 		: IsNewEntityValid(SelectedCutscene, s_PedModelInput, s_PedNameInput));
 
@@ -173,10 +170,11 @@ static bool RenderObjectEditor(json& SelectedCutscene, json& ObjectObject)
 
 	ImGui::SeparatorText("Add Cutscene Object");
 
-	ImGui::InputText("Model", s_ObjectModelInput, IM_ARRAYSIZE(s_ObjectModelInput));
+	if (ImGui::InputText("Model", s_ObjectModelInput, IM_ARRAYSIZE(s_ObjectModelInput)))
+		Util::StringToLower(s_ObjectModelInput);
 	ImGui::InputText("Name", s_ObjectNameInput, IM_ARRAYSIZE(s_ObjectNameInput));
 
-	const bool IsInvalid = !(s_ObjectSelectedObjectName == s_ObjectNameInput
+	const bool IsInvalid = !(Util::StringToLowerCopy(s_ObjectSelectedObjectName) == Util::StringToLowerCopy(s_ObjectNameInput)
 		? (Util::IsStringValid(s_ObjectModelInput) && Util::IsStringValid(s_ObjectNameInput))
 		: IsNewEntityValid(SelectedCutscene, s_ObjectModelInput, s_ObjectNameInput));
 
@@ -219,7 +217,8 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 
 	ImGui::SeparatorText("Add Cutscene Vehicle");
 
-	ImGui::InputText("Model", s_VehicleModelInput, IM_ARRAYSIZE(s_VehicleModelInput));
+	if (ImGui::InputText("Model", s_VehicleModelInput, IM_ARRAYSIZE(s_VehicleModelInput)))
+		Util::StringToLower(s_VehicleModelInput);
 	ImGui::InputText("Name", s_VehicleNameInput, IM_ARRAYSIZE(s_VehicleNameInput));
 
 	ImGui::TextUnformatted("Extras");
@@ -249,7 +248,7 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 		}
 	}
 
-	const bool IsInvalid = !(s_VehicleSelectedVehicleName == s_VehicleNameInput
+	const bool IsInvalid = !(Util::StringToLowerCopy(s_VehicleSelectedVehicleName) == Util::StringToLowerCopy(s_VehicleNameInput)
 		? (Util::IsStringValid(s_VehicleModelInput) && Util::IsStringValid(s_VehicleNameInput))
 		: IsNewEntityValid(SelectedCutscene, s_VehicleModelInput, s_VehicleNameInput));
 
@@ -815,7 +814,7 @@ inline const std::vector<CutsceneCategory> s_Categories{
 		}
 	},
 	{
-		"Grays & Braithwaites",
+		"Grays & Braithwaites (Feud)",
 		{
 			"brt",
 			"gry",

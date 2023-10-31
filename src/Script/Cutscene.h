@@ -31,6 +31,7 @@ namespace Script
 
 		bool IsCutsceneValid() const;
 
+		void SetOrigin();
 		void TeleportToOrigin();
 		void LoadCutscene();
 		void PlayCutscene();
@@ -52,4 +53,5 @@ namespace Script
 
 	void AddEntityToCutscene(const char* CutsceneName, Entity ent, const char* EntityName);
 	void AddEntityPlaybackID(const char* CutsceneName, const char* PlaybackID);
+	bool IsCutsceneName(std::string CutsceneName);
 }

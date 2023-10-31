@@ -31,12 +31,14 @@ void Hooking::Create()
 	StartAnimScene.Create(NativeInvoker::GetHandler(0xF4D94AF761768700), StartAnimSceneHook);
 	SetAnimScenePlayList.Create(NativeInvoker::GetHandler(0x15598CFB25F3DC7E), SetAnimScenePlayListHook);
 #endif // !_DIST
+	ApplyShopItemToPed.Create(NativeInvoker::GetHandler(0xD3A7B003ED343FD9), ApplyShopItemToPedHook);
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.");
 	
+	ApplyShopItemToPed.Destroy();
 #ifndef _DIST
 	SetAnimScenePlayList.Destroy();
 	StartAnimScene.Destroy();
@@ -151,7 +153,7 @@ void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 
 	if (g_Settings["log_animscene"].get<bool>())
 	{
-		if (Util::StringContains(animDict, "cutscene@"))
+		if (Script::IsCutsceneName(animDict))
 		{
 			if (Util::IsStringValid(playbackListName))
 				LOG_TEXT("Created AnimScene \"%s\" (\"%s\"), ID: %u.", animDict, playbackListName, animScene);
@@ -189,7 +191,7 @@ void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 		{
 			if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
 			{
-				if (Util::StringContains(it->second, "cutscene@"))
+				if (Script::IsCutsceneName(it->second))
 					Script::AddEntityToCutscene(it->second.c_str(), entity, entityName);
 			}
 		}
@@ -209,7 +211,7 @@ void Hooking::StartAnimSceneHook(rage::scrNativeCallContext* ctx)
 	if (g_Settings["log_animscene"].get<bool>())
 	{
 		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
-			if (Util::StringContains(it->second, "cutscene@"))
+			if (Script::IsCutsceneName(it->second))
 				LOG_TEXT("Starting AnimScene \"%s\", ID: %u at: %.2f, %.2f, %.2f.", it->second.c_str(), animScene, position.x, position.y, position.z);
 	}
 }
@@ -228,3 +230,20 @@ void Hooking::SetAnimScenePlayListHook(rage::scrNativeCallContext* ctx)
 	}
 }
 #endif // !_DIST
+
+void Hooking::ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx)
+{
+	Ped ped = ctx->GetArg<Ped>(0);
+	Hash componentHash = ctx->GetArg<Hash>(1);
+	BOOL immediately = ctx->GetArg<BOOL>(2);
+	BOOL isMp = ctx->GetArg<BOOL>(3);
+	BOOL p4 = ctx->GetArg<BOOL>(4);
+
+	ApplyShopItemToPed.GetOriginal<decltype(&ApplyShopItemToPedHook)>()(ctx);
+
+	if (ped == g_LocalPlayer.m_Entity)
+	{
+		//LOG_TEXT("_APPLY_SHOP_ITEM_TO_PED(%u, %u, %d, %d, %d)", ped, componentHash, immediately, isMp, p4);
+		//printf("%u ", componentHash);
+	}
+}

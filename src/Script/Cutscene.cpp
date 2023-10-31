@@ -214,6 +214,18 @@ bool Script::CutsceneHelper::IsCutsceneValid() const
 	return true;
 }
 
+void Script::CutsceneHelper::SetOrigin()
+{
+	if (!m_JsonObject.contains("origin"))
+		return;
+
+	json::array_t PositionJSON = m_JsonObject["origin"];
+	assert(PositionJSON.size() == 3);
+
+	Vector3 Position = Vector3{ PositionJSON[0].get<float>(), PositionJSON[1].get<float>(), PositionJSON[2].get<float>()};
+	ANIMSCENE::SET_ANIM_SCENE_ORIGIN(m_Scene, Position.x, Position.y, Position.z, 0, 0, 0, 0);
+}
+
 void Script::CutsceneHelper::TeleportToOrigin()
 {
 	if (m_JsonObject.contains("disable_tp_to_origin") && m_JsonObject["disable_tp_to_origin"].get<bool>())
@@ -289,6 +301,7 @@ void Script::CutsceneHelper::PlayAutomatically()
 	TRY
 	{
 		LoadCutscene();
+		SetOrigin();
 		TeleportToOrigin();
 
 		AddLocalPlayer();
@@ -320,10 +333,10 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	if (!g_Settings["add_cutscene_info_automatically"].get<bool>())
 		return;
 
-	if (!ENTITY::DOES_ENTITY_EXIST(ent))
+	if (!Script::DoesEntityExist(ent))
 		return;
 
-	const Hash Model = ENTITY::GET_ENTITY_MODEL(ent);
+	const Hash Model = Script::GetEntityModel(ent);
 	if (Model == RAGE_JOAAT("PLAYER_ZERO") || Model == RAGE_JOAAT("PLAYER_THREE"))
 		return;
 
@@ -398,7 +411,7 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	}
 
 	if (g_Settings["log_animscene"].get<bool>())
-		LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\" in database.", Lists::GetHashName(Model).c_str(), EntityName, CutsceneName);
+		LOG_TEXT("Added entity %s (\"%s\") to AnimScene \"%s\".", Lists::GetHashName(Model).c_str(), EntityName, CutsceneName);
 }
 
 void Script::AddEntityPlaybackID(const char* CutsceneName, const char* PlaybackID)
@@ -417,10 +430,25 @@ void Script::AddEntityPlaybackID(const char* CutsceneName, const char* PlaybackI
 
 	json& Cutscene = *it;
 	if (Cutscene.contains("playback_id"))
+	{
+		if (g_Settings["log_animscene"].get<bool>())
+		{
+			if (Util::StringToLowerCopy(Cutscene["playback_id"].get_ref<const std::string&>())
+				!= Util::StringToLowerCopy(PlaybackID))
+				LOG_TEXT("Added duplicate Playback ID \"%s\" to AnimScene \"%s\".", PlaybackID, CutsceneName);
+		}
+
 		return;
+	}
 
 	Cutscene["playback_id"] = PlaybackID;
 	
 	if (g_Settings["log_animscene"].get<bool>())
-		LOG_TEXT("Added Playback ID \"%s\" to AnimScene \"%s\" in database.", PlaybackID, CutsceneName);
+		LOG_TEXT("Added Playback ID \"%s\" to AnimScene \"%s\".", PlaybackID, CutsceneName);
+}
+
+bool Script::IsCutsceneName(std::string CutsceneName)
+{
+	Util::StringToLower(CutsceneName);
+	return CutsceneName.find("cutscene@") == 0;
 }

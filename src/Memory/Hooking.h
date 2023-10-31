@@ -46,4 +46,7 @@ namespace Hooking
 	inline DetourHook SetAnimScenePlayList;
 	void SetAnimScenePlayListHook(rage::scrNativeCallContext* ctx);
 #endif // !_DIST
+	
+	inline DetourHook ApplyShopItemToPed;
+	void ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx);
 }

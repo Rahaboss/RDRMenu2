@@ -25,14 +25,14 @@ namespace rage
 		}
 
 		template<typename T>
-		inline T GetArg(size_t Index)
+		inline const T& GetArg(size_t Index)
 		{
 			static_assert(sizeof(T) <= sizeof(uint64_t));
 			return *(T*)(&(m_Args[Index]));
 		}
 
 		template<typename T>
-		inline T GetRet()
+		inline const T& GetRet()
 		{
 			return *(T*)(m_ReturnValue);
 		}

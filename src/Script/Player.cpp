@@ -23,6 +23,7 @@ void Script::GetLocalPlayerInfo()
 	g_LocalPlayer.m_Ped = rage::CPedFactory::GetLocalPed();
 	g_LocalPlayer.m_Pos = ScriptGlobal(36).Get<const Vector3&>(); // GetEntityCoords(g_LocalPlayer.m_Entity);
 	g_LocalPlayer.m_Heading = ENTITY::GET_ENTITY_HEADING(g_LocalPlayer.m_Entity);
+	g_LocalPlayer.m_Speed = ENTITY::GET_ENTITY_SPEED(g_LocalPlayer.m_Entity);
 }
 
 Entity Script::GetMainPlayerEntity()
@@ -251,4 +252,14 @@ void Script::Suicide()
 {
 	SetEntityInvincible(g_LocalPlayer.m_Entity, false);
 	ENTITY::SET_ENTITY_HEALTH(g_LocalPlayer.m_Entity, 0, 0);
+}
+
+void Script::SetHairStyle(Hash Style, int Length)
+{
+	if (Hash* pStyle = ScriptGlobal(1946054).At(1497).At(1).At(1, 3).Get<Hash*>())
+		if (Hash* pStyle2 = ScriptGlobal(40).At(7748).At(2).Get<Hash*>())
+			*pStyle = *pStyle2 = Style;
+	if (int* pLength = ScriptGlobal(1946054).At(2656).Get<int*>())
+		if (int* pLength2 = ScriptGlobal(40).At(7748).At(1).Get<int*>())
+			*pLength = *pLength2 = Length;
 }

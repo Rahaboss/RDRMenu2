@@ -23,4 +23,5 @@ namespace Script
 	void TeleportThroughDoor();
 	void SuperJump();
 	void Suicide();
+	void SetHairStyle(Hash Style, int Length);
 }

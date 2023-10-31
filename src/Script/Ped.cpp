@@ -3,6 +3,7 @@
 #include "Rage/natives.h"
 #include "Thread/Thread.h"
 #include "Rage/enums.h"
+#include "Entity.h"
 
 void Script::GiveGoldCores(Ped ped)
 {
@@ -29,8 +30,8 @@ bool Script::DoesPedBoneExist(Ped ped, int boneId)
 {
 	TRY
 	{
-		if (rage::CPed* temp = Pointers::GetPedAddress(ped))
-			return Pointers::GetPedBoneIndex(temp, boneId) != -1;
+		if (rage::CPed* PedAddress = Pointers::GetPedAddress(ped))
+			return Pointers::GetPedBoneIndex(PedAddress, boneId) != -1;
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 	
@@ -40,7 +41,11 @@ bool Script::DoesPedBoneExist(Ped ped, int boneId)
 Vector3 Script::GetPedBoneCoords(Ped ped, int boneId)
 {
 	Vector3 Result{};
-	Pointers::GetPedBoneCoords(Result, ped, boneId, Vector3{});
+	TRY
+	{
+		Pointers::GetPedBoneCoords(Result, ped, boneId, Vector3{});
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 	return Result;
 }
 
@@ -65,7 +70,7 @@ void Script::SetPedOutfitPreset(Ped ped, int Preset, bool KeepAccessories)
 
 void Script::SetMetaPedOutfit(Ped ped, Hash Outfit)
 {
-	int requestId = PED::_REQUEST_META_PED_OUTFIT(ENTITY::GET_ENTITY_MODEL(ped), Outfit);
+	const int requestId = PED::_REQUEST_META_PED_OUTFIT(Script::GetEntityModel(ped), Outfit);
 	while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
 		Thread::YieldThread();
 	PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);
