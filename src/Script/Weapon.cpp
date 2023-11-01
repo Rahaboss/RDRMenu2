@@ -98,7 +98,7 @@ void Script::GiveAmmo(Ped ped, Hash AmmoHash)
 	WEAPON::_ADD_AMMO_TO_PED_BY_TYPE(ped, AmmoHash, 9999, ADD_REASON_DEFAULT);
 }
 
-void Script::GiveWeapon(Ped ped, Hash WeaponHash)
+void Script::GiveWeapon(Ped ped, Hash WeaponHash, Hash AttachPoint)
 {
 	switch (WeaponHash)
 	{
@@ -111,7 +111,7 @@ void Script::GiveWeapon(Ped ped, Hash WeaponHash)
 		GiveAmmo(ped, WeaponHash);
 		break;
 	default:
-		WEAPON::GIVE_WEAPON_TO_PED(ped, WeaponHash, 9999, true, false, WEAPON_ATTACH_POINT_HAND_PRIMARY, true,
+		WEAPON::GIVE_WEAPON_TO_PED(ped, WeaponHash, 9999, true, false, AttachPoint, true,
 			0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 		break;
 	}

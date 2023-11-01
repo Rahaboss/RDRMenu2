@@ -10,7 +10,6 @@ static void RenderOverlayMain()
 	ImGui::Text("Coords: %.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
 	ImGui::Text("Heading: %.2f", g_LocalPlayer.m_Heading);
 	ImGui::Text("Speed: %.2f km/h", g_LocalPlayer.m_Speed);
-	ImGui::Text("Player Index: %u, Ped Handle: %u", g_LocalPlayer.m_Index, g_LocalPlayer.m_Entity);
 }
 
 void Menu::RenderOverlay()

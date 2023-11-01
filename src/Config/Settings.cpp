@@ -62,6 +62,7 @@ R"({
 	},
 	"render_imgui_demo": false,
 	"render_overlay": false,
+	"teleport_to_cutscene": true,
 	"weapon": {
 		"infinite_ammo": false,
 		"rapid_fire": false,

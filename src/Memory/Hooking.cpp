@@ -12,6 +12,7 @@
 #include "Config/Lists.h"
 #include "Script/Entity.h"
 #include "Script/Cutscene.h"
+#include "Rage/ScriptGlobal.h"
 
 void Hooking::Create()
 {
@@ -31,14 +32,26 @@ void Hooking::Create()
 	StartAnimScene.Create(NativeInvoker::GetHandler(0xF4D94AF761768700), StartAnimSceneHook);
 	SetAnimScenePlayList.Create(NativeInvoker::GetHandler(0x15598CFB25F3DC7E), SetAnimScenePlayListHook);
 #endif // !_DIST
-	ApplyShopItemToPed.Create(NativeInvoker::GetHandler(0xD3A7B003ED343FD9), ApplyShopItemToPedHook);
+	//ApplyShopItemToPed.Create(NativeInvoker::GetHandler(0xD3A7B003ED343FD9), ApplyShopItemToPedHook);
+	//ActivateInteriorSet.Create(NativeInvoker::GetHandler(0x174D0AAB11CED739), ActivateInteriorSetHook);
+	//DeactivateInteriorSet.Create(NativeInvoker::GetHandler(0x33B81A2C07A51FFF), DeactivateInteriorSetHook);
+	//SetBit.Create(NativeInvoker::GetHandler(0xF73FBE4845C43B5B), SetBitHook);
+	//ClearBit.Create(NativeInvoker::GetHandler(0x7D1D4A3602B6AD4E), ClearBitHook);
+	//RequestIPL.Create(NativeInvoker::GetHandler(0x59767C5A7A9AE6DA), RequestIPLHook);
+	//RemoveIPL.Create(NativeInvoker::GetHandler(0x5A3E5CF7B4014B96), RemoveIPLHook);
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.");
 	
-	ApplyShopItemToPed.Destroy();
+	//RemoveIPL.Destroy();
+	//RequestIPL.Destroy();
+	//ClearBit.Destroy();
+	//SetBit.Destroy();
+	//DeactivateInteriorSet.Destroy();
+	//ActivateInteriorSet.Destroy();
+	//ApplyShopItemToPed.Destroy();
 #ifndef _DIST
 	SetAnimScenePlayList.Destroy();
 	StartAnimScene.Destroy();
@@ -246,4 +259,64 @@ void Hooking::ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx)
 		//LOG_TEXT("_APPLY_SHOP_ITEM_TO_PED(%u, %u, %d, %d, %d)", ped, componentHash, immediately, isMp, p4);
 		//printf("%u ", componentHash);
 	}
+}
+
+void Hooking::ActivateInteriorSetHook(rage::scrNativeCallContext* ctx)
+{
+	Interior interior = ctx->GetArg<Interior>(0);
+	const char* entitySetName = ctx->GetArg<const char*>(1);
+
+	ActivateInteriorSet.GetOriginal<decltype(&ActivateInteriorSetHook)>()(ctx);
+
+	//LOG_TEXT("ACTIVATE_INTERIOR_ENTITY_SET(%d, \"%s\")", interior, entitySetName);
+}
+
+void Hooking::DeactivateInteriorSetHook(rage::scrNativeCallContext* ctx)
+{
+	Interior interior = ctx->GetArg<Interior>(0);
+	const char* entitySetName = ctx->GetArg<const char*>(1);
+
+	DeactivateInteriorSet.GetOriginal<decltype(&DeactivateInteriorSetHook)>()(ctx);
+
+	//LOG_TEXT("DEACTIVATE_INTERIOR_ENTITY_SET(%d, \"%s\")", interior, entitySetName);
+}
+
+void Hooking::SetBitHook(rage::scrNativeCallContext* ctx)
+{
+	int* address = ctx->GetArg<int*>(0);
+	int offset = ctx->GetArg<int>(1);
+
+	SetBit.GetOriginal<decltype(&SetBitHook)>()(ctx);
+
+	//if (address == ScriptGlobal(1934765).At(21).At(5, 1).Get<int*>() || address == ScriptGlobal(1934765).At(30).At(5, 1).Get<int*>())
+	//	LOG_TEXT("SET_BIT(0x%llX, %d)", (uint64_t)address, offset);
+}
+
+void Hooking::ClearBitHook(rage::scrNativeCallContext* ctx)
+{
+	int* address = ctx->GetArg<int*>(0);
+	int offset = ctx->GetArg<int>(1);
+
+	ClearBit.GetOriginal<decltype(&ClearBitHook)>()(ctx);
+
+	//if (address == ScriptGlobal(1934765).At(21).At(5, 1).Get<int*>() || address == ScriptGlobal(1934765).At(30).At(5, 1).Get<int*>())
+	//	LOG_TEXT("CLEAR_BIT(0x%llX, %d)", (uint64_t)address, offset);
+}
+
+void Hooking::RequestIPLHook(rage::scrNativeCallContext* ctx)
+{
+	Hash iplHash = ctx->GetArg<Hash>(0);
+
+	RequestIPL.GetOriginal<decltype(&RequestIPLHook)>()(ctx);
+
+	//LOG_TEXT("REQUEST_IPL(%d)", iplHash);
+}
+
+void Hooking::RemoveIPLHook(rage::scrNativeCallContext* ctx)
+{
+	Hash iplHash = ctx->GetArg<Hash>(0);
+
+	RemoveIPL.GetOriginal<decltype(&RemoveIPLHook)>()(ctx);
+	
+	//LOG_TEXT("REMOVE_IPL(%d)", iplHash);
 }

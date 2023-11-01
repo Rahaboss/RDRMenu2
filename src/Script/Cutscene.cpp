@@ -12,6 +12,7 @@
 #include "Script/Player.h"
 #include "Config/Settings.h"
 #include "Util/String.h"
+#include "Script/Weapon.h"
 
 Script::CutsceneHelper::CutsceneHelper(const json& JsonObject):
 	m_Scene(0),
@@ -66,9 +67,6 @@ void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 	if (!Handle)
 		return;
 
-	if (PedJsonObject.contains("outfit_preset"))
-		Script::SetPedOutfitPreset(Handle, PedJsonObject["outfit_preset"].get<int>());
-
 	// https://github.com/femga/rdr3_discoveries/blob/master/clothes/metaped_outfits.lua
 	if (PedJsonObject.contains("meta_ped_outfit"))
 		Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_outfit"]));
@@ -80,6 +78,8 @@ void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 	{
 		WEAPON::_SET_PED_WEAPON_ATTACH_POINT_VISIBILITY(Handle, WEAPON_ATTACH_POINT_RIFLE, false);
 		WEAPON::_SET_PED_WEAPON_ATTACH_POINT_VISIBILITY(Handle, WEAPON_ATTACH_POINT_RIFLE_ALTERNATE, false);
+		WEAPON::_SET_PED_WEAPON_ATTACH_POINT_VISIBILITY(Handle, WEAPON_ATTACH_POINT_BOW, false);
+		WEAPON::_SET_PED_WEAPON_ATTACH_POINT_VISIBILITY(Handle, WEAPON_ATTACH_POINT_BOW_ALTERNATE, false);
 	}
 }
 
@@ -117,14 +117,15 @@ void Script::CutsceneHelper::AddLocalPlayer()
 		else
 		{
 			Handle = AddPedNew(PlayerModel, entityName);
+
+			// Add weapon to new ped
+			Script::GiveWeapon(Handle, RAGE_JOAAT("WEAPON_REVOLVER_CATTLEMAN"), WEAPON_ATTACH_POINT_PISTOL_R);
 		
 			// Apply default outfit
-			if (!m_JsonObject.contains("player_outfit_preset") && !m_JsonObject.contains("player_meta_ped_outfit"))
+			if (!m_JsonObject.contains("player_meta_ped_outfit") && !m_JsonObject.contains("player_meta_ped_wearable"))
 				Script::SetMetaPedOutfit(Handle, (b_PlayerArthur ? RAGE_JOAAT("META_OUTFIT_COOL_WEATHER") : RAGE_JOAAT("META_OUTFIT_GUNSLINGER")));
 		}
 
-		if (m_JsonObject.contains("player_outfit_preset"))
-			Script::SetMetaPedOutfit(Handle, m_JsonObject["player_outfit_preset"].get<int>());
 		if (m_JsonObject.contains("player_meta_ped_outfit"))
 			Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(m_JsonObject["player_meta_ped_outfit"]));
 		if (m_JsonObject.contains("player_meta_ped_wearable"))
@@ -228,6 +229,9 @@ void Script::CutsceneHelper::SetOrigin()
 
 void Script::CutsceneHelper::TeleportToOrigin()
 {
+	if (!g_Settings["teleport_to_cutscene"].get<bool>())
+		return;
+
 	if (m_JsonObject.contains("disable_tp_to_origin") && m_JsonObject["disable_tp_to_origin"].get<bool>())
 	{
 		ANIMSCENE::SET_ANIM_SCENE_ORIGIN(m_Scene, g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z, 0, 0, 0, 0);

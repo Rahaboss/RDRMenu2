@@ -49,4 +49,22 @@ namespace Hooking
 	
 	inline DetourHook ApplyShopItemToPed;
 	void ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook ActivateInteriorSet;
+	void ActivateInteriorSetHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook DeactivateInteriorSet;
+	void DeactivateInteriorSetHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook SetBit;
+	void SetBitHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook ClearBit;
+	void ClearBitHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook RequestIPL;
+	void RequestIPLHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook RemoveIPL;
+	void RemoveIPLHook(rage::scrNativeCallContext* ctx);
 }

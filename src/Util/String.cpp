@@ -4,7 +4,7 @@
 
 void Util::StringToUpper(std::string& String)
 {
-	std::transform(String.cbegin(), String.cend(), String.begin(), toupper);
+	std::transform(String.cbegin(), String.cend(), String.begin(), CharToUpper);
 }
 
 std::string Util::StringToUpperCopy(const std::string& String)
@@ -23,7 +23,7 @@ std::string Util::StringToUpperCopy(const char* String)
 
 void Util::StringToLower(std::string& String)
 {
-	std::transform(String.cbegin(), String.cend(), String.begin(), tolower);
+	std::transform(String.cbegin(), String.cend(), String.begin(), CharToLower);
 }
 
 std::string Util::StringToLowerCopy(const std::string& String)
