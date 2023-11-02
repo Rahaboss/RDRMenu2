@@ -825,14 +825,148 @@
 	},
 	{
 		"id": "cutscene@cachr_int",
+		"objects": [
+			{
+				"model": "p_bottlejd01x",
+				"name": "p_bottleJD01x"
+			},
+			{
+				"model": "p_chair_crate02x",
+				"name": "p_chair_crate02x"
+			},
+			{
+				"model": "p_chairfolding02x",
+				"name": "p_chairfolding02x"
+			},
+			{
+				"model": "p_cigarbox02x",
+				"name": "p_cigarbox02x"
+			},
+			{
+				"model": "p_crate06x",
+				"name": "p_crate06x"
+			},
+			{
+				"model": "p_detonator01x",
+				"name": "p_detonator01x"
+			},
+			{
+				"model": "p_cs_fusespool01x",
+				"name": "p_cs_fusespool01x"
+			},
+			{
+				"model": "s_mp_moneybag02x",
+				"name": "s_mp_moneybag02x"
+			},
+			{
+				"model": "p_package13x",
+				"name": "p_package13x"
+			},
+			{
+				"model": "s_rhodesbankplan01x",
+				"name": "S_TWOFOLDMAP01X"
+			},
+			{
+				"model": "p_stickydymt_bundle",
+				"name": "p_stickydymt_bundle"
+			},
+			{
+				"model": "p_stickydymt_bundle",
+				"name": "p_StickyDymt_bundle^1"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_uncle",
+				"name": "Uncle"
+			},
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_charles",
+				"name": "Horse_01"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_uncle",
+				"name": "Horse_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_dutchwarmblood_chocolateroan",
+				"name": "Horse_01^2"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@cachr_mcs1",
+		"objects": [
+			{
+				"model": "p_cs_fusespool01x",
+				"name": "p_cs_fusespool01x"
+			},
+			{
+				"model": "p_detonator01x",
+				"name": "p_detonator01x"
+			}
+		],
+		"peds": [
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_dutchwarmblood_chocolateroan",
+				"name": "Horse_01^1"
+			},
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_charles",
+				"name": "Horse_01^2"
+			},
+			{
+				"model": "cs_uncle",
+				"name": "uncle"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_uncle",
+				"name": "Horse_01"
+			},
+			{
+				"model": "s_m_m_ambientlawrural_01",
+				"name": "S_M_M_AmbientLawRural_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@cachr_mcs2",
+		"objects": [
+			{
+				"model": "s_mp_moneybag02x",
+				"name": "s_mp_moneybag02x"
+			},
+			{
+				"model": "s_mp_moneybag02x",
+				"name": "s_mp_moneybag02x^1"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_charlessmith",
+				"name": "CharlesSmith"
+			},
+			{
+				"model": "cs_uncle",
+				"name": "uncle"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -911,27 +1045,129 @@
 	},
 	{
 		"id": "cutscene@calny_crob4_ext",
-		"player_model": "player_zero"
+		"objects": [
+			{
+				"model": "p_cs_billstack01x",
+				"name": "p_cs_billstack01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_lenny",
+				"name": "Lenny"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "stagecoach004x",
+				"name": "STAGECOACH004X"
+			}
+		]
 	},
 	{
 		"id": "cutscene@calny_crob4_int",
+		"objects": [
+			{
+				"model": "p_chair11x",
+				"name": "p_chair11x"
+			},
+			{
+				"model": "p_cs_book02x",
+				"name": "p_cs_book02x"
+			},
+			{
+				"model": "w_repeater_carbine01",
+				"name": "w_repeater_carbine01"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_lenny",
+				"name": "lenny"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@camch_crob1_ext",
-		"player_model": "player_zero"
+		"objects": [
+			{
+				"model": "p_cs_billstack01x",
+				"name": "P_CS_BILLSTACK01X"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_micahbell",
+				"name": "MicahBell"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "stagecoach004x",
+				"name": "STAGECOACH004X"
+			}
+		]
 	},
 	{
 		"id": "cutscene@camch_crob2",
+		"peds": [
+			{
+				"model": "cs_micahbell",
+				"name": "MicahBell"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@caprs_hnt6_ext",
-		"player_model": "player_zero"
+		"peds": [
+			{
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					5
+				],
+				"model": "rowboatswamp",
+				"name": "ROWBOATSWAMP"
+			}
+		]
 	},
 	{
 		"id": "cutscene@caprs_hnt6_int",
-		"player_model": "player_zero"
+		"objects": [
+			{
+				"model": "p_chair_crate02x",
+				"name": "p_chair_crate02x"
+			},
+			{
+				"model": "p_trap05x",
+				"name": "p_trap05x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_mrpearson",
+				"name": "MrPearson"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					5
+				],
+				"model": "rowboatswamp",
+				"name": "ROWBOATSWAMP"
+			}
+		]
 	},
 	{
 		"id": "cutscene@casen_crob2_int",
@@ -2330,7 +2566,63 @@
 	},
 	{
 		"id": "cutscene@ind1_ext",
-		"player_model": "player_zero"
+		"objects": [
+			{
+				"model": "p_traveltrunk02x",
+				"name": "p_traveltrunk02x"
+			},
+			{
+				"model": "p_pencil01x",
+				"name": "p_pencil01x"
+			},
+			{
+				"model": "p_amb_clipboard_01",
+				"name": "p_amb_clipboard_01"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			},
+			{
+				"model": "msp_industry1_males_01",
+				"name": "A_M_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_AmbientSDPolice_01"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_AmbientSDPolice_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_belgian_blondchestnut",
+				"name": "Horse_01"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_belgian_mealychestnut",
+				"name": "Horse_01^1"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "coach3_cutscene",
+				"name": "coach3_cutscene"
+			}
+		]
 	},
 	{
 		"id": "cutscene@ind1_extb",
@@ -2344,26 +2636,346 @@
 	},
 	{
 		"id": "cutscene@ind1_int",
+		"peds": [
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind1_mcs2",
-		"player_model": "player_zero"
+		"objects": [
+			{
+				"model": "p_cs_note01x",
+				"name": "p_cs_envelope_cls_blank"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			},
+			{
+				"model": "cs_lenny",
+				"name": "Lenny"
+			},
+			{
+				"model": "msp_industry1_males_01",
+				"name": "A_M_M_GAMHighSociety_01^1"
+			},
+			{
+				"model": "cs_lucanapoli",
+				"name": "A_M_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPOLICE_01"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_belgian_mealychestnut",
+				"name": "Horse_01"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_suffolkpunch_redchestnut",
+				"name": "Horse_01^1"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"model": "coach3_cutscene",
+				"name": "coach3_cutscene"
+			}
+		]
 	},
 	{
 		"id": "cutscene@ind1_mcs3",
+		"objects": [
+			{
+				"model": "p_cigar02x",
+				"name": "p_cigar02x"
+			},
+			{
+				"model": "p_cigar02x",
+				"name": "p_cigar02x^1"
+			},
+			{
+				"model": "p_cigarbox02x",
+				"name": "p_cigarbox02x"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x^1"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x^2"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_lucanapoli",
+				"name": "A_M_M_GAMHIGHSOCIETY_01^1"
+			},
+			{
+				"model": "cs_bronte",
+				"name": "Bronte"
+			},
+			{
+				"model": "cs_guidomartelli",
+				"name": "GuidoMartelli"
+			},
+			{
+				"model": "msp_industry1_males_01",
+				"name": "A_M_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "msp_industry1_males_01",
+				"name": "A_M_M_GAMHIGHSOCIETY_01^2"
+			},
+			{
+				"model": "g_m_m_unibrontegoons_01",
+				"name": "G_M_M_UNIBRONTEGOONS_01"
+			},
+			{
+				"model": "g_m_m_unibrontegoons_01",
+				"name": "G_M_M_UNIBRONTEGOONS_01^1"
+			},
+			{
+				"model": "cs_brendacrawley",
+				"name": "BrendaCrawley"
+			},
+			{
+				"model": "cs_rainsfall",
+				"name": "CS_RainsFall"
+			},
+			{
+				"model": "cs_eagleflies",
+				"name": "EagleFlies"
+			},
+			{
+				"model": "cs_fussar",
+				"name": "Fussar"
+			},
+			{
+				"model": "cs_hectorfellowes",
+				"name": "HectorFellowes"
+			},
+			{
+				"model": "cs_henrilemiux",
+				"name": "HenriLemiux"
+			},
+			{
+				"model": "cs_hobartcrawley",
+				"name": "HobartCrawley"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^4"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^5"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^7"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^8"
+			},
+			{
+				"model": "msp_industry1_males_01",
+				"name": "A_M_M_GaMHighSociety_01^10"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^11"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^12"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^14"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^15"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^16"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^17"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GaMHighSociety_01^18"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01^1"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01^2"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01^3"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01^5"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind1_mcs4",
+		"peds": [
+			{
+				"model": "msp_industry1_males_01",
+				"name": "A_M_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "cs_lemiuxassistant",
+				"name": "LEMIUXASSISTANT"
+			},
+			{
+				"model": "cs_evelynmiller",
+				"name": "EvelynMiller"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "GenStoryMale"
+			},
+			{
+				"model": "cs_henrilemiux",
+				"name": "HenriLemiux"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind1_mcs5",
+		"objects": [
+			{
+				"model": "p_pipe01x",
+				"name": "p_Pipe01x"
+			},
+			{
+				"model": "p_glass01x",
+				"name": "p_glass01x"
+			},
+			{
+				"model": "p_glass01x",
+				"name": "p_glass01x^1"
+			},
+			{
+				"model": "p_cs_ledgersmall01x",
+				"name": "p_cs_ledger01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "a_m_m_gamhighsociety_01",
+				"name": "A_M_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "cs_lemiuxassistant",
+				"name": "LEMIUXASSISTANT"
+			},
+			{
+				"model": "cs_evelynmiller",
+				"name": "EvelynMiller"
+			},
+			{
+				"model": "cs_henrilemiux",
+				"name": "HenriLemiux"
+			},
+			{
+				"model": "msp_industry1_males_01",
+				"name": "MSP_INDUSTRY1_MALES_01"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01^1"
+			},
+			{
+				"model": "a_f_m_gamhighsociety_01",
+				"name": "A_F_M_GAMHIGHSOCIETY_01^2"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind1_mcs6",
+		"objects": [
+			{
+				"model": "p_cigarlit01x",
+				"name": "p_cigarlit01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -2407,6 +3019,12 @@
 	},
 	{
 		"id": "cutscene@ind3_int",
+		"objects": [
+			{
+				"model": "s_cs_sd_newspaper05x",
+				"name": "S_CS_SD_NEWSPAPER05X"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_heist",
@@ -2419,40 +3037,418 @@
 	},
 	{
 		"id": "cutscene@ind3_mcs1",
+		"objects": [
+			{
+				"model": "p_doorriverboat01x",
+				"name": "P_DOORRIVERBOAT01X"
+			},
+			{
+				"model": "p_doorriverboat01x",
+				"name": "P_DOORRIVERBOAT01X^1"
+			},
+			{
+				"model": "p_doorriverboat01x",
+				"name": "P_DOORRIVERBOAT01X^3"
+			},
+			{
+				"model": "p_doorriverboat01x",
+				"name": "P_DOORRIVERBOAT01X^2"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_heist",
 				"model": "cs_josiahtrelawny",
 				"name": "JosiahTrelawny"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "S_M_M_NBXRIVERBOATGUARDS_01"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "S_M_M_NBXRIVERBOATGUARDS_01^1"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "S_M_M_NBXRIVERBOATGUARDS_01^2"
+			},
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
 			}
 		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_mcs2",
+		"objects": [
+			{
+				"model": "p_cardssplit01x_gk",
+				"name": "p_cards01x"
+			},
+			{
+				"model": "p_crd_7_s01x_gk",
+				"name": "p_crd_2_c01x_gk^4"
+			},
+			{
+				"model": "p_crd_10_h01x_gk",
+				"name": "p_crd_2_c01x_gk^3"
+			},
+			{
+				"model": "p_crd_q_s01x_gk",
+				"name": "p_crd_2_c01x_gk^2"
+			},
+			{
+				"model": "p_crd_3_d01x_gk",
+				"name": "p_crd_2_c01x_gk^1"
+			},
+			{
+				"model": "p_crd_4_s01x_gk",
+				"name": "p_crd_2_c01x_gk"
+			},
+			{
+				"model": "p_crd_k_h01x_gk",
+				"name": "p_crd_2_c01x_gk^9"
+			},
+			{
+				"model": "p_crd_j_s01x_gk",
+				"name": "p_crd_2_c01x_gk^10"
+			},
+			{
+				"model": "p_crd_5_s01x_gk",
+				"name": "p_crd_2_c01x_gk^6"
+			},
+			{
+				"model": "p_crd_8_c01x_gk",
+				"name": "p_crd_2_c01x_gk^5"
+			},
+			{
+				"model": "p_crd_j_c01x_gk",
+				"name": "p_crd_2_c01x_gk^7"
+			},
+			{
+				"model": "p_crd_9_c01x_gk",
+				"name": "p_crd_2_c01x_gk^8"
+			},
+			{
+				"model": "p_crd_k_c01x_gk",
+				"name": "p_crd_2_c01x_gk^12"
+			},
+			{
+				"model": "p_crd_2_h01x_gk",
+				"name": "p_crd_2_c01x_gk^11"
+			},
+			{
+				"model": "p_crd_q_h01x_gk",
+				"name": "p_crd_2_c01x_gk^14"
+			},
+			{
+				"model": "p_crd_q_c01x_gk",
+				"name": "p_crd_2_c01x_gk^13"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_desmond",
+				"name": "CS_DESMOND"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "S_M_M_NBXRIVERBOATDEALERS_01"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "A_M_M_NBXUPPERCLASS_01"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^1"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^2"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_mcs3",
+		"objects": [
+			{
+				"model": "p_crd_q_s01x_gk",
+				"name": "p_crd_2_c01x_gk"
+			},
+			{
+				"model": "p_crd_q_h01x_gk",
+				"name": "p_crd_2_c01x_Gk^1"
+			},
+			{
+				"model": "p_crd_a_s01x_gk",
+				"name": "p_crd_2_c01x_Gk^2"
+			},
+			{
+				"model": "p_crd_j_c01x_gk",
+				"name": "p_crd_2_c01x_Gk^3"
+			}
+		],
+		"peds": [
+			{
+				"model": "u_m_m_nbxriverboatpitboss_01",
+				"name": "U_M_M_NBXRIVERBOATPITBOSS_01"
+			},
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_desmond",
+				"name": "CS_DESMOND"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "S_M_M_NBXRIVERBOATDEALERS_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_mcs4",
+		"objects": [
+			{
+				"model": "p_crd_k_d01x_gk",
+				"name": "p_crd_2_c01x_Gk^4"
+			},
+			{
+				"model": "p_crd_k_c01x_gk",
+				"name": "p_crd_2_c01x_Gk^5"
+			},
+			{
+				"model": "p_crd_a_s01x_gk",
+				"name": "p_crd_2_c01x_Gk^6"
+			},
+			{
+				"model": "p_crd_a_c01x_gk",
+				"name": "p_crd_2_c01x_Gk^7"
+			}
+		],
+		"peds": [
+			{
+				"model": "u_m_m_nbxriverboatpitboss_01",
+				"name": "U_M_M_NBXRIVERBOATPITBOSS_01"
+			},
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_desmond",
+				"name": "CS_DESMOND"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "S_M_M_NBXRIVERBOATDEALERS_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_mcs5",
+		"objects": [
+			{
+				"model": "s_shotglass01x_brown",
+				"name": "S_SHOTGLASS01X_BROWN"
+			},
+			{
+				"model": "s_shotglass01x_brown",
+				"name": "S_SHOTGLASS01X_BROWN^1"
+			},
+			{
+				"model": "s_tumbler01x_brown",
+				"name": "S_TUMBLER01X_BROWN"
+			},
+			{
+				"model": "w_revolver_schofield01",
+				"name": "w_revolver_schofield01"
+			},
+			{
+				"model": "w_revolver_schofield01",
+				"name": "w_revolver_schofield01^1"
+			},
+			{
+				"model": "w_repeater_winchester01",
+				"name": "W_REPEATER_WINCHESTER01"
+			},
+			{
+				"model": "w_repeater_winchester01",
+				"name": "W_REPEATER_WINCHESTER01^1"
+			},
+			{
+				"model": "w_repeater_winchester01",
+				"name": "W_REPEATER_WINCHESTER01^3"
+			},
+			{
+				"model": "w_repeater_winchester01",
+				"name": "W_REPEATER_WINCHESTER01^5"
+			},
+			{
+				"model": "w_repeater_winchester01",
+				"name": "W_REPEATER_WINCHESTER01^6"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_heist",
 				"model": "cs_josiahtrelawny",
 				"name": "JosiahTrelawny"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "U_M_M_NBXBARTENDER_02"
+			},
+			{
+				"model": "s_m_m_nbxriverboatdealers_01",
+				"name": "Table1_Dealer"
+			},
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_javierescuella",
+				"name": "JavierEscuella"
+			},
+			{
+				"model": "cs_desmond",
+				"name": "CS_DESMOND"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table1_Male1"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table1_Male2"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table1_Male3"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table1_Male4"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table1_Male5"
+			},
+			{
+				"model": "s_m_m_nbxriverboatdealers_01",
+				"name": "Table3_Dealer"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table3_Male1"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table3_Male2"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table3_Male3"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table3_Male4"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Table3_Male5"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "Male_Civ_Bar"
+			},
+			{
+				"model": "msp_industry3_females_01",
+				"name": "Female_Civ_Bar"
+			},
+			{
+				"model": "a_m_m_nbxupperclass_01",
+				"name": "Booth_Male"
+			},
+			{
+				"model": "a_f_m_nbxupperclass_01",
+				"name": "Female_Civ_Walking"
+			},
+			{
+				"model": "a_f_m_nbxupperclass_01",
+				"name": "Female_Civ_Walking2"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "s_m_m_nbxriverboatguards_01"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "s_m_m_nbxriverboatguards_01^1"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "s_m_m_nbxriverboatguards_01^2"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "s_m_m_nbxriverboatguards_01^3"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "s_m_m_nbxriverboatguards_01^4"
+			},
+			{
+				"model": "s_m_m_nbxriverboatguards_01",
+				"name": "s_m_m_nbxriverboatguards_01^5"
 			}
 		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@ind3_mcs7",
+		"peds": [
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			},
+			{
+				"model": "cs_desmond",
+				"name": "CS_DESMOND"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "S_M_M_NBXRIVERBOATDEALERS_01"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "A_M_M_NBXUPPERCLASS_01"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^1"
+			},
+			{
+				"model": "msp_industry3_males_01",
+				"name": "A_M_M_NBXUPPERCLASS_01^2"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -3160,14 +4156,101 @@
 	},
 	{
 		"id": "cutscene@mob2_ext",
+		"objects": [
+			{
+				"model": "p_cigarlit01x",
+				"name": "p_cigarlit01x"
+			},
+			{
+				"model": "p_pebble01x",
+				"name": "p_pebble01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_johnmarston",
+				"name": "JohnMarston"
+			},
+			{
+				"model": "g_m_m_unibrontegoons_01",
+				"name": "G_M_M_UNIBRONTEGOONS_01"
+			},
+			{
+				"model": "cs_jackmarston",
+				"name": "JackMarston"
+			},
+			{
+				"model": "g_m_m_unibrontegoons_01",
+				"name": "G_M_M_UniBronteGoons_01^1"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@mob2_ext2",
+		"peds": [
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			},
+			{
+				"model": "cs_johnmarston",
+				"name": "JohnMarston"
+			},
+			{
+				"model": "cs_jackmarston",
+				"name": "JackMarston"
+			},
+			{
+				"model": "cs_abigailroberts",
+				"name": "AbigailRoberts"
+			},
+			{
+				"model": "cs_marybeth",
+				"name": "MaryBeth"
+			},
+			{
+				"model": "cs_karen",
+				"name": "Karen"
+			},
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_dutchwarmblood_chocolateroan",
+				"name": "Horse_01"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_dutch",
+				"name": "Horse_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_john",
+				"name": "Horse_01^2"
+			},
+			{
+				"model": "cs_billwilliamson",
+				"name": "BillWilliamson"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@mob2_int",
+		"objects": [
+			{
+				"model": "p_doormansiongate01x",
+				"name": "p_doorMansionGate01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_warm_weather",
@@ -3177,12 +4260,23 @@
 			{
 				"model": "cs_johnmarston",
 				"name": "JohnMarston"
+			},
+			{
+				"model": "g_m_m_unibrontegoons_01",
+				"name": "G_M_M_UNIBRONTEGOONS_01"
 			}
 		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@mob2_mcs_1",
+		"peds": [
+			{
+				"model": "cs_johnmarston",
+				"name": "JohnMarston"
+			}
+		],
+		"playback_id": "PL_Start_Left",
 		"player_model": "player_zero"
 	},
 	{
@@ -3209,6 +4303,20 @@
 	},
 	{
 		"id": "cutscene@mob3_int",
+		"objects": [
+			{
+				"model": "p_crate15x",
+				"name": "P_CRATE15X"
+			},
+			{
+				"model": "p_crateconf01x",
+				"name": "P_CRATECONF01X"
+			},
+			{
+				"model": "p_cratebrand03x",
+				"name": "P_CRATEBRAND03X"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_warm_weather",
@@ -3219,6 +4327,22 @@
 				"meta_ped_outfit": "meta_outfit_robbery",
 				"model": "cs_lenny",
 				"name": "Lenny"
+			},
+			{
+				"model": "msp_mob3_males_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^1"
+			},
+			{
+				"model": "msp_mob3_females_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^2"
+			},
+			{
+				"model": "msp_mob3_males_01",
+				"name": "A_M_M_MiddleSDTownfolk_01"
+			},
+			{
+				"model": "msp_mob3_males_01",
+				"name": "S_M_M_TrainStationWorker_01"
 			}
 		],
 		"playback_id": "1-EnterFront_BeforeInd3_MultiStart",
@@ -3226,6 +4350,20 @@
 	},
 	{
 		"id": "cutscene@mob3_mcs1",
+		"objects": [
+			{
+				"model": "p_cs_billstack01x",
+				"name": "P_CS_BILLSTACK01X"
+			},
+			{
+				"model": "p_cs_billstack01x",
+				"name": "P_CS_BILLSTACK01X^1"
+			},
+			{
+				"model": "p_cs_billstack01x",
+				"name": "P_CS_BILLSTACK01X^2"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_warm_weather",
@@ -3236,9 +4374,70 @@
 				"meta_ped_outfit": "meta_outfit_robbery",
 				"model": "cs_lenny",
 				"name": "Lenny"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^1"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^2"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^3"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^4"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^5"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^6"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^7"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^8"
+			},
+			{
+				"model": "s_m_m_ambientsdpolice_01",
+				"name": "S_M_M_NBLPolice_01^9"
+			},
+			{
+				"model": "s_m_m_genconductor_01",
+				"name": "S_M_M_TROLLEYCONDUCTOR_01"
+			},
+			{
+				"model": "msp_mob3_females_01",
+				"name": "A_M_M_MiddleSDTownfolk_01"
+			},
+			{
+				"model": "msp_mob3_males_01",
+				"name": "S_M_M_TrainStationWorker_01"
 			}
 		],
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					1
+				],
+				"model": "trolley01x",
+				"name": "trolley01x"
+			}
+		]
 	},
 	{
 		"id": "cutscene@mob3_mcs2",
@@ -3252,9 +4451,32 @@
 				"meta_ped_outfit": "meta_outfit_robbery",
 				"model": "cs_lenny",
 				"name": "Lenny"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_shire_darkbay",
+				"name": "Horse_01"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_belgian_blondchestnut",
+				"name": "Horse_01^1"
 			}
 		],
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					1
+				],
+				"model": "trolley01x",
+				"name": "trolley01x"
+			},
+			{
+				"model": "wagon05x",
+				"name": "wagon05x"
+			}
+		]
 	},
 	{
 		"id": "cutscene@mob4_ext",
@@ -3262,6 +4484,22 @@
 	},
 	{
 		"id": "cutscene@mob4_int",
+		"objects": [
+			{
+				"model": "p_crate15x",
+				"name": "p_crate15x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_hoseamatthews",
+				"name": "HoseaMatthews"
+			},
+			{
+				"model": "cs_dutch",
+				"name": "Dutch"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -3475,7 +4713,16 @@
 			}
 		],
 		"playback_id": "3B-PlayerStayed",
-		"player_model": "player_zero"
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					1
+				],
+				"model": "trolley01x",
+				"name": "trolley01x"
+			}
+		]
 	},
 	{
 		"id": "cutscene@mry3_int",
@@ -3483,6 +4730,19 @@
 			{
 				"model": "cs_marylinton",
 				"name": "MaryLinton"
+			},
+			{
+				"model": "msp_mary3_males_01",
+				"name": "A_M_M_HtlFancyTravellers_01"
+			},
+			{
+				"model": "msp_mary3_males_01",
+				"name": "A_M_M_HtlFancyTravellers_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_dutchwarmblood_chocolateroan",
+				"name": "Horse_01"
 			}
 		],
 		"playback_id": "1-Start",
@@ -3490,6 +4750,12 @@
 	},
 	{
 		"id": "cutscene@mry3_mcs1",
+		"objects": [
+			{
+				"model": "p_broom04x",
+				"name": "p_broom04x"
+			}
+		],
 		"peds": [
 			{
 				"model": "cs_marylinton",
@@ -3498,6 +4764,10 @@
 			{
 				"model": "cs_mrlinton",
 				"name": "CS_MrLinton"
+			},
+			{
+				"model": "msp_mary3_males_01",
+				"name": "A_M_M_NBXDOCKWORKERS_01"
 			}
 		],
 		"player_model": "player_zero"
@@ -6459,6 +7729,10 @@
 			{
 				"model": "w_melee_knife02",
 				"name": "w_melee_knife02"
+			},
+			{
+				"model": "p_sharpeningstone01x",
+				"name": "p_sharpeningstone01x"
 			}
 		],
 		"peds": [
@@ -7893,6 +9167,10 @@
 			{
 				"model": "s_inv_orchid_ghost_01x",
 				"name": "s_inv_Orchid_Ghost_01x"
+			},
+			{
+				"model": "p_doornbd26x",
+				"name": "P_DOORNBD26X"
 			}
 		],
 		"peds": [
@@ -8945,26 +10223,96 @@
 	},
 	{
 		"id": "cutscene@rckpt_s1_ext",
+		"objects": [
+			{
+				"model": "p_sidetable07x",
+				"name": "p_sidetable07x"
+			},
+			{
+				"model": "s_re_rcboatbox01x",
+				"name": "s_re_RCBoatBox01x"
+			},
+			{
+				"model": "s_controlradioboat01x",
+				"name": "s_controlradioboat01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
 				"model": "cs_crackpotinventor",
 				"name": "cs_crackpotinventor"
+			},
+			{
+				"model": "rcsp_crackpot_males_01",
+				"name": "A_M_M_NbxUpperClass_01"
+			},
+			{
+				"model": "rcsp_crackpot_females_01",
+				"name": "A_F_M_NbxUpperClass_01"
+			},
+			{
+				"model": "rcsp_crackpot_females_01",
+				"name": "A_F_M_NbxUpperClass_01^1"
 			}
 		]
 	},
 	{
 		"id": "cutscene@rckpt_s1_int",
+		"objects": [
+			{
+				"model": "p_sidetable07x",
+				"name": "p_sidetable07x"
+			},
+			{
+				"model": "s_re_rcboatbox01x",
+				"name": "s_re_RCBoatBox01x"
+			},
+			{
+				"model": "s_controlradioboat01x",
+				"name": "s_controlradioboat01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
 				"model": "cs_crackpotinventor",
 				"name": "cs_crackpotinventor"
+			},
+			{
+				"model": "rcsp_crackpot_males_01",
+				"name": "A_M_M_NbxUpperClass_01"
+			},
+			{
+				"model": "rcsp_crackpot_females_01",
+				"name": "A_F_M_NbxUpperClass_01"
+			},
+			{
+				"model": "rcsp_crackpot_females_01",
+				"name": "A_F_M_NbxUpperClass_01^1"
+			},
+			{
+				"model": "rcsp_crackpot_males_01",
+				"name": "A_M_M_NbxUpperClass_01^1"
 			}
 		]
 	},
 	{
 		"id": "cutscene@rckpt_s2_ext",
+		"objects": [
+			{
+				"model": "p_door_dov_lab_r_01x",
+				"name": "p_door_dov_lab_r_01x"
+			},
+			{
+				"model": "p_door_dov_lab_l_01x",
+				"name": "p_door_dov_lab_l_01x"
+			},
+			{
+				"model": "p_inventorcage_door01x",
+				"name": "p_inventorcage_door01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_lab",
@@ -8980,16 +10328,37 @@
 	},
 	{
 		"id": "cutscene@rckpt_s2_int",
+		"objects": [
+			{
+				"model": "p_door_dov_lab_r_01x",
+				"name": "p_door_dov_lab_r_01x"
+			},
+			{
+				"model": "p_door_dov_lab_l_01x",
+				"name": "p_door_dov_lab_l_01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_lab",
 				"model": "cs_crackpotinventor",
 				"name": "cs_crackpotinventor"
 			}
-		]
+		],
+		"playback_id": "1-Standard"
 	},
 	{
 		"id": "cutscene@rckpt_s2_mcs1",
+		"objects": [
+			{
+				"model": "p_door_dov_lab_r_01x",
+				"name": "p_door_dov_lab_r_01x"
+			},
+			{
+				"model": "p_door_dov_lab_l_01x",
+				"name": "p_door_dov_lab_l_01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_lab",
@@ -9058,14 +10427,84 @@
 	},
 	{
 		"id": "cutscene@rcldn_rsc4",
+		"objects": [
+			{
+				"model": "p_cs_book03x",
+				"name": "p_cs_book03x"
+			},
+			{
+				"model": "p_cs_bible01x",
+				"name": "p_cs_bible01x"
+			},
+			{
+				"model": "p_cs_book04x",
+				"name": "p_cs_book04x"
+			},
+			{
+				"model": "p_cs_book04x",
+				"name": "p_cs_book04x^1"
+			},
+			{
+				"model": "p_crucifix02x",
+				"name": "p_crucifix02x"
+			},
+			{
+				"model": "p_pencil01x",
+				"name": "p_pencil01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_sistercalderon",
+				"name": "SISTERCALDERON"
+			},
+			{
+				"model": "cs_brotherdorkins",
+				"name": "BrotherDorkins"
+			},
+			{
+				"model": "rcsp_calderonstage2_teens_01",
+				"name": "A_M_Y_NBXStreetKids_01"
+			},
+			{
+				"model": "rcsp_calderonstage2_teens_01",
+				"name": "A_M_Y_NBXStreetKids_01^1"
+			},
+			{
+				"model": "rcsp_calderonstage2_teens_01",
+				"name": "A_M_Y_NBXStreetKids_01^2"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rcldn_rsc6",
+		"objects": [
+			{
+				"model": "p_crucifix02x",
+				"name": "p_crucifix02x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_sistercalderon",
+				"name": "SISTERCALDERON"
+			},
+			{
+				"model": "cs_sdpriest",
+				"name": "CS_SDPRIEST"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rcldn_rsc_5",
+		"objects": [
+			{
+				"model": "p_crucifix02x",
+				"name": "p_crucifix02x"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -10297,6 +11736,12 @@
 	},
 	{
 		"id": "cutscene@rfma_rc2",
+		"objects": [
+			{
+				"model": "p_door_val_bank02",
+				"name": "p_door_val_bank02"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
@@ -10312,6 +11757,40 @@
 	},
 	{
 		"id": "cutscene@rfma_rc4",
+		"objects": [
+			{
+				"model": "p_cigarette_cs01x",
+				"name": "p_cigarette_cs01x"
+			},
+			{
+				"model": "p_cigarette_cs01x",
+				"name": "p_cigarette_cs01x^1"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x^1"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x^2"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x^4"
+			},
+			{
+				"model": "p_glass03x",
+				"name": "p_glass03x^5"
+			},
+			{
+				"model": "s_pursefancy01x",
+				"name": "s_purseFancy01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
@@ -10985,6 +12464,28 @@
 	},
 	{
 		"id": "cutscene@rmasn_rc5",
+		"objects": [
+			{
+				"model": "p_cs_camerabag01x",
+				"name": "p_cs_camerabag01x"
+			},
+			{
+				"model": "p_cs_camera",
+				"name": "p_cs_camera"
+			},
+			{
+				"model": "p_cs_cameratripod",
+				"name": "p_cs_cameratripod"
+			},
+			{
+				"model": "p_cs_shutterrelease",
+				"name": "p_cs_shutterrelease"
+			},
+			{
+				"model": "p_cameraflash01x",
+				"name": "p_cameraflash01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
@@ -10996,6 +12497,28 @@
 	},
 	{
 		"id": "cutscene@rmasn_rc6",
+		"objects": [
+			{
+				"model": "p_cs_camerabag01x",
+				"name": "p_cs_camerabag01x"
+			},
+			{
+				"model": "p_cs_camera",
+				"name": "p_cs_camera"
+			},
+			{
+				"model": "p_cs_cameratripod",
+				"name": "p_cs_cameratripod"
+			},
+			{
+				"model": "p_cs_shutterrelease",
+				"name": "p_cs_shutterrelease"
+			},
+			{
+				"model": "p_cameraflash01x",
+				"name": "p_cameraflash01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_default",
@@ -11212,23 +12735,142 @@
 	},
 	{
 		"id": "cutscene@rnatv_s2_ext",
+		"peds": [
+			{
+				"model": "cs_eagleflies",
+				"name": "EagleFlies"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_eagleflies",
+				"name": "Horse_01^1"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_dutchwarmblood_chocolateroan",
+				"name": "Horse_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rnatv_s2_int",
+		"objects": [
+			{
+				"model": "p_binoculars01x",
+				"name": "P_BINOCULARS01X"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_eagleflies",
+				"name": "EagleFlies"
+			}
+		],
+		"playback_id": "1-Day",
 		"player_model": "player_zero"
 	},
 	{
-		"id": "cutscene@robt_s1_ext"
+		"id": "cutscene@robt_s1_ext",
+		"objects": [
+			{
+				"model": "p_bottlecrate01x",
+				"name": "p_bottlecrate01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_twinbrother_01",
+				"name": "cs_twinbrother_01"
+			},
+			{
+				"model": "cs_twinbrother_02",
+				"name": "cs_twinbrother_02"
+			},
+			{
+				"model": "cs_twingroupie_01",
+				"name": "cs_twingroupie_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@robt_s1_int"
+		"id": "cutscene@robt_s1_int",
+		"objects": [
+			{
+				"model": "p_bottlecrate01x",
+				"name": "p_bottlecrate01x"
+			},
+			{
+				"model": "s_drinkshootmg01x",
+				"name": "s_drinkShootMG01x"
+			},
+			{
+				"model": "s_drinkshootmg01x",
+				"name": "s_drinkshootmg01x^1"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_twinbrother_01",
+				"name": "cs_twinbrother_01"
+			},
+			{
+				"model": "cs_twinbrother_02",
+				"name": "cs_twinbrother_02"
+			},
+			{
+				"model": "cs_twingroupie_01",
+				"name": "cs_twingroupie_01"
+			}
+		]
 	},
 	{
-		"id": "cutscene@robt_s1_mcs1"
+		"id": "cutscene@robt_s1_mcs1",
+		"objects": [
+			{
+				"model": "p_bottlecrate01x",
+				"name": "p_bottlecrate01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_twinbrother_01",
+				"name": "cs_twinbrother_01"
+			},
+			{
+				"model": "cs_twinbrother_02",
+				"name": "cs_twinbrother_02"
+			},
+			{
+				"model": "cs_twingroupie_01",
+				"name": "cs_twingroupie_01"
+			}
+		],
+		"playback_id": "1-Brother_Right_Celebrates"
 	},
 	{
-		"id": "cutscene@robt_s1_mcs2"
+		"id": "cutscene@robt_s1_mcs2",
+		"objects": [
+			{
+				"model": "p_bottlecrate01x",
+				"name": "p_bottlecrate01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_twinbrother_01",
+				"name": "cs_twinbrother_01"
+			},
+			{
+				"model": "cs_twinbrother_02",
+				"name": "cs_twinbrother_02"
+			},
+			{
+				"model": "cs_twingroupie_01",
+				"name": "cs_twingroupie_01"
+			}
+		],
+		"playback_id": "2-Brother_Left"
 	},
 	{
 		"id": "cutscene@robt_s2_ext"
@@ -11483,18 +13125,174 @@
 	},
 	{
 		"id": "cutscene@rrtl_rc_1",
+		"objects": [
+			{
+				"model": "p_magneto01x",
+				"name": "p_magneto01x"
+			},
+			{
+				"model": "p_magneto02x",
+				"name": "p_magneto02x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_professorbell",
+				"name": "ProfessorBell"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rrtl_rc_4",
+		"objects": [
+			{
+				"model": "p_crate03x",
+				"name": "p_crate03x"
+			},
+			{
+				"model": "p_cs_jug01x",
+				"name": "p_cs_jug01x"
+			},
+			{
+				"model": "p_magneto01x",
+				"name": "p_magneto01x"
+			},
+			{
+				"model": "p_magneto02x",
+				"name": "p_magneto02x"
+			},
+			{
+				"model": "p_pen01x",
+				"name": "p_pen01x"
+			},
+			{
+				"model": "p_cs_letter01a_x",
+				"name": "p_cs_letter01a_x"
+			},
+			{
+				"model": "p_cs_rcridethelightning",
+				"name": "P_CS_WANTEDALIVE01X"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_professorbell",
+				"name": "ProfessorBell"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rrtl_rc_5",
+		"objects": [
+			{
+				"model": "p_magneto01x",
+				"name": "p_magneto01x"
+			},
+			{
+				"model": "p_magneto02x",
+				"name": "p_magneto02x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_nbxexecuted",
+				"name": "NBXExecuted"
+			},
+			{
+				"model": "cs_professorbell",
+				"name": "ProfessorBell"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@rrtl_rc_6",
+		"objects": [
+			{
+				"model": "p_cs_electricchair01x",
+				"name": "p_cs_electricchair01x"
+			},
+			{
+				"model": "p_cs_generator01x",
+				"name": "p_cs_generator01x"
+			},
+			{
+				"model": "p_cs_electrichelmet01x",
+				"name": "p_cs_electrichelmet01x"
+			},
+			{
+				"model": "p_cs_gag01x",
+				"name": "p_cs_gag01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_professorbell",
+				"name": "ProfessorBell"
+			},
+			{
+				"model": "cs_nbxexecuted",
+				"name": "NBXExecuted"
+			},
+			{
+				"model": "rcsp_ridethelightning_females_01",
+				"name": "A_F_M_MiddleSDTownfolk_01"
+			},
+			{
+				"model": "a_f_m_middlesdtownfolk_01",
+				"name": "A_F_M_MiddleSDTownfolk_01^1"
+			},
+			{
+				"model": "a_f_m_middlesdtownfolk_01",
+				"name": "A_F_M_MiddleSDTownfolk_01^2"
+			},
+			{
+				"model": "rcsp_ridethelightning_males_01",
+				"name": "A_M_M_MiddleSDTownfolk_01"
+			},
+			{
+				"model": "a_f_m_rhdtownfolk_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^1"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^2"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^3"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^4"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^5"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "A_M_M_MiddleSDTownfolk_01^6"
+			},
+			{
+				"model": "a_f_m_middlesdtownfolk_01",
+				"name": "GenStoryFemale"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "GenStoryMale"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "GenStoryMale^1"
+			},
+			{
+				"model": "a_m_m_middlesdtownfolk_01",
+				"name": "GenStoryMale^2"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -11503,7 +13301,36 @@
 	},
 	{
 		"id": "cutscene@rrtl_s3_ext",
-		"player_model": "player_zero"
+		"objects": [
+			{
+				"model": "p_chair24x",
+				"name": "p_chair24x"
+			},
+			{
+				"model": "p_jug01x",
+				"name": "p_jug01x"
+			},
+			{
+				"model": "p_petridish01x",
+				"name": "p_petridish01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_professorbell",
+				"name": "ProfessorBell"
+			}
+		],
+		"player_model": "player_zero",
+		"vehicles": [
+			{
+				"extras": [
+					5
+				],
+				"model": "wagon05x",
+				"name": "WAGON05X"
+			}
+		]
 	},
 	{
 		"id": "cutscene@rrvrd_rsc_1",
@@ -11768,6 +13595,19 @@
 	},
 	{
 		"id": "cutscene@rstr2_rsc_1",
+		"objects": [
+			{
+				"model": "p_cs_ledger01x",
+				"name": "P_CS_LEDGER01X"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_leostrauss",
+				"name": "LeoStrauss"
+			}
+		],
+		"playback_id": "3B-RearApproach_Complete_Normal",
 		"player_model": "player_zero"
 	},
 	{
@@ -12289,6 +14129,16 @@
 				"meta_ped_outfit": "meta_outfit_susan1",
 				"model": "cs_antonyforemen",
 				"name": "ANTONYFOREMEN"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_appaloosa_leopard",
+				"name": "HORSE_01"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_belgian_mealychestnut",
+				"name": "Horse_01^1"
 			}
 		],
 		"playback_id": "1-Start",
@@ -12297,11 +14147,24 @@
 			{
 				"model": "wagon05x",
 				"name": "WAGON05X"
+			},
+			{
+				"extras": [
+					5
+				],
+				"model": "wagon02x",
+				"name": "WAGON02X"
 			}
 		]
 	},
 	{
 		"id": "cutscene@sus1_int",
+		"objects": [
+			{
+				"model": "p_cs_book_small01x",
+				"name": "p_cs_book_small01x"
+			}
+		],
 		"peds": [
 			{
 				"meta_ped_outfit": "meta_outfit_cool_weather",

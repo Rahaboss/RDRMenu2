@@ -126,6 +126,7 @@ workspace "RDRMenu2"
 		}
 		
 		disablewarnings {
+			"26451", -- Arithmetic overflow
 			"26812", -- Prefer "enum class"
 			"28020", -- The expression ... is not true at this call
 			"33010", "33011" -- Unchecked lower bound for enum key/source as index
@@ -144,4 +145,9 @@ workspace "RDRMenu2"
 
 		includedirs {
 			"lib/%{prj.name}/include"
+		}
+
+		disablewarnings {
+			"6001", -- Using uninitialized memory
+			"26451" -- Arithmetic overflow
 		}

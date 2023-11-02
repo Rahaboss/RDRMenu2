@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Logging.h"
 
-void Util::LogText(const char* const Text, ...)
+void Util::LogText(_Printf_format_string_ const char* const Text, ...)
 {
 	va_list Args;
 	va_start(Args, Text);
