@@ -17,7 +17,10 @@ namespace Lists
 		PedList,
 		PickupList,
 		WeaponList,
-		VehicleList;
+		VehicleList,
+		ConsumableList,
+		DocumentList,
+		ProvisionList;
 	
 	inline json CutsceneList, MetaPedOutfits;
 

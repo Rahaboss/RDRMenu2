@@ -25,7 +25,7 @@ void Script::RapidFire()
 		return;
 
 	Hash CurrentWeapon = GetCurrentWeapon();
-	if (!CurrentWeapon || !WEAPON::IS_WEAPON_A_GUN(CurrentWeapon))
+	if (CurrentWeapon == 0 || CurrentWeapon == WEAPON_SNIPERRIFLE_CARCANO || !WEAPON::IS_WEAPON_A_GUN(CurrentWeapon))
 		return;
 
 	static Hash s_AimInputs[]{
@@ -84,9 +84,8 @@ void Script::RapidFire()
 			Vector3 start = CAM::GET_GAMEPLAY_CAM_COORD() + direction;
 			Vector3 end = start + (direction * 200);
 
-			// Shoot twice
-			for (int i = 0; i < 2; i++)
-				MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, true, CurrentWeapon, g_LocalPlayer.m_Entity, true, false, -1.0f, false);
+			MISC::SHOOT_SINGLE_BULLET_BETWEEN_COORDS(start.x, start.y, start.z, end.x, end.y, end.z, 100, true,
+				CurrentWeapon, g_LocalPlayer.m_Entity, true, false, -1.0f, false);
 
 			return;
 		}

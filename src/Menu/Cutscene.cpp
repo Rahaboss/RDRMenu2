@@ -828,7 +828,7 @@ inline const std::vector<CutsceneCategory> s_Categories{
 		}
 	},
 	{
-		"Gang",
+		"Gang (Chapter 6)",
 		{
 			"gng",
 		}
@@ -1063,8 +1063,10 @@ static void RenderFullCutsceneList(json::iterator& SelectedCutscene)
 		if (g_Settings["disable_default_cutscenes"].get<bool>())
 		{
 			size_t ElemCount = Cutscene.size() - 1;
-			if (Cutscene.contains("player_model")) { ElemCount--; }
-			if (ElemCount == 0) { continue; }
+			if (Cutscene.contains("player_model"))
+				ElemCount--;
+			if (ElemCount == 0)
+				continue;
 		}
 
 		if (ImGui::Selectable(Cutscene["id"].get_ref<const std::string&>().c_str(),

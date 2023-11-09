@@ -186,6 +186,78 @@ static void InitOutfitList()
 		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
 }
 
+static void InitConsumableList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Consumables.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const auto& c : j)
+	{
+		const std::string& Name = c.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::ConsumableList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::HashNameList[Model] = Name;
+	}
+}
+
+static void InitDocumentList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Documents.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const auto& d : j)
+	{
+		const std::string& Name = d.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::DocumentList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::HashNameList[Model] = Name;
+	}
+}
+
+static void InitProvisionList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Provisions.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const auto& p : j)
+	{
+		const std::string& Name = p.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::ProvisionList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::HashNameList[Model] = Name;
+	}
+}
+
 void Lists::Create()
 {
 	LOG_TEXT("Creating lists.");
@@ -197,6 +269,9 @@ void Lists::Create()
 	InitVehicleList();
 	InitCutsceneList();
 	InitOutfitList();
+	InitConsumableList();
+	InitDocumentList();
+	InitProvisionList();
 }
 
 const std::string& Lists::GetHashName(Hash h)

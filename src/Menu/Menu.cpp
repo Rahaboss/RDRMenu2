@@ -9,6 +9,7 @@
 #include "Spawning.h"
 #include "Debug.h"
 #include "Cutscene.h"
+#include "Inventory.h"
 #include "Overlay.h"
 #include "Renderer/RGB.h"
 #include "Script/Features.h"
@@ -56,6 +57,7 @@ static void RenderMenu()
 				Menu::RenderTeleportTab();
 				Menu::RenderSpawningTab();
 				Menu::RenderCutsceneTab();
+				Menu::RenderInventoryTab();
 				Menu::RenderRenderingTab();
 #if !_DIST
 				Menu::RenderDebugTab();
