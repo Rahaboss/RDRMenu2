@@ -5,14 +5,16 @@
 // Generated Sun, 03 Sep 2023 17:58:36 GMT
 // https://alloc8or.re/rdr3/nativedb/
 
+#define NATIVE_DECL inline
+
 #ifndef NATIVE_DECL
-#if defined(_MSC_VER)
-	#define NATIVE_DECL __forceinline
-#elif defined(__clang__) || defined(__GNUC__)
-	#define NATIVE_DECL __attribute__((always_inline)) inline
-#else
-	#define NATIVE_DECL inline
-#endif
+#	if defined(_MSC_VER)
+#		define NATIVE_DECL __forceinline
+#	elif defined(__clang__) || defined(__GNUC__)
+#		define NATIVE_DECL __attribute__((always_inline)) inline
+#	else
+#		define NATIVE_DECL inline
+#	endif
 #endif
 
 namespace BUILTIN

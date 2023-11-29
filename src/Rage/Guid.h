@@ -11,15 +11,30 @@ public:
 
 	inline constexpr size_t size() const { return Len; }
 
+	inline constexpr uint32_t& operator[](size_t i)
+	{
+		assert(i < Len);
+		return *reinterpret_cast<uint32_t*>(&m_Buffer[i]);
+	}
+
 	inline constexpr Guid()
 	{
 		for (size_t i = 0; i < size(); i++)
 			m_Buffer[i] = 0;
 	}
 
-	inline constexpr uint32_t& operator[](size_t i)
+	template<typename size_t Len2>
+	inline constexpr Guid<Len>& operator=(Guid<Len2> g)
 	{
-		return *reinterpret_cast<uint32_t*>(&m_Buffer[i]);
+		for (size_t i = 0; i < std::min(size(), g.size()); i++)
+			m_Buffer[i] = g[i];
+		return *this;
+	}
+
+	template<typename size_t Len2>
+	inline constexpr Guid(Guid<Len2> g)
+	{
+		*this = g;
 	}
 
 	inline constexpr Any* get() { return reinterpret_cast<Any*>(&m_Buffer); }

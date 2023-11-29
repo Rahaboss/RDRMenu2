@@ -106,6 +106,19 @@ void ESP::RenderTextCentered(const char* Text, ImVec2 Pos, ImU32 Color)
 	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
 }
 
+static std::vector<Hash> s_UnknownModels;
+static void CheckUnknownModel(Hash Model)
+{
+	if (Lists::HashNameList.empty())
+		return;
+
+	if (Util::ContainerContains(s_UnknownModels, Model))
+		return;
+
+	s_UnknownModels.push_back(Model);
+	LOG_TEXT(__FUNCTION__": Unknown model %u.", Model);
+}
+
 void ESP::RenderAnimalESP()
 {
 	const auto peds = Script::GetAllPeds();
@@ -121,13 +134,15 @@ void ESP::RenderAnimalESP()
 			continue;
 
 		std::string ESPText;
-
-		Hash Model = Script::GetEntityModel(ped);
+		const Hash Model = Script::GetEntityModel(ped);
 
 		if (g_Settings["esp"]["animal"]["model"].get<bool>())
 		{
-			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(ped));
+			std::string ModelName = Lists::GetHashName(Model);
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+
+			if (ModelName.empty())
+				CheckUnknownModel(Model);
 		}
 
 		if (!ESPText.empty())
@@ -135,27 +150,21 @@ void ESP::RenderAnimalESP()
 	}
 }
 
-static std::vector<Hash> s_UnknownModels;
 void ESP::RenderObjectESP()
 {
 	const auto objs = Script::GetAllObjects();
 	for (Object obj : objs)
 	{
 		std::string ESPText;
+		const Hash Model = Script::GetEntityModel(obj);
 
-		Hash Model = Script::GetEntityModel(obj);
 		if (g_Settings["esp"]["object"]["model"].get<bool>())
 		{
-			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
+			std::string ModelName = Lists::GetHashName(Model);
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+
 			if (ModelName.empty())
-			{
-				if (Util::ContainerContains(s_UnknownModels, Model))
-				{
-					s_UnknownModels.push_back(Model);
-					LOG_TEXT(__FUNCTION__": Unknown object %u.", Model);
-				}
-			}
+				CheckUnknownModel(Model);
 		}
 
 		if (!ESPText.empty())
@@ -178,13 +187,15 @@ void ESP::RenderPedESP()
 			continue;
 
 		std::string ESPText;
-
-		Hash Model = Script::GetEntityModel(ped);
+		const Hash Model = Script::GetEntityModel(ped);
 
 		if (g_Settings["esp"]["ped"]["model"].get<bool>())
 		{
-			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(ped));
+			std::string ModelName = Lists::GetHashName(Model);
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+
+			if (ModelName.empty())
+				CheckUnknownModel(Model);
 		}
 
 		if (g_Settings["esp"]["ped"]["bone"].get<bool>())
@@ -200,14 +211,16 @@ void ESP::RenderPickupESP()
 	const auto objs = Script::GetAllPickups();
 	for (Object obj : objs)
 	{
-		std::string ESPText{};
-
-		Hash Model = Script::GetEntityModel(obj);
+		std::string ESPText;
+		const Hash Model = Script::GetEntityModel(obj);
 
 		if (g_Settings["esp"]["pickup"]["model"].get<bool>())
 		{
-			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(obj));
+			std::string ModelName = Lists::GetHashName(Model);
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+
+			if (ModelName.empty())
+				CheckUnknownModel(Model);
 		}
 
 		if (!ESPText.empty())
@@ -232,14 +245,16 @@ void ESP::RenderVehicleESP()
 	const auto vehs = Script::GetAllVehicles();
 	for (Vehicle veh : vehs)
 	{
-		std::string ESPText{};
-
-		Hash Model = Script::GetEntityModel(veh);
+		std::string ESPText;
+		const Hash Model = Script::GetEntityModel(veh);
 
 		if (g_Settings["esp"]["vehicle"]["model"].get<bool>())
 		{
-			std::string ModelName = Lists::GetHashName(Script::GetEntityModel(veh));
+			std::string ModelName = Lists::GetHashName(Model);
 			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+
+			if (ModelName.empty())
+				CheckUnknownModel(Model);
 		}
 
 		if (!ESPText.empty())

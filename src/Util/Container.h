@@ -13,6 +13,6 @@ namespace Util
 	template<typename E, class T>
 	inline bool ContainerContains(const T& Container, const E& Element)
 	{
-		return std::find(Container.cbegin(), Container.cend(), Element) != Container.cbegin();
+		return std::find(Container.cbegin(), Container.cend(), Element) != Container.cend();
 	}
 }

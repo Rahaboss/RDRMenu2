@@ -99,21 +99,8 @@ void Script::GiveAmmo(Ped ped, Hash AmmoHash)
 
 void Script::GiveWeapon(Ped ped, Hash WeaponHash, Hash AttachPoint)
 {
-	switch (WeaponHash)
-	{
-	case AMMO_MOLOTOV_VOLATILE:
-	case AMMO_DYNAMITE_VOLATILE:
-	case AMMO_THROWING_KNIVES_IMPROVED:
-	case AMMO_THROWING_KNIVES_POISON:
-	case AMMO_TOMAHAWK_IMPROVED:
-	case AMMO_TOMAHAWK_HOMING:
-		GiveAmmo(ped, WeaponHash);
-		break;
-	default:
-		WEAPON::GIVE_WEAPON_TO_PED(ped, WeaponHash, 9999, true, false, AttachPoint, true,
-			0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
-		break;
-	}
+	WEAPON::GIVE_WEAPON_TO_PED(ped, WeaponHash, 9999, true, false, AttachPoint, true,
+		0.5f, 1.0f, ADD_REASON_DEFAULT, true, 0.0f, false);
 }
 
 void Script::RGBElectricLantern()

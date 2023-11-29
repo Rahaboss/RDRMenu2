@@ -3,6 +3,7 @@
 #include "Config/Lists.h"
 #include "Thread/JobQueue.h"
 #include "Script/Inventory.h"
+#include "Util/String.h"
 
 static void QueueAddItem(Hash ItemHash)
 {
@@ -86,6 +87,29 @@ void Menu::RenderInventoryTab()
 
 	ImGui::BeginChild("inventory_child");
 
+#if 1
+
+	static char s_InventoryFilter[0x100]{};
+	ImGui::SetNextItemWidth(300);
+	ImGui::InputText("Inventory Filter", s_InventoryFilter, IM_ARRAYSIZE(s_InventoryFilter));
+	ImGui::Separator();
+
+	ImGui::BeginChild("inventory_child_inner");
+
+	const std::string InventoryFilterLower = Util::StringToLowerCopy(s_InventoryFilter);
+	for (const auto& [Name, Hash] : Lists::InventoryList)
+	{
+		const std::string NameLower = Util::StringToLowerCopy(Name);
+		if (NameLower.find(InventoryFilterLower) == std::string::npos)
+			continue;
+
+		if (ImGui::Selectable(Name.c_str()))
+			QueueAddItem(Hash);
+	}
+
+	ImGui::EndChild(); // inventory_child_inner
+
+#else
 	const ImVec2 PanelSize{ 0, ImGui::GetContentRegionAvail().y / 3.0f };
 
 	ImGui::BeginChild("consumable_child", PanelSize);
@@ -111,6 +135,7 @@ void Menu::RenderInventoryTab()
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 	ImGui::EndChild(); // provision_child
+#endif
 
 	ImGui::EndChild(); // inventory_child
 	ImGui::EndTabItem();

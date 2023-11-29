@@ -6,6 +6,14 @@
 #include "Memory/Pointers.h"
 #include "Rage/joaat.h"
 
+static void AddNameToHashList(Hash Model, const std::string& Name)
+{
+	if (const auto it = Lists::HashNameList.find(Model); it != Lists::HashNameList.cend())
+		LOG_TEXT(__FUNCTION__": Hash collision between \"%s\" and \"%s\" (0x%X)!", it->second.c_str(), Name.c_str(), Model);
+
+	Lists::HashNameList[Model] = Name;
+}
+
 static void InitAmmoList()
 {
 	std::filesystem::path Path{ Config::GetConfigPath().append("Ammo.json") };
@@ -26,7 +34,7 @@ static void InitAmmoList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::AmmoList[Pointers::GetStringFromHashKey(Model)] = Model;
-		Lists::HashNameList[Model] = Pointers::GetStringFromHashKey(Model);
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -52,7 +60,7 @@ static void InitObjectList()
 		// Don't perform any checks as some objects like water vfx don't pass for some reason
 
 		Lists::ObjectList[Name] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -82,7 +90,7 @@ static void InitPedList()
 		}
 
 		Lists::PedList[Name] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -106,7 +114,7 @@ static void InitPickupList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::PickupList[Name] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -130,7 +138,7 @@ static void InitWeaponList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::WeaponList[Pointers::GetStringFromHashKey(Model)] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -160,7 +168,7 @@ static void InitVehicleList()
 		}
 
 		Lists::VehicleList[Name] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -206,7 +214,7 @@ static void InitConsumableList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::ConsumableList[Pointers::GetStringFromHashKey(Model)] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -230,7 +238,31 @@ static void InitDocumentList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::DocumentList[Pointers::GetStringFromHashKey(Model)] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
+	}
+}
+
+static void InitInventoryList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Inventory.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const auto& d : j)
+	{
+		const std::string& Name = d.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::InventoryList[Pointers::GetStringFromHashKey(Model)] = Model;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -254,7 +286,7 @@ static void InitProvisionList()
 		Hash Model = rage::joaat(Name);
 
 		Lists::ProvisionList[Pointers::GetStringFromHashKey(Model)] = Model;
-		Lists::HashNameList[Model] = Name;
+		AddNameToHashList(Model, Name);
 	}
 }
 
@@ -269,9 +301,29 @@ void Lists::Create()
 	InitVehicleList();
 	InitCutsceneList();
 	InitOutfitList();
-	InitConsumableList();
-	InitDocumentList();
-	InitProvisionList();
+	//InitConsumableList();
+	//InitDocumentList();
+	//InitProvisionList();
+	InitInventoryList();
+}
+
+void Lists::Destroy()
+{
+	LOG_TEXT("Destroying lists.");
+	AmmoList.clear();
+	ObjectList.clear();
+	PedList.clear();
+	PickupList.clear();
+	WeaponList.clear();
+	VehicleList.clear();
+	CutsceneList.clear();
+	MetaPedOutfits.clear();
+	//ConsumableList.clear();
+	//DocumentList.clear();
+	//ProvisionList.clear();
+	InventoryList.clear();
+	
+	HashNameList.clear();
 }
 
 const std::string& Lists::GetHashName(Hash h)
@@ -282,6 +334,14 @@ const std::string& Lists::GetHashName(Hash h)
 	// Don't return temporary variable as reference
 	static const std::string s{};
 	return s;
+}
+
+std::string Lists::GetHashNameOrUint(Hash h)
+{
+	if (const auto it = HashNameList.find(h); it != HashNameList.cend())
+		return it->second;
+
+	return std::to_string(h);
 }
 
 Hash Lists::GetHashFromJSON(const json& Object)

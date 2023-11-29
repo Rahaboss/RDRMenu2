@@ -7,7 +7,9 @@ namespace Lists
 {
 	void InitCutsceneList();
 	void Create();
+	void Destroy();
 	const std::string& GetHashName(Hash h);
+	std::string GetHashNameOrUint(Hash h);
 	Hash GetHashFromJSON(const json& Object);
 	json::iterator GetCutscene(const std::string& ID);
 
@@ -20,7 +22,8 @@ namespace Lists
 		VehicleList,
 		ConsumableList,
 		DocumentList,
-		ProvisionList;
+		ProvisionList,
+		InventoryList;
 	
 	inline json CutsceneList, MetaPedOutfits;
 

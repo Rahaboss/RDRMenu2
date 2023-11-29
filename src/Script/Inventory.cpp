@@ -4,34 +4,30 @@
 #include "Rage/Guid.h"
 #include "Config/Lists.h"
 #include "Util/String.h"
+#include "Script/PlayerInfo.h"
 
-bool Script::GiveInventoryItem(Hash ItemHash, Hash ItemSlot, int InventoryID, Hash AddReason)
+bool Script::GiveInventoryItem(Hash ItemHash)
 {
-	Guid<4> guid1;
-	Guid<5> guid2;
-	Guid<5> dummy;
+	const std::string ItemName = Lists::GetHashNameOrUint(ItemHash);
 
-	std::string ItemName = Lists::GetHashName(ItemHash);
-	if (!Util::IsStringValid(ItemName))
-		ItemName = std::to_string(ItemHash);
-
-	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy.get(), RAGE_JOAAT("CHARACTER"), RAGE_JOAAT("SLOTID_NONE"), guid2.get()))
+	if (ItemHash == 0 || !ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(ItemHash, 0))
 	{
-		LOG_TEXT(__FUNCTION__": Failed get dummy guid %s.", ItemName.c_str());
+		LOG_TEXT(__FUNCTION__": Couldn't add item %s.", ItemName.c_str());
 		return false;
 	}
-	guid2[4] = ItemSlot;
 
-	// Could return false but still work
-	if (!INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid2.get(), ItemHash, guid2[4], guid1.get()))
-	{
-		//LOG_TEXT(__FUNCTION__": Failed get item guid %s.", ItemName.c_str());
-		//return false;
-	}
+	const int InventoryID = INVENTORY::_INVENTORY_GET_INVENTORY_ID_FROM_PED(g_LocalPlayer.m_Entity);
 
-	if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid1.get(), guid2.get(), ItemHash, guid2[4], 1, AddReason))
+	Guid<5> guid1, dummy;
+	INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, dummy.get(), RAGE_JOAAT("CHARACTER"), RAGE_JOAAT("SLOTID_NONE"), guid1.get());
+	guid1[4] = RAGE_JOAAT("SLOTID_SATCHEL");
+
+	Guid<4> guid2;
+	INVENTORY::INVENTORY_GET_GUID_FROM_ITEMID(InventoryID, guid1.get(), ItemHash, guid1[4], guid2.get());
+
+	if (!INVENTORY::_INVENTORY_ADD_ITEM_WITH_GUID(InventoryID, guid2.get(), guid1.get(), ItemHash, guid1[4], 1, ADD_REASON_DEFAULT))
 	{
-		LOG_TEXT(__FUNCTION__": Failed add item %s.", ItemName.c_str());
+		LOG_TEXT(__FUNCTION__": Couldn't add item %s.", ItemName.c_str());
 		return false;
 	}
 

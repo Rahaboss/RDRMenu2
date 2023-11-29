@@ -16,6 +16,7 @@
 #include "Script/Entity.h"
 #include "Rage/ScriptGlobal.h"
 #include "Script/Interior.h"
+#include "Config/Config.h"
 
 static void RenderInteriorButtons()
 {
@@ -242,7 +243,14 @@ static void RenderDebugButtons()
 		JobQueue::Add(Settings::Create);
 	ImGui::SameLine();
 	if (ImGui::Button("Reload Lists"))
-		JobQueue::Add(Lists::Create);
+	{
+		QUEUE_JOB(=)
+		{
+			Lists::Destroy();
+			Lists::Create();
+		}
+		END_JOB()
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("Test"))
 	{
@@ -316,6 +324,42 @@ static void RenderDebugButtons()
 			Script::SetHairStyle(1156231582, 2);
 			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
 			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
+		}
+		END_JOB()
+	}
+
+	if (ImGui::Button("Inv"))
+	{
+		QUEUE_JOB(=)
+		{
+			[]() {
+				json j;
+
+				for (const auto& [Name, Hash] : Lists::ConsumableList)
+				{
+					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Hash, 0))
+						continue;
+					j["consumables"].push_back(Lists::GetHashNameOrUint(Hash));
+				}
+
+				for (const auto& [Name, Hash] : Lists::DocumentList)
+				{
+					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Hash, 0))
+						continue;
+					j["documents"].push_back(Lists::GetHashNameOrUint(Hash));
+				}
+
+				for (const auto& [Name, Hash] : Lists::ProvisionList)
+				{
+					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Hash, 0))
+						continue;
+					j["provisions"].push_back(Lists::GetHashNameOrUint(Hash));
+				}
+
+				std::ofstream f{ Config::GetConfigPath().append("inv.json") };
+				f << j.dump(1, '\t');
+				f << '\n';
+			}();
 		}
 		END_JOB()
 	}
