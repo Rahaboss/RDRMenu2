@@ -13,6 +13,7 @@
 #include "Script/Entity.h"
 #include "Script/Cutscene.h"
 #include "Rage/ScriptGlobal.h"
+#include "Rage/Guid.h"
 
 void Hooking::Create()
 {
@@ -39,12 +40,16 @@ void Hooking::Create()
 	//ClearBit.Create(NativeInvoker::GetHandler(0x7D1D4A3602B6AD4E), ClearBitHook);
 	//RequestIPL.Create(NativeInvoker::GetHandler(0x59767C5A7A9AE6DA), RequestIPLHook);
 	//RemoveIPL.Create(NativeInvoker::GetHandler(0x5A3E5CF7B4014B96), RemoveIPLHook);
+	//VarString.Create(NativeInvoker::GetHandler(0xFA925AC00EB830B9), VarStringHook);
+	//PlayPedAmbientSpeech.Create(NativeInvoker::GetHandler(0x8E04FEDD28D42462), PlayPedAmbientSpeechHook);
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.");
 	
+	//PlayPedAmbientSpeech.Destroy();
+	//VarString.Destroy();
 	//RemoveIPL.Destroy();
 	//RequestIPL.Destroy();
 	//ClearBit.Destroy();
@@ -256,7 +261,7 @@ void Hooking::ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx)
 
 	if (ped == g_LocalPlayer.m_Entity)
 	{
-		//LOG_TEXT("_APPLY_SHOP_ITEM_TO_PED(%u, %u, %d, %d, %d)", ped, componentHash, immediately, isMp, p4);
+		LOG_TEXT("_APPLY_SHOP_ITEM_TO_PED(%u, %u, %d, %d, %d)", ped, componentHash, immediately, isMp, p4);
 		//printf("%u ", componentHash);
 	}
 }
@@ -268,7 +273,7 @@ void Hooking::ActivateInteriorSetHook(rage::scrNativeCallContext* ctx)
 
 	ActivateInteriorSet.GetOriginal<decltype(&ActivateInteriorSetHook)>()(ctx);
 
-	//LOG_TEXT("ACTIVATE_INTERIOR_ENTITY_SET(%d, \"%s\")", interior, entitySetName);
+	LOG_TEXT("ACTIVATE_INTERIOR_ENTITY_SET(%d, \"%s\")", interior, entitySetName);
 }
 
 void Hooking::DeactivateInteriorSetHook(rage::scrNativeCallContext* ctx)
@@ -278,7 +283,7 @@ void Hooking::DeactivateInteriorSetHook(rage::scrNativeCallContext* ctx)
 
 	DeactivateInteriorSet.GetOriginal<decltype(&DeactivateInteriorSetHook)>()(ctx);
 
-	//LOG_TEXT("DEACTIVATE_INTERIOR_ENTITY_SET(%d, \"%s\")", interior, entitySetName);
+	LOG_TEXT("DEACTIVATE_INTERIOR_ENTITY_SET(%d, \"%s\")", interior, entitySetName);
 }
 
 void Hooking::SetBitHook(rage::scrNativeCallContext* ctx)
@@ -288,8 +293,8 @@ void Hooking::SetBitHook(rage::scrNativeCallContext* ctx)
 
 	SetBit.GetOriginal<decltype(&SetBitHook)>()(ctx);
 
-	//if (address == ScriptGlobal(1934765).At(21).At(5, 1).Get<int*>() || address == ScriptGlobal(1934765).At(30).At(5, 1).Get<int*>())
-	//	LOG_TEXT("SET_BIT(0x%llX, %d)", (uint64_t)address, offset);
+	if (address == ScriptGlobal(1934765).At(21).At(5, 1).Get<int*>() || address == ScriptGlobal(1934765).At(30).At(5, 1).Get<int*>())
+		LOG_TEXT("SET_BIT(0x%llX, %d)", (uint64_t)address, offset);
 }
 
 void Hooking::ClearBitHook(rage::scrNativeCallContext* ctx)
@@ -299,8 +304,8 @@ void Hooking::ClearBitHook(rage::scrNativeCallContext* ctx)
 
 	ClearBit.GetOriginal<decltype(&ClearBitHook)>()(ctx);
 
-	//if (address == ScriptGlobal(1934765).At(21).At(5, 1).Get<int*>() || address == ScriptGlobal(1934765).At(30).At(5, 1).Get<int*>())
-	//	LOG_TEXT("CLEAR_BIT(0x%llX, %d)", (uint64_t)address, offset);
+	if (address == ScriptGlobal(1934765).At(21).At(5, 1).Get<int*>() || address == ScriptGlobal(1934765).At(30).At(5, 1).Get<int*>())
+		LOG_TEXT("CLEAR_BIT(0x%llX, %d)", (uint64_t)address, offset);
 }
 
 void Hooking::RequestIPLHook(rage::scrNativeCallContext* ctx)
@@ -309,7 +314,7 @@ void Hooking::RequestIPLHook(rage::scrNativeCallContext* ctx)
 
 	RequestIPL.GetOriginal<decltype(&RequestIPLHook)>()(ctx);
 
-	//LOG_TEXT("REQUEST_IPL(%d)", iplHash);
+	LOG_TEXT("REQUEST_IPL(%d)", iplHash);
 }
 
 void Hooking::RemoveIPLHook(rage::scrNativeCallContext* ctx)
@@ -318,5 +323,35 @@ void Hooking::RemoveIPLHook(rage::scrNativeCallContext* ctx)
 
 	RemoveIPL.GetOriginal<decltype(&RemoveIPLHook)>()(ctx);
 	
-	//LOG_TEXT("REMOVE_IPL(%d)", iplHash);
+	LOG_TEXT("REMOVE_IPL(%d)", iplHash);
+}
+
+void Hooking::VarStringHook(rage::scrNativeCallContext* ctx)
+{
+	int flags = ctx->GetArg<int>(0);
+	const char* string = ctx->GetArg<const char*>(1);
+	Hash hash = ctx->GetArg<Hash>(1);
+
+	VarString.GetOriginal<decltype(&VarStringHook)>()(ctx);
+
+	const char* result = ctx->GetRet<const char*>();
+
+	LOG_TEXT("VAR_STRING(%d, %s) -> %s", flags, (flags ? string : Lists::GetHashNameOrUint(hash).c_str()), result);
+}
+
+void Hooking::PlayPedAmbientSpeechHook(rage::scrNativeCallContext* ctx)
+{
+	Ped speaker = ctx->GetArg<int>(0);
+	Guid<8>& params = *ctx->GetArg<Guid<8>*>(1);
+
+	const char* speechName = params.At<const char*>(0);
+	const char* voiceName = params.At<const char*>(1);
+	int variation = params[2];
+	Hash speechParamHash = params[3];
+
+	LOG_TEXT("PLAY_PED_AMBIENT_SPEECH_NATIVE(%s, %s, %s, %d, %u)",
+		Lists::GetHashNameOrUint(Script::GetEntityModel(speaker)).c_str(),
+		speechName, voiceName, variation, speechParamHash);
+
+	PlayPedAmbientSpeech.GetOriginal<decltype(&PlayPedAmbientSpeechHook)>()(ctx);
 }

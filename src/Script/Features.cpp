@@ -17,6 +17,7 @@
 #include "Util/Timer.h"
 #include "Script/Weapon.h"
 #include "Script/Freecam.h"
+#include "Script/Notification.h"
 
 void Features::OnSetup()
 {
@@ -24,6 +25,7 @@ void Features::OnSetup()
 	{
 		LOG_TEXT("Running script setup.");
 		Lists::Create();
+		Script::NotifyHelp("Hello from RD" "\xE2\x88\x91" "Menu2");
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

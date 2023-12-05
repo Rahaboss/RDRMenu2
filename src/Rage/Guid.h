@@ -11,10 +11,17 @@ public:
 
 	inline constexpr size_t size() const { return Len; }
 
+	template<typename T>
+	inline constexpr T& At(size_t i)
+	{
+		static_assert(sizeof(T) <= sizeof(uint64_t));
+		assert(i < Len);
+		return *reinterpret_cast<T*>(&m_Buffer[i]);
+	}
+
 	inline constexpr uint32_t& operator[](size_t i)
 	{
-		assert(i < Len);
-		return *reinterpret_cast<uint32_t*>(&m_Buffer[i]);
+		return At<uint32_t>(i);
 	}
 
 	inline constexpr Guid()

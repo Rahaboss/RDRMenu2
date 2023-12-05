@@ -67,4 +67,10 @@ namespace Hooking
 
 	inline DetourHook RemoveIPL;
 	void RemoveIPLHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook VarString;
+	void VarStringHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook PlayPedAmbientSpeech;
+	void PlayPedAmbientSpeechHook(rage::scrNativeCallContext* ctx);
 }

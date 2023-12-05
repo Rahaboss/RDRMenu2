@@ -17,6 +17,8 @@
 #include "Rage/ScriptGlobal.h"
 #include "Script/Interior.h"
 #include "Config/Config.h"
+#include "Script/Notification.h"
+#include "Rage/Guid.h"
 
 static void RenderInteriorButtons()
 {
@@ -191,6 +193,7 @@ static void RenderInteriorButtons()
 
 static void RenderDebugButtons()
 {
+#if 0
 	if (ImGui::Button("Spawn Ped"))
 	{
 		QUEUE_JOB(=)
@@ -327,6 +330,7 @@ static void RenderDebugButtons()
 		}
 		END_JOB()
 	}
+#endif
 
 	if (ImGui::Button("Inv"))
 	{
@@ -359,6 +363,37 @@ static void RenderDebugButtons()
 				std::ofstream f{ Config::GetConfigPath().append("inv.json") };
 				f << j.dump(1, '\t');
 				f << '\n';
+			}();
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Notify"))
+	{
+		QUEUE_JOB(=)
+		{
+			[]() {
+				// Script::NotifyHelp("Hello from NotifyHelp");
+				// Script::NotifyLocation("Hello from NotifyTop");
+				// Script::NotifyFeed("Hello from NotifyFeed");
+				// Script::NotifyObjective("Hello from NotifyObjective");
+				// Script::NotifyToast("Hello from", "NotifyLeft");
+				// 
+				// Script::NotifyError("Hello from", "NotifyError");
+				// Script::NotifyDeath("Hello from NotifyDeath");
+				// Script::NotifyWarning("Hello from", "NotifyWarning");
+
+				Script::NotifyHelp("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9");
+				Script::NotifyLocation("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9");
+				Script::NotifyFeed("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9");
+				Script::NotifyObjective("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9");
+				Script::NotifyToast("Hello from RD\xE2\x88\x91""Menu2",
+					"\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9");
+
+				Script::NotifyHelpFormat("Hello from RD%sMenu2", "\xE2\x88\x91");
+
+				// Script::NotifyError("\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9",
+				// 	"\xE2\x88\x91 \xC2\xA6 \xE2\x80\xB9 \xE2\x80\xBA \xCE\xA9");
 			}();
 		}
 		END_JOB()
@@ -432,6 +467,72 @@ static void RenderGlobalDebug()
 		s_Offsets.push_back(0);
 }
 
+static void QueueSpeech(const char* speechName, const char* voiceName, Hash speechParamHash, int variation)
+{
+	QUEUE_JOB(=)
+	{
+		// const char* speechName;
+		// const char* voiceName;
+		// alignas(8) int variation;
+		// alignas(8) Hash speechParamHash;
+		// alignas(8) Ped listenerPed;
+		// alignas(8) BOOL syncOverNetwork;
+		// alignas(8) int v7;
+		// alignas(8) int v8;
+		Guid<8> params;
+
+		// params.At<const char*>(1) = "0405_U_M_M_RhdSheriff_01";
+		// params.At<const char*>(0) = "RE_PH_RHD_V3_AGGRO";
+		// params[3] = RAGE_JOAAT("SPEECH_PARAMS_BEAT_SHOUTED_CLEAR");
+		// 
+		// params.At<const char*>(1) = "0315_U_M_M_NbxDoctor_01";
+		// params.At<const char*>(0) = "CHAT_PEDTYPE_DIALOG";
+		// params[3] = RAGE_JOAAT("speech_params_force");
+		// 
+		// params.At<const char*>(1) = "0315_U_M_M_NbxDoctor_01";
+		// params.At<const char*>(0) = "CHAT_PEDTYPE_DIALOG";
+		// params[3] = RAGE_JOAAT("speech_params_force");
+
+		params.At<const char*>(1) = voiceName;
+		params.At<const char*>(0) = speechName;
+		params[3] = speechParamHash;
+
+		params[2] = variation;
+		params[4] = 0;
+		params[5] = NETWORK::NETWORK_IS_GAME_IN_PROGRESS();
+		params[6] = 1;
+		params[7] = 1;
+
+		AUDIO::PLAY_PED_AMBIENT_SPEECH_NATIVE(g_LocalPlayer.m_Entity, params.get());
+	}
+	END_JOB()
+}
+
+static void RenderSpeechDebug()
+{
+	static char s_VoiceName[0x200]{ "ARTHUR" }, s_SpeechName[0x200]{ "RELZ1_AJAA" },
+		s_SpeechParam[0x200]{ "SPEECH_PARAMS_FORCE" };
+
+	ImGui::PushItemWidth(300);
+
+	constexpr ImGuiInputTextFlags InputFlags = ImGuiInputTextFlags_CharsUppercase | ImGuiInputTextFlags_CharsNoBlank;
+	ImGui::InputText("Voice Name", s_VoiceName, IM_ARRAYSIZE(s_VoiceName), InputFlags);
+	ImGui::InputText("Speech Name", s_SpeechName, IM_ARRAYSIZE(s_SpeechName), InputFlags);
+	ImGui::InputText("Speech Param", s_SpeechParam, IM_ARRAYSIZE(s_SpeechParam), InputFlags);
+	const Hash SpeechParam = rage::joaat(s_SpeechParam);
+	ImGui::SameLine();
+	ImGui::Text("%u (0x%X)", SpeechParam, SpeechParam);
+
+	static int s_Variation = 1;
+	ImGui::SliderInt("Variation", &s_Variation, 1, 20);
+
+	ImGui::PopItemWidth();
+	ImGui::Separator();
+
+	if (ImGui::Button("Speak##custom"))
+		QueueSpeech(s_SpeechName, s_VoiceName, SpeechParam, s_Variation);
+}
+
 void Menu::RenderDebugTab()
 {
 	if (!ImGui::BeginTabItem("Debug"))
@@ -489,6 +590,9 @@ void Menu::RenderDebugTab()
 
 	ImGui::SeparatorText("Global Debug");
 	RenderGlobalDebug();
+
+	ImGui::SeparatorText("Speech Debug");
+	RenderSpeechDebug();
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();
