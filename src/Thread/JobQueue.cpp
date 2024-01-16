@@ -11,7 +11,7 @@ void JobQueue::Add(Job_t Job)
 
 void JobQueue::Run()
 {
-	Timer t;
+	Timer JobQueueTimer;
 
 	auto it = s_Queue.begin();
 	while (it != s_Queue.end())
@@ -32,7 +32,7 @@ void JobQueue::Run()
 			++it;
 	}
 
-	Timer::s_JobQueueTime = t.GetMillis();
+	Timer::s_JobQueueTime = JobQueueTimer.GetMillis();
 }
 
 size_t JobQueue::GetJobsQueued()

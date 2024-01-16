@@ -23,7 +23,7 @@ void Script::ToggleInterior(int iParam0, bool Toggle)
 {
 	int iVar1 = iParam0 / 31;
 	int iVar2 = iParam0 % 31;
-	auto p = ScriptGlobal(1934765).At(21).At(iVar1, 1).Get<int*>();
+	int* p = ScriptGlobal(1934765).At(21).At(iVar1, 1).Get<int*>();
 
 	if (Toggle)
 		MISC::SET_BIT(p, iVar2);

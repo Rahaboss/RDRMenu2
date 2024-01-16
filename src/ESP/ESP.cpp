@@ -264,10 +264,10 @@ void ESP::RenderVehicleESP()
 
 void ESP::RenderESP()
 {
-	Timer t;
-
 	TRY
 	{
+		Timer ESPTimer;
+
 		if (g_Settings["esp"]["animal"]["enable"].get<bool>())
 			RenderAnimalESP();
 
@@ -285,8 +285,8 @@ void ESP::RenderESP()
 
 		if (g_Settings["esp"]["vehicle"]["enable"].get<bool>())
 			RenderVehicleESP();
+
+		Timer::s_ESPTime = ESPTimer.GetMillis();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
-
-	Timer::s_ESPTime = t.GetMillis();
 }

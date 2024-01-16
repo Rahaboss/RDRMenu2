@@ -39,7 +39,7 @@ void Fiber::Tick()
 static bool s_Initialized = false;
 void Fiber::ScriptThreadTick()
 {
-	Timer t;
+	Timer ScriptThreadTimer;
 
 	if (!s_Initialized)
 	{
@@ -63,7 +63,7 @@ void Fiber::ScriptThreadTick()
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
-	Timer::s_ScriptThreadTime = t.GetMillis();
+	Timer::s_ScriptThreadTime = ScriptThreadTimer.GetMillis();
 }
 
 void Fiber::MainFiberFunction(void* FiberParam)

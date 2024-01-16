@@ -34,7 +34,7 @@ void Features::OnTick()
 {
 	TRY
 	{
-		Timer t;
+		Timer ScriptThreadTickTimer;
 
 		if (Menu::IsOpen)
 			PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
@@ -64,7 +64,7 @@ void Features::OnTick()
 		if (g_Settings["disable_hud"].get<bool>())
 			Script::DisableHUD(true);
 
-		Timer::s_ScriptThreadTickTime = t.GetMillis();
+		Timer::s_ScriptThreadTickTime = ScriptThreadTickTimer.GetMillis();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

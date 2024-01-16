@@ -725,15 +725,6 @@ inline const std::vector<CutsceneCategory> s_Categories{
 		}
 	},
 	{
-		"Camp Activity",
-		{
-			"@ca",
-			"prhm6",
-			"prhmls",
-			"rhmrb",
-		}
-	},
-	{
 		"Caravan Absence (Pronghorn Ranch)",
 		{
 			"@ptl",
@@ -774,6 +765,15 @@ inline const std::vector<CutsceneCategory> s_Categories{
 			"rcrkf",
 			"rctxd",
 			"reth",
+		}
+	},
+	{
+		"Companion Activity",
+		{
+			"@ca",
+			"prhm6",
+			"prhmls",
+			"rhmrb",
 		}
 	},
 	{
@@ -1047,25 +1047,38 @@ static void RenderFullCutsceneList(json::iterator& SelectedCutscene)
 		*s_CutsceneFilter = '\0';
 	
 	ImGui::Separator();
-	ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>());
+	if (ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>()))
+		g_Settings["disable_non_default_cutscenes"].get_ref<bool&>() = false;
+	if (ImGui::Checkbox("Disable Non-Default Cutscenes", g_Settings["disable_non_default_cutscenes"].get<bool*>()))
+		g_Settings["disable_default_cutscenes"].get_ref<bool&>() = false;
 
 	ImGui::SeparatorText("Cutscenes");
 	ImGui::BeginChild("cutscene_list_inner");
 
 	std::string CutsceneFilterLower{ Util::StringToLowerCopy(s_CutsceneFilter) };
 
+	const bool DisableDefault = g_Settings["disable_default_cutscenes"].get<bool>();
+	const bool DisableNonDefault = g_Settings["disable_non_default_cutscenes"].get<bool>();
 	for (json::iterator it = Lists::CutsceneList.begin(); it < Lists::CutsceneList.end(); it++)
 	{
 		const json& Cutscene = *it;
 		if (Cutscene["id"].get_ref<const std::string&>().find(CutsceneFilterLower) == std::string::npos)
 			continue;
 
-		if (g_Settings["disable_default_cutscenes"].get<bool>())
+		if (DisableDefault)
 		{
 			size_t ElemCount = Cutscene.size() - 1;
 			if (Cutscene.contains("player_model"))
 				ElemCount--;
 			if (ElemCount == 0)
+				continue;
+		}
+		else if (DisableNonDefault)
+		{
+			size_t ElemCount = Cutscene.size() - 1;
+			if (Cutscene.contains("player_model"))
+				ElemCount--;
+			if (ElemCount != 0)
 				continue;
 		}
 

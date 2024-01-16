@@ -398,6 +398,34 @@ static void RenderDebugButtons()
 		}
 		END_JOB()
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Copy CPed"))
+	{
+		std::stringstream ss;
+		ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(g_LocalPlayer.m_Ped);
+		ImGui::SetClipboardText(ss.str().c_str());
+		LOG_TEXT("%llX", reinterpret_cast<uintptr_t>(g_LocalPlayer.m_Ped));
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Print Hex Coord Debug"))
+	{
+		QUEUE_JOB(=)
+		{
+			Vector3 pos = g_LocalPlayer.m_Pos;
+			const uint32_t* pos_hex_ptr = reinterpret_cast<uint32_t*>(&pos);
+			const uint32_t pos_hex[3]{ pos_hex_ptr[0], pos_hex_ptr[1], pos_hex_ptr[2] };
+
+			for (size_t i = 0; i < 3; i++)
+				LOG_TEXT("%u", pos_hex[i]);
+
+			for (size_t i = 0; i < 3; i++)
+			{
+				const uint8_t* pos_hex_byte_ptr = reinterpret_cast<const uint8_t*>(&pos_hex[i]);
+				LOG_TEXT("%x %x %x %x", pos_hex_byte_ptr[0], pos_hex_byte_ptr[1], pos_hex_byte_ptr[2], pos_hex_byte_ptr[3]);
+			}
+		}
+		END_JOB()
+	}
 
 	RenderInteriorButtons();
 }

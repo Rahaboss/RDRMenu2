@@ -75,7 +75,7 @@ void Menu::Render()
 {
 	TRY
 	{
-		Timer t;
+		Timer MenuTimer;
 
 		UpdateMenu();
 
@@ -86,11 +86,11 @@ void Menu::Render()
 			RenderOverlay();
 
 #if !_DIST
-		if (g_Settings["render_imgui_demo"].get<bool>())
+		if (IsOpen && g_Settings["render_imgui_demo"].get<bool>())
 			ImGui::ShowDemoWindow(g_Settings["render_imgui_demo"].get<bool*>());
 #endif // _DIST
 
-		Timer::s_MenuTime = t.GetMillis();
+		Timer::s_MenuTime = MenuTimer.GetMillis();
 
 		ESP::RenderESP();
 	}

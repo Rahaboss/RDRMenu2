@@ -27,13 +27,14 @@ void Script::CreateFreecam()
 	CAM::RENDER_SCRIPT_CAMS(true, true, 500, true, true, 0);
 }
 
-void Script::TickFreecam()
+static void UpdateFreecamPosition()
 {
-	CreateFreecam();
+	if (Menu::IsOpen)
+		return;
 
 	Vector3 PosChange{};
 	static float Speed = 0.5f;
-	static float Mult = 0.0f;
+	static float Accel = 0.0f;
 
 	if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_JUMP)) { PosChange.z += Speed / 2; } // Left Shift
 	if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_SPRINT)) { PosChange.z -= Speed / 2; } // Left Control
@@ -42,18 +43,24 @@ void Script::TickFreecam()
 	if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_MOVE_LEFT_ONLY)) { PosChange.x -= Speed; } // Left
 	if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_MOVE_RIGHT_ONLY)) { PosChange.x += Speed; } // Right
 
-	if (PosChange.x == 0.0f && PosChange.y == 0.0f && PosChange.z == 0.0f) { Mult = 0.0f; }
-	else if (Mult < 10) { Mult += 0.15f; }
+	if (PosChange.x == 0.0f && PosChange.y == 0.0f && PosChange.z == 0.0f) { Accel = 0.0f; }
+	else if (Accel < 10) { Accel += 0.15f; }
 
 	Vector3 Rot = CAM::GET_CAM_ROT(CamEntity, 2);
-	float Yaw = DegreeToRadian(Rot.z);
+	float Yaw = Script::DegreeToRadian(Rot.z);
 
-	s_Position.x += (PosChange.x * cos(Yaw) - PosChange.y * sin(Yaw)) * Mult;
-	s_Position.y += (PosChange.x * sin(Yaw) + PosChange.y * cos(Yaw)) * Mult;
-	s_Position.z += PosChange.z * Mult;
+	s_Position.x += (PosChange.x * cos(Yaw) - PosChange.y * sin(Yaw)) * Accel;
+	s_Position.y += (PosChange.x * sin(Yaw) + PosChange.y * cos(Yaw)) * Accel;
+	s_Position.z += PosChange.z * Accel;
 
 	CAM::SET_CAM_COORD(CamEntity, s_Position.x, s_Position.y, s_Position.z);
 	STREAMING::SET_FOCUS_POS_AND_VEL(s_Position.x, s_Position.y, s_Position.z, 0.0f, 0.0f, 0.0f);
+}
+
+void Script::TickFreecam()
+{
+	CreateFreecam();
+	UpdateFreecamPosition();
 
 	s_Rotation = CAM::GET_GAMEPLAY_CAM_ROT(2);
 	CAM::SET_CAM_ROT(CamEntity, s_Rotation.x, s_Rotation.y, s_Rotation.z, 2);
@@ -78,10 +85,10 @@ void Script::TickFreecam()
 		for (Hash c : Controls)
 		{
 			PAD::ENABLE_CONTROL_ACTION(0, c, true);
-			PAD::ENABLE_CONTROL_ACTION(1, c, true);
+			//PAD::ENABLE_CONTROL_ACTION(1, c, true);
 		}
 
-		if (Util::IsKeyClicked(VK_RETURN))
+		if (PAD::IS_DISABLED_CONTROL_PRESSED(0, INPUT_FRONTEND_ACCEPT))
 			Teleport(s_Position);
 	}
 }

@@ -12657,6 +12657,12 @@
 	},
 	{
 		"id": "cutscene@prhmls_mcs1",
+		"peds": [
+			{
+				"model": "cs_sean",
+				"name": "Sean"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -18340,6 +18346,19 @@
 	},
 	{
 		"id": "cutscene@rhmrb_rsc1",
+		"objects": [
+			{
+				"model": "s_fasttravelmap01x",
+				"name": "s_fasttravelmap01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_sean",
+				"name": "SEAN"
+			}
+		],
+		"playback_id": "1-Approach_Left",
 		"player_model": "player_zero"
 	},
 	{

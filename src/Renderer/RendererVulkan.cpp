@@ -16,7 +16,7 @@ void RendererVulkan::Present()
 {
 	TRY
 	{
-		Timer t;
+		Timer RenderThreadTimer;
 
 		if (Renderer::Setup)
 		{
@@ -25,7 +25,7 @@ void RendererVulkan::Present()
 			EndFrame();
 		}
 
-		Timer::s_RenderThreadTime = t.GetMillis();
+		Timer::s_RenderThreadTime = RenderThreadTimer.GetMillis();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

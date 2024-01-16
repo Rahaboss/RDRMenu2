@@ -81,7 +81,7 @@ void RendererD3D12::Present(IDXGISwapChain3* SwapChain)
 {
 	TRY
 	{
-		Timer t;
+		Timer RenderThreadTimer;
 
 		if (Renderer::Setup)
 		{
@@ -90,7 +90,7 @@ void RendererD3D12::Present(IDXGISwapChain3* SwapChain)
 			EndFrame();
 		}
 
-		Timer::s_RenderThreadTime = t.GetMillis();
+		Timer::s_RenderThreadTime = RenderThreadTimer.GetMillis();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
