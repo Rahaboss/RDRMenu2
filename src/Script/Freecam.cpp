@@ -47,7 +47,7 @@ static void UpdateFreecamPosition()
 	else if (Accel < 10) { Accel += 0.15f; }
 
 	Vector3 Rot = CAM::GET_CAM_ROT(CamEntity, 2);
-	float Yaw = DegreeToRadian(Rot.z);
+	float Yaw = Script::DegreeToRadian(Rot.z);
 
 	s_Position.x += (PosChange.x * cos(Yaw) - PosChange.y * sin(Yaw)) * Accel;
 	s_Position.y += (PosChange.x * sin(Yaw) + PosChange.y * cos(Yaw)) * Accel;

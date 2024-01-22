@@ -2,6 +2,11 @@
 #include "String.h"
 #include "Container.h"
 
+constexpr char Util::CharToUpper(char c)
+{
+	return (c >= 'a' && c <= 'z') ? c - ('a' - 'A') : c;
+}
+
 void Util::StringToUpper(std::string& String)
 {
 	std::transform(String.cbegin(), String.cend(), String.begin(), CharToUpper);
@@ -19,6 +24,11 @@ std::string Util::StringToUpperCopy(const char* String)
 	std::string s = String;
 	StringToUpper(s);
 	return s;
+}
+
+constexpr char Util::CharToLower(char c)
+{
+	return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;
 }
 
 void Util::StringToLower(std::string& String)
