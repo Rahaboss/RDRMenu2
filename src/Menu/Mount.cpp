@@ -44,6 +44,18 @@ static void RenderMountToggles()
 	ImGui::Checkbox("No Sliding", g_Settings["mount"]["no_sliding"].get<bool*>());
 	ImGui::SameLine();
 	ImGui::Checkbox("Super Run", g_Settings["mount"]["super_run"].get<bool*>());
+	
+	if (ImGui::Checkbox("Invisible", g_Settings["mount"]["invisible"].get<bool*>()))
+	{
+		if (!g_Settings["mount"]["invisible"].get<bool>())
+		{
+			QUEUE_JOB(=)
+			{
+				Script::SetEntityInvisible(g_LocalPlayer.m_Mount, false);
+			}
+			END_JOB()
+		}
+	}
 }
 
 static void RenderMountMain()

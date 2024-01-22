@@ -47,6 +47,7 @@ R"({
 		"clean": false,
 		"godmode": false,
 		"gold_cores": false,
+		"invisible": false,
 		"no_ragdoll": false,
 		"no_sliding": false,
 		"super_run": false
@@ -56,6 +57,7 @@ R"({
 		"clean": false,
 		"godmode": false,
 		"gold_cores": false,
+		"invisible": false,
 		"no_ragdoll": false,
 		"no_sliding": false,
 		"super_jump": false,

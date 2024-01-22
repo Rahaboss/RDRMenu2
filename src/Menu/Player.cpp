@@ -114,6 +114,18 @@ static void RenderPlayerToggles()
 	ImGui::Checkbox("Never Wanted", g_Settings["never_wanted"].get<bool*>());
 	ImGui::SameLine();
 	ImGui::Checkbox("Super Jump", g_Settings["player"]["super_jump"].get<bool*>());
+	ImGui::SameLine();
+	if (ImGui::Checkbox("Invisible", g_Settings["player"]["invisible"].get<bool*>()))
+	{
+		if (!g_Settings["player"]["invisible"].get<bool>())
+		{
+			QUEUE_JOB(=)
+			{
+				Script::SetEntityInvisible(g_LocalPlayer.m_Entity, false);
+			}
+			END_JOB()
+		}
+	}
 }
 
 static void RenderMoneyChanger()

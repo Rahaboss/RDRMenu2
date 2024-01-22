@@ -147,3 +147,8 @@ int Script::GetEntityHealth(Entity ent)
 {
 	return Pointers::GetEntityHealth(ent);
 }
+
+void Script::SetEntityInvisible(Entity ent, bool Toggle)
+{
+	ENTITY::SET_ENTITY_VISIBLE(ent, !Toggle);
+}

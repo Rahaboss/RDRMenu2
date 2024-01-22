@@ -1186,10 +1186,55 @@
 	},
 	{
 		"id": "cutscene@caunc_rust2_ext",
+		"objects": [
+			{
+				"model": "p_cs_billsingle01x",
+				"name": "p_cs_billSingle01x"
+			},
+			{
+				"model": "p_door_clemens01",
+				"name": "p_door_clemens01"
+			},
+			{
+				"model": "p_door_clemens02x",
+				"name": "p_door_clemens02x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_uncle",
+				"name": "Uncle"
+			},
+			{
+				"model": "cs_clay",
+				"name": "CLAY"
+			},
+			{
+				"model": "cs_clive",
+				"name": "CLIVE"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
 		"id": "cutscene@caunc_rust2_int",
+		"objects": [
+			{
+				"model": "p_brushhorse01x",
+				"name": "p_brushHorse01x"
+			}
+		],
+		"peds": [
+			{
+				"model": "cs_uncle",
+				"name": "Uncle"
+			},
+			{
+				"meta_ped_outfit": "meta_horse_saddle_only",
+				"model": "a_c_horse_gang_uncle",
+				"name": "Horse_01"
+			}
+		],
 		"player_model": "player_zero"
 	},
 	{
@@ -7201,6 +7246,12 @@
 	},
 	{
 		"id": "cutscene@mob1_mcs3",
+		"objects": [
+			{
+				"model": "p_cs_playersatchel",
+				"name": "p_cs_playersatchel"
+			}
+		],
 		"peds": [
 			{
 				"model": "a_m_y_nbxstreetkids_01",

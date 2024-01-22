@@ -171,6 +171,9 @@ void Script::ProcessPlayerFeatures()
 
 		if (g_Settings["player"]["super_run"].get<bool>())
 			SuperRun(g_LocalPlayer.m_Entity);
+
+		if (g_Settings["player"]["invisible"].get<bool>())
+			SetEntityInvisible(g_LocalPlayer.m_Entity, true);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }
@@ -197,10 +200,13 @@ void Script::ProcessMountFeatures()
 			NoSliding(g_LocalPlayer.m_Mount);
 
 		if (g_Settings["mount"]["no_ragdoll"].get<bool>())
-			Script::SetPedNoRagdoll(g_LocalPlayer.m_Mount, true);
+			SetPedNoRagdoll(g_LocalPlayer.m_Mount, true);
 
 		if (g_Settings["mount"]["super_run"].get<bool>())
 			SuperRun(g_LocalPlayer.m_Mount);
+
+		if (g_Settings["mount"]["invisible"].get<bool>())
+			SetEntityInvisible(g_LocalPlayer.m_Mount, true);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

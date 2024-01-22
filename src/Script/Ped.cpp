@@ -70,7 +70,7 @@ void Script::SetPedOutfitPreset(Ped ped, int Preset, bool KeepAccessories)
 
 void Script::SetMetaPedOutfit(Ped ped, Hash Outfit)
 {
-	const int requestId = PED::_REQUEST_META_PED_OUTFIT(Script::GetEntityModel(ped), Outfit);
+	const int requestId = PED::_REQUEST_META_PED_OUTFIT(GetEntityModel(ped), Outfit);
 	while (!PED::_HAS_META_PED_OUTFIT_LOADED(requestId))
 		Thread::YieldThread();
 	PED::_APPLY_PED_META_PED_OUTFIT(requestId, ped, true, false);

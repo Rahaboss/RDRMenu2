@@ -55,7 +55,7 @@ void Script::CutsceneHelper::AddPedExisting(Ped Handle, const char* entityName)
 
 Ped Script::CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 {
-	Ped Handle = Script::SpawnPed(Model);
+	Ped Handle = SpawnPed(Model);
 	AddPedExisting(Handle, entityName);
 	
 	return Handle;
@@ -69,10 +69,10 @@ void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 
 	// https://github.com/femga/rdr3_discoveries/blob/master/clothes/metaped_outfits.lua
 	if (PedJsonObject.contains("meta_ped_outfit"))
-		Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_outfit"]));
+		SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_outfit"]));
 
 	if (PedJsonObject.contains("meta_ped_wearable"))
-		Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_wearable"]));
+		SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_wearable"]));
 
 	if (PedJsonObject.contains("remove_weapons") && PedJsonObject["remove_weapons"].get<bool>())
 	{
@@ -119,17 +119,17 @@ void Script::CutsceneHelper::AddLocalPlayer()
 			Handle = AddPedNew(PlayerModel, entityName);
 
 			// Add weapon to new ped
-			Script::GiveWeapon(Handle, RAGE_JOAAT("WEAPON_REVOLVER_CATTLEMAN"), WEAPON_ATTACH_POINT_PISTOL_R);
+			GiveWeapon(Handle, RAGE_JOAAT("WEAPON_REVOLVER_CATTLEMAN"), WEAPON_ATTACH_POINT_PISTOL_R);
 		
 			// Apply default outfit
 			if (!m_JsonObject.contains("player_meta_ped_outfit") && !m_JsonObject.contains("player_meta_ped_wearable"))
-				Script::SetMetaPedOutfit(Handle, (b_PlayerArthur ? RAGE_JOAAT("META_OUTFIT_COOL_WEATHER") : RAGE_JOAAT("META_OUTFIT_GUNSLINGER")));
+				SetMetaPedOutfit(Handle, (b_PlayerArthur ? RAGE_JOAAT("META_OUTFIT_COOL_WEATHER") : RAGE_JOAAT("META_OUTFIT_GUNSLINGER")));
 		}
 
 		if (m_JsonObject.contains("player_meta_ped_outfit"))
-			Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(m_JsonObject["player_meta_ped_outfit"]));
+			SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(m_JsonObject["player_meta_ped_outfit"]));
 		if (m_JsonObject.contains("player_meta_ped_wearable"))
-			Script::SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(m_JsonObject["player_meta_ped_wearable"]));
+			SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(m_JsonObject["player_meta_ped_wearable"]));
 	}
 	else
 	{
@@ -148,7 +148,7 @@ void Script::CutsceneHelper::AddObjectExisting(Object Handle, const char* entity
 
 void Script::CutsceneHelper::AddObjectNew(Hash Model, const char* entityName)
 {
-	Object Handle = Script::SpawnObject(Model);
+	Object Handle = SpawnObject(Model);
 	AddObjectExisting(Handle, entityName);
 }
 
@@ -175,7 +175,7 @@ void Script::CutsceneHelper::AddVehicleExisting(Vehicle Handle, const char* enti
 
 void Script::CutsceneHelper::AddVehicleFromVehicleJson(const json& VehicleJsonObject)
 {
-	Vehicle Handle = Script::SpawnVehicle(Lists::GetHashFromJSON(VehicleJsonObject["model"]), false);
+	Vehicle Handle = SpawnVehicle(Lists::GetHashFromJSON(VehicleJsonObject["model"]), false);
 	
 	if (VehicleJsonObject.contains("extras"))
 	{
@@ -188,7 +188,7 @@ void Script::CutsceneHelper::AddVehicleFromVehicleJson(const json& VehicleJsonOb
 
 void Script::CutsceneHelper::AddVehicleNew(Hash Model, const char* entityName)
 {
-	Vehicle Handle = Script::SpawnVehicle(Model, false);
+	Vehicle Handle = SpawnVehicle(Model, false);
 	AddVehicleExisting(Handle, entityName);
 }
 
@@ -240,11 +240,11 @@ void Script::CutsceneHelper::TeleportToOrigin()
 
 	Vector3 Position, Rotation;
 	ANIMSCENE::GET_ANIM_SCENE_ORIGIN(m_Scene, &Position, &Rotation, 2);
-	Script::LoadGround(Position);
-	Script::Teleport(Position);
+	LoadGround(Position);
+	Teleport(Position);
 
 	if (PATHFIND::GET_NTH_CLOSEST_VEHICLE_NODE(Position.x, Position.y, Position.z, 1, &Position, 1, 3.0f, 0))
-		Script::TeleportOnGround(Position);
+		TeleportOnGround(Position);
 }
 
 void Script::CutsceneHelper::LoadCutscene()
@@ -282,15 +282,15 @@ void Script::CutsceneHelper::WaitForCutsceneEnd()
 void Script::CutsceneHelper::CleanupCutscene()
 {
 	for (const auto& o : m_Objects)
-		Script::DeleteEntity(o);
+		DeleteEntity(o);
 	m_Objects.clear();
 
 	for (const auto& p : m_Peds)
-		Script::DeleteEntity(p);
+		DeleteEntity(p);
 	m_Peds.clear();
 
 	for (const auto& v : m_Vehicles)
-		Script::DeleteEntity(v);
+		DeleteEntity(v);
 	m_Vehicles.clear();
 
 	if (m_Scene)
@@ -337,10 +337,10 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	if (!g_Settings["add_cutscene_info_automatically"].get<bool>())
 		return;
 
-	if (!Script::DoesEntityExist(ent))
+	if (!DoesEntityExist(ent))
 		return;
 
-	const Hash Model = Script::GetEntityModel(ent);
+	const Hash Model = GetEntityModel(ent);
 	if (Model == RAGE_JOAAT("PLAYER_ZERO") || Model == RAGE_JOAAT("PLAYER_THREE"))
 		return;
 

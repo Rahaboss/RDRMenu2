@@ -16,4 +16,5 @@ namespace Script
 	bool DoesEntityExist(Entity ent);
 	Hash GetEntityModel(Entity ent);
 	int GetEntityHealth(Entity ent);
+	void SetEntityInvisible(Entity ent, bool Toggle);
 }
