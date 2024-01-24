@@ -207,7 +207,7 @@ void Hooking::SetAnimSceneEntityHook(rage::scrNativeCallContext* ctx)
 
 		if (g_Settings["log_animscene"].get<bool>())
 		{
-			if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
+			if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.cend())
 			{
 				if (Script::IsCutsceneName(it->second))
 					Script::AddEntityToCutscene(it->second.c_str(), entity, entityName);
@@ -228,7 +228,7 @@ void Hooking::StartAnimSceneHook(rage::scrNativeCallContext* ctx)
 
 	if (g_Settings["log_animscene"].get<bool>())
 	{
-		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
+		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.cend())
 			if (Script::IsCutsceneName(it->second))
 				LOG_TEXT("Starting AnimScene \"%s\", ID: %u at: %.2f, %.2f, %.2f.", it->second.c_str(), animScene, position.x, position.y, position.z);
 	}
@@ -243,7 +243,7 @@ void Hooking::SetAnimScenePlayListHook(rage::scrNativeCallContext* ctx)
 
 	if (g_Settings["add_cutscene_info_automatically"].get<bool>())
 	{
-		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.end())
+		if (const auto it = s_AnimScenes.find(animScene); it != s_AnimScenes.cend())
 			Script::AddEntityPlaybackID(it->second.c_str(), playlistName);
 	}
 }

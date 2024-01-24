@@ -39,13 +39,13 @@ void Menu::RenderWeaponTab()
 	ImGui::SeparatorText("Give Weapon");
 
 	ImGui::BeginChild("right_half_inner");
-	for (const auto& w : Lists::WeaponList)
+	for (const auto& [Name, Model] : Lists::WeaponList)
 	{
-		if (ImGui::Selectable(w.first.c_str()))
+		if (ImGui::Selectable(Name.c_str()))
 		{
 			QUEUE_JOB(=)
 			{
-				Script::GiveWeapon(g_LocalPlayer.m_Entity, w.second);
+				Script::GiveWeapon(g_LocalPlayer.m_Entity, Model);
 			}
 			END_JOB()
 		}

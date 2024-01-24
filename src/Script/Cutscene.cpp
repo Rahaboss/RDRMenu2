@@ -26,7 +26,7 @@ Script::CutsceneHelper::CutsceneHelper(const json& JsonObject):
 Script::CutsceneHelper::CutsceneHelper(const char* animDict):
 	m_Scene(0)
 {
-	const auto it = Lists::GetCutscene(animDict);
+	const json::iterator it = Lists::GetCutscene(animDict);
 	assert(it != Lists::CutsceneList.end());
 	m_JsonObject = *it;
 	m_Scene = CreateCutscene();
@@ -88,7 +88,7 @@ void Script::CutsceneHelper::AddPeds()
 	if (!m_JsonObject.contains("peds"))
 		return;
 
-	for (const auto& j : m_JsonObject["peds"])
+	for (const json& j : m_JsonObject["peds"])
 	{
 		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
@@ -157,7 +157,7 @@ void Script::CutsceneHelper::AddObjects()
 	if (!m_JsonObject.contains("objects"))
 		return;
 
-	for (const auto& j : m_JsonObject["objects"])
+	for (const json& j : m_JsonObject["objects"])
 	{
 		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
@@ -179,7 +179,7 @@ void Script::CutsceneHelper::AddVehicleFromVehicleJson(const json& VehicleJsonOb
 	
 	if (VehicleJsonObject.contains("extras"))
 	{
-		for (const auto& e : VehicleJsonObject["extras"])
+		for (const json& e : VehicleJsonObject["extras"])
 			VEHICLE::SET_VEHICLE_EXTRA(Handle, e.get<int>(), false);
 	}
 	
@@ -197,7 +197,7 @@ void Script::CutsceneHelper::AddVehicles()
 	if (!m_JsonObject.contains("vehicles"))
 		return;
 
-	for (const auto& j : m_JsonObject["vehicles"])
+	for (const json& j : m_JsonObject["vehicles"])
 	{
 		// Don't add if invalid
 		if (!j.contains("model") || !j.contains("name"))
@@ -281,15 +281,15 @@ void Script::CutsceneHelper::WaitForCutsceneEnd()
 
 void Script::CutsceneHelper::CleanupCutscene()
 {
-	for (const auto& o : m_Objects)
+	for (Object o : m_Objects)
 		DeleteEntity(o);
 	m_Objects.clear();
 
-	for (const auto& p : m_Peds)
+	for (Ped p : m_Peds)
 		DeleteEntity(p);
 	m_Peds.clear();
 
-	for (const auto& v : m_Vehicles)
+	for (Vehicle v : m_Vehicles)
 		DeleteEntity(v);
 	m_Vehicles.clear();
 
@@ -352,11 +352,11 @@ void Script::AddEntityToCutscene(const char* CutsceneName, Entity ent, const cha
 	Util::StringToLower(ModelName);
 
 	std::string CutsceneNameLower = Util::StringToLowerCopy(CutsceneName);
-	const auto it = Lists::GetCutscene(CutsceneNameLower);
-	if (it == Lists::CutsceneList.end())
+	const json::iterator it = Lists::GetCutscene(CutsceneNameLower);
+	if (it == Lists::CutsceneList.cend())
 		return;
 
-	auto& Cutscene = *it;
+	json& Cutscene = *it;
 
 	json j;
 	j["name"] = EntityName;
@@ -428,8 +428,8 @@ void Script::AddEntityPlaybackID(const char* CutsceneName, const char* PlaybackI
 		return;
 	
 	const std::string CutsceneNameLower = Util::StringToLowerCopy(CutsceneName);
-	const auto it = Lists::GetCutscene(CutsceneNameLower);
-	if (it == Lists::CutsceneList.end())
+	const json::iterator it = Lists::GetCutscene(CutsceneNameLower);
+	if (it == Lists::CutsceneList.cend())
 		return;
 
 	json& Cutscene = *it;

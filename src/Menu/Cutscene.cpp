@@ -49,8 +49,8 @@ static bool EntityExistsInJSONArray(const json& Array, const std::string& Name)
 {
 	if (Array.is_array())
 	{
-		auto Temp = Util::StringToLowerCopy(Name);
-		for (const auto& j : Array)
+		const std::string Temp = Util::StringToLowerCopy(Name);
+		for (const json& j : Array)
 		{
 			if (j.contains("name"))
 			{
@@ -222,7 +222,7 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 	ImGui::InputText("Name", s_VehicleNameInput, IM_ARRAYSIZE(s_VehicleNameInput));
 
 	ImGui::TextUnformatted("Extras");
-	for (auto it = s_VehicleExtras.begin(); it < s_VehicleExtras.end(); it++)
+	for (auto it = s_VehicleExtras.cbegin(); it < s_VehicleExtras.cend(); it++)
 	{
 		ImGui::BulletText("%d", *it);
 		ImGui::SameLine();
@@ -238,7 +238,7 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 		{
 			for (int i = 1; i <= 16; i++)
 			{
-				if (Util::ContainerContains(s_VehicleExtras, i))
+				if (!Util::ContainerContains(s_VehicleExtras, i))
 				{
 					if (ImGui::Selectable(std::to_string(i).c_str()))
 						s_VehicleExtras.push_back(i);
@@ -269,9 +269,9 @@ static bool RenderVehicleEditor(json& SelectedCutscene, json& VehicleObject)
 
 		if (!s_VehicleExtras.empty())
 		{
-			auto Temp = s_VehicleExtras;
-			Util::ContainerSort(Temp);
-			j["extras"] = Temp;
+			std::vector<int> Extras = s_VehicleExtras;
+			Util::ContainerSort(Extras);
+			j["extras"] = Extras;
 		}
 
 		ImGui::CloseCurrentPopup();
@@ -309,7 +309,7 @@ static void RenderCutsceneControls(json::iterator& SelectedCutscene)
 		const std::string CutsceneName = (*SelectedCutscene)["id"].get_ref<const std::string&>();
 		Lists::InitCutsceneList();
 		SelectedCutscene = Lists::GetCutscene(CutsceneName);
-		assert(SelectedCutscene != Lists::CutsceneList.end());
+		assert(SelectedCutscene != Lists::CutsceneList.cend());
 	}
 
 	ImGui::SameLine();
@@ -1046,12 +1046,6 @@ static void RenderFullCutsceneList(json::iterator& SelectedCutscene)
 	if (ImGui::Button("Clear##clear_cutscene_filter"))
 		*s_CutsceneFilter = '\0';
 	
-	ImGui::Separator();
-	if (ImGui::Checkbox("Disable Default Cutscenes", g_Settings["disable_default_cutscenes"].get<bool*>()))
-		g_Settings["disable_non_default_cutscenes"].get_ref<bool&>() = false;
-	if (ImGui::Checkbox("Disable Non-Default Cutscenes", g_Settings["disable_non_default_cutscenes"].get<bool*>()))
-		g_Settings["disable_default_cutscenes"].get_ref<bool&>() = false;
-
 	ImGui::SeparatorText("Cutscenes");
 	ImGui::BeginChild("cutscene_list_inner");
 
@@ -1111,7 +1105,7 @@ static void RenderPresetCutsceneList(json::iterator& SelectedCutscene)
 
 	for (const auto& [CutsceneLabel, CutsceneName] : s_CutsceneList)
 	{
-		if (const auto it = Lists::GetCutscene(CutsceneName); it != Lists::CutsceneList.end())
+		if (const json::iterator it = Lists::GetCutscene(CutsceneName); it != Lists::CutsceneList.cend())
 		{
 			if (ImGui::Selectable(CutsceneLabel.c_str(), (*SelectedCutscene)["id"].get_ref<const std::string&>() == CutsceneName))
 				SelectedCutscene = it;

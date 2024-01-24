@@ -119,13 +119,13 @@ void Script::RGBElectricLantern()
 
 void Script::GiveAllWeapons()
 {
-	for (const auto& [_, Model] : Lists::WeaponList)
+	for (const auto& [Name, Model] : Lists::WeaponList)
 		GiveWeapon(g_LocalPlayer.m_Entity, Model);
 }
 
 void Script::GiveAllAmmo()
 {
-	for (const auto& [_, Model] : Lists::AmmoList)
+	for (const auto& [Name, Model] : Lists::AmmoList)
 		GiveAmmo(g_LocalPlayer.m_Entity, Model);
 }
 

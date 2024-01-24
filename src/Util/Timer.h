@@ -10,11 +10,11 @@ public:
 #else
 	inline float GetMillis() const
 	{
-		auto Now = std::chrono::high_resolution_clock::now();
-		auto Milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(Now - m_Start).count();
-		auto Microseconds = std::chrono::duration_cast<std::chrono::microseconds>(Now - m_Start).count() % 1000;
+		std::chrono::time_point Now = std::chrono::high_resolution_clock::now();
+		long long Milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(Now - m_Start).count();
+		long long Microseconds = std::chrono::duration_cast<std::chrono::microseconds>(Now - m_Start).count() % 1000;
 
-		return (float)Milliseconds + (float)Microseconds / 1000.0f;
+		return static_cast<float>(Milliseconds) + static_cast<float>(Microseconds) / 1000.0f;
 	}
 
 private:

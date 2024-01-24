@@ -48,7 +48,7 @@ void Fiber::ScriptThreadTick()
 		s_Initialized = true;
 	}
 
-	for (const auto& CurrentFiber : g_FiberCollection)
+	for (Fiber* CurrentFiber : g_FiberCollection)
 	{
 		TRY
 		{

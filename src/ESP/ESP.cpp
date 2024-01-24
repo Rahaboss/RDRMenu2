@@ -18,13 +18,13 @@ void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thi
 	if (vec.size() < 2)
 		return;
 
-	for (const auto& p : vec)
+	for (const ImVec2& p : vec)
 	{
 		if (p.x < 0 || p.y < 0)
 			return;
 	}
 
-	auto l = ImGui::GetBackgroundDrawList();
+	ImDrawList* l = ImGui::GetBackgroundDrawList();
 
 	for (size_t i = 0; i < vec.size(); i++)
 	{
@@ -121,8 +121,7 @@ static void CheckUnknownModel(Hash Model)
 
 void ESP::RenderAnimalESP()
 {
-	const auto peds = Script::GetAllPeds();
-	for (Ped ped : peds)
+	for (Ped ped : Script::GetAllPeds())
 	{
 		if (ped == g_LocalPlayer.m_Entity)
 			continue;
@@ -152,8 +151,7 @@ void ESP::RenderAnimalESP()
 
 void ESP::RenderObjectESP()
 {
-	const auto objs = Script::GetAllObjects();
-	for (Object obj : objs)
+	for (Object obj : Script::GetAllObjects())
 	{
 		std::string ESPText;
 		const Hash Model = Script::GetEntityModel(obj);
@@ -174,8 +172,7 @@ void ESP::RenderObjectESP()
 
 void ESP::RenderPedESP()
 {
-	const auto peds = Script::GetAllPeds();
-	for (Ped ped : peds)
+	for (Ped ped : Script::GetAllPeds())
 	{
 		if (ped == g_LocalPlayer.m_Entity)
 			continue;
@@ -208,8 +205,7 @@ void ESP::RenderPedESP()
 
 void ESP::RenderPickupESP()
 {
-	const auto objs = Script::GetAllPickups();
-	for (Object obj : objs)
+	for (Object obj : Script::GetAllPickups())
 	{
 		std::string ESPText;
 		const Hash Model = Script::GetEntityModel(obj);
@@ -242,8 +238,7 @@ void ESP::RenderLocalPlayerESP()
 
 void ESP::RenderVehicleESP()
 {
-	const auto vehs = Script::GetAllVehicles();
-	for (Vehicle veh : vehs)
+	for (Vehicle veh : Script::GetAllVehicles())
 	{
 		std::string ESPText;
 		const Hash Model = Script::GetEntityModel(veh);

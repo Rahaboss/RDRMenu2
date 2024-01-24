@@ -17,14 +17,14 @@ namespace Util
 	bool StringContains(const std::string& String, const std::string& Key);
 	
 	template<typename size_t N>
-	inline void StringToUpper(char (&String)[N])
+	inline constexpr void StringToUpper(char (&String)[N])
 	{
 		for (size_t i = 0; i < N; i++)
 			String[i] = Util::CharToUpper(String[i]);
 	}
 
 	template<typename size_t N>
-	inline void StringToLower(char (&String)[N])
+	inline constexpr void StringToLower(char (&String)[N])
 	{
 		for (size_t i = 0; i < N; i++)
 			String[i] = Util::CharToLower(String[i]);

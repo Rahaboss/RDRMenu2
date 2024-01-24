@@ -97,14 +97,14 @@ void Menu::RenderInventoryTab()
 	ImGui::BeginChild("inventory_child_inner");
 
 	const std::string InventoryFilterLower = Util::StringToLowerCopy(s_InventoryFilter);
-	for (const auto& [Name, Hash] : Lists::InventoryList)
+	for (const auto& [Name, Model] : Lists::InventoryList)
 	{
 		const std::string NameLower = Util::StringToLowerCopy(Name);
 		if (NameLower.find(InventoryFilterLower) == std::string::npos)
 			continue;
 
 		if (ImGui::Selectable(Name.c_str()))
-			QueueAddItem(Hash);
+			QueueAddItem(Model);
 	}
 
 	ImGui::EndChild(); // inventory_child_inner

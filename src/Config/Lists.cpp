@@ -28,7 +28,7 @@ static void InitAmmoList()
 	json j;
 	File >> j;
 
-	for (const auto& a : j)
+	for (const json& a : j)
 	{
 		const std::string& Name = a.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -52,7 +52,7 @@ static void InitObjectList()
 	json j;
 	File >> j;
 
-	for (const auto& o : j)
+	for (const json& o : j)
 	{
 		const std::string& Name = o.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -78,7 +78,7 @@ static void InitPedList()
 	json j;
 	File >> j;
 
-	for (const auto& p : j)
+	for (const json& p : j)
 	{
 		const std::string& Name = p.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -108,7 +108,7 @@ static void InitPickupList()
 	json j;
 	File >> j;
 
-	for (const auto& p : j)
+	for (const json& p : j)
 	{
 		const std::string& Name = p.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -132,7 +132,7 @@ static void InitWeaponList()
 	json j;
 	File >> j;
 
-	for (const auto& w : j)
+	for (const json& w : j)
 	{
 		const std::string& Name = w.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -156,7 +156,7 @@ static void InitVehicleList()
 	json j;
 	File >> j;
 
-	for (const auto& v : j)
+	for (const json& v : j)
 	{
 		const std::string& Name = v.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -208,7 +208,7 @@ static void InitConsumableList()
 	json j;
 	File >> j;
 
-	for (const auto& c : j)
+	for (const json& c : j)
 	{
 		const std::string& Name = c.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -232,7 +232,7 @@ static void InitDocumentList()
 	json j;
 	File >> j;
 
-	for (const auto& d : j)
+	for (const json& d : j)
 	{
 		const std::string& Name = d.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -256,7 +256,7 @@ static void InitInventoryList()
 	json j;
 	File >> j;
 
-	for (const auto& d : j)
+	for (const json& d : j)
 	{
 		const std::string& Name = d.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -280,7 +280,7 @@ static void InitProvisionList()
 	json j;
 	File >> j;
 
-	for (const auto& p : j)
+	for (const json& p : j)
 	{
 		const std::string& Name = p.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
@@ -328,7 +328,7 @@ void Lists::Destroy()
 
 const std::string& Lists::GetHashName(Hash h)
 {
-	if (const auto it = HashNameList.find(h); it != HashNameList.end())
+	if (const auto it = HashNameList.find(h); it != HashNameList.cend())
 		return it->second;
 
 	// Don't return temporary variable as reference

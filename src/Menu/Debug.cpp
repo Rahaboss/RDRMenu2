@@ -339,25 +339,25 @@ static void RenderDebugButtons()
 			[]() {
 				json j;
 
-				for (const auto& [Name, Hash] : Lists::ConsumableList)
+				for (const auto& [Name, Model] : Lists::ConsumableList)
 				{
-					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Hash, 0))
+					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Model, 0))
 						continue;
-					j["consumables"].push_back(Lists::GetHashNameOrUint(Hash));
+					j["consumables"].push_back(Lists::GetHashNameOrUint(Model));
 				}
 
-				for (const auto& [Name, Hash] : Lists::DocumentList)
+				for (const auto& [Name, Model] : Lists::DocumentList)
 				{
-					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Hash, 0))
+					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Model, 0))
 						continue;
-					j["documents"].push_back(Lists::GetHashNameOrUint(Hash));
+					j["documents"].push_back(Lists::GetHashNameOrUint(Model));
 				}
 
-				for (const auto& [Name, Hash] : Lists::ProvisionList)
+				for (const auto& [Name, Model] : Lists::ProvisionList)
 				{
-					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Hash, 0))
+					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Model, 0))
 						continue;
-					j["provisions"].push_back(Lists::GetHashNameOrUint(Hash));
+					j["provisions"].push_back(Lists::GetHashNameOrUint(Model));
 				}
 
 				std::ofstream f{ Config::GetConfigPath().append("inv.json") };
@@ -477,7 +477,7 @@ static void RenderGlobalDebug()
 	}
 
 	int i = 0;
-	for (auto it = s_Offsets.begin(); it < s_Offsets.end(); it++)
+	for (auto it = s_Offsets.begin(); it < s_Offsets.cend(); it++)
 	{
 		ImGui::SetNextItemWidth(300);
 		ImGui::InputInt((std::string{ "##input_global" } + std::to_string(i)).c_str(), &(*it));
@@ -606,7 +606,7 @@ void Menu::RenderDebugTab()
 	static uint64_t s_NativeInput = 0xEC9A1261BF0CE510;
 	ImGui::InputU64("Native Hash", &s_NativeInput, 1, 100, ImGuiInputTextFlags_CharsHexadecimal);
 	
-	const auto NativeHandler = TO_IDA(NativeInvoker::GetHandler(s_NativeInput));
+	const uintptr_t NativeHandler = TO_IDA(NativeInvoker::GetHandler(s_NativeInput));
 	ImGui::Text("IDA Address: 0x%llX", NativeHandler);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##copy_ida_native"))

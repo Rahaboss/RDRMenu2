@@ -16,7 +16,7 @@ bool Script::RequestModel(Hash Model)
 {
 	if (!IsModelValid(Model))
 	{
-		auto Name = Lists::GetHashName(Model);
+		const std::string& Name = Lists::GetHashName(Model);
 		if (!Name.empty())
 			LOG_TEXT(__FUNCTION__": %s is not a valid model hash!", Name.c_str());
 		else
@@ -44,7 +44,7 @@ void Script::ReleaseModel(Hash Model)
 
 Ped Script::SpawnPed(Hash Model)
 {
-	auto Name = Lists::GetHashName(Model);
+	const std::string& Name = Lists::GetHashName(Model);
 	if (!RequestModel(Model))
 	{
 		if (!Name.empty())
@@ -81,7 +81,7 @@ Ped Script::SpawnPed(Hash Model)
 
 Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 {
-	auto Name = Lists::GetHashName(Model);
+	const std::string& Name = Lists::GetHashName(Model);
 	if (!RequestModel(Model))
 	{
 		if (!Name.empty())
@@ -121,7 +121,7 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 
 Object Script::SpawnObject(Hash Model)
 {
-	auto Name = Lists::GetHashName(Model);
+	const std::string& Name = Lists::GetHashName(Model);
 	if (!RequestModel(Model))
 	{
 		if (!Name.empty())
@@ -157,7 +157,7 @@ Object Script::SpawnObject(Hash Model)
 
 Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 {
-	auto Name = Lists::GetHashName(Model);
+	const std::string& Name = Lists::GetHashName(Model);
 	if (Model && !RequestModel(Model))
 	{
 		if (!Name.empty())

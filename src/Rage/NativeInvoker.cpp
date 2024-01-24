@@ -29,8 +29,8 @@ void NativeInvoker::FixVectors()
 {
 	for (uint32_t i = 0; i < GetContext()->m_DataCount; i++)
 	{
-		auto& out = *(GetContext()->m_OutVectors[i]);
-		auto& in = GetContext()->m_InVectors[i];
+		rage::scrVector& out = *(GetContext()->m_OutVectors[i]);
+		const rage::scrVec3N& in = GetContext()->m_InVectors[i];
 
 		out.x = in.x;
 		out.y = in.y;

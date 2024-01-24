@@ -109,14 +109,14 @@ Signature& Signature::Scan()
 	GetModuleInformation(GetCurrentProcess(), g_GameModule, &ModuleInfo, sizeof(MODULEINFO));
 	MEMORY_BASIC_INFORMATION Mbi;
 
-	const auto Begin = g_BaseAddress; // Begin location of scan (base address)
-	const auto Size = ModuleInfo.SizeOfImage; // Total size of process (area to be scanned)
+	const uintptr_t Begin = g_BaseAddress; // Begin location of scan (base address)
+	const DWORD Size = ModuleInfo.SizeOfImage; // Total size of process (area to be scanned)
 
 	// Loop through memory regions
-	for (uintptr_t curr = Begin; curr < Begin + Size; curr += Mbi.RegionSize)
+	for (uintptr_t Curr = Begin; Curr < Begin + Size; Curr += Mbi.RegionSize)
 	{
 		// Check if current region is invalid
-		if (!VirtualQuery(reinterpret_cast<LPCVOID>(curr), &Mbi, sizeof(Mbi))
+		if (!VirtualQuery(reinterpret_cast<LPCVOID>(Curr), &Mbi, sizeof(Mbi))
 			|| Mbi.State != MEM_COMMIT || Mbi.Protect == PAGE_NOACCESS)
 			continue;
 
@@ -124,9 +124,9 @@ Signature& Signature::Scan()
 		for (size_t i = 0; i < Size; ++i)
 		{
 			// Check if pattern matches at current location
-			if (CheckPattern(curr + i))
+			if (CheckPattern(Curr + i))
 			{
-				m_Result = curr + i;
+				m_Result = Curr + i;
 				return *this;
 			}
 		}

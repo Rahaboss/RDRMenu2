@@ -13,8 +13,8 @@ void JobQueue::Run()
 {
 	Timer JobQueueTimer;
 
-	auto it = s_Queue.begin();
-	while (it != s_Queue.end())
+	auto it = s_Queue.cbegin();
+	while (it != s_Queue.cend())
 	{
 		Fiber* f = *it;
 
