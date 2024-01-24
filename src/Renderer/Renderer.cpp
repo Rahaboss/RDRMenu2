@@ -75,7 +75,9 @@ void Renderer::CreateImGui()
 
 	// Main font
 	strcpy_s(FontCfg.Name, "Chalet London 1960");
-	io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Fonts::ChaletLondon1960, sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
+	io.FontDefault = io.Fonts->AddFontFromMemoryTTF(
+		reinterpret_cast<void*>(const_cast<uint8_t*>(Fonts::ChaletLondon1960)), // C++ style (void*) cast lol
+		sizeof(Fonts::ChaletLondon1960), 20.0f, &FontCfg);
 	
 #ifndef _DIST
 	// Add ProggyClean font
@@ -85,14 +87,14 @@ void Renderer::CreateImGui()
 #endif // _DIST
 
 	hWnd = FindWindow(L"sgaWindow", NULL);
-	WndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)WndProcHook);
+	WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProcHook)));
 
 	ImGui_ImplWin32_Init(hWnd);
 }
 
 void Renderer::DestroyImGui()
 {
-	SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+	SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc));
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

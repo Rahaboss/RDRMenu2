@@ -5,7 +5,7 @@ void DetourHook::Create(void* Target, void* Detour)
 {
 	m_Target = Target;
 
-	LOG_TEXT("Creating hook 0x%llX.", (uintptr_t)m_Target);
+	LOG_TEXT("Creating hook 0x%llX.", reinterpret_cast<uintptr_t>(m_Target));
 
 	assert(m_Target && Detour);
 
@@ -18,7 +18,7 @@ void DetourHook::Create(void* Target, void* Detour)
 
 void DetourHook::Destroy()
 {
-	LOG_TEXT("Destroying hook 0x%llX.", (uintptr_t)m_Target);
+	LOG_TEXT("Destroying hook 0x%llX.", reinterpret_cast<uintptr_t>(m_Target));
 
 	assert(m_Target);
 

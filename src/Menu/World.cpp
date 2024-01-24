@@ -24,13 +24,13 @@ static void RenderWeatherChanger()
 
 static void RenderSnowChanger()
 {
-	for (int i = 0; i < (int)Lists::SnowList.size(); i++)
+	for (size_t i = 0; i < Lists::SnowList.size(); i++)
 	{
 		if (ImGui::Selectable(Lists::SnowList[i].c_str()))
 		{
 			QUEUE_JOB(=)
 			{
-				Script::SetSnow(i);
+				Script::SetSnow(static_cast<int>(i));
 			}
 			END_JOB()
 		}

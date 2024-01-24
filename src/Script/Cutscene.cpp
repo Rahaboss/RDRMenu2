@@ -209,7 +209,7 @@ void Script::CutsceneHelper::AddVehicles()
 
 bool Script::CutsceneHelper::IsCutsceneValid() const
 {
-	if (m_Scene == 0 || (int)m_Scene == -1)
+	if (m_Scene == 0 || static_cast<int>(m_Scene) == -1)
 		return false;
 
 	return true;

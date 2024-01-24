@@ -28,7 +28,7 @@ bool Script::LoadGround(Vector3& pos)
 		// Only request a collision after the first try failed because the location might already be loaded on first attempt
 		for (uint16_t z = 0; i && z < 1000; z += 100)
 		{
-			STREAMING::REQUEST_COLLISION_AT_COORD(pos.x, pos.y, (float)z);
+			STREAMING::REQUEST_COLLISION_AT_COORD(pos.x, pos.y, static_cast<float>(z));
 
 			Thread::YieldThread();
 		}

@@ -28,19 +28,19 @@ namespace rage
 		inline const T& GetArg(size_t Index)
 		{
 			static_assert(sizeof(T) <= sizeof(uint64_t));
-			return *(T*)(&(m_Args[Index]));
+			return *reinterpret_cast<T*>(&(m_Args[Index]));
 		}
 
 		template<typename T>
 		inline const T& GetRet()
 		{
-			return *(T*)(m_ReturnValue);
+			return *reinterpret_cast<T*>(m_ReturnValue);
 		}
 
 		template<typename T>
 		inline void SetRet(T Ret)
 		{
-			*(T*)(m_ReturnValue) = Ret;
+			*reinterpret_cast<T*>(m_ReturnValue) = Ret;
 		}
 	}; //Size: 0x00E0
 	static_assert(sizeof(scrNativeCallContext) == 0xE0);

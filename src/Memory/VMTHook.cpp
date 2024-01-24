@@ -4,7 +4,7 @@
 void VMTHook::Create(void* Object, size_t NumFuncs)
 {
 	m_Object = static_cast<void***>(Object);
-	LOG_TEXT("Creating hook 0x%llX.", (uintptr_t)m_Object);
+	LOG_TEXT("Creating hook 0x%llX.", reinterpret_cast<uintptr_t>(m_Object));
 	m_NumFuncs = NumFuncs;
 	m_OriginalTable = *m_Object;
 	m_NewTable = new void* [m_NumFuncs];
@@ -13,7 +13,7 @@ void VMTHook::Create(void* Object, size_t NumFuncs)
 
 void VMTHook::Destroy()
 {
-	LOG_TEXT("Destroying hook 0x%llX.", (uintptr_t)m_Object);
+	LOG_TEXT("Destroying hook 0x%llX.", reinterpret_cast<uintptr_t>(m_Object));
 	delete m_NewTable;
 }
 

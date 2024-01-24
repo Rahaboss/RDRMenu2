@@ -465,15 +465,19 @@ static void RenderGlobalDebug()
 	{
 		ImGui::TextUnformatted(GlobalString.c_str());
 
-		ImGui::Text("int: %d", *(int*)mem);
-		ImGui::SameLine();
-		if (ImGui::SmallButton((std::string{ "Copy##int_global" } + std::to_string((uintptr_t)mem)).c_str()))
-			ImGui::SetClipboardText(std::to_string(*(int*)mem).c_str());
+		const int int_value = *reinterpret_cast<int*>(mem);
 
-		ImGui::Text("float: %f", *(float*)mem);
+		ImGui::Text("int: %d", int_value);
 		ImGui::SameLine();
-		if (ImGui::SmallButton((std::string{ "Copy##float_global" } + std::to_string((uintptr_t)mem)).c_str()))
-			ImGui::SetClipboardText(std::to_string(*(float*)mem).c_str());
+		if (ImGui::SmallButton((std::string{ "Copy##int_global" } + std::to_string(reinterpret_cast<uintptr_t>(mem))).c_str()))
+			ImGui::SetClipboardText(std::to_string(int_value).c_str());
+
+		const float float_value = *reinterpret_cast<float*>(mem);
+
+		ImGui::Text("float: %f", float_value);
+		ImGui::SameLine();
+		if (ImGui::SmallButton((std::string{ "Copy##float_global" } + std::to_string(reinterpret_cast<uintptr_t>(mem))).c_str()))
+			ImGui::SetClipboardText(std::to_string(float_value).c_str());
 	}
 
 	int i = 0;

@@ -88,6 +88,6 @@ void Fiber::JobQueueFiberFunction(void* FiberParam)
 		ThisFiber->m_Function();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
-	*(bool*)ThisFiber->m_ExtraData = true;
+	*reinterpret_cast<bool*>(ThisFiber->m_ExtraData) = true;
 	ThisFiber->YieldThread();
 }

@@ -147,7 +147,7 @@ static void RenderMoneyChanger()
 	{
 		QUEUE_JOB(=)
 		{
-			Script::SetMoney((int)(s_MoneyAmount * 100.0));
+			Script::SetMoney(static_cast<int>(s_MoneyAmount * 100.0));
 		}
 		END_JOB()
 	}
@@ -156,7 +156,7 @@ static void RenderMoneyChanger()
 	{
 		QUEUE_JOB(=)
 		{
-			Script::AddMoney((int)(s_MoneyAmount * 100.0));
+			Script::AddMoney(static_cast<int>(s_MoneyAmount * 100.0));
 		}
 		END_JOB()
 	}
@@ -165,7 +165,7 @@ static void RenderMoneyChanger()
 	{
 		QUEUE_JOB(=)
 		{
-			Script::RemoveMoney((int)(s_MoneyAmount * 100.0));
+			Script::RemoveMoney(static_cast<int>(s_MoneyAmount * 100.0));
 		}
 		END_JOB()
 	}
