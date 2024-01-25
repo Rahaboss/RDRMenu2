@@ -3,6 +3,7 @@
 #include "Rendering.h"
 #include "Player.h"
 #include "Mount.h"
+#include "Vehicle.h"
 #include "Weapon.h"
 #include "World.h"
 #include "Teleport.h"
@@ -52,6 +53,7 @@ static void RenderMenu()
 			{
 				Menu::RenderPlayerTab();
 				Menu::RenderMountTab();
+				Menu::RenderVehicleTab();
 				Menu::RenderWeaponTab();
 				Menu::RenderWorldTab();
 				Menu::RenderTeleportTab();

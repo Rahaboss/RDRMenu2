@@ -24,4 +24,5 @@ namespace Script
 	void SuperJump();
 	void Suicide();
 	void SetHairStyle(Hash Style, int Length);
+	void ProcessVehicleFeatures();
 }

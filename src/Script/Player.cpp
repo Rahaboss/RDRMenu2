@@ -269,3 +269,16 @@ void Script::SetHairStyle(Hash Style, int Length)
 		if (int* pLength2 = ScriptGlobal(40).At(7748).At(1).Get<int*>())
 			*pLength = *pLength2 = Length;
 }
+
+void Script::ProcessVehicleFeatures()
+{
+	TRY
+	{
+		if (g_Settings["vehicle"]["godmode"].get<bool>())
+			SetEntityInvincible(g_LocalPlayer.m_Vehicle, true);
+		
+		if (g_Settings["vehicle"]["invisible"].get<bool>())
+			SetEntityInvisible(g_LocalPlayer.m_Vehicle, true);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+}

@@ -64,3 +64,24 @@ bool Util::StringContains(const std::string& String, const std::string& Key)
 {
 	return String.find(Key) != std::string::npos;
 }
+
+std::string Util::FormatString(_Printf_format_string_ const char* const Text, ...)
+{
+	va_list Args;
+	va_start(Args, Text);
+
+	const int Format = _vscprintf(Text, Args);
+	assert(Format >= 0);
+	size_t Length = static_cast<size_t>(Format) + 1;
+	char* Buffer = new char[Length * sizeof(char)];
+	assert(Buffer);
+	int Format2 = vsprintf_s(Buffer, Length, Text, Args);
+	assert(Format2 >= 0);
+
+	std::string Result{ Buffer };
+
+	delete[] Buffer;
+	va_end(Args);
+
+	return std::move(Result);
+}

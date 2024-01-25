@@ -62,6 +62,10 @@ static void InitObjectList()
 		Lists::ObjectList[Name] = Model;
 		AddNameToHashList(Model, Name);
 	}
+
+	Lists::ObjectListRaw.reserve(Lists::ObjectList.size());
+	for (const auto& [Name, Model] : Lists::ObjectList)
+		Lists::ObjectListRaw.push_back(Model);
 }
 
 static void InitPedList()
@@ -92,6 +96,10 @@ static void InitPedList()
 		Lists::PedList[Name] = Model;
 		AddNameToHashList(Model, Name);
 	}
+
+	Lists::PedListRaw.reserve(Lists::PedList.size());
+	for (const auto& [Name, Model] : Lists::PedList)
+		Lists::PedListRaw.push_back(Model);
 }
 
 static void InitPickupList()
@@ -116,6 +124,10 @@ static void InitPickupList()
 		Lists::PickupList[Name] = Model;
 		AddNameToHashList(Model, Name);
 	}
+
+	Lists::PickupListRaw.reserve(Lists::PickupList.size());
+	for (const auto& [Name, Model] : Lists::PickupList)
+		Lists::PickupListRaw.push_back(Model);
 }
 
 static void InitWeaponList()
@@ -170,6 +182,10 @@ static void InitVehicleList()
 		Lists::VehicleList[Name] = Model;
 		AddNameToHashList(Model, Name);
 	}
+
+	Lists::VehicleListRaw.reserve(Lists::VehicleList.size());
+	for (const auto& [Name, Model] : Lists::VehicleList)
+		Lists::VehicleListRaw.push_back(Model);
 }
 
 void Lists::InitCutsceneList()

@@ -24,6 +24,13 @@ namespace Lists
 		DocumentList,
 		ProvisionList,
 		InventoryList;
+
+	// TODO: Remove duplicate lists
+	inline std::vector<Hash>
+		ObjectListRaw,
+		PedListRaw,
+		PickupListRaw,
+		VehicleListRaw;
 	
 	inline json CutsceneList, MetaPedOutfits;
 

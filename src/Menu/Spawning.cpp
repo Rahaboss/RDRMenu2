@@ -8,6 +8,7 @@
 #include "Util/String.h"
 #include "Thread/Thread.h"
 #include "Script/Ped.h"
+#include "Util/Random.h"
 
 static void RenderSpawnerList(Hash& OutModel, const char* Filter, const std::map<std::string, Hash>& List)
 {
@@ -64,6 +65,22 @@ void Menu::RenderVehicleSpawner()
 	}
 	ImGui::SameLine();
 	ImGui::Text("Selected Vehicle: %s", Lists::GetHashName(s_SelectedVehicle).c_str());
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Random"))
+	{
+		QUEUE_JOB(=)
+		{
+			if (s_RemovePrevious)
+				Script::DeleteEntity(s_LastSpawnedVehicle);
+
+			const Hash Model = Lists::VehicleListRaw[Random::U64() % Lists::VehicleListRaw.size()];
+			s_LastSpawnedVehicle = Script::SpawnVehicle(Model, s_WarpInside);
+
+			if (s_AutoRemove)
+				Script::SetEntityAsNoLongerNeeded(s_LastSpawnedVehicle);
+		}
+		END_JOB()
+	}
 
 	ImGui::BeginChild("vehicle_child");
 
@@ -126,6 +143,28 @@ void Menu::RenderPedSpawner()
 	}
 	ImGui::SameLine();
 	ImGui::Text("Selected Ped: %s", Lists::GetHashName(s_SelectedPed).c_str());
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Random"))
+	{
+		QUEUE_JOB(=)
+		{
+			if (s_RemovePrevious)
+				Script::DeleteEntity(s_LastSpawnedPed);
+			
+			const Hash Model = Lists::PedListRaw[Random::U64() % Lists::PedListRaw.size()];
+			s_LastSpawnedPed = Script::SpawnPed(Model);
+
+			if (s_SetOntoMount && PED::_IS_MOUNT_SEAT_FREE(s_LastSpawnedPed, -1))
+				Script::SetPedOntoMount(g_LocalPlayer.m_Entity, s_LastSpawnedPed);
+
+			if (s_SpawnDead)
+				ENTITY::SET_ENTITY_HEALTH(s_LastSpawnedPed, 0, 0);
+
+			if (s_AutoRemove)
+				Script::SetEntityAsNoLongerNeeded(s_LastSpawnedPed);
+		}
+		END_JOB()
+	}
 
 	ImGui::BeginChild("ped_child");
 
@@ -176,6 +215,22 @@ void Menu::RenderObjectSpawner()
 	}
 	ImGui::SameLine();
 	ImGui::Text("Selected Object: %s", Lists::GetHashName(s_SelectedObject).c_str());
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Random"))
+	{
+		QUEUE_JOB(=)
+		{
+			if (s_RemovePrevious)
+				Script::DeleteEntity(s_LastSpawnedObject);
+
+			const Hash Model = Lists::ObjectListRaw[Random::U64() % Lists::ObjectListRaw.size()];
+			s_LastSpawnedObject = Script::SpawnObject(Model);
+
+			if (s_AutoRemove)
+				Script::SetEntityAsNoLongerNeeded(s_LastSpawnedObject);
+		}
+		END_JOB()
+	}
 
 	ImGui::BeginChild("object_child");
 
@@ -223,6 +278,22 @@ void Menu::RenderPickupSpawner()
 	}
 	ImGui::SameLine();
 	ImGui::Text("Selected Object: %s", Lists::GetHashName(s_SelectedPickup).c_str());
+	ImGui::SameLine();
+	if (ImGui::Button("Spawn Random"))
+	{
+		QUEUE_JOB(=)
+		{
+			if (s_RemovePrevious)
+				Script::DeleteEntity(s_LastSpawnedPickup);
+
+			const Hash Model = Lists::PickupListRaw[Random::U64() % Lists::PickupListRaw.size()];
+			s_LastSpawnedPickup = OBJECT::GET_PICKUP_OBJECT(Script::SpawnPickup(Model));
+
+			if (s_AutoRemove)
+				Script::SetEntityAsNoLongerNeeded(s_LastSpawnedPickup);
+		}
+		END_JOB()
+	}
 
 	ImGui::BeginChild("pickup_child");
 

@@ -43,6 +43,8 @@ void Features::OnTick()
 
 		Script::ProcessMountFeatures();
 
+		Script::ProcessVehicleFeatures();
+
 		if (g_Settings["weapon"]["rapid_fire"].get<bool>())
 			Script::RapidFire();
 

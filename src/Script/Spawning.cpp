@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "Rage/enums.h"
 #include "Config/Lists.h"
+#include "Notification.h"
+#include "Util/String.h"
 
 bool Script::IsModelValid(Hash Model)
 {
@@ -76,6 +78,8 @@ Ped Script::SpawnPed(Hash Model)
 	PlaceEntityOnGround(ped);
 	ReleaseModel(Model);
 
+	NotifyFeed(Util::FormatString("Spawned %s", Name.c_str()).c_str());
+
 	return ped;
 }
 
@@ -116,6 +120,8 @@ Vehicle Script::SpawnVehicle(Hash Model, bool WarpInside)
 	if (WarpInside)
 		PED::SET_PED_INTO_VEHICLE(g_LocalPlayer.m_Entity, veh, -1);
 
+	NotifyFeed(Util::FormatString("Spawned %s", Name.c_str()).c_str());
+
 	return veh;
 }
 
@@ -151,6 +157,8 @@ Object Script::SpawnObject(Hash Model)
 
 	PlaceEntityOnGround(obj);
 	ReleaseModel(Model);
+
+	NotifyFeed(Util::FormatString("Spawned %s", Name.c_str()).c_str());
 
 	return obj;
 }
@@ -188,6 +196,8 @@ Pickup Script::SpawnPickup(Hash PickupHash, Hash Model)
 	PlaceEntityOnGround(OBJECT::GET_PICKUP_OBJECT(pickup));
 	if (Model)
 		ReleaseModel(Model);
+
+	NotifyFeed(Util::FormatString("Spawned %s", Name.c_str()).c_str());
 
 	return pickup;
 }

@@ -14,6 +14,7 @@
 #include <thread>
 #include <atomic>
 #include <sstream>
+#include <random>
 
 // Windows
 #include <Windows.h>

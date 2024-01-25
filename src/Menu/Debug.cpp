@@ -565,6 +565,87 @@ static void RenderSpeechDebug()
 		QueueSpeech(s_SpeechName, s_VoiceName, SpeechParam, s_Variation);
 }
 
+static void RenderNotifyDebug()
+{
+	static char s_Message[64]{};
+	ImGui::InputText("Message", s_Message, IM_ARRAYSIZE(s_Message));
+
+	if (ImGui::Button("Help"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyHelp(s_Message);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Feed"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyFeed(s_Message);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Objective"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyObjective(s_Message);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Location"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyLocation(s_Message);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Death"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyDeath(s_Message);
+		}
+		END_JOB()
+	}
+	
+	static char s_Description[64]{};
+	ImGui::InputText("Description", s_Description, IM_ARRAYSIZE(s_Description));
+
+	if (ImGui::Button("Toast"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyToast(s_Message, s_Description);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Error"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyError(s_Message, s_Description);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Warning"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::NotifyWarning(s_Message, s_Description);
+		}
+		END_JOB()
+	}
+}
+
 void Menu::RenderDebugTab()
 {
 	if (!ImGui::BeginTabItem("Debug"))
@@ -625,6 +706,9 @@ void Menu::RenderDebugTab()
 
 	ImGui::SeparatorText("Speech Debug");
 	RenderSpeechDebug();
+
+	ImGui::SeparatorText("Notify Debug");
+	RenderNotifyDebug();
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();
