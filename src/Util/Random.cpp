@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "Random.h"
 
-static thread_local std::mt19937_64 s_RandomEngine;
+static std::seed_seq s_Sequence{ std::chrono::steady_clock::now().time_since_epoch().count() };
+static __declspec(thread) std::mt19937_64 s_RandomEngine{ s_Sequence };
 static std::uniform_int_distribution<std::mt19937_64::result_type> s_Distribution;
 
 uint64_t Random::U64()
 {
-	return s_Distribution(s_RandomEngine);
+	return static_cast<uint64_t>(s_Distribution(s_RandomEngine));
 }
 
 uint32_t Random::U32()
@@ -46,7 +47,7 @@ int8_t Random::S8()
 
 double Random::F64()
 {
-	return U64() / static_cast<double>(0xFFFFFFFFFFFFFFFF);
+	return static_cast<double>(U64()) / static_cast<double>(0xFFFFFFFFFFFFFFFF);
 }
 
 float Random::F32()

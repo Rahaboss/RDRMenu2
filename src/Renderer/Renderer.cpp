@@ -21,35 +21,27 @@ void Renderer::Create()
 	else
 	{
 		LOG_TEXT("Creating Vulkan renderer.");
-		return;
-
 		RendererVulkan::Create();
 	}
-
-	Setup = true;
 }
 
 void Renderer::Destroy()
 {
-	if (!Setup)
-		return;
-	
-	if (IsUsingD3D12())
+	if (Setup)
 	{
-		LOG_TEXT("Destroying D3D12 renderer.");
-		RendererD3D12::Destroy();
-	}
-	else
-	{
-		LOG_TEXT("Destroying Vulkan renderer.");
-		return;
-
-		RendererVulkan::Destroy();
+		if (IsUsingD3D12())
+		{
+			LOG_TEXT("Destroying D3D12 renderer.");
+			RendererD3D12::Destroy();
+		}
+		else
+		{
+			LOG_TEXT("Destroying Vulkan renderer.");
+			RendererVulkan::Destroy();
+		}
 	}
 
 	DestroyImGui();
-
-	Setup = false;
 }
 
 void Renderer::CreateImGui()
@@ -100,22 +92,25 @@ void Renderer::DestroyImGui()
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static POINT CursorCoords{};
-LRESULT CALLBACK Renderer::WndProcHook(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Renderer::WndProcHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (uMsg == WM_KEYUP && wParam == VK_INSERT)
+	if (Setup)
 	{
-		// Persist and restore the cursor position between menu instances
-		if (Menu::IsOpen)
-			GetCursorPos(&CursorCoords);
-		else if (CursorCoords.x + CursorCoords.y != 0)
-			SetCursorPos(CursorCoords.x, CursorCoords.y);
+		if (uMsg == WM_KEYUP && wParam == VK_INSERT)
+		{
+			// Persist and restore the cursor position between menu instances
+			if (Menu::IsOpen)
+				GetCursorPos(&CursorCoords);
+			else if (CursorCoords.x + CursorCoords.y != 0)
+				SetCursorPos(CursorCoords.x, CursorCoords.y);
 
-		Menu::IsOpen = !Menu::IsOpen;
+			Menu::IsOpen = !Menu::IsOpen;
+		}
+
+		if (Menu::IsOpen)
+			ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 	}
 
-	if (Menu::IsOpen)
-		ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam);
-
 	// Always call the original event handler even if menu is open
-	return CallWindowProc(WndProc, hwnd, uMsg, wParam, lParam);
+	return CallWindowProc(WndProc, hWnd, uMsg, wParam, lParam);
 }

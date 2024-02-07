@@ -69,10 +69,14 @@ void RendererD3D12::Create()
 		DescriptorHeapImGuiRender->GetCPUDescriptorHandleForHeapStart(),
 		DescriptorHeapImGuiRender->GetGPUDescriptorHandleForHeapStart());
 	ImGui_ImplDX12_CreateDeviceObjects();
+
+	Renderer::Setup = true;
 }
 
 void RendererD3D12::Destroy()
 {
+	Renderer::Setup = false;
+
 	Hooking::SwapChain.Disable();
 	Hooking::SwapChain.Destroy();
 }

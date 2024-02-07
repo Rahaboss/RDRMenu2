@@ -11,6 +11,8 @@ namespace Renderer
 	void CreateImGui();
 	void DestroyImGui();
 
+	// Set to true by renderer backend (D3D12 or Vulkan) on successful creation
+	// and then to false before destroying
 	inline bool Setup = false;
 
 	inline ImFont* DefaultFont{};

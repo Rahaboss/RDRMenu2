@@ -73,4 +73,10 @@ namespace Hooking
 
 	inline DetourHook PlayPedAmbientSpeech;
 	void PlayPedAmbientSpeechHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook vkQueuePresentKHR;
+	VkResult vkQueuePresentKHRHook(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
+
+	inline DetourHook vkQueueSubmit;
+	VkResult vkQueueSubmitHook(VkQueue queue, uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
 }

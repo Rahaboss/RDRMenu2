@@ -27,9 +27,10 @@ void MainLoop()
 	g_FiberCollection.push_back(&MainFiber);
 
 	Hooking::Create();
-	Hooking::Enable();
 
 	Renderer::Create();
+
+	Hooking::Enable();
 
 	// Main loop
 	while (g_Running)
@@ -39,10 +40,11 @@ void MainLoop()
 		
 		std::this_thread::sleep_for(10ms);
 	}
-	
-	Renderer::Destroy();
 
 	Hooking::Disable();
+	
+	Renderer::Destroy();
+	
 	Hooking::Destroy();
 
 	Settings::Destroy();

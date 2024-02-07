@@ -6,7 +6,7 @@ namespace RendererVulkan
 {
 	void Create();
 	void Destroy();
-	void Present();
+	void Present(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
 	void NewFrame();
 	void EndFrame();
 }

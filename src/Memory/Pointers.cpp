@@ -35,4 +35,18 @@ void Pointers::Create()
 	ReturnAddressSpoof = Signature("FF E3").Get<decltype(ReturnAddressSpoof)>();
 	GetMetaPedType = Signature("48 83 EC 28 85 C9 74 29").Get<decltype(GetMetaPedType)>();
 	GetEntityHealth = Signature("33 DB E8 ? ? ? ? 48 8B F8 48 85 C0 74 3C 48 8B C8").Sub(10).Get<decltype(GetEntityHealth)>();
+
+	// Vulkan renderer
+	vkInstance = Signature("4C 8D 05 ? ? ? ? 33 D2 48 8D 8C 24").Add(3).Rip().Get<decltype(vkInstance)>();
+	vkPhysicalDevice = Signature("48 8B 0D ? ? ? ? 4C 8D 0D ? ? ? ? B8").Add(3).Rip().Get<decltype(vkPhysicalDevice)>();
+	vkDevice = Signature("48 8B 0D ? ? ? ? 4C 8D 0D ? ? ? ? B8").Add(10).Rip().Get<decltype(vkDevice)>();
+	vkQueue = Signature("48 89 05 ? ? ? ? EB 0C 49 8B C4").Add(3).Rip().Get<decltype(vkQueue)>();
+	vkGetDeviceProcAddr = *Signature("75 22 48 8B 05 ? ? ? ? 48 8D 0D").Add(12).Rip().Get<decltype(&vkGetDeviceProcAddr)>();
+	vkQueuePresentKHR = *Signature("FF 15 ? ? ? ? 41 89 45 20").Add(2).Rip().Get<decltype(&vkQueuePresentKHR)>();
+	vkQueueSubmit = *Signature("8B D6 FF 15 ? ? ? ? 85 C0 74 10").Add(4).Rip().Get<decltype(&vkQueueSubmit)>();
+
+	LOG_TEXT("vkInstance: %llX, %llX", (uintptr_t)vkInstance, (uintptr_t)*vkInstance);
+	LOG_TEXT("vkPhysicalDevice: %llX, %llX", (uintptr_t)vkPhysicalDevice, (uintptr_t)*vkPhysicalDevice);
+	LOG_TEXT("vkDevice: %llX, %llX", (uintptr_t)vkDevice, (uintptr_t)*vkDevice);
+	LOG_TEXT("vkQueue: %llX, %llX", (uintptr_t)vkQueue, (uintptr_t)*vkQueue);
 }

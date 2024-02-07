@@ -5,6 +5,7 @@
 #include "Script/World.h"
 #include "Config/Lists.h"
 #include "Script/Freecam.h"
+#include "Util/Random.h"
 
 static void RenderWeatherChanger()
 {
@@ -100,6 +101,16 @@ void Menu::RenderWorldTab()
 	if (ImGui::Button("Reset##reset_timescale"))
 	{
 		s_TimeScale = 1.0f;
+		QUEUE_JOB(=)
+		{
+			Script::SetTimeScale(s_TimeScale);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Random##random_timescale"))
+	{
+		s_TimeScale = Random::F32();
 		QUEUE_JOB(=)
 		{
 			Script::SetTimeScale(s_TimeScale);

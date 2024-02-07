@@ -23,6 +23,7 @@
 #include <dxgi1_5.h>
 
 // Third-party libraries
+#include <vulkan/vulkan.h>
 #include <Minhook.h>
 #include <json.hpp>
 #include <imgui.h>

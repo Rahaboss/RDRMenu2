@@ -355,3 +355,16 @@ void Hooking::PlayPedAmbientSpeechHook(rage::scrNativeCallContext* ctx)
 
 	PlayPedAmbientSpeech.GetOriginal<decltype(&PlayPedAmbientSpeechHook)>()(ctx);
 }
+
+VkResult Hooking::vkQueuePresentKHRHook(VkQueue queue, const VkPresentInfoKHR* pPresentInfo)
+{
+	if (g_Running)
+		RendererVulkan::Present(queue, pPresentInfo);
+
+	return vkQueuePresentKHR.GetOriginal<decltype(&vkQueuePresentKHRHook)>()(queue, pPresentInfo);
+}
+
+VkResult Hooking::vkQueueSubmitHook(VkQueue queue, uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence)
+{
+	return vkQueueSubmit.GetOriginal<decltype(&vkQueueSubmitHook)>()(queue, submitCount, pSubmits, fence);
+}

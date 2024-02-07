@@ -50,4 +50,13 @@ namespace Pointers
 	inline int (*GetEntityHealth)(Entity){};
 	inline void* CheckForDebugger{}; // cmp [rbx+2], al
 	inline void* TerminateProcess{};
+
+	// Vulkan renderer
+	inline VkInstance* vkInstance{};
+	inline VkPhysicalDevice* vkPhysicalDevice{};
+	inline VkDevice* vkDevice{};
+	inline VkQueue* vkQueue{};
+	inline PFN_vkVoidFunction (*vkGetDeviceProcAddr)(VkDevice, const char*){};
+	inline VkResult (*vkQueuePresentKHR)(VkQueue, const VkPresentInfoKHR*){};
+	inline VkResult (*vkQueueSubmit)(VkQueue, uint32_t, const VkSubmitInfo*, VkFence){};
 }

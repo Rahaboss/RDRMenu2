@@ -1,38 +1,34 @@
 #include "pch.h"
 #include "Signature.h"
+#include "Util/String.h"
+
+static constexpr uint8_t ToHex(char c)
+{
+	switch (Util::CharToUpper(c))
+	{
+	case '0': return static_cast<uint8_t>(0x0);
+	case '1': return static_cast<uint8_t>(0x1);
+	case '2': return static_cast<uint8_t>(0x2);
+	case '3': return static_cast<uint8_t>(0x3);
+	case '4': return static_cast<uint8_t>(0x4);
+	case '5': return static_cast<uint8_t>(0x5);
+	case '6': return static_cast<uint8_t>(0x6);
+	case '7': return static_cast<uint8_t>(0x7);
+	case '8': return static_cast<uint8_t>(0x8);
+	case '9': return static_cast<uint8_t>(0x9);
+	case 'A': return static_cast<uint8_t>(0xA);
+	case 'B': return static_cast<uint8_t>(0xB);
+	case 'C': return static_cast<uint8_t>(0xC);
+	case 'D': return static_cast<uint8_t>(0xD);
+	case 'E': return static_cast<uint8_t>(0xE);
+	case 'F': return static_cast<uint8_t>(0xF);
+	}
+
+	return 0;
+}
 
 Signature::Signature(std::string_view IDAPattern)
 {
-	// Helper functions
-	auto ToUpper = [](char c) -> char
-	{
-		return ((c >= 'a' && c <= 'z') ? c + ('A' - 'a') : c);
-	};
-
-	auto ToHex = [&](char c) -> uint8_t
-	{
-		switch (ToUpper(c))
-		{
-		case '0': return static_cast<uint8_t>(0x0);
-		case '1': return static_cast<uint8_t>(0x1);
-		case '2': return static_cast<uint8_t>(0x2);
-		case '3': return static_cast<uint8_t>(0x3);
-		case '4': return static_cast<uint8_t>(0x4);
-		case '5': return static_cast<uint8_t>(0x5);
-		case '6': return static_cast<uint8_t>(0x6);
-		case '7': return static_cast<uint8_t>(0x7);
-		case '8': return static_cast<uint8_t>(0x8);
-		case '9': return static_cast<uint8_t>(0x9);
-		case 'A': return static_cast<uint8_t>(0xA);
-		case 'B': return static_cast<uint8_t>(0xB);
-		case 'C': return static_cast<uint8_t>(0xC);
-		case 'D': return static_cast<uint8_t>(0xD);
-		case 'E': return static_cast<uint8_t>(0xE);
-		case 'F': return static_cast<uint8_t>(0xF);
-		}
-		return 0;
-	};
-
 	// Loop through pattern
 	for (size_t i = 0; i < IDAPattern.size(); i++)
 	{
