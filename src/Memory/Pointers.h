@@ -21,14 +21,14 @@ namespace Pointers
 	inline rage::scrThread** ActiveThread{};
 	inline rage::scrNativeHandler (*GetNativeHandler)(rage::scrNativeHash){};
 	inline int64_t** ScriptGlobals{};
-	inline rage::CPed* (*GetPlayerPed)(Player) {};
+	inline rage::CPed* (*GetPlayerPed)(Player){};
 	inline VariableEncryption* PedFactoryEncryption{};
 	inline void (*DecreaseAmmo)(void*, rage::CPed*, uint64_t, uint32_t){};
 	// GRAPHICS::GET_SCREEN_COORD_FROM_WORLD_COORD
 	inline bool (*WorldToScreen)(const Vector3&, float&, float&){};
 	// PED::GET_PED_BONE_COORDS
 	inline Vector3* (*GetPedBoneCoords)(Vector3&, Ped, int, const Vector3&){};
-	inline rage::CPed* (*GetPedAddress)(Ped) {};
+	inline rage::CPed* (*GetPedAddress)(Ped){};
 	// PED::GET_PED_BONE_INDEX
 	inline int (*GetPedBoneIndex)(rage::CPed*, int){};
 	inline uint32_t (*fwScriptGuidCreateGuid)(void*){};
@@ -51,6 +51,7 @@ namespace Pointers
 	inline void* CheckForDebugger{}; // cmp [rbx+2], al
 	inline void* TerminateProcess{};
 
+#if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer
 	inline VkInstance* vkInstance{};
 	inline VkPhysicalDevice* vkPhysicalDevice{};
@@ -59,4 +60,5 @@ namespace Pointers
 	inline PFN_vkVoidFunction (*vkGetDeviceProcAddr)(VkDevice, const char*){};
 	inline VkResult (*vkQueuePresentKHR)(VkQueue, const VkPresentInfoKHR*){};
 	inline VkResult (*vkQueueSubmit)(VkQueue, uint32_t, const VkSubmitInfo*, VkFence){};
+#endif // ENABLE_VULKAN_RENDERER
 }

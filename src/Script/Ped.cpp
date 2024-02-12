@@ -111,3 +111,19 @@ eMetaPedType Script::GetPedType(Ped ped)
 {
 	return Pointers::GetMetaPedType(ped);
 }
+
+void Script::StartPedScenario(Ped ped, Hash Scenario, int Duration, Hash Conditional)
+{
+	TASK::TASK_START_SCENARIO_IN_PLACE_HASH(ped, Scenario, Duration, true, Conditional, ENTITY::GET_ENTITY_HEADING(ped), false);
+}
+
+void Script::StopPedScenario(Ped ped)
+{
+	TASK::CLEAR_PED_TASKS(ped, true, false);
+	TASK::CLEAR_PED_SECONDARY_TASK(ped);
+}
+
+void Script::StopPedScenarioImmediatelyAndClearProps(Ped ped)
+{
+	TASK::CLEAR_PED_TASKS_IMMEDIATELY(ped, true, true);
+}

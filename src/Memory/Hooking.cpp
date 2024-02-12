@@ -27,12 +27,12 @@ void Hooking::Create()
 	DecreaseAmmo.Create(Pointers::DecreaseAmmo, DecreaseAmmoHook);
 	ShootBullet.Create(NativeInvoker::GetHandler(0x867654CBC7606F2C), ShootBulletHook);
 	IsEntityInArea.Create(NativeInvoker::GetHandler(0xD3151E53134595E5), IsEntityInAreaHook);
-#ifndef _DIST
+
+#if ENABLE_DEBUG_HOOKS
 	CreateAnimScene.Create(NativeInvoker::GetHandler(0x1FCA98E33C1437B3), CreateAnimSceneHook);
 	SetAnimSceneEntity.Create(NativeInvoker::GetHandler(0x8B720AD451CA2AB3), SetAnimSceneEntityHook);
 	StartAnimScene.Create(NativeInvoker::GetHandler(0xF4D94AF761768700), StartAnimSceneHook);
 	SetAnimScenePlayList.Create(NativeInvoker::GetHandler(0x15598CFB25F3DC7E), SetAnimScenePlayListHook);
-#endif // !_DIST
 	//ApplyShopItemToPed.Create(NativeInvoker::GetHandler(0xD3A7B003ED343FD9), ApplyShopItemToPedHook);
 	//ActivateInteriorSet.Create(NativeInvoker::GetHandler(0x174D0AAB11CED739), ActivateInteriorSetHook);
 	//DeactivateInteriorSet.Create(NativeInvoker::GetHandler(0x33B81A2C07A51FFF), DeactivateInteriorSetHook);
@@ -42,12 +42,20 @@ void Hooking::Create()
 	//RemoveIPL.Create(NativeInvoker::GetHandler(0x5A3E5CF7B4014B96), RemoveIPLHook);
 	//VarString.Create(NativeInvoker::GetHandler(0xFA925AC00EB830B9), VarStringHook);
 	//PlayPedAmbientSpeech.Create(NativeInvoker::GetHandler(0x8E04FEDD28D42462), PlayPedAmbientSpeechHook);
+	TaskStartScenarioInPlaceHash.Create(NativeInvoker::GetHandler(0x524B54361229154F), TaskStartScenarioInPlaceHashHook);
+	TaskStartScenarioAtPosition.Create(NativeInvoker::GetHandler(0x4D1F61FC34AF3CD1), TaskStartScenarioAtPositionHook);
+	FindScenarioOfTypeHash.Create(NativeInvoker::GetHandler(0xF533D68FF970D190), FindScenarioOfTypeHashHook);
+#endif // ENABLE_DEBUG_HOOKS
 }
 
 void Hooking::Destroy()
 {
 	LOG_TEXT("Destroying hooks.");
 	
+#if ENABLE_DEBUG_HOOKS
+	FindScenarioOfTypeHash.Destroy();
+	TaskStartScenarioAtPosition.Destroy();
+	TaskStartScenarioInPlaceHash.Destroy();
 	//PlayPedAmbientSpeech.Destroy();
 	//VarString.Destroy();
 	//RemoveIPL.Destroy();
@@ -57,12 +65,12 @@ void Hooking::Destroy()
 	//DeactivateInteriorSet.Destroy();
 	//ActivateInteriorSet.Destroy();
 	//ApplyShopItemToPed.Destroy();
-#ifndef _DIST
 	SetAnimScenePlayList.Destroy();
 	StartAnimScene.Destroy();
 	SetAnimSceneEntity.Destroy();
 	CreateAnimScene.Destroy();
-#endif // !_DIST
+#endif // ENABLE_DEBUG_HOOKS
+
 	IsEntityInArea.Destroy();
 	ShootBullet.Destroy();
 	DecreaseAmmo.Destroy();
@@ -158,7 +166,22 @@ void Hooking::IsEntityInAreaHook(rage::scrNativeCallContext* ctx)
 	IsEntityInArea.GetOriginal<decltype(&IsEntityInAreaHook)>()(ctx);
 }
 
-#ifndef _DIST
+#if ENABLE_VULKAN_RENDERER
+VkResult Hooking::vkQueuePresentKHRHook(VkQueue queue, const VkPresentInfoKHR* pPresentInfo)
+{
+	if (g_Running)
+		RendererVulkan::Present(queue, pPresentInfo);
+
+	return vkQueuePresentKHR.GetOriginal<decltype(&vkQueuePresentKHRHook)>()(queue, pPresentInfo);
+}
+
+VkResult Hooking::vkQueueSubmitHook(VkQueue queue, uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence)
+{
+	return vkQueueSubmit.GetOriginal<decltype(&vkQueueSubmitHook)>()(queue, submitCount, pSubmits, fence);
+}
+#endif // ENABLE_VULKAN_RENDERER
+
+#if ENABLE_DEBUG_HOOKS
 static std::unordered_map<AnimScene, std::string> s_AnimScenes; // Cutscene -> Cutscene Name
 void Hooking::CreateAnimSceneHook(rage::scrNativeCallContext* ctx)
 {
@@ -247,7 +270,6 @@ void Hooking::SetAnimScenePlayListHook(rage::scrNativeCallContext* ctx)
 			Script::AddEntityPlaybackID(it->second.c_str(), playlistName);
 	}
 }
-#endif // !_DIST
 
 void Hooking::ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx)
 {
@@ -356,15 +378,34 @@ void Hooking::PlayPedAmbientSpeechHook(rage::scrNativeCallContext* ctx)
 	PlayPedAmbientSpeech.GetOriginal<decltype(&PlayPedAmbientSpeechHook)>()(ctx);
 }
 
-VkResult Hooking::vkQueuePresentKHRHook(VkQueue queue, const VkPresentInfoKHR* pPresentInfo)
+void Hooking::TaskStartScenarioInPlaceHashHook(rage::scrNativeCallContext* ctx)
 {
-	if (g_Running)
-		RendererVulkan::Present(queue, pPresentInfo);
+	Ped ped = ctx->GetArg<Ped>(0);
+	Hash scenarioHash = ctx->GetArg<Hash>(1);
 
-	return vkQueuePresentKHR.GetOriginal<decltype(&vkQueuePresentKHRHook)>()(queue, pPresentInfo);
+	LOG_TEXT("Start scenario in place %s, %s", Lists::GetHashNameOrUint(Script::GetEntityModel(ped)).c_str(),
+		Lists::GetHashNameOrUint(scenarioHash).c_str());
+
+	TaskStartScenarioInPlaceHash.GetOriginal<decltype(&TaskStartScenarioInPlaceHashHook)>()(ctx);
 }
 
-VkResult Hooking::vkQueueSubmitHook(VkQueue queue, uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence)
+void Hooking::TaskStartScenarioAtPositionHook(rage::scrNativeCallContext* ctx)
 {
-	return vkQueueSubmit.GetOriginal<decltype(&vkQueueSubmitHook)>()(queue, submitCount, pSubmits, fence);
+	Ped ped = ctx->GetArg<Ped>(0);
+	Hash scenarioHash = ctx->GetArg<Hash>(1);
+
+	LOG_TEXT("Start scenario at position %s, %s", Lists::GetHashNameOrUint(Script::GetEntityModel(ped)).c_str(),
+		Lists::GetHashNameOrUint(scenarioHash).c_str());
+
+	TaskStartScenarioAtPosition.GetOriginal<decltype(&TaskStartScenarioAtPositionHook)>()(ctx);
 }
+
+void Hooking::FindScenarioOfTypeHashHook(rage::scrNativeCallContext* ctx)
+{
+	Hash scenarioType = ctx->GetArg<Hash>(4);
+
+	LOG_TEXT("Find scenario of type hash %s", Lists::GetHashNameOrUint(scenarioType).c_str());
+
+	FindScenarioOfTypeHash.GetOriginal<decltype(&FindScenarioOfTypeHashHook)>()(ctx);
+}
+#endif // ENABLE_DEBUG_HOOKS

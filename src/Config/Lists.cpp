@@ -306,6 +306,30 @@ static void InitProvisionList()
 	}
 }
 
+static void InitScenarioList()
+{
+	std::filesystem::path Path{ Config::GetConfigPath().append("Scenarios.json") };
+	std::ifstream File{ Path };
+
+	if (!File)
+	{
+		LOG_TEXT("Can't open file: %s.", Path.string().c_str());
+		return;
+	}
+
+	json j;
+	File >> j;
+
+	for (const json& s : j)
+	{
+		const std::string& Name = s.get_ref<const std::string&>();
+		Hash Model = rage::joaat(Name);
+
+		Lists::ScenarioList[Name] = Model;
+		AddNameToHashList(Model, Name);
+	}
+}
+
 void Lists::Create()
 {
 	LOG_TEXT("Creating lists.");
@@ -321,6 +345,7 @@ void Lists::Create()
 	//InitDocumentList();
 	//InitProvisionList();
 	InitInventoryList();
+	InitScenarioList();
 }
 
 void Lists::Destroy()

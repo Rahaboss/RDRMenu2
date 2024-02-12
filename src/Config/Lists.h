@@ -23,7 +23,8 @@ namespace Lists
 		ConsumableList,
 		DocumentList,
 		ProvisionList,
-		InventoryList;
+		InventoryList,
+		ScenarioList;
 
 	// TODO: Remove duplicate lists
 	inline std::vector<Hash>

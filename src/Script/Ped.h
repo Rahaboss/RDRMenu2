@@ -18,4 +18,7 @@ namespace Script
 	void NoSliding(Ped ped);
 	void SuperRun(Ped ped);
 	eMetaPedType GetPedType(Ped ped);
+	void StartPedScenario(Ped ped, Hash Scenario, int Duration = -1, Hash Conditional = 0);
+	void StopPedScenario(Ped ped);
+	void StopPedScenarioImmediatelyAndClearProps(Ped ped);
 }

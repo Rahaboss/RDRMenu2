@@ -1,5 +1,16 @@
 #pragma once
 
+// Code toggles
+#define ENABLE_NATIVE_RETURN_SPOOFING 0
+#define ENABLE_DEBUGGING 0
+#define ENABLE_VULKAN_RENDERER 0
+
+// Development / non-distribution toggles
+#if !_DIST
+#define USE_SOLUTION_DIR_AS_CONFIG_DIR 1
+#define ENABLE_DEBUG_HOOKS 0
+#endif // !_DIST
+
 // C++ standard library
 #include <iostream>
 #include <vector>
@@ -15,6 +26,8 @@
 #include <atomic>
 #include <sstream>
 #include <random>
+#include <execution>
+#include <algorithm>
 
 // Windows
 #include <Windows.h>
@@ -23,13 +36,15 @@
 #include <dxgi1_5.h>
 
 // Third-party libraries
-#include <vulkan/vulkan.h>
 #include <Minhook.h>
 #include <json.hpp>
 #include <imgui.h>
-#include <imgui_impl_dx12.h>
-#include <imgui_impl_vulkan.h>
 #include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
+#if ENABLE_VULKAN_RENDERER
+#include <imgui_impl_vulkan.h>
+#include <vulkan/vulkan.h>
+#endif // ENABLE_VULKAN_RENDERER
 
 // User headers
 #include "Util/Logging.h"
@@ -51,13 +66,3 @@ typedef nlohmann::json json;
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
 #define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.", __FILE__, __LINE__, __FUNCTION__)
 #define TO_IDA(x) (((uintptr_t)x) - g_BaseAddress + 0x7FF6694A0000)
-
-// Code toggles
-#define ENABLE_NATIVE_RETURN_SPOOFING 0
-#define ENABLE_DEBUGGING 0
-
-#if _DIST
-#define USE_SOLUTION_DIR_AS_CONFIG_DIR 0
-#else
-#define USE_SOLUTION_DIR_AS_CONFIG_DIR 1
-#endif // _DIST

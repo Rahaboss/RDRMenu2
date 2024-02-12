@@ -646,6 +646,52 @@ static void RenderNotifyDebug()
 	}
 }
 
+static void RenderScenarioDebug()
+{
+	ImGui::BeginChild("scenario_left", ImVec2(ImGui::GetContentRegionAvail().x / 2, 200));
+	
+	static Hash SelectedScenario = 0;
+
+	if (ImGui::Button("Play"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::StartPedScenario(g_LocalPlayer.m_Entity, SelectedScenario);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::StopPedScenario(g_LocalPlayer.m_Entity);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop Immediately And Clear Props"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::StopPedScenarioImmediatelyAndClearProps(g_LocalPlayer.m_Entity);
+		}
+		END_JOB()
+	}
+	
+	ImGui::EndChild();
+	ImGui::SameLine();
+	ImGui::BeginChild("scenario_right", ImVec2(0, 200));
+	
+	for (const auto& [Name, Scenario] : Lists::ScenarioList)
+	{
+		if (ImGui::Selectable(Name.c_str(), SelectedScenario == Scenario))
+			SelectedScenario = Scenario;
+	}
+
+	ImGui::EndChild();
+}
+
 void Menu::RenderDebugTab()
 {
 	if (!ImGui::BeginTabItem("Debug"))
@@ -709,6 +755,9 @@ void Menu::RenderDebugTab()
 
 	ImGui::SeparatorText("Notify Debug");
 	RenderNotifyDebug();
+
+	ImGui::SeparatorText("Scenario Debug");
+	RenderScenarioDebug();
 
 	ImGui::EndChild();
 	ImGui::EndTabItem();

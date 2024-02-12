@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Random.h"
 
-static std::seed_seq s_Sequence{ std::chrono::steady_clock::now().time_since_epoch().count() };
+static std::seed_seq s_Sequence{ std::chrono::high_resolution_clock::now().time_since_epoch().count() };
 static __declspec(thread) std::mt19937_64 s_RandomEngine{ s_Sequence };
 static std::uniform_int_distribution<std::mt19937_64::result_type> s_Distribution;
 

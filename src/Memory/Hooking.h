@@ -33,7 +33,15 @@ namespace Hooking
 	inline DetourHook IsEntityInArea;
 	void IsEntityInAreaHook(rage::scrNativeCallContext* ctx);
 
-#ifndef _DIST
+#if ENABLE_VULKAN_RENDERER
+	inline DetourHook vkQueuePresentKHR;
+	VkResult vkQueuePresentKHRHook(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
+
+	inline DetourHook vkQueueSubmit;
+	VkResult vkQueueSubmitHook(VkQueue queue, uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
+#endif // ENABLE_VULKAN_RENDERER
+
+#if ENABLE_DEBUG_HOOKS
 	inline DetourHook CreateAnimScene;
 	void CreateAnimSceneHook(rage::scrNativeCallContext* ctx);
 
@@ -45,7 +53,6 @@ namespace Hooking
 	
 	inline DetourHook SetAnimScenePlayList;
 	void SetAnimScenePlayListHook(rage::scrNativeCallContext* ctx);
-#endif // !_DIST
 	
 	inline DetourHook ApplyShopItemToPed;
 	void ApplyShopItemToPedHook(rage::scrNativeCallContext* ctx);
@@ -74,9 +81,13 @@ namespace Hooking
 	inline DetourHook PlayPedAmbientSpeech;
 	void PlayPedAmbientSpeechHook(rage::scrNativeCallContext* ctx);
 
-	inline DetourHook vkQueuePresentKHR;
-	VkResult vkQueuePresentKHRHook(VkQueue queue, const VkPresentInfoKHR* pPresentInfo);
+	inline DetourHook TaskStartScenarioInPlaceHash;
+	void TaskStartScenarioInPlaceHashHook(rage::scrNativeCallContext* ctx);
 
-	inline DetourHook vkQueueSubmit;
-	VkResult vkQueueSubmitHook(VkQueue queue, uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
+	inline DetourHook TaskStartScenarioAtPosition;
+	void TaskStartScenarioAtPositionHook(rage::scrNativeCallContext* ctx);
+
+	inline DetourHook FindScenarioOfTypeHash;
+	void FindScenarioOfTypeHashHook(rage::scrNativeCallContext* ctx);
+#endif // ENABLE_DEBUG_HOOKS
 }

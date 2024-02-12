@@ -93,6 +93,7 @@ Signature& Signature::Scan()
 			if ((m_Bytes[i] != -1) && m_Bytes[i] != *reinterpret_cast<uint8_t*>(Location + i))
 				return false;
 		}
+
 		return true;
 	};
 
@@ -102,27 +103,30 @@ Signature& Signature::Scan()
 
 	// Get information about process
 	MODULEINFO ModuleInfo;
-	GetModuleInformation(GetCurrentProcess(), g_GameModule, &ModuleInfo, sizeof(MODULEINFO));
-	MEMORY_BASIC_INFORMATION Mbi;
+	GetModuleInformation(GetCurrentProcess(), g_GameModule, &ModuleInfo, sizeof(ModuleInfo));
+	MEMORY_BASIC_INFORMATION Mbi{};
 
-	const uintptr_t Begin = g_BaseAddress; // Begin location of scan (base address)
-	const DWORD Size = ModuleInfo.SizeOfImage; // Total size of process (area to be scanned)
+	const uintptr_t Begin = g_BaseAddress; // Begin address of scan (base address)
+	const uintptr_t End = Begin + ModuleInfo.SizeOfImage; // End address of scan
 
 	// Loop through memory regions
-	for (uintptr_t Curr = Begin; Curr < Begin + Size; Curr += Mbi.RegionSize)
+	for (uintptr_t Current = Begin; Current < End; Current += Mbi.RegionSize)
 	{
 		// Check if current region is invalid
-		if (!VirtualQuery(reinterpret_cast<LPCVOID>(Curr), &Mbi, sizeof(Mbi))
-			|| Mbi.State != MEM_COMMIT || Mbi.Protect == PAGE_NOACCESS)
+		if (VirtualQuery(reinterpret_cast<LPCVOID>(Current), &Mbi, sizeof(Mbi)) == 0)
+			continue;
+
+		if (Mbi.State != MEM_COMMIT || Mbi.Protect == PAGE_NOACCESS)
 			continue;
 
 		// Loop through current region
-		for (size_t i = 0; i < Size; ++i)
+		for (size_t i = 0; i < (Mbi.RegionSize - m_Bytes.size() + 1); ++i)
 		{
+
 			// Check if pattern matches at current location
-			if (CheckPattern(Curr + i))
+			if (CheckPattern(Current + i))
 			{
-				m_Result = Curr + i;
+				m_Result = Current + i;
 				return *this;
 			}
 		}
@@ -130,6 +134,7 @@ Signature& Signature::Scan()
 
 	// At this point the scan has failed so m_Result is 0
 	assert(m_Result);
+
 	return *this;
 }
 

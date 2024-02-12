@@ -6,17 +6,9 @@
 #include "Memory/Pointers.h"
 #include "Memory/Hooking.h"
 
-static void CheckVkResult(VkResult err)
-{
-	if (err == VK_SUCCESS)
-		return;
-
-	LOG_TEXT("Vulkan error: %d", err);
-	assert(err > 0);
-}
-
 void RendererVulkan::Create()
 {
+#if ENABLE_VULKAN_RENDERER
 	Hooking::vkQueuePresentKHR.Create(Pointers::vkQueuePresentKHR, Hooking::vkQueuePresentKHRHook);
 	Hooking::vkQueueSubmit.Create(Pointers::vkQueueSubmit, Hooking::vkQueueSubmitHook);
 
@@ -35,21 +27,31 @@ void RendererVulkan::Create()
 	//InitInfo.ImageCount = wd->ImageCount;
 	//InitInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 	//InitInfo.Allocator = g_Allocator;
-	InitInfo.CheckVkResultFn = CheckVkResult;
+	InitInfo.CheckVkResultFn = [](VkResult err) {
+		if (err == VK_SUCCESS)
+			return;
+
+		LOG_TEXT("Vulkan error: %d", err);
+		assert(err > 0);
+	};
 
 	//ImGui_ImplVulkan_Init(&InitInfo, ...);
 	
 	Renderer::Setup = true;
+#endif // ENABLE_VULKAN_RENDERER
 }
 
 void RendererVulkan::Destroy()
 {
+#if ENABLE_VULKAN_RENDERER
 	Renderer::Setup = false;
 
 	Hooking::vkQueueSubmit.Destroy();
 	Hooking::vkQueuePresentKHR.Destroy();
+#endif // ENABLE_VULKAN_RENDERER
 }
 
+#if ENABLE_VULKAN_RENDERER
 void RendererVulkan::Present(VkQueue queue, const VkPresentInfoKHR* pPresentInfo)
 {
 	TRY
@@ -81,3 +83,4 @@ void RendererVulkan::EndFrame()
 	ImGui::Render();
 	//ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), ...);
 }
+#endif // ENABLE_VULKAN_RENDERER
