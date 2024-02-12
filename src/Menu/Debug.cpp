@@ -193,177 +193,12 @@ static void RenderInteriorButtons()
 
 static void RenderDebugButtons()
 {
-#if 0
-	if (ImGui::Button("Spawn Ped"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SpawnPed(RAGE_JOAAT("CS_DUTCH"));
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Spawn Vehicle"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SpawnVehicle(RAGE_JOAAT("WAGON02X"));
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Spawn Object"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SpawnObject(RAGE_JOAAT("P_STOOL01X"));
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Spawn Pickup"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SpawnPickup(RAGE_JOAAT("PICKUP_WEAPON_PISTOL_M1899"));
-		}
-		END_JOB()
-	}
-
-	if (ImGui::Button("Change Player Model"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SetPlayerModel(RAGE_JOAAT("CS_DUTCH"));
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Reset Player Model"))
-		JobQueue::Add(Script::ResetPlayerModel);
-
-	if (ImGui::Button("Reload Settings"))
-		JobQueue::Add(Settings::Create);
-	ImGui::SameLine();
 	if (ImGui::Button("Reload Lists"))
 	{
 		QUEUE_JOB(=)
 		{
 			Lists::Destroy();
 			Lists::Create();
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Test"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SetPlayerModel(RAGE_JOAAT("MSP_SALOON1_FEMALES_01"));
-			Script::SetMetaPedOutfit(g_LocalPlayer.m_Entity, 1467286073);
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Test2"))
-	{
-		QUEUE_JOB(=)
-		{
-			Script::SetPlayerModel(RAGE_JOAAT("MSP_SALOON1_MALES_01"));
-			Script::SetMetaPedOutfit(g_LocalPlayer.m_Entity, 1467286073);
-		}
-		END_JOB()
-	}
-	
-	if (ImGui::Button("Start Music"))
-	{
-		QUEUE_JOB(=)
-		{
-			AUDIO::PREPARE_MUSIC_EVENT("SAL1_START");
-			AUDIO::TRIGGER_MUSIC_EVENT("SAL1_START");
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("End Music"))
-	{
-		QUEUE_JOB(=)
-		{
-			AUDIO::PREPARE_MUSIC_EVENT("SAL1_STOP");
-			AUDIO::TRIGGER_MUSIC_EVENT("SAL1_STOP");
-		}
-		END_JOB()
-	}
-
-	if (ImGui::Button("Hair Test 1"))
-	{
-		QUEUE_JOB(=)
-		{
-			//PED::_APPLY_SHOP_ITEM_TO_PED(g_LocalPlayer.m_Entity, RAGE_JOAAT("CLOTHING_ITEM_HAIR_SWEPT_BACK"), true, false, false);
-			Script::SetHairStyle(RAGE_JOAAT("CLOTHING_ITEM_HAIR_SWEPT_BACK"), 7);
-			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
-			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Hair Test 2"))
-	{
-		QUEUE_JOB(=)
-		{
-			//PED::_APPLY_SHOP_ITEM_TO_PED(g_LocalPlayer.m_Entity, 933586678, true, false, false);
-			Script::SetHairStyle(933586678, 9);
-			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
-			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Hair Test 3"))
-	{
-		QUEUE_JOB(=)
-		{
-			//PED::_APPLY_SHOP_ITEM_TO_PED(g_LocalPlayer.m_Entity, 1156231582, true, false, false);
-			Script::SetHairStyle(1156231582, 2);
-			PED::_0xAAB86462966168CE(g_LocalPlayer.m_Entity, false);
-			PED::_UPDATE_PED_VARIATION(g_LocalPlayer.m_Entity, false, true, true, true, false);
-		}
-		END_JOB()
-	}
-#endif
-
-	if (ImGui::Button("Inv"))
-	{
-		QUEUE_JOB(=)
-		{
-			[]() {
-				json j;
-
-				for (const auto& [Name, Model] : Lists::ConsumableList)
-				{
-					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Model, 0))
-						continue;
-					j["consumables"].push_back(Lists::GetHashNameOrUint(Model));
-				}
-
-				for (const auto& [Name, Model] : Lists::DocumentList)
-				{
-					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Model, 0))
-						continue;
-					j["documents"].push_back(Lists::GetHashNameOrUint(Model));
-				}
-
-				for (const auto& [Name, Model] : Lists::ProvisionList)
-				{
-					if (!ITEMDATABASE::_ITEMDATABASE_IS_KEY_VALID(Model, 0))
-						continue;
-					j["provisions"].push_back(Lists::GetHashNameOrUint(Model));
-				}
-
-				std::ofstream f{ Config::GetConfigPath().append("inv.json") };
-				f << j.dump(1, '\t');
-				f << '\n';
-			}();
 		}
 		END_JOB()
 	}
@@ -698,15 +533,6 @@ void Menu::RenderDebugTab()
 		return;
 
 	ImGui::BeginChild("debug_child");
-
-	if (ImGui::CollapsingHeader("Settings JSON"))
-	{
-		ImGui::PushFont(Renderer::DefaultFont);
-
-		ImGui::Text(g_Settings.dump(2).c_str());
-
-		ImGui::PopFont();
-	}
 
 	ImGui::SeparatorText("Buttons");
 	RenderDebugButtons();

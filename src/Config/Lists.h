@@ -20,9 +20,6 @@ namespace Lists
 		PickupList,
 		WeaponList,
 		VehicleList,
-		ConsumableList,
-		DocumentList,
-		ProvisionList,
 		InventoryList,
 		ScenarioList;
 
