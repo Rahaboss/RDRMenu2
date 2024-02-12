@@ -49,7 +49,9 @@ void Console::Destroy()
 
 void Console::SetColor(WORD Color)
 {
+#ifndef _DIST
 	SetConsoleTextAttribute(s_hConsole, Color);
+#endif // !_DIST
 }
 
 void Console::ResetColor()
