@@ -8,7 +8,8 @@ void VMTHook::Create(void* Object, size_t NumFuncs)
 	m_NumFuncs = NumFuncs;
 	m_OriginalTable = *m_Object;
 	m_NewTable = new void* [m_NumFuncs];
-	memcpy(m_NewTable, m_OriginalTable, sizeof(void*) * m_NumFuncs);
+	const rsize_t TableSize = sizeof(void*) * m_NumFuncs;
+	memcpy_s(m_NewTable, TableSize, m_OriginalTable, TableSize);
 }
 
 void VMTHook::Destroy()

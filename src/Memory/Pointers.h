@@ -6,6 +6,7 @@
 #include "Rage/Obfuscation.h"
 #include "Rage/CPed.h"
 #include "Rage/enums.h"
+#include "Rage/CNetworkPlayerMgr.h"
 
 namespace Pointers
 {
@@ -50,6 +51,9 @@ namespace Pointers
 	inline int (*GetEntityHealth)(Entity){};
 	inline void* CheckForDebugger{}; // cmp [rbx+2], al
 	inline void* TerminateProcess{};
+	inline bool* IsSessionStarted{};
+	inline rage::CNetworkPlayerMgr** NetworkPlayerMgr{};
+	inline rage::netPlayerData* (*GetOfflineNetPlayerData)(){};
 
 #if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer

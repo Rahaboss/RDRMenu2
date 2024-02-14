@@ -8,7 +8,9 @@
 // Development / non-distribution toggles
 #if !_DIST
 #define USE_SOLUTION_DIR_AS_CONFIG_DIR 1
-#define ENABLE_DEBUG_HOOKS 0
+#define ENABLE_DEBUG_HOOKS 1
+#define ENABLE_DEBUG_TAB 1
+#define ENABLE_NETWORK_TAB 1 // Example network tab, no functionality
 #endif // !_DIST
 
 // C++ standard library
@@ -65,4 +67,4 @@ typedef nlohmann::json json;
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
 #define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.", __FILE__, __LINE__, __FUNCTION__)
-#define TO_IDA(x) (((uintptr_t)x) - g_BaseAddress + 0x7FF6694A0000)
+#define TO_IDA(x) (((uintptr_t)(x)) - g_BaseAddress + 0x7FF6694A0000)

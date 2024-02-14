@@ -9,6 +9,7 @@
 #include "Teleport.h"
 #include "Spawning.h"
 #include "Debug.h"
+#include "Network.h"
 #include "Cutscene.h"
 #include "Inventory.h"
 #include "Overlay.h"
@@ -61,9 +62,12 @@ static void RenderMenu()
 				Menu::RenderCutsceneTab();
 				Menu::RenderInventoryTab();
 				Menu::RenderRenderingTab();
-#if !_DIST
+#if ENABLE_DEBUG_TAB
 				Menu::RenderDebugTab();
-#endif // _DIST
+#endif // ENABLE_DEBUG_TAB
+#if ENABLE_NETWORK_TAB
+				Menu::RenderNetworkTab();
+#endif // ENABLE_NETWORK_TAB
 				RenderExitTab();
 			}
 			ImGui::EndTabBar();

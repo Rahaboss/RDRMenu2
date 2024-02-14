@@ -37,6 +37,9 @@ void Pointers::Create()
 	Scans.push_back([](){ ReturnAddressSpoof = Signature("FF E3").Get<decltype(ReturnAddressSpoof)>(); });
 	Scans.push_back([](){ GetMetaPedType = Signature("48 83 EC 28 85 C9 74 29").Get<decltype(GetMetaPedType)>(); });
 	Scans.push_back([](){ GetEntityHealth = Signature("33 DB E8 ? ? ? ? 48 8B F8 48 85 C0 74 3C 48 8B C8").Sub(10).Get<decltype(GetEntityHealth)>(); });
+	Scans.push_back([](){ IsSessionStarted = Signature("48 83 EC 28 80 3D ? ? ? ? ? 74 12 48 8B 0D").Add(6).Rip().Get<decltype(IsSessionStarted)>(); });
+	Scans.push_back([](){ NetworkPlayerMgr = Signature("E8 ? ? ? ? 40 0F B6 D5").Add(1).Rip().Add(13).Rip().Get<decltype(NetworkPlayerMgr)>(); });
+	Scans.push_back([](){ GetOfflineNetPlayerData = Signature("E8 ? ? ? ? 48 8D 48 20 EB DD").Add(1).Rip().Get<decltype(GetOfflineNetPlayerData)>(); });
 
 #if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer
@@ -52,9 +55,9 @@ void Pointers::Create()
 	std::for_each(std::execution::par, Scans.cbegin(), Scans.cend(), [](const std::function<void()>& Scan) { Scan(); });
 
 #if ENABLE_VULKAN_RENDERER
-	LOG_TEXT("vkInstance: %llX, %llX", (uintptr_t)vkInstance, (uintptr_t)*vkInstance);
-	LOG_TEXT("vkPhysicalDevice: %llX, %llX", (uintptr_t)vkPhysicalDevice, (uintptr_t)*vkPhysicalDevice);
-	LOG_TEXT("vkDevice: %llX, %llX", (uintptr_t)vkDevice, (uintptr_t)*vkDevice);
-	LOG_TEXT("vkQueue: %llX, %llX", (uintptr_t)vkQueue, (uintptr_t)*vkQueue);
+	LOG_TEXT("vkInstance: %llX, %llX", reinterpret_cast<uintptr_t>(vkInstance), reinterpret_cast<uintptr_t>(*vkInstance));
+	LOG_TEXT("vkPhysicalDevice: %llX, %llX", reinterpret_cast<uintptr_t>(vkPhysicalDevice), reinterpret_cast<uintptr_t>(*vkPhysicalDevice));
+	LOG_TEXT("vkDevice: %llX, %llX", reinterpret_cast<uintptr_t>(vkDevice), reinterpret_cast<uintptr_t>(*vkDevice));
+	LOG_TEXT("vkQueue: %llX, %llX", reinterpret_cast<uintptr_t>(vkQueue), reinterpret_cast<uintptr_t>(*vkQueue));
 #endif // ENABLE_VULKAN_RENDERER
 }

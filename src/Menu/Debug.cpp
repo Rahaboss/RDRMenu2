@@ -265,6 +265,47 @@ static void RenderDebugButtons()
 	RenderInteriorButtons();
 }
 
+static void RenderDebugToggles()
+{
+	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Log AnimScene Functions", g_Settings["log_animscene"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Add Cutscene Info Automatically", g_Settings["add_cutscene_info_automatically"].get<bool*>());
+}
+
+static void RenderBenchmarkTimes()
+{
+	ImGui::Text("Render Thread: %.3fms", Timer::s_RenderThreadTime);
+	ImGui::Text("\tESP: %.3fms", Timer::s_ESPTime);
+	ImGui::Text("\tMenu: %.3fms", Timer::s_MenuTime);
+
+	ImGui::Text("Script Thread Time: %.3fms", Timer::s_ScriptThreadTime);
+	ImGui::Text("\tScript Thread Tick: %.3fms", Timer::s_ScriptThreadTickTime);
+	ImGui::Text("\tJob Queue: %.3fms (%llu jobs)", Timer::s_JobQueueTime, JobQueue::GetJobsQueued());
+}
+
+static void RenderRGB()
+{
+	ImGui::ColorButton("RGB Color Button", Renderer::GetImGuiRGBA());
+}
+
+static void RenderNativeDebug()
+{
+	static uint64_t s_NativeInput = 0xEC9A1261BF0CE510;
+	ImGui::InputU64("Native Hash", &s_NativeInput, 1, 100, ImGuiInputTextFlags_CharsHexadecimal);
+
+	const uintptr_t NativeHandler = TO_IDA(NativeInvoker::GetHandler(s_NativeInput));
+	ImGui::Text("IDA Address: 0x%llX", NativeHandler);
+	ImGui::SameLine();
+	if (ImGui::SmallButton("Copy##copy_ida_native"))
+	{
+		std::stringstream NativeAddress;
+		NativeAddress << std::hex << std::uppercase << NativeHandler;
+		ImGui::SetClipboardText(NativeAddress.str().c_str());
+	}
+}
+
 static void RenderGlobalDebug()
 {
 	//Hash* Hair = ScriptGlobal(1946054).At(1497).At(1).At(1, 3).Get<Hash*>();
@@ -525,56 +566,46 @@ static void RenderScenarioDebug()
 	}
 
 	ImGui::EndChild();
-}
-
-void Menu::RenderDebugTab()
-{
-	if (!ImGui::BeginTabItem("Debug"))
-		return;
-
-	ImGui::BeginChild("debug_child");
-
-	ImGui::SeparatorText("Buttons");
-	RenderDebugButtons();
-	
-	ImGui::SeparatorText("Toggles");
-	ImGui::Checkbox("Render ImGui Demo", g_Settings["render_imgui_demo"].get<bool*>());
-	ImGui::SameLine();
-	ImGui::Checkbox("Log AnimScene Functions", g_Settings["log_animscene"].get<bool*>());
-	ImGui::SameLine();
-	ImGui::Checkbox("Add Cutscene Info Automatically", g_Settings["add_cutscene_info_automatically"].get<bool*>());
-
-	ImGui::SeparatorText("Benchmark Times");
-	ImGui::Text("Render Thread: %.3fms", Timer::s_RenderThreadTime);
-	ImGui::Text("\tESP: %.3fms", Timer::s_ESPTime);
-	ImGui::Text("\tMenu: %.3fms", Timer::s_MenuTime);
-
-	ImGui::Text("Script Thread Time: %.3fms", Timer::s_ScriptThreadTime);
-	ImGui::Text("\tScript Thread Tick: %.3fms", Timer::s_ScriptThreadTickTime);
-	ImGui::Text("\tJob Queue: %.3fms (%llu jobs)", Timer::s_JobQueueTime, JobQueue::GetJobsQueued());
 
 	ImGui::Separator();
-	ImGui::AlignTextToFramePadding();
-	ImGui::Text("RGB");
+	ImGui::Text("CNetworkPlayerMgr: 0x%llX (RDR2.exe+%llX)", (uintptr_t)Pointers::NetworkPlayerMgr,
+		(uintptr_t)Pointers::NetworkPlayerMgr - g_BaseAddress);
 	ImGui::SameLine();
-	ImGui::ColorButton("##RGB", Renderer::GetImGuiRGBA());
-
-	ImGui::SeparatorText("Native Debug");
-	static uint64_t s_NativeInput = 0xEC9A1261BF0CE510;
-	ImGui::InputU64("Native Hash", &s_NativeInput, 1, 100, ImGuiInputTextFlags_CharsHexadecimal);
-	
-	const uintptr_t NativeHandler = TO_IDA(NativeInvoker::GetHandler(s_NativeInput));
-	ImGui::Text("IDA Address: 0x%llX", NativeHandler);
-	ImGui::SameLine();
-	if (ImGui::SmallButton("Copy##copy_ida_native"))
+	if (ImGui::SmallButton("Copy##copy_CNetworkPlayerMgr"))
 	{
 		std::stringstream NativeAddress;
-		NativeAddress << std::hex << std::uppercase << NativeHandler;
+		NativeAddress << std::hex << std::uppercase << (uintptr_t)Pointers::NetworkPlayerMgr;
 		ImGui::SetClipboardText(NativeAddress.str().c_str());
 	}
+}
+
+static void RenderDebugMain()
+{
+	ImGui::SeparatorText("Buttons");
+	RenderDebugButtons();
+
+	ImGui::SeparatorText("Toggles");
+	RenderDebugToggles();
+
+	ImGui::SeparatorText("Benchmark Times");
+	RenderBenchmarkTimes();
+
+	ImGui::SeparatorText("RGB");
+	RenderRGB();
+
+	ImGui::SeparatorText("Native Debug");
+	TRY
+	{
+		RenderNativeDebug();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 
 	ImGui::SeparatorText("Global Debug");
-	RenderGlobalDebug();
+	TRY
+	{
+		RenderGlobalDebug();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
 
 	ImGui::SeparatorText("Speech Debug");
 	RenderSpeechDebug();
@@ -584,7 +615,21 @@ void Menu::RenderDebugTab()
 
 	ImGui::SeparatorText("Scenario Debug");
 	RenderScenarioDebug();
+}
 
-	ImGui::EndChild();
+void Menu::RenderDebugTab()
+{
+	if (!ImGui::BeginTabItem("Debug"))
+		return;
+
+	ImGui::BeginChild("debug_child");
+
+	TRY
+	{
+		RenderDebugMain();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	ImGui::EndChild(); // debug_child
 	ImGui::EndTabItem();
 }
