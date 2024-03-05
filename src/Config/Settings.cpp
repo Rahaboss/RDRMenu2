@@ -22,6 +22,7 @@ R"({
 		},
 		"ped": {
 			"bone": false,
+			"box": false,
 			"enable": false,
 			"ignore_dead": false,
 			"model": false
@@ -32,6 +33,8 @@ R"({
 		},
 		"player": {
 			"bone": false,
+			"bone_debug": false,
+			"box": false,
 			"enable": false,
 			"model": false
 		},

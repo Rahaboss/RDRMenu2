@@ -42,9 +42,9 @@ void Hooking::Create()
 	//RemoveIPL.Create(NativeInvoker::GetHandler(0x5A3E5CF7B4014B96), RemoveIPLHook);
 	//VarString.Create(NativeInvoker::GetHandler(0xFA925AC00EB830B9), VarStringHook);
 	//PlayPedAmbientSpeech.Create(NativeInvoker::GetHandler(0x8E04FEDD28D42462), PlayPedAmbientSpeechHook);
-	TaskStartScenarioInPlaceHash.Create(NativeInvoker::GetHandler(0x524B54361229154F), TaskStartScenarioInPlaceHashHook);
-	TaskStartScenarioAtPosition.Create(NativeInvoker::GetHandler(0x4D1F61FC34AF3CD1), TaskStartScenarioAtPositionHook);
-	FindScenarioOfTypeHash.Create(NativeInvoker::GetHandler(0xF533D68FF970D190), FindScenarioOfTypeHashHook);
+	//TaskStartScenarioInPlaceHash.Create(NativeInvoker::GetHandler(0x524B54361229154F), TaskStartScenarioInPlaceHashHook);
+	//TaskStartScenarioAtPosition.Create(NativeInvoker::GetHandler(0x4D1F61FC34AF3CD1), TaskStartScenarioAtPositionHook);
+	//FindScenarioOfTypeHash.Create(NativeInvoker::GetHandler(0xF533D68FF970D190), FindScenarioOfTypeHashHook);
 #endif // ENABLE_DEBUG_HOOKS
 }
 
@@ -53,9 +53,9 @@ void Hooking::Destroy()
 	LOG_TEXT("Destroying hooks.");
 	
 #if ENABLE_DEBUG_HOOKS
-	FindScenarioOfTypeHash.Destroy();
-	TaskStartScenarioAtPosition.Destroy();
-	TaskStartScenarioInPlaceHash.Destroy();
+	//FindScenarioOfTypeHash.Destroy();
+	//TaskStartScenarioAtPosition.Destroy();
+	//TaskStartScenarioInPlaceHash.Destroy();
 	//PlayPedAmbientSpeech.Destroy();
 	//VarString.Destroy();
 	//RemoveIPL.Destroy();

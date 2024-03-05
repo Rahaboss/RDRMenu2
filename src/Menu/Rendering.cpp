@@ -23,6 +23,7 @@ void Menu::RenderRenderingTab()
 
 			ImGui::Checkbox("Model##enable_ped_model", g_Settings["esp"]["ped"]["model"].get<bool*>());
 			ImGui::Checkbox("Bone##enable_ped_bone", g_Settings["esp"]["ped"]["bone"].get<bool*>());
+			ImGui::Checkbox("Box##enable_ped_box", g_Settings["esp"]["ped"]["box"].get<bool*>());
 			ImGui::Checkbox("Ignore Dead##enable_ped_ignore_dead", g_Settings["esp"]["ped"]["ignore_dead"].get<bool*>());
 
 			if (PedDisabled)
@@ -39,6 +40,10 @@ void Menu::RenderRenderingTab()
 
 			ImGui::Checkbox("Model##enable_local_player_model", g_Settings["esp"]["player"]["model"].get<bool*>());
 			ImGui::Checkbox("Bone##enable_local_player_bone", g_Settings["esp"]["player"]["bone"].get<bool*>());
+#if !DIST
+			ImGui::Checkbox("Bone Debug##enable_local_player_bone_debug", g_Settings["esp"]["player"]["bone_debug"].get<bool*>());
+#endif // !DIST
+			ImGui::Checkbox("Box##enable_local_player_box", g_Settings["esp"]["player"]["box"].get<bool*>());
 
 			if (LocalPlayerDisabled)
 				ImGui::EndDisabled();

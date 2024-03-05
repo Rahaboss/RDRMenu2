@@ -24,14 +24,13 @@ bool ESP::WorldToScreenScaled(const Vector3& WorldPos, float& ScreenX, float& Sc
 {
 	TRY
 	{
-		bool Result = Pointers::WorldToScreen(WorldPos, ScreenX, ScreenY);
-		if (Result)
+		if (WorldToScreen(WorldPos, ScreenX, ScreenY))
 		{
 			ScreenX *= GetScreenSize().x;
 			ScreenY *= GetScreenSize().y;
-		}
 
-		return Result;
+			return true;
+		}
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
@@ -47,10 +46,12 @@ bool ESP::GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords)
 
 		if (!WorldToScreen(Script::GetPedBoneCoords(ped, boneId), OutCoords.x, OutCoords.y))
 			return false;
+
+		return true;
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
-	return true;
+	return false;
 }
 
 bool ESP::GetPedBoneScreenCoordsScaled(Ped ped, int boneId, ImVec2& OutCoords)

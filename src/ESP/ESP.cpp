@@ -103,7 +103,7 @@ void ESP::RenderTextCentered(const char* Text, ImVec2 Pos, ImU32 Color)
 	Pos.x -= (Size.x / 2);
 	Pos.y -= (Size.y / 2);
 
-	ImGui::GetBackgroundDrawList()->AddText(Pos, Color, Text);
+	RenderText(Text, Pos, Color);
 }
 
 static std::vector<Hash> s_UnknownModels;
@@ -174,33 +174,65 @@ void ESP::RenderPedESP()
 {
 	for (Ped ped : Script::GetAllPeds())
 	{
+		// Skip local player
 		if (ped == g_LocalPlayer.m_Entity)
 			continue;
 
+		// Skip animals
 		if (Script::GetPedType(ped) == MPT_ANIMAL)
 			continue;
 
-		if (Script::GetEntityHealth(ped) == 0 && g_Settings["esp"]["ped"]["ignore_dead"].get<bool>())
+		// Skip dead peds
+		if (g_Settings["esp"]["ped"]["ignore_dead"].get<bool>() && Script::GetEntityHealth(ped) == 0)
 			continue;
 
-		std::string ESPText;
-		const Hash Model = Script::GetEntityModel(ped);
-
-		if (g_Settings["esp"]["ped"]["model"].get<bool>())
-		{
-			std::string ModelName = Lists::GetHashName(Model);
-			ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
-
-			if (ModelName.empty())
-				CheckUnknownModel(Model);
-		}
-
-		if (g_Settings["esp"]["ped"]["bone"].get<bool>())
-			RenderPedBoneESP(ped);
-
-		if (!ESPText.empty())
-			RenderTextOnEntity(ped, ESPText.c_str());
+		// Render ped ESP
+		RenderPedESP(ped, Script::GetEntityModel(ped),
+			g_Settings["esp"]["ped"]["bone"].get<bool>(),
+			g_Settings["esp"]["ped"]["box"].get<bool>(),
+			g_Settings["esp"]["ped"]["model"].get<bool>()
+		);
 	}
+}
+
+bool ESP::RenderPedESP(Ped ped, Hash Model, bool BoneESP, bool BoxESP, bool ModelESP)
+{
+	// Get ped model box on screen
+	BoxCoords Box{};
+	if (!GetPedBoxCoords(ped, Box))
+		return false;
+
+	// Render bone ESP
+	if (BoneESP)
+	{
+		if (!RenderPedBoneESP(ped))
+			return false;
+	}
+
+	// Render bone ESP
+	if (BoxESP)
+		RenderBoxCoords(Box);
+
+	// Get ESP text
+	std::string ESPText;
+	if (ModelESP)
+	{
+		const std::string ModelName = Lists::GetHashName(Model);
+		ESPText.append((ModelName.empty() ? std::to_string(Model) : ModelName));
+
+		if (ModelName.empty())
+			CheckUnknownModel(Model);
+	}
+
+	// Render ESP text
+	if (!ESPText.empty())
+	{
+		const ImVec2 TextSize = ImGui::CalcTextSize(ESPText.c_str());
+		const ImVec2 TextPos{ ((Box.BottomRight.x + Box.TopLeft.x) / 2) - (TextSize.x / 2), Box.BottomRight.y };
+		RenderText(ESPText.c_str(), TextPos, Renderer::GetImGuiRGBA32());
+	}
+
+	return true;
 }
 
 void ESP::RenderPickupESP()
@@ -226,14 +258,16 @@ void ESP::RenderPickupESP()
 
 void ESP::RenderLocalPlayerESP()
 {
-	if (g_Settings["esp"]["player"]["bone"].get<bool>())
-		RenderPedBoneESP(g_LocalPlayer.m_Entity);
+	RenderPedESP(g_LocalPlayer.m_Entity, g_LocalPlayer.m_Model,
+		g_Settings["esp"]["player"]["bone"].get<bool>(),
+		g_Settings["esp"]["player"]["box"].get<bool>(),
+		g_Settings["esp"]["player"]["model"].get<bool>()
+	);
 
-	if (g_Settings["esp"]["player"]["model"].get<bool>())
-	{
-		std::string ModelName = Lists::GetHashName(g_LocalPlayer.m_Model);
-		RenderTextOnEntity(g_LocalPlayer.m_Entity, ModelName.c_str());
-	}
+#if !DIST
+	if (g_Settings["esp"]["player"]["bone_debug"].get<bool>())
+		RenderPedBoneDebugESP(g_LocalPlayer.m_Entity);
+#endif // !DIST
 }
 
 void ESP::RenderVehicleESP()
@@ -284,4 +318,187 @@ void ESP::RenderESP()
 		Timer::s_ESPTime = ESPTimer.GetMillis();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
+}
+
+bool ESP::GetPedBoxCoords(Ped ped, BoxCoords& BoxCoords)
+{
+	const Hash Bones[]{
+		SKEL_HEAD,
+		SKEL_NECK0,
+		SKEL_SPINE_ROOT,
+		SKEL_L_UPPERARM,
+		SKEL_R_UPPERARM,
+		SKEL_L_HAND,
+		SKEL_R_HAND,
+		RB_L_THIGHROLL,
+		RB_R_THIGHROLL,
+		RB_L_KNEEFRONT,
+		RB_R_KNEEFRONT,
+		SKEL_L_FOOT,
+		SKEL_R_FOOT,
+		SKEL_L_TOE0,
+		SKEL_R_TOE0,
+	};
+
+	bool FirstValue = true;
+	for (size_t i = 0; i < ARRAYSIZE(Bones); i++)
+	{
+		Hash Bone = Bones[i];
+		
+		ImVec2 Coords;
+		if (GetPedBoneScreenCoordsScaled(ped, Bone, Coords))
+		{
+			if (FirstValue)
+			{
+				BoxCoords.TopLeft = BoxCoords.BottomRight = Coords;
+				FirstValue = false;
+			}
+			else
+			{
+				BoxCoords.TopLeft.x = std::min(BoxCoords.TopLeft.x, Coords.x);
+				BoxCoords.TopLeft.y = std::min(BoxCoords.TopLeft.y, Coords.y);
+				BoxCoords.BottomRight.x = std::max(BoxCoords.BottomRight.x, Coords.x);
+				BoxCoords.BottomRight.y = std::max(BoxCoords.BottomRight.y, Coords.y);
+			}
+		}
+		else
+			return false;
+	}
+
+	const Hash OptionalBones[]{
+		MH_L_ELBOWGRP,
+		22711,
+		MH_R_ELBOWGRP,
+		24550,
+		2992,
+		37346,
+
+		SPR_HAIR_01,
+		SPR_HAIR_010,
+		SPR_HAIR_011,
+		SPR_HAIR_012,
+		SPR_HAIR_013,
+		SPR_HAIR_02,
+		SPR_HAIR_03,
+		SPR_HAIR_04,
+		SPR_HAIR_05,
+		SPR_HAIR_06,
+		SPR_HAIR_07,
+		SPR_HAIR_08,
+		SPR_HAIR_09,
+
+		SKEL_L_FINGER00,
+		SKEL_L_FINGER01,
+		SKEL_L_FINGER02,
+		SKEL_L_FINGER10,
+		SKEL_L_FINGER11,
+		SKEL_L_FINGER12,
+		SKEL_L_FINGER13,
+		SKEL_L_FINGER20,
+		SKEL_L_FINGER21,
+		SKEL_L_FINGER22,
+		SKEL_L_FINGER23,
+		SKEL_L_FINGER30,
+		SKEL_L_FINGER31,
+		SKEL_L_FINGER32,
+		SKEL_L_FINGER33,
+		SKEL_L_FINGER40,
+		SKEL_L_FINGER41,
+		SKEL_L_FINGER42,
+		SKEL_L_FINGER43,
+
+		SKEL_R_FINGER00,
+		SKEL_R_FINGER01,
+		SKEL_R_FINGER02,
+		SKEL_R_FINGER10,
+		SKEL_R_FINGER11,
+		SKEL_R_FINGER12,
+		SKEL_R_FINGER13,
+		SKEL_R_FINGER20,
+		SKEL_R_FINGER21,
+		SKEL_R_FINGER22,
+		SKEL_R_FINGER23,
+		SKEL_R_FINGER30,
+		SKEL_R_FINGER31,
+		SKEL_R_FINGER32,
+		SKEL_R_FINGER33,
+		SKEL_R_FINGER40,
+		SKEL_R_FINGER41,
+		SKEL_R_FINGER42,
+		SKEL_R_FINGER43,
+
+		SKEL_L_TOE0,
+		SKEL_L_TOE10,
+		SKEL_L_TOE20,
+
+		SKEL_R_TOE0,
+		SKEL_R_TOE10,
+		SKEL_R_TOE20,
+
+		31176,
+		31177,
+		31178,
+		31179,
+		31180,
+		31181,
+		26982,
+		59847,
+	};
+
+	for (size_t i = 0; i < ARRAYSIZE(OptionalBones); i++)
+	{
+		Hash Bone = OptionalBones[i];
+
+		ImVec2 Coords;
+		if (GetPedBoneScreenCoordsScaled(ped, Bone, Coords))
+		{
+			BoxCoords.TopLeft.x = std::min(BoxCoords.TopLeft.x, Coords.x);
+			BoxCoords.TopLeft.y = std::min(BoxCoords.TopLeft.y, Coords.y);
+			BoxCoords.BottomRight.x = std::max(BoxCoords.BottomRight.x, Coords.x);
+			BoxCoords.BottomRight.y = std::max(BoxCoords.BottomRight.y, Coords.y);
+		}
+	}
+
+	return true;
+}
+
+void ESP::RenderBoxCoords(const BoxCoords& BoxCoords)
+{
+	ImVec2 TopRight{ BoxCoords.BottomRight.x, BoxCoords.TopLeft.y };
+	ImVec2 BottomLeft{ BoxCoords.TopLeft.x, BoxCoords.BottomRight.y };
+
+	ImGui::GetBackgroundDrawList()->AddRect(BoxCoords.TopLeft, BoxCoords.BottomRight, Renderer::GetImGuiRGBA32(), 0, 0, 3);
+
+#if 0
+	int x = (int)BoxCoords.TopLeft.x - 5;
+	int y = (int)BoxCoords.TopLeft.y - 1;
+	int y2 = (int)BottomLeft.y + 1;
+
+	size_t cycle = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now().time_since_epoch()).count() % 10;
+
+	int y3 = ((y2 - y) / 10) * (1 + (int)cycle) + y;
+
+	//std::vector<ImVec2> Health{ ImVec2{ (int)BoxCoords.TopLeft.x - 2, (int)BoxCoords.TopLeft.y - 1 }, ImVec2{ (int)BottomLeft.x - 5, (int)BottomLeft.y + 1 } };
+	std::vector<ImVec2> Health{ {(float)x, (float)y}, {(float)x, (float)y2} };
+	std::vector<ImVec2> Health2{ {(float)x, (float)y}, {(float)x, (float)y3} };
+
+	//ImGui::GetBackgroundDrawList()->AddRectFilled(Health[0], Health[1], IM_COL32(0, 0, 0, 255), 0, 0);
+	//ImGui::GetBackgroundDrawList()->AddRectFilled(Health[0], Health[1], IM_COL32(0, 255, 0, 255), 0, 0);
+
+	RenderLineArray(Health, IM_COL32(0, 0, 0, 255), 4);
+	RenderLineArray(Health2, IM_COL32(0, 255, 0, 255), 2);
+#endif
+}
+
+void ESP::RenderPedBoneDebugESP(Ped ped)
+{
+	ImVec2 ScreenPos;
+	for (int i = 0; i < 0x10000; i++)
+	{
+		if (GetPedBoneScreenCoordsScaled(ped, i, ScreenPos))
+		{
+			const std::string Text = std::to_string(i);
+			RenderText(Text.c_str(), ScreenPos);
+		}
+	}
 }
