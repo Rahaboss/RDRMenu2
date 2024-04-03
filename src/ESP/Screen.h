@@ -3,7 +3,7 @@
 #include "pch.h"
 #include "Rage/scrNativeCallContext.h"
 
-namespace ESP
+namespace Screen
 {
 	// Returns true if coordinate on screen. X and Y between [0, 1)
 	bool WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY);

@@ -19,6 +19,7 @@
 #include "Config/Config.h"
 #include "Script/Notification.h"
 #include "Rage/Guid.h"
+#include "Script/Network.h"
 
 static void RenderInteriorButtons()
 {
@@ -258,6 +259,22 @@ static void RenderDebugButtons()
 				const uint8_t* pos_hex_byte_ptr = reinterpret_cast<const uint8_t*>(&pos_hex[i]);
 				LOG_TEXT("%x %x %x %x", pos_hex_byte_ptr[0], pos_hex_byte_ptr[1], pos_hex_byte_ptr[2], pos_hex_byte_ptr[3]);
 			}
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Print Hair Info"))
+	{
+		QUEUE_JOB(=)
+		{
+			LOG_TEXT("playerHeadHair.ePomadeWearOffTimer: %d",			ScriptGlobal(40).At(7748).Get<int>());
+			LOG_TEXT("playerHeadHair.headHairLength: %d",				ScriptGlobal(40).At(7748).At(1).Get<int>());
+			LOG_TEXT("playerHeadHair.eHeadHairCut: %d",					ScriptGlobal(40).At(7748).At(2).Get<int>());
+			LOG_TEXT("playerHeadHair.eHeadHairStyle: %d",				ScriptGlobal(40).At(7748).At(3).Get<int>());
+			LOG_TEXT("playerHeadHair.eHeadHairFlags: %d",				ScriptGlobal(40).At(7748).At(4).Get<int>());
+			LOG_TEXT("playerHeadHair.headHairNextGrowthTimer: %d",		ScriptGlobal(40).At(7748).At(5).Get<int>());
+			LOG_TEXT("playerHeadHair.iNumAcceleratedGrowthCycles: %d",	ScriptGlobal(40).At(7748).At(6).Get<int>());
+			LOG_TEXT("Timer: %d", MISC::GET_GAME_TIMER());
 		}
 		END_JOB()
 	}
@@ -579,6 +596,509 @@ static void RenderScenarioDebug()
 	}
 }
 
+bool func_2556(int iParam0)
+{
+	if (iParam0 <= -1 || iParam0 > 9)
+	{
+		return false;
+	}
+	return true;
+}
+
+int func_33()
+{
+	return ScriptGlobal(1899515).Get<int>();
+}
+
+bool func_2557()
+{
+	return ScriptGlobal(40).At(7748).At(6).Get<int>() > 0;
+}
+
+bool func_2241(int iParam0)
+{
+	return (ScriptGlobal(40).At(7748).At(4).Get<int>() & iParam0) != 0;
+}
+
+int func_2787()
+{
+	if (func_2241(8))
+	{
+		return 8;
+	}
+	else if (func_2241(4))
+	{
+		return 4;
+	}
+	else if (func_2241(2))
+	{
+		return 2;
+	}
+	return 1;
+}
+
+int func_2942(float fParam0, float fParam1)
+{
+	return BUILTIN::FLOOR((((fParam0 / fParam1) - BUILTIN::TO_FLOAT(BUILTIN::FLOOR((fParam0 / fParam1)))) * 24.0f));
+}
+
+int func_2943(float fParam0, float fParam1)
+{
+	return BUILTIN::FLOOR((((fParam0 / fParam1) - BUILTIN::TO_FLOAT(BUILTIN::FLOOR((fParam0 / fParam1)))) * 60.0f));
+}
+
+int func_2944(float fParam0, float fParam1)
+{
+	return BUILTIN::FLOOR((((fParam0 / fParam1) - BUILTIN::TO_FLOAT(BUILTIN::FLOOR((fParam0 / fParam1)))) * 60.0f));
+}
+
+void func_2788(int* iParam0, int* iParam1, int* uParam2, int* uParam3, bool bParam4, int iParam5)
+{
+	int iVar0;
+	int iVar1;
+	int iVar2;
+	float fVar3;
+
+	fVar3 = BUILTIN::TO_FLOAT(iParam5);
+	iVar0 = func_2942(BUILTIN::TO_FLOAT(*iParam0), fVar3);
+	iVar1 = func_2943(BUILTIN::TO_FLOAT(*iParam1), fVar3);
+	iVar2 = func_2944(BUILTIN::TO_FLOAT(*uParam2), fVar3);
+	*iParam0 /= iParam5;
+	*iParam1 /= iParam5;
+	*uParam2 /= iParam5;
+	*uParam3 /= iParam5;
+	*iParam1 += iVar0;
+	*uParam2 += iVar1;
+	*uParam3 += iVar2;
+	if (bParam4)
+	{
+		*uParam3 *= -1;
+		*uParam2 *= -1;
+		*iParam1 *= -1;
+		*iParam0 *= -1;
+	}
+}
+
+void func_2558(int iParam0, int* iParam1, int* iParam2, bool bParam3)
+{
+	int uVar0;
+	int uVar1;
+
+	switch (iParam0)
+	{
+	case 0:
+		*iParam1 = 2;
+		*iParam2 = 0;
+		break;
+	case 1:
+		*iParam1 = 2;
+		*iParam2 = 0;
+		break;
+	case 2:
+		*iParam1 = 4;
+		*iParam2 = 0;
+		break;
+	case 3:
+		*iParam1 = 8;
+		*iParam2 = 0;
+		break;
+	case 4:
+		*iParam1 = 12;
+		*iParam2 = 0;
+		break;
+	case 5:
+		*iParam1 = 20;
+		*iParam2 = 0;
+		break;
+	case 6:
+		*iParam1 = 20;
+		*iParam2 = 0;
+		break;
+	case 7:
+		*iParam1 = 32;
+		*iParam2 = 0;
+		break;
+	case 8:
+		*iParam1 = 32;
+		*iParam2 = 0;
+		break;
+	case 9:
+		*iParam1 = 52;
+		*iParam2 = 0;
+		break;
+	}
+	if (bParam3)
+	{
+		func_2788(iParam1, iParam2, &uVar0, &uVar1, 0, func_2787());
+	}
+}
+
+int func_715(bool bParam0, int iParam1, int iParam2)
+{
+	if (bParam0)
+	{
+		return iParam1;
+	}
+	return iParam2;
+}
+
+int func_326(int iParam0)
+{
+	return (BUILTIN::SHIFT_RIGHT(iParam0, 26) & 31 * func_715(MISC::IS_BIT_SET(iParam0, 31), -1, 1)) + 1898;
+}
+
+int func_327(int iParam0)
+{
+	return BUILTIN::SHIFT_RIGHT(iParam0, 22) & 15;
+}
+
+int func_328(int iParam0)
+{
+	return BUILTIN::SHIFT_RIGHT(iParam0, 17) & 31;
+}
+
+int func_329(int iParam0)
+{
+	return BUILTIN::SHIFT_RIGHT(iParam0, 12) & 31;
+}
+
+int func_330(int iParam0)
+{
+	return BUILTIN::SHIFT_RIGHT(iParam0, 6) & 63;
+}
+
+int func_331(int iParam0)
+{
+	return BUILTIN::SHIFT_RIGHT(iParam0, 0) & 63;
+}
+
+int func_332(int iParam0, int iParam1)
+{
+	if (iParam1 < 0)
+	{
+		iParam1 = 0;
+	}
+	switch (iParam0)
+	{
+	case 0:
+	case 2:
+	case 4:
+	case 6:
+	case 7:
+	case 9:
+	case 11:
+		return 31;
+	case 3:
+	case 5:
+	case 8:
+	case 10:
+		return 30;
+	case 1:
+		if ((iParam1 % 4) == 0)
+		{
+			if ((iParam1 % 100) != 0)
+			{
+				return 29;
+			}
+			else if ((iParam1 % 400) == 0)
+			{
+				return 29;
+			}
+		}
+		return 28;
+	default:
+		break;
+	}
+	return 30;
+}
+
+void func_716(int* iParam0, int iParam1)
+{
+	if (iParam1 < 0)
+	{
+		return;
+	}
+	if (iParam1 > 1930 || iParam1 < 1866)
+	{
+		return;
+	}
+	*iParam0 -= *iParam0 & 2080374784;
+	if (iParam1 < 1898)
+	{
+		*iParam0 |= BUILTIN::SHIFT_LEFT((1898 - iParam1), 26);
+		*iParam0 |= (1 << 31);
+	}
+	else
+	{
+		*iParam0 |= BUILTIN::SHIFT_LEFT((iParam1 - 1898), 26);
+		*iParam0 -= *iParam0 & (1 << 31);
+	}
+}
+
+void func_717(int* iParam0, int iParam1)
+{
+	if (iParam1 < 0 || iParam1 > 11)
+	{
+		return;
+	}
+	*iParam0 -= *iParam0 & 62914560;
+	*iParam0 |= BUILTIN::SHIFT_LEFT(iParam1, 22);
+}
+
+void func_718(int* iParam0, int iParam1)
+{
+	int iVar0;
+	int iVar1;
+
+	iVar0 = func_327(*iParam0);
+	iVar1 = func_326(*iParam0);
+	if (iParam1 < 1 || iParam1 > func_332(iVar0, iVar1))
+	{
+		return;
+	}
+	*iParam0 -= *iParam0 & 4063232;
+	*iParam0 |= BUILTIN::SHIFT_LEFT(iParam1, 17);
+}
+
+void func_719(int* iParam0, int iParam1)
+{
+	if (iParam1 < 0 || iParam1 > 23)
+	{
+		return;
+	}
+	*iParam0 -= *iParam0 & 126976;
+	*iParam0 |= BUILTIN::SHIFT_LEFT(iParam1, 12);
+}
+
+void func_720(int* iParam0, int iParam1)
+{
+	if (iParam1 < 0 || iParam1 >= 60)
+	{
+		return;
+	}
+	*iParam0 -= *iParam0 & 4032;
+	*iParam0 |= BUILTIN::SHIFT_LEFT(iParam1, 6);
+}
+
+void func_721(int* iParam0, int iParam1)
+{
+	if (iParam1 < 0 || iParam1 >= 60)
+	{
+		return;
+	}
+	*iParam0 -= *iParam0 & 63;
+	*iParam0 |= BUILTIN::SHIFT_LEFT(iParam1, 0);
+}
+
+void func_333(int* iParam0, int iParam1, int iParam2, int iParam3, int iParam4, int iParam5, int iParam6)
+{
+	func_716(iParam0, iParam6);
+	func_717(iParam0, iParam5);
+	func_718(iParam0, iParam4);
+	func_719(iParam0, iParam3);
+	func_720(iParam0, iParam2);
+	func_721(iParam0, iParam1);
+}
+
+void func_1025(int* iParam0, int iParam1, int iParam2, int iParam3, int iParam4, int iParam5, int iParam6, bool bParam7)
+{
+	int iVar0;
+	int iVar1;
+	int iVar2;
+	int iVar3;
+	int iVar4;
+	int iVar5;
+	int iVar6;
+
+	iVar0 = func_326(*iParam0);
+	iVar1 = func_327(*iParam0);
+	iVar2 = func_328(*iParam0);
+	iVar3 = func_329(*iParam0);
+	iVar4 = func_330(*iParam0);
+	iVar5 = func_331(*iParam0);
+	if (((((iParam6 == 0 && iParam5 == 0) && iParam4 == 0) && iParam3 == 0) && iParam2 == 0) && iParam1 == 0)
+	{
+		return;
+	}
+	if (iParam1 < 0)
+	{
+		return;
+	}
+	if (iParam2 < 0)
+	{
+		return;
+	}
+	if (iParam3 < 0)
+	{
+		return;
+	}
+	if (iParam4 < 0)
+	{
+		return;
+	}
+	if (iParam5 < 0)
+	{
+		return;
+	}
+	if (iParam6 < 0)
+	{
+		return;
+	}
+	iVar5 += iParam1;
+	while (iVar5 >= 60)
+	{
+		iParam2++;
+		iVar5 -= 60;
+	}
+	iVar4 += iParam2;
+	while (iVar4 >= 60)
+	{
+		iParam3++;
+		iVar4 -= 60;
+	}
+	iVar3 += iParam3;
+	while (iVar3 >= 24)
+	{
+		iParam4++;
+		iVar3 -= 24;
+	}
+	iVar2 += iParam4;
+	iVar6 = func_332(iVar1, iVar0);
+	while (iVar2 > iVar6)
+	{
+		iParam5++;
+		iVar2 -= iVar6;
+		if (iVar1 > 11)
+		{
+			iParam6++;
+			iVar1 -= 12;
+		}
+		iVar6 = func_332(iVar1, iVar0);
+	}
+	iVar1 += iParam5;
+	while (iVar1 > 11)
+	{
+		iParam6++;
+		iVar1 -= 12;
+	}
+	if (!bParam7)
+	{
+		iVar0 += iParam6;
+	}
+	func_333(iParam0, iVar5, iVar4, iVar3, iVar2, iVar1, iVar0);
+}
+
+void func_2239(int iParam0, bool bParam1)
+{
+	int iVar0;
+	int iVar1;
+	bool bVar2;
+
+	if (!func_2556(iParam0))
+	{
+		return;
+	}
+	if (ScriptGlobal(40).At(7748).At(1).Get<int>() == iParam0)
+	{
+		return;
+	}
+	ScriptGlobal(40).At(7748).At(1).Get<int&>() = iParam0;
+	if (!bParam1)
+	{
+		ScriptGlobal(40).At(7748).At(5).Get<int&>() = func_33();
+		bVar2 = (ScriptGlobal(40).At(7748).At(1).Get<int>() < 9 && func_2557());
+		func_2558(ScriptGlobal(40).At(7748).At(1).Get<int>(), &iVar0, &iVar1, bVar2);
+		func_1025(ScriptGlobal(40).At(7748).At(5).Get<int*>(), 0, 0, iVar1, iVar0, 0, 0, 0);
+	}
+}
+
+int func_765()
+{
+	return ScriptGlobal(40).At(7748).At(1).Get<int>();
+}
+
+void func_2555()
+{
+	int iVar0;
+
+	if (func_765() <= 3)
+	{
+		iVar0 = func_33();
+		func_1025(&iVar0, 0, 0, 0, 2, 0, 0, 0);
+		DECORATOR::DECOR_SET_INT(ScriptGlobal(35).Get<int>(), "hairShort", iVar0);
+		if (DECORATOR::DECOR_EXIST_ON(ScriptGlobal(35).Get<int>(), "hairLong"))
+		{
+			DECORATOR::DECOR_REMOVE(ScriptGlobal(35).Get<int>(), "hairLong");
+		}
+	}
+	else if (DECORATOR::DECOR_EXIST_ON(ScriptGlobal(35).Get<int>(), "hairShort"))
+	{
+		DECORATOR::DECOR_REMOVE(ScriptGlobal(35).Get<int>(), "hairShort");
+	}
+}
+
+static void RenderHairDebug()
+{
+	if (ScriptGlobal(40).At(7748).Get<int*>())
+	{
+		ImGui::Text("0) playerHeadHair.ePomadeWearOffTimer: %d", ScriptGlobal(40).At(7748).Get<int>());
+		ImGui::Text("1) playerHeadHair.headHairLength: %d", ScriptGlobal(40).At(7748).At(1).Get<int>());
+		ImGui::Text("2) playerHeadHair.eHeadHairCut: %d", ScriptGlobal(40).At(7748).At(2).Get<int>());
+		ImGui::Text("3) playerHeadHair.eHeadHairStyle: %d", ScriptGlobal(40).At(7748).At(3).Get<int>());
+		ImGui::Text("4) playerHeadHair.eHeadHairFlags: %d", ScriptGlobal(40).At(7748).At(4).Get<int>());
+		ImGui::Text("5) playerHeadHair.headHairNextGrowthTimer: %d", ScriptGlobal(40).At(7748).At(5).Get<int>());
+		ImGui::Text("6) playerHeadHair.iNumAcceleratedGrowthCycles: %d", ScriptGlobal(40).At(7748).At(6).Get<int>());
+
+		ImGui::Separator();
+		int x = ScriptGlobal(40).At(7748).At(1).Get<int>();
+		if (ImGui::SliderInt("Hair Length", &x, 0, 9))
+		{
+			func_2239(x, 0);
+			ScriptGlobal(40).At(7748).At(5).Get<int&>() = MISC::GET_GAME_TIMER() + 1000;
+			func_2555();
+		}
+	}
+}
+
+static void RenderNetworkDebug()
+{
+	if (const rage::netPlayerData* Data = Script::GetNetPlayerData(g_LocalPlayer.m_Index))
+	{
+		ImGui::Text("Name: %s", Data->m_Name);
+
+		ImGui::Text("Rockstar ID: %llu", Data->m_RockstarID);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##Rockstar ID"))
+		{
+			std::stringstream ss;
+			ss << Data->m_RockstarID;
+			ImGui::SetClipboardText(ss.str().c_str());
+		}
+
+		ImGui::Text("Internal IP: %u.%u.%u.%u", Data->m_InternalIP.m_Field1, Data->m_InternalIP.m_Field2,
+			Data->m_InternalIP.m_Field3, Data->m_InternalIP.m_Field4);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##Internal IP"))
+		{
+			std::stringstream ss;
+			ss << static_cast<uint32_t>(Data->m_InternalIP.m_Field1) << '.' << static_cast<uint32_t>(Data->m_InternalIP.m_Field2) << '.' <<
+				static_cast<uint32_t>(Data->m_InternalIP.m_Field3) << '.' << static_cast<uint32_t>(Data->m_InternalIP.m_Field4);
+			ImGui::SetClipboardText(ss.str().c_str());
+		}
+
+		ImGui::Text("External IP: %u.%u.%u.%u", Data->m_ExternalIP.m_Field1, Data->m_ExternalIP.m_Field2,
+			Data->m_ExternalIP.m_Field3, Data->m_ExternalIP.m_Field4);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##External IP"))
+		{
+			std::stringstream ss;
+			ss << static_cast<uint32_t>(Data->m_ExternalIP.m_Field1) << '.' << static_cast<uint32_t>(Data->m_ExternalIP.m_Field2) << '.' <<
+				static_cast<uint32_t>(Data->m_ExternalIP.m_Field3) << '.' << static_cast<uint32_t>(Data->m_ExternalIP.m_Field4);
+			ImGui::SetClipboardText(ss.str().c_str());
+		}
+	}
+}
+
 static void RenderDebugMain()
 {
 	ImGui::SeparatorText("Buttons");
@@ -615,6 +1135,12 @@ static void RenderDebugMain()
 
 	ImGui::SeparatorText("Scenario Debug");
 	RenderScenarioDebug();
+
+	ImGui::SeparatorText("Hair Debug");
+	RenderHairDebug();
+
+	ImGui::SeparatorText("Network Debug");
+	RenderNetworkDebug();
 }
 
 void Menu::RenderDebugTab()

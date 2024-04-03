@@ -12,14 +12,8 @@ rage::CNetGamePlayer* Script::GetNetGamePlayer(Player p)
 {
 	TRY
 	{
-		if (rage::CNetworkPlayerMgr* PlayerMgr = *Pointers::NetworkPlayerMgr)
-		{
-			if (rage::CNetGamePlayer* NetGamePlayer = PlayerMgr->m_NetPlayers[p])
-			{
-				if (NetGamePlayer->IsValid())
-					return NetGamePlayer;
-			}
-		}
+		if (const rage::CNetworkPlayerMgr* PlayerMgr = *Pointers::NetworkPlayerMgr)
+			return PlayerMgr->m_NetPlayers[p];
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 
@@ -36,7 +30,7 @@ rage::netPlayerData* Script::GetNetPlayerData(Player p)
 		}
 		else if (!IsSessionStarted() && p == g_LocalPlayer.m_Index)
 		{
-			return Pointers::GetOfflineNetPlayerData();
+			return reinterpret_cast<rage::netPlayerData*>(Pointers::GetOfflineNetPlayerData() + 0x20);
 		}
 	}
 	EXCEPT{ LOG_EXCEPTION(); }

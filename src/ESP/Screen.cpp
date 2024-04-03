@@ -4,7 +4,7 @@
 #include "Script/Ped.h"
 #include "Script/Rendering.h"
 
-bool ESP::WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
+bool Screen::WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
 {
 	TRY
 	{
@@ -15,12 +15,12 @@ bool ESP::WorldToScreen(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
 	return false;
 }
 
-const ImVec2& ESP::GetScreenSize()
+const ImVec2& Screen::GetScreenSize()
 {
 	return ImGui::GetMainViewport()->WorkSize;
 }
 
-bool ESP::WorldToScreenScaled(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
+bool Screen::WorldToScreenScaled(const Vector3& WorldPos, float& ScreenX, float& ScreenY)
 {
 	TRY
 	{
@@ -37,7 +37,7 @@ bool ESP::WorldToScreenScaled(const Vector3& WorldPos, float& ScreenX, float& Sc
 	return false;
 }
 
-bool ESP::GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords)
+bool Screen::GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords)
 {
 	TRY
 	{
@@ -54,7 +54,7 @@ bool ESP::GetPedBoneScreenCoords(Ped ped, int boneId, ImVec2& OutCoords)
 	return false;
 }
 
-bool ESP::GetPedBoneScreenCoordsScaled(Ped ped, int boneId, ImVec2& OutCoords)
+bool Screen::GetPedBoneScreenCoordsScaled(Ped ped, int boneId, ImVec2& OutCoords)
 {
 	TRY
 	{

@@ -10,7 +10,7 @@ struct BoxCoords
 
 namespace ESP
 {
-	void RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness);
+	void RenderLineArray(const std::vector<ImVec2>& Lines, ImU32 Color, float Thickness);
 	bool RenderPedBoneESP(Ped ped);
 	bool RenderTextOnEntity(Entity ent, const char* Text);
 	void RenderText(const char* Text, ImVec2 Pos, ImU32 Color = IM_COL32_WHITE);

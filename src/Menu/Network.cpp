@@ -4,6 +4,8 @@
 #include "Memory/Pointers.h"
 #include "Script/PlayerInfo.h"
 #include "Script/Network.h"
+#include "Config/Lists.h"
+#include "Script/Entity.h"
 
 static Player s_SelectedPlayer = 0;
 static void RenderPlayerList()
@@ -30,12 +32,104 @@ static void RenderGeneralInfo()
 	}
 }
 
+static void RenderLocalPlayerInfo()
+{
+	const Hash PlayerModel = g_LocalPlayer.m_Model;
+	ImGui::Text("Model: %s", Lists::GetHashNameOrUint(PlayerModel).c_str());
+
+	if (const Entity MountEnt = g_LocalPlayer.m_Mount)
+	{
+		const Hash MountModel = Script::GetEntityModel(MountEnt);
+		ImGui::Text("Mount: %s", Lists::GetHashNameOrUint(MountModel).c_str());
+	}
+	else
+	{
+		ImGui::BeginDisabled();
+		ImGui::Text("Mount: N/A");
+		ImGui::EndDisabled();
+	}
+
+	if (const Vehicle VehicleEnt = g_LocalPlayer.m_Vehicle)
+	{
+		const Hash VehicleModel = Script::GetEntityModel(VehicleEnt);
+		ImGui::Text("Vehicle: %s", Lists::GetHashNameOrUint(VehicleModel).c_str());
+	}
+	else
+	{
+		ImGui::BeginDisabled();
+		ImGui::Text("Vehicle: N/A");
+		ImGui::EndDisabled();
+	}
+}
+
+static void CopyIP(rage::netAddress Address)
+{
+	std::stringstream ss;
+	ss << static_cast<uint32_t>(Address.m_Field1) << '.' << static_cast<uint32_t>(Address.m_Field2) << '.' <<
+		static_cast<uint32_t>(Address.m_Field3) << '.' << static_cast<uint32_t>(Address.m_Field4);
+	ImGui::SetClipboardText(ss.str().c_str());
+}
+
 static void RenderPlayerInfo()
 {
 	const std::string PlayerName = Script::GetPlayerName(s_SelectedPlayer);
 	ImGui::Text("Name: %s", PlayerName.c_str());
 	ImGui::Text("Index: %d", s_SelectedPlayer);
-	ImGui::Text("netPlayerData: 0x%llX", Script::GetNetPlayerData(s_SelectedPlayer));
+
+	const rage::netPlayerData* NetPlayerData = Script::GetNetPlayerData(s_SelectedPlayer);
+	ImGui::Text("netPlayerData: 0x%llX", NetPlayerData);
+	ImGui::SameLine();
+	if (ImGui::SmallButton("Copy##netPlayerData"))
+	{
+		std::stringstream ss;
+		ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(NetPlayerData);
+		ImGui::SetClipboardText(ss.str().c_str());
+	}
+
+	const rage::CNetGamePlayer* NetGamePlayer = Script::GetNetGamePlayer(s_SelectedPlayer);
+	ImGui::Text("CNetGamePlayer: 0x%llX", NetGamePlayer);
+	ImGui::SameLine();
+	if (ImGui::SmallButton("Copy##CNetGamePlayer"))
+	{
+		std::stringstream ss;
+		ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(NetGamePlayer);
+		ImGui::SetClipboardText(ss.str().c_str());
+	}
+
+	if (NetPlayerData)
+	{
+		ImGui::Text("Rockstar ID: %llu", NetPlayerData->m_RockstarID);
+
+		ImGui::Text("Relay IP: %u.%u.%u.%u:%u",
+			NetPlayerData->m_RelayIP.m_Field1,
+			NetPlayerData->m_RelayIP.m_Field2,
+			NetPlayerData->m_RelayIP.m_Field3,
+			NetPlayerData->m_RelayIP.m_Field4,
+			NetPlayerData->m_RelayPort);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##Relay IP"))
+			CopyIP(NetPlayerData->m_RelayIP);
+
+		ImGui::Text("External IP: %u.%u.%u.%u:%u",
+			NetPlayerData->m_ExternalIP.m_Field1,
+			NetPlayerData->m_ExternalIP.m_Field2,
+			NetPlayerData->m_ExternalIP.m_Field3,
+			NetPlayerData->m_ExternalIP.m_Field4,
+			NetPlayerData->m_ExternalPort);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##External IP"))
+			CopyIP(NetPlayerData->m_ExternalIP);
+
+		ImGui::Text("Internal IP: %u.%u.%u.%u:%u",
+			NetPlayerData->m_InternalIP.m_Field1,
+			NetPlayerData->m_InternalIP.m_Field2,
+			NetPlayerData->m_InternalIP.m_Field3,
+			NetPlayerData->m_InternalIP.m_Field4,
+			NetPlayerData->m_InternalPort);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##Internal IP"))
+			CopyIP(NetPlayerData->m_InternalIP);
+	}
 }
 
 static void RenderNetworkMain()
@@ -63,6 +157,14 @@ static void RenderNetworkMain()
 	TRY
 	{
 		RenderPlayerInfo();
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	ImGui::Separator();
+
+	TRY
+	{
+		RenderLocalPlayerInfo();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 

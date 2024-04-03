@@ -13,12 +13,12 @@
 #include "Script/Ped.h"
 #include "Util/Container.h"
 
-void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thickness)
+void ESP::RenderLineArray(const std::vector<ImVec2>& Lines, ImU32 Color, float Thickness)
 {
-	if (vec.size() < 2)
+	if (Lines.size() < 2)
 		return;
 
-	for (const ImVec2& p : vec)
+	for (const ImVec2& p : Lines)
 	{
 		if (p.x < 0 || p.y < 0)
 			return;
@@ -26,13 +26,28 @@ void ESP::RenderLineArray(const std::vector<ImVec2>& vec, ImU32 Color, float Thi
 
 	ImDrawList* l = ImGui::GetBackgroundDrawList();
 
-	for (size_t i = 0; i < vec.size(); i++)
+	for (size_t i = 0; i < Lines.size(); i++)
 	{
-		l->AddLine(vec[i], vec[i + 1], Color, Thickness);
+		l->AddLine(Lines[i], Lines[i + 1], Color, Thickness);
 
-		if (i + 2 == vec.size())
+		if (i + 2 == Lines.size())
 			return;
 	}
+}
+
+static bool GetPedBonePos(Ped ped, ImVec2& Pos, Hash Bone)
+{
+	return Screen::GetPedBoneScreenCoordsScaled(ped, Bone, Pos);
+}
+
+static bool GetPedBonePos(Ped ped, ImVec2& Pos, const std::vector<Hash>& Bones)
+{
+	for (Hash Bone : Bones)
+	{
+		if (Screen::GetPedBoneScreenCoordsScaled(ped, Bone, Pos))
+			return true;
+	}
+	return false;
 }
 
 bool ESP::RenderPedBoneESP(Ped ped)
@@ -43,27 +58,28 @@ bool ESP::RenderPedBoneESP(Ped ped)
 	ImVec2 Head, Neck, Spine, LShoulder, RShoulder, LElbow, RElbow, LHand,
 		RHand, LHip, RHip, LKnee, RKnee, LFoot, RFoot, LToe, RToe;
 
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_HEAD, Head)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_NECK0, Neck)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_SPINE_ROOT, Spine)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_L_UPPERARM, LShoulder)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_R_UPPERARM, RShoulder)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, MH_L_ELBOWGRP, LElbow) &&
-		!GetPedBoneScreenCoordsScaled(ped, 22711, LElbow)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, MH_R_ELBOWGRP, RElbow) &&
-		!GetPedBoneScreenCoordsScaled(ped, 24550, RElbow) &&
-		!GetPedBoneScreenCoordsScaled(ped, 2992, RElbow) &&
-		!GetPedBoneScreenCoordsScaled(ped, 37346, RElbow)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_L_HAND, LHand)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_R_HAND, RHand)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, RB_L_THIGHROLL, LHip)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, RB_R_THIGHROLL, RHip)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, RB_L_KNEEFRONT, LKnee)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, RB_R_KNEEFRONT, RKnee)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_L_FOOT, LFoot)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_R_FOOT, RFoot)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_L_TOE0, LToe)) return false;
-	if (!GetPedBoneScreenCoordsScaled(ped, SKEL_R_TOE0, RToe)) return false;
+	if (!(
+		GetPedBonePos(ped, Head, SKEL_HEAD) &&
+		GetPedBonePos(ped, Neck, SKEL_NECK0) &&
+		GetPedBonePos(ped, Spine, SKEL_SPINE_ROOT) &&
+		GetPedBonePos(ped, LShoulder, SKEL_L_UPPERARM) &&
+		GetPedBonePos(ped, RShoulder, SKEL_R_UPPERARM) &&
+		GetPedBonePos(ped, LHand, SKEL_L_HAND) &&
+		GetPedBonePos(ped, RHand, SKEL_R_HAND) &&
+		GetPedBonePos(ped, LHip, RB_L_THIGHROLL) &&
+		GetPedBonePos(ped, RHip, RB_R_THIGHROLL) &&
+		GetPedBonePos(ped, LKnee, RB_L_KNEEFRONT) &&
+		GetPedBonePos(ped, RKnee, RB_R_KNEEFRONT) &&
+		GetPedBonePos(ped, LFoot, SKEL_L_FOOT) &&
+		GetPedBonePos(ped, RFoot, SKEL_R_FOOT) &&
+		GetPedBonePos(ped, LToe, SKEL_L_TOE0) &&
+		GetPedBonePos(ped, RToe, SKEL_R_TOE0) &&
+		GetPedBonePos(ped, LElbow, { MH_L_ELBOWGRP, 22711 }) &&
+		GetPedBonePos(ped, RElbow, { MH_R_ELBOWGRP, 24550, 2992, 37346 })
+		))
+	{
+		return false;
+	}
 
 	// Head + Body
 	RenderLineArray({ Head, Neck, Spine }, Color, Thickness);
@@ -82,7 +98,7 @@ bool ESP::RenderPedBoneESP(Ped ped)
 bool ESP::RenderTextOnEntity(Entity ent, const char* Text)
 {
 	ImVec2 Pos;
-	if (ESP::WorldToScreenScaled(Script::GetEntityCoords(ent), Pos.x, Pos.y))
+	if (Screen::WorldToScreenScaled(Script::GetEntityCoords(ent), Pos.x, Pos.y))
 	{
 		RenderTextCentered(Text, Pos, Renderer::GetImGuiRGBA32());
 		
@@ -346,7 +362,7 @@ bool ESP::GetPedBoxCoords(Ped ped, BoxCoords& BoxCoords)
 		Hash Bone = Bones[i];
 		
 		ImVec2 Coords;
-		if (GetPedBoneScreenCoordsScaled(ped, Bone, Coords))
+		if (Screen::GetPedBoneScreenCoordsScaled(ped, Bone, Coords))
 		{
 			if (FirstValue)
 			{
@@ -450,7 +466,7 @@ bool ESP::GetPedBoxCoords(Ped ped, BoxCoords& BoxCoords)
 		Hash Bone = OptionalBones[i];
 
 		ImVec2 Coords;
-		if (GetPedBoneScreenCoordsScaled(ped, Bone, Coords))
+		if (Screen::GetPedBoneScreenCoordsScaled(ped, Bone, Coords))
 		{
 			BoxCoords.TopLeft.x = std::min(BoxCoords.TopLeft.x, Coords.x);
 			BoxCoords.TopLeft.y = std::min(BoxCoords.TopLeft.y, Coords.y);
@@ -495,7 +511,7 @@ void ESP::RenderPedBoneDebugESP(Ped ped)
 	ImVec2 ScreenPos;
 	for (int i = 0; i < 0x10000; i++)
 	{
-		if (GetPedBoneScreenCoordsScaled(ped, i, ScreenPos))
+		if (Screen::GetPedBoneScreenCoordsScaled(ped, i, ScreenPos))
 		{
 			const std::string Text = std::to_string(i);
 			RenderText(Text.c_str(), ScreenPos);
