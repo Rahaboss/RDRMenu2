@@ -20,7 +20,7 @@ namespace rage
 		virtual bool IsHost() = 0; // (CNetGamePlayer + 0x118) && sub_7FF6C57C3BE8(this, 0)
 		virtual void m_0x50() = 0;
 		virtual bool m_0x58() = 0;
-		virtual netPlayerData* GetNetPlayerData() = 0; // CNetGamePlayer + 0x150
+		virtual netPlayerData* GetNetPlayerData() const = 0; // CNetGamePlayer + 0x150
 		virtual void m_0x68() = 0;
 		virtual void m_0x70() = 0;
 		virtual void m_0x78() = 0;

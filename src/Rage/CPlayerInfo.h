@@ -25,10 +25,8 @@ namespace rage
 		char pad_0010[52]; //0x0010
 		netAddress m_RelayIP; //0x0044
 		uint16_t m_RelayPort; //0x0048
-		char pad_004A[2]; //0x004A
 		netAddress m_ExternalIP; //0x004C
 		uint16_t m_ExternalPort; //0x0050
-		char pad_0052[2]; //0x0052
 		netAddress m_InternalIP; //0x0054
 		uint16_t m_InternalPort; //0x0058
 		char pad_005A[78]; //0x005A

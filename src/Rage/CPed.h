@@ -8,8 +8,10 @@ namespace rage
 	{
 	public:
 		virtual ~CPed() = 0; //0x0000
-		char pad_0000[216]; //0x0008
-		void* N00000996; //0x00E0
+		char pad_0008[148]; //0x0008
+		uint32_t m_9C; //0x009C
+		char pad_00A0[64]; //0x00A0
+		void* m_E0; //0x00E0
 	}; //Size: 0x00E8
 	static_assert(sizeof(CPed) == 0xE8);
 

@@ -53,7 +53,7 @@ namespace Pointers
 	inline void* TerminateProcess{};
 	inline bool* IsSessionStarted{};
 	inline rage::CNetworkPlayerMgr** NetworkPlayerMgr{};
-	inline uintptr_t (*GetOfflineNetPlayerData)(){};
+	inline uint64_t* qword_7FF66EEBCE48{};
 
 #if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer

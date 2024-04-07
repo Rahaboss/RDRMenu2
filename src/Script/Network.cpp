@@ -12,10 +12,26 @@ rage::CNetGamePlayer* Script::GetNetGamePlayer(Player p)
 {
 	TRY
 	{
-		if (const rage::CNetworkPlayerMgr* PlayerMgr = *Pointers::NetworkPlayerMgr)
-			return PlayerMgr->m_NetPlayers[p];
+		if (IsSessionStarted() && p >= 0 && p < 32)
+		{
+			if (const rage::CNetworkPlayerMgr* PlayerMgr = *Pointers::NetworkPlayerMgr)
+				return PlayerMgr->m_NetPlayers[p];
+		}
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
+
+	return nullptr;
+}
+
+rage::CPlayerInfo* Script::GetPlayerInfo(Player p)
+{
+	if (IsSessionStarted() && (p >= 0 && p < 32))
+	{
+		if (rage::CNetGamePlayer* NetGamePlayer = GetNetGamePlayer(p))
+			return NetGamePlayer->m_PlayerInfo;
+	}
+	else if (p == g_LocalPlayer.m_Index)
+		return GetOfflinePlayerInfo();
 
 	return nullptr;
 }
@@ -24,13 +40,15 @@ rage::netPlayerData* Script::GetNetPlayerData(Player p)
 {
 	TRY
 	{
-		if (rage::CNetGamePlayer* NetGamePlayer = GetNetGamePlayer(p))
+		if (IsSessionStarted() && (p >= 0 && p < 32))
 		{
-			return NetGamePlayer->GetNetPlayerData();
+			if (rage::CNetGamePlayer* NetGamePlayer = GetNetGamePlayer(p))
+				return NetGamePlayer->GetNetPlayerData();
 		}
-		else if (!IsSessionStarted() && p == g_LocalPlayer.m_Index)
+		else if (p == g_LocalPlayer.m_Index)
 		{
-			return reinterpret_cast<rage::netPlayerData*>(Pointers::GetOfflineNetPlayerData() + 0x20);
+			if (rage::CPlayerInfo* PlayerInfo = GetOfflinePlayerInfo())
+				return &PlayerInfo->m_NetPlayerData;
 		}
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
@@ -44,4 +62,23 @@ const char* Script::GetPlayerName(Player p)
 		return PlayerData->m_Name;
 
 	return "N/A";
+}
+
+void Script::CopyIP(rage::netAddress IP)
+{
+	std::stringstream ss;
+	ss << static_cast<uint32_t>(IP.m_Field1) << '.' << static_cast<uint32_t>(IP.m_Field2) << '.' <<
+		static_cast<uint32_t>(IP.m_Field3) << '.' << static_cast<uint32_t>(IP.m_Field4);
+	ImGui::SetClipboardText(ss.str().c_str());
+}
+
+rage::CPlayerInfo* Script::GetOfflinePlayerInfo()
+{
+	if (!IsSessionStarted() && g_LocalPlayer.m_Ped)
+	{
+		const uint32_t x = g_LocalPlayer.m_Ped->m_9C & 0x1FFFF;
+		return reinterpret_cast<rage::CPlayerInfo*>(*reinterpret_cast<uint64_t*>(0x148 * x + *Pointers::qword_7FF66EEBCE48 + 0xF0) & ~1);
+	}
+
+	return nullptr;
 }

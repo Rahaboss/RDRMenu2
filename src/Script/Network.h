@@ -8,6 +8,9 @@ namespace Script
 {
 	bool IsSessionStarted();
 	rage::CNetGamePlayer* GetNetGamePlayer(Player p);
+	rage::CPlayerInfo* GetPlayerInfo(Player p);
 	rage::netPlayerData* GetNetPlayerData(Player p);
 	const char* GetPlayerName(Player p);
+	void CopyIP(rage::netAddress IP);
+	rage::CPlayerInfo* GetOfflinePlayerInfo();
 }

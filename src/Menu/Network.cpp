@@ -62,11 +62,10 @@ static void RenderLocalPlayerInfo()
 	}
 }
 
-static void CopyIP(rage::netAddress Address)
+static void CopyPointer(const void* Pointer)
 {
 	std::stringstream ss;
-	ss << static_cast<uint32_t>(Address.m_Field1) << '.' << static_cast<uint32_t>(Address.m_Field2) << '.' <<
-		static_cast<uint32_t>(Address.m_Field3) << '.' << static_cast<uint32_t>(Address.m_Field4);
+	ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(Pointer);
 	ImGui::SetClipboardText(ss.str().c_str());
 }
 
@@ -80,21 +79,28 @@ static void RenderPlayerInfo()
 	ImGui::Text("netPlayerData: 0x%llX", NetPlayerData);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##netPlayerData"))
+		CopyPointer(NetPlayerData);
+
+	const rage::CPlayerInfo* PlayerInfo = Script::GetPlayerInfo(s_SelectedPlayer);
+	ImGui::Text("CPlayerInfo: 0x%llX", PlayerInfo);
+	ImGui::SameLine();
+	if (ImGui::SmallButton("Copy##CPlayerInfo"))
+		CopyPointer(PlayerInfo);
+
+	if (PlayerInfo)
 	{
-		std::stringstream ss;
-		ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(NetPlayerData);
-		ImGui::SetClipboardText(ss.str().c_str());
+		const rage::CPed* Ped = PlayerInfo->m_Ped;
+		ImGui::Text("CPed: 0x%llX", Ped);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##CPed"))
+			CopyPointer(Ped);
 	}
 
 	const rage::CNetGamePlayer* NetGamePlayer = Script::GetNetGamePlayer(s_SelectedPlayer);
 	ImGui::Text("CNetGamePlayer: 0x%llX", NetGamePlayer);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##CNetGamePlayer"))
-	{
-		std::stringstream ss;
-		ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(NetGamePlayer);
-		ImGui::SetClipboardText(ss.str().c_str());
-	}
+		CopyPointer(NetGamePlayer);
 
 	if (NetPlayerData)
 	{
@@ -108,7 +114,7 @@ static void RenderPlayerInfo()
 			NetPlayerData->m_RelayPort);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Relay IP"))
-			CopyIP(NetPlayerData->m_RelayIP);
+			Script::CopyIP(NetPlayerData->m_RelayIP);
 
 		ImGui::Text("External IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_ExternalIP.m_Field1,
@@ -118,7 +124,7 @@ static void RenderPlayerInfo()
 			NetPlayerData->m_ExternalPort);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##External IP"))
-			CopyIP(NetPlayerData->m_ExternalIP);
+			Script::CopyIP(NetPlayerData->m_ExternalIP);
 
 		ImGui::Text("Internal IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_InternalIP.m_Field1,
@@ -128,7 +134,7 @@ static void RenderPlayerInfo()
 			NetPlayerData->m_InternalPort);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Internal IP"))
-			CopyIP(NetPlayerData->m_InternalIP);
+			Script::CopyIP(NetPlayerData->m_InternalIP);
 	}
 }
 

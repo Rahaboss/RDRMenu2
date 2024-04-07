@@ -1062,40 +1062,30 @@ static void RenderHairDebug()
 
 static void RenderNetworkDebug()
 {
-	if (const rage::netPlayerData* Data = Script::GetNetPlayerData(g_LocalPlayer.m_Index))
+	if (const rage::netPlayerData* NetPlayerData = Script::GetNetPlayerData(g_LocalPlayer.m_Index))
 	{
-		ImGui::Text("Name: %s", Data->m_Name);
+		ImGui::Text("Name: %s", NetPlayerData->m_Name);
 
-		ImGui::Text("Rockstar ID: %llu", Data->m_RockstarID);
+		ImGui::Text("Rockstar ID: %llu", NetPlayerData->m_RockstarID);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Rockstar ID"))
 		{
 			std::stringstream ss;
-			ss << Data->m_RockstarID;
+			ss << NetPlayerData->m_RockstarID;
 			ImGui::SetClipboardText(ss.str().c_str());
 		}
 
-		ImGui::Text("Internal IP: %u.%u.%u.%u", Data->m_InternalIP.m_Field1, Data->m_InternalIP.m_Field2,
-			Data->m_InternalIP.m_Field3, Data->m_InternalIP.m_Field4);
+		ImGui::Text("Internal IP: %u.%u.%u.%u", NetPlayerData->m_InternalIP.m_Field1, NetPlayerData->m_InternalIP.m_Field2,
+			NetPlayerData->m_InternalIP.m_Field3, NetPlayerData->m_InternalIP.m_Field4);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Internal IP"))
-		{
-			std::stringstream ss;
-			ss << static_cast<uint32_t>(Data->m_InternalIP.m_Field1) << '.' << static_cast<uint32_t>(Data->m_InternalIP.m_Field2) << '.' <<
-				static_cast<uint32_t>(Data->m_InternalIP.m_Field3) << '.' << static_cast<uint32_t>(Data->m_InternalIP.m_Field4);
-			ImGui::SetClipboardText(ss.str().c_str());
-		}
+			Script::CopyIP(NetPlayerData->m_InternalIP);
 
-		ImGui::Text("External IP: %u.%u.%u.%u", Data->m_ExternalIP.m_Field1, Data->m_ExternalIP.m_Field2,
-			Data->m_ExternalIP.m_Field3, Data->m_ExternalIP.m_Field4);
+		ImGui::Text("External IP: %u.%u.%u.%u", NetPlayerData->m_ExternalIP.m_Field1, NetPlayerData->m_ExternalIP.m_Field2,
+			NetPlayerData->m_ExternalIP.m_Field3, NetPlayerData->m_ExternalIP.m_Field4);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##External IP"))
-		{
-			std::stringstream ss;
-			ss << static_cast<uint32_t>(Data->m_ExternalIP.m_Field1) << '.' << static_cast<uint32_t>(Data->m_ExternalIP.m_Field2) << '.' <<
-				static_cast<uint32_t>(Data->m_ExternalIP.m_Field3) << '.' << static_cast<uint32_t>(Data->m_ExternalIP.m_Field4);
-			ImGui::SetClipboardText(ss.str().c_str());
-		}
+			Script::CopyIP(NetPlayerData->m_ExternalIP);
 	}
 }
 

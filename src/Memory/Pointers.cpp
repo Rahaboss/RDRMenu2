@@ -12,7 +12,7 @@ void Pointers::Create()
 	Scans.push_back([]() { SwapChain = Signature("48 8D 15 ? ? ? ? 4C 8B 05 ? ? ? ? 4C 8D 0D").Add(3).Rip().Get<decltype(SwapChain)>(); });
 	Scans.push_back([]() { CommandQueue = Signature("4C 8D 0D ? ? ? ? 4C 89 65 B8").Add(3).Rip().Get<decltype(CommandQueue)>(); });
 	
-	// RAGE				 
+	// RAGE
 	Scans.push_back([]() { ThreadCollection = Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? EB 0B 8B 0D").Add(3).Rip().Get<decltype(ThreadCollection)>(); });
 	Scans.push_back([]() { RunScriptThreads = Signature("48 8D 0D ? ? ? ? E8 ? ? ? ? EB 0B 8B 0D").Add(8).Rip().Get<decltype(RunScriptThreads)>(); });
 	Scans.push_back([]() { ActiveThread = Signature("41 C6 04 06 01 48 8D 45 08 48 89 44 24 20 E8").Add(34).Rip().Get<decltype(ActiveThread)>(); });
@@ -39,8 +39,8 @@ void Pointers::Create()
 	Scans.push_back([]() { GetEntityHealth = Signature("33 DB E8 ? ? ? ? 48 8B F8 48 85 C0 74 3C 48 8B C8").Sub(10).Get<decltype(GetEntityHealth)>(); });
 	Scans.push_back([]() { IsSessionStarted = Signature("48 83 EC 28 80 3D ? ? ? ? ? 74 12 48 8B 0D").Add(6).Rip().Get<decltype(IsSessionStarted)>(); });
 	Scans.push_back([]() { NetworkPlayerMgr = Signature("E8 ? ? ? ? 40 0F B6 D5").Add(1).Rip().Add(13).Rip().Get<decltype(NetworkPlayerMgr)>(); });
-	Scans.push_back([]() { GetOfflineNetPlayerData = Signature("E8 ? ? ? ? 48 8D 48 20 EB DD").Add(1).Rip().Get<decltype(GetOfflineNetPlayerData)>(); });
-
+	Scans.push_back([]() { qword_7FF66EEBCE48 = Signature("E8 ? ? ? ? 48 03 C6").Add(1).Rip().Add(0x1B).Rip().Get<decltype(qword_7FF66EEBCE48)>(); });
+	
 #if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer
 	Scans.push_back([]() { vkInstance = Signature("4C 8D 05 ? ? ? ? 33 D2 48 8D 8C 24").Add(3).Rip().Get<decltype(vkInstance)>(); });
