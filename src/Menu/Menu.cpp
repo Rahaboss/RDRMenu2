@@ -8,7 +8,7 @@
 #include "World.h"
 #include "Teleport.h"
 #include "Spawning.h"
-#include "Debug.h"
+#include "DebugMenu/Debug.h"
 #include "Network.h"
 #include "Cutscene.h"
 #include "Inventory.h"
@@ -18,6 +18,7 @@
 #include "ESP/ESP.h"
 #include "Util/Timer.h"
 #include "Config/Settings.h"
+#include "Model.h"
 
 static void UpdateMenu()
 {
@@ -62,6 +63,7 @@ static void RenderMenu()
 				Menu::RenderCutsceneTab();
 				Menu::RenderInventoryTab();
 				Menu::RenderRenderingTab();
+				Menu::RenderModelTab();
 #if ENABLE_DEBUG_TAB
 				Menu::RenderDebugTab();
 #endif // ENABLE_DEBUG_TAB

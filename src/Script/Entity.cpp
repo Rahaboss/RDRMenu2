@@ -152,3 +152,31 @@ void Script::SetEntityInvisible(Entity ent, bool Toggle)
 {
 	ENTITY::SET_ENTITY_VISIBLE(ent, !Toggle);
 }
+
+void Script::SetEntityProofs(Entity ent, uint8_t ProofBitset, bool SpecialFlag)
+{
+	Pointers::SetEntityProofs(ent, ProofBitset, SpecialFlag);
+}
+
+void Script::SetEntityProofs(Entity ent, bool Bullet, bool Fire, bool Explosion, bool Collision, bool Melee,
+	bool Steam, bool Smoke, bool Headshot, bool SpecialFlag)
+{
+	uint8_t ProofBitset = 0;
+	if (Bullet)
+		ProofBitset |= (1 << 0);
+	if (Fire)
+		ProofBitset |= (1 << 1);
+	if (Explosion)
+		ProofBitset |= (1 << 2);
+	if (Collision)
+		ProofBitset |= (1 << 3);
+	if (Melee)
+		ProofBitset |= (1 << 4);
+	if (Steam)
+		ProofBitset |= (1 << 5);
+	if (Smoke)
+		ProofBitset |= (1 << 6);
+	if (Headshot)
+		ProofBitset |= (1 << 7);
+	SetEntityProofs(ent, ProofBitset, SpecialFlag);
+}

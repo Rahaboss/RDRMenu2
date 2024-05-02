@@ -54,6 +54,8 @@ namespace Pointers
 	inline bool* IsSessionStarted{};
 	inline rage::CNetworkPlayerMgr** NetworkPlayerMgr{};
 	inline uint64_t* qword_7FF66EEBCE48{};
+	// ENTITY::SET_ENTITY_PROOFS
+	inline void (*SetEntityProofs)(Entity, uint32_t, bool){};
 
 #if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer

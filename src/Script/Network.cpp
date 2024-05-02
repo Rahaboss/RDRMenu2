@@ -56,12 +56,20 @@ rage::netPlayerData* Script::GetNetPlayerData(Player p)
 	return nullptr;
 }
 
+rage::CPed* Script::GetPlayerPed(Player p)
+{
+	if (rage::CPlayerInfo* PlayerInfo = GetPlayerInfo(p))
+		return PlayerInfo->m_Ped;
+
+	return nullptr;
+}
+
 const char* Script::GetPlayerName(Player p)
 {
 	if (rage::netPlayerData* PlayerData = GetNetPlayerData(p))
 		return PlayerData->m_Name;
 
-	return "N/A";
+	return nullptr;
 }
 
 void Script::CopyIP(rage::netAddress IP)
@@ -76,8 +84,11 @@ rage::CPlayerInfo* Script::GetOfflinePlayerInfo()
 {
 	if (!IsSessionStarted() && g_LocalPlayer.m_Ped)
 	{
-		const uint32_t x = g_LocalPlayer.m_Ped->m_9C & 0x1FFFF;
-		return reinterpret_cast<rage::CPlayerInfo*>(*reinterpret_cast<uint64_t*>(0x148 * x + *Pointers::qword_7FF66EEBCE48 + 0xF0) & ~1);
+		if (uint32_t x = 0x148 * (g_LocalPlayer.m_Ped->m_9C & 0x1FFFF))
+		{
+			if (uint64_t y = *Pointers::qword_7FF66EEBCE48)
+				return *reinterpret_cast<rage::CPlayerInfo**>(x + y + 0xF0); // & ~1
+		}
 	}
 
 	return nullptr;

@@ -12,7 +12,8 @@ static void RenderPlayerList()
 {
 	for (Player i = 0; i < 32; i++)
 	{
-		const std::string PlayerName = (std::string{ Script::GetPlayerName(i) } + "##") + std::to_string(i);
+		const char* NameString = Script::GetPlayerName(i);
+		const std::string PlayerName = (std::string{ NameString ? NameString : "N/A" } + "##") + std::to_string(i);
 		if (ImGui::Selectable(PlayerName.c_str(), s_SelectedPlayer == i))
 			s_SelectedPlayer = i;
 	}
@@ -71,15 +72,14 @@ static void CopyPointer(const void* Pointer)
 
 static void RenderPlayerInfo()
 {
-	const std::string PlayerName = Script::GetPlayerName(s_SelectedPlayer);
-	ImGui::Text("Name: %s", PlayerName.c_str());
 	ImGui::Text("Index: %d", s_SelectedPlayer);
 
-	const rage::netPlayerData* NetPlayerData = Script::GetNetPlayerData(s_SelectedPlayer);
-	ImGui::Text("netPlayerData: 0x%llX", NetPlayerData);
+	const rage::CNetGamePlayer* NetGamePlayer = Script::GetNetGamePlayer(s_SelectedPlayer);
+	ImGui::Text("CNetworkPlayerMgr: 0x%llX (RDR2.exe+%llX)", (uintptr_t)Pointers::NetworkPlayerMgr,
+		(uintptr_t)Pointers::NetworkPlayerMgr - g_BaseAddress);
 	ImGui::SameLine();
-	if (ImGui::SmallButton("Copy##netPlayerData"))
-		CopyPointer(NetPlayerData);
+	if (ImGui::SmallButton("Copy##CNetGamePlayer"))
+		CopyPointer(NetGamePlayer);
 
 	const rage::CPlayerInfo* PlayerInfo = Script::GetPlayerInfo(s_SelectedPlayer);
 	ImGui::Text("CPlayerInfo: 0x%llX", PlayerInfo);
@@ -87,26 +87,26 @@ static void RenderPlayerInfo()
 	if (ImGui::SmallButton("Copy##CPlayerInfo"))
 		CopyPointer(PlayerInfo);
 
-	if (PlayerInfo)
-	{
-		const rage::CPed* Ped = PlayerInfo->m_Ped;
-		ImGui::Text("CPed: 0x%llX", Ped);
-		ImGui::SameLine();
-		if (ImGui::SmallButton("Copy##CPed"))
-			CopyPointer(Ped);
-	}
-
-	const rage::CNetGamePlayer* NetGamePlayer = Script::GetNetGamePlayer(s_SelectedPlayer);
-	ImGui::Text("CNetGamePlayer: 0x%llX", NetGamePlayer);
+	const rage::netPlayerData* NetPlayerData = Script::GetNetPlayerData(s_SelectedPlayer);
+	ImGui::Text("netPlayerData: 0x%llX", NetPlayerData);
 	ImGui::SameLine();
-	if (ImGui::SmallButton("Copy##CNetGamePlayer"))
-		CopyPointer(NetGamePlayer);
+	if (ImGui::SmallButton("Copy##netPlayerData"))
+		CopyPointer(NetPlayerData);
 
 	if (NetPlayerData)
 	{
-		ImGui::Text("Rockstar ID: %llu", NetPlayerData->m_RockstarID);
+		const char* PlayerName = NetPlayerData->m_Name;
+		ImGui::Text("\tName: %s", PlayerName);
 
-		ImGui::Text("Relay IP: %u.%u.%u.%u:%u",
+		ImGui::Text("\tRockstar ID: %llu", NetPlayerData->m_RockstarID);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##Rockstar ID"))
+		{
+			std::string RockstarID = std::to_string(NetPlayerData->m_RockstarID);
+			ImGui::SetClipboardText(RockstarID.c_str());
+		}
+
+		ImGui::Text("\tRelay IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_RelayIP.m_Field1,
 			NetPlayerData->m_RelayIP.m_Field2,
 			NetPlayerData->m_RelayIP.m_Field3,
@@ -116,7 +116,7 @@ static void RenderPlayerInfo()
 		if (ImGui::SmallButton("Copy##Relay IP"))
 			Script::CopyIP(NetPlayerData->m_RelayIP);
 
-		ImGui::Text("External IP: %u.%u.%u.%u:%u",
+		ImGui::Text("\tExternal IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_ExternalIP.m_Field1,
 			NetPlayerData->m_ExternalIP.m_Field2,
 			NetPlayerData->m_ExternalIP.m_Field3,
@@ -126,7 +126,7 @@ static void RenderPlayerInfo()
 		if (ImGui::SmallButton("Copy##External IP"))
 			Script::CopyIP(NetPlayerData->m_ExternalIP);
 
-		ImGui::Text("Internal IP: %u.%u.%u.%u:%u",
+		ImGui::Text("\tInternal IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_InternalIP.m_Field1,
 			NetPlayerData->m_InternalIP.m_Field2,
 			NetPlayerData->m_InternalIP.m_Field3,
@@ -135,6 +135,36 @@ static void RenderPlayerInfo()
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Internal IP"))
 			Script::CopyIP(NetPlayerData->m_InternalIP);
+	}
+
+	const rage::CPed* Ped = Script::GetPlayerPed(s_SelectedPlayer);
+	ImGui::Text("CPed: 0x%llX", Ped);
+	ImGui::SameLine();
+	if (ImGui::SmallButton("Copy##CPed"))
+		CopyPointer(Ped);
+
+	if (Ped)
+	{
+		ImGui::Text("\tCPed+0x9C: %u (0x%X)", Ped->m_9C, Ped->m_9C);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##CPed+0x9C"))
+		{
+			std::string s = std::to_string(Ped->m_9C);
+			ImGui::SetClipboardText(s.c_str());
+		}
+
+		ImGui::Text("\tCPed+0x9C (masked): %u (0x%X)", Ped->m_9C & 0x1FFFF, Ped->m_9C & 0x1FFFF);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##CPed+0x9C masked"))
+		{
+			std::string s = std::to_string(Ped->m_9C & 0x1FFFF);
+			ImGui::SetClipboardText(s.c_str());
+		}
+
+		ImGui::Text("\tCPed+0xE0: 0x%X", Ped->m_E0);
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Copy##CPed+0xE0"))
+			CopyPointer(Ped->m_E0);
 	}
 }
 

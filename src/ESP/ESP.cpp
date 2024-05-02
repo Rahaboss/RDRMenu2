@@ -307,6 +307,55 @@ void ESP::RenderVehicleESP()
 	}
 }
 
+static void RenderGuarmaBorder()
+{
+	ImDrawList* l = ImGui::GetBackgroundDrawList();
+
+	float x1 = 512.f, x2 = 5120.f;
+	float y1 = -4096.f, y2 = -10752.f;
+	float z1 = 32.f, z2 = 1251.f;
+
+	Vector3 p[8]{
+		Vector3(x1, y1, z1),
+		Vector3(x1, y1, z2),
+		Vector3(x1, y2, z1),
+		Vector3(x1, y2, z2),
+		Vector3(x2, y1, z1),
+		Vector3(x2, y1, z2),
+		Vector3(x2, y2, z1),
+		Vector3(x2, y2, z2),
+	};
+	bool b[8];
+	ImVec2 s[8];
+
+	for (size_t i = 0; i < 8; i++)
+		b[i] = Screen::WorldToScreenScaled(p[i], s[i].x, s[i].y);
+
+	for (size_t i = 0; i < 8; i++)
+	{
+		if (!b[i])
+			continue;
+
+		for (size_t j = 0; j < 8; j++)
+		{
+			if (i == j)
+				continue;
+
+			if (!b[j])
+				continue;
+
+			bool b1 = p[i].x == p[j].x;
+			bool b2 = p[i].y == p[j].y;
+			bool b3 = p[i].z == p[j].z;
+
+			int b4 = b1 + b2 + b3;
+
+			if (b4 == 2)
+				l->AddLine(s[i], s[j], Renderer::GetImGuiRGBA32());
+		}
+	}
+}
+
 void ESP::RenderESP()
 {
 	TRY
@@ -330,6 +379,8 @@ void ESP::RenderESP()
 
 		if (g_Settings["esp"]["vehicle"]["enable"].get<bool>())
 			RenderVehicleESP();
+
+		RenderGuarmaBorder();
 
 		Timer::s_ESPTime = ESPTimer.GetMillis();
 	}

@@ -61,9 +61,29 @@ Ped Script::CutsceneHelper::AddPedNew(Hash Model, const char* entityName)
 	return Handle;
 }
 
+static Hash GetDefaultMetaPedOutfit(Hash PedModel)
+{
+	switch (PedModel)
+	{
+	case RAGE_JOAAT("PLAYER_ZERO"):
+		return RAGE_JOAAT("META_OUTFIT_COOL_WEATHER");
+	case RAGE_JOAAT("PLAYER_THREE"):
+		return RAGE_JOAAT("META_OUTFIT_GUNSLINGER");
+	}
+
+	return 0;
+}
+
+static void SetPedDefaultMetaPedOutfit(Ped Handle, Hash PedModel)
+{
+	if (const Hash Model = GetDefaultMetaPedOutfit(PedModel))
+		Script::SetMetaPedOutfit(Handle, Model);
+}
+
 void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 {
-	Ped Handle = AddPedNew(Lists::GetHashFromJSON(PedJsonObject["model"]), PedJsonObject["name"].get_ref<const std::string&>().c_str());
+	const Hash Model = Lists::GetHashFromJSON(PedJsonObject["model"]);
+	const Ped Handle = AddPedNew(Model, PedJsonObject["name"].get_ref<const std::string&>().c_str());
 	if (!Handle)
 		return;
 
@@ -73,6 +93,9 @@ void Script::CutsceneHelper::AddPedFromPedJson(const json& PedJsonObject)
 
 	if (PedJsonObject.contains("meta_ped_wearable"))
 		SetMetaPedOutfit(Handle, Lists::GetHashFromJSON(PedJsonObject["meta_ped_wearable"]));
+
+	if (!PedJsonObject.contains("meta_ped_outfit") && PedJsonObject.contains("meta_ped_wearable"))
+		SetPedDefaultMetaPedOutfit(Handle, Model);
 
 	if (PedJsonObject.contains("remove_weapons") && PedJsonObject["remove_weapons"].get<bool>())
 	{
@@ -123,7 +146,7 @@ void Script::CutsceneHelper::AddLocalPlayer()
 		
 			// Apply default outfit
 			if (!m_JsonObject.contains("player_meta_ped_outfit") && !m_JsonObject.contains("player_meta_ped_wearable"))
-				SetMetaPedOutfit(Handle, (b_PlayerArthur ? RAGE_JOAAT("META_OUTFIT_COOL_WEATHER") : RAGE_JOAAT("META_OUTFIT_GUNSLINGER")));
+				SetPedDefaultMetaPedOutfit(Handle, PlayerModel);
 		}
 
 		if (m_JsonObject.contains("player_meta_ped_outfit"))

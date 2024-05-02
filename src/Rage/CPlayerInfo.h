@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "CPed.h"
 
 namespace rage
 {

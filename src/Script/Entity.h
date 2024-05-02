@@ -17,4 +17,7 @@ namespace Script
 	Hash GetEntityModel(Entity ent);
 	int GetEntityHealth(Entity ent);
 	void SetEntityInvisible(Entity ent, bool Toggle);
+	void SetEntityProofs(Entity ent, uint8_t ProofBitset, bool SpecialFlag);
+	void SetEntityProofs(Entity ent, bool Bullet, bool Fire, bool Explosion, bool Collision, bool Melee,
+		bool Steam, bool Smoke, bool Headshot, bool SpecialFlag);
 }

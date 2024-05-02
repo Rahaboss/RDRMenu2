@@ -11,7 +11,6 @@
 #include "Util/String.h"
 #include "Script/Spawning.h"
 
-static int s_OutfitPreset = 0;
 static void RenderPlayerButtons()
 {
 	if (ImGui::Button("Fill Cores"))
@@ -59,10 +58,7 @@ static void RenderPlayerButtons()
 		ImGui::BeginDisabled();
 
 	if (ImGui::Button("Reset Model"))
-	{
 		JobQueue::Add(Script::ResetPlayerModel);
-		s_OutfitPreset = 0;
-	}
 
 	if (DisableResetModel)
 		ImGui::EndDisabled();
@@ -171,144 +167,6 @@ static void RenderMoneyChanger()
 	}
 }
 
-static void RenderModelChanger()
-{
-	static char s_ModelFilter[200]{};
-	ImGui::SetNextItemWidth(230.0f);
-	ImGui::InputText("Filter Models", s_ModelFilter, IM_ARRAYSIZE(s_ModelFilter));
-	ImGui::SameLine();
-	if (ImGui::Button("Clear##clear_model"))
-		s_ModelFilter[0] = '\0';
-	ImGui::Separator();
-
-	ImGui::BeginChild("##app_left_inner");
-	std::string FilterUpper = Util::StringToUpperCopy(s_ModelFilter);
-	for (const auto& p : Lists::PedList)
-	{
-		if (p.first.find(FilterUpper) == std::string::npos)
-			continue;
-
-		if (ImGui::Selectable(p.first.c_str(), g_LocalPlayer.m_Model == p.second))
-		{
-			QUEUE_JOB(=)
-			{
-				Script::SetPlayerModel(p.second);
-				s_OutfitPreset = 0;
-			}
-			END_JOB()
-		}
-	}
-	ImGui::EndChild(); // ##app_left_inner
-}
-
-static void RenderOutfitPresetList()
-{
-	ImGui::AlignTextToFramePadding();
-	ImGui::TextUnformatted("Set Outfit Preset:");
-	ImGui::SameLine();
-
-	ImGui::PushButtonRepeat(true);
-
-	if (ImGui::ArrowButton("##outfit_left", ImGuiDir_Left))
-	{
-		QUEUE_JOB(=)
-		{
-			s_OutfitPreset--;
-			s_OutfitPreset = std::clamp(s_OutfitPreset, 0, PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1);
-			Script::SetPedOutfitPreset(g_LocalPlayer.m_Entity, s_OutfitPreset);
-		}
-		END_JOB()
-	}
-	ImGui::SameLine();
-
-	ImGui::AlignTextToFramePadding();
-	ImGui::Text("%d", s_OutfitPreset);
-	ImGui::SameLine();
-
-	if (ImGui::ArrowButton("##outfit_right", ImGuiDir_Right))
-	{
-		QUEUE_JOB(=)
-		{
-			s_OutfitPreset++;
-			s_OutfitPreset = std::clamp(s_OutfitPreset, 0, PED::GET_NUM_META_PED_OUTFITS(g_LocalPlayer.m_Entity) - 1);
-			Script::SetPedOutfitPreset(g_LocalPlayer.m_Entity, s_OutfitPreset);
-		}
-		END_JOB()
-	}
-
-	ImGui::PopButtonRepeat();
-}
-
-static void RenderMetaPedOutfitList()
-{
-	static Hash s_SelectedModel = 0;
-	static std::string s_SelectedModelName{};
-
-	if (s_SelectedModel != g_LocalPlayer.m_Model)
-	{
-		s_SelectedModel = g_LocalPlayer.m_Model;
-		s_SelectedModelName = Util::StringToUpperCopy(Lists::GetHashName(s_SelectedModel));
-	}
-	
-	const json& Outfits{ Lists::MetaPedOutfits[s_SelectedModelName] };
-	if (Outfits.is_array())
-	{
-		for (size_t i = 0; i < Outfits.size(); i++)
-		{
-			std::string Name;
-			Hash Model = 0;
-
-			if (Outfits[i].is_string())
-			{
-				Name = Outfits[i].get_ref<const std::string&>();
-				Model = rage::joaat(Name);
-			}
-			else if (Outfits[i].is_number())
-			{
-				Model = Outfits[i].get<uint32_t>();
-				Name = std::to_string(Model);
-			}
-
-			if (!Name.empty())
-			{
-				if (ImGui::Selectable(Name.c_str(), PED::_IS_META_PED_OUTFIT_EQUIPPED(g_LocalPlayer.m_Entity, Model)))
-				{
-					QUEUE_JOB(=)
-					{
-						Script::SetMetaPedOutfit(g_LocalPlayer.m_Entity, Model);
-					}
-					END_JOB()
-				}
-			}
-		}
-	}
-}
-
-static void RenderPlayerAppearance()
-{
-	ImGui::BeginChild("##player_appearance");
-
-	ImGui::BeginChild("##app_left", ImVec2(ImGui::GetContentRegionAvail().x / 2, 0));
-
-	ImGui::SeparatorText("Set Model");
-	RenderModelChanger();
-
-	ImGui::EndChild(); // ##app_left
-	ImGui::SameLine();
-	ImGui::BeginChild("##app_right");
-
-	ImGui::SeparatorText("Set Outfit");
-	RenderOutfitPresetList();
-	ImGui::Separator();
-
-	ImGui::BeginChild("##app_right_inner");
-	RenderMetaPedOutfitList();
-	ImGui::EndChild(); // ##app_right_inner
-
-	ImGui::EndChild(); // ##app_right
-	ImGui::EndChild(); // ##player_appearance
-}
-
 void Menu::RenderPlayerTab()
 {
 	if (!ImGui::BeginTabItem("Player"))
@@ -326,8 +184,6 @@ void Menu::RenderPlayerTab()
 
 		ImGui::SeparatorText("Money");
 		RenderMoneyChanger();
-
-		RenderPlayerAppearance();
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 

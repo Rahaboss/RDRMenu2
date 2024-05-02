@@ -67,4 +67,4 @@ typedef nlohmann::json json;
 #define TRY __try
 #define EXCEPT __except(EXCEPTION_EXECUTE_HANDLER)
 #define LOG_EXCEPTION() LOG_TEXT("Caught exception in:\n\tFile: %s:%u\n\tFunction: %s.", __FILE__, __LINE__, __FUNCTION__)
-#define TO_IDA(x) (((uintptr_t)(x)) - g_BaseAddress + 0x7FF6694A0000)
+#define TO_IDA(x) (((uintptr_t)(x)) - g_BaseAddress + 0x7FF66B4D0000)

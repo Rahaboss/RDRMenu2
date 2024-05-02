@@ -40,6 +40,7 @@ void Pointers::Create()
 	Scans.push_back([]() { IsSessionStarted = Signature("48 83 EC 28 80 3D ? ? ? ? ? 74 12 48 8B 0D").Add(6).Rip().Get<decltype(IsSessionStarted)>(); });
 	Scans.push_back([]() { NetworkPlayerMgr = Signature("E8 ? ? ? ? 40 0F B6 D5").Add(1).Rip().Add(13).Rip().Get<decltype(NetworkPlayerMgr)>(); });
 	Scans.push_back([]() { qword_7FF66EEBCE48 = Signature("E8 ? ? ? ? 48 03 C6").Add(1).Rip().Add(0x1B).Rip().Get<decltype(qword_7FF66EEBCE48)>(); });
+	Scans.push_back([]() { SetEntityProofs = Signature("48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 41 56 48 83 EC 20 41 8A E8 44 8B F2").Get<decltype(SetEntityProofs)>(); });
 	
 #if ENABLE_VULKAN_RENDERER
 	// Vulkan renderer
