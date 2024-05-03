@@ -3,6 +3,7 @@
 namespace Util
 {
 	void LogText(_Printf_format_string_ const char* const Text, ...);
+	void LogClipboard(_Printf_format_string_ const char* const Text, ...);
 }
 
 #ifndef _DIST
@@ -15,3 +16,5 @@ namespace Util
 // Disabled logging in distribution build
 #define LOG_TEXT(...) ((void)0)
 #endif // !_DIST
+
+#define LOG_CLIPBOARD(...) ::Util::LogClipboard(__VA_ARGS__)

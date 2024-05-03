@@ -63,13 +63,6 @@ static void RenderLocalPlayerInfo()
 	}
 }
 
-static void CopyPointer(const void* Pointer)
-{
-	std::stringstream ss;
-	ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(Pointer);
-	ImGui::SetClipboardText(ss.str().c_str());
-}
-
 static void RenderPlayerInfo()
 {
 	ImGui::Text("Index: %d", s_SelectedPlayer);
@@ -79,19 +72,19 @@ static void RenderPlayerInfo()
 		(uintptr_t)Pointers::NetworkPlayerMgr - g_BaseAddress);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##CNetGamePlayer"))
-		CopyPointer(NetGamePlayer);
+		LOG_CLIPBOARD("%llX", reinterpret_cast<uintptr_t>(NetGamePlayer));
 
 	const rage::CPlayerInfo* PlayerInfo = Script::GetPlayerInfo(s_SelectedPlayer);
 	ImGui::Text("CPlayerInfo: 0x%llX", PlayerInfo);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##CPlayerInfo"))
-		CopyPointer(PlayerInfo);
+		LOG_CLIPBOARD("%llX", reinterpret_cast<uintptr_t>(PlayerInfo));
 
 	const rage::netPlayerData* NetPlayerData = Script::GetNetPlayerData(s_SelectedPlayer);
 	ImGui::Text("netPlayerData: 0x%llX", NetPlayerData);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##netPlayerData"))
-		CopyPointer(NetPlayerData);
+		LOG_CLIPBOARD("%llX", reinterpret_cast<uintptr_t>(NetPlayerData));
 
 	if (NetPlayerData)
 	{
@@ -101,10 +94,7 @@ static void RenderPlayerInfo()
 		ImGui::Text("\tRockstar ID: %llu", NetPlayerData->m_RockstarID);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Rockstar ID"))
-		{
-			std::string RockstarID = std::to_string(NetPlayerData->m_RockstarID);
-			ImGui::SetClipboardText(RockstarID.c_str());
-		}
+			LOG_CLIPBOARD("%llu", NetPlayerData->m_RockstarID);
 
 		ImGui::Text("\tRelay IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_RelayIP.m_Field1,
@@ -114,7 +104,8 @@ static void RenderPlayerInfo()
 			NetPlayerData->m_RelayPort);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Relay IP"))
-			Script::CopyIP(NetPlayerData->m_RelayIP);
+			LOG_CLIPBOARD("%d.%d.%d.%d", NetPlayerData->m_RelayIP.m_Field1, NetPlayerData->m_RelayIP.m_Field2,
+				NetPlayerData->m_RelayIP.m_Field3, NetPlayerData->m_RelayIP.m_Field4);
 
 		ImGui::Text("\tExternal IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_ExternalIP.m_Field1,
@@ -124,7 +115,8 @@ static void RenderPlayerInfo()
 			NetPlayerData->m_ExternalPort);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##External IP"))
-			Script::CopyIP(NetPlayerData->m_ExternalIP);
+			LOG_CLIPBOARD("%d.%d.%d.%d", NetPlayerData->m_ExternalIP.m_Field1, NetPlayerData->m_ExternalIP.m_Field2,
+				NetPlayerData->m_ExternalIP.m_Field3, NetPlayerData->m_ExternalIP.m_Field4);
 
 		ImGui::Text("\tInternal IP: %u.%u.%u.%u:%u",
 			NetPlayerData->m_InternalIP.m_Field1,
@@ -134,37 +126,32 @@ static void RenderPlayerInfo()
 			NetPlayerData->m_InternalPort);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Internal IP"))
-			Script::CopyIP(NetPlayerData->m_InternalIP);
+			LOG_CLIPBOARD("%d.%d.%d.%d", NetPlayerData->m_InternalIP.m_Field1, NetPlayerData->m_InternalIP.m_Field2,
+				NetPlayerData->m_InternalIP.m_Field3, NetPlayerData->m_InternalIP.m_Field4);
 	}
 
 	const rage::CPed* Ped = Script::GetPlayerPed(s_SelectedPlayer);
 	ImGui::Text("CPed: 0x%llX", Ped);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##CPed"))
-		CopyPointer(Ped);
+		LOG_CLIPBOARD("%llX", reinterpret_cast<uintptr_t>(Ped));
 
 	if (Ped)
 	{
 		ImGui::Text("\tCPed+0x9C: %u (0x%X)", Ped->m_9C, Ped->m_9C);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##CPed+0x9C"))
-		{
-			std::string s = std::to_string(Ped->m_9C);
-			ImGui::SetClipboardText(s.c_str());
-		}
+			LOG_CLIPBOARD("%u", Ped->m_9C);
 
 		ImGui::Text("\tCPed+0x9C (masked): %u (0x%X)", Ped->m_9C & 0x1FFFF, Ped->m_9C & 0x1FFFF);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##CPed+0x9C masked"))
-		{
-			std::string s = std::to_string(Ped->m_9C & 0x1FFFF);
-			ImGui::SetClipboardText(s.c_str());
-		}
+			LOG_CLIPBOARD("%u", Ped->m_9C & 0x1FFFF);
 
 		ImGui::Text("\tCPed+0xE0: 0x%X", Ped->m_E0);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##CPed+0xE0"))
-			CopyPointer(Ped->m_E0);
+			LOG_CLIPBOARD("%llX", reinterpret_cast<uintptr_t>(Ped->m_E0));
 	}
 }
 

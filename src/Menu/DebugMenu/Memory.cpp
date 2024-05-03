@@ -15,11 +15,7 @@ static void RenderNativeDebug()
 	ImGui::Text("IDA Address: 0x%llX", NativeHandler);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##copy_ida_native"))
-	{
-		std::stringstream NativeAddress;
-		NativeAddress << std::hex << std::uppercase << NativeHandler;
-		ImGui::SetClipboardText(NativeAddress.str().c_str());
-	}
+		LOG_CLIPBOARD("%llX", NativeHandler);
 }
 
 static void RenderGlobalDebug()
@@ -62,14 +58,14 @@ static void RenderGlobalDebug()
 		ImGui::Text("int: %d", int_value);
 		ImGui::SameLine();
 		if (ImGui::SmallButton((std::string{ "Copy##int_global" } + std::to_string(reinterpret_cast<uintptr_t>(mem))).c_str()))
-			ImGui::SetClipboardText(std::to_string(int_value).c_str());
+			LOG_CLIPBOARD("%d", int_value);
 
 		const float float_value = *reinterpret_cast<float*>(mem);
 
 		ImGui::Text("float: %f", float_value);
 		ImGui::SameLine();
 		if (ImGui::SmallButton((std::string{ "Copy##float_global" } + std::to_string(reinterpret_cast<uintptr_t>(mem))).c_str()))
-			ImGui::SetClipboardText(std::to_string(float_value).c_str());
+			LOG_CLIPBOARD("%f", float_value);
 	}
 
 	int i = 0;
@@ -93,11 +89,7 @@ static void RenderGlobalDebug()
 	ImGui::Text("Pointers::ScriptGlobals: 0x%llX", Pointers::ScriptGlobals);
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Copy##Pointers::ScriptGlobals"))
-	{
-		std::stringstream ss;
-		ss << std::hex << std::uppercase << (uintptr_t)Pointers::ScriptGlobals;
-		ImGui::SetClipboardText(ss.str().c_str());
-	}
+		LOG_CLIPBOARD("%llX", (uintptr_t)Pointers::ScriptGlobals);
 }
 
 static void RenderNetworkDebug()
@@ -109,23 +101,21 @@ static void RenderNetworkDebug()
 		ImGui::Text("Rockstar ID: %llu", NetPlayerData->m_RockstarID);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Rockstar ID"))
-		{
-			std::stringstream ss;
-			ss << NetPlayerData->m_RockstarID;
-			ImGui::SetClipboardText(ss.str().c_str());
-		}
+			LOG_CLIPBOARD("%llu", NetPlayerData->m_RockstarID);
 
 		ImGui::Text("Internal IP: %u.%u.%u.%u", NetPlayerData->m_InternalIP.m_Field1, NetPlayerData->m_InternalIP.m_Field2,
 			NetPlayerData->m_InternalIP.m_Field3, NetPlayerData->m_InternalIP.m_Field4);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##Internal IP"))
-			Script::CopyIP(NetPlayerData->m_InternalIP);
+			LOG_CLIPBOARD("%d.%d.%d.%d", NetPlayerData->m_InternalIP.m_Field1, NetPlayerData->m_InternalIP.m_Field2,
+				NetPlayerData->m_InternalIP.m_Field3, NetPlayerData->m_InternalIP.m_Field4);
 
 		ImGui::Text("External IP: %u.%u.%u.%u", NetPlayerData->m_ExternalIP.m_Field1, NetPlayerData->m_ExternalIP.m_Field2,
 			NetPlayerData->m_ExternalIP.m_Field3, NetPlayerData->m_ExternalIP.m_Field4);
 		ImGui::SameLine();
 		if (ImGui::SmallButton("Copy##External IP"))
-			Script::CopyIP(NetPlayerData->m_ExternalIP);
+			LOG_CLIPBOARD("%d.%d.%d.%d", NetPlayerData->m_ExternalIP.m_Field1, NetPlayerData->m_ExternalIP.m_Field2,
+				NetPlayerData->m_ExternalIP.m_Field3, NetPlayerData->m_ExternalIP.m_Field4);
 	}
 }
 

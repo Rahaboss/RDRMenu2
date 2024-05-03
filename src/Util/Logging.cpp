@@ -1,31 +1,37 @@
 #include "pch.h"
 #include "Logging.h"
+#include "String.h"
 
 void Util::LogText(_Printf_format_string_ const char* const Text, ...)
 {
 	va_list Args;
 	va_start(Args, Text);
 
-	const int Format = _vscprintf(Text, Args);
-	assert(Format >= 0);
-	const size_t Length = static_cast<size_t>(Format) + 1;
-	char* Buffer = new char[Length * sizeof(char)];
-	assert(Buffer);
-	const int Format2 = vsprintf_s(Buffer, Length, Text, Args);
-	assert(Format2 >= 0);
+	std::string String = FormatString(Text, Args);
 
+	// Add timestamp [HH:MM:SS] before formatted text
 	char tt[9]{};
 	if (!_strtime_s(tt, 9) && tt[0])
 	{
-		std::string str;
-		str.reserve(1 + 9 + 2 + Length + 1);
-		str.append("[").append(tt).append("] ").append(Buffer);
-
-		puts(str.c_str());
+		std::string s2;
+		s2.reserve(12);
+		s2.append("[").append(tt).append("] ");
+		String = s2 + String;
 	}
-	else
-		puts(Buffer);
+	
+	puts(String.c_str());
 
-	delete[] Buffer;
+	va_end(Args);
+}
+
+void Util::LogClipboard(_Printf_format_string_ const char* const Text, ...)
+{
+	va_list Args;
+	va_start(Args, Text);
+
+	std::string String = FormatString(Text, Args);
+
+	ImGui::SetClipboardText(String.c_str()); // cba
+
 	va_end(Args);
 }

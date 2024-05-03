@@ -72,14 +72,6 @@ const char* Script::GetPlayerName(Player p)
 	return nullptr;
 }
 
-void Script::CopyIP(rage::netAddress IP)
-{
-	std::stringstream ss;
-	ss << static_cast<uint32_t>(IP.m_Field1) << '.' << static_cast<uint32_t>(IP.m_Field2) << '.' <<
-		static_cast<uint32_t>(IP.m_Field3) << '.' << static_cast<uint32_t>(IP.m_Field4);
-	ImGui::SetClipboardText(ss.str().c_str());
-}
-
 rage::CPlayerInfo* Script::GetOfflinePlayerInfo()
 {
 	if (!IsSessionStarted() && g_LocalPlayer.m_Ped)

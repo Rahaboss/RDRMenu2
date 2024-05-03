@@ -40,9 +40,7 @@ static void RenderDebugButtons()
 	ImGui::SameLine();
 	if (ImGui::Button("Copy CPed"))
 	{
-		std::stringstream ss;
-		ss << std::hex << std::uppercase << reinterpret_cast<uintptr_t>(g_LocalPlayer.m_Ped);
-		ImGui::SetClipboardText(ss.str().c_str());
+		LOG_CLIPBOARD("%llX", reinterpret_cast<uintptr_t>(g_LocalPlayer.m_Ped));
 		LOG_TEXT("%llX", reinterpret_cast<uintptr_t>(g_LocalPlayer.m_Ped));
 	}
 	ImGui::SameLine();

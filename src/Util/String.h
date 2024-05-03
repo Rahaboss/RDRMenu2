@@ -15,6 +15,7 @@ namespace Util
 	bool IsStringValid(const char* String);
 	bool IsStringValid(const std::string& String);
 	bool StringContains(const std::string& String, const std::string& Key);
+	std::string FormatString(_Printf_format_string_ const char* const Text, va_list Args);
 	std::string FormatString(_Printf_format_string_ const char* const Text, ...);
 	
 	template<typename size_t N>
