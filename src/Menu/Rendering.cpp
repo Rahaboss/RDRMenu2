@@ -127,6 +127,9 @@ void Menu::RenderRenderingTab()
 			}
 			ImGui::Checkbox("Disable Black Borders", g_Settings["disable_black_borders"].get<bool*>());
 			ImGui::Checkbox("Render Overlay", g_Settings["render_overlay"].get<bool*>());
+#ifndef _DIST
+			ImGui::Checkbox("Render Guarma Border", g_Settings["render_guarma_border"].get<bool*>());
+#endif // _DIST
 		}
 	}
 	ImGui::EndChild();

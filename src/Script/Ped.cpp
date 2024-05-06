@@ -109,7 +109,13 @@ void Script::SuperRun(Ped ped)
 
 eMetaPedType Script::GetPedType(Ped ped)
 {
-	return Pointers::GetMetaPedType(ped);
+	TRY
+	{
+		return Pointers::GetMetaPedType(ped);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	return MPT_NONE;
 }
 
 void Script::StartPedScenario(Ped ped, Hash Scenario, int Duration, Hash Conditional)

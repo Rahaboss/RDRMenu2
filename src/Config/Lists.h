@@ -35,6 +35,9 @@ namespace Lists
 	inline std::map<Hash, std::string> HashNameList;
 
 	inline const std::vector<std::pair<std::string, Vector3>> TeleportList{
+#ifndef _DIST
+		{ "Low Detail Area", Vector3{ 4575.19, 3307.80, 28.29 } },
+#endif // !_DIST
 		{ "Aberdeen Pig Farm", Vector3{ 1815.1f, -115.187f, 56.7297f } },
 		{ "Adler Ranch", Vector3{ -567.54f, 2682.85f, 319.871f } },
 		{ "Angelo Bronte's Mansion", Vector3{ 2378.36f, -1216.38f, 47.17f } },

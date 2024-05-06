@@ -380,7 +380,10 @@ void ESP::RenderESP()
 		if (g_Settings["esp"]["vehicle"]["enable"].get<bool>())
 			RenderVehicleESP();
 
-		RenderGuarmaBorder();
+#ifndef _DIST
+		if (g_Settings["render_guarma_border"].get<bool>())
+			RenderGuarmaBorder();
+#endif // _DIST
 
 		Timer::s_ESPTime = ESPTimer.GetMillis();
 	}

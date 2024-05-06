@@ -6,7 +6,6 @@
 #include "./Speech.h"
 #include "./Notify.h"
 #include "./Scenario.h"
-#include "./Proof.h"
 
 void Menu::RenderDebugTab()
 {
@@ -25,7 +24,6 @@ void Menu::RenderDebugTab()
 			DebugMenu::RenderSpeechTab();
 			DebugMenu::RenderNotifyTab();
 			DebugMenu::RenderScenarioTab();
-			DebugMenu::RenderProofTab();
 		}
 		EXCEPT{ LOG_EXCEPTION(); }
 	}

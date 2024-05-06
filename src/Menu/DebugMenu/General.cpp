@@ -44,7 +44,10 @@ static void RenderDebugButtons()
 		LOG_TEXT("%llX", reinterpret_cast<uintptr_t>(g_LocalPlayer.m_Ped));
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Print Hex Coord Debug"))
+	if (ImGui::Button("Print Coords"))
+		LOG_TEXT("%.2f, %.2f, %.2f", g_LocalPlayer.m_Pos.x, g_LocalPlayer.m_Pos.y, g_LocalPlayer.m_Pos.z);
+	ImGui::SameLine();
+	if (ImGui::Button("Print Hex Coord"))
 	{
 		QUEUE_JOB(=)
 		{

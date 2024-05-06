@@ -174,6 +174,11 @@ void Script::ProcessPlayerFeatures()
 
 		if (g_Settings["player"]["invisible"].get<bool>())
 			SetEntityInvisible(g_LocalPlayer.m_Entity, true);
+
+		const json& Proofs = g_Settings["player"]["proofs"];
+		SetEntityProofs(g_LocalPlayer.m_Entity, Proofs["bullet"].get<bool>(), Proofs["fire"].get<bool>(), Proofs["explosion"].get<bool>(),
+			Proofs["collision"].get<bool>(), Proofs["melee"].get<bool>(), Proofs["steam"].get<bool>(), Proofs["smoke"].get<bool>(),
+			Proofs["headshot"].get<bool>(), Proofs["special"].get<bool>());
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
 }

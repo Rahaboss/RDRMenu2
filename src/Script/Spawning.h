@@ -17,4 +17,5 @@ namespace Script
 	void DeleteEntity(Entity Handle);
 	void SpawnGoodHonorEnemy();
 	void SpawnBadHonorEnemy();
+	const char* GetStringFromHashKey(Hash Label);
 }

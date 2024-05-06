@@ -145,7 +145,13 @@ Hash Script::GetEntityModel(Entity ent)
 
 int Script::GetEntityHealth(Entity ent)
 {
-	return Pointers::GetEntityHealth(ent);
+	TRY
+	{
+		return Pointers::GetEntityHealth(ent);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	return 0;
 }
 
 void Script::SetEntityInvisible(Entity ent, bool Toggle)

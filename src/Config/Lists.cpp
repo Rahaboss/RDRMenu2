@@ -3,7 +3,6 @@
 #include "Config.h"
 #include "Script/Spawning.h"
 #include "Rage/natives.h"
-#include "Memory/Pointers.h"
 #include "Rage/joaat.h"
 
 static void AddNameToHashList(Hash Model, const std::string& Name)
@@ -33,7 +32,7 @@ static void InitAmmoList()
 		const std::string& Name = a.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		Lists::AmmoList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::AmmoList[Script::GetStringFromHashKey(Model)] = Model;
 		AddNameToHashList(Model, Name);
 	}
 }
@@ -149,7 +148,7 @@ static void InitWeaponList()
 		const std::string& Name = w.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		Lists::WeaponList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::WeaponList[Script::GetStringFromHashKey(Model)] = Model;
 		AddNameToHashList(Model, Name);
 	}
 }
@@ -229,7 +228,7 @@ static void InitInventoryList()
 		const std::string& Name = d.get_ref<const std::string&>();
 		Hash Model = rage::joaat(Name);
 
-		Lists::InventoryList[Pointers::GetStringFromHashKey(Model)] = Model;
+		Lists::InventoryList[Script::GetStringFromHashKey(Model)] = Model;
 		AddNameToHashList(Model, Name);
 	}
 }

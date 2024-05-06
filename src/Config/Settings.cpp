@@ -61,9 +61,21 @@ R"({
 		"invisible": false,
 		"no_ragdoll": false,
 		"no_sliding": false,
+		"proofs": {
+			"bullet": false,
+			"fire": false,
+			"explosion": false,
+			"collision": false,
+			"melee": false,
+			"steam": false,
+			"smoke": false,
+			"headshot": false,
+			"special": false
+		},
 		"super_jump": false,
 		"super_run": false
 	},
+	"render_guarma_border": false,
 	"render_imgui_demo": false,
 	"render_overlay": false,
 	"teleport_to_cutscene": true,

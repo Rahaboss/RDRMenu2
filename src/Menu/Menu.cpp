@@ -41,13 +41,19 @@ static void RenderExitTab()
 	}
 }
 
+static void SetWindowParamsFirstTime()
+{
+	constexpr float f = 1020;
+	constexpr float g = 40;
+	ImGui::SetNextWindowSize(ImVec2(f, 650), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->WorkSize.x - g - f, g), ImGuiCond_FirstUseEver);
+}
+
 static void RenderMenu()
 {
 	TRY
 	{
-		constexpr float f = 850;
-		ImGui::SetNextWindowSize(ImVec2(f, 600), ImGuiCond_FirstUseEver);
-		ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->WorkSize.x - 100 - f, 100), ImGuiCond_FirstUseEver);
+		SetWindowParamsFirstTime();
 
 		if (ImGui::Begin("RDRMenu2", &Menu::IsOpen, ImGuiWindowFlags_NoCollapse))
 		{

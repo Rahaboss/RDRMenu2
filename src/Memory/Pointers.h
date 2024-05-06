@@ -43,6 +43,7 @@ namespace Pointers
 	inline Hash (*GetEntityModel)(Entity){};
 	// ENTITY::GET_ENTITY_COORDS
 	inline Vector3* (*GetEntityCoords)(Vector3&, Entity, bool, bool){};
+	// HUD::GET_STRING_FROM_HASH_KEY
 	inline const char* (*GetStringFromHashKey)(Hash){};
 	inline void* ReturnAddressSpoof{};
 	// PED::_GET_META_PED_TYPE

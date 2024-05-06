@@ -8,6 +8,7 @@
 #include "Config/Lists.h"
 #include "Notification.h"
 #include "Util/String.h"
+#include "Memory/Pointers.h"
 
 bool Script::IsModelValid(Hash Model)
 {
@@ -241,4 +242,15 @@ void Script::SpawnBadHonorEnemy()
 		DECORATOR::DECOR_SET_INT(ped, "HONOR_OVERRIDE", 9999);
 		TASK::TASK_COMBAT_PED(ped, g_LocalPlayer.m_Entity, 0, 0);
 	}
+}
+
+const char* Script::GetStringFromHashKey(Hash Label)
+{
+	TRY
+	{
+		return Pointers::GetStringFromHashKey(Label);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	return nullptr;
 }

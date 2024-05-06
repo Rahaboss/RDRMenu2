@@ -71,6 +71,47 @@ static void RenderPlayerButtons()
 	ImGui::SameLine();
 	if (ImGui::Button("Bad Honor"))
 		JobQueue::Add(Script::SpawnBadHonorEnemy);
+	ImGui::SameLine();
+	if (ImGui::Button("Teleport Mount To Player"))
+	{
+		QUEUE_JOB(=)
+		{
+			const Vector3 Pos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_LocalPlayer.m_Entity, 0.0, 3.0, -0.3);
+			Script::SetEntityCoords(g_LocalPlayer.m_LastMount, Pos);
+			Script::PlaceEntityOnGround(g_LocalPlayer.m_LastMount);
+		}
+		END_JOB()
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Clean"))
+	{
+		QUEUE_JOB(=)
+		{
+			Script::CleanPed(g_LocalPlayer.m_Entity);
+		}
+		END_JOB()
+	}
+}
+
+static void RenderPlayerProofToggles()
+{
+	json& Proofs = g_Settings["player"]["proofs"];
+
+	ImGui::Checkbox("Bullet Proof", Proofs["bullet"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Fire Proof", Proofs["fire"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Explosion Proof", Proofs["explosion"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Collision Proof", Proofs["collision"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Melee Proof", Proofs["melee"].get<bool*>());
+	
+	ImGui::Checkbox("Smoke Proof", Proofs["steam"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Headshot Proof", Proofs["headshot"].get<bool*>());
+	ImGui::SameLine();
+	ImGui::Checkbox("Special Proof", Proofs["special"].get<bool*>());
 }
 
 static void RenderPlayerToggles()
@@ -122,6 +163,9 @@ static void RenderPlayerToggles()
 			END_JOB()
 		}
 	}
+
+	ImGui::Separator();
+	RenderPlayerProofToggles();
 }
 
 static void RenderMoneyChanger()

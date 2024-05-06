@@ -22,7 +22,13 @@ void NativeInvoker::Reset()
 
 rage::scrNativeHandler NativeInvoker::GetHandler(rage::scrNativeHash hash)
 {
-	return Pointers::GetNativeHandler(hash);
+	TRY
+	{
+		return Pointers::GetNativeHandler(hash);
+	}
+	EXCEPT{ LOG_EXCEPTION(); }
+
+	return nullptr;
 }
 
 void NativeInvoker::FixVectors()
