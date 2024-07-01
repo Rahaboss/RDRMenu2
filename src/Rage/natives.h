@@ -2,7 +2,7 @@
 
 #include "NativeInvoker.h"
 
-// Generated Sun, 03 Sep 2023 17:58:36 GMT
+// Generated Mon, 01 Jul 2024 17:11:11 GMT
 // https://alloc8or.re/rdr3/nativedb/
 
 #define NATIVE_DECL inline
