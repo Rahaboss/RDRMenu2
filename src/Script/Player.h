@@ -25,4 +25,5 @@ namespace Script
 	void Suicide();
 	void SetHairStyle(Hash Style, int Length);
 	void ProcessVehicleFeatures();
+	void SetOntoClosestMount();
 }

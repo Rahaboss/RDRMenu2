@@ -11,6 +11,8 @@
 #include "Rage/enums.h"
 #include "Config/Settings.h"
 #include "Rage/ScriptGlobal.h"
+#include "Util/String.h"
+#include "Config/Lists.h"
 
 void Script::GetLocalPlayerInfo()
 {
@@ -286,4 +288,73 @@ void Script::ProcessVehicleFeatures()
 			SetEntityInvisible(g_LocalPlayer.m_Vehicle, true);
 	}
 	EXCEPT{ LOG_EXCEPTION(); }
+}
+
+void Script::SetOntoClosestMount()
+{
+	std::vector<Ped> Peds = Script::GetAllPeds();
+	
+	Ped ClosestMount = 0;
+	float ClosestMountDistance = 9999999.9f;
+	int Seat = 0;
+
+	// Loop through all peds
+	for (Ped CurrentPed : Peds)
+	{
+		// Is current mount?
+		if (g_LocalPlayer.m_Mount && CurrentPed == g_LocalPlayer.m_Mount)
+			continue;
+
+		// Is ped dead?
+		if (Script::GetEntityHealth(CurrentPed) == 0)
+			continue;
+
+		// Is ped animal?
+		if (Script::GetPedType(CurrentPed) != MPT_ANIMAL)
+			continue;
+
+		// Is ped a horse?
+		const Hash Model = Script::GetEntityModel(CurrentPed);
+		const std::string& ModelName = Lists::GetHashName(Model);
+		if (!(
+			Model == RAGE_JOAAT("A_C_DONKEY_01") ||
+			Model == RAGE_JOAAT("P_C_HORSE_01") ||
+			Util::StringContains(ModelName, "A_C_HORSE_")
+			))
+			continue;
+
+		// Get available seat
+		bool SeatAvailable = false;
+		for (int i = -1; i < 10; i++)
+		{
+			if (PED::_IS_MOUNT_SEAT_FREE(CurrentPed, i))
+			{
+				Seat = i;
+				SeatAvailable = true;
+				break;
+			}
+		}
+
+		if (!SeatAvailable)
+			continue;
+
+		// Is closest mount?
+		const float Distance = Script::GetDistanceBetweenPoints(Script::GetEntityCoords(CurrentPed), g_LocalPlayer.m_Pos);
+		if (Distance < ClosestMountDistance)
+		{
+			ClosestMount = CurrentPed;
+			ClosestMountDistance = Distance;
+		}
+	}
+
+	// Set onto closest mount
+	if (ClosestMount)
+	{
+		LOG_TEXT(__FUNCTION__": Setting onto mount: %s, health: %d, seat: %d, seat available: %d",
+			Lists::GetHashName(Script::GetEntityModel(ClosestMount)).c_str(), Script::GetEntityHealth(ClosestMount), Seat,
+			PED::_IS_MOUNT_SEAT_FREE(ClosestMount, Seat));
+		Script::SetPedOntoMount(g_LocalPlayer.m_Entity, ClosestMount);
+		if (g_LocalPlayer.m_Mount != ClosestMount)
+			Script::Teleport(Script::GetEntityCoords(ClosestMount));
+	}
 }

@@ -85,3 +85,10 @@ void Script::RevealMap()
 	MAP::SET_MINIMAP_HIDE_FOW(true);
 	MAP::_REVEAL_MINIMAP_FOW(0);
 }
+
+float Script::GetDistanceBetweenPoints(const Vector3& p1, const Vector3& p2)
+{
+	Vector3 d(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
+
+	return sqrt(d.x * d.x + d.x * d.x + d.x * d.x);
+}

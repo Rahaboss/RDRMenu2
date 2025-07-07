@@ -36,6 +36,7 @@
 #include <Psapi.h>
 #include <d3d12.h>
 #include <dxgi1_5.h>
+#include <intrin.h>
 
 // Third-party libraries
 #include <Minhook.h>

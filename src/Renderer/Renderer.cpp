@@ -78,6 +78,8 @@ void Renderer::CreateImGui()
 	DefaultFont = io.FontDefault;
 #endif // _DIST
 
+	io.Fonts->Build();
+
 	hWnd = FindWindow(L"sgaWindow", NULL);
 	WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProcHook)));
 

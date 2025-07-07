@@ -83,7 +83,7 @@ static void RenderPlayerButtons()
 		END_JOB()
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Clean"))
+	if (ImGui::Button("Clean##set_clean"))
 	{
 		QUEUE_JOB(=)
 		{
@@ -91,6 +91,9 @@ static void RenderPlayerButtons()
 		}
 		END_JOB()
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Set Onto Closest Mount"))
+		JobQueue::Add(Script::SetOntoClosestMount);
 }
 
 static void RenderPlayerProofToggles()
@@ -130,7 +133,7 @@ static void RenderPlayerToggles()
 	ImGui::SameLine();
 	ImGui::Checkbox("Gold Cores", g_Settings["player"]["gold_cores"].get<bool*>());
 	ImGui::SameLine();
-	ImGui::Checkbox("Clean", g_Settings["player"]["clean"].get<bool*>());
+	ImGui::Checkbox("Clean##toggle_clean", g_Settings["player"]["clean"].get<bool*>());
 	ImGui::SameLine();
 	if (ImGui::Checkbox("No Ragdoll", g_Settings["player"]["no_ragdoll"].get<bool*>()))
 	{

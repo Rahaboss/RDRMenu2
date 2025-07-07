@@ -15,4 +15,5 @@ namespace Script
 	void DisableBlackBorders();
 	void SetTimeScale(float Scale);
 	void RevealMap();
+	float GetDistanceBetweenPoints(const Vector3& p1, const Vector3& p2);
 }
