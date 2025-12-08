@@ -37,14 +37,14 @@ workspace "RDRMenu2"
 		symbols "On"
 		optimize "Speed" -- All optimizations favoring speed
 		flags {
-			"LinkTimeOptimization"
+			"linktimeoptimization"
 		}
 
 	filter "configurations:Dist"
 		symbols "Off" -- Completely disable debug information
 		optimize "Speed" -- All optimizations favoring speed
 		flags {
-			"LinkTimeOptimization"
+			"linktimeoptimization"
 		}
 		defines {
 			"_DIST",

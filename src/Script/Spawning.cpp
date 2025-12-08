@@ -31,7 +31,7 @@ bool Script::RequestModel(Hash Model)
 	for (int i = 0; i < 100; i++)
 	{
 		STREAMING::REQUEST_MODEL(Model, false);
-		Thread::YieldThread();
+		Thread::YieldThread(10);
 
 		if (STREAMING::HAS_MODEL_LOADED(Model))
 			return true;

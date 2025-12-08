@@ -1117,26 +1117,30 @@ static void RenderPresetCutsceneList(json::iterator& SelectedCutscene)
 
 static void RenderCutsceneList(json::iterator& SelectedCutscene)
 {
-	ImGui::SeparatorText("Select List");
-	static int s_SelectedList = 0;
-	ImGui::RadioButton("Sorted", &s_SelectedList, 0);
-	ImGui::SameLine();
-	ImGui::RadioButton("Full", &s_SelectedList, 1);
-	ImGui::SameLine();
-	ImGui::RadioButton("Preset", &s_SelectedList, 2);
-	
-	switch (s_SelectedList)
+	TRY
 	{
-	case 0:
-		RenderSortedCutsceneList(SelectedCutscene);
-		break;
-	case 1:
-		RenderFullCutsceneList(SelectedCutscene);
-		break;
-	case 2:
-		RenderPresetCutsceneList(SelectedCutscene);
-		break;
+		ImGui::SeparatorText("Select List");
+		static int s_SelectedList = 0;
+		ImGui::RadioButton("Sorted", &s_SelectedList, 0);
+		ImGui::SameLine();
+		ImGui::RadioButton("Full", &s_SelectedList, 1);
+		ImGui::SameLine();
+		ImGui::RadioButton("Preset", &s_SelectedList, 2);
+
+		switch (s_SelectedList)
+		{
+		case 0:
+			RenderSortedCutsceneList(SelectedCutscene);
+			break;
+		case 1:
+			RenderFullCutsceneList(SelectedCutscene);
+			break;
+		case 2:
+			RenderPresetCutsceneList(SelectedCutscene);
+			break;
+		}
 	}
+	EXCEPT{ LOG_EXCEPTION(); }
 }
 
 void Menu::RenderCutsceneTab()
